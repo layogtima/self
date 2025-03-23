@@ -1,0 +1,144 @@
+/* Minimal custom CSS to supplement Tailwind - keeping it super tight */
+
+/* Custom line clamp for browsers without native support */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
+
+/* Improve font rendering */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+/* Ensure all transitions are smooth */
+* {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Focus styles for improved accessibility */
+a:focus, button:focus {
+  outline: 2px solid black;
+  outline-offset: 2px;
+}
+
+/* Subtle hover effects for interactive elements */
+button:hover, a:hover {
+  opacity: 0.9;
+}
+
+/* Improved selection styling */
+::selection {
+  background-color: #000;
+  color: #fff;
+}
+
+/* Truncate text with ellipsis */
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Animation for color circles in footer */
+@keyframes pulse-subtle {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.pulse-subtle {
+  animation: pulse-subtle 2s ease-in-out infinite;
+}
+
+/* Fix for Safari's handling of aspect-ratio */
+@supports not (aspect-ratio: 1 / 1) {
+  .aspect-square {
+    position: relative;
+  }
+  .aspect-square::before {
+    float: left;
+    padding-top: 100%;
+    content: "";
+  }
+  .aspect-square::after {
+    display: block;
+    content: "";
+    clear: both;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .animate-marquee {
+    animation: none !important;
+  }
+}
+
+/* Print styling */
+@media print {
+  body {
+    color: #000;
+    background: #fff;
+  }
+  
+  .bg-black {
+    background-color: #fff !important;
+    color: #000 !important;
+    border: 1px solid #000;
+  }
+  
+  nav, footer, button, #materials, .marquee {
+    display: none !important;
+  }
+
+  .material-detail {
+    page-break-inside: avoid;
+  }
+  
+  .grid {
+    display: block;
+  }
+  
+  .w-6, .h-6 {
+    width: 16px !important;
+    height: 16px !important;
+    border: 1px solid #000;
+    border-radius: 50%;
+  }
+}

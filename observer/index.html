@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Observer</title>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Vue CDN -->
+    <script src="https://unpkg.com/vue@3.3.4/dist/vue.global.prod.js"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind configuration -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              void: "#0a0a0a",
+              silent: "#f6f6f6",
+              unease: "#2d2d2d",
+              whisper: "#8a8a8a",
+              threat: "#ff3333",
+            },
+            fontFamily: {
+              mono: [
+                "JetBrains Mono",
+                "SFMono-Regular",
+                "Menlo",
+                "Monaco",
+                "Consolas",
+                "monospace",
+              ],
+              sans: ["Inter", "system-ui", "sans-serif"],
+            },
+            animation: {
+              "subtle-pulse": "subtle-pulse 10s ease-in-out infinite",
+              "very-slow-spin": "spin 30s linear infinite",
+              "cursor-blink": "cursor-blink 1.5s steps(1) infinite",
+              "tracking-shift": "tracking-shift 10s ease-in-out infinite",
+              "glitch-text": "glitch-text 3s ease-in-out infinite",
+              "scan-line": "scan-line 2s linear infinite",
+              "micro-shift": "micro-shift 0.3s ease-out",
+            },
+            keyframes: {
+              "subtle-pulse": {
+                "0%, 100%": { opacity: "0.9" },
+                "50%": { opacity: "1" },
+              },
+              "cursor-blink": {
+                "0%, 100%": { opacity: "1" },
+                "50%": { opacity: "0" },
+              },
+              "tracking-shift": {
+                "0%, 100%": { letterSpacing: "0" },
+                "50%": { letterSpacing: "0.05em" },
+              },
+              "glitch-text": {
+                "0%": {
+                  textShadow:
+                    "0.05em 0 0 rgba(255,0,0,0.75), -0.05em -0.025em 0 rgba(0,255,0,0.75), -0.025em 0.05em 0 rgba(0,0,255,0.75)",
+                },
+                "14%": {
+                  textShadow:
+                    "0.05em 0 0 rgba(255,0,0,0.75), -0.05em -0.025em 0 rgba(0,255,0,0.75), -0.025em 0.05em 0 rgba(0,0,255,0.75)",
+                },
+                "15%": {
+                  textShadow:
+                    "-0.05em -0.025em 0 rgba(255,0,0,0.75), 0.025em 0.025em 0 rgba(0,255,0,0.75), -0.05em -0.05em 0 rgba(0,0,255,0.75)",
+                },
+                "49%": {
+                  textShadow:
+                    "-0.05em -0.025em 0 rgba(255,0,0,0.75), 0.025em 0.025em 0 rgba(0,255,0,0.75), -0.05em -0.05em 0 rgba(0,0,255,0.75)",
+                },
+                "50%": {
+                  textShadow:
+                    "0.025em 0.05em 0 rgba(255,0,0,0.75), 0.05em 0 0 rgba(0,255,0,0.75), 0 -0.05em 0 rgba(0,0,255,0.75)",
+                },
+                "99%": {
+                  textShadow:
+                    "0.025em 0.05em 0 rgba(255,0,0,0.75), 0.05em 0 0 rgba(0,255,0,0.75), 0 -0.05em 0 rgba(0,0,255,0.75)",
+                },
+                "100%": {
+                  textShadow:
+                    "-0.025em 0 0 rgba(255,0,0,0.75), -0.025em -0.025em 0 rgba(0,255,0,0.75), -0.025em -0.05em 0 rgba(0,0,255,0.75)",
+                },
+              },
+              "scan-line": {
+                "0%": { backgroundPosition: "-100% 0" },
+                "100%": { backgroundPosition: "200% 0" },
+              },
+              "micro-shift": {
+                "0%": { transform: "translateX(0)" },
+                "25%": { transform: "translateX(-2px)" },
+                "75%": { transform: "translateX(2px)" },
+                "100%": { transform: "translateX(0)" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="bg-void text-silent font-sans" id="app">
+    <!-- Cursor elements -->
+    <div
+      class="dot"
+      :style="{ left: cursor.x + 'px', top: cursor.y + 'px' }"
+    ></div>
+    <div
+      class="circle"
+      :style="{ left: cursor.x + 'px', top: cursor.y + 'px', transform: cursor.pressed ? 'translate(-50%, -50%) scale(0.9)' : 'translate(-50%, -50%) scale(1)' }"
+    ></div>
+
+    <!-- Background elements -->
+    <div class="pixel-grid"></div>
+    <div class="noise"></div>
+
+    <!-- Subliminal messages -->
+    <div
+      class="subliminal"
+      :style="{ opacity: subliminal.visible ? '0.05' : '0' }"
+    >
+      {{ subliminal.message }}
+    </div>
+
+    <!-- Hidden eye that follows you -->
+    <div
+      class="eye"
+      :style="{ opacity: eye.visible ? '0.2' : '0', left: eye.x + 'px', top: eye.y + 'px' }"
+    >
+      <div
+        class="pupil"
+        :style="{ transform: `translate(${eye.pupilX}px, ${eye.pupilY}px)` }"
+      ></div>
+    </div>
+
+    <!-- Top loader -->
+    <div class="loader">
+      <div
+        class="loader-bar"
+        :style="{ width: pageStats.scrollPercentage + '%' }"
+      ></div>
+    </div>
+
+    <!-- Scroll counter -->
+    <div class="fixed bottom-4 right-4 scroll-counter">
+      <span>scroll_depth: </span>
+      <span class="counter-value"
+        >{{ Math.round(pageStats.scrollPercentage) }}</span
+      >%
+    </div>
+
+    <!-- Hover text display -->
+    <div
+      class="hover-text"
+      :style="{ opacity: hoverText.visible ? '1' : '0', left: (cursor.x + 15) + 'px', top: (cursor.y + 15) + 'px' }"
+    >
+      {{ hoverText.text }}
+    </div>
+
+    <!-- Selection message -->
+    <div
+      class="selection-message"
+      :style="{ opacity: selectionMessage.visible ? '1' : '0' }"
+    >
+      {{ selectionMessage.text }}
+    </div>
+
+    <!-- Main content -->
+    <main class="min-h-screen">
+      <!-- Header section -->
+      <header
+        class="fixed top-0 left-0 w-full px-4 py-6 z-30 bg-void bg-opacity-90 backdrop-blur-sm"
+      >
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+          <div class="flex items-center" @mouseenter="showEye">
+            <span
+              class="text-xl font-mono font-light tracking-wider reflection"
+              data-reflection="observer"
+              >observer</span
+            >
+          </div>
+
+          <div class="flex items-center space-x-8">
+            <a
+              href="#witness"
+              class="text-sm font-mono opacity-70 hover:opacity-100 transition-opacity duration-300"
+              data-hover-text="your data is being collected"
+              @mouseenter="showHoverText($event)"
+              @mouseleave="hideHoverText"
+              >witness</a
+            >
+            <a
+              href="#interact"
+              class="text-sm font-mono opacity-70 hover:opacity-100 transition-opacity duration-300"
+              data-hover-text="alter your thinking"
+              @mouseenter="showHoverText($event)"
+              @mouseleave="hideHoverText"
+              >interact</a
+            >
+            <a
+              href="#consent"
+              class="text-sm font-mono opacity-70 hover:opacity-100 transition-opacity duration-300"
+              data-hover-text="you already agreed"
+              @mouseenter="showHoverText($event)"
+              @mouseleave="hideHoverText"
+              >consent</a
+            >
+          </div>
+        </div>
+      </header>
+
+      <!-- Introduction -->
+      <section
+        class="min-h-screen flex items-center pt-20 section"
+        id="intro"
+        :class="{ 'section-active': activeSection === 'intro' }"
+      >
+        <div class="max-w-4xl mx-auto px-4 py-16">
+          <h1 class="text-4xl md:text-6xl font-light mb-8 section-headline">
+            This website is
+            <span
+              class="text-node"
+              data-meaning="conditioning your behavior"
+              @mouseenter="showMeaning($event)"
+              @mouseleave="hideMeaning"
+              >studying</span
+            >
+            you.
+          </h1>
+
+          <div class="space-y-6">
+            <p class="track-text text-lg opacity-80 leading-relaxed">
+              You are currently participating in a
+              <span
+                class="text-node"
+                data-meaning="surveillance operation"
+                @mouseenter="showMeaning($event)"
+                @mouseleave="hideMeaning"
+                >digital experiment</span
+              >. Your interactions, movements, and engagement patterns are being
+              <span
+                class="text-node"
+                data-meaning="permanently stored"
+                @mouseenter="showMeaning($event)"
+                @mouseleave="hideMeaning"
+                >analyzed</span
+              >
+              in real-time.
+            </p>
+
+            <p class="track-text text-lg opacity-80 leading-relaxed">
+              This is not a conventional website—it's a mirror reflecting your
+              digital
+              <span
+                class="text-node"
+                data-meaning="exploitable patterns"
+                @mouseenter="showMeaning($event)"
+                @mouseleave="hideMeaning"
+                >behaviors</span
+              >. As you navigate through this experience, observe how subtle
+              design elements
+              <span
+                class="text-node"
+                data-meaning="manipulate your perception"
+                @mouseenter="showMeaning($event)"
+                @mouseleave="hideMeaning"
+                >influence</span
+              >
+              your perception.
+            </p>
+
+            <p
+              class="track-text text-lg opacity-80 leading-relaxed cursor-text"
+            >
+              The longer you stay, the more the system learns about you<span
+                class="cursor-blink"
+                >|</span
+              >
+            </p>
+          </div>
+
+          <div class="mt-12 track-text">
+            <a
+              href="#witness"
+              class="inline-flex items-center text-whisper hover:text-silent transition-colors duration-300"
+              data-hover-text="proceed with caution"
+              @mouseenter="showHoverText($event)"
+              @mouseleave="hideHoverText"
+            >
+              <span>Continue</span>
+              <svg
+                class="ml-2 w-4 h-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14 5L21 12M21 12L14 19M21 12H3"
+                  stroke="currentColor"
+                  stroke-width="1"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Witness section -->
+      <section
+        class="min-h-screen flex items-center section"
+        id="witness"
+        :class="{ 'section-active': activeSection === 'witness' }"
+      >
+        <div class="max-w-4xl mx-auto px-4 py-16">
+          <h2 class="text-3xl md:text-4xl font-light mb-8 section-headline">
+            Your
+            <span
+              class="text-node"
+              data-meaning="vulnerabilities"
+              @mouseenter="showMeaning($event)"
+              @mouseleave="hideMeaning"
+              >patterns</span
+            >
+            are visible.
+          </h2>
+
+          <div class="space-y-6">
+            <p class="track-text text-lg opacity-80 leading-relaxed">
+              So far, you have moved your cursor
+              <span class="font-mono">{{ pageStats.cursorMoves }}</span> times.
+              You've spent
+              <span class="font-mono">{{ pageStats.timeOnPage }}</span> seconds
+              on this page. Your scroll depth has reached
+              <span class="font-mono"
+                >{{ Math.round(pageStats.maxScrollPercentage) }}</span
+              >%.
+            </p>
+
+            <p class="track-text text-lg opacity-80 leading-relaxed">
+              Your device reports a
+              <span class="font-mono">{{ pageStats.screenSize }}</span> screen.
+              Your
+              <span
+                class="text-node"
+                data-meaning="digital fingerprint"
+                @mouseenter="showMeaning($event)"
+                @mouseleave="hideMeaning"
+                >browser environment</span
+              >
+              provides additional metadata that creates a unique profile.
+            </p>
+
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 track-text">
+              <div
+                class="bg-unease bg-opacity-30 border border-whisper border-opacity-10 p-6 rounded-sm"
+              >
+                <h3 class="text-xl font-light mb-4">Behavioral Metrics</h3>
+                <ul class="space-y-3 text-sm opacity-80">
+                  <li class="flex justify-between">
+                    <span>Hover patterns:</span>
+                    <span class="font-mono"
+                      >{{ behaviorMetrics.hoverPattern }}/sec</span
+                    >
+                  </li>
+                  <li class="flex justify-between">
+                    <span>Reading speed:</span>
+                    <span class="font-mono"
+                      >~{{ behaviorMetrics.readingSpeed }} wpm</span
+                    >
+                  </li>
+                  <li class="flex justify-between">
+                    <span>Interaction cadence:</span>
+                    <span class="font-mono"
+                      >{{ behaviorMetrics.interactionCadence }}/min</span
+                    >
+                  </li>
+                  <li class="flex justify-between">
+                    <span>Focus retention:</span>
+                    <span class="font-mono"
+                      >{{ behaviorMetrics.focusRetention }}%</span
+                    >
+                  </li>
+                </ul>
+              </div>
+
+              <div
+                class="bg-unease bg-opacity-30 border border-whisper border-opacity-10 p-6 rounded-sm system-analysis-panel"
+              >
+                <h3 class="text-xl font-light mb-4 relative">
+                  System Analysis
+                  <span
+                    class="absolute right-0 top-1 text-xs font-mono text-threat opacity-40"
+                    >live_analysis</span
+                  >
+                </h3>
+                <ul class="space-y-3 text-sm opacity-80">
+                  <li
+                    class="flex justify-between relative group"
+                    v-for="(value, key) in systemAnalysis"
+                    :key="key"
+                  >
+                    <span>{{ systemAnalysisLabels[key] }}:</span>
+                    <span class="font-mono glitch-text" :data-text="value"
+                      >{{ value }}</span
+                    >
+                    <div
+                      class="assumption-tooltip bg-unease text-xs p-2 rounded-sm w-48 absolute right-full mr-2 opacity-0 transition-opacity duration-300 z-10 group-hover:opacity-100"
+                    >
+                      {{ getRandomAssumption(key) }}
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <p class="track-text text-lg opacity-80 leading-relaxed mt-8">
+              This data collection is
+              <span
+                class="text-node"
+                data-meaning="beyond your control"
+                @mouseenter="showMeaning($event)"
+                @mouseleave="hideMeaning"
+                >passive</span
+              >
+              and
+              <span
+                class="text-node"
+                data-meaning="you cannot stop it"
+                @mouseenter="showMeaning($event)"
+                @mouseleave="hideMeaning"
+                >continuous</span
+              >. Every website you visit employs similar mechanisms, though few
+              are this transparent about it.
+            </p>
+          </div>
+
+          <div class="mt-12 track-text">
+            <a
+              href="#interact"
+              class="inline-flex items-center text-whisper hover:text-silent transition-colors duration-300"
+              data-hover-text="deeper conditioning begins"
+              @mouseenter="showHoverText($event)"
+              @mouseleave="hideHoverText"
+            >
+              <span>Continue</span>
+              <svg
+                class="ml-2 w-4 h-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14 5L21 12M21 12L14 19M21 12H3"
+                  stroke="currentColor"
+                  stroke-width="1"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Interact section -->
+      <section
+        class="min-h-screen flex items-center section"
+        id="interact"
+        :class="{ 'section-active': activeSection === 'interact' }"
+      >
+        <div class="max-w-4xl mx-auto px-4 py-16">
+          <h2 class="text-3xl md:text-4xl font-light mb-8 section-headline">
+            Your mind can be
+            <span
+              class="text-node"
+              data-meaning="programmed"
+              @mouseenter="showMeaning($event)"
+              @mouseleave="hideMeaning"
+              >influenced</span
+            >.
+          </h2>
+
+          <div class="space-y-6">
+            <p class="track-text text-lg opacity-80 leading-relaxed">
+              The design elements on this page are
+              <span
+                class="text-node"
+                data-meaning="actively manipulating you"
+                @mouseenter="showMeaning($event)"
+                @mouseleave="hideMeaning"
+                >calibrated</span
+              >
+              to elicit specific psychological responses. Notice how you feel
+              slightly
+              <span
+                class="text-node"
+                data-meaning="we designed it this way"
+                @mouseenter="showMeaning($event)"
+                @mouseleave="hideMeaning"
+                >uncomfortable</span
+              >, yet continue scrolling.
+            </p>
+
+            <p class="track-text text-lg opacity-80 leading-relaxed">
+              Your cursor movement reveals
+              <span
+                class="text-node"
+                data-meaning="your psychological vulnerabilities"
+                @mouseenter="showMeaning($event)"
+                @mouseleave="hideMeaning"
+                >decision patterns</span
+              >. The subtle animations affect your perception of time. Your
+              attention is being
+              <span
+                class="text-node"
+                data-meaning="harvested"
+                @mouseenter="showMeaning($event)"
+                @mouseleave="hideMeaning"
+                >directed</span
+              >.
+            </p>
+
+            <div class="mt-8 track-text">
+              <h3 class="text-xl font-light mb-6">Interactive Demonstration</h3>
+
+              <div
+                class="bg-unease bg-opacity-30 border border-whisper border-opacity-10 p-6 rounded-sm"
+              >
+                <p class="mb-6 text-sm opacity-80">
+                  Click on the words below that you find most appealing. Your
+                  selections reveal psychological preferences.
+                </p>
+
+                <div class="flex flex-wrap gap-4">
+                  <button
+                    v-for="word in wordChoices"
+                    :key="word.name"
+                    class="px-4 py-2 border border-whisper border-opacity-20 rounded-sm hover:bg-whisper hover:bg-opacity-10 transition-colors duration-300 word-choice"
+                    :class="{ 'selected': wordAnalysis.selectedWords.includes(word.value) }"
+                    :data-weight="word.value"
+                    @click="toggleWordSelection(word.value)"
+                  >
+                    {{ word.name }}
+                  </button>
+                </div>
+
+                <div class="mt-6 opacity-80 text-sm">
+                  <p>
+                    Analysis:
+                    <span>{{ wordAnalysis.analysis }}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <p class="track-text text-lg opacity-80 leading-relaxed mt-8">
+              These techniques are employed throughout digital media,
+              advertising, and
+              <span
+                class="text-node"
+                data-meaning="social control systems"
+                @mouseenter="showMeaning($event)"
+                @mouseleave="hideMeaning"
+                >social platforms</span
+              >. Your
+              <span
+                class="text-node"
+                data-meaning="the illusion of"
+                @mouseenter="showMeaning($event)"
+                @mouseleave="hideMeaning"
+                >agency</span
+              >
+              is being subtly directed through carefully crafted
+              <span
+                class="text-node"
+                data-meaning="psychological manipulation"
+                @mouseenter="showMeaning($event)"
+                @mouseleave="hideMeaning"
+                >design patterns</span
+              >.
+            </p>
+          </div>
+
+          <div class="mt-12 track-text">
+            <a
+              href="#consent"
+              class="inline-flex items-center text-whisper hover:text-silent transition-colors duration-300"
+              data-hover-text="you have no real choice"
+              @mouseenter="showHoverText($event)"
+              @mouseleave="hideHoverText"
+            >
+              <span>Continue</span>
+              <svg
+                class="ml-2 w-4 h-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14 5L21 12M21 12L14 19M21 12H3"
+                  stroke="currentColor"
+                  stroke-width="1"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Consent section -->
+      <section
+        class="min-h-screen flex items-center section"
+        id="consent"
+        :class="{ 'section-active': activeSection === 'consent' }"
+      >
+        <div class="max-w-4xl mx-auto px-4 py-16">
+          <h2 class="text-3xl md:text-4xl font-light mb-8 section-headline">
+            You have already
+            <span
+              class="text-node"
+              data-meaning="been conditioned to"
+              @mouseenter="showMeaning($event)"
+              @mouseleave="hideMeaning"
+              >given</span
+            >
+            consent.
+          </h2>
+
+          <div class="space-y-6">
+            <p class="track-text text-lg opacity-80 leading-relaxed">
+              By using this website, you have participated in a
+              <span
+                class="text-node"
+                data-meaning="behavior modification"
+                @mouseenter="showMeaning($event)"
+                @mouseleave="hideMeaning"
+                >demonstration</span
+              >
+              of digital influence. No actual data has been stored or
+              transmitted—this is merely an educational illustration.
+            </p>
+
+            <p class="track-text text-lg opacity-80 leading-relaxed">
+              However, across the internet, similar techniques are employed
+              without such transparency. Your digital
+              <span
+                class="text-node"
+                data-meaning="is not your own"
+                @mouseenter="showMeaning($event)"
+                @mouseleave="hideMeaning"
+                >existence</span
+              >
+              is continually
+              <span
+                class="text-node"
+                data-meaning="monetized and exploited"
+                @mouseenter="showMeaning($event)"
+                @mouseleave="hideMeaning"
+                >observed</span
+              >, your behaviors
+              <span
+                class="text-node"
+                data-meaning="used against you"
+                @mouseenter="showMeaning($event)"
+                @mouseleave="hideMeaning"
+                >analyzed</span
+              >, and your perceptions
+              <span
+                class="text-node"
+                data-meaning="according to others' interests"
+                @mouseenter="showMeaning($event)"
+                @mouseleave="hideMeaning"
+                >shaped</span
+              >.
+            </p>
+
+            <div
+              class="mt-8 bg-unease bg-opacity-30 border border-whisper border-opacity-10 p-6 rounded-sm track-text"
+            >
+              <h3 class="text-xl font-light mb-4">Awareness Check</h3>
+
+              <p class="mb-6 text-sm opacity-80">
+                Select all statements that you believe to be true:
+              </p>
+
+              <div class="space-y-3">
+                <label class="flex items-start">
+                  <input
+                    type="checkbox"
+                    class="mt-1 mr-3 bg-transparent border border-whisper"
+                    v-model="awarenessCheck.options.control"
+                  />
+                  <span
+                    >I have complete control over my digital experience</span
+                  >
+                </label>
+
+                <label class="flex items-start">
+                  <input
+                    type="checkbox"
+                    class="mt-1 mr-3 bg-transparent border border-whisper"
+                    v-model="awarenessCheck.options.influence"
+                  />
+                  <span
+                    >Websites can influence my behavior without my
+                    awareness</span
+                  >
+                </label>
+
+                <label class="flex items-start">
+                  <input
+                    type="checkbox"
+                    class="mt-1 mr-3 bg-transparent border border-whisper"
+                    v-model="awarenessCheck.options.neutral"
+                  />
+                  <span>Digital design is neutral and objective</span>
+                </label>
+
+                <label class="flex items-start">
+                  <input
+                    type="checkbox"
+                    class="mt-1 mr-3 bg-transparent border border-whisper"
+                    v-model="awarenessCheck.options.data"
+                  />
+                  <span
+                    >My data is being collected across websites I visit</span
+                  >
+                </label>
+
+                <label class="flex items-start">
+                  <input
+                    type="checkbox"
+                    class="mt-1 mr-3 bg-transparent border border-whisper"
+                    v-model="awarenessCheck.options.tos"
+                  />
+                  <span
+                    >I truly understand the terms of service I agree to</span
+                  >
+                </label>
+              </div>
+
+              <button
+                class="mt-6 px-4 py-2 border border-whisper border-opacity-20 rounded-sm hover:bg-whisper hover:bg-opacity-10 transition-colors duration-300"
+                @click="analyzeAwareness"
+              >
+                Analyze Responses
+              </button>
+
+              <div
+                class="mt-4 transition-opacity duration-500"
+                :class="{ 'opacity-0': !awarenessCheck.showResults, 'opacity-100': awarenessCheck.showResults }"
+              >
+                <p class="text-sm">
+                  Your awareness level:
+                  <span class="font-mono"
+                    >{{ awarenessCheck.awarenessLevel }}</span
+                  >
+                </p>
+                <p class="text-sm mt-1">{{ awarenessCheck.analysis }}</p>
+              </div>
+            </div>
+
+            <p class="track-text text-lg opacity-80 leading-relaxed mt-8">
+              This website has been a
+              <span
+                class="text-node"
+                data-meaning="like all digital spaces"
+                @mouseenter="showMeaning($event)"
+                @mouseleave="hideMeaning"
+                >controlled environment</span
+              >—a mirror reflecting the mechanisms that shape online
+              experiences. The discomfort you may have felt is a recognition of
+              typically invisible forces made temporarily visible.
+            </p>
+          </div>
+
+          <div class="mt-12 track-text">
+            <a
+              href="#intro"
+              class="inline-flex items-center text-whisper hover:text-silent transition-colors duration-300"
+              data-hover-text="the cycle continues"
+              @mouseenter="showHoverText($event)"
+              @mouseleave="hideHoverText"
+            >
+              <span>Return to beginning</span>
+              <svg
+                class="ml-2 w-4 h-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14 5L21 12M21 12L14 19M21 12H3"
+                  stroke="currentColor"
+                  stroke-width="1"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Minimal footer -->
+    <!-- Minimal footer -->
+    <footer class="py-6 border-t border-whisper border-opacity-10">
+      <div class="max-w-4xl mx-auto px-4 flex justify-between items-center">
+        <div class="text-xs opacity-50">
+          <span>Observer</span>
+          <span class="mx-2">•</span>
+          <span class="font-mono" v-text="visitorId"></span>
+        </div>
+
+        <div class="text-xs opacity-50">
+          <span
+            data-hover-text="you were never really here"
+            @mouseenter="showHoverText($event)"
+            @mouseleave="hideHoverText"
+            >No data is being collected</span
+          >
+        </div>
+      </div>
+    </footer>
+
+    <!-- Hidden elements -->
+    <div class="hidden-elements">
+      <!-- Micro messages that appear randomly in UI -->
+      <div class="micro-messages">
+        <span
+          data-message="analyzing behavior patterns"
+          style="display: none"
+        ></span>
+        <span data-message="recording preferences" style="display: none"></span>
+        <span
+          data-message="calculating psychological profile"
+          style="display: none"
+        ></span>
+        <span
+          data-message="predicting future actions"
+          style="display: none"
+        ></span>
+        <span
+          data-message="resistance is ineffective"
+          style="display: none"
+        ></span>
+      </div>
+    </div>
+
+    <!-- Audio element for subtle notification sounds -->
+    <audio id="subtle-notification" preload="auto">
+      <source
+        src="data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAAAwAAAbAAiIiIiIiIiIiIiIiIiIiIiIiIu7u7u7u7u7u7u7u7u7u7u7u7u////////////////////////////////////////////wAAADAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMP/jOsAAAACIAAAAATEFMRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV"
+      />
+    </audio>
+
+    <!-- JavaScript imports -->
+    <script src="app.js"></script>
+  </body>
+</html>

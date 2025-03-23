@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BRUTALISM.exe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ["Courier New", "monospace"],
+            },
+            colors: {
+              concrete: "#cccccc",
+              "brutal-black": "#000000",
+              "brutal-red": "#ff0000",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @keyframes glitch {
+        0% {
+          transform: translate(0);
+        }
+        20% {
+          transform: translate(-2px, 2px);
+        }
+        40% {
+          transform: translate(-2px, -2px);
+        }
+        60% {
+          transform: translate(2px, 2px);
+        }
+        80% {
+          transform: translate(2px, -2px);
+        }
+        100% {
+          transform: translate(0);
+        }
+      }
+
+      .cursor-blink {
+        animation: blink 1s infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      .glitch:hover {
+        animation: glitch 0.3s infinite;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-brutal-black text-concrete font-mono p-0 m-0 cursor-crosshair overflow-x-hidden"
+  >
+    <!-- Brutalist Header Section -->
+    <header class="border-b-8 border-concrete p-4">
+      <div class="flex justify-between items-center">
+        <h1 class="text-4xl md:text-6xl font-bold glitch">[BRUT]</h1>
+        <div class="hidden md:block text-right">
+          <p class="text-brutal-red">[SYSTEM: ONLINE]</p>
+          <p class="text-xs">LAST UPDATE: 22.03.2025</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Brutalist Content -->
+    <main class="p-4 md:p-8">
+      <!-- Brutalist Hero Section -->
+      <section class="my-12 border-8 border-concrete p-4 md:p-8 relative">
+        <div
+          class="absolute top-0 right-0 bg-brutal-red text-brutal-black p-2 font-bold"
+        >
+          !IMPORTANT
+        </div>
+        <h2 class="text-5xl md:text-8xl font-bold tracking-tighter mb-6 glitch">
+          BRUTALIST MANIFESTO
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="col-span-2">
+            <p class="text-2xl mb-4">CONCRETE. EXPOSED. FUNCTIONAL.</p>
+            <p class="mb-4">
+              Brutalism rejects the decorative. Embraces the raw. Structure IS
+              the aesthetic.
+            </p>
+            <p class="text-brutal-red font-bold">
+              THIS IS NOT DESIGN. THIS IS ANTI-DESIGN.
+            </p>
+          </div>
+          <div class="bg-concrete text-brutal-black p-4 font-bold">
+            <p class="text-xl">ERROR CODES:</p>
+            <ul class="list-none">
+              <li>001: EXCESSIVE STYLING</li>
+              <li>002: DECORATIVE ELEMENTS</li>
+              <li>003: USER COMFORT</li>
+              <li>004: CONVENTIONAL BEAUTY</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Brutalist Grid Section -->
+      <section class="my-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div
+            class="border-4 border-concrete p-4 hover:bg-concrete hover:text-brutal-black transition-colors duration-300"
+          >
+            <h3 class="text-3xl font-bold mb-2">[01] RAW</h3>
+            <p>
+              Materials in their purest form. Unfiltered. Unpolished. Honest to
+              their nature.
+            </p>
+          </div>
+          <div
+            class="border-4 border-concrete p-4 hover:bg-concrete hover:text-brutal-black transition-colors duration-300"
+          >
+            <h3 class="text-3xl font-bold mb-2">[02] FUNCTIONAL</h3>
+            <p>
+              Form follows function to its extreme conclusion. No decoration.
+              Only purpose.
+            </p>
+          </div>
+          <div
+            class="border-4 border-concrete p-4 hover:bg-concrete hover:text-brutal-black transition-colors duration-300"
+          >
+            <h3 class="text-3xl font-bold mb-2">[03] MONOLITHIC</h3>
+            <p>Imposing. Unapologetic. Singular in vision and execution.</p>
+          </div>
+          <div
+            class="border-4 border-concrete p-4 hover:bg-concrete hover:text-brutal-black transition-colors duration-300"
+          >
+            <h3 class="text-3xl font-bold mb-2">[04] HONEST</h3>
+            <p>What you see is what you get. No pretense. No illusion.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Brutalist Call to Action -->
+      <section
+        class="my-12 bg-brutal-red text-brutal-black p-8 text-center relative"
+      >
+        <div class="absolute inset-0 border-8 border-concrete m-2"></div>
+        <div class="relative z-10">
+          <h2 class="text-4xl md:text-6xl font-bold mb-4 glitch">
+            EMBRACE THE BRUTAL
+          </h2>
+          <p class="text-xl mb-6">
+            Beauty in rawness. Power in honesty. Glory in function.
+          </p>
+          <button
+            class="bg-brutal-black text-concrete border-4 border-concrete py-2 px-6 text-xl font-bold hover:bg-concrete hover:text-brutal-black transition-colors duration-300"
+          >
+            [ SUBMIT TO BRUTALISM ]
+          </button>
+        </div>
+      </section>
+
+      <!-- Brutalist Contact Form -->
+      <section class="my-12 border-8 border-concrete p-4">
+        <h2 class="text-3xl font-bold mb-4">[CONTACT PROTOCOL]</h2>
+        <form class="space-y-4">
+          <div>
+            <label class="block text-brutal-red mb-1">IDENTIFIER</label>
+            <input
+              type="text"
+              class="w-full bg-brutal-black border-4 border-concrete p-2 focus:outline-none focus:border-brutal-red"
+            />
+          </div>
+          <div>
+            <label class="block text-brutal-red mb-1"
+              >COMMUNICATION CHANNEL</label
+            >
+            <input
+              type="email"
+              class="w-full bg-brutal-black border-4 border-concrete p-2 focus:outline-none focus:border-brutal-red"
+            />
+          </div>
+          <div>
+            <label class="block text-brutal-red mb-1">MESSAGE CONTENT</label>
+            <textarea
+              class="w-full bg-brutal-black border-4 border-concrete p-2 h-32 focus:outline-none focus:border-brutal-red"
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            class="w-full bg-concrete text-brutal-black border-4 border-concrete p-2 font-bold hover:bg-brutal-black hover:text-concrete transition-colors duration-300"
+          >
+            TRANSMIT
+          </button>
+        </form>
+      </section>
+    </main>
+
+    <!-- Brutalist Footer -->
+    <footer class="border-t-8 border-concrete p-4 md:p-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-2 text-brutal-red">[NAVIGATION]</h3>
+          <ul class="space-y-1">
+            <li><a href="#" class="hover:text-brutal-red">MANIFESTO</a></li>
+            <li><a href="#" class="hover:text-brutal-red">PRINCIPLES</a></li>
+            <li><a href="#" class="hover:text-brutal-red">PROJECTS</a></li>
+            <li><a href="#" class="hover:text-brutal-red">CONTACT</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-2 text-brutal-red">[DISCLAIMER]</h3>
+          <p class="text-sm">
+            This website makes no concessions to user comfort. It is designed to
+            be experienced, not enjoyed.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-2 text-brutal-red">[COPYRIGHT]</h3>
+          <p class="text-sm">
+            © 2025 BRUTALISM.EXE<br />ALL RIGHTS RESERVED.<br />ALL AESTHETIC
+            PLEASURES DENIED.
+          </p>
+          <p class="text-xs mt-4">Created by Amartha for Absurd Industries</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Brutalist Cursor Effect -->
+    <div
+      id="cursor-follow"
+      class="fixed text-brutal-red text-xl pointer-events-none cursor-blink"
+    >
+      |
+    </div>
+
+    <script>
+      document.addEventListener("mousemove", function (e) {
+        const cursor = document.getElementById("cursor-follow");
+        cursor.style.left = e.clientX + 10 + "px";
+        cursor.style.top = e.clientY - 10 + "px";
+      });
+
+      // Random glitch effect on page elements
+      setInterval(() => {
+        const elements = document.querySelectorAll("h1, h2, h3");
+        const randomElement =
+          elements[Math.floor(Math.random() * elements.length)];
+        randomElement.classList.add("glitch");
+        setTimeout(() => {
+          randomElement.classList.remove("glitch");
+        }, 500);
+      }, 3000);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GESTALT | Your Mind Will Complete Us</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gestalt: {
+              black: '#000000',
+              white: '#FFFFFF',
+              primary: '#2D4263',
+              secondary: '#C84B31',
+              tertiary: '#ECDBBA',
+              accent: '#191919',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+            mono: ['Space Mono', 'monospace'],
+          },
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-20px)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Mono&display=swap" rel="stylesheet">
+  <style>
+    /* Custom Gestalt-inspired styles */
+    .proximity-group {
+      transition: all 0.3s ease;
+    }
+    
+    .proximity-group:hover > * {
+      transform: translateX(10px);
+    }
+    
+    .proximity-group > * {
+      transition: transform 0.3s ease;
+    }
+    
+    .continuity-line {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .continuity-line::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: currentColor;
+      transform: translateX(-101%);
+      transition: transform 0.4s ease;
+    }
+    
+    .continuity-line:hover::after {
+      transform: translateX(0);
+    }
+    
+    .closure-shape {
+      position: relative;
+    }
+    
+    .closure-shape::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 2px dashed currentColor;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .closure-shape:hover::before {
+      opacity: 1;
+    }
+    
+    .similarity-group > *:nth-child(odd) {
+      transition: all 0.3s ease;
+    }
+    
+    .similarity-group:hover > *:nth-child(odd) {
+      color: theme('colors.gestalt.secondary');
+    }
+    
+    .figure-ground {
+      position: relative;
+      transition: all 0.3s ease;
+      z-index: 0;
+    }
+    
+    .figure-ground::before {
+      content: '';
+      position: absolute;
+      background-color: theme('colors.gestalt.tertiary');
+      inset: 0;
+      transform: scale(0);
+      transition: transform 0.3s ease;
+      z-index: -1;
+      border-radius: 0.25rem;
+    }
+    
+    .figure-ground:hover::before {
+      transform: scale(1);
+    }
+    
+    /* Illusory Contours */
+    .kanizsa-triangle {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+    }
+    
+    .pac-man {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      background-color: black;
+      border-radius: 50%;
+    }
+    
+    .pac-man-1 {
+      top: 0;
+      left: 60px;
+      clip-path: polygon(50% 50%, 0% 0%, 100% 0%);
+    }
+    
+    .pac-man-2 {
+      bottom: 0;
+      left: 10px;
+      clip-path: polygon(50% 50%, 0% 100%, 100% 100%);
+    }
+    
+    .pac-man-3 {
+      bottom: 0;
+      right: 10px;
+      clip-path: polygon(50% 50%, 0% 100%, 100% 100%);
+    }
+
+    /* Optical Illusion Animation */
+    .illusion-grid {
+      background-image: linear-gradient(#000 1px, transparent 1px), 
+                        linear-gradient(90deg, #000 1px, transparent 1px);
+      background-size: 20px 20px;
+      background-position: center center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .moving-dot {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: theme('colors.gestalt.secondary');
+      border-radius: 50%;
+      animation: moveDot 8s linear infinite;
+    }
+
+    @keyframes moveDot {
+      0% { left: 0; top: 0; }
+      25% { left: calc(100% - 20px); top: 0; }
+      50% { left: calc(100% - 20px); top: calc(100% - 20px); }
+      75% { left: 0; top: calc(100% - 20px); }
+      100% { left: 0; top: 0; }
+    }
+    
+    /* Rubin's vase effect */
+    .rubins-vase {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300' fill='none'%3E%3Cpath d='M150,50 C150,50 100,50 100,100 C100,150 150,150 150,150 C150,150 250,150 250,150 C250,150 300,150 300,100 C300,50 250,50 250,50 L150,50 Z M150,150 C150,150 100,150 100,200 C100,250 150,250 150,250 L250,250 C250,250 300,250 300,200 C300,150 250,150 250,150 L150,150 Z' fill='black'/%3E%3C/svg%3E");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: filter 0.5s ease;
+    }
+    
+    .rubins-vase:hover {
+      filter: invert(1);
+    }
+    
+    /* Necker cube */
+    .necker-cube {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateX(30deg) rotateY(45deg);
+      transition: transform 1s ease;
+    }
+    
+    .necker-cube:hover {
+      transform: rotateX(30deg) rotateY(225deg);
+    }
+    
+    .necker-cube .face {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border: 2px solid black;
+    }
+    
+    .necker-cube .front {
+      transform: translateZ(50px);
+    }
+    
+    .necker-cube .back {
+      transform: translateZ(-50px);
+    }
+    
+    .necker-cube .right {
+      transform: rotateY(90deg) translateZ(50px);
+    }
+    
+    .necker-cube .left {
+      transform: rotateY(-90deg) translateZ(50px);
+    }
+    
+    .necker-cube .top {
+      transform: rotateX(90deg) translateZ(50px);
+    }
+    
+    .necker-cube .bottom {
+      transform: rotateX(-90deg) translateZ(50px);
+    }
+    
+    /* Common fate (dots that move together) */
+    .common-fate {
+      position: relative;
+      height: 100px;
+      overflow: hidden;
+    }
+    
+    .common-fate .dot {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background-color: black;
+      border-radius: 50%;
+      transition: transform 0.3s ease;
+    }
+    
+    .common-fate:hover .dot {
+      transform: translateX(20px);
+    }
+    
+    /* Impossible trident - SVG directly included */
+    .impossible-object {
+      transition: transform 1s ease;
+    }
+    
+    .impossible-object:hover {
+      transform: rotate(180deg);
+    }
+    
+    /* Scrollbar with Gestalt feeling */
+    ::-webkit-scrollbar {
+      width: 14px;
+      height: 14px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: white;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: black;
+      border: 4px solid white;
+      border-radius: 7px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: theme('colors.gestalt.secondary');
+    }
+    
+    /* Mouse trail effect */
+    .mouse-trail {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      pointer-events: none;
+      background-color: theme('colors.gestalt.secondary');
+      opacity: 0.7;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s, height 0.3s, opacity 0.3s;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body class="bg-white text-gestalt-black">
+  <!-- Mouse trail effect elements will be added here via JS -->
+  
+  <!-- Header with Gestalt proximity principle -->
+  <header class="fixed w-full z-50 bg-white/90 backdrop-blur-sm border-b border-black/10">
+    <div class="container mx-auto px-6 py-4">
+      <div class="flex justify-between items-center">
+        <a href="#" class="font-serif text-3xl font-bold tracking-tighter relative overflow-hidden continuity-line">
+          GESTALT
+          <span class="absolute -bottom-2 left-0 h-1 w-full bg-gestalt-secondary transform origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></span>
+        </a>
+        
+        <nav class="hidden md:flex space-x-0">
+          <!-- Proximity principle - items close together are perceived as a group -->
+          <div class="proximity-group flex items-center">
+            <a href="#proximity" class="px-4 py-2 hover:text-gestalt-secondary transition-colors">Proximity</a>
+            <a href="#similarity" class="px-4 py-2 hover:text-gestalt-secondary transition-colors">Similarity</a>
+            <a href="#continuity" class="px-4 py-2 hover:text-gestalt-secondary transition-colors">Continuity</a>
+          </div>
+          
+          <!-- Space to create two distinct groups -->
+          <div class="w-8"></div>
+          
+          <div class="proximity-group flex items-center">
+            <a href="#closure" class="px-4 py-2 hover:text-gestalt-secondary transition-colors">Closure</a>
+            <a href="#figure-ground" class="px-4 py-2 hover:text-gestalt-secondary transition-colors">Figure/Ground</a>
+            <a href="#symmetry" class="px-4 py-2 text-gestalt-black hover:text-gestalt-secondary transition-colors font-bold relative figure-ground px-3 py-1">Experience</a>
+          </div>
+        </nav>
+        
+        <!-- Mobile menu button with similarity principle -->
+        <button type="button" class="md:hidden proximity-group flex flex-col space-y-2">
+          <span class="block w-8 h-0.5 bg-black"></span>
+          <span class="block w-8 h-0.5 bg-black"></span>
+          <span class="block w-8 h-0.5 bg-black"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero section with figure-ground principle -->
+  <section class="relative pt-32 pb-20 overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <!-- Visual pattern demonstrating figure-ground relationship -->
+      <div class="grid grid-cols-12 grid-rows-12 h-full">
+        <div class="col-span-3 row-span-4 bg-gestalt-tertiary/20"></div>
+        <div class="col-span-2 row-span-6 bg-gestalt-tertiary/10"></div>
+        <div class="col-span-7 row-span-2 bg-gestalt-tertiary/30"></div>
+        <div class="col-span-5 col-start-6 row-span-4 row-start-6 bg-gestalt-tertiary/20"></div>
+        <div class="col-span-4 col-start-2 row-span-3 row-start-10 bg-gestalt-tertiary/30"></div>
+      </div>
+    </div>
+    
+    <div class="container mx-auto px-6 relative z-10">
+      <div class="max-w-3xl">
+        <!-- Incomplete shapes that your mind completes (closure principle) -->
+        <h1 class="font-serif text-6xl md:text-7xl font-bold leading-tight mb-6 closure-shape">
+          Your Mind Will <span class="text-gestalt-secondary">Complete</span> What We Start
+        </h1>
+        
+        <p class="text-xl md:text-2xl mb-12 max-w-2xl">
+          Gestalt principles explain how our minds organize visual elements into unified wholes based on proximity, similarity, continuity, closure, and more.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="#principles" class="inline-block px-8 py-3 bg-gestalt-black text-white font-medium hover:bg-gestalt-secondary transition-colors">
+            Explore Principles
+          </a>
+          <a href="#examples" class="inline-block px-8 py-3 border-2 border-gestalt-black font-medium hover:bg-gestalt-tertiary transition-colors relative overflow-hidden continuity-line">
+            See Visual Examples
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Visual demonstration of various Gestalt principles -->
+    <div class="absolute right-0 bottom-0 w-1/3 h-2/3 hidden lg:block">
+      <div class="relative w-full h-full">
+        <!-- Proximity principle dots -->
+        <div class="absolute top-1/4 right-1/4 flex space-x-1">
+          <div class="w-3 h-3 rounded-full bg-gestalt-black"></div>
+          <div class="w-3 h-3 rounded-full bg-gestalt-black"></div>
+        </div>
+        <div class="absolute top-1/4 right-1/4 translate-x-12 flex space-x-1">
+          <div class="w-3 h-3 rounded-full bg-gestalt-black"></div>
+          <div class="w-3 h-3 rounded-full bg-gestalt-black"></div>
+        </div>
+        
+        <!-- Similarity principle shapes -->
+        <div class="absolute top-1/2 right-1/3 flex space-x-4">
+          <div class="w-4 h-4 rounded-full bg-gestalt-black"></div>
+          <div class="w-4 h-4 rounded-full bg-gestalt-black"></div>
+          <div class="w-4 h-4 bg-gestalt-black"></div>
+          <div class="w-4 h-4 rounded-full bg-gestalt-black"></div>
+        </div>
+        
+        <!-- Continuity principle lines -->
+        <div class="absolute bottom-1/4 right-1/4 w-32 h-32">
+          <div class="absolute top-1/2 left-0 right-0 h-px bg-gestalt-black"></div>
+          <div class="absolute top-0 left-0 w-px h-full bg-gestalt-black"></div>
+          <div class="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-gestalt-black"></div>
+          <div class="absolute top-0 right-0 w-8 h-8 border-t border-r border-gestalt-black"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Principles section using similarity principle -->
+  <section id="principles" class="py-20 bg-gestalt-black text-white">
+    <div class="container mx-auto px-6">
+      <div class="max-w-3xl mx-auto mb-16">
+        <h2 class="font-serif text-5xl font-bold mb-6">Gestalt Principles</h2>
+        <p class="text-xl text-white/80">
+          These principles describe how the human mind organizes visual elements into groups or unified wholes when certain conditions are met.
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Principle 1: Proximity -->
+        <div id="proximity" class="group hover:bg-white/5 p-6 rounded-lg transition-colors">
+          <div class="flex items-center mb-6 space-x-1">
+            <!-- Visual example of proximity -->
+            <div class="flex space-x-1">
+              <div class="w-3 h-3 rounded-full bg-white"></div>
+              <div class="w-3 h-3 rounded-full bg-white"></div>
+            </div>
+            <div class="w-6"></div>
+            <div class="flex space-x-1">
+              <div class="w-3 h-3 rounded-full bg-white"></div>
+              <div class="w-3 h-3 rounded-full bg-white"></div>
+            </div>
+          </div>
+          
+          <h3 class="text-xl font-bold mb-2">Proximity</h3>
+          <p class="text-white/80">
+            Elements that are closer together tend to be perceived as a group. This principle helps organize information and create structure.
+          </p>
+        </div>
+        
+        <!-- Principle 2: Similarity -->
+        <div id="similarity" class="group hover:bg-white/5 p-6 rounded-lg transition-colors">
+          <div class="flex items-center mb-6 space-x-3 similarity-group">
+            <!-- Visual example of similarity -->
+            <div class="w-3 h-3 rounded-full bg-white"></div>
+            <div class="w-3 h-3 rounded-full bg-white"></div>
+            <div class="w-3 h-3 bg-white"></div>
+            <div class="w-3 h-3 bg-white"></div>
+            <div class="w-3 h-3 rounded-full bg-white"></div>
+          </div>
+          
+          <h3 class="text-xl font-bold mb-2">Similarity</h3>
+          <p class="text-white/80">
+            Elements that share similar characteristics (color, shape, size) tend to be seen as part of the same group, even if they're separated.
+          </p>
+        </div>
+        
+        <!-- Principle 6: Symmetry -->
+        <div id="symmetry" class="group hover:bg-white/5 p-6 rounded-lg transition-colors">
+          <div class="h-12 mb-6 flex">
+            <!-- Visual example of symmetry -->
+            <div class="w-12 h-12 border-2 border-white relative">
+              <div class="absolute top-0 bottom-0 left-1/2 w-px bg-white"></div>
+            </div>
+          </div>
+          
+          <h3 class="text-xl font-bold mb-2">Symmetry</h3>
+          <p class="text-white/80">
+            The mind perceives symmetrical elements as belonging together, forming a coherent whole regardless of their distance.
+          </p>
+        </div>
+        
+        <!-- Principle 4: Closure -->
+        <div id="closure" class="group hover:bg-white/5 p-6 rounded-lg transition-colors">
+          <div class="h-12 mb-6 flex">
+            <!-- Visual example of closure - incomplete circle -->
+            <div class="w-12 h-12 border-4 border-white rounded-full border-r-transparent"></div>
+          </div>
+          
+          <h3 class="text-xl font-bold mb-2">Closure</h3>
+          <p class="text-white/80">
+            The mind has a tendency to fill in gaps to create complete, whole forms rather than seeing disconnected fragments.
+          </p>
+        </div>
+        
+        <!-- Principle 5: Figure/Ground -->
+        <div id="figure-ground" class="group hover:bg-white/5 p-6 rounded-lg transition-colors">
+          <div class="h-12 mb-6 flex">
+            <!-- Visual example of figure/ground - simple silhouette -->
+            <div class="w-12 h-12 bg-white relative">
+              <div class="absolute inset-0 bg-gestalt-black" style="clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)"></div>
+            </div>
+          </div>
+          
+          <h3 class="text-xl font-bold mb-2">Figure/Ground</h3>
+          <p class="text-white/80">
+            Elements are perceived as either figures (distinct elements) or ground (background), helping differentiate objects from their surroundings.
+          </p>
+        </div>
+
+
+        <!-- Principle 3: Continuity -->
+        <div id="continuity" class="group hover:bg-white/5 p-6 rounded-lg transition-colors">
+          <div class="h-12 mb-6 relative">
+            <!-- Visual example of continuity -->
+            <div class="absolute top-1/2 left-0 right-0 h-px bg-white"></div>
+            <div class="absolute top-0 bottom-0 left-1/2 w-px bg-white"></div>
+          </div>
+          
+          <h3 class="text-xl font-bold mb-2">Continuity</h3>
+          <p class="text-white/80">
+            Elements arranged in a line or curve appear to belong together and continue beyond their endpoints, creating a coherent whole.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visual examples section demonstrating optical illusions -->
+  <section id="examples" class="py-20">
+    <div class="container mx-auto px-6">
+      <div class="max-w-3xl mx-auto mb-16">
+        <h2 class="font-serif text-4xl font-bold mb-6">Visual Perception in Action</h2>
+        <p class="text-xl text-gestalt-black/80">
+          Explore how Gestalt principles create optical illusions and influence how we perceive the world around us.
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <!-- Example 1: Kanizsa Triangle (illusory contours) -->
+        <div class="bg-white p-8 rounded-lg shadow-xl">
+          <h3 class="text-xl font-bold mb-4">Kanizsa Triangle</h3>
+          <p class="mb-6 text-gestalt-black/80">
+            Your mind perceives a white triangle that doesn't physically exist, demonstrating the principle of closure.
+          </p>
+          
+          <div class="kanizsa-triangle mb-4">
+            <div class="pac-man pac-man-1"></div>
+            <div class="pac-man pac-man-2"></div>
+            <div class="pac-man pac-man-3"></div>
+          </div>
+          
+          <p class="text-sm text-gestalt-black/60 italic text-center">
+            The triangle you see is created by your mind, not the image itself.
+          </p>
+        </div>
+        
+        <!-- Example 2: Rubin's Vase (figure-ground reversal) -->
+        <div class="bg-white p-8 rounded-lg shadow-xl">
+          <h3 class="text-xl font-bold mb-4">Rubin's Vase</h3>
+          <p class="mb-6 text-gestalt-black/80">
+            This classic illusion demonstrates figure-ground relationships. You can see either a vase or two faces.
+          </p>
+          
+          <div class="h-64 rubins-vase mb-4"></div>
+          
+          <p class="text-sm text-gestalt-black/60 italic text-center">
+            Hover to invert the relationship. Your perception switches between faces and vase.
+          </p>
+        </div>
+        
+        <!-- Example 3: Proximity and Common Fate -->
+        <div class="bg-white p-8 rounded-lg shadow-xl">
+          <h3 class="text-xl font-bold mb-4">Common Fate</h3>
+          <p class="mb-6 text-gestalt-black/80">
+            Elements moving in the same direction are perceived as belonging together, even when mixed with other elements.
+          </p>
+          
+          <div class="common-fate mb-4">
+            <!-- These dots will appear to move together on hover -->
+            <div class="dot" style="top: 20px; left: 20px;"></div>
+            <div class="dot" style="top: 40px; left: 50px;"></div>
+            <div class="dot" style="top: 60px; left: 30px;"></div>
+            <div class="dot" style="top: 80px; left: 70px;"></div>
+            <div class="dot" style="top: 20px; left: 90px;"></div>
+            <div class="dot" style="top: 40px; left: 120px;"></div>
+            <div class="dot" style="top: 60px; left: 150px;"></div>
+            <div class="dot" style="top: 80px; left: 180px;"></div>
+            <div class="dot" style="top: 30px; left: 200px;"></div>
+            <div class="dot" style="top: 50px; left: 220px;"></div>
+            <div class="dot" style="top: 70px; left: 240px;"></div>
+          </div>
+          
+          <p class="text-sm text-gestalt-black/60 italic text-center">
+            Hover over the area above to see the dots move together.
+          </p>
+        </div>
+        
+        <!-- Example 4: Impossible Object -->
+        <div class="bg-white p-8 rounded-lg shadow-xl">
+          <h3 class="text-xl font-bold mb-4">Impossible Trident</h3>
+          <p class="mb-6 text-gestalt-black/80">
+            This illusion challenges our perception of continuity and three-dimensional space.
+          </p>
+          
+          <div class="flex justify-center mb-4">
+            <svg class="w-64 h-64 impossible-object" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <path d="M40,100 L40,80 L160,80 L160,100 L40,100 Z" fill="black"/>
+              <path d="M60,80 L60,60 L80,60 L80,80 L60,80 Z" fill="black"/>
+              <path d="M100,80 L100,60 L120,60 L120,80 L100,80 Z" fill="black"/>
+              <path d="M140,80 L140,60 L160,60 L160,80 L140,80 Z" fill="black"/>
+              <path d="M60,100 L60,120 L80,120 L80,100 L60,100 Z" fill="black"/>
+              <path d="M100,100 L100,120 L120,120 L120,100 L100,100 Z" fill="black"/>
+              <path d="M140,100 L140,120 L160,120 L160,100 L140,100 Z" fill="black"/>
+            </svg>
+          </div>
+          
+          <p class="text-sm text-gestalt-black/60 italic text-center">
+            Hover to rotate. Your mind struggles to form a coherent 3D model.
+          </p>
+        </div>
+      </div>
+      
+      <!-- Interactive illusion - moving dot in grid -->
+      <div class="mt-16 max-w-3xl mx-auto">
+        <h3 class="text-xl font-bold mb-4">Movement Perception</h3>
+        <p class="mb-6 text-gestalt-black/80">
+          Watch how the dot appears to change color when passing over intersections, though it remains the same color throughout.
+        </p>
+        
+        <div class="h-64 illusion-grid rounded-lg overflow-hidden relative mb-4">
+          <div class="moving-dot"></div>
+        </div>
+        
+        <p class="text-sm text-gestalt-black/60 italic text-center">
+          The dot is always the same color. The perceived change occurs due to contrast effects.
+        </p>
+      </div>
+    </div>
+
+    <!-- Interactive Learning Section -->
+  <section id="interactive" class="py-20 bg-gestalt-tertiary">
+    <div class="container mx-auto px-6">
+      <div class="max-w-3xl mx-auto mb-16">
+        <h2 class="font-serif text-4xl font-bold mb-6">Interactive Perception</h2>
+        <p class="text-xl text-gestalt-black/80">
+          Experience Gestalt principles in action. Your mind will automatically organize information into coherent patterns.
+        </p>
+      </div>
+      
+      <!-- Interactive examples with immediate feedback -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+        <!-- Interactive Example 1: Figure-Ground Interactive Toggle -->
+        <div class="bg-white p-8 rounded-lg shadow-xl">
+          <h3 class="text-xl font-bold mb-4">Figure-Ground Reversal</h3>
+          <p class="mb-6 text-gestalt-black/80">
+            Click the shapes below to experience how your perception can shift between figure and ground.
+          </p>
+          
+          <div class="flex justify-center space-x-6 mb-6">
+            <!-- Shapes that toggle between figure and ground -->
+            <div id="figure-toggle-1" class="w-24 h-24 bg-gestalt-black rounded-full relative cursor-pointer hover:scale-105 transition-transform">
+              <div class="absolute inset-2 bg-white rounded-full transform opacity-0 transition-opacity duration-300"></div>
+            </div>
+            
+            <div id="figure-toggle-2" class="w-24 h-24 border-4 border-gestalt-black relative cursor-pointer hover:scale-105 transition-transform">
+              <div class="absolute inset-0 bg-gestalt-black transform scale-0 transition-transform duration-300 origin-center"></div>
+            </div>
+          </div>
+          
+          <p class="text-sm text-gestalt-black/60 italic text-center">
+            Click each shape to reverse the figure-ground relationship.
+          </p>
+        </div>
+        
+        <!-- Interactive Example 2: Similarity Grouping Exercise -->
+        <div class="bg-white p-8 rounded-lg shadow-xl">
+          <h3 class="text-xl font-bold mb-4">Visual Grouping</h3>
+          <p class="mb-6 text-gestalt-black/80">
+            In the grid below, you'll automatically group similar elements together. Try focusing on different attributes.
+          </p>
+          
+          <div class="grid grid-cols-5 gap-3 mb-6 mx-auto max-w-xs">
+            <!-- Grid of shapes that demonstrate similarity principle -->
+            <div class="w-10 h-10 rounded-full bg-gestalt-secondary"></div>
+            <div class="w-10 h-10 bg-gestalt-secondary"></div>
+            <div class="w-10 h-10 rounded-full bg-gestalt-black"></div>
+            <div class="w-10 h-10 bg-gestalt-black"></div>
+            <div class="w-10 h-10 rounded-full bg-gestalt-secondary"></div>
+            
+            <div class="w-10 h-10 bg-gestalt-black"></div>
+            <div class="w-10 h-10 rounded-full bg-gestalt-black"></div>
+            <div class="w-10 h-10 bg-gestalt-secondary"></div>
+            <div class="w-10 h-10 rounded-full bg-gestalt-secondary"></div>
+            <div class="w-10 h-10 bg-gestalt-black"></div>
+            
+            <div class="w-10 h-10 rounded-full bg-gestalt-secondary"></div>
+            <div class="w-10 h-10 bg-gestalt-secondary"></div>
+            <div class="w-10 h-10 rounded-full bg-gestalt-black"></div>
+            <div class="w-10 h-10 bg-gestalt-black"></div>
+            <div class="w-10 h-10 rounded-full bg-gestalt-secondary"></div>
+            
+            <div class="w-10 h-10 bg-gestalt-black"></div>
+            <div class="w-10 h-10 rounded-full bg-gestalt-black"></div>
+            <div class="w-10 h-10 bg-gestalt-secondary"></div>
+            <div class="w-10 h-10 rounded-full bg-gestalt-secondary"></div>
+            <div class="w-10 h-10 bg-gestalt-black"></div>
+            
+            <div class="w-10 h-10 rounded-full bg-gestalt-secondary"></div>
+            <div class="w-10 h-10 bg-gestalt-secondary"></div>
+            <div class="w-10 h-10 rounded-full bg-gestalt-black"></div>
+            <div class="w-10 h-10 bg-gestalt-black"></div>
+            <div class="w-10 h-10 rounded-full bg-gestalt-secondary"></div>
+          </div>
+          
+          <div class="flex space-x-4 justify-center">
+            <button id="group-by-color" class="px-3 py-1 text-sm border border-gestalt-black rounded hover:bg-gestalt-black hover:text-white transition-colors">Group by Color</button>
+            <button id="group-by-shape" class="px-3 py-1 text-sm border border-gestalt-black rounded hover:bg-gestalt-black hover:text-white transition-colors">Group by Shape</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Multi-stable perception demo -->
+      <div class="mt-16 max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-xl">
+        <h3 class="text-xl font-bold mb-4">Multi-stable Perception</h3>
+        <p class="mb-6 text-gestalt-black/80">
+          Some images can be perceived in multiple ways. Your mind will spontaneously switch between different interpretations.
+        </p>
+        
+        <div class="flex flex-col md:flex-row gap-8 items-center">
+          <div class="w-full md:w-1/2">
+            <!-- Necker cube -->
+            <div class="h-64 flex items-center justify-center perspective-800">
+              <div class="necker-cube">
+                <div class="face front"></div>
+                <div class="face back"></div>
+                <div class="face right"></div>
+                <div class="face left"></div>
+                <div class="face top"></div>
+                <div class="face bottom"></div>
+              </div>
+            </div>
+            <p class="text-sm text-gestalt-black/60 italic text-center mt-2">
+              Hover to rotate. Notice how your perception of which face is "front" can flip.
+            </p>
+          </div>
+          
+          <div class="w-full md:w-1/2">
+            <p class="text-gestalt-black/80">
+              The Necker cube is an ambiguous line drawing that can be interpreted in two different ways. Your visual system cannot decide which interpretation is correct, so it alternates between them.
+            </p>
+            <p class="text-gestalt-black/80 mt-4">
+              This demonstrates how perception is not just passive reception of visual information, but an active process of construction and interpretation by your brain.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Real-world Applications Section -->
+  <section id="applications" class="py-20">
+    <div class="container mx-auto px-6">
+      <div class="max-w-3xl mx-auto mb-16">
+        <h2 class="font-serif text-4xl font-bold mb-6">Real-World Applications</h2>
+        <p class="text-xl text-gestalt-black/80">
+          Gestalt principles form the foundation of effective design across various fields, from UI/UX to architecture.
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Application 1: UX/UI Design -->
+        <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow">
+          <div class="w-16 h-16 bg-gestalt-tertiary rounded-lg flex items-center justify-center mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gestalt-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          
+          <h3 class="text-xl font-bold mb-3">UX/UI Design</h3>
+          <p class="text-gestalt-black/80 mb-4">
+            Designers use proximity to group related items in menus, similarity to establish visual hierarchies, and continuity to guide users through interfaces.
+          </p>
+          
+          <!-- Simple UI example demonstrating principles -->
+          <div class="border border-gestalt-black/20 rounded-lg p-3 mb-4">
+            <div class="flex justify-between items-center mb-3 border-b pb-2">
+              <div class="font-bold">Dashboard</div>
+              <div class="flex space-x-2">
+                <div class="w-3 h-3 rounded-full bg-gestalt-tertiary"></div>
+                <div class="w-3 h-3 rounded-full bg-gestalt-tertiary"></div>
+                <div class="w-3 h-3 rounded-full bg-gestalt-tertiary"></div>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div class="bg-gestalt-tertiary/30 p-2 rounded">Analytics</div>
+              <div class="bg-gestalt-tertiary/30 p-2 rounded">Reports</div>
+              <div class="bg-gestalt-tertiary/30 p-2 rounded">Settings</div>
+              <div class="bg-gestalt-tertiary/30 p-2 rounded">Profile</div>
+            </div>
+          </div>
+          
+          <p class="text-gestalt-black/60 text-sm italic">
+            Notice how proximity and similarity create clear navigation patterns.
+          </p>
+        </div>
+        
+        <!-- Application 2: Graphic Design -->
+        <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow">
+          <div class="w-16 h-16 bg-gestalt-tertiary rounded-lg flex items-center justify-center mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gestalt-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+          
+          <h3 class="text-xl font-bold mb-3">Graphic Design</h3>
+          <p class="text-gestalt-black/80 mb-4">
+            From logos to layouts, designers leverage figure/ground relationships, closure, and continuity to create memorable and effective visual communication.
+          </p>
+          
+          <!-- Logo examples using Gestalt principles -->
+          <div class="grid grid-cols-3 gap-3 mb-4">
+            <!-- Logo example using negative space -->
+            <div class="bg-gestalt-black p-2 rounded">
+              <div class="h-12 flex items-center justify-center">
+                <div class="w-8 h-8 bg-white rounded-full relative">
+                  <div class="absolute inset-0 bg-gestalt-black" style="clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%, 50% 0, 50% 100%)"></div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Logo example using continuity -->
+            <div class="bg-gestalt-tertiary p-2 rounded">
+              <div class="h-12 flex items-center justify-center">
+                <div class="w-8 h-8 relative">
+                  <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-gestalt-black"></div>
+                  <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-gestalt-black"></div>
+                  <div class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-gestalt-black"></div>
+                  <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-gestalt-black"></div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Logo example using closure -->
+            <div class="bg-gestalt-secondary p-2 rounded">
+              <div class="h-12 flex items-center justify-center">
+                <div class="w-8 h-8 relative">
+                  <div class="absolute inset-2 border-2 border-white border-dashed rounded-full"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <p class="text-gestalt-black/60 text-sm italic">
+            Effective logos often use closure and figure/ground to create memorable forms.
+          </p>
+        </div>
+        
+        <!-- Application 3: Photography and Art -->
+        <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow">
+          <div class="w-16 h-16 bg-gestalt-tertiary rounded-lg flex items-center justify-center mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gestalt-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          
+          <h3 class="text-xl font-bold mb-3">Photography & Art</h3>
+          <p class="text-gestalt-black/80 mb-4">
+            Artists and photographers use figure/ground relationships, framing, and composition techniques based on Gestalt principles to create visually compelling works.
+          </p>
+          
+          <!-- Photography composition example -->
+          <div class="rounded-lg overflow-hidden mb-4 relative">
+            <div class="aspect-video bg-[url('/api/placeholder/600/400')] bg-cover bg-center">
+              <!-- Rule of thirds grid overlay -->
+              <div class="absolute inset-0 grid grid-cols-3 grid-rows-3 pointer-events-none">
+                <div class="col-start-2 col-span-1 border-l border-r border-white/20 h-full"></div>
+                <div class="row-start-2 row-span-1 border-t border-b border-white/20 w-full"></div>
+              </div>
+            </div>
+          </div>
+          
+          <p class="text-gestalt-black/60 text-sm italic">
+            Composition techniques like the rule of thirds are based on how our minds organize visual information.
+          </p>
+        </div>
+      </div>
+      
+      <!-- Case Study Example -->
+      <div class="mt-16 max-w-5xl mx-auto bg-white p-8 rounded-lg shadow-xl">
+        <h3 class="text-2xl font-bold mb-6">Case Study: Gestalt in Everyday Design</h3>
+        
+        <div class="flex flex-col md:flex-row gap-8 items-center">
+          <div class="w-full md:w-1/2">
+            <!-- Mobile app mockup demonstrating Gestalt principles -->
+            <div class="max-w-xs mx-auto border-8 border-gestalt-black rounded-3xl overflow-hidden">
+              <div class="bg-gestalt-black py-4 px-6 flex justify-between items-center">
+                <div class="text-white font-bold">12:30</div>
+                <div class="flex space-x-2">
+                  <div class="w-2 h-2 rounded-full bg-white"></div>
+                  <div class="w-2 h-2 rounded-full bg-white"></div>
+                  <div class="w-2 h-2 rounded-full bg-white"></div>
+                </div>
+              </div>
+              <div class="bg-white p-4">
+                <div class="mb-6">
+                  <h4 class="text-lg font-bold mb-3">Today</h4>
+                  <!-- Using proximity to group related items -->
+                  <div class="space-y-4">
+                    <div class="p-3 bg-gestalt-tertiary/20 rounded-lg">
+                      <div class="font-medium mb-1">Team Meeting</div>
+                      <div class="text-sm text-gestalt-black/70">10:00 AM - 11:00 AM</div>
+                    </div>
+                    <div class="p-3 bg-gestalt-tertiary/20 rounded-lg">
+                      <div class="font-medium mb-1">Project Review</div>
+                      <div class="text-sm text-gestalt-black/70">2:30 PM - 3:30 PM</div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Using similarity to establish patterns -->
+                <div>
+                  <h4 class="text-lg font-bold mb-3">Stats</h4>
+                  <div class="grid grid-cols-2 gap-3">
+                    <div class="p-3 bg-gestalt-secondary/20 rounded-lg text-center">
+                      <div class="text-sm mb-1">Tasks</div>
+                      <div class="text-xl font-bold">12</div>
+                    </div>
+                    <div class="p-3 bg-gestalt-secondary/20 rounded-lg text-center">
+                      <div class="text-sm mb-1">Completed</div>
+                      <div class="text-xl font-bold">8</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="w-full md:w-1/2">
+            <div class="space-y-6">
+              <div>
+                <h4 class="text-lg font-bold mb-2">Proximity in Action</h4>
+                <p class="text-gestalt-black/80">
+                  In this interface, related items are grouped closely together, creating clear visual categories that help users quickly understand the information hierarchy.
+                </p>
+              </div>
+              
+              <div>
+                <h4 class="text-lg font-bold mb-2">Similarity for Recognition</h4>
+                <p class="text-gestalt-black/80">
+                  Similar styled elements (like the stat boxes) are immediately recognized as serving the same function, reducing cognitive load for the user.
+                </p>
+              </div>
+              
+              <div>
+                <h4 class="text-lg font-bold mb-2">Closure in Navigation</h4>
+                <p class="text-gestalt-black/80">
+                  The user's mind automatically completes partial patterns in navigation elements, allowing for cleaner, more minimalist designs that remain intuitive.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Resources Section -->
+  <section id="resources" class="py-20 bg-gestalt-black text-white">
+    <div class="container mx-auto px-6">
+      <div class="max-w-3xl mx-auto mb-16">
+        <h2 class="font-serif text-4xl font-bold mb-6">Learn More</h2>
+        <p class="text-xl text-white/80">
+          Explore these resources to deepen your understanding of Gestalt principles and their applications.
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Resource 1: Books -->
+        <div class="bg-white/5 p-8 rounded-lg hover:bg-white/10 transition-colors">
+          <h3 class="text-xl font-bold mb-4">Recommended Books</h3>
+          <ul class="space-y-4 text-white/80">
+            <li class="flex items-start">
+              <span class="text-gestalt-secondary mr-2">●</span>
+              <div>
+                <p class="font-medium">Art and Visual Perception</p>
+                <p class="text-sm">by Rudolf Arnheim</p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-gestalt-secondary mr-2">●</span>
+              <div>
+                <p class="font-medium">Visual Thinking</p>
+                <p class="text-sm">by Rudolf Arnheim</p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-gestalt-secondary mr-2">●</span>
+              <div>
+                <p class="font-medium">The Design of Everyday Things</p>
+                <p class="text-sm">by Don Norman</p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-gestalt-secondary mr-2">●</span>
+              <div>
+                <p class="font-medium">Universal Principles of Design</p>
+                <p class="text-sm">by William Lidwell, Kritina Holden, Jill Butler</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- Resource 2: Online Courses -->
+        <div class="bg-white/5 p-8 rounded-lg hover:bg-white/10 transition-colors">
+          <h3 class="text-xl font-bold mb-4">Online Learning</h3>
+          <ul class="space-y-4 text-white/80">
+            <li class="flex items-start">
+              <span class="text-gestalt-secondary mr-2">●</span>
+              <div>
+                <p class="font-medium">Gestalt Psychology and Web Design</p>
+                <p class="text-sm">How visual perception affects user experience</p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-gestalt-secondary mr-2">●</span>
+              <div>
+                <p class="font-medium">Principles of Design</p>
+                <p class="text-sm">Comprehensive course on design fundamentals</p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-gestalt-secondary mr-2">●</span>
+              <div>
+                <p class="font-medium">Visual Perception and Art</p>
+                <p class="text-sm">How artists leverage perceptual principles</p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-gestalt-secondary mr-2">●</span>
+              <div>
+                <p class="font-medium">Cognitive Psychology: Perception</p>
+                <p class="text-sm">Scientific foundations of visual processing</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- Resource 3: Tools and Experiments -->
+        <div class="bg-white/5 p-8 rounded-lg hover:bg-white/10 transition-colors">
+          <h3 class="text-xl font-bold mb-4">Tools & Experiments</h3>
+          <ul class="space-y-4 text-white/80">
+            <li class="flex items-start">
+              <span class="text-gestalt-secondary mr-2">●</span>
+              <div>
+                <p class="font-medium">Gestalt Principle Visualizer</p>
+                <p class="text-sm">Interactive tool to explore visual principles</p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-gestalt-secondary mr-2">●</span>
+              <div>
+                <p class="font-medium">Optical Illusion Collection</p>
+                <p class="text-sm">Library of perceptual phenomena</p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-gestalt-secondary mr-2">●</span>
+              <div>
+                <p class="font-medium">Design Analysis Framework</p>
+                <p class="text-sm">Evaluate designs using Gestalt principles</p>
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-gestalt-secondary mr-2">●</span>
+              <div>
+                <p class="font-medium">Perception Lab Experiments</p>
+                <p class="text-sm">Test your own visual processing</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Newsletter signup -->
+      <div class="mt-16 max-w-3xl mx-auto">
+        <div class="bg-white/5 p-8 rounded-lg">
+          <h3 class="text-xl font-bold mb-3">Stay Updated</h3>
+          <p class="text-white/80 mb-6">
+            Subscribe to our newsletter for the latest research, articles, and resources on perception, design, and cognitive psychology.
+          </p>
+          
+          <form class="flex flex-col sm:flex-row gap-4">
+            <input type="email" placeholder="Your email address" class="flex-grow px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-gestalt-secondary">
+            <button type="submit" class="px-6 py-3 bg-gestalt-secondary text-white font-medium rounded-lg hover:bg-gestalt-secondary/90 transition-colors">Subscribe</button>
+          </form>
+          
+          <p class="text-white/50 text-sm mt-3">
+            We respect your privacy and will never share your information.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-16 bg-white">
+      <!-- Gestalt principle demonstration in the footer -->
+      <div class="pt-12">
+        <div class="grid grid-cols-2 md:grid-cols-6 gap-4">
+          <!-- Proximity demonstration -->
+          <div class="flex flex-col items-center">
+            <div class="mb-2 flex space-x-1">
+              <div class="w-2 h-2 bg-gestalt-black rounded-full"></div>
+              <div class="w-2 h-2 bg-gestalt-black rounded-full"></div>
+            </div>
+            <div class="flex space-x-1">
+              <div class="w-2 h-2 bg-gestalt-black rounded-full"></div>
+              <div class="w-2 h-2 bg-gestalt-black rounded-full"></div>
+            </div>
+            <p class="text-xs mt-2 text-center">Proximity</p>
+          </div>
+          
+          <!-- Similarity demonstration -->
+          <div class="flex flex-col items-center">
+            <div class="mb-2 flex space-x-1">
+              <div class="w-2 h-2 bg-gestalt-black rounded-full"></div>
+              <div class="w-2 h-2 bg-gestalt-secondary rounded-full"></div>
+              <div class="w-2 h-2 bg-gestalt-black rounded-full"></div>
+            </div>
+            <p class="text-xs mt-2 text-center">Similarity</p>
+          </div>
+          
+          <!-- Continuity demonstration -->
+          <div class="flex flex-col items-center">
+            <div class="w-12 h-8 relative">
+              <div class="absolute top-1/2 left-0 right-0 h-px bg-gestalt-black"></div>
+              <div class="absolute top-1/2 left-1/4 w-1 h-1 bg-gestalt-black rounded-full"></div>
+              <div class="absolute top-1/2 left-2/4 w-1 h-1 bg-gestalt-black rounded-full"></div>
+              <div class="absolute top-1/2 left-3/4 w-1 h-1 bg-gestalt-black rounded-full"></div>
+            </div>
+            <p class="text-xs mt-2 text-center">Continuity</p>
+          </div>
+          
+          <!-- Closure demonstration -->
+          <div class="flex flex-col items-center">
+            <div class="w-8 h-8 border-2 border-gestalt-black border-dashed rounded-full"></div>
+            <p class="text-xs mt-2 text-center">Closure</p>
+          </div>
+          
+          <!-- Figure-ground demonstration -->
+          <div class="flex flex-col items-center">
+            <div class="w-8 h-8 bg-gestalt-black relative">
+              <div class="absolute inset-2 bg-white"></div>
+            </div>
+            <p class="text-xs mt-2 text-center">Figure/Ground</p>
+          </div>
+          
+          <!-- Symmetry demonstration -->
+          <div class="flex flex-col items-center">
+            <div class="w-8 h-8 relative">
+              <div class="absolute top-0 left-0 w-4 h-4 border-t border-l border-gestalt-black"></div>
+              <div class="absolute top-0 right-0 w-4 h-4 border-t border-r border-gestalt-black"></div>
+              <div class="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-gestalt-black"></div>
+              <div class="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-gestalt-black"></div>
+            </div>
+            <p class="text-xs mt-2 text-center">Symmetry</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JS Scripts at the end of the document -->
+  <script>
+    // Create mouse trail effect
+    document.addEventListener('DOMContentLoaded', function() {
+      // Mouse trail effect
+      const numDots = 12;
+      const dots = [];
+      const trailLifetime = 1000; // ms
+      
+      for (let i = 0; i < numDots; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'mouse-trail';
+        document.body.appendChild(dot);
+        dots.push({
+          element: dot,
+          x: 0,
+          y: 0,
+          born: 0
+        });
+      }
+      
+      document.addEventListener('mousemove', function(e) {
+        const now = Date.now();
+        const x = e.clientX;
+        const y = e.clientY;
+        
+        // Update oldest dot with new position
+        const oldestDot = dots.shift();
+        oldestDot.x = x;
+        oldestDot.y = y;
+        oldestDot.born = now;
+        dots.push(oldestDot);
+        
+        // Update all dots
+        dots.forEach((dot, index) => {
+          const age = (now - dot.born) / trailLifetime;
+          const size = Math.max(1, 8 * (1 - age));
+          const alpha = Math.max(0, 0.7 * (1 - age));
+          
+          dot.element.style.width = `${size}px`;
+          dot.element.style.height = `${size}px`;
+          dot.element.style.opacity = alpha;
+          dot.element.style.left = `${dot.x}px`;
+          dot.element.style.top = `${dot.y}px`;
+        });
+      });
+      
+      // Figure-ground toggle interaction
+      const figureToggle1 = document.getElementById('figure-toggle-1');
+      const figureToggle2 = document.getElementById('figure-toggle-2');
+      
+      if (figureToggle1) {
+        figureToggle1.addEventListener('click', function() {
+          const innerCircle = this.querySelector('div');
+          if (innerCircle.style.opacity === '1') {
+            innerCircle.style.opacity = '0';
+          } else {
+            innerCircle.style.opacity = '1';
+          }
+        });
+      }
+      
+      if (figureToggle2) {
+        figureToggle2.addEventListener('click', function() {
+          const innerShape = this.querySelector('div');
+          if (innerShape.style.transform === 'scale(1)') {
+            innerShape.style.transform = 'scale(0)';
+          } else {
+            innerShape.style.transform = 'scale(1)';
+          }
+        });
+      }
+      
+      // Group by color/shape buttons
+      const groupByColor = document.getElementById('group-by-color');
+      const groupByShape = document.getElementById('group-by-shape');
+      const shapeGrid = document.querySelector('.grid-cols-5');
+      
+      if (groupByColor && shapeGrid) {
+        groupByColor.addEventListener('click', function() {
+          // Add animation class to highlight grouping by color
+          const shapes = shapeGrid.querySelectorAll('div');
+          shapes.forEach(shape => {
+            shape.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
+            
+            if (shape.classList.contains('bg-gestalt-secondary')) {
+              shape.style.opacity = '1';
+              shape.style.transform = 'scale(1.1)';
+            } else {
+              shape.style.opacity = '0.3';
+              shape.style.transform = 'scale(0.9)';
+            }
+          });
+          
+          // Reset after animation
+          setTimeout(() => {
+            shapes.forEach(shape => {
+              shape.style.opacity = '1';
+              shape.style.transform = 'scale(1)';
+            });
+          }, 1500);
+        });
+      }
+      
+      if (groupByShape && shapeGrid) {
+        groupByShape.addEventListener('click', function() {
+          // Add animation class to highlight grouping by shape
+          const shapes = shapeGrid.querySelectorAll('div');
+          shapes.forEach(shape => {
+            shape.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
+            
+            if (shape.classList.contains('rounded-full')) {
+              shape.style.opacity = '1';
+              shape.style.transform = 'scale(1.1)';
+            } else {
+              shape.style.opacity = '0.3';
+              shape.style.transform = 'scale(0.9)';
+            }
+          });
+          
+          // Reset after animation
+          setTimeout(() => {
+            shapes.forEach(shape => {
+              shape.style.opacity = '1';
+              shape.style.transform = 'scale(1)';
+            });
+          }, 1500);
+        });
+      }
+      
+      // Disclosures for progressive disclosure principle
+      const disclosureButtons = document.querySelectorAll('[id^="disclosure-"]');
+      
+      disclosureButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const parent = this.parentElement;
+          const icon = this.querySelector('svg');
+          
+          parent.classList.toggle('active');
+          
+          if (parent.classList.contains('active')) {
+            icon.style.transform = 'rotate(180deg)';
+          } else {
+            icon.style.transform = 'rotate(0)';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

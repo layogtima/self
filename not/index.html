@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NOT-HERE | Dunne & Raby</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ["IBM Plex Mono", "monospace"],
+              sans: ["Space Grotesk", "sans-serif"],
+            },
+            colors: {
+              "odd-pink": "#FF9EAA",
+              "strange-blue": "#A5BECC",
+              "uneasy-green": "#739268",
+              "awkward-yellow": "#F6F7B0",
+              "unsettling-gray": "#2A3036",
+            },
+            animation: {
+              float: "float 8s ease-in-out infinite",
+              glitch: "glitch 3s infinite",
+              shift: "shift 10s ease-in-out infinite",
+              flicker: "flicker 4s linear infinite",
+            },
+            keyframes: {
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-20px)" },
+              },
+              glitch: {
+                "0%, 100%": { transform: "translate(0)" },
+                "33%": { transform: "translate(-5px, 2px)" },
+                "66%": { transform: "translate(5px, -2px)" },
+              },
+              shift: {
+                "0%, 100%": { transform: "translateX(0)" },
+                "50%": { transform: "translateX(20px)" },
+              },
+              flicker: {
+                "0%, 100%": { opacity: 1 },
+                "50%": { opacity: 0.7 },
+              },
+            },
+            transitionProperty: {
+              width: "width",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,600;1,400&family=Space+Grotesk:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .custom-cursor {
+        cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23FF9EAA' stroke-width='1'><circle cx='12' cy='12' r='10'/></svg>")
+            12 12,
+          auto;
+      }
+
+      .staggered-appear > * {
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+      }
+
+      .staggered-appear > *.appear {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .text-glitch {
+        position: relative;
+        display: inline-block;
+      }
+
+      .text-glitch::before,
+      .text-glitch::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .text-glitch::before {
+        left: 2px;
+        color: #ff9eaa;
+        animation: glitch-anim 3s infinite linear alternate-reverse;
+        clip: rect(44px, 450px, 56px, 0);
+      }
+
+      .text-glitch::after {
+        left: -2px;
+        color: #a5becc;
+        animation: glitch-anim-2 2s infinite linear alternate-reverse;
+        clip: rect(44px, 450px, 56px, 0);
+      }
+
+      @keyframes glitch-anim {
+        0% {
+          clip: rect(25px, 9999px, 87px, 0);
+        }
+        10% {
+          clip: rect(64px, 9999px, 131px, 0);
+        }
+        20% {
+          clip: rect(3px, 9999px, 18px, 0);
+        }
+        30% {
+          clip: rect(94px, 9999px, 144px, 0);
+        }
+        40% {
+          clip: rect(92px, 9999px, 34px, 0);
+        }
+        50% {
+          clip: rect(82px, 9999px, 71px, 0);
+        }
+        60% {
+          clip: rect(27px, 9999px, 47px, 0);
+        }
+        70% {
+          clip: rect(14px, 9999px, 95px, 0);
+        }
+        80% {
+          clip: rect(15px, 9999px, 37px, 0);
+        }
+        90% {
+          clip: rect(9px, 9999px, 85px, 0);
+        }
+        100% {
+          clip: rect(53px, 9999px, 109px, 0);
+        }
+      }
+
+      @keyframes glitch-anim-2 {
+        0% {
+          clip: rect(65px, 9999px, 119px, 0);
+        }
+        10% {
+          clip: rect(17px, 9999px, 37px, 0);
+        }
+        20% {
+          clip: rect(35px, 9999px, 75px, 0);
+        }
+        30% {
+          clip: rect(52px, 9999px, 142px, 0);
+        }
+        40% {
+          clip: rect(11px, 9999px, 75px, 0);
+        }
+        50% {
+          clip: rect(23px, 9999px, 35px, 0);
+        }
+        60% {
+          clip: rect(66px, 9999px, 122px, 0);
+        }
+        70% {
+          clip: rect(93px, 9999px, 142px, 0);
+        }
+        80% {
+          clip: rect(48px, 9999px, 60px, 0);
+        }
+        90% {
+          clip: rect(31px, 9999px, 57px, 0);
+        }
+        100% {
+          clip: rect(14px, 9999px, 95px, 0);
+        }
+      }
+
+      .question-reveal {
+        position: relative;
+        overflow: hidden;
+        height: 3rem;
+        transition: height 0.5s ease;
+      }
+
+      .question-reveal:hover {
+        height: 8rem;
+      }
+
+      .diagonal-line {
+        position: relative;
+      }
+
+      .diagonal-line::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          transparent 49.9%,
+          #f6f7b0 50%,
+          transparent 50.1%
+        );
+        z-index: -1;
+      }
+
+      .hover-reveal-text span {
+        transition: opacity 0.3s ease;
+        opacity: 0;
+      }
+
+      .hover-reveal-text:hover span {
+        opacity: 1;
+      }
+
+      /* Fake browser bars */
+      .browser-chrome {
+        border-radius: 8px 8px 0 0;
+        overflow: hidden;
+      }
+
+      .browser-dots {
+        display: flex;
+        gap: 6px;
+      }
+
+      .browser-dots div {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-white text-unsettling-gray font-sans custom-cursor antialiased"
+  >
+    <!-- Deliberately awkward header navigation -->
+    <header class="fixed w-full bg-white bg-opacity-80 backdrop-blur-sm z-50">
+      <div class="container mx-auto px-6 py-4">
+        <nav class="flex justify-between items-center">
+          <div class="flex items-center gap-4">
+            <div class="w-4 h-4 bg-odd-pink rounded-full animate-float"></div>
+            <a href="#" class="font-mono text-lg tracking-tight">NOT-HERE</a>
+          </div>
+
+          <!-- Deliberately confusing navigation that moves slightly on hover -->
+          <div class="hidden md:flex gap-12">
+            <a
+              href="#possibilities"
+              class="hover:text-odd-pink transition-colors duration-500 hover:tracking-wider transform hover:-translate-y-0.5"
+              >Possibilities</a
+            >
+            <a
+              href="#alternatives"
+              class="hover:text-strange-blue transition-colors duration-500 hover:tracking-wider transform hover:translate-y-0.5"
+              >Alternatives</a
+            >
+            <a
+              href="#questions"
+              class="hover:text-uneasy-green transition-colors duration-500 hover:tracking-wider transform hover:-translate-y-0.5"
+              >Questions</a
+            >
+            <a
+              href="#about"
+              class="hover:text-awkward-yellow transition-colors duration-500 hover:tracking-wider transform hover:translate-y-0.5"
+              >Not About</a
+            >
+          </div>
+
+          <!-- Deliberately strange mobile menu toggle -->
+          <button class="md:hidden w-12 h-12 relative group">
+            <div
+              class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6"
+            >
+              <div
+                class="absolute top-1 w-full h-px bg-unsettling-gray group-hover:bg-odd-pink transition-all duration-300 group-hover:rotate-45 group-hover:top-3"
+              ></div>
+              <div
+                class="absolute top-3 w-full h-px bg-unsettling-gray group-hover:bg-odd-pink transition-all duration-300 group-hover:opacity-0"
+              ></div>
+              <div
+                class="absolute top-5 w-full h-px bg-unsettling-gray group-hover:bg-odd-pink transition-all duration-300 group-hover:-rotate-45 group-hover:top-3"
+              ></div>
+            </div>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Unsettling hero section with intentionally jarring elements -->
+    <section class="pt-32 pb-20 relative overflow-hidden">
+      <!-- Decorative elements that subtly disrupt expectations -->
+      <div
+        class="absolute top-1/4 right-1/4 w-48 h-48 rounded-full bg-strange-blue mix-blend-multiply opacity-20 animate-float"
+      ></div>
+      <div
+        class="absolute bottom-1/4 left-1/3 w-32 h-32 bg-odd-pink mix-blend-multiply opacity-20 animate-float"
+        style="animation-delay: 2s"
+      ></div>
+
+      <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+          <h1 class="text-6xl md:text-8xl font-light mb-8 leading-none">
+            <span class="text-glitch" data-text="This is not">This is not</span>
+            <br />
+            <span class="block mt-2 font-mono text-odd-pink">a website.</span>
+          </h1>
+
+          <p class="text-xl md:text-2xl mb-12 leading-relaxed">
+            It's a critical provocation. A speculation on how we might
+            <span class="relative inline-block">
+              <span class="absolute inset-0 bg-awkward-yellow -rotate-2"></span>
+              <span class="relative">interact with digital spaces</span>
+            </span>
+            if we question the norms of interface design.
+          </p>
+
+          <div class="flex flex-col md:flex-row gap-6 items-start">
+            <a href="#possibilities" class="group">
+              <div class="relative overflow-hidden">
+                <div
+                  class="py-3 px-6 border border-unsettling-gray group-hover:bg-odd-pink group-hover:border-odd-pink group-hover:text-white transition-all duration-500"
+                >
+                  <span class="font-mono">Explore Discomfort</span>
+                </div>
+                <div
+                  class="absolute bottom-0 left-0 w-0 h-0.5 bg-odd-pink group-hover:w-full transition-width duration-500"
+                ></div>
+              </div>
+            </a>
+
+            <div class="flex items-center gap-4">
+              <div class="w-8 h-px bg-unsettling-gray"></div>
+              <span class="text-sm font-mono text-gray-400"
+                >or perhaps don't</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Question section that aims to provoke thought rather than provide answers -->
+    <section
+      id="possibilities"
+      class="py-20 bg-strange-blue bg-opacity-5 relative"
+    >
+      <!-- Deliberately off-kilter decorative elements -->
+      <div class="absolute inset-0 overflow-hidden">
+        <div
+          class="absolute -top-10 -left-10 w-40 h-40 border border-strange-blue rounded-full opacity-20"
+        ></div>
+        <div
+          class="absolute top-1/2 right-10 w-24 h-24 border border-odd-pink opacity-10"
+        ></div>
+        <div
+          class="absolute bottom-20 left-1/3 w-16 h-16 bg-awkward-yellow opacity-5"
+        ></div>
+      </div>
+
+      <div class="container mx-auto px-6 relative z-10">
+        <div class="max-w-5xl mx-auto">
+          <div class="mb-16">
+            <h5 class="text-sm font-mono text-gray-400 mb-3">
+              01. Speculative
+            </h5>
+            <h2 class="text-4xl md:text-5xl font-light mb-12">
+              What if technology <br /><span class="text-strange-blue"
+                >was not for solving problems?</span
+              >
+            </h2>
+
+            <div class="text-xl leading-relaxed mb-12 hover-reveal-text">
+              We use design as a means to speculate how things could be—to
+              imagine possible futures.
+              <span class="text-strange-blue"
+                >Technology doesn't have to fix everything. Maybe it should
+                raise better questions?</span
+              >
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <!-- Project 1 - intentionally unsettling and mysterious -->
+            <div class="group">
+              <div class="relative overflow-hidden">
+                <!-- Browser-like frame to make it appear like a screenshot of a strange digital product -->
+                <div class="browser-chrome bg-gray-100">
+                  <div class="p-2 flex items-center gap-2">
+                    <div class="browser-dots">
+                      <div class="bg-red-400"></div>
+                      <div class="bg-yellow-400"></div>
+                      <div class="bg-green-400"></div>
+                    </div>
+                    <div class="text-xs font-mono text-gray-500 ml-4">
+                      not-a-product.html
+                    </div>
+                  </div>
+                  <div class="aspect-[4/3] bg-white p-4">
+                    <div
+                      class="h-full w-full flex flex-col items-center justify-center text-center"
+                    >
+                      <div
+                        class="w-32 h-32 rounded-full bg-odd-pink bg-opacity-20 flex items-center justify-center mb-4"
+                      >
+                        <div
+                          class="w-16 h-16 bg-white rounded-full animate-pulse"
+                        ></div>
+                      </div>
+                      <h3 class="text-xl font-mono mb-2">Digital Companion</h3>
+                      <p class="text-sm text-gray-500 font-mono">
+                        [This product observes you back]
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-6">
+                  <h3 class="text-xl font-medium mb-2">
+                    The Ethical Surveillance Assistant
+                  </h3>
+                  <p class="text-gray-500">
+                    What if your smart home assistant collected your data only
+                    to ask you uncomfortable questions about privacy? A device
+                    that doesn't serve you, but serves as a critical mirror.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project 2 - equally provocative -->
+            <div class="group">
+              <div class="relative overflow-hidden">
+                <!-- Browser-like frame -->
+                <div class="browser-chrome bg-gray-100">
+                  <div class="p-2 flex items-center gap-2">
+                    <div class="browser-dots">
+                      <div class="bg-red-400"></div>
+                      <div class="bg-yellow-400"></div>
+                      <div class="bg-green-400"></div>
+                    </div>
+                    <div class="text-xs font-mono text-gray-500 ml-4">
+                      not-a-solution.html
+                    </div>
+                  </div>
+                  <div class="aspect-[4/3] bg-white p-4">
+                    <div
+                      class="h-full w-full flex flex-col items-center justify-center text-center"
+                    >
+                      <div
+                        class="w-32 h-32 flex items-center justify-center mb-4"
+                      >
+                        <svg
+                          width="64"
+                          height="64"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect
+                            x="2"
+                            y="2"
+                            width="20"
+                            height="20"
+                            stroke="#F6F7B0"
+                            stroke-width="2"
+                          />
+                          <line
+                            x1="2"
+                            y1="12"
+                            x2="22"
+                            y2="12"
+                            stroke="#2A3036"
+                            stroke-width="2"
+                          />
+                          <line
+                            x1="12"
+                            y1="2"
+                            x2="12"
+                            y2="22"
+                            stroke="#2A3036"
+                            stroke-width="2"
+                          />
+                        </svg>
+                      </div>
+                      <h3 class="text-xl font-mono mb-2">Anxiety Amplifier</h3>
+                      <p class="text-sm text-gray-500 font-mono">
+                        [Increases what you try to diminish]
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-6">
+                  <h3 class="text-xl font-medium mb-2">
+                    The Social Media Truth Detector
+                  </h3>
+                  <p class="text-gray-500">
+                    An algorithm that doesn't hide uncomfortable content but
+                    instead highlights everything you've been algorithmically
+                    sheltered from. What if your feed was designed to make you
+                    uncomfortable?
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Alternatives section that presents deliberately thought-provoking design fictions -->
+    <section id="alternatives" class="py-20 relative overflow-hidden">
+      <div class="container mx-auto px-6">
+        <div class="max-w-5xl mx-auto">
+          <div class="mb-16">
+            <h5 class="text-sm font-mono text-gray-400 mb-3">
+              02. Alternatives
+            </h5>
+            <h2 class="text-4xl md:text-5xl font-light mb-12">
+              Design for
+              <span class="text-odd-pink">the world that could be,</span
+              ><br />not the world that is.
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-24">
+            <!-- Large conceptual image with deliberately provocative caption -->
+            <div class="md:col-span-8 relative">
+              <div class="aspect-video bg-gray-100 relative overflow-hidden">
+                <div
+                  class="absolute inset-0 bg-[url('https://platform.vox.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/19171642/mindar_robot_color_GettyImages_1129444022__1_.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400')] bg-cover bg-center grayscale"
+                ></div>
+                <a
+                  href="https://www.vox.com/future-perfect/2019/9/9/20851753/ai-religion-robot-priest-mindar-buddhism-christianity"
+                  target="_blank"
+                  rel="nofollow"
+                  class="absolute inset-0 bg-gradient-to-t from-unsettling-gray to-transparent opacity-60"
+                ></a>
+                <div class="absolute bottom-0 left-0 p-6 text-white">
+                  <h3 class="text-2xl font-light mb-2">
+                    Robot Priests & Digital Spirituality
+                  </h3>
+                  <p class="text-sm font-mono">
+                    Is technology filling the void of meaning in modernity?
+                  </p>
+                </div>
+
+                <!-- Deliberately asymmetrical and jarring decorative element -->
+                <div
+                  class="absolute -top-4 -right-4 w-16 h-16 bg-odd-pink"
+                ></div>
+              </div>
+            </div>
+
+            <!-- Provocative text column -->
+            <div class="md:col-span-4 flex flex-col justify-center">
+              <p class="text-lg mb-8">
+                What happens when we entrust our spiritual and existential needs
+                to algorithms and artificial intelligence?
+              </p>
+              <p class="mb-8 font-mono text-sm">
+                This speculative design explores a future where technology has
+                been elevated to the realm of the sacred, raising questions
+                about faith, meaning, and the increasingly blurred line between
+                human and machine consciousness.
+              </p>
+              <div class="question-reveal bg-gray-50 p-4">
+                <p class="font-mono text-sm text-gray-500">
+                  Hover to reveal question
+                </p>
+                <p class="mt-4 text-unsettling-gray">
+                  Would you take moral guidance from an AI that has processed
+                  all religious texts ever written?
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Another provocative concept with deliberately unconventional layout -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+            <!-- Text column -->
+            <div class="md:col-span-5 md:order-2 flex flex-col justify-center">
+              <h3 class="text-2xl font-light mb-6">
+                The Anti-Efficiency Objects
+              </h3>
+              <p class="text-lg mb-6">
+                What if our devices were designed to slow us down instead of
+                speeding us up?
+              </p>
+              <p class="mb-8 font-mono text-sm">
+                This collection explores technologies that deliberately
+                introduce friction, delay, and reflection into our interactions
+                with digital systems.
+              </p>
+
+              <ul class="space-y-3 font-mono text-sm">
+                <li class="flex items-start gap-2">
+                  <span class="text-odd-pink">→</span>
+                  <span>Lamps that help you meditate and reflect</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-odd-pink">→</span>
+                  <span
+                    >Emails that can only be sent after 24 hours of
+                    contemplation</span
+                  >
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-odd-pink">→</span>
+                  <span
+                    >Search engines that show results from contrary
+                    perspectives</span
+                  >
+                </li>
+              </ul>
+            </div>
+
+            <!-- Conceptual image -->
+            <div class="md:col-span-7 md:order-1 relative">
+              <div
+                class="aspect-video bg-gray-100 overflow-hidden diagonal-line"
+              >
+                <a
+                  href="https://shop.absurd.industries/products/lampy"
+                  target="_blank"
+                  class="absolute inset-0 bg-[url('https://shop.absurd.industries/cdn/shop/files/lampy-shopabsurdindustries-shopabsurdindustries-968591.jpg?v=1731505856&width=1206')] bg-cover bg-center grayscale"
+                ></a>
+
+                <!-- Deliberately asymmetrical and jarring decorative element -->
+                <div
+                  class="absolute -bottom-4 -left-4 w-16 h-16 border-2 border-strange-blue"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Questions section with deliberately provocative and uncomfortable inquiries -->
+    <section
+      id="questions"
+      class="py-20 bg-unsettling-gray text-white relative overflow-hidden"
+    >
+      <!-- Deliberately uncomfortable patterns in background -->
+      <div class="absolute inset-0 opacity-5">
+        <div class="w-full h-full grid grid-cols-12 grid-rows-12">
+          <div class="col-span-4 row-span-3 border border-white"></div>
+          <div class="col-span-2 row-span-6 border border-white"></div>
+          <div class="col-span-6 row-span-2 border border-white"></div>
+        </div>
+      </div>
+
+      <div class="container mx-auto px-6 relative z-10">
+        <div class="max-w-4xl mx-auto">
+          <div class="mb-16">
+            <h5 class="text-sm font-mono text-gray-400 mb-3">03. Questions</h5>
+            <h2 class="text-4xl md:text-5xl font-light mb-12">
+              Technology should raise
+              <span class="text-awkward-yellow">uncomfortable questions,</span
+              ><br />not just provide comfortable answers.
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+            <div class="space-y-12">
+              <div class="group">
+                <h3 class="text-xl font-mono mb-4 text-awkward-yellow">
+                  # Does efficiency make us happier?
+                </h3>
+                <p
+                  class="font-light text-gray-300 group-hover:text-white transition-colors"
+                >
+                  Our obsession with optimization and productivity has created a
+                  culture where time saved is immediately filled with more
+                  tasks. What if technology helped us waste time meaningfully
+                  instead?
+                </p>
+              </div>
+
+              <div class="group">
+                <h3 class="text-xl font-mono mb-4 text-awkward-yellow">
+                  # Who benefits from your digital presence?
+                </h3>
+                <p
+                  class="font-light text-gray-300 group-hover:text-white transition-colors"
+                >
+                  Every click, view, and interaction feeds a complex ecosystem
+                  of commerce and surveillance. What if your devices made this
+                  relationship explicit rather than hiding it?
+                </p>
+              </div>
+
+              <div class="group">
+                <h3 class="text-xl font-mono mb-4 text-awkward-yellow">
+                  # Why must technology always "improve"?
+                </h3>
+                <p
+                  class="font-light text-gray-300 group-hover:text-white transition-colors"
+                >
+                  The narrative of perpetual technological progress assumes that
+                  newer is always better. What if some technologies are already
+                  perfect, or even excessive for their purpose?
+                </p>
+              </div>
+            </div>
+
+            <div class="space-y-12">
+              <div class="group">
+                <h3 class="text-xl font-mono mb-4 text-odd-pink">
+                  # What if AI made you less capable?
+                </h3>
+                <p
+                  class="font-light text-gray-300 group-hover:text-white transition-colors"
+                >
+                  As we outsource more cognitive functions to algorithms, we may
+                  be sacrificing essential human capabilities. What if AI was
+                  designed to enhance our humanity rather than replace it?
+                </p>
+              </div>
+
+              <div class="group">
+                <h3 class="text-xl font-mono mb-4 text-odd-pink">
+                  # How much convenience is too much?
+                </h3>
+                <p
+                  class="font-light text-gray-300 group-hover:text-white transition-colors"
+                >
+                  Every friction removed from daily life also removes an
+                  opportunity for agency, skill development, and meaningful
+                  engagement. What if difficulty is sometimes desirable?
+                </p>
+              </div>
+
+              <div class="group">
+                <h3 class="text-xl font-mono mb-4 text-odd-pink">
+                  # Can an interface make you uncomfortable on purpose?
+                </h3>
+                <p
+                  class="font-light text-gray-300 group-hover:text-white transition-colors"
+                >
+                  User-friendly design aims to make interactions seamless and
+                  intuitive. But what if provoking discomfort, reflection, and
+                  pause were valuable design goals for a more thoughtful digital
+                  world?
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About section that is deliberately not about the creators in a traditional sense -->
+    <section id="about" class="py-20 relative overflow-hidden">
+      <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+          <div class="mb-16">
+            <h5 class="text-sm font-mono text-gray-400 mb-3">04. Not About</h5>
+            <h2 class="text-4xl md:text-5xl font-light mb-6">
+              This is not about
+              <span class="text-uneasy-green">you</span>
+            </h2>
+            <p class="text-xl">
+              It's about the space between design and critical thinking.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+            <div class="md:col-span-5 relative">
+              <div
+                id="portrait-container"
+                class="aspect-square bg-gray-100 relative overflow-hidden cursor-pointer"
+              >
+                <!-- Default placeholder state -->
+                <div
+                  id="placeholder-image"
+                  class="absolute inset-0 bg-[url('/api/placeholder/500/500')] bg-cover bg-center grayscale"
+                ></div>
+                <div
+                  class="absolute inset-0 bg-uneasy-green mix-blend-multiply opacity-20"
+                ></div>
+
+                <!-- Webcam video (hidden by default) -->
+                <video
+                  id="webcam-feed"
+                  class="absolute inset-0 w-full h-full object-cover hidden grayscale"
+                  autoplay
+                  playsinline
+                ></video>
+
+                <!-- Deliberately off-center frame -->
+                <div
+                  class="absolute inset-4 border border-uneasy-green opacity-60"
+                ></div>
+              </div>
+
+              <!-- Deliberately asymmetrical caption -->
+              <div
+                id="portrait-caption"
+                class="absolute -bottom-6 right-6 p-4 bg-white shadow-lg cursor-pointer"
+              >
+                <p class="font-mono text-xs text-unsettling-gray">
+                  Not a portrait of you
+                </p>
+              </div>
+            </div>
+
+            <div class="md:col-span-7">
+              <div class="space-y-6">
+                <p class="text-lg">
+                  Critical Design uses design proposals to challenge assumptions
+                  and preconceptions about the role objects play in everyday
+                  life. It's more of a position than a method.
+                </p>
+
+                <p>
+                  By creating these provocative, conceptual designs that
+                  challenge the status quo, we can reveal potentially hidden
+                  agendas and values within emerging technologies and open up
+                  space for public debate.
+                </p>
+
+                <p class="font-mono text-sm">
+                  Don't create solutions. Create alternatives that ask
+                  questions.
+                </p>
+
+                <div class="pt-6">
+                  <div class="inline-block relative">
+                    <a
+                      href="#"
+                      class="inline-block border border-unsettling-gray py-3 px-6 font-mono text-sm hover:bg-uneasy-green hover:border-uneasy-green hover:text-white transition-all duration-500"
+                    >
+                      Not a button to learn more
+                    </a>
+                    <div
+                      class="absolute -bottom-2 -right-2 w-full h-full border border-unsettling-gray"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              const portraitContainer =
+                document.getElementById("portrait-container");
+              const portraitCaption =
+                document.getElementById("portrait-caption");
+              const placeholderImage =
+                document.getElementById("placeholder-image");
+              const webcamFeed = document.getElementById("webcam-feed");
+
+              let isWebcamActive = false;
+
+              // Function to handle the webcam activation
+              function toggleWebcam() {
+                if (isWebcamActive) {
+                  // If webcam is active, stop it and show placeholder
+                  stopWebcam();
+                  return;
+                }
+
+                // Request webcam access
+                if (
+                  navigator.mediaDevices &&
+                  navigator.mediaDevices.getUserMedia
+                ) {
+                  navigator.mediaDevices
+                    .getUserMedia({ video: true })
+                    .then(function (stream) {
+                      // On success, show the webcam feed
+                      webcamFeed.srcObject = stream;
+                      webcamFeed.classList.remove("hidden");
+                      placeholderImage.classList.add("hidden");
+                      isWebcamActive = true;
+
+                      // Change the caption to something more unsettling
+                      portraitCaption.querySelector("p").textContent =
+                        "Not a portrait of someone else";
+                    })
+                    .catch(function (error) {
+                      // On error (e.g., user denied permission), display a message
+                      console.error("Couldn't access webcam: ", error);
+
+                      // Change the caption to acknowledge the denial
+                      portraitCaption.querySelector("p").textContent =
+                        "Not a portrait you allowed";
+                    });
+                } else {
+                  portraitCaption.querySelector("p").textContent =
+                    "Not a compatible browser";
+                }
+              }
+
+              // Function to stop the webcam
+              function stopWebcam() {
+                if (webcamFeed.srcObject) {
+                  const tracks = webcamFeed.srcObject.getTracks();
+                  tracks.forEach((track) => track.stop());
+                  webcamFeed.srcObject = null;
+                }
+
+                webcamFeed.classList.add("hidden");
+                placeholderImage.classList.remove("hidden");
+                isWebcamActive = false;
+                portraitCaption.querySelector("p").textContent =
+                  "Not a portrait of you";
+              }
+
+              // Add click event listeners
+              portraitContainer.addEventListener("click", toggleWebcam);
+              portraitCaption.addEventListener("click", toggleWebcam);
+
+              // Apply unsettling effects to the webcam feed periodically
+              setInterval(function () {
+                if (isWebcamActive) {
+                  // Random subtle effects
+                  const effects = [
+                    "grayscale(1) contrast(1.1)",
+                    "grayscale(1) contrast(0.9)",
+                    "grayscale(1) sepia(0.2)",
+                    "grayscale(1) hue-rotate(5deg)",
+                    "grayscale(1) brightness(1.05)",
+                    "grayscale(1) brightness(0.95)",
+                  ];
+
+                  const randomEffect =
+                    effects[Math.floor(Math.random() * effects.length)];
+                  webcamFeed.style.filter = randomEffect;
+                }
+              }, 5000); // Change effect every 5 seconds
+
+              // Cleanup: make sure to stop the webcam when navigating away
+              window.addEventListener("beforeunload", stopWebcam);
+            });
+          </script>
+        </div>
+      </div>
+    </section>
+
+    <!-- "Not a Contact" Section with deliberately challenging form interactions -->
+    <section
+      class="py-20 bg-strange-blue bg-opacity-5 relative overflow-hidden"
+    >
+      <!-- Deliberately uncomfortable decorative elements -->
+      <div class="absolute inset-0 opacity-10">
+        <div class="w-full h-full grid grid-cols-2 grid-rows-2">
+          <div class="border border-odd-pink"></div>
+          <div class="border border-awkward-yellow"></div>
+          <div class="border border-uneasy-green"></div>
+          <div class="border border-strange-blue"></div>
+        </div>
+      </div>
+
+      <div class="container mx-auto px-6 relative z-10 hidden">
+        <div class="max-w-4xl mx-auto">
+          <div class="mb-16">
+            <h5 class="text-sm font-mono text-gray-400 mb-3">
+              05. Not a Contact
+            </h5>
+            <h2 class="text-4xl md:text-5xl font-light mb-6">
+              This is not where you
+              <span class="text-odd-pink">reach out.</span>
+            </h2>
+            <p class="text-xl">
+              It's where you question your desire to connect.
+            </p>
+          </div>
+
+          <!-- Deliberately challenging contact form -->
+          <div
+            class="bg-white border border-unsettling-gray p-8 md:p-12 relative"
+          >
+            <!-- Deliberately asymmetrical decorative elements -->
+            <div
+              class="absolute -top-4 -left-4 w-12 h-12 bg-awkward-yellow"
+            ></div>
+            <div
+              class="absolute -bottom-4 -right-4 w-12 h-12 border-2 border-odd-pink"
+            ></div>
+
+            <form class="space-y-8">
+              <div>
+                <label for="not-a-name" class="block font-mono text-sm mb-2"
+                  >Not Your Name</label
+                >
+                <!-- Input that reverses text as you type it -->
+                <input
+                  type="text"
+                  id="not-a-name"
+                  class="w-full bg-white border-b-2 border-unsettling-gray py-3 focus:outline-none focus:border-odd-pink"
+                  placeholder="What identity do you perform online?"
+                />
+              </div>
+
+              <div>
+                <label for="not-an-email" class="block font-mono text-sm mb-2"
+                  >Not Your Email</label
+                >
+                <!-- Input that deliberately creates friction -->
+                <div class="flex gap-2 items-center">
+                  <input
+                    type="text"
+                    id="not-an-email"
+                    class="w-full bg-white border-b-2 border-unsettling-gray py-3 focus:outline-none focus:border-odd-pink"
+                    placeholder="How comfortable are you sharing this?"
+                  />
+                  <div
+                    class="w-6 h-6 flex-shrink-0 border border-unsettling-gray flex items-center justify-center cursor-help group relative"
+                  >
+                    <span class="text-xs">?</span>
+                    <div
+                      class="absolute bottom-full mb-2 right-0 w-48 p-3 bg-white shadow-lg text-xs opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+                    >
+                      Your email will be stored alongside analytics about how
+                      long you hesitated before typing it.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label for="not-a-message" class="block font-mono text-sm mb-2"
+                  >Not Your Message</label
+                >
+                <!-- Textarea that loses characters randomly as you type -->
+                <textarea
+                  id="not-a-message"
+                  rows="4"
+                  class="w-full bg-white border-b-2 border-unsettling-gray py-3 focus:outline-none focus:border-odd-pink"
+                  placeholder="What would you say if each word was publicly visible?"
+                ></textarea>
+              </div>
+
+              <div class="flex justify-between items-center">
+                <button
+                  type="submit"
+                  class="py-3 px-6 bg-unsettling-gray text-white font-mono text-sm hover:bg-odd-pink transition-colors"
+                >
+                  Submit to Surveillance
+                </button>
+
+                <button
+                  type="button"
+                  class="text-sm font-mono text-gray-400 hover:text-odd-pink transition-colors"
+                >
+                  Refuse to Participate
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Conceptual Footer -->
+    <footer
+      class="py-16 bg-unsettling-gray text-white relative overflow-hidden"
+    >
+      <!-- Deliberately jarring grid overlay -->
+      <div class="absolute inset-0 opacity-10">
+        <div class="w-full h-full grid grid-cols-5 grid-rows-5">
+          <div class="col-span-2 row-span-2 border border-white"></div>
+          <div class="col-span-1 row-span-3 border border-white"></div>
+          <div class="col-span-2 row-span-1 border border-white"></div>
+        </div>
+      </div>
+
+      <div class="container mx-auto px-6 relative z-10">
+        <div class="max-w-5xl mx-auto">
+          <div class="flex flex-col md:flex-row justify-between gap-12 mb-12">
+            <div>
+              <div class="flex items-center gap-4 mb-6">
+                <div class="w-4 h-4 bg-odd-pink rounded-full"></div>
+                <span class="font-mono">NOT-HERE</span>
+              </div>
+              <p class="text-sm text-gray-400 max-w-md">
+                This is not a footer. It's a critical examination of how we
+                terminate digital experiences with information that nobody
+                reads.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-x-12 gap-y-8">
+              <!-- Deliberately obfuscated contact information -->
+              <div>
+                <h3 class="font-mono text-sm mb-4 text-gray-400">
+                  Not an Address
+                </h3>
+                <p class="font-light">
+                  404 Existential Avenue<br />
+                  Accessible only by<br />questioning
+                </p>
+              </div>
+
+              <!-- Deliberately challenging social links -->
+              <div>
+                <h3 class="font-mono text-sm mb-4 text-gray-400">Not Social</h3>
+                <ul class="space-y-3">
+                  <li>
+                    <a
+                      href="#"
+                      class="hover:text-odd-pink transition-colors hover-reveal-text"
+                      >Anti-Twitter <span>[surveillance platform]</span></a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="hover:text-odd-pink transition-colors hover-reveal-text"
+                      >Counter-Instagram <span>[identity performance]</span></a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="hover:text-odd-pink transition-colors hover-reveal-text"
+                      >Un-LinkedIn <span>[capitalism enabler]</span></a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Deliberately disorienting copyright section -->
+          <div class="border-t border-gray-800 pt-8 text-center">
+            <p class="font-mono text-md text-gray-500">
+              <span class="rotate-180 text-lg">©</span> Copyleft 1989 - 2999.
+              Intellectual property is a social construct that privatizes
+              knowledge that should be free.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Deliberately intrusive cookie notice that questions surveillance capitalism -->
+    <div
+      class="fixed bottom-0 left-0 right-0 bg-white border-t border-unsettling-gray p-4 md:p-6 z-50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
+    >
+      <div>
+        <p class="font-mono text-sm">
+          This site <span class="text-odd-pink">does</span> use cookies, but
+          unlike other sites, we want you to feel uncomfortable about it.
+        </p>
+        <p class="text-xs text-gray-500 mt-2">
+          Each click, hover, and scroll is being analyzed to better understand
+          how humans interact with deliberately challenging interfaces.
+        </p>
+      </div>
+      <div class="flex gap-4">
+        <button
+          onclick="this.remove()"
+          class="py-2 px-4 bg-unsettling-gray text-white font-mono text-sm"
+        >
+          Accept Surveillance
+        </button>
+        <button
+          onclick="return this.parentNode.parentNode.remove();"
+          class="py-2 px-4 border border-unsettling-gray font-mono text-sm"
+        >
+          Reject (But We Still Track You)
+        </button>
+      </div>
+    </div>
+
+    <!-- Deliberately uncomfortable cursor follower -->
+    <div
+      class="fixed w-8 h-8 pointer-events-none opacity-30 z-50 -ml-4 -mt-4 mix-blend-difference"
+      style="display: none"
+      id="cursor-follower"
+    >
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="16" cy="16" r="15" stroke="white" stroke-width="2" />
+        <text x="16" y="17" text-anchor="middle" fill="white" font-size="8">
+          YOU
+        </text>
+      </svg>
+    </div>
+
+    <!-- Simple script to animate cursor follower -->
+    <script>
+      // Deliberately uncomfortable cursor experience
+      const cursorFollower = document.getElementById("cursor-follower");
+
+      document.addEventListener("mousemove", (e) => {
+        if (cursorFollower.style.display === "none") {
+          cursorFollower.style.display = "block";
+        }
+
+        // Deliberately create a slight delay for discomfort
+        setTimeout(() => {
+          cursorFollower.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+        }, 100);
+      });
+
+      // Make elements with appear class visible on scroll
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("appear");
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+        }
+      );
+
+      document.querySelectorAll(".staggered-appear > *").forEach((el) => {
+        observer.observe(el);
+      });
+
+      // Not a real analytics script, but a commentary on surveillance
+      console.log(
+        "This is not analytics. It's a critical examination of how we've normalized digital surveillance."
+      );
+    </script>
+  </body>
+</html>

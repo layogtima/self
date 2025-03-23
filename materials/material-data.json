@@ -1,0 +1,732 @@
+{
+    "categories": [
+      {
+        "id": "natural",
+        "name": "Natural Materials",
+        "description": "Materials found in nature that can be used with minimal processing",
+        "icon": "leaf"
+      },
+      {
+        "id": "synthetic",
+        "name": "Synthetic Materials",
+        "description": "Human-made materials created through chemical processes",
+        "icon": "flask"
+      },
+      {
+        "id": "composite",
+        "name": "Composite Materials",
+        "description": "Materials made from two or more constituent materials",
+        "icon": "layers"
+      },
+      {
+        "id": "metals",
+        "name": "Metals & Alloys",
+        "description": "Pure metals and combinations of metals with specific properties",
+        "icon": "cylinder"
+      },
+      {
+        "id": "ceramics",
+        "name": "Ceramics & Glass",
+        "description": "Inorganic, non-metallic solids prepared by the action of heat",
+        "icon": "activity"
+      },
+      {
+        "id": "polymers",
+        "name": "Polymers & Plastics",
+        "description": "Large molecules composed of many repeated subunits",
+        "icon": "repeat"
+      }
+    ],
+    "materials": [
+      {
+        "id": "concrete",
+        "name": "Concrete",
+        "category": "composite",
+        "yearDiscovered": "Ancient Rome (~200 BCE)",
+        "annualProduction": "30 billion tons",
+        "rank": 1,
+        "description": "A composite material composed of fine and coarse aggregate bonded together with a fluid cement that hardens over time.",
+        "composition": "Portland cement, water, sand, and gravel or crushed stone",
+        "properties": {
+          "density": "2,400 kg/m³",
+          "compressiveStrength": "20-40 MPa",
+          "thermalConductivity": "1.7 W/(m·K)",
+          "sustainability": 3,
+          "recyclability": 4,
+          "cost": 2
+        },
+        "applications": [
+          "Building foundations",
+          "Structural support",
+          "Roads and bridges",
+          "Dams and water control structures",
+          "Decorative elements"
+        ],
+        "advantages": [
+          "Incredible compressive strength",
+          "Versatility and formability",
+          "Fire and weather resistance",
+          "Low maintenance",
+          "Relatively low cost"
+        ],
+        "disadvantages": [
+          "Poor tensile strength",
+          "Carbon intensive production",
+          "Heavy and not easily transported",
+          "Prone to cracking over time",
+          "Difficult to modify once set"
+        ],
+        "funFacts": [
+          "The Romans used volcanic ash to make concrete that has lasted for over 2,000 years",
+          "Concrete is the most widely used material in existence — almost twice as much concrete is used in construction around the world than all other building materials combined",
+          "The world's largest concrete structure is the Three Gorges Dam in China, which used 27.2 million cubic meters of concrete"
+        ],
+        "color": "#C2C2C2",
+        "image": "concrete.jpg"
+      },
+      {
+        "id": "steel",
+        "name": "Steel",
+        "category": "metals",
+        "yearDiscovered": "~1800s (modern form)",
+        "annualProduction": "1.8 billion tons",
+        "rank": 2,
+        "description": "An alloy of iron and carbon, and sometimes other elements like chromium, nickel, manganese, and more.",
+        "composition": "Iron (98-99%), Carbon (0.2-2.0%), and trace elements",
+        "properties": {
+          "density": "7,850 kg/m³",
+          "tensileStrength": "400-2000 MPa",
+          "thermalConductivity": "50.2 W/(m·K)",
+          "sustainability": 5,
+          "recyclability": 8,
+          "cost": 3
+        },
+        "applications": [
+          "Construction of buildings and infrastructure",
+          "Automotive industry",
+          "Machinery and tools",
+          "Shipbuilding",
+          "Home appliances"
+        ],
+        "advantages": [
+          "High strength-to-weight ratio",
+          "Durability and resistance to wear",
+          "Versatility in applications",
+          "Fully recyclable",
+          "Can be alloyed for specific properties"
+        ],
+        "disadvantages": [
+          "Susceptible to corrosion",
+          "High carbon footprint in production",
+          "Heavy compared to some alternatives",
+          "Conducts heat and electricity (not always desirable)",
+          "Requires energy-intensive recycling"
+        ],
+        "funFacts": [
+          "About 90% of all steel is recycled, making it the most recycled material on the planet",
+          "The Eiffel Tower's weight would be three times greater if it were built with iron instead of steel",
+          "Steel production accounts for about 8% of global CO2 emissions"
+        ],
+        "color": "#71797E",
+        "image": "steel.jpg"
+      },
+      {
+        "id": "aluminum",
+        "name": "Aluminum",
+        "category": "metals",
+        "yearDiscovered": "1825",
+        "annualProduction": "64 million tons",
+        "rank": 3,
+        "description": "A silvery-white, soft, non-magnetic, and ductile metal. Most abundant metallic element in Earth's crust.",
+        "composition": "Pure aluminum (Element Al)",
+        "properties": {
+          "density": "2,700 kg/m³",
+          "tensileStrength": "90-700 MPa",
+          "thermalConductivity": "237 W/(m·K)",
+          "sustainability": 5,
+          "recyclability": 9,
+          "cost": 4
+        },
+        "applications": [
+          "Transportation (aircraft, automobiles)",
+          "Packaging (cans, foil)",
+          "Construction (windows, doors)",
+          "Electronics",
+          "Consumer goods"
+        ],
+        "advantages": [
+          "Lightweight but strong",
+          "Excellent corrosion resistance",
+          "High thermal and electrical conductivity",
+          "Non-toxic and non-magnetic",
+          "Indefinitely recyclable without loss of quality"
+        ],
+        "disadvantages": [
+          "High energy required for initial production",
+          "Lower strength compared to steel",
+          "Difficult to weld",
+          "Prone to galvanic corrosion",
+          "Can be expensive compared to some alternatives"
+        ],
+        "funFacts": [
+          "Aluminum was once more valuable than gold - Napoleon III served state dinners with aluminum cutlery for special guests",
+          "The energy required to produce new aluminum from ore is 95% more than recycling existing aluminum",
+          "The world's largest aluminum structure is the dome of the Haydar Aliyev Center in Baku, Azerbaijan"
+        ],
+        "color": "#D3D3D3",
+        "image": "aluminum.jpg"
+      },
+      {
+        "id": "plastic",
+        "name": "Plastic (General)",
+        "category": "polymers",
+        "yearDiscovered": "1907 (Bakelite, first synthetic)",
+        "annualProduction": "380 million tons",
+        "rank": 4,
+        "description": "A wide range of synthetic or semi-synthetic materials that use polymers as a main ingredient.",
+        "composition": "Various polymers derived mainly from petrochemicals",
+        "properties": {
+          "density": "900-2,200 kg/m³",
+          "tensileStrength": "10-100 MPa",
+          "thermalConductivity": "0.1-0.5 W/(m·K)",
+          "sustainability": 2,
+          "recyclability": 3,
+          "cost": 2
+        },
+        "applications": [
+          "Packaging",
+          "Building and construction",
+          "Textiles",
+          "Consumer products",
+          "Transportation"
+        ],
+        "advantages": [
+          "Versatile and adaptable",
+          "Lightweight",
+          "Water resistant",
+          "Low cost production",
+          "Durable and strong for its weight"
+        ],
+        "disadvantages": [
+          "Environmental persistence and pollution",
+          "Mostly derived from non-renewable resources",
+          "Low recycling rates globally",
+          "Microplastic contamination",
+          "Some types release toxic chemicals"
+        ],
+        "funFacts": [
+          "About 8.3 billion tons of plastic has been produced since the 1950s, with only 9% recycled",
+          "The word 'plastic' originates from the Greek word 'plastikos', meaning 'fit for molding'",
+          "The Great Pacific Garbage Patch, a collection of marine debris in the North Pacific Ocean, is largely composed of microplastics"
+        ],
+        "color": "#F4F5F0",
+        "image": "plastic.jpg"
+      },
+      {
+        "id": "wood",
+        "name": "Wood",
+        "category": "natural",
+        "yearDiscovered": "Prehistoric",
+        "annualProduction": "3.8 billion cubic meters",
+        "rank": 5,
+        "description": "A porous and fibrous structural tissue found in the stems and roots of trees and other woody plants.",
+        "composition": "Cellulose (40-50%), Hemicellulose (20-30%), Lignin (20-30%), Extractives (5-10%)",
+        "properties": {
+          "density": "300-850 kg/m³",
+          "tensileStrength": "5-130 MPa",
+          "thermalConductivity": "0.1-0.4 W/(m·K)",
+          "sustainability": 8,
+          "recyclability": 7,
+          "cost": 3
+        },
+        "applications": [
+          "Construction and architecture",
+          "Furniture and cabinetry",
+          "Paper and pulp products",
+          "Fuel and energy",
+          "Art and crafts"
+        ],
+        "advantages": [
+          "Renewable resource if responsibly managed",
+          "Good strength-to-weight ratio",
+          "Natural insulator for heat and sound",
+          "Biodegradable and carbon-neutral",
+          "Aesthetically pleasing and versatile"
+        ],
+        "disadvantages": [
+          "Susceptible to rot, insects, and fire",
+          "Dimensional instability with moisture changes",
+          "Quality variations and imperfections",
+          "Deforestation concerns with irresponsible harvesting",
+          "Limited span capabilities compared to steel"
+        ],
+        "funFacts": [
+          "The world's oldest wooden structure is the Horyu-ji Temple in Japan, built in 607 CE",
+          "Balsa wood has a density of just 170 kg/m³, making it lighter than cork",
+          "The bristlecone pine can live for over 5,000 years, making it the oldest living wood on Earth"
+        ],
+        "color": "#A67D5D",
+        "image": "wood.jpg"
+      },
+      {
+        "id": "glass",
+        "name": "Glass",
+        "category": "ceramics",
+        "yearDiscovered": "~3500 BCE",
+        "annualProduction": "280 million tons",
+        "rank": 6,
+        "description": "An amorphous solid that exhibits a glass transition when heated towards the liquid state.",
+        "composition": "Silica (SiO₂), soda (Na₂O), lime (CaO), and various additives",
+        "properties": {
+          "density": "2,500 kg/m³",
+          "tensileStrength": "30-100 MPa",
+          "thermalConductivity": "1.0 W/(m·K)",
+          "sustainability": 6,
+          "recyclability": 9,
+          "cost": 3
+        },
+        "applications": [
+          "Windows and architectural elements",
+          "Containers and packaging",
+          "Optics and lenses",
+          "Electronics and displays",
+          "Art and decoration"
+        ],
+        "advantages": [
+          "Transparency to visible light",
+          "Chemical resistance",
+          "Infinitely recyclable without loss of quality",
+          "Impermeable to gases and liquids",
+          "Hard, scratch-resistant surface"
+        ],
+        "disadvantages": [
+          "Brittle and easily shattered",
+          "Energy-intensive production",
+          "Heavy weight",
+          "Poor thermal insulator",
+          "Dangerous when broken"
+        ],
+        "funFacts": [
+          "Glass is technically a liquid that flows extremely slowly - it's estimated to take over 10 million years for window glass to flow noticeably",
+          "The formula for making glass hasn't changed significantly in over 5,000 years",
+          "Gorilla Glass, used in smartphones, can withstand over 100,000 pounds of pressure per square inch"
+        ],
+        "color": "#E8F3F5",
+        "image": "glass.jpg"
+      },
+      {
+        "id": "ceramic",
+        "name": "Ceramics",
+        "category": "ceramics",
+        "yearDiscovered": "~26,000 BCE (fired clay)",
+        "annualProduction": "400 million tons",
+        "rank": 7,
+        "description": "Inorganic, non-metallic solids made up of compounds like oxides, carbides, and nitrides, formed by the action of heat.",
+        "composition": "Clay, silica, feldspar, and various metal oxides",
+        "properties": {
+          "density": "2,000-5,000 kg/m³",
+          "compressiveStrength": "100-1000 MPa",
+          "thermalConductivity": "2-50 W/(m·K)",
+          "sustainability": 7,
+          "recyclability": 3,
+          "cost": 4
+        },
+        "applications": [
+          "Building materials (tiles, bricks)",
+          "Tableware and sanitaryware",
+          "Electronics and semiconductors",
+          "Medical implants",
+          "Aerospace and defense"
+        ],
+        "advantages": [
+          "Excellent heat resistance",
+          "Chemical inertness",
+          "High hardness and wear resistance",
+          "Electrical insulation properties",
+          "Longevity and durability"
+        ],
+        "disadvantages": [
+          "Brittle and prone to cracking",
+          "Difficult to machine and fabricate",
+          "Limited tensile strength",
+          "Energy-intensive production",
+          "Difficult to recycle"
+        ],
+        "funFacts": [
+          "The oldest known ceramic artifacts are figurines found in what is now the Czech Republic, dating back to 29,000-25,000 BCE",
+          "Modern ceramic materials can withstand temperatures exceeding 2000°C",
+          "Some advanced ceramics used in body armor can stop bullets better than steel at a fraction of the weight"
+        ],
+        "color": "#E0D5C9",
+        "image": "ceramic.jpg"
+      },
+      {
+        "id": "carbon-fiber",
+        "name": "Carbon Fiber",
+        "category": "composite",
+        "yearDiscovered": "1860s (modern form 1960s)",
+        "annualProduction": "150,000 tons",
+        "rank": 8,
+        "description": "A composite material consisting of microscopic carbon filaments woven together and typically set in resin.",
+        "composition": "Carbon fibers (93-95% carbon) embedded in polymer matrix (epoxy)",
+        "properties": {
+          "density": "1,600 kg/m³",
+          "tensileStrength": "3,500-7,000 MPa",
+          "thermalConductivity": "5-7 W/(m·K)",
+          "sustainability": 3,
+          "recyclability": 2,
+          "cost": 9
+        },
+        "applications": [
+          "Aerospace components",
+          "Sporting goods (bicycles, tennis rackets)",
+          "Automotive parts",
+          "Marine equipment",
+          "Civil engineering reinforcement"
+        ],
+        "advantages": [
+          "Extremely high strength-to-weight ratio",
+          "Excellent fatigue resistance",
+          "Low thermal expansion",
+          "High tensile strength",
+          "Corrosion resistance"
+        ],
+        "disadvantages": [
+          "Very expensive",
+          "Energy-intensive production",
+          "Difficult to recycle",
+          "Poor compression strength",
+          "Vulnerable to impact damage"
+        ],
+        "funFacts": [
+          "Carbon fiber is five times stronger than steel but weighs two-thirds less",
+          "A strand of carbon fiber is thinner than a human hair (5-10 micrometers)",
+          "The Boeing 787 Dreamliner is constructed of 50% carbon fiber composite materials"
+        ],
+        "color": "#000000",
+        "image": "carbon-fiber.jpg"
+      },
+      {
+        "id": "silicon",
+        "name": "Silicon",
+        "category": "metals",
+        "yearDiscovered": "1824",
+        "annualProduction": "8 million tons",
+        "rank": 9,
+        "description": "A hard, brittle crystalline solid with a blue-grey metallic luster, primarily used in semiconductors.",
+        "composition": "Pure silicon (Element Si)",
+        "properties": {
+          "density": "2,330 kg/m³",
+          "tensileStrength": "120-160 MPa",
+          "thermalConductivity": "149 W/(m·K)",
+          "sustainability": 6,
+          "recyclability": 5,
+          "cost": 6
+        },
+        "applications": [
+          "Semiconductors and microchips",
+          "Solar cells",
+          "Silicones (e.g., sealants, lubricants)",
+          "Alloys (esp. with aluminum)",
+          "Refractory materials"
+        ],
+        "advantages": [
+          "Semiconductor properties",
+          "Abundant in Earth's crust",
+          "Stable at high temperatures",
+          "Good electrical properties",
+          "Can be precisely doped with impurities"
+        ],
+        "disadvantages": [
+          "Brittle in pure form",
+          "Energy-intensive purification",
+          "Toxic in manufacturing processes",
+          "Limited flexibility",
+          "Sensitivity to light (in semiconductor applications)"
+        ],
+        "funFacts": [
+          "Silicon makes up nearly 28% of the Earth's crust by weight, making it the second most abundant element after oxygen",
+          "Purified silicon for computer chips is 99.9999999% pure - among the purest materials ever made",
+          "The entire digital revolution and information age is built on silicon-based technology"
+        ],
+        "color": "#737980",
+        "image": "silicon.jpg"
+      },
+      {
+        "id": "titanium",
+        "name": "Titanium",
+        "category": "metals",
+        "yearDiscovered": "1791 (isolated in 1910)",
+        "annualProduction": "230,000 tons",
+        "rank": 10,
+        "description": "A lustrous transition metal with low density, high strength, and excellent corrosion resistance.",
+        "composition": "Pure titanium (Element Ti) or titanium alloys",
+        "properties": {
+          "density": "4,500 kg/m³",
+          "tensileStrength": "434-1,172 MPa",
+          "thermalConductivity": "21.9 W/(m·K)",
+          "sustainability": 7,
+          "recyclability": 8,
+          "cost": 8
+        },
+        "applications": [
+          "Aerospace components",
+          "Medical implants and surgical instruments",
+          "Marine equipment",
+          "Sports equipment",
+          "Architecture and art"
+        ],
+        "advantages": [
+          "Highest strength-to-density ratio of any metallic element",
+          "Exceptional corrosion resistance",
+          "Biocompatibility",
+          "Non-magnetic properties",
+          "Ability to withstand extreme temperatures"
+        ],
+        "disadvantages": [
+          "Expensive extraction and processing",
+          "Difficult to weld and machine",
+          "Limited availability",
+          "Reactive with some chemicals at high temperatures",
+          "Production requires specialized knowledge"
+        ],
+        "funFacts": [
+          "Titanium has the same strength as steel but is 45% lighter",
+          "It's named after the Titans of Greek mythology",
+          "The SR-71 Blackbird spy plane, which still holds the speed record for an air-breathing manned aircraft, was made of 85% titanium"
+        ],
+        "color": "#878681",
+        "image": "titanium.jpg"
+      },
+      {
+        "id": "cotton",
+        "name": "Cotton",
+        "category": "natural",
+        "yearDiscovered": "~5000 BCE",
+        "annualProduction": "25 million tons",
+        "rank": 11,
+        "description": "A soft, fluffy staple fiber that grows in a protective case around the seeds of cotton plants.",
+        "composition": "Cellulose (88-96%), Water (7-8%), Proteins and pectins (1-2%), Waxes (0.5-1%)",
+        "properties": {
+          "density": "1,540 kg/m³",
+          "tensileStrength": "287-597 MPa",
+          "thermalConductivity": "0.06 W/(m·K)",
+          "sustainability": 6,
+          "recyclability": 8,
+          "cost": 3
+        },
+        "applications": [
+          "Clothing and fashion",
+          "Home textiles (bedding, towels)",
+          "Medical supplies",
+          "Industrial threads and fabrics",
+          "Paper production"
+        ],
+        "advantages": [
+          "Soft and comfortable",
+          "Excellent moisture absorption",
+          "Breathable",
+          "Hypoallergenic",
+          "Biodegradable"
+        ],
+        "disadvantages": [
+          "Water-intensive cultivation",
+          "Heavy pesticide use in conventional farming",
+          "Wrinkles easily",
+          "Prone to shrinkage",
+          "Not naturally flame resistant"
+        ],
+        "funFacts": [
+          "Cotton has been cultivated for over 7,000 years",
+          "It takes about 10,000 liters of water to produce 1 kg of cotton",
+          "One bale of cotton can produce 215 pairs of jeans"
+        ],
+        "color": "#FFFFFF",
+        "image": "cotton.jpg"
+      },
+      {
+        "id": "rubber",
+        "name": "Rubber",
+        "category": "polymers",
+        "yearDiscovered": "Ancient Mesoamerica (vulcanized 1839)",
+        "annualProduction": "28 million tons",
+        "rank": 12,
+        "description": "An elastomer characterized by its ability to deform and then return to its original shape.",
+        "composition": "Natural: polyisoprene from rubber trees. Synthetic: various polymers",
+        "properties": {
+          "density": "910-1,200 kg/m³",
+          "tensileStrength": "15-25 MPa",
+          "thermalConductivity": "0.16 W/(m·K)",
+          "sustainability": 5,
+          "recyclability": 4,
+          "cost": 4
+        },
+        "applications": [
+          "Tires and automotive parts",
+          "Seals and gaskets",
+          "Footwear",
+          "Hoses and tubing",
+          "Sports equipment"
+        ],
+        "advantages": [
+          "Excellent elasticity",
+          "Waterproof properties",
+          "Good electrical insulator",
+          "Vibration damping abilities",
+          "Resistant to many chemicals"
+        ],
+        "disadvantages": [
+          "Degrades with exposure to UV, ozone, and heat",
+          "Limited temperature resistance",
+          "Can cause allergic reactions",
+          "Natural rubber requires tropical agriculture",
+          "Synthetic versions are petroleum-based"
+        ],
+        "funFacts": [
+          "Charles Goodyear discovered vulcanization (the process that makes rubber durable) by accident when he spilled rubber mixed with sulfur on a hot stove",
+          "A rubber tree can produce latex for up to 30 years",
+          "During WWII, when Japan controlled most rubber-producing regions, the US government planted millions of Russian dandelions as an alternative source of rubber"
+        ],
+        "color": "#111111",
+        "image": "rubber.jpg"
+      },
+      {
+        "id": "graphene",
+        "name": "Graphene",
+        "category": "synthetic",
+        "yearDiscovered": "2004",
+        "annualProduction": "3,800 tons",
+        "rank": 13,
+        "description": "A single layer of carbon atoms arranged in a two-dimensional honeycomb lattice, the basic structural element of graphite, carbon nanotubes, and fullerenes.",
+        "composition": "Pure carbon atoms arranged in a hexagonal pattern",
+        "properties": {
+          "density": "2,267 kg/m³",
+          "tensileStrength": "130,000 MPa",
+          "thermalConductivity": "5,000 W/(m·K)",
+          "sustainability": 7,
+          "recyclability": 5,
+          "cost": 10
+        },
+        "applications": [
+          "Electronics (transistors, sensors)",
+          "Energy storage (batteries, supercapacitors)",
+          "Composite materials",
+          "Biomedical devices",
+          "Water filtration"
+        ],
+        "advantages": [
+          "Strongest material ever tested (200 times stronger than steel)",
+          "Exceptional electrical conductivity",
+          "Highest thermal conductivity known",
+          "Completely impermeable to most gases and liquids",
+          "Transparent and flexible"
+        ],
+        "disadvantages": [
+          "Extremely expensive to produce at scale",
+          "Difficult to manufacture defect-free sheets",
+          "Challenging to integrate with existing technologies",
+          "Potential unknown health and environmental risks",
+          "Limited commercial availability"
+        ],
+        "funFacts": [
+          "Graphene is so strong that a sheet of it as thin as plastic wrap could support an elephant",
+          "A square meter of graphene weighs just 0.77 milligrams but could support 4 kilograms",
+          "The scientists who isolated graphene initially used adhesive tape to peel layers from graphite, a discovery that earned them the 2010 Nobel Prize in Physics"
+        ],
+        "color": "#333333",
+        "image": "graphene.jpg"
+      },
+      {
+        "id": "copper",
+        "name": "Copper",
+        "category": "metals",
+        "yearDiscovered": "~9000 BCE",
+        "annualProduction": "20 million tons",
+        "rank": 14,
+        "description": "A soft, malleable, and ductile metal with very high thermal and electrical conductivity.",
+        "composition": "Pure copper (Element Cu) or copper alloys",
+        "properties": {
+          "density": "8,960 kg/m³",
+          "tensileStrength": "220-400 MPa",
+          "thermalConductivity": "401 W/(m·K)",
+          "sustainability": 6,
+          "recyclability": 8,
+          "cost": 5
+        },
+        "applications": [
+          "Electrical wiring and electronics",
+          "Plumbing and heating systems",
+          "Construction (roofing, guttering)",
+          "Coinage and jewelry",
+          "Antimicrobial surfaces"
+        ],
+        "advantages": [
+          "Excellent electrical conductivity",
+          "Superior thermal conductivity",
+          "Corrosion resistance",
+          "Natural antimicrobial properties",
+          "Easily recycled without loss of properties"
+        ],
+        "disadvantages": [
+          "Relatively heavy weight",
+          "Can develop toxic patina (verdigris)",
+          "Susceptible to galvanic corrosion",
+          "Limited natural resources",
+          "Price volatility"
+        ],
+        "funFacts": [
+          "Copper was the first metal manipulated by humans, and is one of the few metals that can occur in a directly usable metallic form (native copper)",
+          "The Statue of Liberty contains 179,000 pounds (81,193 kg) of copper",
+          "Copper has natural antimicrobial properties - bacteria and viruses die within hours of contact with copper surfaces"
+        ],
+        "color": "#B87333",
+        "image": "copper.jpg"
+      },
+      {
+        "id": "gold",
+        "name": "Gold",
+        "category": "metals",
+        "yearDiscovered": "~4000 BCE",
+        "annualProduction": "3,000 tons",
+        "rank": 15,
+        "description": "A bright, slightly reddish yellow, dense, soft, malleable, and ductile metal that does not oxidize in air or water.",
+        "composition": "Pure gold (Element Au)",
+        "properties": {
+          "density": "19,300 kg/m³",
+          "tensileStrength": "120 MPa",
+          "thermalConductivity": "318 W/(m·K)",
+          "sustainability": 5,
+          "recyclability": 9,
+          "cost": 10
+        },
+        "applications": [
+          "Jewelry and decorative items",
+          "Electronics and computing",
+          "Dentistry",
+          "Aerospace and radiation shielding",
+          "Currency and investment"
+        ],
+        "advantages": [
+          "Exceptional corrosion resistance",
+          "Excellent electrical conductivity",
+          "Highly malleable and ductile",
+          "Non-allergenic and biocompatible",
+          "Stable store of value"
+        ],
+        "disadvantages": [
+          "Extremely expensive",
+          "Soft and easily damaged in pure form",
+          "Heavy weight",
+          "Environmental impact of mining",
+          "Limited practical industrial uses relative to cost"
+        ],
+        "funFacts": [
+          "All the gold ever mined in human history would fit in a cube just 21 meters on each side",
+          "One ounce of gold can be hammered into a sheet covering 300 square feet",
+          "Nearly all the gold in Earth's mantle and core sank toward the center during planet formation - the gold we mine was likely delivered by asteroid impacts after Earth's crust had solidified"
+        ],
+        "color": "#FFD700",
+        "image": "gold.jpg"
+      }
+    ]
+  }

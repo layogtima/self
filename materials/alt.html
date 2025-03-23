@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MATERIAL | Studies</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ["Space Mono", "monospace"],
+            },
+            colors: {
+              primary: "#000000",
+              secondary: "#ffffff",
+            },
+            animation: {
+              marquee: "marquee 30s linear infinite",
+              "fade-in": "fadeIn 0.5s ease-out",
+            },
+            keyframes: {
+              marquee: {
+                "0%": { transform: "translateX(100%)" },
+                "100%": { transform: "translateX(-100%)" },
+              },
+              fadeIn: {
+                "0%": { opacity: "0" },
+                "100%": { opacity: "1" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Space Mono Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="style.css" rel="stylesheet" />
+
+    <!-- Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+
+  <body class="bg-white text-black font-mono min-h-screen flex flex-col">
+    <!-- Vue App Container -->
+    <div id="app">
+      <!-- Loading State -->
+      <div
+        v-if="loading"
+        class="fixed inset-0 bg-white flex items-center justify-center z-50"
+      >
+        <div class="flex flex-col items-center">
+          <div
+            class="w-6 h-6 border-2 border-black border-t-transparent rounded-full animate-spin mb-4"
+          ></div>
+          <p class="text-xs uppercase tracking-widest">{{ loadingMessage }}</p>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav
+        class="fixed w-full px-4 py-3 flex justify-between items-center z-40 bg-white border-b border-black"
+      >
+        <a href="#" class="text-xl font-bold tracking-tighter">
+          M<span class="text-xs align-text-top">ATERIAL</span>
+        </a>
+        <div class="flex gap-6">
+          <button
+            @click="setActiveCategory('all')"
+            class="text-sm"
+            :class="{ 'underline decoration-4 underline-offset-8': activeCategory === 'all' }"
+          >
+            ALL
+          </button>
+          <button
+            v-for="category in categories"
+            :key="category.id"
+            @click="setActiveCategory(category.id)"
+            class="text-sm hidden md:block"
+            :class="{ 'underline decoration-4 underline-offset-8': activeCategory === category.id }"
+          >
+            {{ category.name.toUpperCase() }}
+          </button>
+          <button @click="toggleCategoryMenu" class="md:hidden">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="w-5 h-5"
+            >
+              <line x1="4" y1="12" x2="20" y2="12"></line>
+              <line x1="4" y1="6" x2="20" y2="6"></line>
+              <line x1="4" y1="18" x2="20" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Mobile Category Menu -->
+      <div
+        v-if="showCategoryMenu"
+        class="fixed top-16 left-0 right-0 bg-white border-b border-black z-30 md:hidden animate-fade-in"
+      >
+        <div class="p-4 flex flex-col space-y-4">
+          <button
+            v-for="category in categories"
+            :key="category.id"
+            @click="selectMobileCategory(category.id)"
+            class="text-sm py-2"
+            :class="{ 'font-bold': activeCategory === category.id }"
+          >
+            {{ category.name.toUpperCase() }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Hero Section -->
+      <header
+        class="h-screen flex flex-col justify-center items-center pt-16 relative overflow-hidden"
+      >
+        <div
+          class="absolute inset-0 flex items-center justify-center opacity-5"
+        >
+          <div class="w-full h-full">
+            <div
+              class="w-96 h-96 rounded-full border-8 border-black absolute -right-12 -top-12"
+            ></div>
+            <div
+              class="w-64 h-64 rounded-full border-8 border-black absolute left-20 bottom-20"
+            ></div>
+            <div class="w-32 h-32 bg-black absolute left-48 top-48"></div>
+          </div>
+        </div>
+        <div class="z-10 px-8 max-w-4xl">
+          <h1 class="text-6xl md:text-8xl font-bold mb-6 leading-none">
+            MAT<span class="text-xs align-super">ERIAL</span>
+          </h1>
+          <p class="text-lg md:text-xl max-w-lg">
+            A study of the fundamental building blocks of our world. From the
+            most common to the most exotic.
+          </p>
+          <div class="mt-12">
+            <a
+              href="#materials"
+              class="bg-black text-white px-8 py-3 text-sm uppercase tracking-widest inline-block hover:bg-gray-800 transition-colors"
+            >
+              Explore
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <!-- Marquee Text -->
+      <div class="bg-black text-white py-3 overflow-hidden whitespace-nowrap">
+        <div class="animate-marquee inline-block">
+          <span class="text-xl mx-4"
+            >THE MOST WIDELY USED MATERIALS ON EARTH</span
+          >
+          <span class="text-xl mx-4">•</span>
+          <span class="text-xl mx-4">ANNUAL PRODUCTION: 35 BILLION TONS</span>
+          <span class="text-xl mx-4">•</span>
+          <span class="text-xl mx-4">FROM THE ANCIENT TO THE CUTTING EDGE</span>
+          <span class="text-xl mx-4">•</span>
+          <span class="text-xl mx-4">BUILDING BLOCKS OF CIVILIZATION</span>
+          <span class="text-xl mx-4">•</span>
+        </div>
+      </div>
+
+      <!-- Materials Grid Section -->
+      <section id="materials" class="py-24 px-8">
+        <div class="max-w-6xl mx-auto">
+          <div class="flex justify-between items-center mb-16">
+            <h2 class="text-5xl font-bold">
+              {{ activeCategory === 'all' ? 'ALL' :
+              getCategoryName(activeCategory).toUpperCase() }}
+              <span class="text-xs align-super"> MATERIALS</span>
+            </h2>
+            <div class="flex items-center">
+              <label class="text-sm mr-3">SORT:</label>
+              <select
+                v-model="sortBy"
+                class="bg-white border border-black p-2 text-sm"
+              >
+                <option value="rank">BY USAGE</option>
+                <option value="name">ALPHABETICAL</option>
+                <option value="sustainability">SUSTAINABILITY</option>
+                <option value="recyclability">RECYCLABILITY</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Materials Grid -->
+          <div
+            v-if="filteredMaterials.length > 0"
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            <div
+              v-for="material in sortedMaterials"
+              :key="material.id"
+              class="border-2 border-black group cursor-pointer hover:bg-black hover:text-white transition-colors duration-300"
+              @click="openMaterialDetail(material)"
+            >
+              <div class="p-6 h-64 flex flex-col justify-between">
+                <div>
+                  <div class="flex justify-between items-start">
+                    <h3 class="text-2xl font-bold">
+                      {{ material.name.toUpperCase() }}
+                    </h3>
+                    <span class="text-xs">#{{ material.rank }}</span>
+                  </div>
+                  <p class="text-sm mt-2 mb-4">{{ material.yearDiscovered }}</p>
+                </div>
+                <div>
+                  <p class="text-sm line-clamp-3">{{ material.description }}</p>
+                  <div class="mt-6 flex justify-between items-end">
+                    <div>
+                      <div
+                        class="w-8 h-8 rounded-full"
+                        :style="{ backgroundColor: material.color }"
+                      ></div>
+                    </div>
+                    <div
+                      class="text-xs uppercase tracking-widest group-hover:underline"
+                    >
+                      Explore →
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- No Results -->
+          <div v-else class="text-center py-24">
+            <p class="text-2xl font-bold mb-4">NO MATERIALS FOUND</p>
+            <button
+              @click="resetFilters"
+              class="border-2 border-black px-6 py-2 hover:bg-black hover:text-white transition-colors"
+            >
+              RESET FILTERS
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Material Detail Modal -->
+      <div
+        v-if="selectedMaterial"
+        class="fixed inset-0 bg-black/90 flex items-center justify-center z-50 overflow-auto"
+      >
+        <div
+          class="bg-white max-w-5xl w-full max-h-screen overflow-y-auto m-4 lg:m-0 animate-fade-in"
+        >
+          <!-- Close Button -->
+          <div class="sticky top-0 flex justify-end bg-white z-10">
+            <button @click="closeMaterialDetail" class="p-4">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Material Content -->
+          <div class="p-8 pt-0">
+            <div class="flex justify-between items-start mb-8">
+              <div>
+                <h2 class="text-4xl font-bold mb-2">
+                  {{ selectedMaterial.name.toUpperCase() }}
+                </h2>
+                <p class="text-sm text-gray-600">
+                  {{ selectedMaterial.yearDiscovered }}
+                </p>
+              </div>
+              <div class="text-xl font-bold">#{{ selectedMaterial.rank }}</div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+              <!-- Left Column -->
+              <div>
+                <div
+                  class="bg-gray-100 aspect-square flex items-center justify-center mb-6"
+                >
+                  <div
+                    class="w-1/2 h-1/2 rounded-full"
+                    :style="{ backgroundColor: selectedMaterial.color }"
+                  ></div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-2 mb-6">
+                  <div class="bg-gray-100 p-4 text-center">
+                    <div class="text-xs text-gray-600 mb-1">SUSTAINABILITY</div>
+                    <div class="text-xl font-bold">
+                      {{ selectedMaterial.properties.sustainability }}/10
+                    </div>
+                  </div>
+                  <div class="bg-gray-100 p-4 text-center">
+                    <div class="text-xs text-gray-600 mb-1">RECYCLABILITY</div>
+                    <div class="text-xl font-bold">
+                      {{ selectedMaterial.properties.recyclability }}/10
+                    </div>
+                  </div>
+                  <div class="bg-gray-100 p-4 text-center">
+                    <div class="text-xs text-gray-600 mb-1">COST</div>
+                    <div class="text-xl font-bold">
+                      {{ selectedMaterial.properties.cost }}/10
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-6">
+                  <h3 class="text-xl font-bold mb-4">COMPOSITION</h3>
+                  <p>{{ selectedMaterial.composition }}</p>
+                </div>
+
+                <div>
+                  <h3 class="text-xl font-bold mb-4">PROPERTIES</h3>
+                  <div class="space-y-2">
+                    <div class="flex justify-between">
+                      <span>Density:</span>
+                      <span class="font-mono"
+                        >{{ selectedMaterial.properties.density }}</span
+                      >
+                    </div>
+                    <div
+                      v-if="selectedMaterial.properties.tensileStrength"
+                      class="flex justify-between"
+                    >
+                      <span>Tensile Strength:</span>
+                      <span class="font-mono"
+                        >{{ selectedMaterial.properties.tensileStrength }}</span
+                      >
+                    </div>
+                    <div
+                      v-if="selectedMaterial.properties.compressiveStrength"
+                      class="flex justify-between"
+                    >
+                      <span>Compressive Strength:</span>
+                      <span class="font-mono"
+                        >{{ selectedMaterial.properties.compressiveStrength
+                        }}</span
+                      >
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Thermal Conductivity:</span>
+                      <span class="font-mono"
+                        >{{ selectedMaterial.properties.thermalConductivity
+                        }}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column -->
+              <div>
+                <div class="mb-8">
+                  <h3 class="text-xl font-bold mb-4">DESCRIPTION</h3>
+                  <p>{{ selectedMaterial.description }}</p>
+                </div>
+
+                <div class="mb-8">
+                  <h3 class="text-xl font-bold mb-4">APPLICATIONS</h3>
+                  <ul class="list-disc pl-5 space-y-1">
+                    <li
+                      v-for="(app, index) in selectedMaterial.applications"
+                      :key="index"
+                    >
+                      {{ app }}
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="mb-8">
+                  <h3 class="text-xl font-bold mb-4">ADVANTAGES</h3>
+                  <ul class="list-disc pl-5 space-y-1">
+                    <li
+                      v-for="(adv, index) in selectedMaterial.advantages"
+                      :key="index"
+                    >
+                      {{ adv }}
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="mb-8">
+                  <h3 class="text-xl font-bold mb-4">DISADVANTAGES</h3>
+                  <ul class="list-disc pl-5 space-y-1">
+                    <li
+                      v-for="(dis, index) in selectedMaterial.disadvantages"
+                      :key="index"
+                    >
+                      {{ dis }}
+                    </li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h3 class="text-xl font-bold mb-4">FUN FACTS</h3>
+                  <ul class="list-disc pl-5 space-y-1">
+                    <li
+                      v-for="(fact, index) in selectedMaterial.funFacts"
+                      :key="index"
+                    >
+                      {{ fact }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="border-t border-gray-300 pt-8">
+              <div class="text-center">
+                <h3 class="text-xl font-bold mb-4">ANNUAL PRODUCTION</h3>
+                <p class="text-3xl font-bold">
+                  {{ selectedMaterial.annualProduction }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quote Section -->
+      <section class="py-24 px-8 bg-black text-white">
+        <div class="max-w-4xl mx-auto text-center">
+          <blockquote class="text-3xl md:text-5xl font-bold mb-8 leading-tight">
+            "We shape our materials, and thereafter<br />our materials shape
+            us."
+          </blockquote>
+          <p class="text-xl">Paraphrased from Winston Churchill</p>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="py-8 px-8 border-t border-gray-200">
+        <div
+          class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center"
+        >
+          <div class="mb-4 md:mb-0">
+            <a href="#" class="text-xl font-bold tracking-tighter">
+              M<span class="text-xs align-text-top">ATERIAL</span>
+            </a>
+          </div>
+          <div class="text-xs text-gray-600">
+            &copy; 2025 Absurd Industries. A project by
+            <a href="#" class="underline">Amartha</a>.
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Vue Script -->
+    <script src="app.js"></script>
+  </body>
+</html>

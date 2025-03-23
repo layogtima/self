@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MEMPHIS | Anti-Design for Anti-Establishment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              memphis: {
+                yellow: "#FFDE59",
+                pink: "#FF5E78",
+                aqua: "#00E8FC",
+                purple: "#9D4EDD",
+                lime: "#B5FF7D",
+                orange: "#FF914D",
+                teal: "#23C9FF",
+                red: "#FF5757",
+              },
+            },
+            fontFamily: {
+              display: ["VT323", "monospace"],
+              sans: ["Space Grotesk", "sans-serif"],
+            },
+            backgroundImage: {
+              "memphis-dots":
+                "radial-gradient(memphis.purple 2px, transparent 2px), radial-gradient(memphis.aqua 2px, transparent 2px)",
+              "memphis-lines":
+                "linear-gradient(to right, memphis.pink, memphis.pink 5px, transparent 5px, transparent 20px)",
+            },
+            animation: {
+              "spin-slow": "spin 8s linear infinite",
+              wiggle: "wiggle 3s ease-in-out infinite",
+              float: "float 6s ease-in-out infinite",
+            },
+            keyframes: {
+              wiggle: {
+                "0%, 100%": { transform: "rotate(-5deg)" },
+                "50%": { transform: "rotate(5deg)" },
+              },
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-20px)" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=VT323&display=swap");
+
+      /* Custom Memphis Pattern Styles */
+      .memphis-zigzag {
+        background: linear-gradient(135deg, #ff5e78 25%, transparent 25%) -10px 0,
+          linear-gradient(225deg, #ff5e78 25%, transparent 25%) -10px 0,
+          linear-gradient(315deg, #ff5e78 25%, transparent 25%),
+          linear-gradient(45deg, #ff5e78 25%, transparent 25%);
+        background-size: 20px 20px;
+      }
+
+      .memphis-grid {
+        background-size: 40px 40px;
+        background-image: linear-gradient(
+            to right,
+            #00e8fc 1px,
+            transparent 1px
+          ),
+          linear-gradient(to bottom, #00e8fc 1px, transparent 1px);
+      }
+
+      .memphis-confetti {
+        background-image: radial-gradient(#ff5e78 6px, transparent 6px),
+          radial-gradient(#00e8fc 6px, transparent 6px),
+          radial-gradient(#ffde59 6px, transparent 6px);
+        background-size: 100px 100px;
+        background-position: 0 0, 30px 30px, 60px 60px;
+      }
+
+      /* Squiggle Border */
+      .squiggle-border {
+        position: relative;
+      }
+
+      .squiggle-border::before {
+        content: "";
+        position: absolute;
+        top: -8px;
+        left: -8px;
+        right: -8px;
+        bottom: -8px;
+        background: linear-gradient(
+              45deg,
+              transparent 49%,
+              #ff914d 49%,
+              #ff914d 51%,
+              transparent 51%
+            )
+            0 0/20px 20px,
+          linear-gradient(
+              -45deg,
+              transparent 49%,
+              #ff914d 49%,
+              #ff914d 51%,
+              transparent 51%
+            )
+            0 0/20px 20px;
+        z-index: -1;
+      }
+
+      /* Rotating Element */
+      .rotate-element {
+        animation: rotate 12s linear infinite;
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Custom Cursor */
+      body {
+        cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23FF5E78' stroke-width='2'><circle cx='12' cy='12' r='10'/></svg>")
+            12 12,
+          auto;
+      }
+    </style>
+  </head>
+  <body class="bg-white font-sans text-black overflow-x-hidden">
+    <!-- Memphis-style navigation -->
+    <nav
+      class="sticky top-0 z-50 bg-memphis-yellow border-b-8 border-memphis-aqua"
+    >
+      <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center">
+            <!-- Logo shape -->
+            <div
+              class="w-12 h-12 bg-memphis-pink border-4 border-black relative rotate-12 mr-4"
+            >
+              <div class="w-full h-4 bg-memphis-purple absolute bottom-0"></div>
+            </div>
+            <span class="font-display text-4xl text-black transform -rotate-2"
+              >MEMPHIS</span
+            >
+          </div>
+
+          <div class="hidden md:flex space-x-2">
+            <a
+              href="#objects"
+              class="px-4 py-2 bg-memphis-aqua text-black font-bold border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
+              >OBJECTS</a
+            >
+            <a
+              href="#manifesto"
+              class="px-4 py-2 bg-memphis-lime text-black font-bold border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
+              >MANIFESTO</a
+            >
+            <a
+              href="#radical"
+              class="px-4 py-2 bg-memphis-orange text-black font-bold border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
+              >RADICAL</a
+            >
+            <a
+              href="#connect"
+              class="px-4 py-2 bg-memphis-pink text-black font-bold border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
+              >CONNECT</a
+            >
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section with Memphis patterns -->
+    <section class="relative py-20 overflow-hidden">
+      <!-- Decorative Memphis-style elements -->
+      <div
+        class="absolute top-0 right-0 w-64 h-64 bg-memphis-aqua rounded-full opacity-50 -z-10 rotate-element"
+      ></div>
+      <div
+        class="absolute bottom-20 left-20 w-32 h-32 bg-memphis-orange rounded-full opacity-50 -z-10 animate-float"
+      ></div>
+      <div
+        class="absolute top-40 left-10 w-16 h-80 bg-memphis-purple -z-10 animate-wiggle"
+      ></div>
+      <div
+        class="absolute bottom-10 right-40 w-40 h-16 bg-memphis-lime -z-10"
+      ></div>
+
+      <!-- Zigzag pattern -->
+      <div
+        class="absolute top-0 left-0 w-full h-full memphis-confetti opacity-10 -z-20"
+      ></div>
+
+      <div class="container mx-auto px-6">
+        <div class="flex flex-col md:flex-row items-center">
+          <div class="md:w-1/2 z-10">
+            <div class="transform -rotate-3">
+              <h5 class="font-display text-memphis-purple text-xl mb-2">
+                ETTORE SAYS
+              </h5>
+              <h1 class="font-display text-6xl md:text-8xl leading-tight mb-6">
+                <span class="bg-memphis-yellow px-2">DESIGN</span>
+                <span class="bg-memphis-aqua px-2">IS</span>
+                <span class="bg-memphis-pink px-2">DEAD!</span>
+              </h1>
+            </div>
+            <p
+              class="text-xl mb-10 max-w-md ml-6 border-l-4 border-memphis-purple pl-4"
+            >
+              We're not here to solve your problems. We're here to create new
+              ones.
+            </p>
+            <div class="flex space-x-4">
+              <a
+                href="#manifesto"
+                class="px-6 py-3 bg-black text-white font-bold text-lg border-2 border-memphis-yellow shadow-[8px_8px_0px_0px_rgba(255,222,89,1)] hover:shadow-none hover:translate-x-2 hover:translate-y-2 transition-all"
+                >READ MANIFESTO</a
+              >
+              <div
+                class="w-16 h-16 bg-memphis-teal rounded-full flex items-center justify-center border-4 border-black animate-pulse"
+              >
+                <span class="font-display text-black text-2xl">!</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="md:w-1/2 mt-12 md:mt-0 relative">
+            <!-- Memphis Bookcase Representation -->
+            <div class="relative">
+              <div
+                class="w-full h-96 bg-memphis-yellow border-8 border-black relative"
+              >
+                <!-- Shelves -->
+                <div
+                  class="absolute top-1/4 w-full h-4 bg-memphis-purple"
+                ></div>
+                <div class="absolute top-2/4 w-full h-4 bg-memphis-aqua"></div>
+                <div class="absolute top-3/4 w-full h-4 bg-memphis-pink"></div>
+
+                <!-- Column -->
+                <div
+                  class="absolute left-1/4 top-0 bottom-0 w-8 bg-memphis-lime"
+                ></div>
+                <div
+                  class="absolute right-1/4 top-0 bottom-0 w-8 bg-memphis-orange"
+                ></div>
+
+                <!-- Decorative objects -->
+                <div
+                  class="absolute bottom-0 left-10 w-12 h-20 bg-memphis-purple border-2 border-black"
+                ></div>
+                <div
+                  class="absolute bottom-1/2 right-20 w-16 h-16 rounded-full bg-memphis-pink border-2 border-black"
+                ></div>
+                <div class="absolute top-0 right-10 w-8 h-24 bg-black"></div>
+                <div
+                  class="absolute top-1/4 left-20 w-20 h-8 bg-white border-2 border-black"
+                ></div>
+              </div>
+
+              <!-- Decorative squiggle -->
+              <div class="absolute -top-6 -right-6 w-32 h-32">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M10,50 Q30,10 50,50 T90,50"
+                    stroke="#FF5E78"
+                    stroke-width="6"
+                    fill="none"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Object Showcase -->
+    <section id="objects" class="py-24 bg-memphis-aqua relative">
+      <!-- Grid pattern -->
+      <div class="absolute inset-0 memphis-grid opacity-30"></div>
+
+      <div class="container mx-auto px-6">
+        <div class="text-center max-w-3xl mx-auto mb-16 relative">
+          <h5
+            class="font-display text-memphis-red text-2xl mb-2 rotate-2 inline-block"
+          >
+            EMOTIONAL OBJECTS
+          </h5>
+          <h2
+            class="font-display text-4xl md:text-6xl text-black mb-6 -rotate-1"
+          >
+            ANTI-FUNCTIONALISM
+          </h2>
+          <p class="text-xl max-w-lg mx-auto">
+            Objects shouldn't just perform functions. They should stimulate
+            sensations, provoke thoughts, and trigger emotions.
+          </p>
+          <!-- Decorative element -->
+          <div
+            class="absolute -top-10 -right-20 w-24 h-4 bg-memphis-yellow transform rotate-45 hidden md:block"
+          ></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <!-- Object 1: Carlton Bookshelf -->
+          <div class="group">
+            <div class="relative squiggle-border">
+              <div
+                class="bg-white border-4 border-black p-6 aspect-[4/5] relative transform transition-transform group-hover:rotate-2"
+              >
+                <div
+                  class="aspect-square bg-[url('/api/placeholder/400/400')] bg-cover bg-center border-4 border-black"
+                ></div>
+                <!-- Decorative zig-zag -->
+                <div class="absolute top-4 right-4 w-12 h-12">
+                  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M10,10 L30,30 L10,50 L30,70 L10,90"
+                      stroke="#FF914D"
+                      stroke-width="6"
+                      fill="none"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="mt-6">
+              <h3
+                class="font-display text-3xl text-black bg-memphis-yellow inline-block px-2 rotate-1"
+              >
+                CARLTON
+              </h3>
+              <p class="font-bold mt-2">
+                The iconic bookshelf that challenges the very concept of
+                storage. Books? Art? Who cares!
+              </p>
+            </div>
+          </div>
+
+          <!-- Object 2: Tahiti Lamp -->
+          <div class="group">
+            <div class="relative squiggle-border">
+              <div
+                class="bg-white border-4 border-black p-6 aspect-[4/5] relative transform transition-transform group-hover:-rotate-2"
+              >
+                <div
+                  class="aspect-square bg-[url('/api/placeholder/400/400')] bg-cover bg-center border-4 border-black"
+                ></div>
+                <!-- Decorative circle -->
+                <div
+                  class="absolute bottom-4 left-4 w-16 h-16 rounded-full border-4 border-memphis-pink"
+                ></div>
+              </div>
+            </div>
+            <div class="mt-6">
+              <h3
+                class="font-display text-3xl text-black bg-memphis-pink inline-block px-2 -rotate-1"
+              >
+                TAHITI
+              </h3>
+              <p class="font-bold mt-2">
+                A lamp? A sculpture? A statement against boring lighting? Yes,
+                yes, and absolutely yes.
+              </p>
+            </div>
+          </div>
+
+          <!-- Object 3: Tartar Console -->
+          <div class="group">
+            <div class="relative squiggle-border">
+              <div
+                class="bg-white border-4 border-black p-6 aspect-[4/5] relative transform transition-transform group-hover:rotate-2"
+              >
+                <div
+                  class="aspect-square bg-[url('/api/placeholder/400/400')] bg-cover bg-center border-4 border-black"
+                ></div>
+                <!-- Decorative triangle -->
+                <div class="absolute top-10 right-10 w-12 h-12">
+                  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <polygon points="50,10 10,90 90,90" fill="#9D4EDD" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="mt-6">
+              <h3
+                class="font-display text-3xl text-black bg-memphis-lime inline-block px-2 rotate-1"
+              >
+                TARTAR
+              </h3>
+              <p class="font-bold mt-2">
+                A console table that looks like it's from another dimension.
+                Practical? No. Revolutionary? Absolutely.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Manifesto Section with Geometric Shapes -->
+    <section id="manifesto" class="py-24 bg-white relative overflow-hidden">
+      <!-- Decorative geometric shapes -->
+      <div
+        class="absolute -left-20 top-20 w-40 h-40 bg-memphis-purple rotate-12 -z-10"
+      ></div>
+      <div
+        class="absolute right-0 bottom-0 w-80 h-80 rounded-full border-16 border-memphis-orange opacity-20 -z-10"
+      ></div>
+      <div
+        class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-memphis-yellow opacity-10 rounded-full -z-10"
+      ></div>
+
+      <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+          <div class="mb-12 relative">
+            <h5
+              class="font-display text-memphis-aqua text-2xl mb-2 rotate-2 inline-block"
+            >
+              OUR BATTLE CRY
+            </h5>
+            <h2
+              class="font-display text-5xl md:text-7xl text-black mb-6 -rotate-1"
+            >
+              THE MANIFESTO
+            </h2>
+            <!-- Decorative zigzag -->
+            <div class="absolute top-0 right-0 w-32 h-8">
+              <svg viewBox="0 0 100 20" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M0,10 L20,0 L40,20 L60,0 L80,20 L100,0"
+                  stroke="#FF5E78"
+                  stroke-width="4"
+                  fill="none"
+                />
+              </svg>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+            <div
+              class="bg-memphis-yellow p-8 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transform rotate-1"
+            >
+              <ol class="list-decimal pl-6 space-y-6 font-bold text-lg">
+                <li>Design should evoke emotion, not serve function.</li>
+                <li>Embrace color as rebellion against minimalism.</li>
+                <li>Patterns are political statements against the bland.</li>
+                <li>
+                  Technology is not just for solving problems; it's for
+                  challenging perception.
+                </li>
+                <li>Rationality is boring; absurdity is liberation.</li>
+              </ol>
+            </div>
+
+            <div>
+              <p class="text-xl mb-6 border-l-4 border-memphis-pink pl-6">
+                "The Memphis Movement frees design from the tyranny of good
+                taste. We aren't trying to solve problems – we are trying to
+                create them."
+              </p>
+              <p class="text-lg mb-6">
+                In the 1980s, they made the design world uncomfortable. And it
+                was glorious. We're taking a page from their book!
+              </p>
+              <p class="text-lg">
+                Your lamps shouldn't be optimized for lighting. Your shelves
+                aren't efficient storage solutions. They are intellectual
+                provocations. Emotional stimulants. Cultural disruptors.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Radical Design Approach -->
+    <section id="radical" class="py-24 bg-memphis-purple text-white relative">
+      <!-- Memphis confetti pattern overlay -->
+      <div class="absolute inset-0 memphis-zigzag opacity-10"></div>
+
+      <div class="container mx-auto px-6">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <h5
+            class="font-display text-memphis-orange text-2xl mb-2 -rotate-2 inline-block"
+          >
+            DESIGN ANARCHY
+          </h5>
+          <h2
+            class="font-display text-4xl md:text-6xl text-white mb-6 rotate-1"
+          >
+            RADICAL PHILOSOPHY
+          </h2>
+          <p class="text-xl max-w-lg mx-auto">
+            Design should be a liberation from convention, not a slave to
+            function.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div
+            class="bg-white text-black p-8 border-4 border-black transform -rotate-2 group hover:rotate-0 transition-transform"
+          >
+            <div
+              class="w-12 h-12 bg-memphis-aqua mb-6 group-hover:bg-memphis-pink transition-colors"
+            ></div>
+            <h3 class="font-display text-3xl mb-4">ANTI-MINIMALISM</h3>
+            <p class="font-bold">
+              Less is a bore. More is a revolution. Why have one color when five
+              will cause more discomfort?
+            </p>
+          </div>
+
+          <div
+            class="bg-white text-black p-8 border-4 border-black transform rotate-1 group hover:rotate-0 transition-transform"
+          >
+            <div
+              class="w-12 h-12 border-4 border-memphis-pink mb-6 group-hover:border-memphis-aqua transition-colors"
+            ></div>
+            <h3 class="font-display text-3xl mb-4">EMOTIONAL OBJECTS</h3>
+            <p class="font-bold">
+              Design should trigger emotions, provoke thought, and challenge
+              assumptions about what objects should be.
+            </p>
+          </div>
+
+          <div
+            class="bg-white text-black p-8 border-4 border-black transform rotate-2 group hover:rotate-0 transition-transform"
+          >
+            <div
+              class="w-12 h-12 bg-memphis-orange mb-6 group-hover:bg-memphis-yellow transition-colors"
+            ></div>
+            <h3 class="font-display text-3xl mb-4">PLASTIC FANTASTIC</h3>
+            <p class="font-bold">
+              Embrace the artificial. Celebrate the synthetic. Plastic laminates
+              aren't fake – they're honestly artificial.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer with Memphis style -->
+    <footer class="bg-black text-white py-12 relative overflow-hidden">
+      <!-- Memphis pattern overlay -->
+      <div class="absolute inset-0 flex space-x-12">
+        <div class="w-1 h-full bg-memphis-pink opacity-50"></div>
+        <div class="w-2 h-full bg-memphis-aqua opacity-50"></div>
+        <div class="w-1 h-full bg-memphis-yellow opacity-50"></div>
+        <div class="w-3 h-full bg-memphis-purple opacity-50"></div>
+        <div class="w-1 h-full bg-memphis-lime opacity-50"></div>
+        <div class="w-2 h-full bg-memphis-orange opacity-50"></div>
+        <div class="w-1 h-full bg-memphis-teal opacity-50"></div>
+        <div class="w-2 h-full bg-memphis-red opacity-50"></div>
+      </div>
+
+      <div class="container mx-auto px-6 relative">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="flex items-center mb-8 md:mb-0">
+            <!-- Logo shape -->
+            <div
+              class="w-10 h-10 bg-memphis-pink border-2 border-white relative rotate-12 mr-3"
+            >
+              <div class="w-full h-3 bg-memphis-yellow absolute bottom-0"></div>
+            </div>
+            <span class="font-display text-3xl text-white transform -rotate-2"
+              >MEMPHIS</span
+            >
+          </div>
+
+          <div class="flex space-x-8 mb-8 md:mb-0">
+            <a
+              href="#objects"
+              class="text-white hover:text-memphis-aqua transition-colors"
+              >OBJECTS</a
+            >
+            <a
+              href="#manifesto"
+              class="text-white hover:text-memphis-pink transition-colors"
+              >MANIFESTO</a
+            >
+            <a
+              href="#radical"
+              class="text-white hover:text-memphis-yellow transition-colors"
+              >RADICAL</a
+            >
+            <a
+              href="#connect"
+              class="text-white hover:text-memphis-lime transition-colors"
+              >CONNECT</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,2187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="AMIT - Digital Madman, UI/UX designer, hardware consultant, and dapo flow artist whose brain is a delightful buffet of design, science, history, and gaming."
+    />
+    <meta
+      name="keywords"
+      content="digital design, flow arts, hardware consulting, web development, community building"
+    />
+    <meta name="author" content="Amit" />
+    <title>LAYOGTIMA | Internet Madman</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ["Space Mono", "monospace"],
+            },
+            animation: {
+              "text-scroll": "text-scroll 40s ease-in-out infinite",
+              "pulse-slow": "pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              "spin-slow": "spin 180s linear infinite",
+              blink: "blink 3s infinite",
+              flicker: "flicker 12s infinite",
+              float: "float 15s ease-in-out infinite",
+              drift: "drift 30s ease-in-out infinite",
+              "wobble-slow": "wobble 15s ease-in-out infinite",
+              "skew-subtle": "skew 20s ease-in-out infinite",
+            },
+            keyframes: {
+              "text-scroll": {
+                "0%": { transform: "translateX(100%)" },
+                "100%": { transform: "translateX(-100%)" },
+              },
+              blink: {
+                "0%, 100%": { opacity: "1" },
+                "50%": { opacity: "0" },
+              },
+              flicker: {
+                "0%, 100%": { opacity: "1" },
+                "3%": { opacity: "0.4" },
+                "6%": { opacity: "1" },
+                "7%": { opacity: "0.6" },
+                "9%": { opacity: "1" },
+                "11%": { opacity: "0.8" },
+                "20%": { opacity: "1" },
+                "80%": { opacity: "1" },
+                "83%": { opacity: "0.4" },
+                "87%": { opacity: "1" },
+              },
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-10px)" },
+              },
+              drift: {
+                "0%": { transform: "translateX(0) translateY(0) rotate(0)" },
+                "25%": {
+                  transform: "translateX(5px) translateY(-5px) rotate(1deg)",
+                },
+                "50%": {
+                  transform: "translateX(-5px) translateY(5px) rotate(-1deg)",
+                },
+                "75%": {
+                  transform: "translateX(-10px) translateY(-10px) rotate(0deg)",
+                },
+                "100%": { transform: "translateX(0) translateY(0) rotate(0)" },
+              },
+              wobble: {
+                "0%, 100%": { transform: "rotate(0deg)" },
+                "25%": { transform: "rotate(1deg)" },
+                "50%": { transform: "rotate(-1deg)" },
+                "75%": { transform: "rotate(0.5deg)" },
+              },
+              skew: {
+                "0%, 100%": { transform: "skew(0deg, 0deg)" },
+                "25%": { transform: "skew(1deg, 0.5deg)" },
+                "75%": { transform: "skew(-1deg, -0.5deg)" },
+              },
+            },
+            transitionDuration: {
+              1500: "1500ms",
+              2000: "2000ms",
+              3000: "3000ms",
+            },
+            transitionDelay: {
+              1500: "1500ms",
+              2000: "2000ms",
+            },
+            borderRadius: {
+              wavey: "60% 40% 30% 70% / 60% 30% 70% 40%",
+              blob: "42% 58% 65% 35% / 57% 33% 67% 43%",
+            },
+            clipPath: {
+              jagged:
+                "polygon(0% 0%, 100% 0%, 95% 50%, 100% 100%, 0% 100%, 5% 50%)",
+            },
+          },
+        },
+      };
+
+      // Theme toggle functionality
+      document.addEventListener("DOMContentLoaded", () => {
+        const themeToggle = document.getElementById("theme-toggle");
+
+        // Check for saved theme preference or use system preference
+        if (
+          localStorage.getItem("color-theme") === "dark" ||
+          (!localStorage.getItem("color-theme") &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+
+        // Toggle theme on button click
+        themeToggle.addEventListener("click", () => {
+          document.documentElement.classList.toggle("dark");
+
+          if (document.documentElement.classList.contains("dark")) {
+            localStorage.setItem("color-theme", "dark");
+          } else {
+            localStorage.setItem("color-theme", "light");
+          }
+        });
+      });
+
+      // Scroll to section function
+      function scrollToSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    </script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+      * {
+        font-family: "Space Mono", monospace;
+      }
+
+      .diagonal-stripes {
+        background-image: repeating-linear-gradient(
+          45deg,
+          #000,
+          #000 5px,
+          #fff 5px,
+          #fff 10px
+        );
+      }
+
+      .dark .diagonal-stripes {
+        background-image: repeating-linear-gradient(
+          45deg,
+          #fff,
+          #fff 5px,
+          #000 5px,
+          #000 10px
+        );
+      }
+
+      .noisy-bg::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.1;
+        z-index: -1;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      }
+
+      .text-outline {
+        -webkit-text-stroke: 1px black;
+        -webkit-text-fill-color: white;
+      }
+
+      .dark .text-outline {
+        -webkit-text-stroke: 1px white;
+        -webkit-text-fill-color: black;
+      }
+
+      .halftone {
+        background-image: radial-gradient(#000 3px, transparent 3px);
+        background-size: 15px 15px;
+      }
+
+      .dark .halftone {
+        background-image: radial-gradient(#fff 3px, transparent 3px);
+      }
+
+      /* Accessibility focus styles */
+      a:focus,
+      button:focus,
+      input:focus,
+      textarea:focus {
+        outline: 2px solid #4299e1;
+        outline-offset: 2px;
+      }
+
+      /* Skip to content link */
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: #000;
+        color: white;
+        padding: 8px;
+        z-index: 100;
+        transition: top 0.2s ease;
+      }
+
+      .skip-link:focus {
+        top: 0;
+      }
+
+      /* Subtle geometry breaks */
+      .asymmetric-border::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        right: -2px;
+        width: 75%;
+        height: 75%;
+        border-right: 2px solid currentColor;
+        border-bottom: 2px solid currentColor;
+        z-index: -1;
+      }
+
+      .jagged-edge {
+        clip-path: polygon(
+          0% 0%,
+          98% 0%,
+          100% 15%,
+          99% 30%,
+          100% 45%,
+          98% 60%,
+          100% 100%,
+          0% 100%
+        );
+      }
+
+      .world-card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      @keyframes glitch {
+        0% {
+          transform: translate(0);
+        }
+        20% {
+          transform: translate(-2px, 2px);
+        }
+        40% {
+          transform: translate(-2px, -2px);
+        }
+        60% {
+          transform: translate(2px, 2px);
+        }
+        80% {
+          transform: translate(2px, -2px);
+        }
+        100% {
+          transform: translate(0);
+        }
+      }
+
+      .animate-glitch {
+        animation: glitch 1s infinite;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-white dark:bg-gray-900 text-black dark:text-white min-h-screen flex flex-col transition-colors duration-300"
+  >
+    <!-- Accessibility: Skip to content link -->
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <!-- Navigation -->
+    <nav
+      class="fixed w-full px-4 py-3 flex justify-between items-center z-50 bg-white dark:bg-gray-900 border-b border-gray-900 dark:border-gray-100"
+    >
+      <a href="#" class="text-xl font-bold tracking-tighter">
+        AMIT<span class="text-xs align-text-top"></span>
+      </a>
+      <div class="flex items-center gap-6">
+        <a
+          href="#featured"
+          class="text-sm hover:underline decoration-4 underline-offset-8"
+          aria-label="What I cooked right now and I'd love for you to see"
+          >FEATURED</a
+        >
+        <a
+          href="#explorations"
+          class="text-sm hover:underline decoration-4 underline-offset-8"
+          aria-label="View explorations, studies, and sandbox"
+          >WORK</a
+        >
+        <a
+          href="#collectives"
+          class="text-sm hover:underline decoration-4 underline-offset-8"
+          aria-label="View Amit's collectives"
+          >COLLECTIVES</a
+        >
+        <a
+          href="#skills"
+          class="text-sm hover:underline decoration-4 underline-offset-8"
+          aria-label="View Amit's skills for hire/trade"
+          >HIRE/TRADE</a
+        >
+        <button
+          id="theme-toggle"
+          class="ml-2 p-2 rounded-md"
+          aria-label="Toggle dark mode"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 hidden dark:block"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+            />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 block dark:hidden"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+            />
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header
+      id="main-content"
+      class="h-screen flex flex-col justify-center items-center pt-16 relative overflow-hidden"
+    >
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="w-full h-full">
+          <!-- Monochromatic geometric background pattern -->
+          <svg
+            class="absolute inset-0 w-full h-full animate-skew-subtle"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <pattern
+                id="gridPattern"
+                patternUnits="userSpaceOnUse"
+                width="20"
+                height="20"
+                patternTransform="rotate(15)"
+              >
+                <path
+                  d="M0,0 L0,20 M0,0 L20,0"
+                  stroke="currentColor"
+                  class="text-black dark:text-white opacity-5"
+                  stroke-width="0.5"
+                />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#gridPattern)" />
+          </svg>
+
+          <div
+            class="diagonal-stripes w-96 h-96 rounded-blob absolute -right-12 -top-12 opacity-10 animate-wobble-slow"
+          ></div>
+          <div
+            class="w-64 h-64 rounded-wavey border-8 border-gray-200 dark:border-gray-700 absolute left-20 bottom-20 animate-drift"
+          ></div>
+          <img
+            class="w-32 h-32 bg-black dark:bg-white absolute left-40 top-28 transform rotate-6"
+            src="https://codeuncode.com/cdn-cgi/image/format=webp,width=200/https://cdn.codeuncode.com/media/amit.753a67f2.png"
+            alt="Amit"
+          />
+        </div>
+      </div>
+      <div class="z-10 px-8 max-w-4xl">
+        <h1
+          class="text-6xl md:text-8xl font-bold mb-6 leading-none flex items-baseline"
+        >
+          AMIT<span class="text-xs ml-2 leading-relaxed">INTERNET MADMAN</span>
+        </h1>
+        <p class="text-lg md:text-xl max-w-lg">
+          I've been online since I was 11. <br /><br />My brain's a delightful
+          buffet of design, engineering, science, and absurdity. <br /><br />
+          I also spin a <em>mean</em> Dapostar!
+        </p>
+        <div class="mt-12 flex gap-4">
+          <a
+            href="#explorations"
+            class="bg-black dark:bg-white text-white dark:text-black px-8 py-3 text-sm uppercase tracking-widest inline-block transition-all duration-1000 clip-jagged transform rotate-1"
+            >Dive in</a
+          >
+          <a
+            href="https://wa.me/+919892836471"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="bg-black text-white px-8 py-3 text-sm uppercase tracking-widest inline-block transition-all duration-1000 transform -rotate-1"
+            >Contact me</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <!-- Featured Exploration -->
+    <section
+      id="featured"
+      class="py-24 px-8 bg-black text-white relative overflow-hidden"
+    >
+      <div class="checkerboard absolute inset-0 opacity-5"></div>
+      <div class="max-w-6xl mx-auto relative z-10">
+        <h2 class="text-5xl font-bold mb-16">
+          MONO<span class="text-xs align-super">CHROME</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+          <div>
+            <p class="text-lg mb-8">
+              MONO is an exploration of design within constraints. By limiting
+              our palette to black, white, and the shades between, we focus on
+              the fundamental elements of design: typography, layout, and form.
+            </p>
+            <p class="mb-10">
+              Strip away the distractions and reveals the skeleton of good
+              design. What works in black and white works anywhere.
+            </p>
+            <a
+              href="mono/"
+              class="border border-white px-8 py-3 text-sm uppercase tracking-widest inline-block hover:bg-white hover:text-black transition-colors"
+            >
+              Explore MONO
+            </a>
+          </div>
+          <div class="relative h-96 bg-white bg-opacity-5 border border-white">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="w-32 h-32 bg-white animate-float"></div>
+              <div
+                class="w-16 h-16 bg-white absolute top-1/4 left-1/4 animate-float"
+                style="animation-delay: -1s"
+              ></div>
+              <div
+                class="w-24 h-24 border-2 border-white absolute bottom-1/4 right-1/3 animate-float"
+                style="animation-delay: -2s"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Abstract Thought Section -->
+    <div class="py-6 overflow-hidden relative bg-white dark:bg-black">
+      <div
+        class="absolute inset-0 flex items-center justify-center overflow-hidden"
+      >
+        <svg viewBox="0 0 1200 100" class="min-w-full h-16">
+          <!-- Pattern of abstract shapes representing thoughts -->
+          <defs>
+            <!-- Morphing paths for shapes -->
+            <path
+              id="morphCircleToSquare1"
+              d="M185,35 L215,35 L215,65 L185,65 Z"
+            />
+            <path
+              id="morphCircleToSquare2"
+              d="M185,50 m-15,0 a15,15 0 1,0 30,0 a15,15 0 1,0 -30,0"
+            />
+
+            <path id="morphTriangleToZigzag1" d="M470,30 L490,70 L510,30 Z" />
+            <path
+              id="morphTriangleToZigzag2"
+              d="M470,50 L480,30 L490,50 L500,30 L510,50"
+            />
+
+            <path
+              id="morphRectToCircles1"
+              d="M550,35 L570,35 L570,65 L550,65 Z"
+            />
+            <path
+              id="morphRectToCircles2"
+              d="M550,50 m-7,0 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 M570,50 m-7,0 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0"
+            />
+          </defs>
+
+          <g
+            class="animate-thought"
+            style="animation: thought 120s linear infinite"
+          >
+            <!-- Wave - Keep this one as is since you like it -->
+            <path
+              d="M10,50 Q30,40 50,50 Q70,60 90,50 Q110,40 130,50"
+              stroke="black"
+              class="dark:stroke-white"
+              stroke-width="1.5"
+              fill="none"
+              stroke-linecap="round"
+            >
+              <animate
+                attributeName="d"
+                values="M10,50 Q30,40 50,50 Q70,60 90,50 Q110,40 130,50;
+                             M10,50 Q30,60 50,50 Q70,40 90,50 Q110,60 130,50;
+                             M10,50 Q30,40 50,50 Q70,60 90,50 Q110,40 130,50"
+                dur="15s"
+                repeatCount="indefinite"
+              />
+            </path>
+
+            <!-- Circle that slowly morphs to square and back -->
+            <path
+              d="M185,50 m-15,0 a15,15 0 1,0 30,0 a15,15 0 1,0 -30,0"
+              stroke="black"
+              class="dark:stroke-white"
+              stroke-width="1.5"
+              fill="none"
+            >
+              <animate
+                attributeName="d"
+                values="M185,50 m-15,0 a15,15 0 1,0 30,0 a15,15 0 1,0 -30,0;
+                       M185,50 m-15,-13 a15,13 0 1,0 30,0 a15,13 0 1,0 -30,0;
+                       M187,50 m-15,-14 a13,14 0 1,0 30,0 a13,14 0 1,0 -30,0;
+                       M185,35 L215,35 L215,65 L185,65 Z;
+                       M187,37 L213,37 L213,63 L187,63 Z;
+                       M185,35 L215,35 L215,65 L185,65 Z;
+                       M187,50 m-15,-14 a13,14 0 1,0 30,0 a13,14 0 1,0 -30,0;
+                       M185,50 m-15,-13 a15,13 0 1,0 30,0 a15,13 0 1,0 -30,0;
+                       M185,50 m-15,0 a15,15 0 1,0 30,0 a15,15 0 1,0 -30,0"
+                dur="120s"
+                repeatCount="indefinite"
+              />
+            </path>
+
+            <!-- Squares that imperceptibly move apart and together -->
+            <g>
+              <rect
+                x="270"
+                y="35"
+                width="30"
+                height="30"
+                stroke="black"
+                class="dark:stroke-white"
+                stroke-width="1.5"
+                fill="none"
+              >
+                <animate
+                  attributeName="x"
+                  values="270;267;265;267;270;273;275;273;270"
+                  dur="180s"
+                  repeatCount="indefinite"
+                />
+                <animate
+                  attributeName="y"
+                  values="35;36;37;36;35;34;33;34;35"
+                  dur="190s"
+                  repeatCount="indefinite"
+                />
+                <animate
+                  attributeName="width"
+                  values="30;29;28;29;30;31;32;31;30"
+                  dur="210s"
+                  repeatCount="indefinite"
+                />
+                <animate
+                  attributeName="height"
+                  values="30;31;32;31;30;29;28;29;30"
+                  dur="200s"
+                  repeatCount="indefinite"
+                />
+                <animate
+                  attributeName="rx"
+                  values="0;1;2;3;2;1;0"
+                  dur="240s"
+                  repeatCount="indefinite"
+                />
+              </rect>
+            </g>
+
+            <!-- Zigzag that subtly morphs toward triangle and back -->
+            <path
+              d="M370,50 L390,30 L410,50 L430,30"
+              stroke="black"
+              class="dark:stroke-white"
+              stroke-width="1.5"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <animate
+                attributeName="d"
+                values="M370,50 L390,30 L410,50 L430,30;
+                       M370,50 L390,32 L410,48 L430,30;
+                       M370,50 L390,35 L410,45 L430,30;
+                       M370,50 L390,40 L410,40 L430,30;
+                       M370,50 L390,45 L410,35 L430,30;
+                       M370,50 L390,48 L410,32 L430,30;
+                       M370,50 L390,30 L410,50 L430,30"
+                dur="150s"
+                repeatCount="indefinite"
+              />
+            </path>
+
+            <!-- Triangle that appears to change angles imperceptibly -->
+            <path
+              d="M470,30 L490,70 L510,30 Z"
+              stroke="black"
+              class="dark:stroke-white"
+              stroke-width="1.5"
+              fill="none"
+              stroke-linejoin="round"
+            >
+              <animate
+                attributeName="d"
+                values="M470,30 L490,70 L510,30 Z;
+                       M472,32 L490,68 L508,32 Z;
+                       M474,34 L490,66 L506,34 Z;
+                       M476,36 L490,64 L504,36 Z;
+                       M478,38 L490,62 L502,38 Z;
+                       M478,38 L490,62 L502,38 Z;
+                       M476,36 L490,64 L504,36 Z;
+                       M474,34 L490,66 L506,34 Z;
+                       M472,32 L490,68 L508,32 Z;
+                       M470,30 L490,70 L510,30 Z"
+                dur="170s"
+                repeatCount="indefinite"
+              />
+            </path>
+
+            <!-- Rectangle that almost appears to breathe -->
+            <rect
+              x="550"
+              y="35"
+              width="20"
+              height="30"
+              stroke="black"
+              class="dark:stroke-white"
+              stroke-width="1.5"
+              fill="none"
+            >
+              <animate
+                attributeName="width"
+                values="20;19;18;19;20;21;22;21;20"
+                dur="90s"
+                repeatCount="indefinite"
+              />
+              <animate
+                attributeName="height"
+                values="30;29;28;29;30;31;32;31;30"
+                dur="120s"
+                repeatCount="indefinite"
+              />
+              <animate
+                attributeName="rx"
+                values="0;1;2;1;0"
+                dur="180s"
+                repeatCount="indefinite"
+              />
+              <animate
+                attributeName="x"
+                values="550;551;552;551;550;549;548;549;550"
+                dur="100s"
+                repeatCount="indefinite"
+              />
+            </rect>
+
+            <!-- Concentric Circles that shift their center points ever so slightly -->
+            <g>
+              <circle
+                cx="600"
+                cy="50"
+                r="15"
+                stroke="black"
+                class="dark:stroke-white"
+                stroke-width="1.5"
+                fill="none"
+              >
+                <animate
+                  attributeName="cx"
+                  values="600;601;602;601;600;599;598;599;600"
+                  dur="160s"
+                  repeatCount="indefinite"
+                />
+                <animate
+                  attributeName="cy"
+                  values="50;51;52;51;50;49;48;49;50"
+                  dur="140s"
+                  repeatCount="indefinite"
+                />
+                <animate
+                  attributeName="r"
+                  values="15;14.5;14;14.5;15;15.5;16;15.5;15"
+                  dur="130s"
+                  repeatCount="indefinite"
+                />
+              </circle>
+              <circle
+                cx="600"
+                cy="50"
+                r="8"
+                stroke="black"
+                class="dark:stroke-white"
+                stroke-width="1.5"
+                fill="none"
+              >
+                <animate
+                  attributeName="cx"
+                  values="600;599;598;599;600;601;602;601;600"
+                  dur="150s"
+                  repeatCount="indefinite"
+                />
+                <animate
+                  attributeName="cy"
+                  values="50;49;48;49;50;51;52;51;50"
+                  dur="170s"
+                  repeatCount="indefinite"
+                />
+                <animate
+                  attributeName="r"
+                  values="8;8.5;9;8.5;8;7.5;7;7.5;8"
+                  dur="140s"
+                  repeatCount="indefinite"
+                />
+              </circle>
+            </g>
+
+            <!-- Curved Wave that stays flowing -->
+            <path
+              d="M650,50 Q670,30 690,50 Q710,70 730,50"
+              stroke="black"
+              class="dark:stroke-white"
+              stroke-width="1.5"
+              fill="none"
+              stroke-linecap="round"
+            >
+              <animate
+                attributeName="d"
+                values="M650,50 Q670,30 690,50 Q710,70 730,50;
+                             M650,50 Q670,70 690,50 Q710,30 730,50;
+                             M650,50 Q670,30 690,50 Q710,70 730,50"
+                dur="20s"
+                repeatCount="indefinite"
+              />
+            </path>
+
+            <!-- Two Circles that subtly drift -->
+            <g>
+              <circle
+                cx="780"
+                cy="50"
+                r="15"
+                stroke="black"
+                class="dark:stroke-white"
+                stroke-width="1.5"
+                fill="none"
+              >
+                <animate
+                  attributeName="cx"
+                  values="780;778;776;778;780;782;784;782;780"
+                  dur="190s"
+                  repeatCount="indefinite"
+                />
+                <animate
+                  attributeName="cy"
+                  values="50;51;52;51;50;49;48;49;50"
+                  dur="200s"
+                  repeatCount="indefinite"
+                />
+                <animate
+                  attributeName="r"
+                  values="15;14.5;14;14.5;15;15.5;16;15.5;15"
+                  dur="210s"
+                  repeatCount="indefinite"
+                />
+              </circle>
+              <circle
+                cx="820"
+                cy="50"
+                r="15"
+                stroke="black"
+                class="dark:stroke-white"
+                stroke-width="1.5"
+                fill="none"
+              >
+                <animate
+                  attributeName="cx"
+                  values="820;822;824;822;820;818;816;818;820"
+                  dur="180s"
+                  repeatCount="indefinite"
+                />
+                <animate
+                  attributeName="cy"
+                  values="50;49;48;49;50;51;52;51;50"
+                  dur="195s"
+                  repeatCount="indefinite"
+                />
+                <animate
+                  attributeName="r"
+                  values="15;15.5;16;15.5;15;14.5;14;14.5;15"
+                  dur="205s"
+                  repeatCount="indefinite"
+                />
+              </circle>
+            </g>
+
+            <!-- Brackets that imperceptibly shift angles -->
+            <path
+              d="M880,30 L880,70 M920,30 L920,70"
+              stroke="black"
+              class="dark:stroke-white"
+              stroke-width="1.5"
+              fill="none"
+              stroke-linecap="round"
+            >
+              <animate
+                attributeName="d"
+                values="M880,30 L880,70 M920,30 L920,70;
+                       M880,30 L882,70 M920,30 L918,70;
+                       M880,30 L884,70 M920,30 L916,70;
+                       M880,30 L882,70 M920,30 L918,70;
+                       M880,30 L880,70 M920,30 L920,70;
+                       M880,30 L878,70 M920,30 L922,70;
+                       M880,30 L876,70 M920,30 L924,70;
+                       M880,30 L878,70 M920,30 L922,70;
+                       M880,30 L880,70 M920,30 L920,70"
+                dur="240s"
+                repeatCount="indefinite"
+              />
+            </path>
+
+            <!-- Another Wave - keep this one animated as well -->
+            <path
+              d="M950,50 Q970,40 990,50 Q1010,60 1030,50 Q1050,40 1070,50"
+              stroke="black"
+              class="dark:stroke-white"
+              stroke-width="1.5"
+              fill="none"
+              stroke-linecap="round"
+            >
+              <animate
+                attributeName="d"
+                values="M950,50 Q970,40 990,50 Q1010,60 1030,50 Q1050,40 1070,50;
+                             M950,50 Q970,60 990,50 Q1010,40 1030,50 Q1050,60 1070,50;
+                             M950,50 Q970,40 990,50 Q1010,60 1030,50 Q1050,40 1070,50"
+                dur="18s"
+                repeatCount="indefinite"
+              />
+            </path>
+
+            <!-- Circle that almost imperceptibly morphs to oval and back -->
+            <circle
+              cx="1110"
+              cy="50"
+              r="15"
+              stroke="black"
+              class="dark:stroke-white"
+              stroke-width="1.5"
+              fill="none"
+            >
+              <animate
+                attributeName="rx"
+                values="15;15;16;17;16;15;14;13;14;15"
+                dur="160s"
+                repeatCount="indefinite"
+              />
+              <animate
+                attributeName="ry"
+                values="15;14;13;14;15;16;17;16;15"
+                dur="180s"
+                repeatCount="indefinite"
+              />
+            </circle>
+
+            <!-- Square that rotates almost unnoticeably -->
+            <rect
+              x="1150"
+              y="35"
+              width="30"
+              height="30"
+              stroke="black"
+              class="dark:stroke-white"
+              stroke-width="1.5"
+              fill="none"
+            >
+              <animateTransform
+                attributeName="transform"
+                type="rotate"
+                from="0 1165 50"
+                to="2 1165 50"
+                dur="120s"
+                repeatCount="indefinite"
+                additive="sum"
+              />
+              <animate
+                attributeName="width"
+                values="30;29;30;31;30"
+                dur="200s"
+                repeatCount="indefinite"
+              />
+              <animate
+                attributeName="height"
+                values="30;31;30;29;30"
+                dur="220s"
+                repeatCount="indefinite"
+              />
+            </rect>
+          </g>
+        </svg>
+      </div>
+
+      <style>
+        @keyframes thought {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        .animate-thought {
+          animation: thought 120s linear infinite;
+        }
+      </style>
+    </div>
+
+    <!-- Explorations, Studies, and Sandbox Section -->
+    <section id="explorations" class="py-24 px-8 relative">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-5xl font-bold mb-16">
+          WORK<span class="text-xs align-super"> EXPLORE.STUDY.PLAY</span>
+        </h2>
+
+        <!-- Explorations Grid - Two per row on desktop -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+          <!-- NOT-HERE Exploration -->
+          <a href="/not" class="block group">
+            <div
+              class="border-2 border-black dark:border-white p-6 h-full relative overflow-hidden transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg"
+            >
+              <!-- Asymmetric corner decoration -->
+              <div
+                class="absolute -top-2 -right-2 w-12 h-12 border-r-2 border-t-2 border-black dark:border-white z-0 transform rotate-2"
+              ></div>
+
+              <div class="flex flex-col md:flex-row gap-4 relative z-10 h-full">
+                <!-- Text Content -->
+                <div class="md:w-1/2 flex flex-col justify-between">
+                  <div>
+                    <h3
+                      class="text-xl md:text-2xl font-bold mb-2 transform -rotate-0.5"
+                    >
+                      NOT-HERE
+                    </h3>
+                    <p class="text-sm mb-3">
+                      A provocation on how we might interact with websites if we
+                      question the norms of design.
+                    </p>
+                  </div>
+                  <span
+                    class="text-xs font-bold tracking-wider group-hover:underline mt-auto"
+                    >EXPLORE →</span
+                  >
+                </div>
+
+                <!-- Visual Element -->
+                <div
+                  class="md:w-1/2 aspect-video bg-gray-100 dark:bg-gray-800 p-4 flex flex-col items-center justify-center transform rotate-0.5"
+                >
+                  <div
+                    class="text-lg md:text-xl font-bold mb-2 relative text-center"
+                  >
+                    <span class="animate-pulse">This is not</span>
+                    <br />
+                    <span class="text-pink-500">a website.</span>
+                  </div>
+                  <div class="w-3/4 h-px bg-black dark:bg-white mt-2"></div>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- OBSERVER Exploration -->
+          <a href="observer" class="block group">
+            <div
+              class="border-2 border-black dark:border-white p-6 h-full relative overflow-hidden transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg"
+            >
+              <!-- Asymmetric corner decoration -->
+              <div
+                class="absolute -bottom-2 -left-2 w-12 h-12 border-l-2 border-b-2 border-black dark:border-white z-0 transform -rotate-1"
+              ></div>
+
+              <div class="flex flex-col md:flex-row gap-4 relative z-10 h-full">
+                <!-- Text Content -->
+                <div class="md:w-1/2 flex flex-col justify-between">
+                  <div>
+                    <h3
+                      class="text-xl md:text-2xl font-bold mb-2 transform rotate-0.5"
+                    >
+                      OBSERVER
+                    </h3>
+                    <p class="text-sm mb-3">
+                      This website studies you. Exploration into personal data,
+                      and the uncomfortable reality of online tracking.
+                    </p>
+                  </div>
+                  <span
+                    class="text-xs font-bold tracking-wider group-hover:underline mt-auto"
+                    >EXPLORE →</span
+                  >
+                </div>
+
+                <!-- Visual Element -->
+                <div
+                  class="md:w-1/2 aspect-video bg-gray-900 text-white p-4 flex items-center justify-center transform -rotate-0.5"
+                >
+                  <div
+                    class="w-16 h-16 rounded-full bg-white flex items-center justify-center"
+                  >
+                    <div
+                      class="w-8 h-8 rounded-full bg-black dark:bg-gray-900"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Gearshare Exploration -->
+          <a href="https://layogtima.github.io/gearshare/" class="block group">
+            <div
+              class="border-2 border-black dark:border-white p-6 h-full relative overflow-hidden transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg"
+            >
+              <!-- Asymmetric corner decoration -->
+              <div
+                class="absolute -top-2 -left-2 w-12 h-12 border-l-2 border-t-2 border-black dark:border-white z-0 transform rotate-1"
+              ></div>
+
+              <div class="flex flex-col md:flex-row gap-4 relative z-10 h-full">
+                <!-- Text Content -->
+                <div class="md:w-1/2 flex flex-col justify-between">
+                  <div>
+                    <h3
+                      class="text-xl md:text-2xl font-bold mb-2 transform -rotate-0.5"
+                    >
+                      GEARSHARE
+                    </h3>
+                    <p class="text-sm mb-3">
+                      Because capitalism wants you to buy your own damn drill,
+                      we want you to share it.
+                    </p>
+                  </div>
+                  <span
+                    class="text-xs font-bold tracking-wider group-hover:underline mt-auto"
+                    >EXPLORE →</span
+                  >
+                </div>
+
+                <!-- Improved Visual Element -->
+                <div
+                  class="md:w-1/2 aspect-video bg-gray-100 dark:bg-gray-800 p-3 flex items-center justify-center transform rotate-0.5 overflow-hidden relative group-hover:bg-gray-200 dark:group-hover:bg-gray-700 transition-colors duration-300"
+                >
+                  <svg viewBox="0 0 160 90" class="w-full h-full">
+                    <!-- Background Grid -->
+                    <pattern
+                      id="smallGrid"
+                      width="8"
+                      height="8"
+                      patternUnits="userSpaceOnUse"
+                    >
+                      <path
+                        d="M 8 0 L 0 0 0 8"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-opacity="0.1"
+                        stroke-width="0.5"
+                      />
+                    </pattern>
+                    <rect width="160" height="90" fill="url(#smallGrid)" />
+
+                    <!-- Tools and Connecting Lines -->
+                    <!-- Central Drill -->
+                    <g
+                      class="drill-group"
+                      transform="translate(80, 45) rotate(15)"
+                    >
+                      <rect
+                        x="-15"
+                        y="-7"
+                        width="30"
+                        height="14"
+                        rx="2"
+                        fill="currentColor"
+                        opacity="0.9"
+                      />
+                      <rect
+                        x="-12"
+                        y="-5"
+                        width="24"
+                        height="10"
+                        rx="1"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="0.5"
+                        opacity="0.5"
+                      />
+                      <circle
+                        cx="12"
+                        cy="0"
+                        r="2"
+                        fill="currentColor"
+                        opacity="0.7"
+                      />
+                      <rect
+                        x="14"
+                        y="-1"
+                        width="8"
+                        height="2"
+                        rx="1"
+                        fill="currentColor"
+                        opacity="0.8"
+                      />
+                    </g>
+
+                    <!-- Community Member 1 -->
+                    <circle
+                      cx="30"
+                      cy="30"
+                      r="8"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    />
+                    <circle cx="30" cy="30" r="3" fill="currentColor" />
+
+                    <!-- Community Member 2 -->
+                    <circle
+                      cx="130"
+                      cy="30"
+                      r="8"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    />
+                    <circle cx="130" cy="30" r="3" fill="currentColor" />
+
+                    <!-- Community Member 3 -->
+                    <circle
+                      cx="30"
+                      cy="70"
+                      r="8"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    />
+                    <circle cx="30" cy="70" r="3" fill="currentColor" />
+
+                    <!-- Community Member 4 -->
+                    <circle
+                      cx="130"
+                      cy="70"
+                      r="8"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                    />
+                    <circle cx="130" cy="70" r="3" fill="currentColor" />
+
+                    <!-- Connecting Lines -->
+                    <line
+                      x1="30"
+                      y1="30"
+                      x2="80"
+                      y2="45"
+                      stroke="currentColor"
+                      stroke-width="0.8"
+                      stroke-dasharray="2,1"
+                    />
+                    <line
+                      x1="130"
+                      y1="30"
+                      x2="80"
+                      y2="45"
+                      stroke="currentColor"
+                      stroke-width="0.8"
+                      stroke-dasharray="2,1"
+                    />
+                    <line
+                      x1="30"
+                      y1="70"
+                      x2="80"
+                      y2="45"
+                      stroke="currentColor"
+                      stroke-width="0.8"
+                      stroke-dasharray="2,1"
+                    />
+                    <line
+                      x1="130"
+                      y1="70"
+                      x2="80"
+                      y2="45"
+                      stroke="currentColor"
+                      stroke-width="0.8"
+                      stroke-dasharray="2,1"
+                    />
+
+                    <!-- Gear-like icon near each member -->
+                    <g transform="translate(20, 20)">
+                      <circle
+                        cx="0"
+                        cy="0"
+                        r="3"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="0.5"
+                      />
+                      <circle
+                        cx="0"
+                        cy="0"
+                        r="5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="0.5"
+                        stroke-dasharray="0.5,1"
+                      />
+                    </g>
+
+                    <g transform="translate(140, 20)">
+                      <circle
+                        cx="0"
+                        cy="0"
+                        r="3"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="0.5"
+                      />
+                      <circle
+                        cx="0"
+                        cy="0"
+                        r="5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="0.5"
+                        stroke-dasharray="0.5,1"
+                      />
+                    </g>
+
+                    <g transform="translate(20, 80)">
+                      <circle
+                        cx="0"
+                        cy="0"
+                        r="3"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="0.5"
+                      />
+                      <circle
+                        cx="0"
+                        cy="0"
+                        r="5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="0.5"
+                        stroke-dasharray="0.5,1"
+                      />
+                    </g>
+
+                    <g transform="translate(140, 80)">
+                      <circle
+                        cx="0"
+                        cy="0"
+                        r="3"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="0.5"
+                      />
+                      <circle
+                        cx="0"
+                        cy="0"
+                        r="5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="0.5"
+                        stroke-dasharray="0.5,1"
+                      />
+                    </g>
+
+                    <!-- Text labels -->
+                    <g class="gear-label" opacity="0.8">
+                      <text
+                        x="80"
+                        y="85"
+                        font-size="4"
+                        text-anchor="middle"
+                        class="fill-current"
+                      >
+                        COMMUNITY POWERED SHARING
+                      </text>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- MATERIALS Exploration -->
+          <!-- MATERIALS Exploration -->
+          <a href="materials" class="block group">
+            <div
+              class="border-2 border-black dark:border-white p-6 h-full relative overflow-hidden transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg"
+            >
+              <!-- Asymmetric corner decoration -->
+              <div
+                class="absolute -bottom-2 -right-2 w-12 h-12 border-r-2 border-b-2 border-black dark:border-white z-0 transform -rotate-2"
+              ></div>
+
+              <div class="flex flex-col md:flex-row gap-4 relative z-10 h-full">
+                <!-- Text Content -->
+                <div class="md:w-1/2 flex flex-col justify-between">
+                  <div>
+                    <h3
+                      class="text-xl md:text-2xl font-bold mb-2 transform rotate-0.5"
+                    >
+                      Materials
+                    </h3>
+                    <p class="text-sm mb-3">
+                      A study of the fundamental building blocks of our world.
+                      From the most common to the most exotic.
+                    </p>
+                  </div>
+                  <span
+                    class="text-xs font-bold tracking-wider group-hover:underline mt-auto"
+                    >EXPLORE →</span
+                  >
+                </div>
+
+                <!-- Improved Visual Element -->
+                <div
+                  class="md:w-1/2 aspect-video bg-gray-900 text-white p-3 flex items-center justify-center transform -rotate-0.5 overflow-hidden relative group-hover:bg-gray-800 transition-colors duration-300"
+                >
+                  <svg viewBox="0 0 160 90" class="w-full h-full">
+                    <!-- Radial background gradient -->
+                    <defs>
+                      <radialGradient
+                        id="materialGlow"
+                        cx="50%"
+                        cy="50%"
+                        r="50%"
+                        fx="50%"
+                        fy="50%"
+                      >
+                        <stop
+                          offset="0%"
+                          stop-color="currentColor"
+                          stop-opacity="0.3"
+                        />
+                        <stop
+                          offset="100%"
+                          stop-color="currentColor"
+                          stop-opacity="0"
+                        />
+                      </radialGradient>
+                    </defs>
+
+                    <!-- Subtle background glow -->
+                    <circle cx="80" cy="45" r="40" fill="url(#materialGlow)" />
+
+                    <!-- Material visualization elements -->
+                    <!-- Center hexagonal crystal structure -->
+                    <g transform="translate(80, 45)">
+                      <!-- Base hexagon -->
+                      <path
+                        d="M0,-20 L17.3,-10 L17.3,10 L0,20 L-17.3,10 L-17.3,-10 Z"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="0.8"
+                        opacity="0.9"
+                        class="animate-pulse"
+                      />
+
+                      <!-- Inner structure -->
+                      <path
+                        d="M0,-10 L8.7,-5 L8.7,5 L0,10 L-8.7,5 L-8.7,-5 Z"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="0.6"
+                        opacity="0.7"
+                      />
+
+                      <!-- Connection lines within structure -->
+                      <line
+                        x1="0"
+                        y1="-20"
+                        x2="0"
+                        y2="-10"
+                        stroke="currentColor"
+                        stroke-width="0.5"
+                        opacity="0.6"
+                      />
+                      <line
+                        x1="17.3"
+                        y1="-10"
+                        x2="8.7"
+                        y2="-5"
+                        stroke="currentColor"
+                        stroke-width="0.5"
+                        opacity="0.6"
+                      />
+                      <line
+                        x1="17.3"
+                        y1="10"
+                        x2="8.7"
+                        y2="5"
+                        stroke="currentColor"
+                        stroke-width="0.5"
+                        opacity="0.6"
+                      />
+                      <line
+                        x1="0"
+                        y1="20"
+                        x2="0"
+                        y2="10"
+                        stroke="currentColor"
+                        stroke-width="0.5"
+                        opacity="0.6"
+                      />
+                      <line
+                        x1="-17.3"
+                        y1="10"
+                        x2="-8.7"
+                        y2="5"
+                        stroke="currentColor"
+                        stroke-width="0.5"
+                        opacity="0.6"
+                      />
+                      <line
+                        x1="-17.3"
+                        y1="-10"
+                        x2="-8.7"
+                        y2="-5"
+                        stroke="currentColor"
+                        stroke-width="0.5"
+                        opacity="0.6"
+                      />
+
+                      <!-- Center point -->
+                      <circle cx="0" cy="0" r="1.5" fill="currentColor" />
+                    </g>
+
+                    <!-- Orbiting particles -->
+                    <g class="orbit-particle-1">
+                      <circle
+                        cx="110"
+                        cy="45"
+                        r="2"
+                        fill="currentColor"
+                        opacity="0.8"
+                      />
+                      <circle
+                        cx="110"
+                        cy="45"
+                        r="3"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="0.5"
+                        opacity="0.4"
+                      />
+                    </g>
+
+                    <g class="orbit-particle-2">
+                      <circle
+                        cx="80"
+                        cy="15"
+                        r="2"
+                        fill="currentColor"
+                        opacity="0.8"
+                      />
+                      <circle
+                        cx="80"
+                        cy="15"
+                        r="3"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="0.5"
+                        opacity="0.4"
+                      />
+                    </g>
+
+                    <g class="orbit-particle-3">
+                      <circle
+                        cx="50"
+                        cy="45"
+                        r="2"
+                        fill="currentColor"
+                        opacity="0.8"
+                      />
+                      <circle
+                        cx="50"
+                        cy="45"
+                        r="3"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="0.5"
+                        opacity="0.4"
+                      />
+                    </g>
+
+                    <g class="orbit-particle-4">
+                      <circle
+                        cx="80"
+                        cy="75"
+                        r="2"
+                        fill="currentColor"
+                        opacity="0.8"
+                      />
+                      <circle
+                        cx="80"
+                        cy="75"
+                        r="3"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="0.5"
+                        opacity="0.4"
+                      />
+                    </g>
+
+                    <!-- Material types around the edge -->
+                    <g class="material-labels" opacity="0.7">
+                      <text x="25" y="30" font-size="3.5" class="fill-current">
+                        CERAMICS
+                      </text>
+                      <text x="25" y="60" font-size="3.5" class="fill-current">
+                        POLYMERS
+                      </text>
+                      <text x="135" y="30" font-size="3.5" class="fill-current">
+                        METALS
+                      </text>
+                      <text x="121" y="60" font-size="3.5" class="fill-current">
+                        COMPOSITES
+                      </text>
+                    </g>
+
+                    <!-- Element scatter -->
+                    <g class="element-symbols" opacity="0.6">
+                      <text x="35" y="40" font-size="4" class="fill-current">
+                        Si
+                      </text>
+                      <text x="125" y="40" font-size="4" class="fill-current">
+                        Fe
+                      </text>
+                      <text x="70" y="20" font-size="4" class="fill-current">
+                        O
+                      </text>
+                      <text x="90" y="70" font-size="4" class="fill-current">
+                        C
+                      </text>
+                    </g>
+
+                    <!-- Wave patterns at the bottom -->
+                    <path
+                      d="M20,80 Q40,75 60,80 T100,80 T140,80"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="0.4"
+                      opacity="0.3"
+                    />
+                    <path
+                      d="M20,82 Q40,77 60,82 T100,82 T140,82"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="0.4"
+                      opacity="0.2"
+                    />
+                    <path
+                      d="M20,84 Q40,79 60,84 T100,84 T140,84"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="0.4"
+                      opacity="0.1"
+                    />
+                  </svg>
+
+                  <!-- CSS for animations -->
+                  <style>
+                    .orbit-particle-1 {
+                      animation: orbit1 12s linear infinite;
+                      transform-origin: 80px 45px;
+                    }
+                    .orbit-particle-2 {
+                      animation: orbit2 10s linear infinite;
+                      transform-origin: 80px 45px;
+                    }
+                    .orbit-particle-3 {
+                      animation: orbit3 14s linear infinite;
+                      transform-origin: 80px 45px;
+                    }
+                    .orbit-particle-4 {
+                      animation: orbit4 8s linear infinite;
+                      transform-origin: 80px 45px;
+                    }
+                    @keyframes orbit1 {
+                      from {
+                        transform: rotate(0deg);
+                      }
+                      to {
+                        transform: rotate(360deg);
+                      }
+                    }
+                    @keyframes orbit2 {
+                      from {
+                        transform: rotate(90deg);
+                      }
+                      to {
+                        transform: rotate(450deg);
+                      }
+                    }
+                    @keyframes orbit3 {
+                      from {
+                        transform: rotate(180deg);
+                      }
+                      to {
+                        transform: rotate(540deg);
+                      }
+                    }
+                    @keyframes orbit4 {
+                      from {
+                        transform: rotate(270deg);
+                      }
+                      to {
+                        transform: rotate(630deg);
+                      }
+                    }
+
+                    .animate-pulse {
+                      animation: pulse 3s ease-in-out infinite;
+                    }
+                    @keyframes pulse {
+                      0%,
+                      100% {
+                        opacity: 0.9;
+                      }
+                      50% {
+                        opacity: 0.5;
+                      }
+                    }
+                  </style>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Add this CSS to your stylesheet -->
+        <style>
+          @keyframes glitch {
+            0% {
+              transform: translate(0);
+            }
+            20% {
+              transform: translate(-2px, 2px);
+            }
+            40% {
+              transform: translate(-2px, -2px);
+            }
+            60% {
+              transform: translate(2px, 2px);
+            }
+            80% {
+              transform: translate(2px, -2px);
+            }
+            100% {
+              transform: translate(0);
+            }
+          }
+
+          .animate-glitch {
+            animation: glitch 1s infinite;
+            display: inline-block;
+          }
+        </style>
+      </div>
+    </section>
+
+    <!-- Collectives Section -->
+    <section
+      id="collectives"
+      class="py-24 px-8 bg-black dark:bg-gray-800 text-white"
+    >
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-5xl font-bold mb-16">
+          COLL<span class="text-xs align-super">ECTIVES</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <!-- codeuncode.com -->
+          <a
+            href="https://codeuncode.com"
+            class="group"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div
+              class="border-2 border-white p-6 h-96 flex flex-col justify-between transition-all duration-300 group-hover:bg-white group-hover:text-black relative overflow-hidden"
+            >
+              <div
+                class="absolute top-0 right-0 h-1 w-0 bg-white group-hover:w-full transition-all duration-700"
+              ></div>
+              <h3 class="text-3xl font-bold">
+                CODE<span class="text-xs align-super">UNCODE.COM</span>
+              </h3>
+              <p>
+                UI/UX design studio crafting intuitive and exceptional digital
+                experiences.
+              </p>
+              <div
+                class="text-xs self-end uppercase tracking-widest mt-4 group-hover:underline decoration-2 underline-offset-4"
+              >
+                Explore →
+              </div>
+              <div
+                class="absolute bottom-0 left-0 h-1 w-0 bg-white group-hover:w-full transition-all duration-700"
+              ></div>
+            </div>
+          </a>
+
+          <!-- sm0l.dev -->
+          <a
+            href="https://sm0l.dev"
+            class="group"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div
+              class="border-2 border-white p-6 h-96 flex flex-col justify-between transition-all duration-300 group-hover:bg-white group-hover:text-black relative overflow-hidden"
+            >
+              <div
+                class="absolute top-0 right-0 h-1 w-0 bg-white group-hover:w-full transition-all duration-700"
+              ></div>
+              <h3 class="text-3xl font-bold">
+                SM<span class="text-xs align-super">0L.DEV</span>
+              </h3>
+              <p>
+                We live, breathe, and occasionally snort the bleeding edge of
+                web technology.
+              </p>
+              <div
+                class="text-xs self-end uppercase tracking-widest mt-4 group-hover:underline decoration-2 underline-offset-4"
+              >
+                Explore →
+              </div>
+              <div
+                class="absolute bottom-0 left-0 h-1 w-0 bg-white group-hover:w-full transition-all duration-700"
+              ></div>
+            </div>
+          </a>
+
+          <!-- absurd.industries -->
+          <a
+            href="https://absurd.industries"
+            class="group"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div
+              class="border-2 border-white p-6 h-96 flex flex-col justify-between transition-all duration-300 group-hover:bg-white group-hover:text-black relative overflow-hidden"
+            >
+              <div
+                class="absolute top-0 right-0 h-1 w-0 bg-white group-hover:w-full transition-all duration-700"
+              ></div>
+              <h3 class="text-3xl font-bold z-10">
+                ABSURD<span class="text-xs align-super">.INDUSTRIES</span>
+              </h3>
+              <p class="z-10">
+                Hardware collective fostering open-source products through DIY.
+              </p>
+              <div
+                class="text-xs self-end uppercase tracking-widest mt-4 group-hover:underline decoration-2 underline-offset-4 z-10"
+              >
+                Explore →
+              </div>
+            </div>
+          </a>
+
+          <!-- supervillains.wtf -->
+          <a
+            href="https://supervillains.wtf"
+            class="group"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div
+              class="border-2 border-white p-6 h-96 flex flex-col justify-between transition-all duration-300 group-hover:bg-white group-hover:text-black relative overflow-hidden"
+            >
+              <div
+                class="absolute top-0 right-0 h-1 w-0 bg-white group-hover:w-full transition-all duration-700"
+              ></div>
+              <h3 class="text-3xl font-bold z-10">
+                SUPER<span class="text-xs align-super">VILLAINS.WTF</span>
+              </h3>
+              <p class="z-10">
+                Open-source play collective fostering flow arts, movement, and
+                joyful community.
+              </p>
+              <div
+                class="text-xs self-end uppercase tracking-widest mt-4 group-hover:underline decoration-2 underline-offset-4"
+              >
+                Explore →
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-24 px-8 relative overflow-hidden">
+      <div class="max-w-6xl mx-auto relative z-10">
+        <h2 class="text-5xl font-bold mb-16 transform -rotate-1">
+          SKILLS<span class="text-xs align-super"> FOR HIRE/TRADE</span>
+        </h2>
+
+        <!-- Monochromatic Skills Representation using SVG patterns -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+          <!-- Digital -->
+          <div
+            class="relative h-72 overflow-hidden border-2 border-black dark:border-white"
+          >
+            <div class="absolute inset-0 p-6 flex flex-col justify-between">
+              <div class="flex justify-between items-start">
+                <h3 class="text-2xl font-bold relative z-10">
+                  WEB DESIGN + DEV_
+                </h3>
+                <!-- Code symbol -->
+                <svg
+                  viewBox="0 0 24 24"
+                  class="w-8 h-8 stroke-black dark:stroke-white fill-none"
+                >
+                  <path
+                    d="M16 18l6-6-6-6M8 6l-6 6 6 6"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+
+              <div class="mt-4">
+                <p class="text-sm mb-4">
+                  Creating exceptional web experiences with clean code and
+                  intuitive designs. Available solo, with codeuncode.com, or
+                  with sm0l.dev.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <span
+                    class="text-xs border border-black dark:border-white px-2 py-1 inline-block"
+                    >HTML/CSS</span
+                  >
+                  <span
+                    class="text-xs border border-black dark:border-white px-2 py-1 inline-block"
+                    >JS</span
+                  >
+                  <span
+                    class="text-xs border border-black dark:border-white px-2 py-1 inline-block"
+                    >UI/UX</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- SVG background pattern -->
+            <svg
+              class="absolute inset-0 w-full h-full opacity-5"
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <pattern
+                id="digitalPattern"
+                patternUnits="userSpaceOnUse"
+                width="10"
+                height="10"
+                patternTransform="scale(2) rotate(5)"
+              >
+                <path
+                  d="M0,0 L10,0 L10,10 L0,10 Z M2,2 L8,2 L8,8 L2,8 Z"
+                  fill="currentColor"
+                  class="text-black dark:text-white"
+                />
+              </pattern>
+              <rect width="100%" height="100%" fill="url(#digitalPattern)" />
+            </svg>
+            <div
+              class="absolute -bottom-2 -right-2 w-16 h-16 border-r-2 border-b-2 border-black dark:border-white z-0 transform rotate-3"
+            ></div>
+          </div>
+
+          <!-- Hardware -->
+          <div
+            class="relative h-72 overflow-hidden border-2 border-black dark:border-white"
+          >
+            <div class="absolute inset-0 p-6 flex flex-col justify-between">
+              <div class="flex justify-between items-start">
+                <h3 class="text-2xl font-bold relative z-10">HARDWARE_</h3>
+                <!-- Circuit symbol -->
+                <svg
+                  viewBox="0 0 24 24"
+                  class="w-8 h-8 stroke-black dark:stroke-white fill-none"
+                >
+                  <circle cx="12" cy="12" r="7" stroke-width="2" />
+                  <path
+                    d="M12 5V2M12 22v-3M5 12H2M22 12h-3M17 7l2-2M5 19l2-2M5 5l2 2M17 19l2-2"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </div>
+
+              <div class="mt-4">
+                <p class="text-sm mb-4">
+                  From concept to completion: prototyping, 3D modeling,
+                  electronics fabrication, assembly, packaging, and more through
+                  absurd.industries.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <span
+                    class="text-xs border border-black dark:border-white px-2 py-1 inline-block"
+                    >Prototyping</span
+                  >
+                  <span
+                    class="text-xs border border-black dark:border-white px-2 py-1 inline-block"
+                    >3D Modeling</span
+                  >
+                  <span
+                    class="text-xs border border-black dark:border-white px-2 py-1 inline-block"
+                    >Surface Modeling</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- SVG background pattern -->
+            <svg
+              class="absolute inset-0 w-full h-full opacity-5"
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <pattern
+                id="hardwarePattern"
+                patternUnits="userSpaceOnUse"
+                width="20"
+                height="20"
+                patternTransform="rotate(2)"
+              >
+                <circle
+                  cx="10"
+                  cy="10"
+                  r="1"
+                  fill="currentColor"
+                  class="text-black dark:text-white"
+                />
+                <path
+                  d="M10,1 L10,19 M1,10 L19,10"
+                  stroke="currentColor"
+                  class="text-black dark:text-white"
+                  stroke-width="0.5"
+                />
+              </pattern>
+              <rect width="100%" height="100%" fill="url(#hardwarePattern)" />
+            </svg>
+            <div
+              class="absolute -top-2 -left-2 w-16 h-16 border-l-2 border-t-2 border-black dark:border-white z-0"
+            ></div>
+          </div>
+
+          <!-- Flow Arts -->
+          <div
+            class="relative h-72 overflow-hidden border-2 border-black dark:border-white transform"
+          >
+            <div class="absolute inset-0 p-6 flex flex-col justify-between">
+              <div class="flex justify-between items-start">
+                <h3 class="text-2xl font-bold relative z-10">DAPO HYPEMAN_</h3>
+                <!-- Flow symbol -->
+                <svg
+                  viewBox="0 0 24 24"
+                  class="w-8 h-8 stroke-black dark:stroke-white fill-none transform rotate-3"
+                >
+                  <path
+                    d="M12,3 C16.4183,3 20,6.58172 20,11 C20,15.4183 16.4183,19 12,19 C7.58172,19 4,15.4183 4,11 C4,6.58172 7.58172,3 12,3 Z"
+                    stroke-width="1"
+                  />
+                  <path
+                    d="M12,7 C14.2091,7 16,8.79086 16,11 C16,13.2091 14.2091,15 12,15 C9.79086,15 8,13.2091 8,11 C8,8.79086 9.79086,7 12,7 Z"
+                    stroke-width="1"
+                  />
+                </svg>
+              </div>
+
+              <div class="mt-4">
+                <p class="text-sm mb-4">
+                  Play corners with Supervillains.wtf, specializing in Dapostars
+                  and being a hypeman.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <span
+                    class="text-xs border border-black dark:border-white px-2 py-1 inline-block"
+                    >Flow Toys</span
+                  >
+                  <span
+                    class="text-xs border border-black dark:border-white px-2 py-1 inline-block"
+                    >Community</span
+                  >
+                  <span
+                    class="text-xs border border-black dark:border-white px-2 py-1 inline-block"
+                    >Play Corners</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- SVG background pattern -->
+            <svg
+              class="absolute inset-0 w-full h-full opacity-5"
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <pattern
+                id="flowPattern"
+                patternUnits="userSpaceOnUse"
+                width="20"
+                height="20"
+                patternTransform="rotate(-2)"
+              >
+                <circle
+                  cx="10"
+                  cy="10"
+                  r="5"
+                  stroke="currentColor"
+                  class="text-black dark:text-white"
+                  stroke-width="0.5"
+                  fill="none"
+                />
+                <circle
+                  cx="10"
+                  cy="10"
+                  r="2"
+                  stroke="currentColor"
+                  class="text-black dark:text-white"
+                  stroke-width="0.5"
+                  fill="none"
+                />
+              </pattern>
+              <rect width="100%" height="100%" fill="url(#flowPattern)" />
+            </svg>
+            <div
+              class="absolute -bottom-2 -left-2 w-16 h-16 border-l-2 border-b-2 border-black dark:border-white z-0"
+            ></div>
+          </div>
+
+          <!-- Community & Teaching -->
+          <div
+            class="relative h-72 overflow-hidden border-2 border-black dark:border-white"
+          >
+            <div class="absolute inset-0 p-6 flex flex-col justify-between">
+              <div class="flex justify-between items-start">
+                <h3 class="text-2xl font-bold relative z-10">
+                  SHARING & COMMUNITY_
+                </h3>
+                <!-- Community symbol -->
+                <svg
+                  viewBox="0 0 24 24"
+                  class="w-8 h-8 stroke-black dark:stroke-white fill-none transform rotate-2"
+                >
+                  <circle cx="9" cy="8" r="4" stroke-width="1" />
+                  <circle cx="15" cy="12" r="3" stroke-width="1" />
+                  <circle cx="7" cy="14" r="3" stroke-width="1" />
+                </svg>
+              </div>
+
+              <div class="mt-4">
+                <p class="text-sm mb-4">
+                  Sharing knowledge and creating spaces for connection,
+                  collaboration, and shared growth.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <span
+                    class="text-xs border border-black dark:border-white px-2 py-1 inline-block"
+                    >Science Awareness</span
+                  >
+                  <span
+                    class="text-xs border border-black dark:border-white px-2 py-1 inline-block"
+                    >Workshops</span
+                  >
+                  <span
+                    class="text-xs border border-black dark:border-white px-2 py-1 inline-block"
+                    >Group Discussions</span
+                  >
+                  <span
+                    class="text-xs border border-black dark:border-white px-2 py-1 inline-block"
+                    >Facilitation</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- SVG background pattern -->
+            <svg
+              class="absolute inset-0 w-full h-full opacity-5"
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <pattern
+                id="communityPattern"
+                patternUnits="userSpaceOnUse"
+                width="20"
+                height="20"
+                patternTransform="rotate(1)"
+              >
+                <path
+                  d="M0,10 L20,10 M10,0 L10,20"
+                  stroke="currentColor"
+                  class="text-black dark:text-white"
+                  stroke-width="0.3"
+                />
+                <path
+                  d="M5,5 L15,5 L15,15 L5,15 Z"
+                  stroke="currentColor"
+                  class="text-black dark:text-white"
+                  stroke-width="0.3"
+                  fill="none"
+                  transform="rotate(2, 10, 10)"
+                />
+              </pattern>
+              <rect width="100%" height="100%" fill="url(#communityPattern)" />
+            </svg>
+            <div
+              class="absolute -top-2 -right-2 w-16 h-16 border-r-2 border-t-2 border-black dark:border-white z-0 transform rotate-3"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 px-8 border-t border-gray-400 dark:border-gray-600">
+      <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <div class="text-gray-600 dark:text-gray-400 text-xs">
+          Built with
+          <a href="#" class="font-bold tracking-normal underline">MONO</a>
+        </div>
+        <div class="flex items-center gap-4">
+          <div
+            class="text-xs text-gray-600 dark:text-gray-400 flex items-center gap-2"
+          >
+            <span class="inline-block transform rotate-180 text-lg mb-2"
+              >©</span
+            >
+            <span
+              >Copyleft 2025 -
+              <a href="#" class="underline">Share, Adapt, Build</a></span
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
