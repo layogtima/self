@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Primary Meta Tags -->
-    <title>LAYOGTIMA | Internet Madman</title>
-    <meta name="title" content="LAYOGTIMA | Internet Madman" />
+    <title>AMIT | Internet Madman</title>
+    <meta name="title" content="LAYOGTIMA - Internet Madman" />
     <meta
       name="description"
       content="AMIT - Digital Madman, UI/UX designer, hardware consultant, and dapo flow artist whose brain is a delightful buffet of design, science, history, and gaming."
@@ -32,14 +32,14 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://layogtima.com" />
-    <meta property="og:title" content="LAYOGTIMA | Internet Madman" />
+    <meta property="og:title" content="AMIT - Internet Madman" />
     <meta
       property="og:description"
       content="AMIT - Digital Madman, UI/UX designer, hardware consultant, and dapo flow artist whose brain is a delightful buffet of design, science, history, and gaming."
     />
     <meta
       property="og:image"
-      content="https://layogtima.com/assets/screenshot.png"
+      content="https://layogtima.com/images/screenshot.png"
     />
 
     <!-- Twitter -->
@@ -57,34 +57,20 @@
 
     <!-- Favicons -->
     <link
+      rel="icon"
+      type="image/png"
+      href="/images/favicon/favicon-96x96.png"
+      sizes="96x96"
+    />
+    <link rel="icon" type="image/svg+xml" href="/images/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/images/favicon/favicon.ico" />
+    <link
       rel="apple-touch-icon"
       sizes="180x180"
-      href="/assets/favicon/apple-touch-icon.png"
+      href="/images/favicon/apple-touch-icon.png"
     />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="/assets/favicon/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="/assets/favicon/favicon-16x16.png"
-    />
-    <link rel="manifest" href="/assets/favicon/site.webmanifest" />
-    <link
-      rel="mask-icon"
-      href="/assets/favicon/safari-pinned-tab.svg"
-      color="#0a0a0a"
-    />
-    <link rel="shortcut icon" href="/assets/favicon/favicon.ico" />
-    <meta name="msapplication-TileColor" content="#0a0a0a" />
-    <meta
-      name="msapplication-config"
-      content="/assets/favicon/browserconfig.xml"
-    />
+    <meta name="apple-mobile-web-app-title" content="Amit" />
+    <link rel="manifest" href="/images/favicon/site.webmanifest" />
 
     <!-- Preloads & Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -368,13 +354,13 @@
     <nav
       class="fixed w-full px-4 py-3 flex justify-between items-center z-50 bg-white dark:bg-gray-900 border-b border-gray-900 dark:border-gray-100"
     >
-      <a href="#" class="text-xl font-bold tracking-tighter">
+      <a href="#" class="text-xl font-bold tracking-wider">
         AMIT<span class="text-xs align-text-top"></span>
       </a>
-      <div class="flex items-center gap-6">
+      <div class="flex items-center gap-4 sm:gap-6">
         <a
           href="#featured"
-          class="text-sm hover:underline decoration-4 underline-offset-8"
+          class="text-sm hover:underline decoration-4 underline-offset-8 hidden sm:inline-block"
           aria-label="What I cooked right now and I'd love for you to see"
           >FEATURED</a
         >
@@ -394,11 +380,11 @@
           href="#skills"
           class="text-sm hover:underline decoration-4 underline-offset-8"
           aria-label="View Amit's skills for hire/trade"
-          >HIRE/TRADE</a
+          >SKILLS</a
         >
         <button
           id="theme-toggle"
-          class="ml-2 p-2 rounded-md"
+          class="p-2 rounded-full"
           aria-label="Toggle dark mode"
         >
           <svg
@@ -543,7 +529,7 @@
                 style="animation-delay: -1s"
               ></div>
               <div
-                class="w-24 h-24 border-2 border-white absolute bottom-1/4 right-1/3 animate-float"
+                class="w-24 h-24 border-2 border-white absolute bottom-1/4 right-1/5 animate-float"
                 style="animation-delay: -2s"
               ></div>
             </div>
@@ -2240,23 +2226,49 @@
     </section>
 
     <!-- Footer -->
-    <footer class="py-8 px-8 border-t border-gray-400 dark:border-gray-600">
-      <div class="max-w-6xl mx-auto flex justify-between items-center">
-        <div class="text-gray-600 dark:text-gray-400 text-xs">
-          Built with
-          <a href="#" class="font-bold tracking-normal underline">MONO</a>
+    <footer
+      class="py-6 px-4 sm:px-6 md:px-8 border-t border-gray-400 dark:border-gray-600"
+    >
+      <div
+        class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0"
+      >
+        <!-- Logo/Built with section -->
+        <div class="text-gray-600 dark:text-gray-400 text-xs flex items-center">
+          <span>Built with</span>
+          <a
+            href="#"
+            class="font-mono font-bold tracking-tight ml-2 relative group"
+          >
+            <span
+              class="transition-colors duration-300 group-hover:text-black dark:group-hover:text-white"
+              >MONO</span
+            >
+            <span
+              class="absolute -bottom-px left-0 w-0 h-px bg-black dark:bg-white transition-all duration-300 group-hover:w-full"
+            ></span>
+          </a>
         </div>
+
+        <!-- Copyleft section -->
         <div class="flex items-center gap-4">
           <div
-            class="text-xs text-gray-600 dark:text-gray-400 flex items-center gap-2"
+            class="text-xs text-gray-600 dark:text-gray-400 block sm:flex text-center items-center gap-2"
           >
             <span class="inline-block transform rotate-180 text-lg mb-2"
               >©</span
             >
-            <span
-              >Copyleft 2025 -
-              <a href="#" class="underline">Share, Adapt, Build</a></span
-            >
+            <span>
+              Copyleft 2025 -
+              <a href="#" class="relative inline-block group">
+                <span
+                  class="transition-colors duration-300 group-hover:text-black dark:group-hover:text-white"
+                  >Share, Adapt, Build</span
+                >
+                <span
+                  class="absolute -bottom-px left-0 w-0 h-px bg-black dark:bg-white transition-all duration-300 group-hover:w-full"
+                ></span>
+              </a>
+            </span>
           </div>
         </div>
       </div>

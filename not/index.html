@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NOT-HERE</title>
+    <title>NOT HERE</title>
     <!-- Psst, you there, Google the works of Dunne and Raby -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -273,7 +273,7 @@
           </div>
 
           <!-- Deliberately strange mobile menu toggle -->
-          <button class="md:hidden w-12 h-12 relative group">
+          <button class="hidden w-12 h-12 relative group">
             <div
               class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6"
             >
@@ -1135,7 +1135,9 @@
           <!-- Deliberately disorienting copyright section -->
           <div class="border-t border-gray-800 pt-8 text-center">
             <p class="font-mono text-md text-gray-500">
-              <span class="rotate-180 text-lg">©</span> Copyleft 1989 - 2999.
+              <span class="rotate-180 text-lg">©</span> Copyleft 1989 - 2999
+              <a href="https://layogtima.com" class="underline">@Layogtima</a
+              >.<br />
               Intellectual property is a social construct that privatizes
               knowledge that should be free.
             </p>
@@ -1160,13 +1162,13 @@
       </div>
       <div class="flex gap-4">
         <button
-          onclick="this.remove()"
+          onclick="this.parentNode.parentNode.remove();"
           class="py-2 px-4 bg-unsettling-gray text-white font-mono text-sm"
         >
           Accept Surveillance
         </button>
         <button
-          onclick="return this.parentNode.parentNode.remove();"
+          onclick="this.remove();"
           class="py-2 px-4 border border-unsettling-gray font-mono text-sm"
         >
           Reject (But We Still Track You)
