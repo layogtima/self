@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QUBIT | Quantum Interface</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ["Space Mono", "monospace"],
+          },
+          colors: {
+            quantum: {
+              dark: '#0A0A18',
+              light: '#E0E0FF',
+              accent: '#36F9F6',
+              warning: '#FF5555',
+              success: '#50FA7B',
+              purple: '#BD93F9',
+              pink: '#FF79C6',
+              orange: '#FFB86C'
+            }
+          },
+          animation: {
+            "pulse-slow": "pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+            "float": "float 8s ease-in-out infinite",
+            "spin-slow": "spin 8s linear infinite",
+            "spin-reverse": "spin-reverse 5s linear infinite",
+            "glitch": "glitch 1s infinite",
+            "flicker": "flicker 2s infinite",
+            "wave": "wave 2s ease-in-out infinite",
+          },
+          keyframes: {
+            "float": {
+              "0%, 100%": { transform: "translateY(0)" },
+              "50%": { transform: "translateY(-10px)" },
+            },
+            "spin-reverse": {
+              from: { transform: "rotate(360deg)" },
+              to: { transform: "rotate(0deg)" },
+            },
+            "glitch": {
+              "0%, 100%": { transform: "translate(0)" },
+              "20%": { transform: "translate(-2px, 2px)" },
+              "40%": { transform: "translate(-2px, -2px)" },
+              "60%": { transform: "translate(2px, 2px)" },
+              "80%": { transform: "translate(2px, -2px)" },
+            },
+            "flicker": {
+              "0%, 100%": { opacity: 1 },
+              "50%": { opacity: 0.8 },
+              "25%, 75%": { opacity: 0.5 },
+            },
+            "wave": {
+              "0%, 100%": { transform: "scaleY(0.5)" },
+              "50%": { transform: "scaleY(1)" },
+            },
+          },
+          backdropBlur: {
+            xs: '2px',
+          },
+        },
+      },
+    };
+  </script>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  
+  <!-- Vue.js -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="quantum.css">
+</head>
+<body class="bg-quantum-dark text-quantum-light font-mono min-h-screen overflow-x-hidden selection:bg-quantum-accent selection:text-quantum-dark">
+  <div id="app" v-cloak>
+    <!-- Quantum Noise Background -->
+    <div class="fixed inset-0 pointer-events-none opacity-10">
+      <div v-for="i in 100" :key="i" 
+           class="absolute bg-quantum-light rounded-full"
+           :style="{
+             width: `${Math.random() * 5 + 1}px`,
+             height: `${Math.random() * 5 + 1}px`,
+             top: `${Math.random() * 100}%`,
+             left: `${Math.random() * 100}%`,
+             opacity: Math.random() * 0.5 + 0.2,
+             animationDelay: `${Math.random() * 5}s`,
+             animationDuration: `${Math.random() * 10 + 5}s`
+           }"
+           :class="{'animate-pulse-slow': isSystemActive}"></div>
+    </div>
+    
+    <!-- Entanglement Grid -->
+    <div class="fixed inset-0 grid grid-cols-12 grid-rows-12 pointer-events-none">
+      <div v-for="i in 144" :key="`grid-${i}`" class="border-[0.5px] border-quantum-light border-opacity-5"></div>
+    </div>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 inset-x-0 z-50 border-b border-quantum-light border-opacity-20 backdrop-blur-sm bg-quantum-dark bg-opacity-80">
+      <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+          <button @click="toggleSystem" class="text-2xl font-bold tracking-tight relative group">
+            <span class="text-quantum-accent" :class="{'animate-glitch': isSystemActive}">Q</span>UBIT
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-quantum-accent transition-all duration-300 group-hover:w-full"></span>
+          </button>
+          <div v-if="isSystemActive" class="text-xs text-quantum-success animate-pulse ml-2">SYSTEM ONLINE</div>
+        </div>
+        
+        <div class="flex items-center space-x-8">
+          <button @click="activeModule = 'qubits'" 
+                  class="text-sm tracking-wider hover:text-quantum-accent transition-colors relative"
+                  :class="{'text-quantum-accent': activeModule === 'qubits'}">
+            QUBITS
+            <span v-if="activeModule === 'qubits'" class="absolute -bottom-1.5 left-0 w-full h-0.5 bg-quantum-accent"></span>
+          </button>
+          <button @click="activeModule = 'circuits'" 
+                  class="text-sm tracking-wider hover:text-quantum-accent transition-colors relative"
+                  :class="{'text-quantum-accent': activeModule === 'circuits'}">
+            CIRCUITS
+            <span v-if="activeModule === 'circuits'" class="absolute -bottom-1.5 left-0 w-full h-0.5 bg-quantum-accent"></span>
+          </button>
+          <button @click="activeModule = 'algorithms'" 
+                  class="text-sm tracking-wider hover:text-quantum-accent transition-colors relative"
+                  :class="{'text-quantum-accent': activeModule === 'algorithms'}">
+            ALGORITHMS
+            <span v-if="activeModule === 'algorithms'" class="absolute -bottom-1.5 left-0 w-full h-0.5 bg-quantum-accent"></span>
+          </button>
+          <button @click="activeModule = 'simulation'" 
+                  class="text-sm tracking-wider hover:text-quantum-accent transition-colors relative"
+                  :class="{'text-quantum-accent': activeModule === 'simulation'}">
+            SIMULATION
+            <span v-if="activeModule === 'simulation'" class="absolute -bottom-1.5 left-0 w-full h-0.5 bg-quantum-accent"></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative h-screen flex flex-col justify-center items-center pt-16">
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div class="relative w-64 h-64">
+          <!-- Quantum Spheres -->
+          <div class="absolute inset-0 border-2 border-quantum-accent border-opacity-30 rounded-full animate-spin-slow"></div>
+          <div class="absolute inset-2 border border-quantum-purple border-opacity-20 rounded-full animate-spin-reverse"></div>
+          <div class="absolute inset-8 border border-quantum-pink border-opacity-40 rounded-full animate-spin-slow"></div>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="w-4 h-4 bg-quantum-accent rounded-full animate-pulse-slow"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="z-10 px-8 text-center max-w-4xl relative">
+        <h1 class="text-6xl md:text-8xl font-bold mb-6 tracking-tighter">
+          <span class="text-quantum-accent">Q</span>UANTUM
+          <span class="text-xs align-super tracking-normal text-quantum-purple">INTERFACE</span>
+        </h1>
+        <p class="text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed opacity-80">
+          {{ currentTagline }}
+        </p>
+        <div class="mt-12">
+          <button @click="activateSystem" 
+                  class="border border-quantum-accent bg-transparent text-quantum-accent px-8 py-3 text-sm uppercase tracking-widest hover:bg-quantum-accent hover:text-quantum-dark transition-all duration-300 relative group overflow-hidden">
+            <span>{{ isSystemActive ? 'QUANTUM SYSTEM ONLINE' : 'INITIALIZE QUANTUM ENGINE' }}</span>
+            <span class="absolute bottom-0 left-0 w-full h-0 bg-quantum-accent bg-opacity-20 transition-all duration-300 group-hover:h-full -z-10"></span>
+          </button>
+        </div>
+      </div>
+      
+      <div v-if="isSystemActive" class="absolute bottom-8 w-full overflow-hidden">
+        <div class="flex justify-center space-x-2">
+          <div v-for="i in 15" :key="`wave-${i}`" 
+               class="w-1 h-10 bg-quantum-accent opacity-20 animate-wave"
+               :style="{animationDelay: `${i * 0.1}s`}"></div>
+        </div>
+        <div class="text-center text-xs text-quantum-light opacity-50 mt-2">
+          QUANTUM COHERENCE: {{ coherenceLevel.toFixed(2) }}%
+        </div>
+      </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 pb-24">
+      <!-- Qubits Module -->
+      <section v-show="activeModule === 'qubits'" class="py-12">
+        <h2 class="text-4xl font-bold mb-12 flex items-center">
+          <span class="text-quantum-accent">Q</span>UBITS
+          <span class="text-quantum-light text-xs align-super ml-1">MANAGER</span>
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Qubit Register -->
+          <div class="col-span-1 border border-quantum-light border-opacity-20 p-6 rounded-md bg-quantum-dark bg-opacity-60 backdrop-blur-xs">
+            <h3 class="text-xl font-bold mb-4 text-quantum-accent">QUBIT REGISTER</h3>
+            <div class="space-y-4">
+              <div v-for="(qubit, index) in qubits" :key="`qubit-${index}`" 
+                   class="flex items-center justify-between p-2 border border-quantum-light border-opacity-10 rounded group hover:border-quantum-accent hover:border-opacity-30 transition-colors">
+                <div class="flex items-center space-x-3">
+                  <div class="w-3 h-3 rounded-full" 
+                       :class="qubit.entangled ? 'bg-quantum-purple' : 'bg-quantum-accent'"
+                       :style="{opacity: 0.3 + qubit.coherence * 0.7}"></div>
+                  <div>Qubit {{ index }}</div>
+                </div>
+                <div class="flex items-center space-x-4">
+                  <div class="text-xs opacity-60">
+                    |ψ⟩ = {{ formatQuantumState(qubit.alpha, qubit.beta) }}
+                  </div>
+                  <button @click="resetQubit(index)" 
+                          class="text-xs text-quantum-light opacity-0 group-hover:opacity-100 transition-opacity hover:text-quantum-warning">
+                    RESET
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-6 flex justify-between">
+              <button @click="addQubit" 
+                      class="text-xs border border-quantum-light border-opacity-20 px-3 py-1 rounded hover:border-quantum-accent hover:text-quantum-accent transition-colors">
+                ADD QUBIT
+              </button>
+              <button @click="clearQubits" 
+                      class="text-xs border border-quantum-light border-opacity-20 px-3 py-1 rounded hover:border-quantum-warning hover:text-quantum-warning transition-colors">
+                CLEAR ALL
+              </button>
+            </div>
+          </div>
+          
+          <!-- Quantum Gates -->
+          <div class="col-span-1 border border-quantum-light border-opacity-20 p-6 rounded-md bg-quantum-dark bg-opacity-60 backdrop-blur-xs">
+            <h3 class="text-xl font-bold mb-4 text-quantum-purple">QUANTUM GATES</h3>
+            <div class="grid grid-cols-2 gap-3">
+              <button v-for="gate in quantumGates" 
+                      :key="gate.name"
+                      @click="applyGate(gate)"
+                      class="border border-quantum-light border-opacity-20 p-3 rounded text-center hover:border-quantum-purple hover:text-quantum-purple transition-colors">
+                <div class="font-bold">{{ gate.name }}</div>
+                <div class="text-xs opacity-60 mt-1">{{ gate.description }}</div>
+              </button>
+            </div>
+            
+            <div class="mt-6">
+              <h4 class="text-sm font-bold mb-2 text-quantum-light">SELECTED QUBIT</h4>
+              <div class="flex space-x-2">
+                <button v-for="(qubit, index) in qubits" 
+                        :key="`select-${index}`"
+                        @click="selectedQubit = index"
+                        class="w-8 h-8 rounded-full border flex items-center justify-center transition-colors"
+                        :class="selectedQubit === index ? 'border-quantum-purple bg-quantum-purple bg-opacity-20 text-quantum-purple' : 'border-quantum-light border-opacity-20'">
+                  {{ index }}
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Bloch Sphere -->
+          <div class="col-span-1 border border-quantum-light border-opacity-20 p-6 rounded-md bg-quantum-dark bg-opacity-60 backdrop-blur-xs">
+            <h3 class="text-xl font-bold mb-4 text-quantum-pink">BLOCH SPHERE</h3>
+            <div class="aspect-square border border-quantum-light border-opacity-10 rounded-full flex items-center justify-center relative">
+              <!-- Bloch Sphere Grid -->
+              <div class="absolute inset-0 rounded-full border border-quantum-light border-opacity-20"></div>
+              <div class="absolute inset-[10%] rounded-full border border-quantum-light border-opacity-10"></div>
+              <div class="absolute w-full h-0.5 bg-quantum-light bg-opacity-10 top-1/2 left-0"></div>
+              <div class="absolute w-0.5 h-full bg-quantum-light bg-opacity-10 top-0 left-1/2"></div>
+              
+              <!-- Qubit Vector -->
+              <div v-if="selectedQubit !== null && qubits[selectedQubit]">
+                <div class="absolute top-1/2 left-1/2 w-1 h-1 bg-quantum-accent rounded-full"></div>
+                
+                <div class="absolute top-1/2 left-1/2 h-0.5 bg-quantum-accent transform origin-left"
+                     :style="{
+                       width: `${blochVector.length * 45}%`,
+                       transform: `rotate(${blochVector.theta}rad)`
+                     }"></div>
+              </div>
+              
+              <!-- Labels -->
+              <div class="absolute top-1 left-1/2 transform -translate-x-1/2 text-xs opacity-50">|0⟩</div>
+              <div class="absolute bottom-1 left-1/2 transform -translate-x-1/2 text-xs opacity-50">|1⟩</div>
+              <div class="absolute top-1/2 right-2 transform -translate-y-1/2 text-xs opacity-50">|+⟩</div>
+              <div class="absolute top-1/2 left-2 transform -translate-y-1/2 text-xs opacity-50">|-⟩</div>
+            </div>
+            
+            <div class="mt-4">
+              <div class="flex justify-between text-xs opacity-80">
+                <div>θ: {{ selectedQubit !== null ? (qubits[selectedQubit].theta * 180 / Math.PI).toFixed(1) : 0 }}°</div>
+                <div>φ: {{ selectedQubit !== null ? (qubits[selectedQubit].phi * 180 / Math.PI).toFixed(1) : 0 }}°</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Entanglement Panel -->
+        <div class="mt-8 border border-quantum-light border-opacity-20 p-6 rounded-md bg-quantum-dark bg-opacity-60 backdrop-blur-xs">
+          <h3 class="text-xl font-bold mb-4 text-quantum-orange">QUANTUM ENTANGLEMENT</h3>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h4 class="text-sm font-bold mb-3">ENTANGLE QUBITS</h4>
+              <div class="flex space-x-4 mb-4">
+                <div>
+                  <label class="block text-xs opacity-60 mb-1">QUBIT A</label>
+                  <select v-model="entanglementA" class="bg-quantum-dark border border-quantum-light border-opacity-30 rounded px-3 py-2 w-24">
+                    <option v-for="(qubit, index) in qubits" :key="`entA-${index}`" :value="index">
+                      Qubit {{ index }}
+                    </option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs opacity-60 mb-1">QUBIT B</label>
+                  <select v-model="entanglementB" class="bg-quantum-dark border border-quantum-light border-opacity-30 rounded px-3 py-2 w-24">
+                    <option v-for="(qubit, index) in qubits" :key="`entB-${index}`" :value="index">
+                      Qubit {{ index }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              
+              <button @click="entangleQubits" 
+                      class="border border-quantum-orange px-4 py-2 text-sm text-quantum-orange hover:bg-quantum-orange hover:bg-opacity-10 transition-colors">
+                CREATE ENTANGLEMENT
+              </button>
+            </div>
+            
+            <div>
+              <h4 class="text-sm font-bold mb-3">ACTIVE ENTANGLEMENTS</h4>
+              <div class="space-y-2">
+                <div v-for="(pair, index) in entanglements" :key="`ent-${index}`"
+                     class="flex justify-between items-center border border-quantum-light border-opacity-10 p-2 rounded">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-2 h-2 bg-quantum-purple rounded-full animate-pulse"></div>
+                    <div>Qubit {{ pair[0] }} ⟷ Qubit {{ pair[1] }}</div>
+                  </div>
+                  <button @click="breakEntanglement(index)" class="text-xs text-quantum-warning opacity-60 hover:opacity-100">
+                    BREAK
+                  </button>
+                </div>
+                
+                <div v-if="entanglements.length === 0" class="text-sm opacity-50 italic">
+                  No active entanglements
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Circuits Module -->
+      <section v-show="activeModule === 'circuits'" class="py-12">
+        <h2 class="text-4xl font-bold mb-12 flex items-center">
+          <span class="text-quantum-accent">C</span>IRCUITS
+          <span class="text-quantum-light text-xs align-super ml-1">DESIGNER</span>
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Circuit Builder -->
+          <div class="col-span-2 border border-quantum-light border-opacity-20 p-6 rounded-md bg-quantum-dark bg-opacity-60 backdrop-blur-xs">
+            <h3 class="text-xl font-bold mb-4 text-quantum-accent">CIRCUIT DESIGN</h3>
+            
+            <div class="overflow-x-auto pb-4">
+              <div class="quantum-circuit min-w-[600px]">
+                <!-- Circuit Header -->
+                <div class="flex">
+                  <div class="w-20 flex-shrink-0"></div>
+                  <div class="flex-1 grid" :style="`grid-template-columns: repeat(${circuit.steps.length || 1}, minmax(60px, 1fr))`">
+                    <div v-for="(step, sIndex) in circuit.steps" :key="`step-${sIndex}`" class="text-center text-xs opacity-50">
+                      Step {{ sIndex + 1 }}
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Circuit Rows -->
+                <div v-for="(wire, wIndex) in circuit.wires" :key="`wire-${wIndex}`" class="flex mt-6">
+                  <div class="w-20 flex-shrink-0 flex items-center">
+                    <div class="text-sm">Qubit {{ wIndex }}</div>
+                  </div>
+                  <div class="flex-1 grid" :style="`grid-template-columns: repeat(${circuit.steps.length || 1}, minmax(60px, 1fr))`">
+                    <div v-for="(step, sIndex) in circuit.steps" :key="`gate-${wIndex}-${sIndex}`" 
+                         class="relative border-b border-quantum-light border-opacity-20 flex items-center justify-center h-12">
+                      <div v-if="step.gates[wIndex]" 
+                           class="absolute inset-1 border border-quantum-light border-opacity-30 rounded flex items-center justify-center hover:border-quantum-accent transition-colors"
+                           :class="{'border-quantum-purple': step.gates[wIndex].control || step.gates[wIndex].target}">
+                        <div v-if="step.gates[wIndex].control" class="w-2 h-2 bg-quantum-purple rounded-full"></div>
+                        <div v-else-if="step.gates[wIndex].target" class="w-5 h-5 border-2 border-quantum-purple rounded-full"></div>
+                        <div v-else class="text-sm">{{ step.gates[wIndex].name }}</div>
+                      </div>
+                      
+                      <!-- Add Gate Button -->
+                      <button @click="showGateSelector(wIndex, sIndex)" 
+                              class="absolute inset-1 opacity-0 hover:opacity-100 bg-quantum-dark bg-opacity-50 rounded flex items-center justify-center text-xs text-quantum-accent border border-dashed border-quantum-accent border-opacity-0 hover:border-opacity-50 transition-all">
+                        + GATE
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Add Step Button -->
+                <div class="flex mt-6">
+                  <div class="w-20 flex-shrink-0"></div>
+                  <div class="flex-1 flex justify-center">
+                    <button @click="addCircuitStep" class="text-sm border border-quantum-light border-opacity-20 px-3 py-1 rounded hover:border-quantum-accent hover:text-quantum-accent transition-colors">
+                      ADD STEP
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-6 flex justify-between">
+              <div class="flex space-x-4">
+                <button @click="addCircuitWire" class="text-sm border border-quantum-light border-opacity-20 px-3 py-1 rounded hover:border-quantum-accent hover:text-quantum-accent transition-colors">
+                  ADD WIRE
+                </button>
+                <button @click="clearCircuit" class="text-sm border border-quantum-light border-opacity-20 px-3 py-1 rounded hover:border-quantum-warning hover:text-quantum-warning transition-colors">
+                  CLEAR CIRCUIT
+                </button>
+              </div>
+              
+              <button @click="runCircuit" class="text-sm bg-quantum-accent bg-opacity-10 border border-quantum-accent px-4 py-1 rounded text-quantum-accent hover:bg-opacity-20 transition-colors">
+                RUN CIRCUIT
+              </button>
+            </div>
+          </div>
+          
+          <!-- Circuit Library & Results -->
+          <div class="col-span-1 space-y-8">
+            <!-- Saved Circuits -->
+            <div class="border border-quantum-light border-opacity-20 p-6 rounded-md bg-quantum-dark bg-opacity-60 backdrop-blur-xs">
+              <h3 class="text-xl font-bold mb-4 text-quantum-purple">CIRCUIT LIBRARY</h3>
+              
+              <div class="space-y-2">
+                <button v-for="(preset, index) in circuitPresets" :key="`preset-${index}`"
+                        @click="loadCircuitPreset(preset)"
+                        class="w-full text-left p-2 border border-quantum-light border-opacity-10 rounded hover:border-quantum-purple transition-colors">
+                  <div class="font-bold text-sm">{{ preset.name }}</div>
+                  <div class="text-xs opacity-60 mt-1 line-clamp-1">{{ preset.description }}</div>
+                </button>
+              </div>
+              
+              <div class="mt-4 flex justify-between">
+                <button @click="saveCurrentCircuit" class="text-xs border border-quantum-light border-opacity-20 px-3 py-1 rounded hover:border-quantum-purple hover:text-quantum-purple transition-colors">
+                  SAVE CURRENT
+                </button>
+                
+                <input v-model="circuitName" placeholder="Circuit name" class="text-xs bg-quantum-dark border border-quantum-light border-opacity-20 px-2 py-1 rounded w-32">
+              </div>
+            </div>
+            
+            <!-- Simulation Results -->
+            <div class="border border-quantum-light border-opacity-20 p-6 rounded-md bg-quantum-dark bg-opacity-60 backdrop-blur-xs">
+              <h3 class="text-xl font-bold mb-4 text-quantum-success">RESULTS</h3>
+              
+              <div v-if="circuitResults.length > 0" class="space-y-4">
+                <div v-for="(result, index) in circuitResults" :key="`result-${index}`"
+                     class="border border-quantum-light border-opacity-10 p-3 rounded">
+                  <div class="font-bold text-sm">State {{ index }}</div>
+                  <div class="flex items-center space-x-2 mt-2">
+                    <div class="w-full bg-quantum-dark rounded-full h-4 border border-quantum-light border-opacity-20">
+                      <div class="h-full rounded-full bg-quantum-success" :style="`width: ${result.probability * 100}%`"></div>
+                    </div>
+                    <div class="text-xs whitespace-nowrap">{{ (result.probability * 100).toFixed(1) }}%</div>
+                  </div>
+                  <div class="mt-1 text-xs opacity-80">{{ result.state }}</div>
+                </div>
+              </div>
+              
+              <div v-else class="text-sm opacity-50 italic">
+                Run a circuit to see results
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Algorithms Module -->
+      <section v-show="activeModule === 'algorithms'" class="py-12">
+        <h2 class="text-4xl font-bold mb-12 flex items-center">
+          <span class="text-quantum-accent">A</span>LGORITHMS
+          <span class="text-quantum-light text-xs align-super ml-1">EXPLORER</span>
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Algorithm Selector -->
+          <div class="border border-quantum-light border-opacity-20 p-6 rounded-md bg-quantum-dark bg-opacity-60 backdrop-blur-xs">
+            <h3 class="text-xl font-bold mb-4 text-quantum-pink">QUANTUM ALGORITHMS</h3>
+            
+            <div class="space-y-4">
+              <div v-for="algo in algorithms" :key="algo.id"
+                   @click="selectAlgorithm(algo)"
+                   class="border border-quantum-light border-opacity-20 p-4 rounded cursor-pointer hover:border-quantum-pink transition-colors"
+                   :class="{'border-quantum-pink': selectedAlgorithm && selectedAlgorithm.id === algo.id}">
+                <div class="font-bold">{{ algo.name }}</div>
+                <div class="text-sm opacity-70 mt-1">{{ algo.description }}</div>
+                <div class="flex mt-3 text-xs">
+                  <div class="px-2 py-0.5 bg-quantum-dark bg-opacity-50 rounded">{{ algo.category }}</div>
+                  <div class="px-2 py-0.5 bg-quantum-dark bg-opacity-50 rounded ml-2">Qubits: {{ algo.qubits }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Algorithm Details -->
+          <div class="border border-quantum-light border-opacity-20 p-6 rounded-md bg-quantum-dark bg-opacity-60 backdrop-blur-xs">
+            <div v-if="selectedAlgorithm">
+              <div class="flex justify-between items-start mb-4">
+                <h3 class="text-xl font-bold text-quantum-pink">{{ selectedAlgorithm.name }}</h3>
+                <div class="px-2 py-0.5 bg-quantum-dark text-xs rounded border border-quantum-light border-opacity-20">
+                  {{ selectedAlgorithm.category }}
+                </div>
+              </div>
+              
+              <div class="prose prose-invert prose-sm max-w-none">
+                <p class="leading-relaxed">{{ selectedAlgorithm.fullDescription }}</p>
+                
+                <h4 class="text-quantum-accent mt-4 mb-2">Applications</h4>
+                <ul class="space-y-1 text-sm">
+                  <li v-for="app in selectedAlgorithm.applications" :key="app" class="opacity-80">
+                    {{ app }}
+                  </li>
+                </ul>
+                
+                <h4 class="text-quantum-accent mt-4 mb-2">Implementation</h4>
+                <div class="bg-black bg-opacity-50 p-3 rounded border border-quantum-light border-opacity-10 text-sm font-mono">
+                  <pre>{{ selectedAlgorithm.pseudocode }}</pre>
+                </div>
+              </div>
+              
+              <div class="mt-6 flex justify-between">
+                <button @click="loadAlgorithmCircuit" 
+                        class="border border-quantum-pink px-4 py-2 text-sm text-quantum-pink hover:bg-quantum-pink hover:bg-opacity-10 transition-colors">
+                  LOAD CIRCUIT
+                </button>
+                
+                <button @click="runAlgorithm" 
+                        class="bg-quantum-accent bg-opacity-10 border border-quantum-accent px-4 py-2 text-sm text-quantum-accent hover:bg-opacity-20 transition-colors">
+                  RUN ALGORITHM
+                </button>
+              </div>
+            </div>
+            
+            <div v-else class="flex flex-col items-center justify-center h-full py-12 opacity-50">
+              <div class="text-6xl mb-4">⟨ψ|</div>
+              <div class="text-center">Select an algorithm to view details</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Algorithm Results -->
+        <div class="mt-8 border border-quantum-light border-opacity-20 p-6 rounded-md bg-quantum-dark bg-opacity-60 backdrop-blur-xs">
+          <h3 class="text-xl font-bold mb-6 text-quantum-success">SIMULATION RESULTS</h3>
+          
+          <div v-if="algorithmResults.running" class="flex flex-col items-center py-8">
+            <div class="relative w-20 h-20">
+              <div class="absolute inset-0 border-2 border-t-quantum-accent border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin"></div>
+              <div class="absolute inset-3 border-2 border-t-transparent border-r-quantum-purple border-b-transparent border-l-transparent rounded-full animate-spin-reverse"></div>
+              <div class="absolute inset-6 border-2 border-t-transparent border-r-transparent border-b-quantum-pink border-l-transparent rounded-full animate-spin"></div>
+            </div>
+            <div class="mt-4 text-sm">Executing quantum algorithm...</div>
+            <div class="mt-2 text-xs opacity-60">Coherence: {{ coherenceLevel.toFixed(2) }}%</div>
+          </div>
+          
+          <div v-else-if="algorithmResults.data">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <!-- Results Visualization -->
+              <div>
+                <h4 class="text-sm font-bold mb-4 opacity-80">VISUALIZATION</h4>
+                <div class="aspect-square border border-quantum-light border-opacity-10 rounded relative overflow-hidden">
+                  <!-- Visualization will depend on algorithm type -->
+                  <div v-if="algorithmResults.type === 'search'" class="h-full grid grid-cols-4 grid-rows-4 gap-px bg-quantum-light bg-opacity-5">
+                    <div v-for="i in 16" :key="`cell-${i}`" 
+                         class="flex items-center justify-center"
+                         class="border border-quantum-light border-opacity-20 p-4 rounded cursor-pointer hover:border-quantum-pink transition-colors"
+                   :class="{'border-quantum-pink': selectedAlgorithm && selectedAlgorithm.id === algo.id}">
+                <div class="font-bold">{{ algo.name }}</div>
+                <div class="text-sm opacity-70 mt-1">{{ algo.description }}</div>
+                <div class="flex mt-3 text-xs">
+                  <div class="px-2 py-0.5 bg-quantum-dark bg-opacity-50 rounded">{{ algo.category }}</div>
+                  <div class="px-2 py-0.5 bg-quantum-dark bg-opacity-50 rounded ml-2">Qubits: {{ algo.qubits }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Algorithm Details -->
+          <div class="border border-quantum-light border-opacity-20 p-6 rounded-md bg-quantum-dark bg-opacity-60 backdrop-blur-xs">
+            <div v-if="selectedAlgorithm">
+              <div class="flex justify-between items-start mb-4">
+                <h3 class="text-xl font-bold text-quantum-pink">{{ selectedAlgorithm.name }}</h3>
+                <div class="px-2 py-0.5 bg-quantum-dark text-xs rounded border border-quantum-light border-opacity-20">
+                  {{ selectedAlgorithm.category }}
+                </div>
+              </div>
+              
+              <div class="prose prose-invert prose-sm max-w-none">
+                <p class="leading-relaxed">{{ selectedAlgorithm.fullDescription }}</p>
+                
+                <h4 class="text-quantum-accent mt-4 mb-2">Applications</h4>
+                <ul class="space-y-1 text-sm">
+                  <li v-for="app in selectedAlgorithm.applications" :key="app" class="opacity-80">
+                    {{ app }}
+                  </li>
+                </ul>
+                
+                <h4 class="text-quantum-accent mt-4 mb-2">Implementation</h4>
+                <div class="bg-black bg-opacity-50 p-3 rounded border border-quantum-light border-opacity-10 text-sm font-mono">
+                  <pre>{{ selectedAlgorithm.pseudocode }}</pre>
+                </div>
+              </div>
+              
+              <div class="mt-6 flex justify-between">
+                <button @click="loadAlgorithmCircuit" 
+                        class="border border-quantum-pink px-4 py-2 text-sm text-quantum-pink hover:bg-quantum-pink hover:bg-opacity-10 transition-colors">
+                  LOAD CIRCUIT
+                </button>
+                
+                <button @click="runAlgorithm" 
+                        class="bg-quantum-accent bg-opacity-10 border border-quantum-accent px-4 py-2 text-sm text-quantum-accent hover:bg-opacity-20 transition-colors">
+                  RUN ALGORITHM
+                </button>
+              </div>
+            </div>
+            
+            <div v-else class="flex flex-col items-center justify-center h-full py-12 opacity-50">
+              <div class="text-6xl mb-4">⟨ψ|</div>
+              <div class="text-center">Select an algorithm to view details</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Algorithm Results -->
+        <div class="mt-8 border border-quantum-light border-opacity-20 p-6 rounded-md bg-quantum-dark bg-opacity-60 backdrop-blur-xs">
+          <h3 class="text-xl font-bold mb-6 text-quantum-success">SIMULATION RESULTS</h3>
+          
+          <div v-if="algorithmResults.running" class="flex flex-col items-center py-8">
+            <div class="relative w-20 h-20">
+              <div class="absolute inset-0 border-2 border-t-quantum-accent border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin"></div>
+              <div class="absolute inset-3 border-2 border-t-transparent border-r-quantum-purple border-b-transparent border-l-transparent rounded-full animate-spin-reverse"></div>
+              <div class="absolute inset-6 border-2 border-t-transparent border-r-transparent border-b-quantum-pink border-l-transparent rounded-full animate-spin"></div>
+            </div>
+            <div class="mt-4 text-sm">Executing quantum algorithm...</div>
+            <div class="mt-2 text-xs opacity-60">Coherence: {{ coherenceLevel.toFixed(2) }}%</div>
+          </div>
+          
+          <div v-else-if="algorithmResults.data">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <!-- Results Visualization -->
+              <div>
+                <h4 class="text-sm font-bold mb-4 opacity-80">VISUALIZATION</h4>
+                <div class="aspect-square border border-quantum-light border-opacity-10 rounded relative overflow-hidden">
+                  <!-- Visualization will depend on algorithm type -->
+                  <div v-if="algorithmResults.type === 'search'" class="h-full grid grid-cols-4 grid-rows-4 gap-px bg-quantum-light bg-opacity-5">
+                    <div v-for="i in 16" :key="`cell-${i}`" 
+                         class="flex items-center justify-center"
+                         :class="algorithmResults.solution === i-1 ? 'bg-quantum-success bg-opacity-30' : 'bg-quantum-dark'">
+                      <div class="text-sm" :class="algorithmResults.solution === i-1 ? 'text-quantum-success' : 'opacity-60'">
+                        {{ i-1 }}
+                      </div>
+                      <div v-if="algorithmResults.solution === i-1" class="absolute w-4 h-4 border-2 border-quantum-success rounded-full animate-ping"></div>
+                    </div>
+                  </div>
+                  
+                  <div v-else-if="algorithmResults.type === 'factoring'" class="h-full flex flex-col items-center justify-center p-4">
+                    <div class="text-xl mb-6">{{ algorithmResults.input }} = {{ algorithmResults.factors.join(' × ') }}</div>
+                    <div class="grid grid-cols-2 gap-4 w-full max-w-xs">
+                      <div v-for="(factor, idx) in algorithmResults.factors" :key="`factor-${idx}`"
+                           class="border border-quantum-accent border-opacity-30 rounded-lg flex items-center justify-center h-16 text-xl">
+                        {{ factor }}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div v-else-if="algorithmResults.type === 'superposition'" class="h-full">
+                    <div class="grid grid-cols-4 h-full">
+                      <div v-for="i in 4" :key="`state-col-${i}`" class="grid grid-rows-4">
+                        <div v-for="j in 4" :key="`state-${(i-1)*4 + j-1}`" 
+                             class="border border-quantum-light border-opacity-5 flex items-center justify-center"
+                             :style="{opacity: 0.2 + algorithmResults.amplitudes[(i-1)*4 + j-1] * 0.8}">
+                          <div class="text-xs">|{{ ((i-1)*4 + j-1).toString(2).padStart(4, '0') }}⟩</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Detailed Results -->
+              <div>
+                <h4 class="text-sm font-bold mb-4 opacity-80">DETAILS</h4>
+                <div class="space-y-4">
+                  <div class="border border-quantum-light border-opacity-10 p-3 rounded">
+                    <div class="text-sm font-bold text-quantum-accent">Algorithm</div>
+                    <div class="mt-1">{{ algorithmResults.name }}</div>
+                  </div>
+                  
+                  <div class="border border-quantum-light border-opacity-10 p-3 rounded">
+                    <div class="text-sm font-bold text-quantum-accent">Input</div>
+                    <div class="mt-1">{{ algorithmResults.input }}</div>
+                  </div>
+                  
+                  <div class="border border-quantum-light border-opacity-10 p-3 rounded">
+                    <div class="text-sm font-bold text-quantum-accent">Output</div>
+                    <div class="mt-1">{{ algorithmResults.output }}</div>
+                  </div>
+                  
+                  <div class="border border-quantum-light border-opacity-10 p-3 rounded">
+                    <div class="text-sm font-bold text-quantum-accent">Stats</div>
+                    <div class="grid grid-cols-2 gap-2 mt-2 text-sm">
+                      <div>Qubits: {{ algorithmResults.qubits }}</div>
+                      <div>Gates: {{ algorithmResults.gates }}</div>
+                      <div>Iterations: {{ algorithmResults.iterations }}</div>
+                      <div>Success: {{ algorithmResults.successRate }}%</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div v-else class="text-center py-12 opacity-50">
+            <div class="text-sm">No algorithm results yet</div>
+            <div class="text-xs mt-2">Select and run an algorithm to see results</div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Simulation Module -->
+      <section v-show="activeModule === 'simulation'" class="py-12">
+        <h2 class="text-4xl font-bold mb-12 flex items-center">
+          <span class="text-quantum-accent">S</span>IMULATION
+          <span class="text-quantum-light text-xs align-super ml-1">ENGINE</span>
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- System Parameters -->
+          <div class="border border-quantum-light border-opacity-20 p-6 rounded-md bg-quantum-dark bg-opacity-60 backdrop-blur-xs">
+            <h3 class="text-xl font-bold mb-4 text-quantum-accent">SYSTEM PARAMETERS</h3>
+            
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm mb-2">COHERENCE TIME (μs)</label>
+                <input type="range" v-model="simulationParams.coherenceTime" min="1" max="100" step="1" class="w-full accent-quantum-accent">
+                <div class="flex justify-between text-xs mt-1">
+                  <span>{{ simulationParams.coherenceTime }} μs</span>
+                  <span class="opacity-60">Max: 100 μs</span>
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm mb-2">GATE FIDELITY</label>
+                <input type="range" v-model="simulationParams.gateFidelity" min="0.9" max="0.9999" step="0.0001" class="w-full accent-quantum-accent">
+                <div class="flex justify-between text-xs mt-1">
+                  <span>{{ (simulationParams.gateFidelity * 100).toFixed(2) }}%</span>
+                  <span class="opacity-60">Max: 99.99%</span>
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm mb-2">MEASUREMENT FIDELITY</label>
+                <input type="range" v-model="simulationParams.measurementFidelity" min="0.8" max="0.9999" step="0.0001" class="w-full accent-quantum-accent">
+                <div class="flex justify-between text-xs mt-1">
+                  <span>{{ (simulationParams.measurementFidelity * 100).toFixed(2) }}%</span>
+                  <span class="opacity-60">Max: 99.99%</span>
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm mb-2">ENVIRONMENTAL NOISE</label>
+                <input type="range" v-model="simulationParams.environmentalNoise" min="0" max="0.1" step="0.001" class="w-full accent-quantum-accent">
+                <div class="flex justify-between text-xs mt-1">
+                  <span>{{ (simulationParams.environmentalNoise * 100).toFixed(2) }}%</span>
+                  <span class="opacity-60">Min: 0%</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-6">
+              <button @click="applySimulationParams" class="w-full border border-quantum-accent px-4 py-2 text-sm text-quantum-accent hover:bg-quantum-accent hover:bg-opacity-10 transition-colors">
+                APPLY PARAMETERS
+              </button>
+            </div>
+          </div>
+          
+          <!-- Noise Visualization -->
+          <div class="border border-quantum-light border-opacity-20 p-6 rounded-md bg-quantum-dark bg-opacity-60 backdrop-blur-xs">
+            <h3 class="text-xl font-bold mb-4 text-quantum-purple">QUANTUM NOISE</h3>
+            
+            <div class="space-y-6">
+              <!-- Decoherence Visualization -->
+              <div>
+                <div class="flex justify-between text-xs mb-2">
+                  <span>DECOHERENCE</span>
+                  <span>T1/T2: {{ simulationParams.coherenceTime }} μs</span>
+                </div>
+                
+                <div class="relative h-24 border border-quantum-light border-opacity-10 rounded overflow-hidden">
+                  <div class="absolute inset-0 flex items-center">
+                    <div class="w-full h-0.5 bg-quantum-light bg-opacity-20"></div>
+                  </div>
+                  
+                  <!-- Decoherence Curve -->
+                  <svg class="absolute inset-0" preserveAspectRatio="none" viewBox="0 0 100 100">
+                    <path :d="decoherenceCurve" fill="none" stroke="#BD93F9" stroke-width="2" />
+                  </svg>
+                </div>
+              </div>
+              
+              <!-- Gate Error Visualization -->
+              <div>
+                <div class="flex justify-between text-xs mb-2">
+                  <span>GATE ERRORS</span>
+                  <span>Fidelity: {{ (simulationParams.gateFidelity * 100).toFixed(2) }}%</span>
+                </div>
+                
+                <div class="grid grid-cols-5 gap-1">
+                  <div v-for="i in 5" :key="`gate-err-${i}`" 
+                       class="aspect-square border border-quantum-light border-opacity-10 rounded flex items-center justify-center relative">
+                    <div class="absolute inset-1 bg-quantum-purple bg-opacity-20 rounded" 
+                         :style="{opacity: Math.random() < simulationParams.gateFidelity ? 0 : 0.6}"></div>
+                    <div class="z-10 text-xs">{{ ['X', 'Y', 'Z', 'H', 'S'][i-1] }}</div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Environmental Noise -->
+              <div>
+                <div class="flex justify-between text-xs mb-2">
+                  <span>ENVIRONMENTAL NOISE</span>
+                  <span>{{ (simulationParams.environmentalNoise * 100).toFixed(2) }}%</span>
+                </div>
+                
+                <div class="relative h-24 border border-quantum-light border-opacity-10 rounded overflow-hidden">
+                  <div v-for="i in 20" :key="`noise-${i}`"
+                       class="absolute bg-quantum-light opacity-30 rounded-full"
+                       :style="{
+                         width: `${Math.random() * 10 + 2}px`,
+                         height: `${Math.random() * 10 + 2}px`,
+                         top: `${Math.random() * 100}%`,
+                         left: `${Math.random() * 100}%`,
+                         opacity: Math.random() * simulationParams.environmentalNoise * 5,
+                         animationDelay: `${Math.random() * 2}s`,
+                         animationDuration: `${Math.random() * 2 + 1}s`
+                       }"
+                       :class="{'animate-pulse': isSystemActive}"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Simulation Console -->
+          <div class="border border-quantum-light border-opacity-20 p-6 rounded-md bg-quantum-dark bg-opacity-60 backdrop-blur-xs">
+            <h3 class="text-xl font-bold mb-4 text-quantum-pink">CONSOLE</h3>
+            
+            <div class="bg-black bg-opacity-50 border border-quantum-light border-opacity-10 rounded p-3 h-80 overflow-y-auto font-mono text-xs">
+              <div v-for="(log, index) in systemLogs" :key="`log-${index}`" class="mb-1 leading-relaxed break-words">
+                <span class="text-quantum-accent opacity-70">[{{ log.timestamp }}]</span>
+                <span :class="{
+                  'text-quantum-success': log.type === 'success',
+                  'text-quantum-warning': log.type === 'warning',
+                  'text-quantum-pink': log.type === 'error',
+                  'text-quantum-purple': log.type === 'info'
+                }">{{ log.message }}</span>
+              </div>
+              
+              <div v-if="systemLogs.length === 0" class="opacity-50 italic">
+                Quantum simulation logs will appear here...
+              </div>
+            </div>
+            
+            <div class="mt-4 flex">
+              <input v-model="consoleCommand" @keyup.enter="executeCommand"
+                     placeholder="Enter command..."
+                     class="flex-1 bg-quantum-dark border border-quantum-light border-opacity-30 rounded-l px-3 py-2 text-sm">
+              <button @click="executeCommand" class="bg-quantum-pink bg-opacity-10 border border-quantum-pink border-opacity-70 border-l-0 rounded-r px-4 py-2 text-sm text-quantum-pink hover:bg-opacity-20 transition-colors">
+                EXECUTE
+              </button>
+            </div>
+            
+            <div class="mt-4 flex justify-between text-xs opacity-70">
+              <div>Try: help, status, reset, run</div>
+              <button @click="clearLogs" class="hover:text-quantum-warning">CLEAR</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Error Correction Simulator -->
+        <div class="mt-8 border border-quantum-light border-opacity-20 p-6 rounded-md bg-quantum-dark bg-opacity-60 backdrop-blur-xs">
+          <h3 class="text-xl font-bold mb-6 text-quantum-orange">QUANTUM ERROR CORRECTION</h3>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Error Insertion -->
+            <div>
+              <h4 class="text-sm font-bold mb-4">ERROR SIMULATION</h4>
+              
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-xs mb-2">ERROR TYPE</label>
+                  <select v-model="errorCorrection.errorType" class="w-full bg-quantum-dark border border-quantum-light border-opacity-30 rounded px-3 py-2 text-sm">
+                    <option value="bit-flip">Bit Flip</option>
+                    <option value="phase-flip">Phase Flip</option>
+                    <option value="random">Random Error</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label class="block text-xs mb-2">ERROR RATE</label>
+                  <input type="range" v-model="errorCorrection.errorRate" min="0" max="0.5" step="0.01" class="w-full accent-quantum-orange">
+                  <div class="flex justify-between text-xs mt-1">
+                    <span>{{ (errorCorrection.errorRate * 100).toFixed(0) }}%</span>
+                    <span class="opacity-60">Max: 50%</span>
+                  </div>
+                </div>
+                
+                <div>
+                  <label class="block text-xs mb-2">CODE TYPE</label>
+                  <select v-model="errorCorrection.codeType" class="w-full bg-quantum-dark border border-quantum-light border-opacity-30 rounded px-3 py-2 text-sm">
+                    <option value="none">No Correction</option>
+                    <option value="repetition">Repetition Code (3 qubits)</option>
+                    <option value="shor">Shor's Code (9 qubits)</option>
+                    <option value="steane">Steane Code (7 qubits)</option>
+                  </select>
+                </div>
+                
+                <button @click="runErrorCorrectionSim" class="w-full border border-quantum-orange px-4 py-2 text-sm text-quantum-orange hover:bg-quantum-orange hover:bg-opacity-10 transition-colors">
+                  RUN SIMULATION
+                </button>
+              </div>
+            </div>
+            
+            <!-- Results Visualization -->
+            <div>
+              <h4 class="text-sm font-bold mb-4">RESULTS</h4>
+              
+              <div v-if="errorCorrection.results" class="space-y-4">
+                <!-- Error Detection Rate -->
+                <div>
+                  <div class="flex justify-between text-xs mb-1">
+                    <span>ERROR DETECTION</span>
+                    <span>{{ (errorCorrection.results.detectionRate * 100).toFixed(1) }}%</span>
+                  </div>
+                  <div class="w-full bg-quantum-dark rounded-full h-2 border border-quantum-light border-opacity-20">
+                    <div class="h-full rounded-full bg-quantum-purple" :style="`width: ${errorCorrection.results.detectionRate * 100}%`"></div>
+                  </div>
+                </div>
+                
+                <!-- Error Correction Rate -->
+                <div>
+                  <div class="flex justify-between text-xs mb-1">
+                    <span>ERROR CORRECTION</span>
+                    <span>{{ (errorCorrection.results.correctionRate * 100).toFixed(1) }}%</span>
+                  </div>
+                  <div class="w-full bg-quantum-dark rounded-full h-2 border border-quantum-light border-opacity-20">
+                    <div class="h-full rounded-full bg-quantum-success" :style="`width: ${errorCorrection.results.correctionRate * 100}%`"></div>
+                  </div>
+                </div>
+                
+                <!-- Error Code Visualization -->
+                <div class="border border-quantum-light border-opacity-10 p-3 rounded">
+                  <div class="text-xs opacity-70 mb-2">QUANTUM CODE VISUALIZATION</div>
+                  
+                  <div class="grid grid-cols-3 gap-1">
+                    <div v-for="(q, i) in errorCorrection.results.codewords" :key="`code-${i}`"
+                         class="border border-quantum-light border-opacity-10 p-2 rounded text-center">
+                      <div class="text-xs opacity-70">|{{ q.logical }}⟩</div>
+                      <div class="mt-1 text-xs font-mono">{{ q.physical }}</div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Error Patterns -->
+                <div class="border border-quantum-light border-opacity-10 p-3 rounded">
+                  <div class="text-xs opacity-70 mb-2">ERROR PATTERNS</div>
+                  
+                  <div class="space-y-2">
+                    <div v-for="(pattern, i) in errorCorrection.results.errorPatterns" :key="`err-${i}`"
+                         class="text-xs flex justify-between">
+                      <div>{{ pattern.name }}</div>
+                      <div>{{ (pattern.rate * 100).toFixed(1) }}%</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div v-else class="h-full flex items-center justify-center py-12 opacity-50">
+                <div class="text-center">
+                  <div class="text-sm">Run a simulation to see results</div>
+                  <div class="text-xs mt-2">Explore how quantum error correction codes work</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    
+    <!-- Quantum Gate Selector Modal -->
+    <div v-if="gateSelector.show" class="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center backdrop-blur-sm">
+      <div class="bg-quantum-dark border border-quantum-light border-opacity-30 rounded-lg p-6 max-w-md w-full">
+        <h3 class="text-xl font-bold mb-4 text-quantum-accent">SELECT GATE</h3>
+        
+        <div class="grid grid-cols-3 gap-3 mb-6">
+          <button v-for="gate in quantumGates" 
+                  :key="`select-${gate.name}`"
+                  @click="addGateToCircuit(gate)"
+                  class="border border-quantum-light border-opacity-20 p-3 rounded text-center hover:border-quantum-accent hover:text-quantum-accent transition-colors">
+            <div class="font-bold">{{ gate.name }}</div>
+            <div class="text-xs opacity-60 mt-1">{{ gate.description }}</div>
+          </button>
+        </div>
+        
+        <div v-if="gateSelector.controlMode" class="mb-6">
+          <h4 class="text-sm font-bold mb-2 text-quantum-purple">CONTROL & TARGET</h4>
+          <div class="flex space-x-4">
+            <div>
+              <label class="block text-xs opacity-60 mb-1">CONTROL QUBIT</label>
+              <select v-model="gateSelector.controlQubit" class="bg-quantum-dark border border-quantum-light border-opacity-30 rounded px-3 py-2">
+                <option v-for="i in circuit.wires.length" :key="`ctrl-${i-1}`" :value="i-1">
+                  Qubit {{ i-1 }}
+                </option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs opacity-60 mb-1">TARGET QUBIT</label>
+              <select v-model="gateSelector.targetQubit" class="bg-quantum-dark border border-quantum-light border-opacity-30 rounded px-3 py-2">
+                <option v-for="i in circuit.wires.length" :key="`target-${i-1}`" :value="i-1">
+                  Qubit {{ i-1 }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flex justify-end">
+          <button @click="closeGateSelector" class="mr-3 border border-quantum-light border-opacity-20 px-4 py-2 text-sm rounded hover:border-quantum-warning hover:text-quantum-warning transition-colors">
+            CANCEL
+          </button>
+          <button v-if="gateSelector.controlMode" @click="addControlledGateToCircuit" class="border border-quantum-purple px-4 py-2 text-sm text-quantum-purple hover:bg-quantum-purple hover:bg-opacity-10 transition-colors">
+            ADD CONTROLLED GATE
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="py-8 px-8 border-t border-quantum-light border-opacity-20">
+      <div class="container mx-auto flex justify-between items-center">
+        <div>
+          <span class="text-xl font-bold tracking-tight">
+            <span class="text-quantum-accent">Q</span>UBIT
+          </span>
+          <div class="text-xs opacity-50 mt-1">Quantum Interface v{{ version }}</div>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="text-xs opacity-50">
+            Quantum Coherence: {{ coherenceLevel.toFixed(2) }}%
+          </div>
+          <a href="https://absurd.industries" target="_blank" class="text-xs opacity-50 hover:opacity-100 hover:text-quantum-accent transition-colors">
+            ABSURD INDUSTRIES
+          </a>
+        </div>
+      </div>
+    </footer>
+  </div>
+  
+  <!-- Scripts -->
+  <script src="quantum.js"></script>
+</body>
+</html>

@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AMARTHA SOUND MACHINE</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ["Space Mono", "monospace"],
+            },
+            animation: {
+              "spin-slow": "spin 8s linear infinite",
+              "pulse-slow": "pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              "text-slide": "text-slide 12s linear infinite",
+              wave: "wave 1.5s infinite ease-in-out",
+              glitch: "glitch 1s infinite",
+              float: "float 6s ease-in-out infinite",
+              breathe: "breathe 4s ease-in-out infinite",
+            },
+            keyframes: {
+              "text-slide": {
+                "0%, 100%": { transform: "translateX(0%)" },
+                "50%": { transform: "translateX(-20%)" },
+              },
+              wave: {
+                "0%": { transform: "scaleY(0.1)" },
+                "50%": { transform: "scaleY(1)" },
+                "100%": { transform: "scaleY(0.1)" },
+              },
+              glitch: {
+                "0%, 100%": { transform: "translate(0)" },
+                "20%": { transform: "translate(-2px, 2px)" },
+                "40%": { transform: "translate(-2px, -2px)" },
+                "60%": { transform: "translate(2px, 2px)" },
+                "80%": { transform: "translate(2px, -2px)" },
+              },
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-10px)" },
+              },
+              breathe: {
+                "0%, 100%": { transform: "scale(1)" },
+                "50%": { transform: "scale(1.05)" },
+              },
+            },
+          },
+        },
+        plugins: [],
+      };
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body
+    class="bg-black text-white min-h-screen flex flex-col font-mono overflow-x-hidden"
+  >
+    <div id="app" v-cloak>
+      <!-- Navigation -->
+      <nav
+        class="fixed w-full px-4 py-3 flex justify-between items-center z-50 bg-black border-b border-white bg-opacity-90 backdrop-blur-sm"
+      >
+        <div class="flex items-center">
+          <button
+            @click="toggleAnimation"
+            class="text-xl font-bold tracking-normal relative overflow-hidden group"
+          >
+            <span class="relative z-10" :class="{'animate-glitch': isAnimating}"
+              >AMARTHA</span
+            >
+            <span
+              class="absolute top-0 left-0 w-0 h-full bg-white transition-all duration-300 group-hover:w-full opacity-10"
+            ></span>
+          </button>
+          <div
+            v-show="isAnimating"
+            class="ml-2 text-xs text-red-500 animate-pulse"
+          >
+            // SYSTEM ACTIVE
+          </div>
+        </div>
+        <div class="flex gap-6">
+          <button
+            @click="activeSection = 'sampler'"
+            :class="{'underline decoration-4 underline-offset-8': activeSection === 'sampler'}"
+            class="text-sm hover:underline decoration-4 underline-offset-8"
+          >
+            SAMPLER
+          </button>
+          <button
+            @click="activeSection = 'sequencer'"
+            :class="{'underline decoration-4 underline-offset-8': activeSection === 'sequencer'}"
+            class="text-sm hover:underline decoration-4 underline-offset-8"
+          >
+            SEQUENCER
+          </button>
+          <button
+            @click="activeSection = 'synth'"
+            :class="{'underline decoration-4 underline-offset-8': activeSection === 'synth'}"
+            class="text-sm hover:underline decoration-4 underline-offset-8"
+          >
+            SYNTH
+          </button>
+        </div>
+      </nav>
+
+      <!-- Hero Section -->
+      <header
+        class="h-screen flex flex-col justify-center items-center pt-16 relative overflow-hidden"
+      >
+        <div class="absolute inset-0 z-0">
+          <div
+            v-for="i in 20"
+            :key="i"
+            class="absolute bg-white opacity-10"
+            :style="{
+               width: `${Math.random() * 200 + 50}px`,
+               height: `${Math.random() * 2 + 1}px`,
+               top: `${Math.random() * 100}%`,
+               left: `${Math.random() * 100}%`,
+               transform: `rotate(${Math.random() * 360}deg)`,
+               animationDelay: `${Math.random() * 5}s`,
+               animationDuration: `${Math.random() * 5 + 5}s`
+             }"
+            :class="{'animate-pulse-slow': isAnimating}"
+          ></div>
+        </div>
+
+        <div class="z-10 px-8 max-w-4xl text-center">
+          <h1 class="text-6xl md:text-8xl font-bold mb-6 leading-none">
+            <span class="relative inline-block">
+              <span :class="{'animate-glitch': isAnimating}">SOUND</span>
+              <span class="text-xs align-super tracking-normal">MATRIX</span>
+              <span
+                v-if="isAnimating"
+                class="absolute -top-1 left-1 opacity-30 text-red-500"
+                >SOUND</span
+              >
+              <span
+                v-if="isAnimating"
+                class="absolute -bottom-1 -left-1 opacity-30 text-blue-500"
+                >SOUND</span
+              >
+            </span>
+          </h1>
+          <p class="text-lg md:text-xl max-w-2xl mx-auto">{{ tagline }}</p>
+          <div class="mt-12">
+            <button
+              @click="startSystem"
+              class="relative overflow-hidden group border border-white px-8 py-3 text-sm uppercase tracking-widest inline-block hover:bg-white hover:text-black transition-colors"
+            >
+              {{ systemActive ? 'SYSTEM ACTIVE' : 'INITIALIZE SYSTEM' }}
+              <span
+                class="absolute bottom-0 left-0 w-full h-0.5 bg-white transition-all duration-300 group-hover:h-full opacity-20"
+              ></span>
+            </button>
+          </div>
+        </div>
+
+        <div
+          v-show="isAnimating"
+          class="absolute bottom-8 left-0 w-full overflow-hidden whitespace-nowrap"
+        >
+          <div class="animate-text-slide inline-block text-xs opacity-50">
+            <span class="mx-4">INITIALIZING AUDIO MATRIX</span>
+            <span class="mx-4">•</span>
+            <span class="mx-4">CALCULATING FREQUENCY HARMONICS</span>
+            <span class="mx-4">•</span>
+            <span class="mx-4">CALIBRATING WAVEFORM GENERATORS</span>
+            <span class="mx-4">•</span>
+            <span class="mx-4">QUANTIZING BEAT STRUCTURES</span>
+            <span class="mx-4">•</span>
+            <span class="mx-4">OPTIMIZING BUFFER OPERATIONS</span>
+            <span class="mx-4">•</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main>
+        <!-- Sampler Section -->
+        <section
+          v-show="activeSection === 'sampler'"
+          class="py-24 px-8 min-h-screen"
+        >
+          <div class="max-w-6xl mx-auto">
+            <h2 class="text-5xl font-bold mb-16">
+              SAMP<span class="text-xs align-super">LER</span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div
+                v-for="(pad, index) in drumPads"
+                :key="index"
+                @mousedown="triggerSample(pad)"
+                @touchstart.prevent="triggerSample(pad)"
+                class="aspect-square border border-white relative overflow-hidden cursor-pointer transition-all duration-150 hover:bg-white hover:bg-opacity-10"
+                :class="{'bg-white bg-opacity-20': pad.active}"
+              >
+                <div class="absolute inset-0 flex flex-col justify-between p-4">
+                  <div class="text-xl font-bold">{{ pad.name }}</div>
+                  <div class="flex justify-between items-end">
+                    <div class="text-xs opacity-70">
+                      {{ pad.key.toUpperCase() }}
+                    </div>
+                    <div
+                      v-if="pad.active"
+                      class="w-3 h-3 bg-red-500 rounded-full animate-pulse"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-16">
+              <h3 class="text-2xl font-bold mb-6">MIXER</h3>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                  <label class="block text-sm mb-2">MASTER VOLUME</label>
+                  <input
+                    type="range"
+                    v-model="masterVolume"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    class="w-full accent-white"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm mb-2">FILTER CUTOFF</label>
+                  <input
+                    type="range"
+                    v-model="filterCutoff"
+                    min="20"
+                    max="20000"
+                    step="1"
+                    class="w-full accent-white"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm mb-2">REVERB AMOUNT</label>
+                  <input
+                    type="range"
+                    v-model="reverbAmount"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    class="w-full accent-white"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Sequencer Section -->
+        <section
+          v-show="activeSection === 'sequencer'"
+          class="py-24 px-8 min-h-screen"
+        >
+          <div class="max-w-6xl mx-auto">
+            <h2 class="text-5xl font-bold mb-16">
+              SEQ<span class="text-xs align-super">UENCER</span>
+            </h2>
+
+            <div class="flex justify-between items-center mb-8">
+              <div class="text-2xl">{{ bpm }} BPM</div>
+              <div class="flex gap-4">
+                <button
+                  @click="bpm -= 5"
+                  class="border border-white px-3 py-1 hover:bg-white hover:text-black transition-colors"
+                >
+                  -
+                </button>
+                <button
+                  @click="bpm += 5"
+                  class="border border-white px-3 py-1 hover:bg-white hover:text-black transition-colors"
+                >
+                  +
+                </button>
+              </div>
+              <button
+                @click="toggleSequencer"
+                class="border border-white px-4 py-2 hover:bg-white hover:text-black transition-colors"
+              >
+                {{ sequencerRunning ? 'STOP' : 'PLAY' }}
+              </button>
+              <button
+                @click="clearSequencer"
+                class="border border-white px-4 py-2 hover:bg-white hover:text-black transition-colors"
+              >
+                CLEAR
+              </button>
+            </div>
+
+            <div class="overflow-x-auto">
+              <div class="sequencer-grid">
+                <div
+                  v-for="(track, trackIndex) in sequencerTracks"
+                  :key="'track-'+trackIndex"
+                  class="track"
+                >
+                  <div class="track-name">{{ track.name }}</div>
+                  <div class="steps">
+                    <div
+                      v-for="(step, stepIndex) in 16"
+                      :key="'step-'+trackIndex+'-'+stepIndex"
+                      @click="toggleStep(trackIndex, stepIndex)"
+                      class="step"
+                      :class="{
+                         'active': track.steps[stepIndex],
+                         'playing': currentStep === stepIndex && sequencerRunning
+                       }"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-16">
+              <h3 class="text-2xl font-bold mb-6">PATTERNS</h3>
+              <div class="flex flex-wrap gap-4">
+                <button
+                  v-for="pattern in patterns"
+                  :key="pattern.name"
+                  @click="loadPattern(pattern)"
+                  class="border border-white px-4 py-2 hover:bg-white hover:text-black transition-colors"
+                >
+                  {{ pattern.name }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Synth Section -->
+        <section
+          v-show="activeSection === 'synth'"
+          class="py-24 px-8 min-h-screen"
+        >
+          <div class="max-w-6xl mx-auto">
+            <h2 class="text-5xl font-bold mb-16">
+              SYN<span class="text-xs align-super">TH</span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <!-- Keyboard -->
+              <div class="border border-white p-6">
+                <h3 class="text-2xl font-bold mb-4">KEYBOARD</h3>
+                <div ref="keyboard" class="piano-keyboard">
+                  <!-- Keys are rendered dynamically in CSS -->
+                </div>
+
+                <div class="mt-4 grid grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm mb-2">OCTAVE</label>
+                    <div class="flex">
+                      <button
+                        @click="octave > 1 ? octave-- : null"
+                        class="border border-white px-3 py-1 hover:bg-white hover:text-black transition-colors"
+                      >
+                        -
+                      </button>
+                      <div
+                        class="border-t border-b border-white px-3 py-1 min-w-[3rem] text-center"
+                      >
+                        {{ octave }}
+                      </div>
+                      <button
+                        @click="octave < 6 ? octave++ : null"
+                        class="border border-white px-3 py-1 hover:bg-white hover:text-black transition-colors"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-sm mb-2">WAVEFORM</label>
+                    <select
+                      v-model="waveform"
+                      class="bg-black border border-white px-3 py-1 w-full"
+                    >
+                      <option value="sine">Sine</option>
+                      <option value="square">Square</option>
+                      <option value="sawtooth">Sawtooth</option>
+                      <option value="triangle">Triangle</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Theremin -->
+              <div class="border border-white p-6">
+                <h3 class="text-2xl font-bold mb-4">THEREMIN</h3>
+                <div ref="theremin" class="theremin-pad">
+                  <div class="cursor" :style="thereminCursorStyle"></div>
+                </div>
+                <div class="mt-2 flex justify-between text-xs">
+                  <div>X: {{ thereminX.toFixed(2) }}</div>
+                  <div>Y: {{ thereminY.toFixed(2) }}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+              <!-- ADSR Envelope -->
+              <div class="border border-white p-6">
+                <h3 class="text-2xl font-bold mb-4">ENVELOPE</h3>
+                <div class="grid grid-cols-4 gap-4">
+                  <div>
+                    <label class="block text-sm mb-2">ATTACK</label>
+                    <input
+                      type="range"
+                      v-model="envelope.attack"
+                      min="0.01"
+                      max="2"
+                      step="0.01"
+                      orient="vertical"
+                      class="h-32 accent-white"
+                    />
+                    <div class="text-center mt-2">
+                      {{ envelope.attack.toFixed(2) }}
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-sm mb-2">DECAY</label>
+                    <input
+                      type="range"
+                      v-model="envelope.decay"
+                      min="0.01"
+                      max="2"
+                      step="0.01"
+                      orient="vertical"
+                      class="h-32 accent-white"
+                    />
+                    <div class="text-center mt-2">
+                      {{ envelope.decay.toFixed(2) }}
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-sm mb-2">SUSTAIN</label>
+                    <input
+                      type="range"
+                      v-model="envelope.sustain"
+                      min="0"
+                      max="1"
+                      step="0.01"
+                      orient="vertical"
+                      class="h-32 accent-white"
+                    />
+                    <div class="text-center mt-2">
+                      {{ envelope.sustain.toFixed(2) }}
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-sm mb-2">RELEASE</label>
+                    <input
+                      type="range"
+                      v-model="envelope.release"
+                      min="0.01"
+                      max="3"
+                      step="0.01"
+                      orient="vertical"
+                      class="h-32 accent-white"
+                    />
+                    <div class="text-center mt-2">
+                      {{ envelope.release.toFixed(2) }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Effects -->
+              <div class="border border-white p-6">
+                <h3 class="text-2xl font-bold mb-4">EFFECTS</h3>
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm mb-2">FILTER CUTOFF</label>
+                    <input
+                      type="range"
+                      v-model="synthFilterCutoff"
+                      min="20"
+                      max="20000"
+                      step="1"
+                      class="w-full accent-white"
+                    />
+                    <div class="text-center mt-2">
+                      {{ synthFilterCutoff.toFixed(0) }} Hz
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-sm mb-2">FILTER RESONANCE</label>
+                    <input
+                      type="range"
+                      v-model="synthFilterResonance"
+                      min="0"
+                      max="20"
+                      step="0.1"
+                      class="w-full accent-white"
+                    />
+                    <div class="text-center mt-2">
+                      {{ synthFilterResonance.toFixed(1) }}
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-sm mb-2">DELAY TIME</label>
+                    <input
+                      type="range"
+                      v-model="delayTime"
+                      min="0"
+                      max="1"
+                      step="0.01"
+                      class="w-full accent-white"
+                    />
+                    <div class="text-center mt-2">
+                      {{ delayTime.toFixed(2) }} s
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-sm mb-2">DELAY FEEDBACK</label>
+                    <input
+                      type="range"
+                      v-model="delayFeedback"
+                      min="0"
+                      max="0.9"
+                      step="0.01"
+                      class="w-full accent-white"
+                    />
+                    <div class="text-center mt-2">
+                      {{ delayFeedback.toFixed(2) }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-8">
+              <div class="border border-white p-6">
+                <h3 class="text-2xl font-bold mb-4">AUDIO VISUALIZER</h3>
+                <canvas ref="visualizer" class="w-full h-32 bg-black"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="py-8 px-8 border-t border-white">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+          <div>
+            <a href="#" class="text-xl font-bold tracking-normal"> AMARTHA </a>
+            <div class="text-xs text-gray-500 mt-1">v{{ version }}</div>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="text-xs text-gray-500 flex items-center gap-2">
+              <span class="inline-block transform rotate-180 text-lg mb-2"
+                >©</span
+              >
+              <span
+                >Copyleft {{ currentYear }} -
+                <a
+                  href="https://absurd.industries"
+                  target="_blank"
+                  class="underline"
+                  >ABSURD INDUSTRIES</a
+                ></span
+              >
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+  </body>
+</html>
