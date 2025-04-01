@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Proto-Language Indic - Cross Language Learning</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              cosmic: {
+                dark: "#050714",
+                accent: "#6d28d9",
+                highlight: "#8b5cf6",
+                accent2: "#ec4899",
+              },
+            },
+            fontFamily: {
+              hindi: ["Hind", "sans-serif"],
+              tamil: ["Catamaran", "sans-serif"],
+              telugu: ["Baloo Thambi 2", "sans-serif"],
+              bengali: ["Atma", "sans-serif"],
+              malayalam: ["Manjari", "sans-serif"],
+              kannada: ["Baloo Tamma 2", "sans-serif"],
+              indo: ["Space Mono", "monospace"],
+            },
+            keyframes: {
+              float: {
+                "0%, 100%": { transform: "translateY(0px)" },
+                "50%": { transform: "translateY(-10px)" },
+              },
+              twinkle: {
+                "0%, 100%": { opacity: "0.2" },
+                "50%": { opacity: "1" },
+              },
+              glow: {
+                "0%, 100%": {
+                  boxShadow: "0 0 5px rgba(139, 92, 246, 0.5)",
+                  borderColor: "rgba(139, 92, 246, 0.5)",
+                },
+                "50%": {
+                  boxShadow:
+                    "0 0 20px rgba(139, 92, 246, 0.8), 0 0 30px rgba(139, 92, 246, 0.5)",
+                  borderColor: "rgba(139, 92, 246, 0.8)",
+                },
+              },
+              marquee: {
+                "0%": { transform: "translateX(0%)" },
+                "100%": { transform: "translateX(-100%)" },
+              },
+            },
+            animation: {
+              float: "float 6s infinite ease-in-out",
+              twinkle: "twinkle 4s infinite ease-in-out",
+              "pulse-slow": "pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              glow: "glow 3s infinite ease-in-out",
+              marquee: "marquee 60s linear infinite",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+
+      .word-enter {
+        animation: fadeIn 0.8s forwards;
+      }
+
+      .word-exit {
+        animation: fadeOut 0.8s forwards;
+      }
+
+      .parallax-stars {
+        perspective: 100px;
+      }
+
+      .parallax-stars .star-layer-1 {
+        transform: translateZ(-30px) scale(1.3);
+      }
+
+      .parallax-stars .star-layer-2 {
+        transform: translateZ(-60px) scale(1.6);
+      }
+
+      .parallax-stars .star-layer-3 {
+        transform: translateZ(-90px) scale(1.9);
+      }
+
+      .progress-bar-bg {
+        background: #1e1e3f;
+        border-radius: 9999px;
+        height: 8px;
+        overflow: hidden;
+      }
+
+      .progress-bar-fill {
+        height: 100%;
+        border-radius: 9999px;
+        background: linear-gradient(90deg, #6d28d9, #8b5cf6, #ec4899);
+        transition: width 0.3s ease;
+      }
+
+      .dual-display-card {
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        background: rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1),
+          0 0 10px rgba(139, 92, 246, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .dual-display-card:hover {
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2),
+          0 0 15px rgba(139, 92, 246, 0.4);
+        border-color: rgba(139, 92, 246, 0.6);
+      }
+
+      /* Scrollbar Styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: rgba(30, 30, 63, 0.5);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgba(139, 92, 246, 0.5);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(139, 92, 246, 0.8);
+      }
+    </style>
+    <!-- Google Fonts for Indic Languages -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Atma:wght@400;700&family=Baloo+Tamma+2:wght@400;700&family=Baloo+Thambi+2:wght@400;700&family=Catamaran:wght@400;700&family=Hind:wght@400;700&family=Manjari:wght@400;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="bg-cosmic-dark text-white overflow-x-hidden m-0 p-0 font-indo min-h-screen"
+  >
+    <!-- Parallax Star background -->
+    <div class="fixed inset-0 z-0 parallax-stars overflow-hidden">
+      <div id="stars-container-1" class="absolute inset-0 star-layer-1"></div>
+      <div id="stars-container-2" class="absolute inset-0 star-layer-2"></div>
+      <div id="stars-container-3" class="absolute inset-0 star-layer-3"></div>
+    </div>
+
+    <!-- Language word ticker -->
+    <div
+      class="fixed bottom-0 left-0 w-full bg-gradient-to-r from-cosmic-dark via-cosmic-accent to-cosmic-accent2 h-10 overflow-hidden z-20"
+    >
+      <div class="flex items-center h-full animate-marquee whitespace-nowrap">
+        <div id="ticker-content" class="flex space-x-6 mx-4"></div>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="relative z-10 min-h-screen flex flex-col">
+      <!-- Header -->
+      <header
+        class="p-6 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
+      >
+        <div class="flex items-center">
+          <h1 class="text-2xl md:text-4xl font-bold tracking-tight">
+            Proto-Language <span class="text-cosmic-highlight">Indic</span>
+          </h1>
+          <div
+            class="ml-4 bg-cosmic-accent bg-opacity-20 px-2 py-1 rounded-md text-xs"
+          >
+            Cross-language learning
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="flex space-x-4 items-center">
+          <!-- Learning mode -->
+          <div class="flex items-center space-x-2">
+            <span class="text-sm opacity-70">Learning Mode:</span>
+            <select
+              id="mode-selector"
+              class="bg-cosmic-dark border border-cosmic-highlight rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-cosmic-accent"
+            >
+              <option value="compare">Compare (English + Language)</option>
+              <option value="learn">Learn (Multi-language)</option>
+              <option value="quiz">Quiz Mode</option>
+            </select>
+          </div>
+
+          <!-- Primary language selector -->
+          <div class="flex items-center space-x-2">
+            <span class="text-sm opacity-70">Primary:</span>
+            <select
+              id="primary-language-selector"
+              class="bg-cosmic-dark border border-cosmic-highlight rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-cosmic-accent"
+            >
+              <option value="english">English</option>
+              <option value="hindi">हिन्दी (Hindi)</option>
+              <option value="tamil">தமிழ் (Tamil)</option>
+              <option value="telugu">తెలుగు (Telugu)</option>
+              <option value="bengali">বাংলা (Bengali)</option>
+              <option value="malayalam">മലയാളം (Malayalam)</option>
+              <option value="kannada">ಕನ್ನಡ (Kannada)</option>
+            </select>
+          </div>
+
+          <!-- Secondary language selector (for compare mode) -->
+          <div
+            id="secondary-lang-container"
+            class="flex items-center space-x-2"
+          >
+            <span class="text-sm opacity-70">Secondary:</span>
+            <select
+              id="secondary-language-selector"
+              class="bg-cosmic-dark border border-cosmic-highlight rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-cosmic-accent"
+            >
+              <option value="hindi">हिन्दी (Hindi)</option>
+              <option value="tamil">தமிழ் (Tamil)</option>
+              <option value="telugu">తెలుగు (Telugu)</option>
+              <option value="bengali">বাংলা (Bengali)</option>
+              <option value="malayalam">മലയാളം (Malayalam)</option>
+              <option value="kannada">ಕನ್ನಡ (Kannada)</option>
+              <option value="english">English</option>
+            </select>
+          </div>
+        </div>
+      </header>
+
+      <!-- Mini progress tracker -->
+      <div class="px-6 pb-2">
+        <div class="flex items-center justify-between mb-1">
+          <span id="progress-text" class="text-xs opacity-70"
+            >Word 1 of 50</span
+          >
+          <button
+            id="toggle-fav-btn"
+            class="text-xs bg-cosmic-accent bg-opacity-20 hover:bg-opacity-40 px-2 py-1 rounded-md flex items-center space-x-1"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+              />
+            </svg>
+            <span>Favorite</span>
+          </button>
+        </div>
+        <div class="progress-bar-bg w-full">
+          <div
+            id="progress-bar"
+            class="progress-bar-fill"
+            style="width: 2%"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Main display area -->
+      <main class="flex-1 flex flex-col items-center justify-center px-4 pb-16">
+        <!-- Compare mode display (default) -->
+        <div id="compare-mode" class="w-full max-w-4xl">
+          <div
+            class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 items-stretch"
+          >
+            <!-- Primary language card -->
+            <div class="dual-display-card flex-1 rounded-xl overflow-hidden">
+              <div
+                class="bg-gradient-to-r from-cosmic-accent to-cosmic-highlight py-2 px-4 flex justify-between items-center"
+              >
+                <h3 id="primary-lang-title" class="font-bold">English</h3>
+                <div class="text-xs opacity-70">Primary</div>
+              </div>
+              <div class="p-6 flex items-center justify-center min-h-48">
+                <div
+                  id="primary-word"
+                  class="text-3xl md:text-5xl font-bold text-center"
+                ></div>
+              </div>
+              <div id="primary-extras" class="px-4 pb-4">
+                <!-- Filled dynamically by JavaScript -->
+              </div>
+            </div>
+
+            <!-- Secondary language card -->
+            <div class="dual-display-card flex-1 rounded-xl overflow-hidden">
+              <div
+                class="bg-gradient-to-r from-cosmic-highlight to-cosmic-accent2 py-2 px-4 flex justify-between items-center"
+              >
+                <h3 id="secondary-lang-title" class="font-bold">Hindi</h3>
+                <div class="text-xs opacity-70">Secondary</div>
+              </div>
+              <div class="p-6 flex items-center justify-center min-h-48">
+                <div
+                  id="secondary-word"
+                  class="text-3xl md:text-5xl font-bold text-center"
+                ></div>
+              </div>
+              <div
+                id="secondary-transliteration"
+                class="px-4 pb-4 text-center opacity-70 italic"
+              >
+                <!-- Filled dynamically by JavaScript -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Pronunciation and usage examples -->
+          <div class="mt-8 dual-display-card rounded-xl overflow-hidden">
+            <div
+              class="bg-gradient-to-r from-cosmic-accent2 to-cosmic-accent py-2 px-4"
+            >
+              <h3 class="font-bold">Pronunciation & Usage</h3>
+            </div>
+            <div class="p-4">
+              <div class="flex items-center justify-center space-x-4 mb-4">
+                <button
+                  id="play-primary-btn"
+                  class="bg-cosmic-accent bg-opacity-20 hover:bg-opacity-40 p-2 rounded-full"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.465a5 5 0 001.06-7.19l5.658-5.656a5 5 0 017.188 7.19l-1.065 1.06"
+                    />
+                  </svg>
+                </button>
+                <div id="pronunciation-guide" class="text-lg"></div>
+                <button
+                  id="play-secondary-btn"
+                  class="bg-cosmic-accent bg-opacity-20 hover:bg-opacity-40 p-2 rounded-full"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.465a5 5 0 001.06-7.19l5.658-5.656a5 5 0 017.188 7.19l-1.065 1.06"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div id="usage-examples" class="space-y-2 text-sm">
+                <!-- Will be filled by JavaScript -->
+                <p class="opacity-80">Loading examples...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Learn mode display (initially hidden) -->
+        <div id="learn-mode" class="w-full max-w-4xl hidden">
+          <div class="dual-display-card rounded-xl overflow-hidden">
+            <div
+              class="bg-gradient-to-r from-cosmic-accent to-cosmic-accent2 py-2 px-4"
+            >
+              <h3 class="font-bold">Multi-language Learning</h3>
+            </div>
+            <div class="p-4 grid grid-cols-2 md:grid-cols-3 gap-4">
+              <!-- Will be filled dynamically with all languages for current word -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Quiz mode display (initially hidden) -->
+        <div id="quiz-mode" class="w-full max-w-4xl hidden">
+          <div class="dual-display-card rounded-xl overflow-hidden">
+            <div
+              class="bg-gradient-to-r from-cosmic-accent2 to-cosmic-highlight py-2 px-4 flex justify-between"
+            >
+              <h3 class="font-bold">Quiz Mode</h3>
+              <div id="quiz-score" class="text-sm font-bold">Score: 0</div>
+            </div>
+            <div class="p-6">
+              <div id="quiz-question" class="text-xl text-center mb-6"></div>
+              <div
+                id="quiz-options"
+                class="grid grid-cols-1 md:grid-cols-2 gap-4"
+              >
+                <!-- Will be populated by JavaScript -->
+              </div>
+              <div id="quiz-feedback" class="mt-6 text-center hidden"></div>
+              <div class="mt-6 flex justify-center">
+                <button
+                  id="next-quiz-btn"
+                  class="bg-cosmic-accent hover:bg-opacity-80 px-4 py-2 rounded-md font-bold hidden"
+                >
+                  Next Question
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Navigation controls -->
+      <div
+        class="fixed bottom-16 left-1/2 transform -translate-x-1/2 z-20 flex items-center space-x-6 bg-cosmic-dark bg-opacity-70 backdrop-blur-md px-6 py-3 rounded-full animate-glow"
+      >
+        <button
+          id="prev-btn"
+          class="p-2 bg-cosmic-accent bg-opacity-20 hover:bg-opacity-40 rounded-full"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button
+          id="toggle-btn"
+          class="px-4 py-2 bg-cosmic-accent bg-opacity-20 hover:bg-opacity-40 rounded-md text-sm min-w-24 text-center"
+        >
+          Pause
+        </button>
+        <button
+          id="next-btn"
+          class="p-2 bg-cosmic-accent bg-opacity-20 hover:bg-opacity-40 rounded-full"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Footer with word browser and quick settings -->
+      <div class="fixed bottom-12 right-4 z-20">
+        <button
+          id="toggle-word-browser"
+          class="bg-cosmic-accent hover:bg-opacity-80 p-3 rounded-full shadow-lg"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Word browser modal (initially hidden) -->
+      <div
+        id="word-browser-modal"
+        class="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center hidden"
+      >
+        <div
+          class="bg-cosmic-dark rounded-xl w-full max-w-4xl max-h-[80vh] overflow-hidden flex flex-col"
+        >
+          <div
+            class="bg-gradient-to-r from-cosmic-accent to-cosmic-highlight py-4 px-6 flex justify-between items-center"
+          >
+            <h2 class="font-bold text-xl">Word Browser</h2>
+            <button
+              id="close-word-browser"
+              class="p-1 hover:bg-white hover:bg-opacity-10 rounded-full"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+          <div class="px-6 py-4">
+            <div class="flex space-x-4 mb-4">
+              <div class="relative flex-1">
+                <input
+                  type="text"
+                  id="word-search"
+                  placeholder="Search words..."
+                  class="w-full bg-cosmic-dark border border-cosmic-highlight rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cosmic-accent focus:border-transparent"
+                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 absolute right-3 top-2.5 opacity-50"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </div>
+              <select
+                id="filter-language"
+                class="bg-cosmic-dark border border-cosmic-highlight rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cosmic-accent"
+              >
+                <option value="all">All Languages</option>
+                <option value="english">English</option>
+                <option value="hindi">Hindi</option>
+                <option value="tamil">Tamil</option>
+                <option value="telugu">Telugu</option>
+                <option value="bengali">Bengali</option>
+                <option value="malayalam">Malayalam</option>
+                <option value="kannada">Kannada</option>
+              </select>
+              <button
+                id="show-favorites"
+                class="bg-cosmic-accent bg-opacity-20 hover:bg-opacity-40 px-3 py-2 rounded-md flex items-center space-x-1"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                  />
+                </svg>
+                <span>Favorites</span>
+              </button>
+            </div>
+            <div
+              id="word-browser-content"
+              class="overflow-y-auto max-h-[60vh] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"
+            >
+              <!-- Will be populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main JavaScript for functionality -->
+    <script>
+      // ===== DATA =====
+      // Will be populated from script.js, keeping just the skeleton here
+      const languageData = {}; // Will be loaded from script.js
+      const fontMapping = {}; // Will be loaded from script.js
+
+      // DOM elements
+      const primaryWordEl = document.getElementById("primary-word");
+      const secondaryWordEl = document.getElementById("secondary-word");
+      const primaryLangTitle = document.getElementById("primary-lang-title");
+      const secondaryLangTitle = document.getElementById(
+        "secondary-lang-title"
+      );
+      const secondaryTransliteration = document.getElementById(
+        "secondary-transliteration"
+      );
+      const primaryExtras = document.getElementById("primary-extras");
+      const pronunciationGuide = document.getElementById("pronunciation-guide");
+      const usageExamples = document.getElementById("usage-examples");
+      const progressBar = document.getElementById("progress-bar");
+      const progressText = document.getElementById("progress-text");
+      const prevBtn = document.getElementById("prev-btn");
+      const nextBtn = document.getElementById("next-btn");
+      const toggleBtn = document.getElementById("toggle-btn");
+      const toggleFavBtn = document.getElementById("toggle-fav-btn");
+      const primaryLangSelector = document.getElementById(
+        "primary-language-selector"
+      );
+      const secondaryLangSelector = document.getElementById(
+        "secondary-language-selector"
+      );
+      const modeSelector = document.getElementById("mode-selector");
+      const secondaryLangContainer = document.getElementById(
+        "secondary-lang-container"
+      );
+      const compareMode = document.getElementById("compare-mode");
+      const learnMode = document.getElementById("learn-mode");
+      const quizMode = document.getElementById("quiz-mode");
+      const toggleWordBrowserBtn = document.getElementById(
+        "toggle-word-browser"
+      );
+      const wordBrowserModal = document.getElementById("word-browser-modal");
+      const closeWordBrowserBtn = document.getElementById("close-word-browser");
+      const wordBrowserContent = document.getElementById(
+        "word-browser-content"
+      );
+      const wordSearch = document.getElementById("word-search");
+      const filterLanguage = document.getElementById("filter-language");
+      const showFavoritesBtn = document.getElementById("show-favorites");
+      const quizQuestion = document.getElementById("quiz-question");
+      const quizOptions = document.getElementById("quiz-options");
+      const quizFeedback = document.getElementById("quiz-feedback");
+      const nextQuizBtn = document.getElementById("next-quiz-btn");
+      const quizScore = document.getElementById("quiz-score");
+      const tickerContent = document.getElementById("ticker-content");
+
+      // State
+      let currentIndex = 0;
+      let primaryLanguage = "english";
+      let secondaryLanguage = "hindi";
+      let isAnimating = true;
+      let wordChangeInterval;
+      let favorites = JSON.parse(
+        localStorage.getItem("proto-language-favorites") || "[]"
+      );
+      let quizCurrentQuestion = null;
+      let quizCorrectStreak = 0;
+      let currentMode = "compare";
+      let usageData = {}; // Will store example usage sentences
+
+      // ===== Star Background =====
+      function createStars() {
+        const layers = [
+          {
+            container: document.getElementById("stars-container-1"),
+            count: 100,
+          },
+          {
+            container: document.getElementById("stars-container-2"),
+            count: 75,
+          },
+          {
+            container: document.getElementById("stars-container-3"),
+            count: 50,
+          },
+        ];
+
+        layers.forEach((layer) => {
+          layer.container.innerHTML = "";
+          const screenWidth = window.innerWidth;
+          const screenHeight = window.innerHeight;
+
+          for (let i = 0; i < layer.count; i++) {
+            const star = document.createElement("div");
+            star.className = "absolute rounded-full bg-white animate-twinkle";
+
+            // Random size between 1 and 3px
+            const size = Math.random() * 2 + 1;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+
+            // Random position
+            star.style.left = `${Math.random() * screenWidth}px`;
+            star.style.top = `${Math.random() * screenHeight}px`;
+
+            // Random animation delay
+            star.style.animationDelay = `${Math.random() * 4}s`;
+
+            // Random opacity
+            star.style.opacity = Math.random() * 0.7 + 0.3;
+
+            layer.container.appendChild(star);
+          }
+        });
+      }
+
+      // ===== Word Ticker =====
+      function updateTicker() {
+        tickerContent.innerHTML = "";
+
+        Object.keys(languageData).forEach((lang) => {
+          // Add a sampling of words from each language to the ticker
+          for (let i = 0; i < 3; i++) {
+            const randomIndex = Math.floor(
+              Math.random() * languageData[lang].length
+            );
+            const word = languageData[lang][randomIndex];
+
+            const tickerItem = document.createElement("div");
+            tickerItem.className = `flex items-center space-x-2 px-3 py-1 bg-cosmic-dark bg-opacity-30 rounded-md ${fontMapping[lang]}`;
+
+            const langBadge = document.createElement("span");
+            langBadge.className =
+              "text-xs px-1 bg-cosmic-accent bg-opacity-30 rounded";
+            langBadge.textContent = lang.charAt(0).toUpperCase();
+
+            const wordText = document.createElement("span");
+            wordText.textContent = word.text;
+
+            tickerItem.appendChild(langBadge);
+            tickerItem.appendChild(wordText);
+
+            tickerContent.appendChild(tickerItem);
+          }
+        });
+
+        // Clone the ticker content to make seamless loop
+        const tickerClone = tickerContent.cloneNode(true);
+        tickerClone.setAttribute("aria-hidden", "true");
+        tickerContent.parentNode.appendChild(tickerClone);
+      }
+
+      // ===== Core Word Display Functions =====
+      function updateWordDisplay() {
+        const primaryData = languageData[primaryLanguage][currentIndex];
+
+        // Update progress
+        const totalWords = languageData[primaryLanguage].length;
+        const progressPercent = ((currentIndex + 1) / totalWords) * 100;
+        progressBar.style.width = `${progressPercent}%`;
+        progressText.textContent = `Word ${currentIndex + 1} of ${totalWords}`;
+
+        // Set favorite button state
+        const isFavorite = favorites.some(
+          (fav) =>
+            fav.language === primaryLanguage && fav.index === currentIndex
+        );
+
+        toggleFavBtn.innerHTML = isFavorite
+          ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+           </svg><span>Favorited</span>`
+          : `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+           </svg><span>Favorite</span>`;
+
+        // Handle different display modes
+        if (currentMode === "compare") {
+          updateCompareMode();
+        } else if (currentMode === "learn") {
+          updateLearnMode();
+        } else if (currentMode === "quiz") {
+          updateQuizMode();
+        }
+      }
+
+      function updateCompareMode() {
+        const primaryData = languageData[primaryLanguage][currentIndex];
+        const secondaryData = languageData[secondaryLanguage][currentIndex];
+
+        // Update language titles
+        primaryLangTitle.textContent =
+          primaryLanguage.charAt(0).toUpperCase() + primaryLanguage.slice(1);
+        secondaryLangTitle.textContent =
+          secondaryLanguage.charAt(0).toUpperCase() +
+          secondaryLanguage.slice(1);
+
+        // Update word displays with proper font classes
+        primaryWordEl.className = `text-3xl md:text-5xl font-bold text-center ${fontMapping[primaryLanguage]}`;
+        primaryWordEl.textContent = primaryData.text;
+
+        secondaryWordEl.className = `text-3xl md:text-5xl font-bold text-center ${fontMapping[secondaryLanguage]}`;
+        secondaryWordEl.textContent = secondaryData.text;
+
+        // Update transliteration if available
+        if (secondaryLanguage !== "english" && secondaryData.transliteration) {
+          secondaryTransliteration.textContent = secondaryData.transliteration;
+          secondaryTransliteration.classList.remove("hidden");
+        } else {
+          secondaryTransliteration.classList.add("hidden");
+        }
+
+        // Update pronunciation guide
+        if (secondaryLanguage !== "english" && secondaryData.transliteration) {
+          pronunciationGuide.textContent = secondaryData.transliteration;
+        } else {
+          pronunciationGuide.textContent = "Pronunciation not available";
+        }
+
+        // Update usage examples (fictional data for demo)
+        usageExamples.innerHTML = "";
+
+        const examples = getUsageExamples(
+          primaryLanguage,
+          secondaryLanguage,
+          currentIndex
+        );
+        examples.forEach((example) => {
+          const exampleEl = document.createElement("div");
+          exampleEl.className = "p-3 bg-cosmic-dark bg-opacity-40 rounded-lg";
+
+          const primaryExample = document.createElement("p");
+          primaryExample.className = `mb-1 ${fontMapping[primaryLanguage]}`;
+          primaryExample.innerHTML = `<span class="font-bold text-cosmic-highlight mr-2">${primaryLanguage}:</span> ${example.primary}`;
+
+          const secondaryExample = document.createElement("p");
+          secondaryExample.className = `${fontMapping[secondaryLanguage]}`;
+          secondaryExample.innerHTML = `<span class="font-bold text-cosmic-accent2 mr-2">${secondaryLanguage}:</span> ${example.secondary}`;
+
+          exampleEl.appendChild(primaryExample);
+          exampleEl.appendChild(secondaryExample);
+          usageExamples.appendChild(exampleEl);
+        });
+
+        // Primary extras
+        primaryExtras.innerHTML = "";
+
+        // Related words section (if we had data for this, we would show it here)
+        const relatedDiv = document.createElement("div");
+        relatedDiv.className = "mt-2 text-sm";
+        relatedDiv.innerHTML = `
+        <div class="text-cosmic-highlight mb-1">Related words:</div>
+        <div class="flex flex-wrap gap-2">
+          <span class="px-2 py-1 bg-cosmic-dark bg-opacity-40 rounded-lg">Similar concept</span>
+          <span class="px-2 py-1 bg-cosmic-dark bg-opacity-40 rounded-lg">Another related word</span>
+        </div>
+      `;
+        primaryExtras.appendChild(relatedDiv);
+      }
+
+      function updateLearnMode() {
+        learnMode.querySelector(".grid").innerHTML = "";
+
+        Object.keys(languageData).forEach((lang) => {
+          const wordData = languageData[lang][currentIndex];
+
+          const langCard = document.createElement("div");
+          langCard.className =
+            "bg-cosmic-dark bg-opacity-40 rounded-lg p-3 flex flex-col items-center";
+
+          const langTitle = document.createElement("div");
+          langTitle.className = "text-sm font-bold mb-2";
+          langTitle.textContent = lang.charAt(0).toUpperCase() + lang.slice(1);
+
+          const wordText = document.createElement("div");
+          wordText.className = `text-2xl mb-1 ${fontMapping[lang]}`;
+          wordText.textContent = wordData.text;
+
+          langCard.appendChild(langTitle);
+          langCard.appendChild(wordText);
+
+          if (lang !== "english" && wordData.transliteration) {
+            const transliteration = document.createElement("div");
+            transliteration.className = "text-sm opacity-70 italic";
+            transliteration.textContent = wordData.transliteration;
+            langCard.appendChild(transliteration);
+          }
+
+          learnMode.querySelector(".grid").appendChild(langCard);
+        });
+      }
+
+      function updateQuizMode() {
+        // Generate a random quiz question
+        generateQuizQuestion();
+      }
+
+      function getUsageExamples(primary, secondary, index) {
+        // This would ideally be real data, but for demo we'll generate some
+        const word = languageData[primary][index];
+
+        // Use hard-coded examples for common words, random for others
+        const key = `${primary}_${index}`;
+
+        if (!usageData[key]) {
+          // Create some sample usage data
+          const examples = [];
+
+          // Basic sentence templates
+          const templates = [
+            `This is a {{word}}.`,
+            `I need a {{word}}.`,
+            `Where is the {{word}}?`,
+            `The {{word}} is important.`,
+          ];
+
+          // Generate 2 random examples
+          for (let i = 0; i < 2; i++) {
+            const template =
+              templates[Math.floor(Math.random() * templates.length)];
+            examples.push({
+              primary: template.replace("{{word}}", `<b>${word.text}</b>`),
+              secondary: template.replace(
+                "{{word}}",
+                `<b>${languageData[secondary][index].text}</b>`
+              ),
+            });
+          }
+
+          usageData[key] = examples;
+        }
+
+        return usageData[key];
+      }
+
+      // ===== Navigation Functions =====
+      function prevWord() {
+        const totalWords = languageData[primaryLanguage].length;
+        currentIndex = (currentIndex - 1 + totalWords) % totalWords;
+        updateWordDisplay();
+      }
+
+      function nextWord() {
+        const totalWords = languageData[primaryLanguage].length;
+        currentIndex = (currentIndex + 1) % totalWords;
+        updateWordDisplay();
+      }
+
+      function toggleAnimation() {
+        isAnimating = !isAnimating;
+        toggleBtn.textContent = isAnimating ? "Pause" : "Play";
+
+        if (isAnimating) {
+          startWordAnimation();
+        } else {
+          clearInterval(wordChangeInterval);
+        }
+      }
+
+      function changePrimaryLanguage(language) {
+        primaryLanguage = language;
+        updateWordDisplay();
+      }
+
+      function changeSecondaryLanguage(language) {
+        secondaryLanguage = language;
+        updateWordDisplay();
+      }
+
+      function startWordAnimation() {
+        clearInterval(wordChangeInterval);
+        wordChangeInterval = setInterval(() => {
+          if (isAnimating) {
+            nextWord();
+          }
+        }, 5000); // Change word every 5 seconds
+      }
+
+      function toggleFavorite() {
+        const existingFavIndex = favorites.findIndex(
+          (fav) =>
+            fav.language === primaryLanguage && fav.index === currentIndex
+        );
+
+        if (existingFavIndex >= 0) {
+          // Remove from favorites
+          favorites.splice(existingFavIndex, 1);
+        } else {
+          // Add to favorites
+          favorites.push({
+            language: primaryLanguage,
+            index: currentIndex,
+          });
+        }
+
+        // Save to localStorage
+        localStorage.setItem(
+          "proto-language-favorites",
+          JSON.stringify(favorites)
+        );
+
+        // Update display
+        updateWordDisplay();
+      }
+
+      function changeMode(mode) {
+        currentMode = mode;
+
+        // Hide all mode displays
+        compareMode.classList.add("hidden");
+        learnMode.classList.add("hidden");
+        quizMode.classList.add("hidden");
+
+        // Show the selected mode
+        if (mode === "compare") {
+          compareMode.classList.remove("hidden");
+          secondaryLangContainer.classList.remove("hidden");
+        } else if (mode === "learn") {
+          learnMode.classList.remove("hidden");
+          secondaryLangContainer.classList.add("hidden");
+        } else if (mode === "quiz") {
+          quizMode.classList.remove("hidden");
+          secondaryLangContainer.classList.add("hidden");
+        }
+
+        updateWordDisplay();
+      }
+
+      // ===== Word Browser Functions =====
+      function toggleWordBrowser() {
+        wordBrowserModal.classList.toggle("hidden");
+
+        if (!wordBrowserModal.classList.contains("hidden")) {
+          populateWordBrowser();
+        }
+      }
+
+      function populateWordBrowser(filter = "") {
+        wordBrowserContent.innerHTML = "";
+
+        const language = filterLanguage.value;
+        const showOnlyFavorites = filter === "favorites";
+
+        let wordsToShow = [];
+
+        if (language === "all") {
+          // Show all languages
+          Object.keys(languageData).forEach((lang) => {
+            languageData[lang].forEach((word, index) => {
+              if (wordMatchesFilter(word, lang, index, showOnlyFavorites)) {
+                wordsToShow.push({ word, lang, index });
+              }
+            });
+          });
+        } else {
+          // Show specific language
+          languageData[language].forEach((word, index) => {
+            if (wordMatchesFilter(word, language, index, showOnlyFavorites)) {
+              wordsToShow.push({ word, lang: language, index });
+            }
+          });
+        }
+
+        // Render the words
+        wordsToShow.forEach(({ word, lang, index }) => {
+          const wordCard = document.createElement("div");
+          wordCard.className =
+            "bg-cosmic-dark bg-opacity-40 hover:bg-opacity-60 rounded-lg p-3 cursor-pointer transition-all duration-200";
+          wordCard.onclick = () => {
+            currentIndex = index;
+            primaryLanguage = lang;
+            updateWordDisplay();
+            toggleWordBrowser(); // Close browser after selection
+          };
+
+          const isFavorite = favorites.some(
+            (fav) => fav.language === lang && fav.index === index
+          );
+
+          // Add favorite indicator if needed
+          if (isFavorite) {
+            wordCard.classList.add("border", "border-cosmic-highlight");
+
+            const favIndicator = document.createElement("div");
+            favIndicator.className = "flex justify-end mb-1";
+            favIndicator.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-cosmic-highlight" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+          `;
+            wordCard.appendChild(favIndicator);
+          }
+
+          const langBadge = document.createElement("div");
+          langBadge.className =
+            "text-xs bg-cosmic-accent bg-opacity-20 rounded-full px-2 py-0.5 inline-block mb-1";
+          langBadge.textContent = lang.charAt(0).toUpperCase() + lang.slice(1);
+
+          const wordText = document.createElement("div");
+          wordText.className = `text-lg ${fontMapping[lang]}`;
+          wordText.textContent = word.text;
+
+          if (!isFavorite) {
+            wordCard.appendChild(langBadge);
+          } else {
+            const wrapper = document.createElement("div");
+            wrapper.className = "flex justify-between items-center";
+            wrapper.appendChild(langBadge);
+            wordCard.appendChild(wrapper);
+          }
+
+          wordCard.appendChild(wordText);
+
+          if (lang !== "english" && word.transliteration) {
+            const transliteration = document.createElement("div");
+            transliteration.className = "text-xs opacity-70 mt-1";
+            transliteration.textContent = word.transliteration;
+            wordCard.appendChild(transliteration);
+          }
+
+          wordBrowserContent.appendChild(wordCard);
+        });
+
+        if (wordsToShow.length === 0) {
+          const noResults = document.createElement("div");
+          noResults.className = "col-span-full text-center py-8 opacity-70";
+          noResults.textContent = "No words found matching your criteria";
+          wordBrowserContent.appendChild(noResults);
+        }
+      }
+
+      function wordMatchesFilter(word, lang, index, showOnlyFavorites) {
+        const searchTerm = wordSearch.value.toLowerCase();
+
+        // Check favorites filter
+        if (showOnlyFavorites) {
+          const isFavorite = favorites.some(
+            (fav) => fav.language === lang && fav.index === index
+          );
+
+          if (!isFavorite) return false;
+        }
+
+        // Check search term
+        if (searchTerm) {
+          const matchesText = word.text.toLowerCase().includes(searchTerm);
+          const matchesTransliteration =
+            word.transliteration &&
+            word.transliteration.toLowerCase().includes(searchTerm);
+
+          return matchesText || matchesTransliteration;
+        }
+
+        return true;
+      }
+
+      // ===== Quiz Mode Functions =====
+      function generateQuizQuestion() {
+        // Clear previous state
+        quizFeedback.classList.add("hidden");
+        nextQuizBtn.classList.add("hidden");
+        quizOptions.innerHTML = "";
+
+        // Get a random quiz type (1: word to translation, 2: translation to word)
+        const quizType = Math.floor(Math.random() * 2) + 1;
+
+        // Get a random source and target language
+        let sourceLanguage, targetLanguage;
+
+        if (quizType === 1) {
+          // Word to translation
+          sourceLanguage = primaryLanguage;
+
+          // Get random target language different from source
+          const availableLanguages = Object.keys(languageData).filter(
+            (lang) => lang !== sourceLanguage
+          );
+          targetLanguage =
+            availableLanguages[
+              Math.floor(Math.random() * availableLanguages.length)
+            ];
+        } else {
+          // Translation to word
+          targetLanguage = primaryLanguage;
+
+          // Get random source language different from target
+          const availableLanguages = Object.keys(languageData).filter(
+            (lang) => lang !== targetLanguage
+          );
+          sourceLanguage =
+            availableLanguages[
+              Math.floor(Math.random() * availableLanguages.length)
+            ];
+        }
+
+        // Get random word
+        const wordIndex = Math.floor(
+          Math.random() * languageData[sourceLanguage].length
+        );
+        const correctWord = {
+          sourceWord: languageData[sourceLanguage][wordIndex],
+          targetWord: languageData[targetLanguage][wordIndex],
+          wordIndex,
+        };
+
+        // Create options (1 correct, 3 random)
+        const options = [correctWord];
+
+        // Add 3 random wrong options
+        while (options.length < 4) {
+          const randomIndex = Math.floor(
+            Math.random() * languageData[sourceLanguage].length
+          );
+
+          if (randomIndex !== wordIndex) {
+            options.push({
+              sourceWord: languageData[sourceLanguage][randomIndex],
+              targetWord: languageData[targetLanguage][randomIndex],
+              wordIndex: randomIndex,
+            });
+          }
+        }
+
+        // Shuffle options
+        shuffleArray(options);
+
+        // Set question text
+        if (quizType === 1) {
+          quizQuestion.innerHTML = `
+          <div class="mb-2">What is the ${targetLanguage} word for:</div>
+          <div class="text-3xl font-bold ${fontMapping[sourceLanguage]}">${
+            correctWord.sourceWord.text
+          }</div>
+          ${
+            sourceLanguage !== "english" &&
+            correctWord.sourceWord.transliteration
+              ? `<div class="text-sm opacity-70 italic">${correctWord.sourceWord.transliteration}</div>`
+              : ""
+          }
+        `;
+        } else {
+          quizQuestion.innerHTML = `
+          <div class="mb-2">What is the ${targetLanguage} word for this ${sourceLanguage} word:</div>
+          <div class="text-3xl font-bold ${fontMapping[sourceLanguage]}">${
+            correctWord.sourceWord.text
+          }</div>
+          ${
+            sourceLanguage !== "english" &&
+            correctWord.sourceWord.transliteration
+              ? `<div class="text-sm opacity-70 italic">${correctWord.sourceWord.transliteration}</div>`
+              : ""
+          }
+        `;
+        }
+
+        // Create option buttons
+        options.forEach((option) => {
+          const optionBtn = document.createElement("button");
+          optionBtn.className =
+            "p-4 bg-cosmic-dark bg-opacity-40 hover:bg-opacity-60 rounded-lg text-left transition-all duration-200";
+
+          optionBtn.innerHTML = `
+          <div class="text-xl ${fontMapping[targetLanguage]}">${
+            option.targetWord.text
+          }</div>
+          ${
+            targetLanguage !== "english" && option.targetWord.transliteration
+              ? `<div class="text-sm opacity-70 italic">${option.targetWord.transliteration}</div>`
+              : ""
+          }
+        `;
+
+          optionBtn.onclick = () => checkQuizAnswer(option, correctWord);
+
+          quizOptions.appendChild(optionBtn);
+        });
+
+        // Save current question
+        quizCurrentQuestion = {
+          type: quizType,
+          sourceLanguage,
+          targetLanguage,
+          correctWord,
+        };
+      }
+
+      function checkQuizAnswer(selectedOption, correctOption) {
+        // Disable all option buttons
+        const optionBtns = quizOptions.querySelectorAll("button");
+        optionBtns.forEach((btn) => {
+          btn.disabled = true;
+          btn.classList.remove("hover:bg-opacity-60");
+        });
+
+        // Highlight correct and wrong answers
+        optionBtns.forEach((btn, index) => {
+          if (
+            index ===
+            Array.from(optionBtns).findIndex((b) => b === event.currentTarget)
+          ) {
+            // This is the selected option
+            if (selectedOption.wordIndex === correctOption.wordIndex) {
+              // Correct answer
+              btn.classList.add(
+                "bg-green-500",
+                "bg-opacity-20",
+                "border",
+                "border-green-500"
+              );
+              quizCorrectStreak++;
+
+              quizFeedback.innerHTML = `
+              <div class="text-green-400 font-bold">Correct! 🎉</div>
+              <div class="opacity-70">Streak: ${quizCorrectStreak}</div>
+            `;
+            } else {
+              // Wrong answer
+              btn.classList.add(
+                "bg-red-500",
+                "bg-opacity-20",
+                "border",
+                "border-red-500"
+              );
+              quizCorrectStreak = 0;
+
+              quizFeedback.innerHTML = `
+              <div class="text-red-400 font-bold">Incorrect</div>
+              <div class="opacity-70">Your streak has been reset</div>
+            `;
+            }
+          } else if (
+            optionBtns[index].textContent.includes(
+              correctOption.targetWord.text
+            )
+          ) {
+            // This is the correct option (but not selected)
+            btn.classList.add(
+              "bg-green-500",
+              "bg-opacity-20",
+              "border",
+              "border-green-500"
+            );
+          }
+        });
+
+        // Update score
+        quizScore.textContent = `Score: ${quizCorrectStreak}`;
+
+        // Show feedback
+        quizFeedback.classList.remove("hidden");
+        nextQuizBtn.classList.remove("hidden");
+      }
+
+      // ===== Utility Functions =====
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      }
+
+      // ===== Event Listeners =====
+      // Navigation controls
+      prevBtn.addEventListener("click", () => {
+        prevWord();
+        if (isAnimating) {
+          clearInterval(wordChangeInterval);
+          startWordAnimation();
+        }
+      });
+
+      nextBtn.addEventListener("click", () => {
+        nextWord();
+        if (isAnimating) {
+          clearInterval(wordChangeInterval);
+          startWordAnimation();
+        }
+      });
+
+      toggleBtn.addEventListener("click", toggleAnimation);
+      toggleFavBtn.addEventListener("click", toggleFavorite);
+
+      // Language selectors
+      primaryLangSelector.addEventListener("change", (e) => {
+        changePrimaryLanguage(e.target.value);
+        if (isAnimating) {
+          clearInterval(wordChangeInterval);
+          startWordAnimation();
+        }
+      });
+
+      secondaryLangSelector.addEventListener("change", (e) => {
+        changeSecondaryLanguage(e.target.value);
+        updateWordDisplay();
+      });
+
+      // Mode selector
+      modeSelector.addEventListener("change", (e) => {
+        changeMode(e.target.value);
+      });
+
+      // Word browser
+      toggleWordBrowserBtn.addEventListener("click", toggleWordBrowser);
+      closeWordBrowserBtn.addEventListener("click", toggleWordBrowser);
+      wordSearch.addEventListener("input", () => populateWordBrowser());
+      filterLanguage.addEventListener("change", () => populateWordBrowser());
+      showFavoritesBtn.addEventListener("click", () =>
+        populateWordBrowser("favorites")
+      );
+
+      // Quiz controls
+      nextQuizBtn.addEventListener("click", generateQuizQuestion);
+
+      // Window resize
+      window.addEventListener("resize", createStars);
+
+      // ===== Initialization =====
+      // This function will be called once the external script with languageData is loaded
+      function initializeApp() {
+        createStars();
+        updateTicker();
+        updateWordDisplay();
+
+        if (isAnimating) {
+          startWordAnimation();
+        }
+      }
+
+      // Load language data from the existing script
+      window.addEventListener("load", function () {
+        // Check if languageData is already loaded from script.js
+        if (Object.keys(languageData).length === 0) {
+          // If languageData is not loaded, we need to use the data from the main page
+          try {
+            // Attempt to get the data from window.languageData
+            const mainScript = document.createElement("script");
+            mainScript.src = "script.js";
+            mainScript.onload = function () {
+              // Copy data from the main script
+              Object.assign(languageData, window.languageData || {});
+              Object.assign(fontMapping, window.fontMapping || {});
+
+              // Initialize the app
+              initializeApp();
+            };
+            document.head.appendChild(mainScript);
+          } catch (e) {
+            console.error("Error loading language data:", e);
+          }
+        } else {
+          initializeApp();
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MIB :: CENTRAL COMMAND</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <!-- Loading GeoSpy -->
+    <script src="js/GeoSpy.js"></script>
+
+    <!-- Configure Tailwind -->
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ["JetBrains Mono", "monospace"],
+              display: ["Orbitron", "sans-serif"],
+              sans: ["Inter", "sans-serif"],
+            },
+            colors: {
+              mib: {
+                black: "#000000",
+                darkgray: "#121212",
+                gray: "#333333",
+                lightgray: "#aaaaaa",
+                accent: "#00CC99",
+                alert: "#FF3366",
+                warning: "#FFCC00",
+              },
+            },
+            animation: {
+              "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              scan: "scan 2s linear infinite",
+              flicker: "flicker 3s linear infinite",
+              float: "float 6s ease-in-out infinite",
+              glitch: "glitch 1s linear infinite",
+              "terminal-blink": "terminal-blink 1.2s infinite",
+              "scan-vertical": "scan-vertical 3s linear infinite",
+              "rotate-slow": "rotate 15s linear infinite",
+            },
+            keyframes: {
+              scan: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(15px)" },
+              },
+              "scan-vertical": {
+                "0%": { transform: "translateY(-100%)" },
+                "100%": { transform: "translateY(100%)" },
+              },
+              flicker: {
+                "0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100%": {
+                  opacity: 0.99,
+                },
+                "20%, 21.999%, 63%, 63.999%, 65%, 69.999%": { opacity: 0.4 },
+              },
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-20px)" },
+              },
+              glitch: {
+                "0%": { transform: "translate(0)" },
+                "20%": { transform: "translate(-3px, 3px)" },
+                "40%": { transform: "translate(-3px, -3px)" },
+                "60%": { transform: "translate(3px, 3px)" },
+                "80%": { transform: "translate(3px, -3px)" },
+                "100%": { transform: "translate(0)" },
+              },
+              "terminal-blink": {
+                "0%, 100%": { opacity: 1 },
+                "50%": { opacity: 0 },
+              },
+            },
+            backgroundImage: {
+              "grid-pattern":
+                "linear-gradient(to right, rgba(0, 204, 153, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 204, 153, 0.05) 1px, transparent 1px)",
+              "hex-pattern":
+                "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill='%2300cc99' fill-opacity='0.05'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/svg%3E\")",
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/mib-styles.css" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="bg-black text-white font-mono min-h-screen overflow-x-hidden">
+    <div id="app" class="relative min-h-screen">
+      <!-- Visual Effects Overlays -->
+      <div
+        class="fixed inset-0 bg-grid-pattern opacity-30 pointer-events-none z-0"
+      ></div>
+      <div
+        class="fixed inset-0 bg-hex-pattern opacity-20 pointer-events-none z-0"
+      ></div>
+      <div
+        class="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-mib-accent to-transparent opacity-75 animate-scan-vertical pointer-events-none z-50"
+      ></div>
+
+      <!-- Login Screen (shown before authentication) -->
+      <div
+        v-if="!isAuthenticated"
+        class="fixed inset-0 flex items-center justify-center z-50 bg-black"
+      >
+        <div class="max-w-md w-full p-6 relative">
+          <div
+            class="hologram border-2 border-mib-accent p-8 backdrop-blur-sm bg-black/40 relative"
+          >
+            <div
+              class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none"
+            >
+              <div class="scanline"></div>
+            </div>
+
+            <div class="text-center mb-8">
+              <h1
+                class="text-5xl font-display font-bold mb-2 text-mib-accent glitch-text"
+                data-text="MIB"
+              >
+                MIB
+              </h1>
+              <p class="text-sm text-mib-lightgray">
+                CENTRAL INTELLIGENCE NETWORK
+              </p>
+            </div>
+
+            <div class="space-y-6">
+              <div
+                class="terminal-output mb-6 p-4 bg-black/50 border border-mib-accent/30 font-mono text-sm h-32 overflow-hidden"
+              >
+                <div class="h-full terminal-text" ref="terminalOutput">
+                  <div
+                    v-for="(line, index) in terminalLines"
+                    :key="index"
+                    class="terminal-line"
+                  >
+                    {{ line }}
+                  </div>
+                  <div class="cursor-line flex">
+                    <span class="terminal-prompt">></span>
+                    <span class="ml-2">{{ currentInput }}</span>
+                    <span class="ml-1 text-mib-accent animate-terminal-blink"
+                      >|</span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div v-if="loginStage === 'ready'" class="space-y-4">
+                <div class="relative">
+                  <input
+                    v-model="agentId"
+                    type="text"
+                    class="w-full bg-black/70 border border-mib-accent/50 p-3 focus:outline-none focus:border-mib-accent text-mib-accent"
+                    placeholder="AGENT ID"
+                    @keyup.enter="validateCredentials"
+                  />
+                  <div
+                    class="absolute top-0 right-0 h-full px-3 flex items-center text-mib-lightgray text-xs"
+                  >
+                    ID
+                  </div>
+                </div>
+
+                <div class="relative">
+                  <input
+                    v-model="accessCode"
+                    type="password"
+                    class="w-full bg-black/70 border border-mib-accent/50 p-3 focus:outline-none focus:border-mib-accent text-mib-accent"
+                    placeholder="ACCESS CODE"
+                    @keyup.enter="validateCredentials"
+                  />
+                  <div
+                    class="absolute top-0 right-0 h-full px-3 flex items-center text-mib-lightgray text-xs"
+                  >
+                    SECURE
+                  </div>
+                </div>
+
+                <div class="flex justify-between">
+                  <button
+                    @click="emergencyAccess"
+                    class="border border-mib-warning/50 px-4 py-2 text-mib-warning hover:bg-mib-warning/10 transition-colors text-sm"
+                  >
+                    EMERGENCY
+                  </button>
+                  <button
+                    @click="validateCredentials"
+                    class="border border-mib-accent px-4 py-2 text-mib-accent hover:bg-mib-accent hover:text-black transition-colors text-sm"
+                  >
+                    ACCESS SYSTEM
+                  </button>
+                </div>
+              </div>
+
+              <div v-else class="text-center">
+                <div
+                  class="inline-block w-12 h-12 border-2 border-mib-accent rounded-full animate-spin border-r-transparent mb-4"
+                ></div>
+                <p class="text-mib-accent">{{ loginMessage }}</p>
+              </div>
+            </div>
+
+            <div
+              class="mt-8 pt-4 border-t border-mib-accent/20 flex justify-between text-xs text-mib-lightgray"
+            >
+              <span>SYSTEM V7.3.9</span>
+              <span>CLEARANCE: ULTRAVIOLET</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Application (shown after authentication) -->
+      <div v-else class="relative z-10">
+        <!-- Header/Navigation -->
+        <header
+          class="relative z-30 border-b border-mib-accent/30 backdrop-blur-sm bg-black/80"
+        >
+          <div class="container mx-auto">
+            <div class="flex justify-between items-center px-6 py-4">
+              <div class="flex items-center">
+                <div
+                  class="text-mib-accent font-display font-bold text-xl mr-4 glitch-text"
+                  data-text="MIB"
+                >
+                  MIB
+                </div>
+                <nav class="hidden md:flex space-x-6 text-sm">
+                  <a
+                    v-for="(item, index) in navigation"
+                    :key="index"
+                    :href="item.path"
+                    :class="{'text-mib-accent': currentPath === item.path}"
+                    class="hover:text-mib-accent transition-colors"
+                  >
+                    {{ item.name }}
+                  </a>
+                </nav>
+              </div>
+
+              <div class="flex items-center space-x-4">
+                <div
+                  class="text-xs bg-mib-darkgray/80 px-3 py-1 rounded-sm border border-mib-accent/30"
+                >
+                  <span class="text-mib-accent">FIELD STATUS:</span> {{
+                  fieldStatus }}
+                </div>
+                <div class="flex items-center">
+                  <div
+                    class="w-2 h-2 bg-mib-accent rounded-full mr-2 animate-pulse-slow"
+                  ></div>
+                  <span class="text-sm">AGENT {{ agentId }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div
+              class="md:hidden border-t border-mib-accent/20 px-6 py-2 overflow-x-auto whitespace-nowrap"
+            >
+              <div class="flex space-x-4">
+                <a
+                  v-for="(item, index) in navigation"
+                  :key="index"
+                  :href="item.path"
+                  :class="{'text-mib-accent': currentPath === item.path}"
+                  class="text-sm hover:text-mib-accent transition-colors"
+                >
+                  {{ item.name }}
+                </a>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="container mx-auto px-6 py-8">
+          <!-- Alert Banner (conditionally shown) -->
+          <div v-if="alerts.length > 0" class="mb-8">
+            <div
+              class="border-2 border-mib-alert p-4 bg-black/60 backdrop-blur-sm animate-pulse-slow"
+            >
+              <div class="flex items-start">
+                <div
+                  class="w-6 h-6 rounded-full bg-mib-alert/20 flex items-center justify-center mr-3 mt-0.5"
+                >
+                  <span class="text-mib-alert">!</span>
+                </div>
+                <div>
+                  <h3 class="font-bold text-mib-alert">PRIORITY ALERT</h3>
+                  <p>{{ alerts[0].message }}</p>
+                  <div class="mt-2 text-xs text-mib-lightgray">
+                    RECEIVED: {{ formatTime(alerts[0].timestamp) }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Content Area -->
+          <div v-if="currentPath === '/dashboard'" class="dashboard-content">
+            <div class="mb-8">
+              <h1 class="text-3xl font-bold mb-2 flex items-center">
+                <span class="text-mib-accent mr-2">/</span>
+                COMMAND DASHBOARD
+                <span
+                  class="ml-3 text-xs text-mib-lightgray terminal-cursor font-normal"
+                  >online</span
+                >
+              </h1>
+              <p class="text-mib-lightgray">
+                Welcome, Agent {{ agentId }}. Current earth threat level:
+                MODERATE
+              </p>
+            </div>
+
+            <!-- Dashboard Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <!-- Agent Status Panel -->
+              <div
+                class="hologram border border-mib-accent/30 p-6 backdrop-blur-sm bg-black/40"
+              >
+                <h3 class="text-xl font-bold mb-6 text-mib-accent">
+                  AGENT STATUS
+                </h3>
+
+                <div class="flex items-center mb-8 space-x-4">
+                  <div
+                    class="w-16 h-16 border-2 border-mib-accent rounded-full flex items-center justify-center"
+                  >
+                    <div class="text-2xl">👤</div>
+                  </div>
+
+                  <div>
+                    <div class="text-lg font-bold">AGENT {{ agentId }}</div>
+                    <div class="text-sm text-mib-lightgray">
+                      FIELD OPERATIVE
+                    </div>
+                  </div>
+                </div>
+
+                <div class="space-y-4 mb-6">
+                  <div>
+                    <div class="flex justify-between mb-1 text-sm">
+                      <span>LOCATION TRACKING</span>
+                      <span class="text-mib-accent">ACTIVE</span>
+                    </div>
+                    <div class="w-full h-1 bg-mib-lightgray/10">
+                      <div
+                        class="h-full bg-mib-accent"
+                        style="width: 85%"
+                      ></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="flex justify-between mb-1 text-sm">
+                      <span>NEURALIZER CHARGE</span>
+                      <span class="text-mib-warning">78%</span>
+                    </div>
+                    <div class="w-full h-1 bg-mib-lightgray/10">
+                      <div
+                        class="h-full bg-mib-warning"
+                        style="width: 78%"
+                      ></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="flex justify-between mb-1 text-sm">
+                      <span>DE-ATOMIZER POWER</span>
+                      <span class="text-mib-alert">42%</span>
+                    </div>
+                    <div class="w-full h-1 bg-mib-lightgray/10">
+                      <div class="h-full bg-mib-alert" style="width: 42%"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="text-xs text-mib-lightgray">
+                  LAST FIELD CHECK-IN: {{ formatTime(lastCheckIn) }}
+                </div>
+              </div>
+
+              <!-- Location Intelligence -->
+              <div
+                class="hologram border border-mib-accent/30 p-6 backdrop-blur-sm bg-black/40 lg:col-span-2"
+              >
+                <div class="flex justify-between items-center mb-6">
+                  <h3 class="text-xl font-bold text-mib-accent">
+                    LOCATION INTELLIGENCE
+                  </h3>
+                  <button
+                    @click="refreshLocationData"
+                    class="text-xs border border-mib-accent/30 px-3 py-1 hover:bg-mib-accent/10 transition-colors"
+                  >
+                    REFRESH
+                  </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                  <div class="border border-mib-lightgray/10 p-4">
+                    <h4 class="font-bold mb-3">CURRENT POSITION</h4>
+                    <div class="text-sm space-y-1" v-if="locationData">
+                      <div>
+                        <span class="text-mib-lightgray">CITY:</span> {{
+                        locationData.city || 'UNKNOWN' }}
+                      </div>
+                      <div>
+                        <span class="text-mib-lightgray">REGION:</span> {{
+                        locationData.region || 'UNKNOWN' }}
+                      </div>
+                      <div>
+                        <span class="text-mib-lightgray">COUNTRY:</span> {{
+                        locationData.country || 'UNKNOWN' }}
+                      </div>
+                      <div v-if="locationData.coords">
+                        <span class="text-mib-lightgray">COORDINATES:</span>
+                        {{ locationData.coords.latitude.toFixed(6) }}, {{
+                        locationData.coords.longitude.toFixed(6) }}
+                      </div>
+                    </div>
+                    <div v-else class="text-sm">Locating agent position...</div>
+                  </div>
+
+                  <div class="border border-mib-lightgray/10 p-4">
+                    <h4 class="font-bold mb-3">AREA ACTIVITY</h4>
+                    <div class="space-y-2 text-sm">
+                      <div class="flex justify-between">
+                        <span class="text-mib-lightgray">ALIEN VISITORS:</span>
+                        <span>{{ localAlienCount }}</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span class="text-mib-lightgray"
+                          >ACTIVE INCIDENTS:</span
+                        >
+                        <span>{{ activeIncidents.length }}</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span class="text-mib-lightgray">MEMORY WIPES:</span>
+                        <span>{{ memoryWipes }} TODAY</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span class="text-mib-lightgray">THREAT LEVEL:</span>
+                        <span
+                          :class="{
+                        'text-green-400': localThreatLevel === 'LOW',
+                        'text-mib-warning': localThreatLevel === 'MODERATE',
+                        'text-mib-alert': localThreatLevel === 'HIGH'
+                      }"
+                          >{{ localThreatLevel }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="relative w-full h-64 border border-mib-lightgray/10 bg-black/30 overflow-hidden"
+                >
+                  <div
+                    class="absolute inset-0 flex items-center justify-center"
+                  >
+                    <p class="text-mib-lightgray text-sm">
+                      SECTOR MAP LOADING...
+                    </p>
+                  </div>
+
+                  <!-- Placeholder for map - will be replaced by actual map in incidents.html -->
+                  <div class="absolute inset-0 opacity-30 pointer-events-none">
+                    <div class="w-full h-full bg-grid-pattern"></div>
+                    <div
+                      class="absolute top-1/2 left-1/2 w-32 h-32 border border-mib-accent/50 rounded-full transform -translate-x-1/2 -translate-y-1/2 animate-pulse-slow"
+                    ></div>
+                    <div
+                      class="absolute top-1/2 left-1/2 w-64 h-64 border border-mib-accent/30 rounded-full transform -translate-x-1/2 -translate-y-1/2 animate-pulse-slow"
+                      style="animation-delay: -1.5s"
+                    ></div>
+                    <div
+                      class="absolute top-1/4 left-1/3 w-2 h-2 bg-mib-accent rounded-full animate-pulse-slow"
+                    ></div>
+                    <div
+                      class="absolute top-2/3 right-1/4 w-2 h-2 bg-mib-warning rounded-full animate-pulse-slow"
+                    ></div>
+                    <div
+                      class="absolute bottom-1/4 left-1/2 w-2 h-2 bg-mib-alert rounded-full animate-pulse-slow"
+                    ></div>
+                  </div>
+
+                  <div
+                    class="absolute bottom-2 right-2 text-xs text-mib-lightgray"
+                  >
+                    <a href="incidents.html" class="hover:text-mib-accent"
+                      >OPEN FULL MAP</a
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <!-- Recent Incidents -->
+              <div
+                class="hologram border border-mib-accent/30 p-6 backdrop-blur-sm bg-black/40"
+              >
+                <h3 class="text-xl font-bold mb-6 text-mib-accent">
+                  RECENT INCIDENTS
+                </h3>
+
+                <div class="space-y-4 mb-4">
+                  <div
+                    v-for="(incident, index) in activeIncidents.slice(0, 3)"
+                    :key="index"
+                    class="border border-mib-lightgray/10 p-3 hover:border-mib-accent/30 transition-colors"
+                  >
+                    <div class="flex justify-between items-start">
+                      <div class="font-bold text-sm">{{ incident.title }}</div>
+                      <div
+                        :class="{
+                      'text-green-400': incident.threatLevel === 'LOW',
+                      'text-mib-warning': incident.threatLevel === 'MEDIUM',
+                      'text-mib-alert': incident.threatLevel === 'HIGH'
+                    }"
+                        class="text-xs font-bold"
+                      >
+                        {{ incident.threatLevel }}
+                      </div>
+                    </div>
+                    <div class="text-xs text-mib-lightgray mb-1">
+                      ID: {{ incident.id }} | {{
+                      formatTimeAgo(incident.timestamp) }}
+                    </div>
+                    <div class="text-xs mb-2">
+                      {{ truncate(incident.description, 60) }}
+                    </div>
+                  </div>
+
+                  <div
+                    v-if="activeIncidents.length === 0"
+                    class="text-center text-mib-lightgray text-sm py-4"
+                  >
+                    No active incidents in your area
+                  </div>
+                </div>
+
+                <div class="text-right">
+                  <a
+                    href="incidents.html"
+                    class="text-xs text-mib-accent hover:underline"
+                    >VIEW ALL</a
+                  >
+                </div>
+              </div>
+
+              <!-- Active Missions -->
+              <div
+                class="hologram border border-mib-accent/30 p-6 backdrop-blur-sm bg-black/40 lg:col-span-2"
+              >
+                <h3 class="text-xl font-bold mb-6 text-mib-accent">
+                  ACTIVE MISSIONS
+                </h3>
+
+                <div class="space-y-4">
+                  <div
+                    v-for="(mission, index) in activeMissions"
+                    :key="index"
+                    class="border border-mib-accent/10 p-4 hover:border-mib-accent/40 transition-colors"
+                  >
+                    <div
+                      class="flex flex-col md:flex-row md:items-center md:justify-between mb-3"
+                    >
+                      <div>
+                        <div class="font-bold">{{ mission.title }}</div>
+                        <div class="text-xs text-mib-lightgray">
+                          MISSION ID: {{ mission.id }}
+                        </div>
+                      </div>
+                      <div
+                        :class="{
+                      'bg-green-400/20 text-green-400': mission.priority === 'LOW',
+                      'bg-mib-warning/20 text-mib-warning': mission.priority === 'MEDIUM',
+                      'bg-mib-alert/20 text-mib-alert': mission.priority === 'HIGH'
+                    }"
+                        class="text-xs px-2 py-1 mt-2 md:mt-0 inline-block"
+                      >
+                        {{ mission.priority }} PRIORITY
+                      </div>
+                    </div>
+
+                    <p class="text-sm mb-4">{{ mission.description }}</p>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+                      <div>
+                        <div class="text-mib-lightgray mb-1">TEAM</div>
+                        <div>{{ mission.team }}</div>
+                      </div>
+                      <div>
+                        <div class="text-mib-lightgray mb-1">LOCATION</div>
+                        <div>{{ mission.location }}</div>
+                      </div>
+                      <div>
+                        <div class="text-mib-lightgray mb-1">STATUS</div>
+                        <div>{{ mission.status }}</div>
+                      </div>
+                      <div>
+                        <div class="text-mib-lightgray mb-1">DEADLINE</div>
+                        <div>{{ formatDate(mission.deadline) }}</div>
+                      </div>
+                    </div>
+
+                    <div class="mt-4 flex justify-end">
+                      <a
+                        :href="'mission.html?id=' + mission.id"
+                        class="text-xs border border-mib-accent/50 px-3 py-1 hover:bg-mib-accent/10 transition-colors"
+                      >
+                        VIEW DETAILS
+                      </a>
+                    </div>
+                  </div>
+
+                  <div
+                    v-if="activeMissions.length === 0"
+                    class="text-center text-mib-lightgray text-sm py-8 border border-mib-lightgray/10"
+                  >
+                    No active missions assigned to you
+                  </div>
+                </div>
+              </div>
+
+              <!-- Quick Access Tools -->
+              <div
+                class="hologram border border-mib-accent/30 p-6 backdrop-blur-sm bg-black/40"
+              >
+                <h3 class="text-xl font-bold mb-6 text-mib-accent">TOOLS</h3>
+
+                <div class="grid grid-cols-2 gap-4">
+                  <a
+                    href="aliens.html"
+                    class="border border-mib-accent/30 p-4 hover:bg-mib-accent/10 transition-all text-center"
+                  >
+                    <div class="text-2xl mb-2">👽</div>
+                    <div class="text-xs">ALIEN REGISTRY</div>
+                  </a>
+                  <a
+                    href="tech.html"
+                    class="border border-mib-accent/30 p-4 hover:bg-mib-accent/10 transition-all text-center"
+                  >
+                    <div class="text-2xl mb-2">🔫</div>
+                    <div class="text-xs">EQUIPMENT</div>
+                  </a>
+                  <a
+                    href="neuralizer.html"
+                    class="border border-mib-accent/30 p-4 hover:bg-mib-accent/10 transition-all text-center"
+                  >
+                    <div class="text-2xl mb-2">💡</div>
+                    <div class="text-xs">NEURALIZER LOG</div>
+                  </a>
+                  <a
+                    href="communications.html"
+                    class="border border-mib-accent/30 p-4 hover:bg-mib-accent/10 transition-all text-center"
+                  >
+                    <div class="text-2xl mb-2">📡</div>
+                    <div class="text-xs">COMMUNICATIONS</div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Placeholder for other pages (will redirect to actual HTML files) -->
+          <div v-else class="flex items-center justify-center py-12">
+            <div class="text-center">
+              <div
+                class="inline-block w-12 h-12 border-2 border-mib-accent rounded-full animate-spin border-r-transparent mb-4"
+              ></div>
+              <p class="text-mib-accent">Redirecting to requested section...</p>
+            </div>
+          </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="border-t border-mib-accent/30 py-6 mt-12">
+          <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+              <div class="text-center md:text-left mb-4 md:mb-0">
+                <div
+                  class="text-xl font-display font-bold text-mib-accent mb-1"
+                >
+                  MIB
+                </div>
+                <div class="text-xs text-mib-lightgray">
+                  PROTECTING THE EARTH FROM THE SCUM OF THE UNIVERSE
+                </div>
+              </div>
+
+              <div class="flex gap-6">
+                <a
+                  href="handbook.html"
+                  class="text-xs hover:text-mib-accent transition-colors"
+                  >HANDBOOK</a
+                >
+                <a
+                  href="protocols.html"
+                  class="text-xs hover:text-mib-accent transition-colors"
+                  >PROTOCOLS</a
+                >
+                <a
+                  href="settings.html"
+                  class="text-xs hover:text-mib-accent transition-colors"
+                  >SETTINGS</a
+                >
+                <button
+                  @click="logout"
+                  class="text-xs hover:text-mib-alert transition-colors"
+                >
+                  LOGOUT
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="mt-6 pt-4 border-t border-white/10 text-xs text-mib-lightgray flex flex-col md:flex-row justify-between items-center"
+            >
+              <div>SYSTEM VERSION: 23.7.31</div>
+              <div class="text-center my-2 md:my-0">
+                THIS SYSTEM IS MONITORED. UNAUTHORIZED ACCESS WILL RESULT IN
+                NEURALYZATION. OR WORSE.
+              </div>
+              <div>CLASSIFIED: ULTRAVIOLET</div>
+            </div>
+          </div>
+        </footer>
+
+        <!-- Quick Access Panel (Slide-in from right) -->
+        <div
+          class="fixed top-0 right-0 h-full w-16 bg-black/80 border-l border-mib-accent/30 backdrop-blur-sm z-40 hidden md:flex flex-col items-center py-8 space-y-8"
+        >
+          <button
+            class="w-10 h-10 border border-mib-accent/50 rounded-full flex items-center justify-center hover:bg-mib-accent/20 transition-all"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+              />
+            </svg>
+          </button>
+
+          <button
+            class="w-10 h-10 border border-mib-accent/50 rounded-full flex items-center justify-center hover:bg-mib-accent/20 transition-all"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+              />
+            </svg>
+          </button>
+
+          <button
+            class="w-10 h-10 border border-mib-accent/50 rounded-full flex items-center justify-center hover:bg-mib-accent/20 transition-all relative"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+              />
+            </svg>
+            <div
+              class="absolute -top-1 -right-1 w-4 h-4 bg-mib-warning rounded-full animate-pulse-slow"
+            ></div>
+          </button>
+
+          <button
+            class="w-10 h-10 border border-mib-accent/50 rounded-full flex items-center justify-center hover:bg-mib-accent/20 transition-all"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+          </button>
+
+          <div class="mt-auto">
+            <button
+              @click="logout"
+              class="w-10 h-10 border border-mib-accent/50 rounded-full flex items-center justify-center hover:bg-mib-alert/20 transition-all"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main JS -->
+    <script src="js/mib-main.js"></script>
+  </body>
+</html>

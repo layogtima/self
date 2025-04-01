@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MONO | Typography Explorer</title>
+    <meta name="title" content="MONO | Typography Explorer" />
+    <meta
+      name="description"
+      content="Exploring the best Google Fonts for design through a monochromatic lens."
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mono.layogtima.com/" />
+    <meta property="og:title" content="MONO | Typography Explorer" />
+    <meta
+      property="og:description"
+      content="Exploring the best Google Fonts for design through a monochromatic lens."
+    />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Base fonts (Space Mono) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font categories (we'll load these dynamically too) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Serif fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Lora:ital,wght@0,400..700;1,400..700&family=Source+Serif+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Display fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Anton&family=Abril+Fatface&family=Alfa+Slab+One&family=Righteous&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Monospace fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Fira+Code:wght@300..700&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Handwriting fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Dancing+Script:wght@400..700&family=Pacifico&family=Satisfy&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ["Space Mono", "monospace"],
+              // Sans-serif fonts
+              roboto: ["Roboto", "sans-serif"],
+              opensans: ["Open Sans", "sans-serif"],
+              lato: ["Lato", "sans-serif"],
+              montserrat: ["Montserrat", "sans-serif"],
+              poppins: ["Poppins", "sans-serif"],
+              // Serif fonts
+              playfair: ["Playfair Display", "serif"],
+              merriweather: ["Merriweather", "serif"],
+              lora: ["Lora", "serif"],
+              sourceserif: ["Source Serif Pro", "serif"],
+              // Display fonts
+              bebas: ["Bebas Neue", "cursive"],
+              anton: ["Anton", "sans-serif"],
+              abril: ["Abril Fatface", "cursive"],
+              alfa: ["Alfa Slab One", "cursive"],
+              righteous: ["Righteous", "cursive"],
+              // Monospace fonts
+              robotomono: ["Roboto Mono", "monospace"],
+              firacode: ["Fira Code", "monospace"],
+              sourcecode: ["Source Code Pro", "monospace"],
+              // Handwriting fonts
+              caveat: ["Caveat", "cursive"],
+              dancing: ["Dancing Script", "cursive"],
+              pacifico: ["Pacifico", "cursive"],
+              satisfy: ["Satisfy", "cursive"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body
+    class="bg-white text-black dark:bg-gray-900 dark:text-white min-h-screen transition-colors duration-300"
+  >
+    <!-- Navigation -->
+    <nav
+      class="fixed w-full px-4 py-3 flex justify-between items-center z-50 bg-white dark:bg-gray-900 border-b border-gray-900 dark:border-gray-700"
+    >
+      <a href="#" class="text-xl font-bold tracking-normal"
+        >MONO<span class="text-xs align-super">FONTS</span></a
+      >
+      <div class="flex gap-6 items-center">
+        <!-- Theme Toggle -->
+        <button
+          id="theme-toggle"
+          class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          aria-label="Toggle dark mode"
+        >
+          <!-- Sun icon (visible in dark mode) -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 hidden dark:block"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+            />
+          </svg>
+          <!-- Moon icon (visible in light mode) -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 block dark:hidden"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+            />
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header
+      class="h-screen flex flex-col justify-center items-center pt-16 relative overflow-hidden"
+    >
+      <div class="z-10 px-8 max-w-4xl text-center">
+        <h1 class="text-6xl md:text-8xl font-bold mb-6 leading-none">
+          TYPE<span class="text-xs align-super">FACES</span>
+        </h1>
+        <p class="text-lg md:text-xl max-w-2xl mx-auto">
+          Exploring the best Google Fonts for design through a monochromatic
+          lens.
+        </p>
+      </div>
+    </header>
+
+    <!-- Controls Section -->
+    <section class="py-6 px-8 bg-gray-100 dark:bg-gray-800 sticky top-16 z-40">
+      <div
+        class="max-w-6xl mx-auto flex flex-col md:flex-row gap-6 justify-between items-center"
+      >
+        <!-- Font Size Controls -->
+        <div class="flex items-center gap-4">
+          <label for="font-size" class="text-sm font-bold">SIZE</label>
+          <input
+            type="range"
+            id="font-size"
+            min="16"
+            max="96"
+            value="32"
+            class="w-40 accent-black dark:accent-white"
+          />
+          <span id="font-size-value" class="text-sm font-mono">32px</span>
+        </div>
+
+        <!-- Font Weight Control -->
+        <div class="flex items-center gap-4">
+          <label for="font-weight" class="text-sm font-bold">WEIGHT</label>
+          <select
+            id="font-weight"
+            class="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 px-2 py-1 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
+          >
+            <option value="100">Thin (100)</option>
+            <option value="200">Extra Light (200)</option>
+            <option value="300">Light (300)</option>
+            <option value="400" selected>Regular (400)</option>
+            <option value="500">Medium (500)</option>
+            <option value="600">Semi Bold (600)</option>
+            <option value="700">Bold (700)</option>
+            <option value="800">Extra Bold (800)</option>
+            <option value="900">Black (900)</option>
+          </select>
+        </div>
+
+        <!-- Sample Text Toggle -->
+        <div class="flex items-center gap-4">
+          <label for="sample-text" class="text-sm font-bold">SAMPLE</label>
+          <select
+            id="sample-text"
+            class="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 px-2 py-1 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
+          >
+            <option value="pangram">The quick brown fox...</option>
+            <option value="alphabet">Alphabet (A-Z)</option>
+            <option value="numbers">Numbers (0-9)</option>
+            <option value="custom">Custom text</option>
+          </select>
+        </div>
+
+        <!-- Custom Text Input (hidden initially) -->
+        <div id="custom-text-container" class="hidden w-full">
+          <input
+            type="text"
+            id="custom-text"
+            placeholder="Type your custom text here..."
+            class="w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 px-3 py-1 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Font Category Tabs -->
+    <section
+      class="py-6 px-8 bg-white dark:bg-gray-900 border-b border-gray-300 dark:border-gray-700 sticky top-40 z-30"
+    >
+      <div class="max-w-6xl mx-auto">
+        <div class="flex overflow-x-auto gap-8 pb-2">
+          <button class="tab-button active" data-category="sans">
+            SANS-SERIF
+          </button>
+          <button class="tab-button" data-category="serif">SERIF</button>
+          <button class="tab-button" data-category="display">DISPLAY</button>
+          <button class="tab-button" data-category="monospace">
+            MONOSPACE
+          </button>
+          <button class="tab-button" data-category="handwriting">
+            HANDWRITING
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Font Showcase Section -->
+    <section class="py-12 px-8">
+      <div class="max-w-6xl mx-auto">
+        <!-- Sans-serif Fonts -->
+        <div id="sans" class="font-category-container block">
+          <h2 class="text-3xl font-bold mb-12">
+            SANS-<span class="text-xs align-super">SERIF</span>
+          </h2>
+
+          <div class="grid grid-cols-1 gap-12">
+            <!-- Roboto -->
+            <div class="font-card">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Roboto</h3>
+                <a
+                  href="https://fonts.google.com/specimen/Roboto"
+                  target="_blank"
+                  class="text-xs underline"
+                  >View on Google Fonts</a
+                >
+              </div>
+              <p class="font-roboto sample-text">
+                The quick brown fox jumps over the lazy dog.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Product Design</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >UI/UX</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Technical</span
+                >
+              </div>
+            </div>
+
+            <!-- Open Sans -->
+            <div class="font-card">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Open Sans</h3>
+                <a
+                  href="https://fonts.google.com/specimen/Open+Sans"
+                  target="_blank"
+                  class="text-xs underline"
+                  >View on Google Fonts</a
+                >
+              </div>
+              <p class="font-opensans sample-text">
+                The quick brown fox jumps over the lazy dog.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Readability</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Web Design</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Versatile</span
+                >
+              </div>
+            </div>
+
+            <!-- Lato -->
+            <div class="font-card">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Lato</h3>
+                <a
+                  href="https://fonts.google.com/specimen/Lato"
+                  target="_blank"
+                  class="text-xs underline"
+                  >View on Google Fonts</a
+                >
+              </div>
+              <p class="font-lato sample-text">
+                The quick brown fox jumps over the lazy dog.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Corporate</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Clean</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Professional</span
+                >
+              </div>
+            </div>
+
+            <!-- Montserrat -->
+            <div class="font-card">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Montserrat</h3>
+                <a
+                  href="https://fonts.google.com/specimen/Montserrat"
+                  target="_blank"
+                  class="text-xs underline"
+                  >View on Google Fonts</a
+                >
+              </div>
+              <p class="font-montserrat sample-text">
+                The quick brown fox jumps over the lazy dog.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Modern</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Geometric</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Elegant</span
+                >
+              </div>
+            </div>
+
+            <!-- Poppins -->
+            <div class="font-card">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Poppins</h3>
+                <a
+                  href="https://fonts.google.com/specimen/Poppins"
+                  target="_blank"
+                  class="text-xs underline"
+                  >View on Google Fonts</a
+                >
+              </div>
+              <p class="font-poppins sample-text">
+                The quick brown fox jumps over the lazy dog.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Friendly</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Geometric</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Contemporary</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Serif Fonts -->
+        <div id="serif" class="font-category-container hidden">
+          <h2 class="text-3xl font-bold mb-12">
+            SER<span class="text-xs align-super">IF</span>
+          </h2>
+
+          <div class="grid grid-cols-1 gap-12">
+            <!-- Playfair Display -->
+            <div class="font-card">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Playfair Display</h3>
+                <a
+                  href="https://fonts.google.com/specimen/Playfair+Display"
+                  target="_blank"
+                  class="text-xs underline"
+                  >View on Google Fonts</a
+                >
+              </div>
+              <p class="font-playfair sample-text">
+                The quick brown fox jumps over the lazy dog.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Luxury</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Editorial</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Classical</span
+                >
+              </div>
+            </div>
+
+            <!-- Merriweather -->
+            <div class="font-card">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Merriweather</h3>
+                <a
+                  href="https://fonts.google.com/specimen/Merriweather"
+                  target="_blank"
+                  class="text-xs underline"
+                  >View on Google Fonts</a
+                >
+              </div>
+              <p class="font-merriweather sample-text">
+                The quick brown fox jumps over the lazy dog.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Publishing</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Readability</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Editorial</span
+                >
+              </div>
+            </div>
+
+            <!-- Lora -->
+            <div class="font-card">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Lora</h3>
+                <a
+                  href="https://fonts.google.com/specimen/Lora"
+                  target="_blank"
+                  class="text-xs underline"
+                  >View on Google Fonts</a
+                >
+              </div>
+              <p class="font-lora sample-text">
+                The quick brown fox jumps over the lazy dog.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Elegant</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Editorial</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Balanced</span
+                >
+              </div>
+            </div>
+
+            <!-- Source Serif Pro -->
+            <div class="font-card">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Source Serif Pro</h3>
+                <a
+                  href="https://fonts.google.com/specimen/Source+Serif+Pro"
+                  target="_blank"
+                  class="text-xs underline"
+                  >View on Google Fonts</a
+                >
+              </div>
+              <p class="font-sourceserif sample-text">
+                The quick brown fox jumps over the lazy dog.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Academic</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Technical</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Documentation</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Display Fonts -->
+        <div id="display" class="font-category-container hidden">
+          <h2 class="text-3xl font-bold mb-12">
+            DISP<span class="text-xs align-super">LAY</span>
+          </h2>
+
+          <div class="grid grid-cols-1 gap-12">
+            <!-- Bebas Neue -->
+            <div class="font-card">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Bebas Neue</h3>
+                <a
+                  href="https://fonts.google.com/specimen/Bebas+Neue"
+                  target="_blank"
+                  class="text-xs underline"
+                  >View on Google Fonts</a
+                >
+              </div>
+              <p class="font-bebas sample-text">
+                The quick brown fox jumps over the lazy dog.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Headlines</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Posters</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Bold</span
+                >
+              </div>
+            </div>
+
+            <!-- Anton -->
+            <div class="font-card">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Anton</h3>
+                <a
+                  href="https://fonts.google.com/specimen/Anton"
+                  target="_blank"
+                  class="text-xs underline"
+                  >View on Google Fonts</a
+                >
+              </div>
+              <p class="font-anton sample-text">
+                The quick brown fox jumps over the lazy dog.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Impact</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Headlines</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Dramatic</span
+                >
+              </div>
+            </div>
+
+            <!-- Abril Fatface -->
+            <div class="font-card">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Abril Fatface</h3>
+                <a
+                  href="https://fonts.google.com/specimen/Abril+Fatface"
+                  target="_blank"
+                  class="text-xs underline"
+                  >View on Google Fonts</a
+                >
+              </div>
+              <p class="font-abril sample-text">
+                The quick brown fox jumps over the lazy dog.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Elegant</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Vintage</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Dramatic</span
+                >
+              </div>
+            </div>
+
+            <!-- Alfa Slab One -->
+            <div class="font-card">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Alfa Slab One</h3>
+                <a
+                  href="https://fonts.google.com/specimen/Alfa+Slab+One"
+                  target="_blank"
+                  class="text-xs underline"
+                  >View on Google Fonts</a
+                >
+              </div>
+              <p class="font-alfa sample-text">
+                The quick brown fox jumps over the lazy dog.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Powerful</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Bold</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Attention-grabbing</span
+                >
+              </div>
+            </div>
+
+            <!-- Righteous -->
+            <div class="font-card">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Righteous</h3>
+                <a
+                  href="https://fonts.google.com/specimen/Righteous"
+                  target="_blank"
+                  class="text-xs underline"
+                  >View on Google Fonts</a
+                >
+              </div>
+              <p class="font-righteous sample-text">
+                The quick brown fox jumps over the lazy dog.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Playful</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Futuristic</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Geometric</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Monospace Fonts -->
+        <div id="monospace" class="font-category-container hidden">
+          <h2 class="text-3xl font-bold mb-12">
+            MONO<span class="text-xs align-super">SPACE</span>
+          </h2>
+
+          <div class="grid grid-cols-1 gap-12">
+            <!-- Space Mono -->
+            <div class="font-card">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Space Mono</h3>
+                <a
+                  href="https://fonts.google.com/specimen/Space+Mono"
+                  target="_blank"
+                  class="text-xs underline"
+                  >View on Google Fonts</a
+                >
+              </div>
+              <p class="font-mono sample-text">
+                The quick brown fox jumps over the lazy dog.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Technical</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Code</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Modern</span
+                >
+              </div>
+            </div>
+
+            <!-- Roboto Mono -->
+            <div class="font-card">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Roboto Mono</h3>
+                <a
+                  href="https://fonts.google.com/specimen/Roboto+Mono"
+                  target="_blank"
+                  class="text-xs underline"
+                  >View on Google Fonts</a
+                >
+              </div>
+              <p class="font-robotomono sample-text">
+                The quick brown fox jumps over the lazy dog.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Technical</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Clean</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Legible</span
+                >
+              </div>
+            </div>
+
+            <!-- Fira Code -->
+            <div class="font-card">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Fira Code</h3>
+                <a
+                  href="https://fonts.google.com/specimen/Fira+Code"
+                  target="_blank"
+                  class="text-xs underline"
+                  >View on Google Fonts</a
+                >
+              </div>
+              <p class="font-firacode sample-text">
+                The quick brown fox jumps over the lazy dog.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Programming</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Ligatures</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Readable</span
+                >
+              </div>
+            </div>
+
+            <!-- Source Code Pro -->
+            <div class="font-card">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Source Code Pro</h3>
+                <a
+                  href="https://fonts.google.com/specimen/Source+Code+Pro"
+                  target="_blank"
+                  class="text-xs underline"
+                  >View on Google Fonts</a
+                >
+              </div>
+              <p class="font-sourcecode sample-text">
+                The quick brown fox jumps over the lazy dog.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Development</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Versatile</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Open Source</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Handwriting Fonts -->
+        <div id="handwriting" class="font-category-container hidden">
+          <h2 class="text-3xl font-bold mb-12">
+            HAND<span class="text-xs align-super">WRITING</span>
+          </h2>
+
+          <div class="grid grid-cols-1 gap-12">
+            <!-- Caveat -->
+            <div class="font-card">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Caveat</h3>
+                <a
+                  href="https://fonts.google.com/specimen/Caveat"
+                  target="_blank"
+                  class="text-xs underline"
+                  >View on Google Fonts</a
+                >
+              </div>
+              <p class="font-caveat sample-text">
+                The quick brown fox jumps over the lazy dog.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Casual</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Authentic</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Readable</span
+                >
+              </div>
+            </div>
+
+            <!-- Dancing Script -->
+            <div class="font-card">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Dancing Script</h3>
+                <a
+                  href="https://fonts.google.com/specimen/Dancing+Script"
+                  target="_blank"
+                  class="text-xs underline"
+                  >View on Google Fonts</a
+                >
+              </div>
+              <p class="font-dancing sample-text">
+                The quick brown fox jumps over the lazy dog.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Elegant</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Flowing</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Feminine</span
+                >
+              </div>
+            </div>
+
+            <!-- Pacifico -->
+            <div class="font-card">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Pacifico</h3>
+                <a
+                  href="https://fonts.google.com/specimen/Pacifico"
+                  target="_blank"
+                  class="text-xs underline"
+                  >View on Google Fonts</a
+                >
+              </div>
+              <p class="font-pacifico sample-text">
+                The quick brown fox jumps over the lazy dog.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Fun</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Retro</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Bold</span
+                >
+              </div>
+            </div>
+
+            <!-- Satisfy -->
+            <div class="font-card">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Satisfy</h3>
+                <a
+                  href="https://fonts.google.com/specimen/Satisfy"
+                  target="_blank"
+                  class="text-xs underline"
+                  >View on Google Fonts</a
+                >
+              </div>
+              <p class="font-satisfy sample-text">
+                The quick brown fox jumps over the lazy dog.
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Smooth</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Casual</span
+                >
+                <span
+                  class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                  >Approachable</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Font Combination Ideas -->
+    <section class="py-24 px-8 bg-gray-100 dark:bg-gray-800">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold mb-12">
+          PAIR<span class="text-xs align-super">INGS</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <!-- Pairing 1 -->
+          <div
+            class="bg-white dark:bg-gray-900 p-8 border border-gray-300 dark:border-gray-700"
+          >
+            <h3 class="text-2xl font-poppins font-bold mb-4">
+              Poppins + Playfair Display
+            </h3>
+            <div class="mb-6">
+              <h4 class="font-poppins text-lg font-medium mb-2">
+                Headings in Poppins
+              </h4>
+              <p class="font-playfair">
+                Body text in Playfair Display. Perfect for blogs, magazines, and
+                editorial sites seeking a modern yet elegant look.
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                >Editorial</span
+              >
+              <span
+                class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                >Contrast</span
+              >
+              <span
+                class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                >Sophisticated</span
+              >
+            </div>
+          </div>
+
+          <!-- Pairing 2 -->
+          <div
+            class="bg-white dark:bg-gray-900 p-8 border border-gray-300 dark:border-gray-700"
+          >
+            <h3 class="text-2xl font-montserrat font-bold mb-4">
+              Montserrat + Merriweather
+            </h3>
+            <div class="mb-6">
+              <h4 class="font-montserrat text-lg font-medium mb-2">
+                Headings in Montserrat
+              </h4>
+              <p class="font-merriweather">
+                Body text in Merriweather. A reliable combination for long-form
+                content with excellent readability and visual interest.
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                >Readability</span
+              >
+              <span
+                class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                >Academic</span
+              >
+              <span
+                class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                >Professional</span
+              >
+            </div>
+          </div>
+
+          <!-- Pairing 3 -->
+          <div
+            class="bg-white dark:bg-gray-900 p-8 border border-gray-300 dark:border-gray-700"
+          >
+            <h3 class="text-2xl font-bebas font-bold mb-4">
+              Bebas Neue + Open Sans
+            </h3>
+            <div class="mb-6">
+              <h4 class="font-bebas text-lg mb-2">HEADINGS IN BEBAS NEUE</h4>
+              <p class="font-opensans">
+                Body text in Open Sans. Bold, attention-grabbing headers with a
+                clean, readable body text. Ideal for marketing and promotional
+                materials.
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                >Marketing</span
+              >
+              <span
+                class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                >Impactful</span
+              >
+              <span
+                class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                >Modern</span
+              >
+            </div>
+          </div>
+
+          <!-- Pairing 4 -->
+          <div
+            class="bg-white dark:bg-gray-900 p-8 border border-gray-300 dark:border-gray-700"
+          >
+            <h3 class="text-2xl font-lora font-bold mb-4">Lora + Roboto</h3>
+            <div class="mb-6">
+              <h4 class="font-lora text-lg font-medium mb-2">
+                Headings in Lora
+              </h4>
+              <p class="font-roboto">
+                Body text in Roboto. A balanced pairing with a touch of elegance
+                in headings and technical clarity in body text. Great for
+                documentation and technical content with style.
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                >Technical</span
+              >
+              <span
+                class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                >Balanced</span
+              >
+              <span
+                class="text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1"
+                >Versatile</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Usage Guidelines Section -->
+    <section class="py-24 px-8">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold mb-12">
+          GUIDE<span class="text-xs align-super">LINES</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Guideline 1 -->
+          <div class="border-2 border-black dark:border-white p-6">
+            <h3 class="text-xl font-bold mb-4">Size Matters</h3>
+            <p class="mb-4">
+              Headings should be 2-3× larger than body text to establish proper
+              visual hierarchy.
+            </p>
+            <div class="p-4 bg-gray-100 dark:bg-gray-800">
+              <p class="text-3xl font-bold mb-1">Heading</p>
+              <p class="text-base">
+                Body text size establishes the baseline for all other text.
+              </p>
+            </div>
+          </div>
+
+          <!-- Guideline 2 -->
+          <div class="border-2 border-black dark:border-white p-6">
+            <h3 class="text-xl font-bold mb-4">Line Length</h3>
+            <p class="mb-4">
+              Maintain 45-75 characters per line for optimal readability in
+              paragraphs.
+            </p>
+            <div class="p-4 bg-gray-100 dark:bg-gray-800 flex">
+              <div
+                class="w-8 border-r border-dashed border-gray-400 dark:border-gray-600 flex-shrink-0"
+              ></div>
+              <div class="px-4">
+                <p class="text-sm">
+                  This line length is comfortable for the human eye to scan and
+                  helps readers maintain focus as they move down the text.
+                </p>
+              </div>
+              <div
+                class="w-8 border-l border-dashed border-gray-400 dark:border-gray-600 flex-shrink-0"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Guideline 3 -->
+          <div class="border-2 border-black dark:border-white p-6">
+            <h3 class="text-xl font-bold mb-4">Font Contrast</h3>
+            <p class="mb-4">
+              Pair fonts that complement, not compete. One distinctive, one
+              neutral.
+            </p>
+            <div class="p-4 bg-gray-100 dark:bg-gray-800">
+              <p class="text-2xl font-abril mb-1">Display Font</p>
+              <p class="font-opensans">
+                Clean, neutral supporting font that doesn't distract from the
+                display font.
+              </p>
+            </div>
+          </div>
+
+          <!-- Guideline 4 -->
+          <div class="border-2 border-black dark:border-white p-6">
+            <h3 class="text-xl font-bold mb-4">Weight Distribution</h3>
+            <p class="mb-4">
+              Vary font weights to create hierarchy and points of emphasis.
+            </p>
+            <div class="p-4 bg-gray-100 dark:bg-gray-800">
+              <p class="text-lg font-bold mb-1">Bold (700) for emphasis</p>
+              <p class="font-normal mb-1">Regular (400) for body text</p>
+              <p class="font-light">Light (300) for supporting text</p>
+            </div>
+          </div>
+
+          <!-- Guideline 5 -->
+          <div class="border-2 border-black dark:border-white p-6">
+            <h3 class="text-xl font-bold mb-4">Consistent Scale</h3>
+            <p class="mb-4">
+              Use a modular scale for font sizing to maintain visual harmony.
+            </p>
+            <div class="p-4 bg-gray-100 dark:bg-gray-800">
+              <p class="text-3xl mb-1">Large (24px)</p>
+              <p class="text-xl mb-1">Medium (18px)</p>
+              <p class="text-base mb-1">Base (16px)</p>
+              <p class="text-sm">Small (14px)</p>
+            </div>
+          </div>
+
+          <!-- Guideline 6 -->
+          <div class="border-2 border-black dark:border-white p-6">
+            <h3 class="text-xl font-bold mb-4">Purpose Alignment</h3>
+            <p class="mb-4">
+              Match font characteristics with your content's purpose and tone.
+            </p>
+            <div class="p-4 bg-gray-100 dark:bg-gray-800">
+              <p class="font-serif mb-2">Serif: Traditional, authoritative</p>
+              <p class="font-sans mb-2">Sans-serif: Modern, clean</p>
+              <p class="font-mono mb-2">Monospace: Technical, precise</p>
+              <p class="font-dancing">Script: Elegant, personal</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quote Section -->
+    <section class="py-24 px-8 bg-black text-white">
+      <div class="max-w-4xl mx-auto text-center">
+        <blockquote class="text-3xl md:text-5xl font-bold mb-8 leading-tight">
+          "Typography is what language looks like."
+        </blockquote>
+        <p class="text-xl">— Ellen Lupton</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 px-8 border-t border-gray-300 dark:border-gray-700">
+      <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <div>
+          <a
+            href="https://layogtima.com"
+            target="_blank"
+            class="text-xl font-bold tracking-normal"
+          >
+            AMIT
+          </a>
+        </div>
+        <div class="flex items-center gap-4">
+          <div
+            class="text-xs text-gray-600 dark:text-gray-400 flex items-center gap-2"
+          >
+            <span class="inline-block transform rotate-180 text-lg mb-2"
+              >©</span
+            >
+            <span
+              >Copyleft 2025 -
+              <a
+                href="https://github.com/layogtima/mono"
+                target="_blank"
+                class="underline"
+                >Share, Adapt, Build.</a
+              ></span
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+  </body>
+</html>

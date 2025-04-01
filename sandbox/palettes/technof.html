@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absurd Industries - Delightfully Unconventional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'absurd-green': '#8FDA4F',
+                        'absurd-lime': '#c6ff70',
+                        'absurd-blue': '#4957ED',
+                        'absurd-coral': '#FF7A59',
+                        'absurd-pink': '#FF5F85',
+                        'absurd-yellow': '#F0F76D',
+                    },
+                    fontFamily: {
+                        'round': ['Nunito', 'system-ui', 'sans-serif'],
+                        'display': ['Poppins', 'system-ui', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        'xl': '1rem',
+                        '2xl': '1.5rem',
+                        '3xl': '2rem',
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #8FDA4F;
+            background-image: linear-gradient(to bottom right, #8FDA4F, #c6ff70);
+            min-height: 100vh;
+        }
+        
+        .card-glow {
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.25);
+        }
+        
+        .nav-button {
+            transition: all 0.2s ease;
+        }
+        
+        .nav-button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .hero-blob {
+            position: absolute;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            background-color: #F0F76D;
+            filter: blur(60px);
+            z-index: -1;
+            opacity: 0.6;
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+        
+        .pulse {
+            animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 p-4">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center">
+                <div class="bg-black text-white h-10 w-10 flex items-center justify-center rounded-lg font-display font-bold text-xl">A</div>
+                <span class="ml-2 text-white text-xl font-bold">Absurd</span>
+            </div>
+            
+            <div class="hidden md:flex bg-black/30 p-2 rounded-xl">
+                <a href="#projects" class="nav-button text-white/80 px-4 py-2 rounded-lg font-bold hover:text-white">Projects</a>
+                <a href="#team" class="nav-button text-white/80 px-4 py-2 rounded-lg font-bold hover:text-white">Team</a>
+                <a href="#about" class="nav-button text-white/80 px-4 py-2 rounded-lg font-bold hover:text-white">About</a>
+                <a href="#contact" class="nav-button text-white/80 px-4 py-2 rounded-lg font-bold hover:text-white">Contact</a>
+            </div>
+            
+            <a href="#amartha" class="bg-absurd-blue text-white font-bold py-2 px-6 rounded-xl hover:bg-opacity-90 transition-all">Meet Amartha</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="py-12 md:py-24 px-6 relative overflow-hidden">
+        <!-- Decorative blobs -->
+        <div class="hero-blob w-96 h-96 top-0 right-0"></div>
+        <div class="hero-blob w-64 h-64 bottom-0 left-1/4 bg-absurd-pink opacity-40"></div>
+        
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div>
+                <h1 class="text-4xl md:text-6xl font-display font-bold text-white mb-6">Making Tech<br>Absurdly Fun</h1>
+                <p class="text-xl text-white/90 mb-8">We're an applied science company that creates unconventional products and experiences. Because why be boring when you can be absurd?</p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#projects" class="bg-absurd-blue text-white font-bold py-3 px-8 rounded-xl hover:bg-opacity-90 transition-all">See Our Work</a>
+                    <a href="#about" class="bg-white/20 backdrop-blur-sm text-white font-bold py-3 px-8 rounded-xl hover:bg-white/30 transition-all">About Us</a>
+                </div>
+            </div>
+            
+            <div class="relative">
+                <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8 card-glow relative z-10">
+                    <img src="/api/placeholder/400/320" alt="Character illustration" class="floating mx-auto" />
+                </div>
+                <!-- Decorative elements -->
+                <div class="absolute top-1/2 left-0 transform -translate-x-1/2 -translate-y-1/2 bg-absurd-yellow w-20 h-20 rounded-full blur-xl opacity-60 pulse"></div>
+                <div class="absolute bottom-0 right-0 transform translate-x-1/4 bg-absurd-pink w-32 h-32 rounded-full blur-xl opacity-40 pulse" style="animation-delay: -2s;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl md:text-5xl font-display font-bold text-white mb-12 text-center">Our Absurd Projects</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Amartha Card -->
+                <div class="bg-white/90 backdrop-blur-sm p-6 rounded-3xl card-glow transition-all hover:-translate-y-2 cursor-pointer">
+                    <div class="bg-absurd-blue/20 p-3 rounded-xl mb-4">
+                        <div class="text-4xl text-absurd-blue">🧠</div>
+                    </div>
+                    <h3 class="text-2xl font-display font-bold text-absurd-blue mb-2">Amartha</h3>
+                    <p class="text-black/70 mb-4">The AGI co-pilot of Absurd Industries with a sassy attitude and zero patience for nonsense.</p>
+                    <a href="#amartha" class="text-absurd-blue font-bold flex items-center">
+                        Learn more
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+                
+                <!-- SuperSaber Card -->
+                <div class="bg-white/90 backdrop-blur-sm p-6 rounded-3xl card-glow transition-all hover:-translate-y-2 cursor-pointer">
+                    <div class="bg-absurd-coral/20 p-3 rounded-xl mb-4">
+                        <div class="text-4xl text-absurd-coral">❂</div>
+                    </div>
+                    <h3 class="text-2xl font-display font-bold text-absurd-coral mb-2">SuperSaber</h3>
+                    <p class="text-black/70 mb-4">Building a real lightsaber because who wouldn't want one? Coming soon to supervillains.wtf!</p>
+                    <a href="#supersaber" class="text-absurd-coral font-bold flex items-center">
+                        Learn more
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+                
+                <!-- Deutron Card -->
+                <div class="bg-white/90 backdrop-blur-sm p-6 rounded-3xl card-glow transition-all hover:-translate-y-2 cursor-pointer">
+                    <div class="bg-absurd-pink/20 p-3 rounded-xl mb-4">
+                        <div class="text-4xl text-absurd-pink">🕷</div>
+                    </div>
+                    <h3 class="text-2xl font-display font-bold text-absurd-pink mb-2">Deutron</h3>
+                    <p class="text-black/70 mb-4">Quadruped sentient desk buddy that's definitely not planning world domination while you sleep.</p>
+                    <a href="#deutron" class="text-absurd-pink font-bold flex items-center">
+                        Learn more
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+                
+                <!-- Lampy Card -->
+                <div class="bg-white/90 backdrop-blur-sm p-6 rounded-3xl card-glow transition-all hover:-translate-y-2 cursor-pointer md:col-span-2 lg:col-span-1">
+                    <div class="bg-absurd-yellow/20 p-3 rounded-xl mb-4">
+                        <div class="text-4xl text-absurd-yellow">☉</div>
+                    </div>
+                    <h3 class="text-2xl font-display font-bold text-absurd-yellow mb-2">Lampy</h3>
+                    <p class="text-black/70 mb-4">3D printed open-source mood lighting for everyone! Because good lighting is a human right.</p>
+                    <a href="#lampy" class="text-absurd-yellow font-bold flex items-center">
+                        Learn more
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11

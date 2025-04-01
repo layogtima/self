@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MIB Incident Tracker</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              mib: {
+                black: "#000000",
+                red: "#ff0000",
+                highlight: "#00ff00",
+              },
+            },
+            fontFamily: {
+              mib: ["Courier New", "monospace"],
+            },
+            animation: {
+              "pulse-fast": "pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              glow: "glow 2s ease-in-out infinite alternate",
+              scan: "scan 4s linear infinite",
+            },
+            keyframes: {
+              glow: {
+                "0%": { textShadow: "0 0 4px #00ff00" },
+                "100%": { textShadow: "0 0 8px #00ff00, 0 0 12px #00ff00" },
+              },
+              scan: {
+                "0%": { transform: "translateY(-100%)" },
+                "100%": { transform: "translateY(100%)" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Leaflet for maps -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+      @keyframes scanline {
+        0% {
+          transform: translateY(-100%);
+        }
+        100% {
+          transform: translateY(100%);
+        }
+      }
+
+      .scanline {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: rgba(0, 255, 0, 0.3);
+        opacity: 0.75;
+        animation: scanline 3s linear infinite;
+      }
+
+      .crt-effect::before {
+        content: " ";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: linear-gradient(
+            rgba(18, 16, 16, 0) 50%,
+            rgba(0, 0, 0, 0.25) 50%
+          ),
+          linear-gradient(
+            90deg,
+            rgba(255, 0, 0, 0.06),
+            rgba(0, 255, 0, 0.02),
+            rgba(0, 0, 255, 0.06)
+          );
+        z-index: 2;
+        background-size: 100% 2px, 3px 100%;
+        pointer-events: none;
+      }
+
+      /* Terminal blinking cursor */
+      .terminal-cursor::after {
+        content: "|";
+        animation: blink 1s step-end infinite;
+      }
+
+      @keyframes blink {
+        from,
+        to {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      /* Map Styles */
+      .leaflet-container {
+        background-color: #000;
+        outline: none;
+      }
+
+      .leaflet-popup-content-wrapper {
+        background-color: #000;
+        color: #00ff00;
+        border: 1px solid #00ff00;
+        border-radius: 0;
+      }
+
+      .leaflet-popup-tip {
+        background-color: #00ff00;
+      }
+
+      .leaflet-control-zoom {
+        border: 1px solid #00ff00 !important;
+      }
+
+      .leaflet-control-zoom a {
+        background-color: #000 !important;
+        color: #00ff00 !important;
+      }
+
+      .investigate-btn {
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .investigate-btn:hover {
+        background-color: #00ff00;
+        color: #000;
+      }
+
+      /* Make map dark */
+      .dark-filter {
+        filter: invert(1) hue-rotate(180deg) brightness(0.8) saturate(1.5);
+      }
+    </style>
+  </head>
+  <body class="bg-black text-mib-highlight font-mib">
+    <!-- CRT effect container -->
+    <div class="relative crt-effect min-h-screen w-full overflow-hidden p-4">
+      <div class="scanline"></div>
+
+      <!-- MIB Header -->
+      <header class="flex flex-col items-center mb-8 pt-4">
+        <div class="flex items-center justify-center gap-2">
+          <div
+            class="w-12 h-12 border-2 border-mib-highlight rounded-full flex items-center justify-center animate-pulse-fast"
+          >
+            <div
+              class="w-8 h-8 border-2 border-mib-highlight rounded-full"
+            ></div>
+          </div>
+          <h1 class="text-4xl font-bold tracking-widest animate-glow">MIB</h1>
+          <div
+            class="w-12 h-12 border-2 border-mib-highlight rounded-full flex items-center justify-center animate-pulse-fast"
+          >
+            <div
+              class="w-8 h-8 border-2 border-mib-highlight rounded-full"
+            ></div>
+          </div>
+        </div>
+        <h2 class="text-sm mt-2 tracking-wider">
+          EXTRATERRESTRIAL INCIDENT TRACKER
+        </h2>
+      </header>
+
+      <!-- Terminal Login -->
+      <div
+        class="max-w-2xl mx-auto p-4 border border-mib-highlight rounded mb-8 terminal-login"
+      >
+        <div class="mb-4">
+          <div id="loginTerminal" class="terminal-cursor">
+            > AUTHENTICATING AGENT...
+          </div>
+        </div>
+      </div>
+
+      <!-- Map Interface -->
+      <div
+        class="max-w-4xl mx-auto p-4 border border-mib-highlight rounded mb-8 hidden"
+        id="mapInterface"
+      >
+        <h3 class="text-xl mb-4 tracking-wider">LOCAL INCIDENTS MAP</h3>
+        <div
+          class="relative w-full h-96 border border-mib-highlight rounded overflow-hidden mb-4"
+        >
+          <div
+            id="mapContainer"
+            class="absolute inset-0 bg-gray-900 flex items-center justify-center"
+          >
+            <div class="text-center">SATELLITE INITIALIZING...</div>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="border border-mib-highlight rounded p-4">
+            <h4 class="text-lg mb-2">AGENT LOCATION</h4>
+            <div id="agentLocation" class="text-sm">LOCATING...</div>
+          </div>
+          <div class="border border-mib-highlight rounded p-4">
+            <h4 class="text-lg mb-2">NEARBY ACTIVITY</h4>
+            <div id="nearbyActivity" class="text-sm">SCANNING...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Incident List -->
+      <div
+        class="max-w-4xl mx-auto p-4 border border-mib-highlight rounded hidden"
+        id="incidentList"
+      >
+        <h3 class="text-xl mb-4 tracking-wider">RECENT LOCAL INCIDENTS</h3>
+        <div class="space-y-2" id="incidentContainer">
+          <!-- Incidents will be added here -->
+        </div>
+      </div>
+
+      <!-- Investigation Panel -->
+      <div
+        class="max-w-4xl mx-auto p-4 border border-mib-highlight rounded mt-8 hidden"
+        id="investigationPanel"
+      >
+        <h3 class="text-xl mb-2 tracking-wider">ACTIVE INVESTIGATION</h3>
+        <div class="text-sm mb-4">
+          LEVEL-4 CLEARANCE REQUIRED. PROCEED WITH CAUTION.
+        </div>
+        <div class="text-sm space-y-2" id="investigationContent">
+          <!-- Investigation details will be added here -->
+        </div>
+        <div class="mt-4 flex justify-end">
+          <button
+            id="closeInvestigation"
+            class="px-4 py-2 border border-mib-highlight text-mib-highlight hover:bg-mib-highlight hover:text-black transition-colors"
+          >
+            CLOSE FILE
+          </button>
+        </div>
+      </div>
+
+      <!-- Agent Instructions -->
+      <div
+        class="max-w-4xl mx-auto p-4 border border-mib-highlight rounded mt-8 hidden"
+        id="agentInstructions"
+      >
+        <h3 class="text-xl mb-2 tracking-wider">AGENT INSTRUCTIONS</h3>
+        <p class="text-sm mb-4">
+          CLASSIFIED LEVEL-4 INFORMATION. MEMORY WIPE SUGGESTED AFTER READING.
+        </p>
+        <div class="text-sm space-y-2" id="instructionsContent">
+          <!-- Instructions will be added here -->
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="mt-12 text-center text-xs">
+        <p>SYSTEM VERSION 23.7.31 // CLEARANCE LEVEL ALPHA // EYES ONLY</p>
+        <p class="mt-1">
+          THIS TERMINAL WILL SELF-DESTRUCT IN
+          <span id="countdown">300</span> SECONDS
+        </p>
+      </footer>
+    </div>
+
+    <!-- GeoSpy.js library -->
+    <script src="GeoSpy.js"></script>
+    <!-- OSMEnvironment.js library -->
+    <script src="OSMEnvironment.js"></script>
+
+    <script>
+      // Initialize GeoSpy
+      const geoSpy = new GeoSpy({
+        fallbackToIP: true,
+        onLocationSuccess: (data) => {
+          console.log("Location acquired:", data);
+        },
+        onLocationError: (error) => {
+          console.warn("Browser location error:", error);
+        },
+        onIPLocationSuccess: (data) => {
+          console.log("IP location acquired:", data);
+        },
+      });
+
+      // Global variables
+      let map = null;
+      let osmEnvironment = null;
+      let incidents = [];
+
+      // Type out text with a terminal effect
+      function typeText(element, text, delay = 50, callback = null) {
+        let i = 0;
+        element.textContent = "";
+
+        const interval = setInterval(() => {
+          if (i < text.length) {
+            element.textContent += text.charAt(i);
+            i++;
+          } else {
+            clearInterval(interval);
+            if (callback) callback();
+          }
+        }, delay);
+      }
+
+      // Simulate login sequence
+      function simulateLogin() {
+        const loginTerminal = document.getElementById("loginTerminal");
+
+        typeText(loginTerminal, "> AUTHENTICATING AGENT...", 50, () => {
+          setTimeout(() => {
+            typeText(loginTerminal, "\n> RETINAL SCAN COMPLETE", 50, () => {
+              setTimeout(() => {
+                typeText(
+                  loginTerminal,
+                  "\n> DNA SIGNATURE VERIFIED",
+                  50,
+                  () => {
+                    setTimeout(() => {
+                      typeText(
+                        loginTerminal,
+                        "\n> COGNITIVE IMPRINT MATCHED",
+                        50,
+                        () => {
+                          setTimeout(() => {
+                            typeText(
+                              loginTerminal,
+                              "\n> ACCESS GRANTED: WELCOME AGENT",
+                              50,
+                              () => {
+                                setTimeout(() => {
+                                  document
+                                    .getElementById("mapInterface")
+                                    .classList.remove("hidden");
+                                  document
+                                    .getElementById("incidentList")
+                                    .classList.remove("hidden");
+                                  document
+                                    .getElementById("agentInstructions")
+                                    .classList.remove("hidden");
+
+                                  // Get location and initialize the system
+                                  initializeSystem();
+                                }, 1000);
+                              }
+                            );
+                          }, 500);
+                        }
+                      );
+                    }, 500);
+                  }
+                );
+              }, 500);
+            });
+          }, 500);
+        });
+      }
+
+      // Initialize the system
+      async function initializeSystem() {
+        try {
+          // Start countdown timer
+          startCountdown();
+
+          // Get the user's location
+          const location = await geoSpy.getLocation();
+
+          // Update agent location display
+          updateAgentLocation(location);
+
+          // Initialize map with location
+          initializeMap(location);
+
+          // Initialize OSM Environment
+          initializeOSMEnvironment(location);
+
+          // Generate agent instructions
+          generateAgentInstructions(location);
+        } catch (error) {
+          console.error("Failed to initialize system:", error);
+          document.getElementById("agentLocation").textContent =
+            "LOCATION ERROR: USE EMERGENCY PROTOCOLS";
+        }
+      }
+
+      // Update agent location display
+      function updateAgentLocation(location) {
+        const agentLocationElement = document.getElementById("agentLocation");
+
+        if (!location) {
+          agentLocationElement.textContent = "UNABLE TO DETERMINE LOCATION";
+          return;
+        }
+
+        let locationText = "";
+
+        if (location.city && location.country) {
+          // IP-based location
+          locationText = `CITY: ${location.city.toUpperCase()}\nREGION: ${location.region.toUpperCase()}\nCOUNTRY: ${location.country.toUpperCase()}`;
+
+          if (location.coords) {
+            locationText += `\nCOORDINATES: ${location.coords.latitude.toFixed(
+              6
+            )}, ${location.coords.longitude.toFixed(6)}`;
+          }
+        } else if (location.coords) {
+          // Browser geolocation
+          locationText = `COORDINATES: ${location.coords.latitude.toFixed(
+            6
+          )}, ${location.coords.longitude.toFixed(6)}`;
+
+          if (location.geocode && location.geocode.address) {
+            const address = location.geocode.address;
+            locationText += `\nCITY: ${(
+              address.city ||
+              address.town ||
+              address.village ||
+              "UNKNOWN"
+            ).toUpperCase()}\nCOUNTRY: ${(
+              address.country || "UNKNOWN"
+            ).toUpperCase()}`;
+          }
+        }
+
+        locationText += "\nSTATUS: ACTIVE";
+
+        agentLocationElement.textContent = locationText;
+      }
+
+      // Initialize Leaflet map
+      function initializeMap(location) {
+        if (!location || !location.coords) return;
+
+        const mapContainer = document.getElementById("mapContainer");
+        mapContainer.innerHTML = "";
+
+        // Create a div for the map
+        const mapDiv = document.createElement("div");
+        mapDiv.id = "map";
+        mapDiv.className = "h-full w-full";
+        mapContainer.appendChild(mapDiv);
+
+        // Initialize map with MIB theme
+        map = L.map("map").setView(
+          [location.coords.latitude, location.coords.longitude],
+          15
+        );
+
+        // Add a custom themed tile layer
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution: "&copy; MIB Satellite Division",
+          maxZoom: 19,
+          className: "dark-filter",
+        }).addTo(map);
+
+        // Create custom icon for agent location
+        const agentIcon = L.divIcon({
+          className: "agent-marker",
+          html: `<div class="w-4 h-4 bg-mib-highlight rounded-full animate-pulse-fast" style="box-shadow: 0 0 10px #00ff00"></div>`,
+          iconSize: [20, 20],
+          iconAnchor: [10, 10],
+        });
+
+        // Add agent marker
+        const agentMarker = L.marker(
+          [location.coords.latitude, location.coords.longitude],
+          {
+            icon: agentIcon,
+            title: "AGENT LOCATION",
+          }
+        ).addTo(map);
+
+        // Add scan effect overlay
+        const overlayDiv = document.createElement("div");
+        overlayDiv.className = "absolute inset-0 pointer-events-none z-10";
+        overlayDiv.innerHTML = `
+        <div class="absolute top-4 left-4 text-xs border border-mib-highlight p-1 bg-black bg-opacity-70">
+          SAT-FEED-7 // CLASSIFIED
+        </div>
+        <div class="absolute bottom-4 right-4 text-xs border border-mib-highlight p-1 animate-pulse bg-black bg-opacity-70">
+          LIVE
+        </div>
+      `;
+
+        mapContainer.appendChild(overlayDiv);
+
+        // Add scanning circle animation
+        const scanRadius = L.circle(
+          [location.coords.latitude, location.coords.longitude],
+          {
+            radius: 0,
+            color: "#00ff00",
+            fillColor: "#00ff00",
+            fillOpacity: 0.1,
+            weight: 1,
+          }
+        ).addTo(map);
+
+        // Animate scan effect
+        function animateScan() {
+          let radius = 0;
+          const interval = setInterval(() => {
+            radius += 50;
+            scanRadius.setRadius(radius);
+
+            if (radius > 2000) {
+              clearInterval(interval);
+              scanRadius.setRadius(0);
+              setTimeout(animateScan, 5000);
+            }
+          }, 100);
+        }
+
+        // Start animation
+        setTimeout(animateScan, 2000);
+      }
+
+      // Initialize OSM Environment
+      async function initializeOSMEnvironment(location) {
+        if (!location || !location.coords) return;
+
+        // Create OSM Environment
+        osmEnvironment = new OSMEnvironment({
+          radius: 2,
+          map: map,
+          onDataLoaded: (pois) => {
+            updateNearbyActivity(pois);
+            generateIncidents(pois);
+          },
+        });
+
+        try {
+          // Fetch nearby POIs
+          await osmEnvironment.fetchNearbyPOIs(location);
+
+          // Add POIs to map
+          osmEnvironment.addPOIsToMap(map);
+
+          // Listen for investigation events
+          document.addEventListener("mib:investigation", handleInvestigation);
+        } catch (error) {
+          console.error("Error initializing OSM Environment:", error);
+        }
+      }
+
+      // Update nearby activity display
+      function updateNearbyActivity(pois) {
+        const nearbyActivityElement = document.getElementById("nearbyActivity");
+
+        if (!pois || pois.length === 0) {
+          nearbyActivityElement.textContent =
+            "NO SIGNIFICANT ACTIVITY DETECTED";
+          return;
+        }
+
+        // Count POIs by interaction type
+        const counts = {};
+        pois.forEach((poi) => {
+          counts[poi.interactionType] = (counts[poi.interactionType] || 0) + 1;
+        });
+
+        // Format counts for display
+        let activityText = "";
+        Object.entries(counts).forEach(([type, count]) => {
+          const formattedType = type
+            .split("-")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+          activityText += `${formattedType}: ${count}\n`;
+        });
+
+        activityText += `\nTOTAL MONITORED LOCATIONS: ${pois.length}`;
+
+        nearbyActivityElement.textContent = activityText;
+      }
+
+      // Generate incidents based on POIs
+      function generateIncidents(pois) {
+        if (!pois || pois.length === 0) return;
+
+        // Select a subset of POIs to create incidents from
+        const incidentPOIs = [];
+
+        // Always include high-priority interaction types
+        const highPriorityTypes = [
+          "entity-sighting",
+          "technology-breach",
+          "temporal-anomaly",
+          "artifact-containment",
+        ];
+
+        // Add all high priority POIs
+        pois.forEach((poi) => {
+          if (highPriorityTypes.includes(poi.interactionType)) {
+            incidentPOIs.push(poi);
+          }
+        });
+
+        // Add some random POIs for variety (up to 5 total incidents)
+        const remainingPOIs = pois.filter(
+          (poi) => !highPriorityTypes.includes(poi.interactionType)
+        );
+        const shuffled = remainingPOIs.sort(() => 0.5 - Math.random());
+        const neededCount = Math.max(0, 5 - incidentPOIs.length);
+
+        incidentPOIs.push(...shuffled.slice(0, neededCount));
+
+        // Generate incidents from selected POIs
+        incidents = incidentPOIs.map((poi) =>
+          osmEnvironment._generateIncidentFromPOI(poi)
+        );
+
+        // Update incidents list
+        updateIncidentsList(incidents);
+      }
+
+      // Update incidents list
+      function updateIncidentsList(incidents) {
+        const incidentContainer = document.getElementById("incidentContainer");
+        incidentContainer.innerHTML = "";
+
+        if (!incidents || incidents.length === 0) {
+          incidentContainer.innerHTML =
+            '<div class="p-4 text-center">NO ACTIVE INCIDENTS</div>';
+          return;
+        }
+
+        // Sort incidents by threat level (HIGH -> MEDIUM -> LOW)
+        const sortedIncidents = [...incidents].sort((a, b) => {
+          const threatOrder = { HIGH: 0, MEDIUM: 1, LOW: 2 };
+          return threatOrder[a.threatLevel] - threatOrder[b.threatLevel];
+        });
+
+        sortedIncidents.forEach((incident) => {
+          const incidentElement = document.createElement("div");
+          incidentElement.className = "border border-mib-highlight rounded p-3";
+
+          const threatClass =
+            incident.threatLevel === "LOW"
+              ? "text-green-400"
+              : incident.threatLevel === "MEDIUM"
+              ? "text-yellow-400"
+              : "text-red-500";
+
+          const timeAgo = getTimeAgo(incident.timestamp);
+
+          incidentElement.innerHTML = `
+          <div class="flex justify-between items-start">
+            <h4 class="text-lg font-bold">${incident.title}</h4>
+            <span class="${threatClass} text-sm font-bold">${
+            incident.threatLevel
+          }</span>
+          </div>
+          <div class="text-sm mb-2">ID: ${incident.id} | TYPE: ${
+            incident.type
+          } | REPORTED: ${timeAgo}</div>
+          <p class="text-sm mb-2">${incident.description}</p>
+          <div class="text-sm">DISTANCE: ${incident.distanceKm.toFixed(
+            1
+          )} KM</div>
+          <div class="mt-2 flex justify-end">
+            <button class="investigate-incident-btn px-2 py-1 border border-mib-highlight text-xs hover:bg-mib-highlight hover:text-black transition-colors" data-incident-id="${
+              incident.id
+            }">INVESTIGATE</button>
+          </div>
+        `;
+
+          incidentContainer.appendChild(incidentElement);
+
+          // Add event listener for investigate button
+          const investigateButton = incidentElement.querySelector(
+            `.investigate-incident-btn[data-incident-id="${incident.id}"]`
+          );
+          investigateButton.addEventListener("click", () => {
+            showIncidentInvestigation(incident);
+          });
+        });
+      }
+
+      // Show incident investigation panel
+      function showIncidentInvestigation(incident) {
+        const panel = document.getElementById("investigationPanel");
+        const content = document.getElementById("investigationContent");
+
+        // Find the associated POI
+        const poi = osmEnvironment.pois.find(
+          (p) => p.id === incident.poiReference
+        );
+
+        // Create investigation content
+        let investigationHTML = `
+        <div class="border-b border-mib-highlight pb-2 mb-4">
+          <div class="text-xl font-bold">${incident.title}</div>
+          <div class="text-sm">CASE ID: ${incident.id} | PRIORITY: ${
+          incident.threatLevel
+        }</div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <h4 class="font-bold mb-2">INCIDENT DETAILS</h4>
+            <p>${incident.description}</p>
+            <p class="mt-2">Reported: ${new Date(
+              incident.timestamp
+            ).toLocaleString()}</p>
+            <p>Location Type: ${
+              poi
+                ? poi.type.toUpperCase() + " / " + poi.subtype.toUpperCase()
+                : "UNKNOWN"
+            }</p>
+          </div>
+          
+          <div>
+            <h4 class="font-bold mb-2">RECOMMENDED ACTIONS</h4>
+            <ul class="list-disc pl-5 space-y-1">
+              <li>Deploy field agents to secure perimeter</li>
+              <li>Implement standard ${incident.threatLevel.toLowerCase()} containment protocols</li>
+              <li>Prepare memory wipe equipment for civilian witnesses</li>
+              <li>Document all non-terrestrial evidence</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="border-t border-mib-highlight pt-4">
+          <h4 class="font-bold mb-2">FIELD NOTES</h4>
+          <textarea id="fieldNotes" class="w-full h-24 bg-black border border-mib-highlight p-2 text-mib-highlight" placeholder="Enter field observations here..."></textarea>
+        </div>
+      `;
+
+        content.innerHTML = investigationHTML;
+        panel.classList.remove("hidden");
+
+        // Center map on incident location
+        if (map && incident.coords) {
+          map.setView(
+            [incident.coords.latitude, incident.coords.longitude],
+            18
+          );
+        }
+
+        // Add event listener for close button
+        document
+          .getElementById("closeInvestigation")
+          .addEventListener("click", () => {
+            panel.classList.add("hidden");
+            // Reset map view
+            if (map && geoSpy.locationData && geoSpy.locationData.coords) {
+              map.setView(
+                [
+                  geoSpy.locationData.coords.latitude,
+                  geoSpy.locationData.coords.longitude,
+                ],
+                15
+              );
+            }
+          });
+      }
+
+      // Handle investigation event from OSM Environment
+      function handleInvestigation(event) {
+        const { poi, incident } = event.detail;
+
+        // Add incident to our list if it's not already there
+        if (!incidents.some((inc) => inc.id === incident.id)) {
+          incidents.push(incident);
+          updateIncidentsList(incidents);
+        }
+
+        // Show investigation panel
+        showIncidentInvestigation(incident);
+      }
+
+      // Generate personalized agent instructions
+      function generateAgentInstructions(location) {
+        const instructionsElement = document.getElementById(
+          "instructionsContent"
+        );
+
+        let cityName = "UNKNOWN LOCATION";
+
+        if (location.city) {
+          cityName = location.city.toUpperCase();
+        } else if (location.geocode && location.geocode.address) {
+          const address = location.geocode.address;
+          cityName = (
+            address.city ||
+            address.town ||
+            address.village ||
+            "UNKNOWN LOCATION"
+          ).toUpperCase();
+        }
+
+        const instructions = [
+          `FIELD REPORT: UNUSUAL ACTIVITY DETECTED IN ${cityName} SECTOR`,
+          "IMMEDIATE ATTENTION REQUIRED TO HIGH PRIORITY INCIDENTS",
+          "DEPLOY NEURALYZERS AS NEEDED TO MAINTAIN SECRECY",
+          "REPORT ANY ANOMALOUS TECHNOLOGY TO HEADQUARTERS IMMEDIATELY",
+          "LOCAL AUTHORITIES HAVE BEEN GIVEN COVER STORY: WEATHER BALLOON TESTING",
+          'USE CLEARANCE CODE "ALPHA-ZETA-9" FOR EMERGENCY EXTRACTION',
+          "MONITOR ALL NEARBY POINTS OF INTEREST FOR UNUSUAL ACTIVITY",
+        ];
+
+        instructions.forEach((instruction) => {
+          const p = document.createElement("p");
+          p.textContent = instruction;
+          instructionsElement.appendChild(p);
+        });
+      }
+
+      // Helper function to get time ago string
+      function getTimeAgo(timestamp) {
+        const seconds = Math.floor((Date.now() - timestamp) / 1000);
+
+        if (seconds < 60) return `${seconds} SECONDS AGO`;
+
+        const minutes = Math.floor(seconds / 60);
+        if (minutes < 60) return `${minutes} MINUTES AGO`;
+
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return `${hours} HOURS AGO`;
+
+        const days = Math.floor(hours / 24);
+        return `${days} DAYS AGO`;
+      }
+
+      // Countdown timer
+      function startCountdown() {
+        const countdownElement = document.getElementById("countdown");
+        let seconds = parseInt(countdownElement.textContent);
+
+        const interval = setInterval(() => {
+          seconds--;
+          countdownElement.textContent = seconds;
+
+          if (seconds <= 0) {
+            clearInterval(interval);
+            // In a real application, you might redirect to another page or show a message
+            document.body.innerHTML =
+              '<div class="h-screen flex items-center justify-center bg-black text-mib-highlight font-mib"><div class="text-center"><h1 class="text-4xl mb-4 animate-glow">CONNECTION TERMINATED</h1><p>FOR YOUR SAFETY, THIS INCIDENT HAS BEEN ERASED FROM YOUR MEMORY</p></div></div>';
+          }
+        }, 1000);
+      }
+
+      // Load everything when DOM is ready
+      document.addEventListener("DOMContentLoaded", () => {
+        // Start the login animation
+        simulateLogin();
+      });
+    </script>
+  </body>
+</html>

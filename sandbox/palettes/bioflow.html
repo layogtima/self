@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FlowMorph - Biomorphic Web Framework</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              flow: {
+                primary: "#9c27b0",
+                secondary: "#03a9f4",
+                accent: "#ff5722",
+                dark: "#1a1a2e",
+              },
+            },
+            animation: {
+              "flow-pulse": "flowPulse 8s ease-in-out infinite",
+              morph: "morph 15s ease-in-out infinite",
+              float: "float 6s ease-in-out infinite",
+              "fluid-text": "fluidText 10s ease infinite",
+            },
+            keyframes: {
+              flowPulse: {
+                "0%, 100%": { transform: "scale(1)" },
+                "50%": { transform: "scale(1.05)" },
+              },
+              morph: {
+                "0%, 100%": {
+                  borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%",
+                },
+                "25%": { borderRadius: "30% 60% 70% 40% / 50% 60% 30% 60%" },
+                "50%": { borderRadius: "40% 60% 60% 40% / 40% 60% 70% 30%" },
+                "75%": { borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%" },
+              },
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-20px)" },
+              },
+              fluidText: {
+                "0%, 100%": { letterSpacing: "0em" },
+                "50%": { letterSpacing: "0.05em" },
+              },
+            },
+          },
+        },
+        plugins: [],
+      };
+    </script>
+    <link rel="stylesheet" href="flowmorph.css" />
+  </head>
+  <body class="bg-flow-dark text-white overflow-x-hidden">
+    <div class="noise-layer"></div>
+    <header
+      class="relative h-screen flex flex-col items-center justify-center overflow-hidden"
+    >
+      <div class="nav-blob"></div>
+      <nav class="fixed top-0 w-full z-50 px-8 py-6">
+        <div class="container mx-auto flex justify-between items-center">
+          <div class="logo-container">
+            <h1 class="text-3xl font-bold tracking-tighter animate-fluid-text">
+              Flow<span class="text-flow-primary">Morph</span>
+            </h1>
+          </div>
+          <div class="nav-links hidden md:flex space-x-6">
+            <a href="#about" class="nav-link">About</a>
+            <a href="#features" class="nav-link">Features</a>
+            <a href="#showcase" class="nav-link">Showcase</a>
+            <a href="#contact" class="nav-link">Contact</a>
+          </div>
+          <button class="md:hidden biomorphic-button">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </nav>
+
+      <div
+        class="hero-container z-10 px-6 flex flex-col items-center justify-center text-center"
+      >
+        <div class="hero-blob"></div>
+        <h1 class="text-5xl md:text-7xl font-bold mb-6 relative">
+          Beyond <span class="text-flow-primary">Rectangles</span>
+        </h1>
+        <p class="text-xl md:text-2xl max-w-2xl mb-10">
+          A framework inspired by nature's perfection and Zaha Hadid's
+          architectural genius
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="#features" class="biomorphic-button-primary"
+            >Explore Features</a
+          >
+          <a href="#showcase" class="biomorphic-button-secondary"
+            >View Showcase</a
+          >
+        </div>
+      </div>
+
+      <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+        <div class="scroll-indicator">
+          <div class="mouse">
+            <div class="wheel"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="about" class="py-24 relative overflow-hidden">
+        <div class="about-blob"></div>
+        <div class="container mx-auto px-6">
+          <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 class="section-title">
+                Nature-Inspired <span class="text-flow-primary">Design</span>
+              </h2>
+              <p class="text-lg mb-6">
+                FlowMorph rejects traditional web design constraints, embracing
+                organic forms, fluid motion, and asymmetrical balance found in
+                the natural world.
+              </p>
+              <p class="text-lg">
+                Inspired by the revolutionary architectural approach of Zaha
+                Hadid, FlowMorph brings parametric design principles to the web,
+                creating immersive digital experiences that feel alive.
+              </p>
+            </div>
+            <div>
+              <div class="zaha-showcase"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" class="py-24 relative overflow-hidden bg-black/20">
+        <div class="features-blob"></div>
+        <div class="container mx-auto px-6">
+          <h2 class="section-title text-center mb-16">
+            Core <span class="text-flow-primary">Features</span>
+          </h2>
+
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div class="feature-card" data-name="Fluid Containers">
+              <div class="feature-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-10 h-10"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42"
+                  />
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold mb-3">Fluid Containers</h3>
+              <p>
+                Organic boundaries that curve and undulate, breaking free from
+                the rectangular prison of traditional web design.
+              </p>
+            </div>
+
+            <div class="feature-card" data-name="Parametric Typography">
+              <div class="feature-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-10 h-10"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
+                  />
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold mb-3">Parametric Typography</h3>
+              <p>
+                Text that responds to its environment, flowing around other
+                elements like water around rocks in a stream.
+              </p>
+            </div>
+
+            <div class="feature-card" data-name="Biomimetic Animation">
+              <div class="feature-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-10 h-10"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"
+                  />
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold mb-3">Biomimetic Animation</h3>
+              <p>
+                Movement inspired by natural phenomena - think the unfurling of
+                fern fronds or the pulsing of jellyfish.
+              </p>
+            </div>
+
+            <div class="feature-card" data-name="Adaptive Color Systems">
+              <div class="feature-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-10 h-10"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M4.098 19.902a3.75 3.75 0 005.304 0l6.401-6.402M6.75 21A3.75 3.75 0 013 17.25V4.125C3 3.504 3.504 3 4.125 3h5.25c.621 0 1.125.504 1.125 1.125v4.072M6.75 21a3.75 3.75 0 003.75-3.75V8.197M6.75 21h13.125c.621 0 1.125-.504 1.125-1.125v-5.25c0-.621-.504-1.125-1.125-1.125h-4.072M10.5 8.197l2.88-2.88c.438-.439 1.15-.439 1.59 0l3.712 3.713c.44.44.44 1.152 0 1.59l-2.879 2.88M6.75 17.25h.008v.008H6.75v-.008z"
+                  />
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold mb-3">Adaptive Color Systems</h3>
+              <p>
+                Color palettes that shift subtly over time like the changing
+                hues of a sunset or the gradual shift of seasons.
+              </p>
+            </div>
+
+            <div class="feature-card" data-name="Asymmetrical Balance">
+              <div class="feature-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-10 h-10"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"
+                  />
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold mb-3">Asymmetrical Balance</h3>
+              <p>
+                Rejecting the grid in favor of organic, seemingly chaotic
+                arrangements that somehow achieve perfect visual harmony.
+              </p>
+            </div>
+
+            <div class="feature-card" data-name="Dynamic Content Flow">
+              <div class="feature-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-10 h-10"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z"
+                  />
+                </svg>
+              </div>
+              <h3 class="text-xl font-bold mb-3">Dynamic Content Flow</h3>
+              <p>
+                Content that adapts and reshapes itself based on user
+                interaction and viewport size, like a river finding its natural
+                path.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="showcase" class="py-24 relative overflow-hidden">
+        <div class="showcase-blob"></div>
+        <div class="container mx-auto px-6">
+          <h2 class="section-title text-center mb-16">
+            Flow<span class="text-flow-primary">Morph</span> In Action
+          </h2>
+
+          <div class="showcase-tabs">
+            <div class="tabs-navigation">
+              <button class="tab-button active" data-tab="portfolio">
+                Portfolio
+              </button>
+              <button class="tab-button" data-tab="dashboard">Dashboard</button>
+              <button class="tab-button" data-tab="ecommerce">
+                E-commerce
+              </button>
+            </div>
+
+            <div class="tabs-content">
+              <div class="tab-pane active" id="portfolio">
+                <div class="showcase-example portfolio-example"></div>
+              </div>
+              <div class="tab-pane" id="dashboard">
+                <div class="showcase-example dashboard-example"></div>
+              </div>
+              <div class="tab-pane" id="ecommerce">
+                <div class="showcase-example ecommerce-example"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="py-24 relative overflow-hidden bg-black/20">
+        <div class="contact-blob"></div>
+        <div class="container mx-auto px-6">
+          <h2 class="section-title text-center mb-16">
+            Join The <span class="text-flow-primary">Flow</span>
+          </h2>
+
+          <div class="contact-form-container">
+            <form class="contact-form">
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    placeholder="Your Name"
+                    class="form-input"
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    type="email"
+                    placeholder="Your Email"
+                    class="form-input"
+                  />
+                </div>
+              </div>
+              <div class="form-group mt-6">
+                <textarea
+                  placeholder="Your Message"
+                  class="form-input h-32"
+                ></textarea>
+              </div>
+              <div class="mt-6">
+                <button type="submit" class="biomorphic-button-primary w-full">
+                  Send Message
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="py-12 relative overflow-hidden">
+      <div class="footer-blob"></div>
+      <div class="container mx-auto px-6">
+        <div class="grid md:grid-cols-4 gap-8">
+          <div>
+            <h3 class="text-2xl font-bold mb-4">
+              Flow<span class="text-flow-primary">Morph</span>
+            </h3>
+            <p>
+              A biomorphic web framework inspired by Zaha Hadid's revolutionary
+              approach to architecture and design.
+            </p>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Links</h4>
+            <ul class="space-y-2">
+              <li><a href="#about" class="footer-link">About</a></li>
+              <li><a href="#features" class="footer-link">Features</a></li>
+              <li><a href="#showcase" class="footer-link">Showcase</a></li>
+              <li><a href="#contact" class="footer-link">Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Resources</h4>
+            <ul class="space-y-2">
+              <li><a href="#" class="footer-link">Documentation</a></li>
+              <li><a href="#" class="footer-link">Tutorials</a></li>
+              <li><a href="#" class="footer-link">Components</a></li>
+              <li><a href="#" class="footer-link">GitHub</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Connect</h4>
+            <div class="flex space-x-4">
+              <a href="#" class="social-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-6 h-6"
+                >
+                  <path
+                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+                  ></path>
+                  <rect x="2" y="9" width="4" height="12"></rect>
+                  <circle cx="4" cy="4" r="2"></circle>
+                </svg>
+              </a>
+              <a href="#" class="social-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-6 h-6"
+                >
+                  <path
+                    d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"
+                  ></path>
+                </svg>
+              </a>
+              <a href="#" class="social-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-6 h-6"
+                >
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path
+                    d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"
+                  ></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </a>
+              <a href="#" class="social-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="w-6 h-6"
+                >
+                  <path
+                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="border-t border-white/10 mt-10 pt-6 text-center">
+          <p>
+            &copy; 2025 FlowMorph. All rights to rectangular design revoked.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="flowmorph.js"></script>
+  </body>
+</html>

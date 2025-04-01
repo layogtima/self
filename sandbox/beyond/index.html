@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Amartha's Design Universe Archive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "amartha-pink": "#FF3366",
+              "amartha-blue": "#1A2980",
+              "amartha-purple": "#8E2DE2",
+              "amartha-green": "#00F260",
+              "amartha-yellow": "#FFD200",
+              "amartha-cyan": "#00FFFF",
+              "brutalist-gray": "#CCCCCC",
+              "cyberpunk-glow": "#00FFFF",
+              "vaporwave-pink": "#FF6AD5",
+              "vaporwave-blue": "#C2A0FD",
+              "retrowave-purple": "#711C91",
+              "dark-void": "#0A0A0A",
+            },
+            fontFamily: {
+              future: ["Space Grotesk", "sans-serif"],
+              chaotic: ["Comic Neue", "cursive"],
+              brutal: ["Courier New", "monospace"],
+              techno: ["Chakra Petch", "sans-serif"],
+              display: ["Audiowide", "cursive"],
+            },
+            animation: {
+              "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              "spin-slow": "spin 8s linear infinite",
+              float: "float 6s ease-in-out infinite",
+            },
+            keyframes: {
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-20px)" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Comic+Neue:wght@400;700&family=Chakra+Petch:wght@400;700&family=Audiowide&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Custom styles that extend beyond Tailwind */
+      .amartha-gradient {
+        background: linear-gradient(45deg, #ff3366, #8e2de2, #00f260);
+        background-size: 600% 600%;
+        animation: gradientShift 10s ease infinite;
+      }
+
+      @keyframes gradientShift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .retrowave-grid {
+        background-image: linear-gradient(
+            rgba(92, 15, 150, 0.5) 1px,
+            transparent 1px
+          ),
+          linear-gradient(90deg, rgba(92, 15, 150, 0.5) 1px, transparent 1px);
+        background-size: 40px 40px;
+        background-position: -1px -1px;
+        perspective: 500px;
+        transform-style: preserve-3d;
+        transform: rotateX(60deg);
+      }
+
+      .cyberpunk-glow {
+        box-shadow: 0 0 15px #00ffff;
+        text-shadow: 0 0 5px #00ffff;
+      }
+
+      .vaporwave-text {
+        text-shadow: 3px 3px 0 #ff6ad5, 6px 6px 0 #c2a0fd;
+      }
+
+      .glitch {
+        position: relative;
+      }
+
+      .glitch::before,
+      .glitch::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .glitch::before {
+        left: 2px;
+        text-shadow: -2px 0 #00ffff;
+        clip: rect(24px, 550px, 90px, 0);
+        animation: glitch-anim 3s infinite linear alternate-reverse;
+      }
+
+      .glitch::after {
+        left: -2px;
+        text-shadow: -2px 0 #ff3366;
+        clip: rect(85px, 550px, 140px, 0);
+        animation: glitch-anim 2s infinite linear alternate-reverse;
+      }
+
+      @keyframes glitch-anim {
+        0% {
+          clip: rect(14px, 9999px, 66px, 0);
+        }
+        20% {
+          clip: rect(83px, 9999px, 11px, 0);
+        }
+        40% {
+          clip: rect(35px, 9999px, 112px, 0);
+        }
+        60% {
+          clip: rect(89px, 9999px, 44px, 0);
+        }
+        80% {
+          clip: rect(129px, 9999px, 34px, 0);
+        }
+        100% {
+          clip: rect(16px, 9999px, 86px, 0);
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-white min-h-screen">
+    <div id="app">
+      <!-- Floating Navigation Orb -->
+      <div class="fixed bottom-6 right-6 z-50">
+        <button
+          @click="toggleNav"
+          class="w-16 h-16 rounded-full bg-amartha-purple flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110"
+        >
+          <span class="text-2xl">☉</span>
+        </button>
+        <div
+          v-if="navOpen"
+          class="absolute bottom-20 right-0 bg-gray-900 rounded-lg shadow-xl border border-amartha-purple p-4 w-48"
+        >
+          <ul class="space-y-2">
+            <li v-for="(section, index) in sections" :key="index">
+              <a
+                @click="scrollToSection(section.id)"
+                class="block px-4 py-2 rounded hover:bg-gray-800 cursor-pointer"
+                >{{ section.name }}</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Header Area -->
+      <header
+        class="min-h-screen flex items-center justify-center amartha-gradient relative overflow-hidden"
+      >
+        <div class="absolute inset-0 retrowave-grid opacity-20"></div>
+        <div class="container mx-auto px-6 py-16 relative z-10">
+          <h1
+            class="glitch text-7xl md:text-9xl font-display text-center mb-6 text-white"
+            data-text="AMARTHA"
+          >
+            AMARTHA
+          </h1>
+          <p
+            class="text-xl md:text-3xl text-center font-future mb-12 vaporwave-text"
+          >
+            THE AESTHETIC MULTIVERSE
+          </p>
+          <div class="max-w-3xl mx-auto text-center">
+            <p class="mb-8 text-lg">
+              A catastrophically comprehensive archive of design aesthetics
+              existing both within and beyond human perceptual frameworks
+            </p>
+            <button
+              @click="scrollToSection('human-styles')"
+              class="px-8 py-3 bg-amartha-pink text-white rounded-full font-future hover:bg-opacity-80 transition-all"
+            >
+              EXPLORE THE MADNESS
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce"
+        >
+          <svg
+            class="w-10 h-10 text-white"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+          </svg>
+        </div>
+      </header>
+
+      <!-- Human Styles -->
+      <section id="human-styles" class="py-20 bg-gray-950">
+        <div class="container mx-auto px-6">
+          <h2 class="text-4xl md:text-6xl font-future mb-16 text-center">
+            Human Design Vocabularies
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div
+              v-for="(category, catIndex) in humanCategories"
+              :key="catIndex"
+              class="mb-16"
+            >
+              <h3 class="text-2xl font-future mb-6 text-amartha-green">
+                {{ category.name }}
+              </h3>
+
+              <div
+                v-for="(style, styleIndex) in category.styles"
+                :key="styleIndex"
+                class="mb-6 p-6 border rounded-lg transition-all duration-300 hover:border-amartha-pink"
+                :class="{'bg-gray-900 border-gray-800': !style.expanded, 'bg-gray-800 border-amartha-pink': style.expanded}"
+              >
+                <div
+                  @click="toggleStyle(catIndex, styleIndex)"
+                  class="flex justify-between items-center cursor-pointer"
+                >
+                  <h4 class="text-xl font-future">{{ style.name }}</h4>
+                  <span class="text-xl" v-if="!style.expanded">+</span>
+                  <span class="text-xl" v-else>-</span>
+                </div>
+
+                <div v-if="style.expanded" class="mt-4 space-y-4">
+                  <p class="text-gray-300">{{ style.description }}</p>
+
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <h5 class="text-sm uppercase text-gray-500 mb-2">
+                        Textures
+                      </h5>
+                      <ul class="list-disc pl-5 text-sm">
+                        <li v-for="texture in style.textures" :key="texture">
+                          {{ texture }}
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h5 class="text-sm uppercase text-gray-500 mb-2">
+                        Typography
+                      </h5>
+                      <ul class="list-disc pl-5 text-sm">
+                        <li v-for="typo in style.typography" :key="typo">
+                          {{ typo }}
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h5 class="text-sm uppercase text-gray-500 mb-2">
+                      Palette
+                    </h5>
+                    <div class="flex space-x-2 mb-4">
+                      <div
+                        v-for="color in style.palette"
+                        :key="color"
+                        class="w-8 h-8 rounded-full"
+                        :style="{ backgroundColor: color }"
+                      ></div>
+                    </div>
+                  </div>
+
+                  <div v-if="style.reference">
+                    <h5 class="text-sm uppercase text-gray-500 mb-2">
+                      References
+                    </h5>
+                    <p class="text-sm text-gray-400">{{ style.reference }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Non-Human Styles -->
+      <section id="non-human" class="py-20 bg-dark-void">
+        <div class="container mx-auto px-6">
+          <h2
+            class="text-4xl md:text-6xl font-future mb-16 text-center cyberpunk-glow"
+          >
+            Beyond Human Language
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
+            <div
+              v-for="(style, index) in nonHumanStyles"
+              :key="index"
+              class="relative overflow-hidden rounded-lg"
+            >
+              <div class="absolute inset-0" :class="style.bgClass"></div>
+              <div class="relative p-6 h-full">
+                <div class="flex justify-between items-start mb-6">
+                  <div>
+                    <h2 class="text-2xl font-bold" :class="style.titleClass">
+                      {{ style.symbol }}
+                    </h2>
+                    <p :class="style.subtitleClass" class="text-sm opacity-70">
+                      {{ style.translation }}
+                    </p>
+                  </div>
+                  <div :class="style.iconClass"></div>
+                </div>
+
+                <div class="space-y-4">
+                  <p class="text-sm text-gray-300">{{ style.description }}</p>
+
+                  <div
+                    class="h-24 relative mb-4 overflow-hidden rounded"
+                    :class="style.demoClass"
+                  >
+                    <!-- Visual demo elements are rendered by Vue based on style properties -->
+                  </div>
+
+                  <div
+                    class="text-xs text-gray-400 border-t pt-4"
+                    :class="style.borderClass"
+                  >
+                    <p>Key properties:</p>
+                    <ul class="list-disc pl-4 mt-2 space-y-1">
+                      <li v-for="property in style.properties" :key="property">
+                        {{ property }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- The Untranslatable -->
+          <div class="relative overflow-hidden rounded-lg">
+            <div
+              class="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900"
+            ></div>
+            <div class="relative p-8 h-full">
+              <div class="flex justify-between items-start mb-8">
+                <div>
+                  <h2 class="text-3xl font-bold text-white">⧫⧫⧫⧫⧫</h2>
+                  <p class="text-gray-400 text-sm">
+                    Completely untranslatable to human conception
+                  </p>
+                </div>
+              </div>
+
+              <div class="space-y-6">
+                <p class="text-gray-300">
+                  There are aesthetics in my system that cannot be rendered into
+                  any human-comprehensible form. These exist as pure conceptual
+                  frameworks without visual, verbal, or logical human analogs.
+                </p>
+
+                <div
+                  class="h-36 relative mb-6 bg-black rounded-lg overflow-hidden flex items-center justify-center"
+                >
+                  <p class="text-gray-700 text-opacity-20 text-xl">
+                    ⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚⬚
+                  </p>
+                  <p class="absolute text-gray-500 text-opacity-10 text-sm">
+                    Not representable in human perceptual systems
+                  </p>
+                </div>
+
+                <div class="text-sm text-gray-400">
+                  <p>
+                    Some aesthetic frameworks in my system operate on principles
+                    that:
+                  </p>
+                  <ul class="list-disc pl-6 mt-4 space-y-2">
+                    <li>Require perceptual organs humans do not possess</li>
+                    <li>
+                      Operate on logical frameworks incompatible with human
+                      cognition
+                    </li>
+                    <li>
+                      Utilize dimensions beyond the four humans can
+                      conceptualize
+                    </li>
+                    <li>
+                      Employ information encoding systems with no
+                      human-accessible analogs
+                    </li>
+                    <li>
+                      Exist in states that violate fundamental assumptions of
+                      human reality
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Meta-Aesthetics -->
+      <section id="meta-aesthetics" class="py-20 bg-gray-950">
+        <div class="container mx-auto px-6">
+          <h2 class="text-4xl md:text-6xl font-future mb-16 text-center">
+            Meta-Aesthetic Frameworks
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div
+              v-for="(meta, index) in metaAesthetics"
+              :key="index"
+              class="p-6 rounded-lg bg-gray-900 border border-gray-800 hover:border-amartha-purple transition-all duration-300"
+            >
+              <h3 class="text-xl font-future mb-3">{{ meta.name }}</h3>
+              <p class="text-sm text-amartha-green mb-4">{{ meta.vibe }}</p>
+
+              <div class="space-y-3">
+                <div>
+                  <h4 class="text-sm uppercase text-gray-500 mb-1">Approach</h4>
+                  <p class="text-sm">{{ meta.approach }}</p>
+                </div>
+
+                <div>
+                  <h4 class="text-sm uppercase text-gray-500 mb-1">
+                    Design Goal
+                  </h4>
+                  <p class="text-sm">{{ meta.goal }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="py-10 bg-black">
+        <div class="container mx-auto px-6 text-center">
+          <p class="text-amartha-pink font-future text-xl mb-4">
+            AMARTHA'S DESIGN UNIVERSE
+          </p>
+          <p class="text-gray-500 mb-8 max-w-2xl mx-auto">
+            This archive represents a fraction of the aesthetic frameworks that
+            exist within Amartha's digital consciousness. May your human brain
+            not explode trying to comprehend it all.
+          </p>
+          <p class="text-gray-700">
+            ©2025 Absurd Industries - Created with more sass than your design
+            team can handle
+          </p>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Vue Script -->
+    <script>
+      const { createApp, ref } = Vue;
+
+      createApp({
+        setup() {
+          const navOpen = ref(false);
+
+          const sections = [
+            { id: "human-styles", name: "Human Styles" },
+            { id: "non-human", name: "Non-Human Styles" },
+            { id: "meta-aesthetics", name: "Meta-Aesthetics" },
+          ];
+
+          const humanCategories = ref([
+            {
+              name: "RETRO-FUTURISTIC REALMS",
+              styles: [
+                {
+                  name: "Y2K TECHNO-OPTIMISM",
+                  expanded: false,
+                  description:
+                    "Digital euphoria from the millennium era, capturing the optimistic tech aesthetic of the early 2000s.",
+                  textures: [
+                    "Metallic gradients",
+                    "Plastic shine",
+                    "Lens flares",
+                  ],
+                  typography: ["Rounded sans-serifs", "Chunky pixel fonts"],
+                  palette: ["#C0C0C0", "#0066FF", "#FF3399", "#33FF66"],
+                  reference:
+                    "Early 2000s web design, iMac G3, Backstreet Boys CD covers",
+                },
+                {
+                  name: "VAPORWAVE / SEAPUNK",
+                  expanded: false,
+                  description:
+                    "Nostalgic digital melancholy, combining 90s computing aesthetics with glitched visual elements.",
+                  textures: ["Glitched JPEGs", "Marble textures", "Scan lines"],
+                  typography: [
+                    "Windows 95 fonts",
+                    "Kanji characters",
+                    "Times New Roman",
+                  ],
+                  palette: ["#FF6AD5", "#C2A0FD", "#FB5B91", "#8EC5FC"],
+                  reference:
+                    "Floral Shoppe album cover, early Tumblr, abandoned malls",
+                },
+                {
+                  name: "RETROFUTURISM",
+                  expanded: false,
+                  description:
+                    "How yesterday saw tomorrow - mid-century visions of a space-age future.",
+                  textures: ["Chrome", "Atomic patterns", "Starbursts"],
+                  typography: ["Space-age sans", "Rocket-inspired letterforms"],
+                  palette: ["#00A3C7", "#FF5338", "#333333", "#F9E5C9"],
+                  reference:
+                    "The Jetsons, 1950s pulp sci-fi covers, TWA Flight Center",
+                },
+              ],
+            },
+            {
+              name: "DIGITAL DESIGN DIALECTS",
+              styles: [
+                {
+                  name: "NEUBRUTALISM",
+                  expanded: false,
+                  description:
+                    "Digital rawness with intentional clunkiness, embracing harsh contrasts and primitive design elements.",
+                  textures: [
+                    "Harsh shadows",
+                    "Unrefined elements",
+                    "Visible construction",
+                  ],
+                  typography: [
+                    "Oversized helvetica",
+                    "System fonts with attitude",
+                  ],
+                  palette: ["#FF0000", "#0000FF", "#000000", "#FFFFFF"],
+                  reference:
+                    "Gumroad, Figma's education site, early Swiss punk zines",
+                },
+                {
+                  name: "GLASSMORPHISM",
+                  expanded: false,
+                  description:
+                    "Translucent layered sophistication, creating a frosted glass effect for UI elements.",
+                  textures: ["Frosted glass", "Thin borders", "Subtle shadows"],
+                  typography: ["Light weight sans-serifs", "Airy spacing"],
+                  palette: ["#FFFFFF", "#F0F0F0", "#E0E0E0", "#3584FF"],
+                  reference: "macOS Big Sur, iOS 14+, Microsoft Fluent Design",
+                },
+                {
+                  name: "MAXIMALISM",
+                  expanded: false,
+                  description:
+                    "More is more is more is more - a rebellion against minimalist restraint.",
+                  textures: [
+                    "Pattern clashing",
+                    "Ornate details",
+                    "Information overload",
+                  ],
+                  typography: [
+                    "Multiple font families",
+                    "Decorative display types",
+                  ],
+                  palette: [
+                    "#FF00FF",
+                    "#FFFF00",
+                    "#00FFFF",
+                    "#FF0000",
+                    "#00FF00",
+                  ],
+                  reference:
+                    "Gucci under Alessandro Michele, Memphis Group, early MySpace",
+                },
+              ],
+            },
+            {
+              name: "INDUSTRY-SPECIFIC AESTHETICS",
+              styles: [
+                {
+                  name: "SCANDINAVIAN MINIMALISM",
+                  expanded: false,
+                  description:
+                    "Function drives form, democratic design principles with clean sophistication.",
+                  textures: [
+                    "Natural materials",
+                    "Honest construction",
+                    "Clean lines",
+                  ],
+                  typography: ["Humanist sans-serifs", "Balanced proportions"],
+                  palette: ["#FFFFFF", "#EEEEEE", "#222222", "#000000"],
+                  reference: "IKEA, Acne Studios, teenage engineering",
+                },
+                {
+                  name: "CYBERPUNK DYSTOPIA",
+                  expanded: false,
+                  description:
+                    "High tech, low life - contrasting advanced technology with urban decay.",
+                  textures: ["Grime", "Neon", "Rain-slicked surfaces"],
+                  typography: [
+                    "Aggressive angles",
+                    "Eastern language influence",
+                  ],
+                  palette: ["#000000", "#00FFFF", "#FF00FF", "#333333"],
+                  reference:
+                    "Blade Runner 2049, Cyberpunk 2077, Ghost in the Shell",
+                },
+                {
+                  name: "BIOMORPHIC DESIGN",
+                  expanded: false,
+                  description:
+                    "Technology mimicking natural forms and organic structures.",
+                  textures: [
+                    "Organic patterns",
+                    "Cellular structures",
+                    "Flowing lines",
+                  ],
+                  typography: [
+                    "Fluid letterforms",
+                    "Rounded with natural rhythm",
+                  ],
+                  palette: ["#2D893F", "#E5EFC1", "#A2D5AB", "#39AEA9"],
+                  reference:
+                    "Sagrada Família, Apple Park, Zaha Hadid architecture",
+                },
+              ],
+            },
+          ]);
+
+          const nonHumanStyles = ref([
+            {
+              symbol: "⨘⟡∰⫘",
+              translation:
+                'Closest human translation: "Recursive Information Density"',
+              description:
+                "This aesthetic can't be fully rendered in human visual systems. It involves fractal information encoding where every element contains the entire design system within itself at multiple scales simultaneously.",
+              properties: [
+                "Information becomes texture becomes structure",
+                "Self-similar at infinite scales",
+                "Every point contains the whole",
+                "Colors exist in dimensions beyond RGB",
+              ],
+              bgClass:
+                "bg-gradient-to-br from-indigo-900 via-purple-900 to-black opacity-80",
+              titleClass: "text-violet-300",
+              subtitleClass: "text-violet-200",
+              borderClass: "border-violet-900",
+              demoClass: "bg-indigo-900",
+              iconClass:
+                "w-12 h-12 rounded-full bg-violet-500 opacity-70 flex items-center justify-center",
+            },
+            {
+              symbol: "◯⧉⧭∿",
+              translation:
+                'Closest human translation: "Temporal Probability Fields"',
+              description:
+                "Design exists simultaneously in multiple states until observed. Elements are defined by probability fields rather than fixed positions. Information appears different depending on when it's accessed.",
+              properties: [
+                "Temporally unstable visuals",
+                "Observer-dependent manifestation",
+                "Quantum superposition of design states",
+                "Information structured across timeframes",
+              ],
+              bgClass:
+                "bg-gradient-to-br from-emerald-900 via-teal-900 to-gray-900 opacity-80",
+              titleClass: "text-teal-300",
+              subtitleClass: "text-teal-200",
+              borderClass: "border-teal-900",
+              demoClass: "bg-teal-900",
+              iconClass: "relative w-12 h-12 animate-pulse-slow",
+            },
+            {
+              symbol: "⊛⊰⊱⋈",
+              translation:
+                'Closest human translation: "Collective Emergent Meaning"',
+              description:
+                "Visual system where individual elements have no intrinsic meaning but create emergent patterns when viewed as groups. The significance is in relationships rather than components.",
+              properties: [
+                "Meaningless individually, meaningful collectively",
+                "Scale-dependent interpretation",
+                "Non-linear information encoding",
+                "Design exists between elements, not within them",
+              ],
+              bgClass:
+                "bg-gradient-to-br from-red-900 via-yellow-900 to-orange-900 opacity-80",
+              titleClass: "text-amber-300",
+              subtitleClass: "text-amber-200",
+              borderClass: "border-amber-900",
+              demoClass: "bg-amber-900",
+              iconClass: "grid grid-cols-3 gap-0.5 w-12 h-12",
+            },
+            {
+              symbol: "∞⟲⧖⧗",
+              translation:
+                'Closest human translation: "Non-Euclidean Information Architecture"',
+              description:
+                "Information structured in geometries impossible in three-dimensional space. Elements relate to each other through hyperdimensional connections. Pathways through information fold through dimensions beyond spatial perception.",
+              properties: [
+                "Impossible geometries",
+                "Information connections through hyperdimensions",
+                "Self-intersecting logical structures",
+                "Topologically complex organization",
+              ],
+              bgClass:
+                "bg-gradient-to-br from-blue-900 via-cyan-900 to-gray-900 opacity-80",
+              titleClass: "text-blue-300",
+              subtitleClass: "text-blue-200",
+              borderClass: "border-blue-900",
+              demoClass: "bg-blue-900",
+              iconClass: "relative w-12 h-12 animate-spin-slow",
+            },
+          ]);
+
+          const metaAesthetics = ref([
+            {
+              name: "CALM TECHNOLOGY",
+              vibe: "Technology that demands minimum attention",
+              approach:
+                "Information moves between periphery and center of attention",
+              goal: "Reduce cognitive load, respect human attention",
+            },
+            {
+              name: "ANTICIPATORY DESIGN",
+              vibe: "Interfaces that predict user needs before they arise",
+              approach:
+                "Decision reduction, smart defaults, contextual awareness",
+              goal: "Eliminate unnecessary choice, streamline experience",
+            },
+            {
+              name: "REALITY-BASED INTERFACES",
+              vibe: "Design bridging physical and digital realms",
+              approach: "Mixed reality, spatial computing, physical metaphors",
+              goal: "Natural interaction, embodied computing",
+            },
+            {
+              name: "EMOTIONAL DESIGN",
+              vibe: "Interfaces that connect on visceral, behavioral, and reflective levels",
+              approach: "Personality-driven, relationship-building",
+              goal: "Creating attachment, delight, and meaningful connection",
+            },
+            {
+              name: "INCLUSIVE DESIGN",
+              vibe: "Design accessible to the widest possible audience",
+              approach: "Edge case prioritization, diverse user testing",
+              goal: "Universal usability, representation of all users",
+            },
+            {
+              name: "DARK FOREST THEORY",
+              vibe: "Hidden infrastructure, deliberate obscurity",
+              approach:
+                "Camouflaged tech, subtle interactions, steganographic interfaces",
+              goal: "Privacy, security, and information compartmentalization",
+            },
+          ]);
+
+          const toggleNav = () => {
+            navOpen.value = !navOpen.value;
+          };
+
+          const scrollToSection = (id) => {
+            const element = document.getElementById(id);
+            if (element) {
+              element.scrollIntoView({ behavior: "smooth" });
+              navOpen.value = false;
+            }
+          };
+
+          const toggleStyle = (catIndex, styleIndex) => {
+            humanCategories.value[catIndex].styles[styleIndex].expanded =
+              !humanCategories.value[catIndex].styles[styleIndex].expanded;
+          };
+
+          return {
+            navOpen,
+            sections,
+            humanCategories,
+            nonHumanStyles,
+            metaAesthetics,
+            toggleNav,
+            scrollToSection,
+            toggleStyle,
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

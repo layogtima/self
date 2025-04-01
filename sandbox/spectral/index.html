@@ -1,0 +1,1667 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPECTRAL | Beyond Monochrome</title>
+    <meta name="title" content="SPECTRAL | Beyond Monochrome" />
+    <meta
+      name="description"
+      content="Beyond black and white lies a spectrum of invisible design dimensions. SPECTRAL explores time, context, emotion and ambient interaction in web design."
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://spectral.absurdindustries.xyz/" />
+    <meta property="og:title" content="SPECTRAL | Beyond Monochrome" />
+    <meta
+      property="og:description"
+      content="Beyond black and white lies a spectrum of invisible design dimensions. SPECTRAL explores time, context, emotion and ambient interaction in web design."
+    />
+    <meta
+      property="og:image"
+      content="https://spectral.absurdindustries.xyz/images/screenshot.png"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta
+      property="twitter:url"
+      content="https://spectral.absurdindustries.xyz/"
+    />
+    <meta property="twitter:title" content="SPECTRAL | Beyond Monochrome" />
+    <meta
+      property="twitter:description"
+      content="Beyond black and white lies a spectrum of invisible design dimensions. SPECTRAL explores time, context, emotion and ambient interaction in web design."
+    />
+    <meta
+      property="twitter:image"
+      content="https://spectral.absurdindustries.xyz/images/screenshot.png"
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ["Space Mono", "monospace"],
+              sans: ["Inter", "sans-serif"],
+            },
+            animation: {
+              "fade-in": "fadeIn 2s ease-in-out forwards",
+              "fade-out": "fadeOut 2s ease-in-out forwards",
+              "slide-up": "slideUp 1s ease-out forwards",
+              "slide-down": "slideDown 1s ease-out forwards",
+              "pulse-slow": "pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              "text-shimmer": "textShimmer 3s ease-in-out infinite",
+            },
+            keyframes: {
+              fadeIn: {
+                "0%": { opacity: "0" },
+                "100%": { opacity: "1" },
+              },
+              fadeOut: {
+                "0%": { opacity: "1" },
+                "100%": { opacity: "0" },
+              },
+              slideUp: {
+                "0%": { transform: "translateY(20px)", opacity: "0" },
+                "100%": { transform: "translateY(0)", opacity: "1" },
+              },
+              slideDown: {
+                "0%": { transform: "translateY(-20px)", opacity: "0" },
+                "100%": { transform: "translateY(0)", opacity: "1" },
+              },
+              textShimmer: {
+                "0%": { "background-position": "0% 50%" },
+                "50%": { "background-position": "100% 50%" },
+                "100%": { "background-position": "0% 50%" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <script src="spectral.js" defer></script>
+    <link rel="stylesheet" href="spectral.css" />
+  </head>
+  <body
+    class="bg-white text-black min-h-screen flex flex-col font-mono"
+    data-spectral-document
+  >
+    <!-- Navigation -->
+    <nav
+      class="fixed w-full px-4 py-3 flex justify-between items-center z-50 bg-white border-b border-gray-900 transition-all duration-500"
+      data-spectral-nav
+    >
+      <a
+        href="index.html"
+        class="text-xl font-bold tracking-normal"
+        data-spectral-logo
+      >
+        SPECTRAL<span class="text-xs align-text-top">™</span>
+      </a>
+      <div class="flex gap-6">
+        <a
+          href="#time"
+          class="text-sm hover:underline decoration-4 underline-offset-8 transition-all"
+          data-nav-link="time"
+        >
+          TIME
+        </a>
+        <a
+          href="#context"
+          class="text-sm hover:underline decoration-4 underline-offset-8 transition-all"
+          data-nav-link="context"
+        >
+          CONTEXT
+        </a>
+        <a
+          href="#emotion"
+          class="text-sm hover:underline decoration-4 underline-offset-8 transition-all"
+          data-nav-link="emotion"
+        >
+          EMOTION
+        </a>
+        <a
+          href="#ambient"
+          class="text-sm hover:underline decoration-4 underline-offset-8 transition-all"
+          data-nav-link="ambient"
+        >
+          AMBIENT
+        </a>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header
+      class="h-screen flex flex-col justify-center items-center pt-16 relative overflow-hidden"
+      data-spectral-hero
+    >
+      <div class="absolute inset-0 z-0" data-spectral-canvas></div>
+      <div class="z-10 px-8 max-w-4xl text-center">
+        <h1
+          class="text-7xl md:text-9xl font-bold mb-6 leading-none"
+          data-spectral-title
+        >
+          SPEC<span class="text-xs align-super">TRAL</span>
+        </h1>
+        <p class="text-lg md:text-xl max-w-lg mx-auto" data-spectral-tagline>
+          <span class="opacity-0 animate-fade-in" style="animation-delay: 0.3s"
+            >Beyond black and white</span
+          >
+          <span class="opacity-0 animate-fade-in" style="animation-delay: 1.5s">
+            lies a spectrum of invisible design dimensions.</span
+          >
+        </p>
+        <div
+          class="mt-12 opacity-0 animate-fade-in"
+          style="animation-delay: 2.5s"
+        >
+          <a
+            href="#explore"
+            class="bg-black text-white px-8 py-3 text-sm uppercase tracking-widest inline-block hover:bg-gray-800 transition-colors"
+          >
+            Explore
+          </a>
+        </div>
+      </div>
+      <div
+        class="absolute bottom-10 left-0 right-0 text-center animate-pulse opacity-70"
+      >
+        <p class="text-sm uppercase tracking-widest">Scroll to Explore</p>
+        <div class="mt-2">↓</div>
+      </div>
+    </header>
+
+    <!-- Info Bar with real-time data -->
+    <div
+      class="bg-black text-white py-3 px-6 sticky top-0 z-40 flex justify-between items-center"
+      data-spectral-infobar
+      style="display: none"
+    >
+      <div class="flex items-center gap-4">
+        <div class="text-xs" data-time>00:00:00</div>
+        <div class="w-px h-4 bg-gray-700"></div>
+        <div class="text-xs" data-location>Location: -</div>
+      </div>
+      <div class="text-xs" data-scroll-indicator>Scroll: 0%</div>
+      <div class="flex items-center gap-4">
+        <div class="text-xs" data-cursor-activity>Cursor Activity: Low</div>
+        <div class="w-px h-4 bg-gray-700"></div>
+        <div class="text-xs" data-view-time>Time on page: 0s</div>
+      </div>
+    </div>
+
+    <!-- Explore Section -->
+    <section id="explore" class="py-24 px-8 relative">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-5xl font-bold mb-16 opacity-0" data-animate-in>
+          EX<span class="text-xs align-super">PLORE</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <!-- Time Section Preview -->
+          <a
+            href="#time"
+            class="group opacity-0"
+            data-animate-in
+            data-animate-delay="0.2"
+          >
+            <div
+              class="border-2 border-black p-6 h-96 flex flex-col justify-between transition-all duration-300 group-hover:bg-black group-hover:text-white relative overflow-hidden"
+            >
+              <div
+                class="absolute top-0 right-0 w-16 h-16 bg-black group-hover:bg-white transition-all duration-300"
+              ></div>
+              <h3 class="text-3xl font-bold z-10">
+                TIME<span class="text-xs align-super">BASED</span>
+              </h3>
+              <p class="z-10">
+                Typography and layouts that evolve over time, creating a
+                dynamic, living document.
+              </p>
+              <div
+                class="text-xs self-end uppercase tracking-widest mt-4 group-hover:underline decoration-2 underline-offset-4 z-10"
+              >
+                Explore →
+              </div>
+            </div>
+          </a>
+
+          <!-- Context Section Preview -->
+          <a
+            href="#context"
+            class="group opacity-0"
+            data-animate-in
+            data-animate-delay="0.4"
+          >
+            <div
+              class="border-2 border-black p-6 h-96 flex flex-col justify-between transition-all duration-300 group-hover:bg-black group-hover:text-white"
+            >
+              <div
+                class="absolute top-0 left-0 w-24 h-1 bg-black group-hover:bg-white transition-all duration-300"
+              ></div>
+              <h3 class="text-3xl font-bold z-10">
+                CON<span class="text-xs align-super">TEXT</span>
+              </h3>
+              <p class="z-10">
+                Design that responds to user behavior, time of day, and
+                geographic location.
+              </p>
+              <div
+                class="text-xs self-end uppercase tracking-widest mt-4 group-hover:underline decoration-2 underline-offset-4"
+              >
+                Explore →
+              </div>
+            </div>
+          </a>
+
+          <!-- Emotion Section Preview -->
+          <a
+            href="#emotion"
+            class="group opacity-0"
+            data-animate-in
+            data-animate-delay="0.6"
+          >
+            <div
+              class="border-2 border-black p-6 h-96 flex flex-col justify-between transition-all duration-300 group-hover:bg-black group-hover:text-white"
+            >
+              <h3 class="text-3xl font-bold">
+                EMO<span class="text-xs align-super">TION</span>
+              </h3>
+              <p>
+                Interfaces that respond to user engagement and interaction
+                patterns.
+              </p>
+              <div
+                class="text-xs self-end uppercase tracking-widest mt-4 group-hover:underline decoration-2 underline-offset-4"
+              >
+                Explore →
+              </div>
+            </div>
+          </a>
+
+          <!-- Ambient Section Preview -->
+          <a
+            href="#ambient"
+            class="group opacity-0"
+            data-animate-in
+            data-animate-delay="0.8"
+          >
+            <div
+              class="border-2 border-black p-6 h-96 flex flex-col justify-between transition-all duration-300 group-hover:bg-black group-hover:text-white"
+            >
+              <h3 class="text-3xl font-bold">
+                AMB<span class="text-xs align-super">IENT</span>
+              </h3>
+              <p>
+                Elements that change when you're not directly interacting with
+                them.
+              </p>
+              <div
+                class="text-xs self-end uppercase tracking-widest mt-4 group-hover:underline decoration-2 underline-offset-4"
+              >
+                Explore →
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Time Section -->
+    <section
+      id="time"
+      class="py-24 px-8 min-h-screen flex items-center bg-white relative"
+      data-spectral-section="time"
+    >
+      <div class="absolute top-0 left-0 w-full h-1 bg-black"></div>
+      <div class="max-w-6xl mx-auto w-full">
+        <h2 class="text-5xl font-bold mb-16 opacity-0" data-animate-in>
+          TIME<span class="text-xs align-super">BASED TYPOGRAPHY</span>
+        </h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <div class="opacity-0" data-animate-in data-animate-delay="0.2">
+            <h3 class="text-2xl font-bold mb-6">Time-Evolving Text</h3>
+            <div
+              class="border-2 border-black p-8 h-96 flex flex-col justify-center items-center relative overflow-hidden"
+              data-time-demo="aging"
+            >
+              <div class="text-center">
+                <span class="text-4xl font-bold" data-time-text
+                  >This text ages with time</span
+                >
+                <p class="mt-4 text-sm opacity-70">
+                  This paragraph gradually changes the longer you view it - with
+                  increasing opacity, size changes, and style variations.
+                </p>
+              </div>
+              <div class="absolute bottom-4 right-4 text-xs">
+                Viewing for: <span data-time-counter>0</span>s
+              </div>
+            </div>
+          </div>
+
+          <div class="opacity-0" data-animate-in data-animate-delay="0.4">
+            <h3 class="text-2xl font-bold mb-6">Reading Progress</h3>
+            <div
+              class="border-2 border-black p-8 h-96 flex flex-col relative overflow-hidden"
+              data-time-demo="progress"
+            >
+              <div class="text-sm mb-4 flex justify-between">
+                <span>Progress:</span>
+                <span data-reading-progress>0%</span>
+              </div>
+              <div class="w-full h-1 bg-gray-200 mb-6">
+                <div
+                  class="h-full bg-black"
+                  style="width: 0%"
+                  data-reading-bar
+                ></div>
+              </div>
+              <div class="overflow-auto h-full pr-4" data-reading-content>
+                <p class="mb-4">
+                  Typography is the art and technique of arranging type to make
+                  written language legible, readable, and appealing when
+                  displayed.
+                </p>
+                <p class="mb-4">
+                  Type design is a closely related craft, sometimes considered
+                  part of typography; most typographers do not design typefaces,
+                  and some type designers do not consider themselves
+                  typographers.
+                </p>
+                <p class="mb-4">
+                  In traditional typography, text is composed to create a
+                  readable, coherent, and visually satisfying whole that works
+                  invisibly, without the awareness of the reader.
+                </p>
+                <p class="mb-4">
+                  Even distribution of typeset material, with a minimum of
+                  distractions and anomalies, aims to produce clarity and
+                  transparency.
+                </p>
+                <p class="mb-4">
+                  Choice of typeface(s) is the primary aspect of text
+                  typography—prose fiction, non-fiction, editorial, educational,
+                  religious, scientific, spiritual, and commercial writing all
+                  have differing characteristics and requirements of appropriate
+                  typefaces.
+                </p>
+                <p class="mb-4">
+                  For historic material, established text typefaces frequently
+                  are chosen according to a scheme of historical genre acquired
+                  by a long process of accretion, with considerable overlap
+                  among historical periods.
+                </p>
+                <p class="mb-4">
+                  Contemporary books are more likely to be set with
+                  state-of-the-art "text romans" or "book romans" with serifs
+                  and design values echoing present-day design arts, which are
+                  closely based on traditional models such as those of Nicolas
+                  Jenson, Francesco Griffo (a punchcutter who created the model
+                  for Aldine typefaces), and Claude Garamond.
+                </p>
+                <p class="mb-4">
+                  With their more specialized requirements, newspapers and
+                  magazines rely on compact, tightly fitted styles of text
+                  typefaces with serifs specially designed for the task, which
+                  offer maximum flexibility, readability, and efficient use of
+                  page space.
+                </p>
+                <p class="mb-4">
+                  Sans serif text typefaces (without serifs) often are used for
+                  introductory paragraphs, incidental text, and whole short
+                  articles.
+                </p>
+                <p class="mb-4">
+                  A current fashion is to pair a sans-serif headline typeface
+                  with a high-performance serif text face of matching style for
+                  highest legibility combined with maximum visual interest.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="opacity-0" data-animate-in data-animate-delay="0.6">
+            <h3 class="text-2xl font-bold mb-6">Time-Based Style Changes</h3>
+            <div
+              class="border-2 border-black p-8 h-96 flex flex-col justify-center items-center relative overflow-hidden"
+              data-time-demo="style"
+            >
+              <div class="text-center">
+                <span class="text-5xl font-bold" data-day-night-text
+                  >This text reflects time of day</span
+                >
+                <p class="mt-4 text-sm opacity-70">
+                  This text changes style based on your local time. Morning is
+                  light, evening is dark.
+                </p>
+              </div>
+              <div class="absolute bottom-4 right-4 text-xs">
+                Local time: <span data-local-time>12:00</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="opacity-0" data-animate-in data-animate-delay="0.8">
+            <h3 class="text-2xl font-bold mb-6">Timed Reveals</h3>
+            <div
+              class="border-2 border-black p-8 h-96 flex flex-col justify-center items-center relative overflow-hidden"
+              data-time-demo="reveals"
+            >
+              <div class="text-center relative">
+                <span class="text-3xl font-bold" data-sequential-reveal
+                  >Watch as content reveals itself the longer you stay</span
+                >
+                <div class="mt-8 space-y-4 text-left">
+                  <p class="opacity-0" data-reveal-delay="3">
+                    This line appears after 3 seconds.
+                  </p>
+                  <p class="opacity-0" data-reveal-delay="6">
+                    This one shows up after 6 seconds.
+                  </p>
+                  <p class="opacity-0" data-reveal-delay="9">
+                    And finally, this one after 9 seconds.
+                  </p>
+                </div>
+              </div>
+              <div class="absolute bottom-4 right-4 text-xs">
+                Viewing for: <span data-reveal-timer>0</span>s
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-24 opacity-0" data-animate-in data-animate-delay="1.0">
+          <h3 class="text-2xl font-bold mb-6">The Code</h3>
+          <div class="border-2 border-black p-8 bg-gray-50 overflow-auto">
+            <pre class="text-sm"><code class="language-javascript">
+// Time-Evolving Text
+const ageText = (element, timeElement) => {
+  let seconds = 0;
+  setInterval(() => {
+    seconds++;
+    timeElement.textContent = seconds;
+    
+    // Gradual style changes
+    const opacity = Math.min(0.3 + (seconds / 60), 1);
+    const size = Math.min(1 + (seconds / 120), 1.5);
+    const letterSpacing = Math.min(seconds / 120, 0.5);
+    
+    element.style.opacity = opacity;
+    element.style.transform = `scale(${size})`;
+    element.style.letterSpacing = `${letterSpacing}em`;
+    
+    // Add style changes every 10 seconds
+    if (seconds % 10 === 0) {
+      if (seconds % 30 === 0) {
+        element.style.fontStyle = 'italic';
+      } else if (seconds % 20 === 0) {
+        element.style.fontWeight = 'bold';
+      } else {
+        element.style.fontStyle = 'normal';
+        element.style.fontWeight = 'normal';
+      }
+    }
+  }, 1000);
+};
+
+// Reading Progress Tracker
+const trackReadingProgress = (contentEl, progressEl, progressBar) => {
+  contentEl.addEventListener('scroll', () => {
+    const scrollHeight = contentEl.scrollHeight - contentEl.clientHeight;
+    const scrollPosition = contentEl.scrollTop;
+    const progress = Math.min((scrollPosition / scrollHeight) * 100, 100);
+    
+    progressEl.textContent = `${Math.round(progress)}%`;
+    progressBar.style.width = `${progress}%`;
+    
+    // Change color as progress increases
+    const hue = Math.round(progress * 2.4); // 0-240 (blue to red)
+    progressBar.style.backgroundColor = `hsl(${240 - hue}, 70%, 50%)`;
+  });
+};
+            </code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="absolute bottom-0 left-0 w-full h-1 bg-black"></div>
+    </section>
+
+    <!-- Context Section -->
+    <section
+      id="context"
+      class="py-24 px-8 min-h-screen flex items-center bg-white relative"
+      data-spectral-section="context"
+    >
+      <div class="absolute top-0 left-0 w-full h-1 bg-black"></div>
+      <div class="max-w-6xl mx-auto w-full">
+        <h2 class="text-5xl font-bold mb-16 opacity-0" data-animate-in>
+          CON<span class="text-xs align-super">TEXTUAL DESIGN</span>
+        </h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <div class="opacity-0" data-animate-in data-animate-delay="0.2">
+            <h3 class="text-2xl font-bold mb-6">Location-Aware Design</h3>
+            <div
+              class="border-2 border-black p-8 h-96 flex flex-col relative overflow-hidden"
+              data-context-demo="location"
+            >
+              <div class="flex items-center mb-8">
+                <div class="w-6 h-6 flex items-center justify-center mr-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-5 h-5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                    />
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                    />
+                  </svg>
+                </div>
+                <span class="text-sm" data-visitor-location
+                  >Detecting your location...</span
+                >
+              </div>
+
+              <div
+                class="flex-1 flex flex-col justify-center items-center text-center"
+              >
+                <div class="text-4xl font-bold mb-4" data-location-greeting>
+                  Hello, visitor
+                </div>
+                <p class="text-sm opacity-70">
+                  This greeting adapts based on your location.
+                </p>
+              </div>
+
+              <div class="mt-8 text-sm">
+                <div class="mb-2">Location-based customizations:</div>
+                <ul class="list-disc pl-5 space-y-1 opacity-70">
+                  <li>Greetings in local language</li>
+                  <li>Time displayed in your timezone</li>
+                  <li>Content recommendations based on region</li>
+                  <li>Weather-appropriate visuals</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="opacity-0" data-animate-in data-animate-delay="0.4">
+            <h3 class="text-2xl font-bold mb-6">Device-Responsive Elements</h3>
+            <div
+              class="border-2 border-black p-8 h-96 flex flex-col relative overflow-hidden"
+              data-context-demo="device"
+            >
+              <div class="flex items-center mb-8">
+                <div class="w-6 h-6 flex items-center justify-center mr-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-5 h-5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"
+                    />
+                  </svg>
+                </div>
+                <span class="text-sm" data-device-info
+                  >Detecting your device...</span
+                >
+              </div>
+
+              <div
+                class="flex-1 flex flex-col justify-center items-center text-center"
+              >
+                <div class="text-3xl font-bold mb-4" data-device-message>
+                  Your experience is optimized
+                </div>
+                <p class="text-sm opacity-70">
+                  Content adapts to your screen size, device capabilities, and
+                  input methods.
+                </p>
+              </div>
+
+              <div class="mt-8 text-sm">
+                <div class="flex justify-between items-center mb-2">
+                  <span>Your browser:</span>
+                  <span data-browser-name>Detecting...</span>
+                </div>
+                <div class="flex justify-between items-center mb-2">
+                  <span>Your OS:</span>
+                  <span data-os-name>Detecting...</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span>Screen type:</span>
+                  <span data-screen-type>Detecting...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="opacity-0" data-animate-in data-animate-delay="0.6">
+            <h3 class="text-2xl font-bold mb-6">Time-of-Day Adaptations</h3>
+            <div
+              class="border-2 border-black p-8 h-96 flex flex-col relative overflow-hidden"
+              data-context-demo="time-of-day"
+            >
+              <div class="flex items-center mb-8">
+                <div class="w-6 h-6 flex items-center justify-center mr-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-5 h-5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+                    />
+                  </svg>
+                </div>
+                <span class="text-sm" data-time-of-day-info
+                  >Your local time: <span data-current-time>00:00</span></span
+                >
+              </div>
+
+              <div
+                class="flex-1 flex flex-col justify-center items-center text-center"
+                data-time-adaptive-container
+              >
+                <div class="text-4xl font-bold mb-4" data-time-greeting>
+                  Hello
+                </div>
+                <p class="text-sm opacity-70">
+                  This section adapts colors, contrast, and content based on
+                  time of day.
+                </p>
+              </div>
+
+              <div class="mt-8 text-sm">
+                <div class="mb-2">Time-based adaptations:</div>
+                <ul class="list-disc pl-5 space-y-1 opacity-70">
+                  <li>Morning: Energetic, bright design</li>
+                  <li>Afternoon: Balanced, productive layout</li>
+                  <li>Evening: Calming, reduced blue light</li>
+                  <li>Night: Dark mode, minimalist</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="opacity-0" data-animate-in data-animate-delay="0.8">
+            <h3 class="text-2xl font-bold mb-6">Behavior-Responsive Design</h3>
+            <div
+              class="border-2 border-black p-8 h-96 flex flex-col relative overflow-hidden"
+              data-context-demo="behavior"
+            >
+              <div class="flex items-center mb-8">
+                <div class="w-6 h-6 flex items-center justify-center mr-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-5 h-5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M15.75 15.75V18m-7.5-10.5a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0Z"
+                    />
+                  </svg>
+                </div>
+                <span class="text-sm" data-interaction-info
+                  >Tracking your interaction patterns...</span
+                >
+              </div>
+
+              <div
+                class="flex-1 flex flex-col justify-center items-center text-center"
+              >
+                <div class="text-3xl font-bold mb-4" data-behavior-message>
+                  Design that feels you
+                </div>
+                <p class="text-sm opacity-70">
+                  This section responds to your interaction patterns and
+                  behaviors.
+                </p>
+              </div>
+
+              <div class="mt-8 text-sm">
+                <div class="mb-2">Behavior-based adaptations:</div>
+                <ul class="list-disc pl-5 space-y-1 opacity-70">
+                  <li>Fast scrollers see condensed content</li>
+                  <li>Careful readers get deeper information</li>
+                  <li>Cursor hovering reveals additional details</li>
+                  <li>Click patterns suggest relevant content</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-24 opacity-0" data-animate-in data-animate-delay="1.0">
+          <h3 class="text-2xl font-bold mb-6">The Code</h3>
+          <div class="border-2 border-black p-8 bg-gray-50 overflow-auto">
+            <pre class="text-sm"><code class="language-javascript">
+// Location-Aware Design
+function detectLocation() {
+  // Try to get user's location
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        // Get city name from coordinates
+        const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${position.coords.latitude}&lon=${position.coords.longitude}`;
+        
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            const city = data.address.city || data.address.town || 'Unknown';
+            const country = data.address.country || '';
+            
+            // Update UI with location info
+            updateGreetingBasedOnLocation(city, country);
+          });
+      },
+      error => {
+        console.log("Location error:", error);
+      }
+    );
+  }
+}
+
+// Device Detection
+function detectDevice() {
+  const userAgent = navigator.userAgent;
+  let deviceType = "Desktop";
+  
+  if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk/.test(userAgent)) {
+    deviceType = "Mobile";
+  } else if (/iPad|Tablet|Kindle/.test(userAgent)) {
+    deviceType = "Tablet";
+  }
+  
+  // Adapt UI based on device type
+  adaptUIToDevice(deviceType);
+}
+            </code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="absolute bottom-0 left-0 w-full h-1 bg-black"></div>
+    </section>
+
+    <!-- Emotion Section -->
+    <section
+      id="emotion"
+      class="py-24 px-8 min-h-screen flex items-center bg-black text-white relative"
+      data-spectral-section="emotion"
+    >
+      <div class="absolute top-0 left-0 w-full h-1 bg-white"></div>
+      <div class="max-w-6xl mx-auto w-full">
+        <h2 class="text-5xl font-bold mb-16 opacity-0" data-animate-in>
+          EMO<span class="text-xs align-super">TIONAL RESONANCE</span>
+        </h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <div class="opacity-0" data-animate-in data-animate-delay="0.2">
+            <h3 class="text-2xl font-bold mb-6">Cursor Expression</h3>
+            <div
+              class="border-2 border-white p-8 h-96 flex flex-col relative overflow-hidden"
+              data-emotion-demo="cursor"
+            >
+              <div class="flex-1 flex items-center justify-center">
+                <div class="text-center">
+                  <p class="text-lg mb-6">Move your cursor around this box</p>
+                  <div
+                    class="w-32 h-32 mx-auto border-2 border-white rounded-full flex items-center justify-center"
+                    data-cursor-target
+                  >
+                    <span class="text-sm">Hover here</span>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 text-sm">
+                <div class="mb-2">
+                  Cursor speed: <span data-cursor-speed>0</span> px/s
+                </div>
+                <div class="mb-2">
+                  Movement pattern: <span data-cursor-pattern>None</span>
+                </div>
+                <div>
+                  Emotional state: <span data-cursor-emotion>Neutral</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="opacity-0" data-animate-in data-animate-delay="0.4">
+            <h3 class="text-2xl font-bold mb-6">Engagement Responsive</h3>
+            <div
+              class="border-2 border-white p-8 h-96 flex flex-col relative overflow-hidden"
+              data-emotion-demo="engagement"
+            >
+              <div class="flex-1 flex items-center justify-center">
+                <div class="text-center w-full">
+                  <p class="text-lg mb-6">
+                    This content adapts to your engagement level
+                  </p>
+                  <div
+                    class="w-full h-32 border-2 border-white p-4 overflow-auto"
+                    data-engagement-content
+                  >
+                    <p>
+                      The more you interact with this content, the more it will
+                      adapt to your engagement level. Try scrolling, clicking,
+                      or selecting text.
+                    </p>
+                    <p class="mt-4 opacity-0" data-engagement-reveal="1">
+                      You're showing interest! Here's some additional context
+                      about emotional design.
+                    </p>
+                    <p class="mt-4 opacity-0" data-engagement-reveal="2">
+                      Engagement detected! Emotional design adapts interfaces
+                      based on user behavior patterns.
+                    </p>
+                    <p class="mt-4 opacity-0" data-engagement-reveal="3">
+                      High engagement! Research shows that emotionally
+                      responsive interfaces increase user satisfaction by up to
+                      40%.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 text-sm">
+                <div class="mb-2">
+                  Engagement score: <span data-engagement-score>0</span>/100
+                </div>
+                <div class="w-full h-2 bg-gray-700">
+                  <div
+                    class="h-full bg-white"
+                    style="width: 0%"
+                    data-engagement-bar
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="opacity-0" data-animate-in data-animate-delay="0.6">
+            <h3 class="text-2xl font-bold mb-6">Rhythm Detection</h3>
+            <div
+              class="border-2 border-white p-8 h-96 flex flex-col relative overflow-hidden"
+              data-emotion-demo="rhythm"
+            >
+              <div class="flex-1 flex items-center justify-center">
+                <div class="text-center">
+                  <p class="text-lg mb-6">Click anywhere in a rhythm</p>
+                  <div
+                    class="w-48 h-48 mx-auto border-2 border-white rounded-full flex items-center justify-center cursor-pointer"
+                    data-rhythm-target
+                  >
+                    <span>Click me</span>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 text-sm">
+                <div class="mb-2">
+                  Click pattern: <span data-rhythm-pattern>None</span>
+                </div>
+                <div class="mb-2">
+                  Detected rhythm: <span data-rhythm-detected>None</span>
+                </div>
+                <div class="flex gap-2 mt-4">
+                  <div class="w-2 h-8 bg-gray-700" data-rhythm-vis="1"></div>
+                  <div class="w-2 h-8 bg-gray-700" data-rhythm-vis="2"></div>
+                  <div class="w-2 h-8 bg-gray-700" data-rhythm-vis="3"></div>
+                  <div class="w-2 h-8 bg-gray-700" data-rhythm-vis="4"></div>
+                  <div class="w-2 h-8 bg-gray-700" data-rhythm-vis="5"></div>
+                  <div class="w-2 h-8 bg-gray-700" data-rhythm-vis="6"></div>
+                  <div class="w-2 h-8 bg-gray-700" data-rhythm-vis="7"></div>
+                  <div class="w-2 h-8 bg-gray-700" data-rhythm-vis="8"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="opacity-0" data-animate-in data-animate-delay="0.8">
+            <h3 class="text-2xl font-bold mb-6">Attention Analysis</h3>
+            <div
+              class="border-2 border-white p-8 h-96 flex flex-col relative overflow-hidden"
+              data-emotion-demo="attention"
+            >
+              <div class="flex-1 grid grid-cols-2 gap-4">
+                <div
+                  class="border border-white p-4 flex items-center justify-center cursor-pointer"
+                  data-attention-area="1"
+                >
+                  <span>Area 1</span>
+                </div>
+                <div
+                  class="border border-white p-4 flex items-center justify-center cursor-pointer"
+                  data-attention-area="2"
+                >
+                  <span>Area 2</span>
+                </div>
+                <div
+                  class="border border-white p-4 flex items-center justify-center cursor-pointer"
+                  data-attention-area="3"
+                >
+                  <span>Area 3</span>
+                </div>
+                <div
+                  class="border border-white p-4 flex items-center justify-center cursor-pointer"
+                  data-attention-area="4"
+                >
+                  <span>Area 4</span>
+                </div>
+              </div>
+              <div class="mt-4 text-sm">
+                <div class="mb-2">
+                  Your focus areas: <span data-attention-focus>None yet</span>
+                </div>
+                <div class="mb-2">
+                  Interest detected in:
+                  <span data-attention-interest>None yet</span>
+                </div>
+                <p class="text-xs opacity-70">
+                  Try hovering and clicking on different areas to see how the
+                  system analyzes your attention patterns.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-24 opacity-0" data-animate-in data-animate-delay="1.0">
+          <h3 class="text-2xl font-bold mb-6">The Code</h3>
+          <div class="border-2 border-white p-8 bg-gray-800 overflow-auto">
+            <pre
+              class="text-sm text-gray-300"
+            ><code class="language-javascript">
+// Cursor Expression Analysis
+function analyzeCursorExpression(event, element) {
+  // Store cursor positions and timestamps
+  cursorPositions.push({
+    x: event.clientX,
+    y: event.clientY,
+    timestamp: Date.now()
+  });
+  
+  // Only keep the last 20 positions
+  if (cursorPositions.length > 20) {
+    cursorPositions.shift();
+  }
+  
+  // Calculate speed and direction
+  if (cursorPositions.length > 1) {
+    const latest = cursorPositions[cursorPositions.length - 1];
+    const previous = cursorPositions[cursorPositions.length - 2];
+    
+    const deltaX = latest.x - previous.x;
+    const deltaY = latest.y - previous.y;
+    const deltaTime = latest.timestamp - previous.timestamp;
+    
+    const speed = Math.sqrt(deltaX * deltaX + deltaY * deltaY) / deltaTime * 1000;
+    
+    // Update UI
+    document.querySelector('[data-cursor-speed]').textContent = Math.round(speed);
+    
+    // Analyze pattern
+    const pattern = determineCursorPattern(cursorPositions);
+    document.querySelector('[data-cursor-pattern]').textContent = pattern;
+    
+    // Infer emotional state from cursor behavior
+    const emotion = inferEmotionalState(speed, pattern);
+    document.querySelector('[data-cursor-emotion]').textContent = emotion;
+    
+    // Adapt the UI based on emotional state
+    adaptUIToEmotion(element, emotion);
+  }
+}
+
+// Infer emotional state from cursor behavior
+function inferEmotionalState(speed, pattern) {
+  if (speed < 100) {
+    if (pattern === 'Circular') {
+      return 'Contemplative';
+    } else if (pattern === 'Linear') {
+      return 'Focused';
+    } else {
+      return 'Calm';
+    }
+  } else if (speed < 500) {
+    if (pattern === 'Erratic') {
+      return 'Confused';
+    } else {
+      return 'Engaged';
+    }
+  } else {
+    return 'Excited';
+  }
+}
+            </code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="absolute bottom-0 left-0 w-full h-1 bg-white"></div>
+    </section>
+
+    <!-- Ambient Section -->
+    <section
+      id="ambient"
+      class="py-24 px-8 min-h-screen flex items-center bg-white relative"
+      data-spectral-section="ambient"
+    >
+      <div class="absolute top-0 left-0 w-full h-1 bg-black"></div>
+      <div class="max-w-6xl mx-auto w-full">
+        <h2 class="text-5xl font-bold mb-16 opacity-0" data-animate-in>
+          AMB<span class="text-xs align-super">IENT INTERACTION</span>
+        </h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <div class="opacity-0" data-animate-in data-animate-delay="0.2">
+            <h3 class="text-2xl font-bold mb-6">Idle Behaviors</h3>
+            <div
+              class="border-2 border-black p-8 h-96 flex flex-col relative overflow-hidden"
+              data-ambient-demo="idle"
+            >
+              <div class="flex-1 flex items-center justify-center">
+                <div class="text-center">
+                  <p class="text-lg mb-6">Stop interacting for 10 seconds</p>
+                  <div
+                    class="w-32 h-32 mx-auto border-2 border-black rounded-full flex items-center justify-center"
+                    data-idle-indicator
+                  >
+                    <span class="text-sm">Waiting</span>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 text-sm">
+                <div class="mb-2">
+                  Idle state: <span data-idle-state>Active</span>
+                </div>
+                <div class="mb-2">
+                  Time since last activity: <span data-idle-time>0</span>s
+                </div>
+                <p class="text-xs opacity-70">
+                  Elements will subtly transform when you're not actively
+                  engaging with them.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="opacity-0" data-animate-in data-animate-delay="0.4">
+            <h3 class="text-2xl font-bold mb-6">Breathing Elements</h3>
+            <div
+              class="border-2 border-black p-8 h-96 flex flex-col relative overflow-hidden"
+              data-ambient-demo="breathing"
+            >
+              <div class="flex-1 flex items-center justify-center">
+                <div class="text-center">
+                  <p class="text-lg mb-6">Watch these elements breathe</p>
+                  <div class="flex gap-4 justify-center">
+                    <div
+                      class="w-16 h-16 bg-black"
+                      data-ambient-pulse="slow"
+                    ></div>
+                    <div
+                      class="w-16 h-16 border-2 border-black"
+                      data-ambient-pulse="medium"
+                    ></div>
+                    <div
+                      class="w-16 h-16 bg-gray-500"
+                      data-ambient-pulse="fast"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 text-sm">
+                <div class="mb-2">
+                  Sync state: <span data-pulse-sync>Individual</span>
+                </div>
+                <div class="mb-2">
+                  <button
+                    class="border border-black px-3 py-1 text-xs"
+                    data-pulse-toggle
+                  >
+                    Synchronize
+                  </button>
+                </div>
+                <p class="text-xs opacity-70">
+                  Elements pulse at their own rhythm, creating ambient movement
+                  that doesn't demand attention.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="opacity-0" data-animate-in data-animate-delay="0.6">
+            <h3 class="text-2xl font-bold mb-6">Environmental Awareness</h3>
+            <div
+              class="border-2 border-black p-8 h-96 flex flex-col relative overflow-hidden"
+              data-ambient-demo="environment"
+            >
+              <div class="flex-1 flex items-center justify-center">
+                <div class="text-center">
+                  <p class="text-lg mb-6">
+                    This section adapts to your environment
+                  </p>
+                  <div
+                    class="w-48 h-48 mx-auto border-2 border-black flex flex-col items-center justify-center"
+                    data-environment-display
+                  >
+                    <span class="text-sm mb-2">Current brightness</span>
+                    <div
+                      class="w-24 h-24 bg-gray-200"
+                      data-light-indicator
+                    ></div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 text-sm">
+                <div class="mb-2">
+                  Detected environment:
+                  <span data-environment-type>Standard</span>
+                </div>
+                <div class="mb-2">
+                  Light level: <span data-light-level>Unknown</span>
+                </div>
+                <p class="text-xs opacity-70">
+                  If supported by your device, this adapts to ambient light,
+                  sound, and motion.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="opacity-0" data-animate-in data-animate-delay="0.8">
+            <h3 class="text-2xl font-bold mb-6">Background Intelligence</h3>
+            <div
+              class="border-2 border-black p-8 h-96 flex flex-col relative overflow-hidden"
+              data-ambient-demo="intelligence"
+            >
+              <div class="flex-1 flex items-center justify-center">
+                <div class="text-center">
+                  <p class="text-lg mb-6">
+                    Background processes optimize your experience
+                  </p>
+                  <div class="grid grid-cols-3 gap-2">
+                    <div
+                      class="border border-black p-2 text-xs text-center"
+                      data-process="preload"
+                    >
+                      Preloading<br />Content
+                    </div>
+                    <div
+                      class="border border-black p-2 text-xs text-center"
+                      data-process="optimize"
+                    >
+                      Optimizing<br />Assets
+                    </div>
+                    <div
+                      class="border border-black p-2 text-xs text-center"
+                      data-process="cache"
+                    >
+                      Caching<br />Resources
+                    </div>
+                    <div
+                      class="border border-black p-2 text-xs text-center"
+                      data-process="predict"
+                    >
+                      Predicting<br />Actions
+                    </div>
+                    <div
+                      class="border border-black p-2 text-xs text-center"
+                      data-process="prepare"
+                    >
+                      Preparing<br />Responses
+                    </div>
+                    <div
+                      class="border border-black p-2 text-xs text-center"
+                      data-process="monitor"
+                    >
+                      Monitoring<br />Performance
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 text-sm">
+                <div class="mb-2">
+                  Active processes: <span data-active-processes>0/6</span>
+                </div>
+                <div class="mb-2">
+                  Performance score:
+                  <span data-performance-score>Calculating...</span>
+                </div>
+                <p class="text-xs opacity-70">
+                  The system works in the background to optimize your
+                  experience, anticipating your needs.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="opacity-0" data-animate-in data-animate-delay="1.0">
+            <h3 class="text-2xl font-bold mb-6">Temporal Patterns</h3>
+            <div
+              class="border-2 border-black p-8 h-96 flex flex-col relative overflow-hidden"
+              data-ambient-demo="temporal"
+            >
+              <div class="flex-1 flex items-center justify-center">
+                <div class="text-center">
+                  <p class="text-lg mb-6">This content has a memory</p>
+                  <div
+                    class="w-full max-w-xs mx-auto p-4 border border-black"
+                    data-temporal-memory
+                  >
+                    <p class="text-sm">
+                      This is your visit #<span data-visit-count>1</span>
+                    </p>
+                    <p class="text-sm mt-2">
+                      Last visit: <span data-last-visit>First time here</span>
+                    </p>
+                    <p class="text-sm mt-2">
+                      Most viewed section:
+                      <span data-most-viewed>None yet</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4 text-sm">
+                <div class="mb-2">
+                  Memory status: <span data-memory-status>Initializing</span>
+                </div>
+                <div class="mb-2">
+                  Data points: <span data-memory-points>0</span>
+                </div>
+                <p class="text-xs opacity-70">
+                  The document remembers patterns across sessions to provide
+                  continuity of experience.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-24 opacity-0" data-animate-in data-animate-delay="1.2">
+          <h3 class="text-2xl font-bold mb-6">The Code</h3>
+          <div class="border-2 border-black p-8 bg-gray-50 overflow-auto">
+            <pre class="text-sm"><code class="language-javascript">
+    // Idle State Detection
+    let idleTimer = 0;
+    let isIdle = false;
+    const idleThreshold = 10; // seconds
+    
+    function resetIdleTimer() {
+      idleTimer = 0;
+      if (isIdle) {
+        isIdle = false;
+        document.querySelector('[data-idle-state]').textContent = 'Active';
+        document.querySelector('[data-idle-indicator]').classList.remove('idle');
+        
+        // Exit idle state for all ambient elements
+        document.querySelectorAll('[data-ambient-demo]').forEach(el => {
+          el.classList.remove('idle-state');
+        });
+      }
+    }
+    
+    function checkIdleState() {
+      setInterval(() => {
+        idleTimer++;
+        document.querySelector('[data-idle-time]').textContent = idleTimer;
+        
+        if (idleTimer >= idleThreshold && !isIdle) {
+          isIdle = true;
+          document.querySelector('[data-idle-state]').textContent = 'Idle';
+          document.querySelector('[data-idle-indicator]').classList.add('idle');
+          
+          // Enter idle state for all ambient elements
+          document.querySelectorAll('[data-ambient-demo]').forEach(el => {
+            el.classList.add('idle-state');
+          });
+          
+          // Trigger ambient behaviors
+          triggerAmbientBehaviors();
+        }
+      }, 1000);
+    }
+    
+    // Breathing Elements
+    function initBreathingElements() {
+      const elements = document.querySelectorAll('[data-ambient-pulse]');
+      
+      elements.forEach(el => {
+        const rate = el.getAttribute('data-ambient-pulse');
+        let duration = 4;
+        
+        if (rate === 'slow') duration = 6;
+        if (rate === 'fast') duration = 3;
+        
+        el.style.animation = `pulse ${duration}s infinite ease-in-out`;
+      });
+      
+      // Synchronize button
+      const syncButton = document.querySelector('[data-pulse-toggle]');
+      syncButton.addEventListener('click', () => {
+        const currentState = document.querySelector('[data-pulse-sync]').textContent;
+        
+        if (currentState === 'Individual') {
+          // Synchronize all elements
+          elements.forEach(el => {
+            el.style.animation = 'pulse 5s infinite ease-in-out';
+          });
+          document.querySelector('[data-pulse-sync]').textContent = 'Synchronized';
+          syncButton.textContent = 'Individualize';
+        } else {
+          // Return to individual rhythms
+          initBreathingElements();
+          document.querySelector('[data-pulse-sync]').textContent = 'Individual';
+          syncButton.textContent = 'Synchronize';
+        }
+      });
+    }
+                </code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="absolute bottom-0 left-0 w-full h-1 bg-black"></div>
+    </section>
+
+    <!-- Meta Documentation Section -->
+    <section class="py-24 px-8 bg-black text-white relative">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-5xl font-bold mb-16">
+          META<span class="text-xs align-super">DESIGN</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+          <div>
+            <h3 class="text-2xl font-bold mb-6">SPECTRAL vs MONO</h3>
+            <div class="space-y-4">
+              <p>
+                Where MONO embraces constraint through monochrome and
+                minimalism, SPECTRAL explores the invisible dimensions of web
+                design that exist beyond visual aesthetics.
+              </p>
+              <p>
+                Both systems share a commitment to purposeful design, but
+                SPECTRAL adds layers of dynamic interaction that respond to
+                time, context, emotion, and ambient conditions.
+              </p>
+              <div class="mt-8 grid grid-cols-2 gap-4">
+                <div class="border border-white p-4">
+                  <h4 class="font-bold mb-2">MONO</h4>
+                  <ul class="text-sm space-y-2">
+                    <li>• Static constraints</li>
+                    <li>• Visual minimalism</li>
+                    <li>• Monochromatic palette</li>
+                    <li>• Singular typography</li>
+                    <li>• Document-based</li>
+                  </ul>
+                </div>
+                <div class="border border-white p-4">
+                  <h4 class="font-bold mb-2">SPECTRAL</h4>
+                  <ul class="text-sm space-y-2">
+                    <li>• Dynamic responses</li>
+                    <li>• Behavioral adaptation</li>
+                    <li>• Contextual awareness</li>
+                    <li>• Ambient intelligence</li>
+                    <li>• Experience-based</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-2xl font-bold mb-6">Implementation Principles</h3>
+            <div class="space-y-4">
+              <p>
+                SPECTRAL is built on core principles that can be implemented at
+                various levels of complexity:
+              </p>
+              <ol class="list-decimal pl-5 space-y-4">
+                <li>
+                  <span class="font-bold">Progressive Enhancement</span>
+                  <p class="text-sm mt-1">
+                    The base experience works without JavaScript, while layers
+                    of behavior enhance the experience when available.
+                  </p>
+                </li>
+                <li>
+                  <span class="font-bold">Contextual Awareness</span>
+                  <p class="text-sm mt-1">
+                    The system detects and responds to user context, from device
+                    capabilities to geographic location.
+                  </p>
+                </li>
+                <li>
+                  <span class="font-bold">Emotional Intelligence</span>
+                  <p class="text-sm mt-1">
+                    Interfaces adapt based on user behavior patterns to create
+                    resonant experiences.
+                  </p>
+                </li>
+                <li>
+                  <span class="font-bold">Ambient Presence</span>
+                  <p class="text-sm mt-1">
+                    Elements evolve over time, even when not directly interacted
+                    with, creating a living document.
+                  </p>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-24">
+          <h3 class="text-2xl font-bold mb-6">Implementation Guide</h3>
+          <div class="border border-white p-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div>
+                <h4 class="font-bold mb-4">1. Start with Time</h4>
+                <p class="text-sm">
+                  The easiest dimension to implement is time-based design. Begin
+                  by adding elements that evolve based on session duration, time
+                  of day, or reading progress.
+                </p>
+                <pre class="mt-4 text-xs bg-gray-800 p-3 rounded">
+    // Basic time tracking
+    let startTime = Date.now();
+    setInterval(() => {
+      const elapsed = 
+        (Date.now() - startTime) / 1000;
+      // Update elements based on time
+    }, 1000);</pre
+                >
+              </div>
+
+              <div>
+                <h4 class="font-bold mb-4">2. Add Context</h4>
+                <p class="text-sm">
+                  Next, implement contextual awareness through device detection,
+                  location awareness (with permission), and user behavior
+                  tracking.
+                </p>
+                <pre class="mt-4 text-xs bg-gray-800 p-3 rounded">
+    // Basic device detection
+    const isMobile = 
+      /Android|iPhone|iPad/i.test(
+        navigator.userAgent
+      );
+    
+    // Apply contextual changes
+    document.body.classList.toggle(
+      'mobile-experience', 
+      isMobile
+    );</pre
+                >
+              </div>
+
+              <div>
+                <h4 class="font-bold mb-4">3. Layer in Emotion & Ambient</h4>
+                <p class="text-sm">
+                  Finally, add emotional resonance through interaction pattern
+                  analysis and ambient behaviors during periods of inactivity.
+                </p>
+                <pre class="mt-4 text-xs bg-gray-800 p-3 rounded">
+    // Basic idle detection
+    let idleTime = 0;
+    setInterval(() => {
+      idleTime++;
+      if (idleTime > 10) {
+        document.body.classList.add(
+          'idle-state'
+        );
+      }
+    }, 1000);
+    
+    document.addEventListener(
+      'mousemove', 
+      () => { idleTime = 0; }
+    );</pre
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final Call to Action -->
+    <section class="py-24 px-8 bg-white relative overflow-hidden">
+      <div class="max-w-4xl mx-auto text-center relative z-10">
+        <h2 class="text-6xl font-bold mb-8">BUILD WITH SPECTRAL</h2>
+        <p class="text-xl max-w-2xl mx-auto mb-12">
+          Create websites that live, breathe, and respond to the full spectrum
+          of human interaction.
+        </p>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <a
+            href="#"
+            class="bg-black text-white px-8 py-3 text-sm uppercase tracking-widest inline-block hover:bg-gray-800 transition-colors"
+          >
+            Download Framework
+          </a>
+          <a
+            href="#"
+            class="border-2 border-black px-8 py-3 text-sm uppercase tracking-widest inline-block hover:bg-gray-100 transition-colors"
+          >
+            View Documentation
+          </a>
+        </div>
+      </div>
+      <div class="absolute inset-0 grid grid-cols-6 grid-rows-6 opacity-5">
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+        <div class="border border-black"></div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 px-8 border-t border-gray-400">
+      <div
+        class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center"
+      >
+        <div class="mb-6 md:mb-0">
+          <a href="#" class="text-xl font-bold tracking-normal">
+            SPECTRAL<span class="text-xs align-text-top">™</span>
+          </a>
+          <p class="text-xs mt-2">Beyond monochrome. Into the spectrum.</p>
+        </div>
+        <div class="flex flex-col items-center md:items-end">
+          <div class="flex items-center gap-4 mb-4">
+            <a href="#" class="hover:underline">GitHub</a>
+            <a href="#" class="hover:underline">Twitter</a>
+            <a href="#" class="hover:underline">Documentation</a>
+          </div>
+          <div class="text-xs text-gray-600 flex items-center gap-2">
+            <span class="inline-block transform rotate-180 text-lg mb-2"
+              >©</span
+            >
+            <span
+              >Copyleft 2025 -
+              <a href="#" class="underline">Built on MONO</a></span
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Additional script for Prism.js syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
+  </body>
+</html>

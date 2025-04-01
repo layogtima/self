@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QUANTUM SHIFT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ["Space Mono", "monospace"],
+            },
+            colors: {
+              neon: {
+                pink: "#FF00FF",
+                blue: "#00FFFF",
+                green: "#00FF00",
+                yellow: "#FFFF00",
+                purple: "#9D00FF",
+              },
+            },
+            animation: {
+              "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              glow: "glow 2s ease-in-out infinite alternate",
+              float: "float 6s ease-in-out infinite",
+              "spin-slow": "spin 8s linear infinite",
+            },
+            keyframes: {
+              glow: {
+                "0%": {
+                  textShadow:
+                    "0 0 5px #fff, 0 0 10px #fff, 0 0 15px #00ffff, 0 0 20px #00ffff",
+                },
+                "100%": {
+                  textShadow:
+                    "0 0 10px #fff, 0 0 20px #fff, 0 0 30px #00ffff, 0 0 40px #00ffff",
+                },
+              },
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-10px)" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+      * {
+        font-family: "Space Mono", monospace;
+        user-select: none;
+      }
+
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .glow {
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #00ffff,
+          0 0 20px #00ffff;
+      }
+
+      .grid-pattern {
+        background-image: linear-gradient(
+            rgba(0, 255, 255, 0.1) 1px,
+            transparent 1px
+          ),
+          linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+        background-size: 40px 40px;
+      }
+
+      .quantum-block {
+        transition: all 0.3s ease;
+        transform-style: preserve-3d;
+      }
+
+      .quantum-block:hover {
+        transform: scale(1.05);
+      }
+
+      .quantum-flicker {
+        animation: flicker 4s linear infinite;
+      }
+
+      @keyframes flicker {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.7;
+        }
+      }
+
+      .observation-wave {
+        position: absolute;
+        border-radius: 50%;
+        border: 2px solid rgba(0, 255, 255, 0.5);
+        animation: expand 1s ease-out forwards;
+        pointer-events: none;
+      }
+
+      @keyframes expand {
+        0% {
+          width: 0;
+          height: 0;
+          opacity: 1;
+        }
+        100% {
+          width: 200px;
+          height: 200px;
+          opacity: 0;
+        }
+      }
+
+      .entangled:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          transparent 45%,
+          rgba(255, 0, 255, 0.5) 50%,
+          transparent 55%
+        );
+        background-size: 10px 10px;
+        pointer-events: none;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.min.js"></script>
+  </head>
+  <body class="bg-black text-white">
+    <div
+      id="app"
+      class="w-full h-screen flex flex-col items-center justify-center relative overflow-hidden grid-pattern"
+    >
+      <!-- Game UI will be rendered here -->
+    </div>
+
+    <script src="quantum.js"></script>
+  </body>
+</html>

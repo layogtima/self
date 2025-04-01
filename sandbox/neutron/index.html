@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NEUTRON BOUNCE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ["Space Mono", "monospace"],
+            },
+            colors: {
+              neon: {
+                pink: "#ff00ff",
+                blue: "#00ffff",
+                green: "#00ff00",
+                yellow: "#ffff00",
+              },
+            },
+            animation: {
+              "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              glow: "glow 2s ease-in-out infinite alternate",
+            },
+            keyframes: {
+              glow: {
+                "0%": {
+                  textShadow:
+                    "0 0 5px #fff, 0 0 10px #fff, 0 0 15px #00ffff, 0 0 20px #00ffff",
+                },
+                "100%": {
+                  textShadow:
+                    "0 0 10px #fff, 0 0 20px #fff, 0 0 30px #00ffff, 0 0 40px #00ffff",
+                },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+      * {
+        font-family: "Space Mono", monospace;
+        user-select: none;
+      }
+
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        cursor: none;
+      }
+
+      .glow {
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #00ffff,
+          0 0 20px #00ffff;
+      }
+
+      .neon-border {
+        box-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
+      }
+
+      .screen-overlay::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: repeating-linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.15),
+          rgba(0, 0, 0, 0.15) 1px,
+          transparent 1px,
+          transparent 2px
+        );
+        pointer-events: none;
+      }
+
+      .ball-trail {
+        position: absolute;
+        background-color: rgba(0, 255, 255, 0.3);
+        border-radius: 50%;
+        pointer-events: none;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.min.js"></script>
+  </head>
+  <body class="bg-black text-white">
+    <div
+      id="app"
+      class="w-full h-screen flex flex-col items-center justify-center relative overflow-hidden screen-overlay"
+    >
+      <!-- Game UI will be rendered here -->
+    </div>
+
+    <script src="game.js"></script>
+  </body>
+</html>

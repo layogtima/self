@@ -1,0 +1,132 @@
+/* FlowMorph CSS - Biomorphic Web Framework */
+
+/* ===== Base Styles ===== */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary: #9c27b0;
+    --secondary: #03a9f4;
+    --accent: #ff5722;
+    --dark: #1a1a2e;
+    --light: #ffffff;
+    --flow-curve-1: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    --flow-curve-2: 30% 60% 70% 40% / 50% 60% 30% 60%;
+    --flow-curve-3: 40% 60% 60% 40% / 40% 60% 70% 30%;
+    --flow-curve-4: 60% 40% 30% 70% / 60% 30% 70% 40%;
+}
+
+body {
+    font-family: 'Space Grotesk', sans-serif;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.noise-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 100;
+}
+
+/* ===== Blob Styles ===== */
+.nav-blob,
+.hero-blob,
+.about-blob,
+.features-blob,
+.showcase-blob,
+.contact-blob,
+.footer-blob {
+    position: absolute;
+    border-radius: var(--flow-curve-1);
+    filter: blur(60px);
+    opacity: 0.15;
+    z-index: -1;
+    animation: morph 15s ease-in-out infinite;
+}
+
+.nav-blob {
+    top: -150px;
+    right: -150px;
+    width: 400px;
+    height: 400px;
+    background: var(--primary);
+}
+
+.hero-blob {
+    bottom: -200px;
+    left: -200px;
+    width: 600px;
+    height: 600px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+}
+
+.about-blob {
+    top: 10%;
+    right: -300px;
+    width: 700px;
+    height: 700px;
+    background: var(--accent);
+    animation-delay: -2s;
+}
+
+.features-blob {
+    bottom: -200px;
+    left: -300px;
+    width: 600px;
+    height: 600px;
+    background: var(--secondary);
+    animation-delay: -5s;
+}
+
+.showcase-blob {
+    top: -300px;
+    right: -200px;
+    width: 800px;
+    height: 800px;
+    background: linear-gradient(-45deg, var(--primary), var(--accent));
+    animation-delay: -8s;
+}
+
+.contact-blob {
+    top: 10%;
+    left: -300px;
+    width: 700px;
+    height: 700px;
+    background: var(--primary);
+    animation-delay: -12s;
+}
+
+.footer-blob {
+    bottom: -400px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: var(--secondary);
+    animation-delay: -7s;
+}
+
+/* ===== Navigation Styles ===== */
+.nav-link {
+    position: relative;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: width 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.nav-link:hover {

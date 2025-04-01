@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MIB :: INTERNAL COMMS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Courier New', 'monospace'],
+            sans: ['Helvetica', 'Arial', 'sans-serif'],
+          },
+          colors: {
+            mib: {
+              black: '#000000',
+              darkgray: '#121212',
+              gray: '#333333',
+              lightgray: '#aaaaaa',
+              accent: '#00CC99',
+              alert: '#FF3366',
+              warning: '#FFCC00',
+            },
+          },
+          animation: {
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'scan': 'scan 2s linear infinite',
+            'flicker': 'flicker 3s linear infinite',
+            'float': 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            scan: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(15px)' },
+            },
+            flicker: {
+              '0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100%': { opacity: 0.99 },
+              '20%, 21.999%, 63%, 63.999%, 65%, 69.999%': { opacity: 0.4 },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-20px)' },
+            },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .terminal-text::after {
+      content: "|";
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .scan-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: linear-gradient(90deg, 
+        rgba(0, 204, 153, 0) 0%, 
+        rgba(0, 204, 153, 0.5) 50%, 
+        rgba(0, 204, 153, 0) 100%);
+      animation: scan 2s linear infinite;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    @keyframes scan {
+      0% { top: 0; }
+      100% { top: 100%; }
+    }
+
+    .glitch {
+      position: relative;
+    }
+
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .glitch::before {
+      left: 2px;
+      text-shadow: -1px 0 rgba(0, 204, 153, 0.7);
+      animation: glitch-anim 2s infinite linear alternate-reverse;
+    }
+
+    .glitch::after {
+      left: -2px;
+      text-shadow: 1px 0 rgba(255, 51, 102, 0.7);
+      animation: glitch-anim 3s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-anim {
+      0% { clip-path: inset(40% 0 61% 0); }
+      20% { clip-path: inset(92% 0 1% 0); }
+      40% { clip-path: inset(43% 0 1% 0); }
+      60% { clip-path: inset(25% 0 58% 0); }
+      80% { clip-path: inset(54% 0 7% 0); }
+      100% { clip-path: inset(58% 0 43% 0); }
+    }
+
+    .diagonal-stripes {
+      background-image: repeating-linear-gradient(
+        45deg,
+        rgba(0, 204, 153, 0.1),
+        rgba(0, 204, 153, 0.1) 10px,
+        rgba(0, 0, 0, 0) 10px,
+        rgba(0, 0, 0, 0) 20px
+      );
+    }
+
+    .grid-overlay {
+      background-size: 50px 50px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    }
+
+    .hex-bg {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    /* Holographic display effect */
+    .hologram {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hologram::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(0, 204, 153, 0.1) 0%,
+        rgba(0, 0, 0, 0) 50%,
+        rgba(0, 204, 153, 0.1) 100%
+      );
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .hologram::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 204, 153, 0.05) 0px,
+        rgba(0, 204, 153, 0.05) 1px,
+        rgba(0, 0, 0, 0) 1px,
+        rgba(0, 0, 0, 0) 2px
+      );
+      z-index: 2;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col overflow-x-hidden relative">
+  <div class="scan-line"></div>
+  <div class="grid-overlay fixed inset-0 z-0"></div>
+  <div class="hex-bg fixed inset-0 z-0 opacity-30"></div>
+
+  <!-- Header/Nav -->
+  <header class="relative z-10 border-b border-mib-accent/30 backdrop-blur-sm">
+    <div class="flex justify-between items-center px-6 py-4">
+      <div class="flex items-center">
+        <div class="text-mib-accent font-bold text-xl mr-4 glitch" data-text="MIB">MIB</div>
+        <div class="hidden md:flex space-x-6 text-sm">
+          <a href="#dashboard" class="hover:text-mib-accent transition-colors">DASHBOARD</a>
+          <a href="#comms" class="hover:text-mib-accent transition-colors">COMMUNICATIONS</a>
+          <a href="#missions" class="hover:text-mib-accent transition-colors">FIELD OPS</a>
+          <a href="#registry" class="hover:text-mib-accent transition-colors">REGISTRY</a>
+        </div>
+      </div>
+      <div class="flex items-center space-x-4">
+        <div class="text-xs bg-mib-darkgray/80 px-3 py-1 rounded-sm border border-mib-accent/30">
+          <span class="text-mib-accent">SECURITY:</span> ULTRAVIOLET
+        </div>
+        <div class="flex items-center">
+          <div class="w-2 h-2 bg-mib-accent rounded-full mr-2 animate-pulse-slow"></div>
+          <span class="text-sm">AGENT J</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 relative z-10">
+    <!-- Hero Section -->
+    <section class="h-screen flex items-center justify-center px-6 relative overflow-hidden">
+      <div class="absolute inset-0 diagonal-stripes opacity-20"></div>
+      
+      <!-- Decorative Elements -->
+      <div class="absolute top-1/4 right-1/4 w-32 h-32 border border-mib-accent/30 rounded-full animate-float opacity-20"></div>
+      <div class="absolute bottom-1/4 left-1/3 w-48 h-48 border-2 border-mib-accent/20 rounded-full animate-float opacity-30" style="animation-delay: -2s;"></div>
+      <div class="absolute top-1/3 left-1/4 w-16 h-16 bg-mib-accent/5 animate-float" style="animation-delay: -4s;"></div>
+      
+      <div class="max-w-3xl text-center">
+        <div class="mb-6 flex flex-col items-center">
+          <h1 class="text-6xl md:text-7xl font-bold mb-2 tracking-tighter">
+            <span class="text-mib-accent">M</span>IB<span class="text-xs align-top ml-1">COMMS</span>
+          </h1>
+          <p class="text-mib-lightgray italic">Earth's last line of defense. First in coffee consumption.</p>
+        </div>
+        
+        <div class="hologram p-6 border border-mib-accent/30 backdrop-blur-sm bg-black/40 mb-8">
+          <div class="text-sm text-left mb-4 flex items-center">
+            <div class="w-2 h-2 bg-mib-warning rounded-full mr-2"></div>
+            <span class="text-mib-warning uppercase tracking-wider text-xs">PRIORITY BULLETIN</span>
+          </div>
+          <p class="text-left mb-6">
+            Coffee machine on level 3 is malfunctioning. Producing what appears to be Baltian mating fluid instead of espresso. Approach with caution. The Worms are investigating but appear to be getting distracted.
+          </p>
+          <div class="text-right text-xs text-mib-lightgray">
+            TIMESTAMP: 09:42:21 • CLEARANCE: ALL AGENTS
+          </div>
+        </div>
+        
+        <a href="#dashboard" class="inline-block border border-mib-accent px-6 py-3 text-mib-accent hover:bg-mib-accent hover:text-black transition-all duration-300 text-sm uppercase tracking-widest">
+          Access System
+        </a>
+      </div>
+    </section>
+
+    <!-- Ticker Section -->
+    <div class="overflow-hidden border-t border-b border-mib-accent/30 py-3 bg-black/60 backdrop-blur-sm relative z-20">
+      <div class="flex animate-[scroll_20s_linear_infinite] whitespace-nowrap">
+        <span class="mx-4 text-mib-accent">NEURALIZER MAINTENANCE SCHEDULED: 16:00</span>
+        <span class="mx-4 text-white opacity-60">•</span>
+        <span class="mx-4">ALIEN VISITORS TODAY: 243</span>
+        <span class="mx-4 text-white opacity-60">•</span>
+        <span class="mx-4 text-mib-warning">ZETA RETICULAN DELEGATION ARRIVING TOMORROW</span>
+        <span class="mx-4 text-white opacity-60">•</span>
+        <span class="mx-4">FRANK THE PUG REQUESTS WALKIES</span>
+        <span class="mx-4 text-white opacity-60">•</span>
+        <span class="mx-4 text-mib-alert">COFFEE MACHINE STATUS: CRITICAL</span>
+        <span class="mx-4 text-white opacity-60">•</span>
+        <span class="mx-4">EARTH THREAT LEVEL: MODERATE</span>
+        <span class="mx-4 text-white opacity-60">•</span>
+      </div>
+    </div>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="py-20 px-6 md:px-12">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold mb-12 flex items-center">
+          <span class="text-mib-accent mr-2">/</span>
+          DASHBOARD
+          <span class="ml-3 text-xs text-mib-lightgray terminal-text font-normal">system_online</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Earth Status Panel -->
+          <div class="col-span-2 hologram border border-mib-accent/30 p-6 backdrop-blur-sm bg-black/40">
+            <h3 class="text-xl font-bold mb-6 text-mib-accent">EARTH STATUS</h3>
+            
+            <div class="space-y-6 mb-8">
+              <div>
+                <div class="flex justify-between mb-2">
+                  <span class="text-sm">THREAT LEVEL</span>
+                  <span class="text-sm text-mib-warning">MODERATE</span>
+                </div>
+                <div class="w-full h-1 bg-white/10">
+                  <div class="h-full bg-mib-warning" style="width: 45%"></div>
+                </div>
+              </div>
+              
+              <div>
+                <div class="flex justify-between mb-2">
+                  <span class="text-sm">ALIEN TOURISM</span>
+                  <span class="text-sm text-mib-accent">STABLE</span>
+                </div>
+                <div class="w-full h-1 bg-white/10">
+                  <div class="h-full bg-mib-accent" style="width: 68%"></div>
+                </div>
+              </div>
+              
+              <div>
+                <div class="flex justify-between mb-2">
+                  <span class="text-sm">HUMAN AWARENESS</span>
+                  <span class="text-sm text-mib-alert">RISING</span>
+                </div>
+                <div class="w-full h-1 bg-white/10">
+                  <div class="h-full bg-mib-alert" style="width: 38%"></div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-4 text-center">
+              <div class="border border-white/10 p-3">
+                <div class="text-3xl font-bold text-mib-accent mb-1">42</div>
+                <div class="text-xs text-mib-lightgray">ACTIVE AGENTS</div>
+              </div>
+              <div class="border border-white/10 p-3">
+                <div class="text-3xl font-bold text-mib-accent mb-1">613</div>
+                <div class="text-xs text-mib-lightgray">ALIEN SPECIES</div>
+              </div>
+              <div class="border border-white/10 p-3">
+                <div class="text-3xl font-bold text-mib-accent mb-1">89</div>
+                <div class="text-xs text-mib-lightgray">OPEN MISSIONS</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Agent Status Panel -->
+          <div class="hologram border border-mib-accent/30 p-6 backdrop-blur-sm bg-black/40">
+            <h3 class="text-xl font-bold mb-6 text-mib-accent">ACTIVE AGENTS</h3>
+            
+            <ul class="space-y-4">
+              <li class="flex items-center justify-between border-b border-white/10 pb-3">
+                <div class="flex items-center">
+                  <div class="w-2 h-2 bg-mib-accent rounded-full mr-3"></div>
+                  <span>AGENT K</span>
+                </div>
+                <span class="text-xs bg-black/40 border border-mib-accent/30 px-2 py-1">FIELD</span>
+              </li>
+              
+              <li class="flex items-center justify-between border-b border-white/10 pb-3">
+                <div class="flex items-center">
+                  <div class="w-2 h-2 bg-mib-alert rounded-full mr-3"></div>
+                  <span>AGENT O</span>
+                </div>
+                <span class="text-xs bg-black/40 border border-mib-alert/30 px-2 py-1">BUSY</span>
+              </li>
+              
+              <li class="flex items-center justify-between border-b border-white/10 pb-3">
+                <div class="flex items-center">
+                  <div class="w-2 h-2 bg-mib-accent rounded-full mr-3"></div>
+                  <span>AGENT J</span>
+                </div>
+                <span class="text-xs bg-black/40 border border-mib-accent/30 px-2 py-1">HQ</span>
+              </li>
+              
+              <li class="flex items-center justify-between border-b border-white/10 pb-3">
+                <div class="flex items-center">
+                  <div class="w-2 h-2 bg-mib-warning rounded-full mr-3"></div>
+                  <span>THE WORMS</span>
+                </div>
+                <span class="text-xs bg-black/40 border border-mib-warning/30 px-2 py-1">COFFEE</span>
+              </li>
+              
+              <li class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div class="w-2 h-2 bg-mib-accent rounded-full mr-3"></div>
+                  <span>FRANK</span>
+                </div>
+                <span class="text-xs bg-black/40 border border-mib-accent/30 px-2 py-1">LOBBY</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Quick Action Buttons -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+          <button class="border border-mib-accent/30 p-4 hover:bg-mib-accent hover:text-black transition-all text-sm">
+            NEURALIZER LOG
+          </button>
+          <button class="border border-mib-accent/30 p-4 hover:bg-mib-accent hover:text-black transition-all text-sm">
+            WEAPONS CHECK
+          </button>
+          <button class="border border-mib-accent/30 p-4 hover:bg-mib-accent hover:text-black transition-all text-sm">
+            ALIEN REGISTRY
+          </button>
+          <button class="border border-mib-accent/30 p-4 hover:bg-mib-accent hover:text-black transition-all text-sm">
+            FILE REPORT
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Communications Section -->
+    <section id="comms" class="py-20 px-6 md:px-12 bg-mib-darkgray">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold mb-12 flex items-center">
+          <span class="text-mib-accent mr-2">/</span>
+          COMMUNICATIONS
+          <span class="ml-3 text-xs text-mib-lightgray terminal-text font-normal">transmission_active</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Messages Panel -->
+          <div class="col-span-2 hologram border border-mib-accent/30 p-6 backdrop-blur-sm bg-black/40">
+            <div class="flex justify-between items-center mb-6">
+              <h3 class="text-xl font-bold text-mib-accent">RECENT MESSAGES</h3>
+              <button class="text-xs border border-mib-accent/30 px-3 py-1 hover:bg-mib-accent hover:text-black transition-all">
+                COMPOSE
+              </button>
+            </div>
+            
+            <div class="space-y-4">
+              <!-- Message 1 -->
+              <div class="border border-white/10 p-4 hover:border-mib-accent/30 cursor-pointer transition-colors">
+                <div class="flex justify-between mb-2">
+                  <div class="font-bold">AGENT K</div>
+                  <div class="text-xs text-mib-lightgray">10:42 AM</div>
+                </div>
+                <p class="text-sm mb-3">
+                  Need backup at Central Park. Arquillian ambassador insists on feeding ducks. Ducks becoming suspicious.
+                </p>
+                <div class="flex justify-between text-xs">
+                  <span class="text-mib-accent">PRIORITY: HIGH</span>
+                  <span>UNREAD</span>
+                </div>
+              </div>
+              
+              <!-- Message 2 -->
+              <div class="border border-white/10 p-4 hover:border-mib-accent/30 cursor-pointer transition-colors">
+                <div class="flex justify-between mb-2">
+                  <div class="font-bold">ZED</div>
+                  <div class="text-xs text-mib-lightgray">09:15 AM</div>
+                </div>
+                <p class="text-sm mb-3">
+                  Monthly budget approved. Still no allocation.
+                </p>
+            </div>
+        </div>
+    </section>
+    <section class="py-12 px-6 md:px-12">
+        <div class="max-w-6xl mx-auto">
+          <!-- Mission card continued -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Active Missions continued -->
+            <div>
+              <div class="space-y-6">
+                <!-- Mission 3 -->
+                <div class="hologram border border-mib-accent/30 p-6 backdrop-blur-sm bg-black/40">
+                  <div class="flex justify-between mb-4">
+                    <h4 class="font-bold text-lg">MANHATTAN SLIME SITUATION</h4>
+                    <span class="text-xs bg-mib-alert/20 text-mib-alert px-2 py-1 rounded-sm">CRITICAL</span>
+                  </div>
+                  <p class="text-sm mb-4">
+                    Lower Manhattan sewer systems. Unidentified corrosive substance detected, possible Zarthan origin. Local infrastructure at risk.
+                  </p>
+                  <div class="grid grid-cols-3 gap-4 text-xs">
+                    <div>
+                      <div class="text-mib-lightgray mb-1">AGENT</div>
+                      <div>J & O</div>
+                    </div>
+                    <div>
+                      <div class="text-mib-lightgray mb-1">PRIORITY</div>
+                      <div>EXTREME</div>
+                    </div>
+                    <div>
+                      <div class="text-mib-lightgray mb-1">ETA</div>
+                      <div>30 MIN</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+    
+            <!-- Completed Missions continued -->
+            <div>
+              <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-mib-accent">MISSION BRIEFING</h3>
+                <div class="text-xs text-mib-lightgray">
+                  ACCESS LEVEL: ULTRAVIOLET
+                </div>
+              </div>
+              
+              <div class="hologram border border-mib-accent/30 p-6 backdrop-blur-sm bg-black/40 mb-6">
+                <h4 class="font-bold mb-4 text-mib-warning">MISSION PROTOCOL REMINDER</h4>
+                <ul class="text-sm space-y-2 mb-4">
+                  <li class="flex">
+                    <span class="text-mib-accent mr-2">•</span>
+                    <span>All civilian witnesses must be neuralized post-operation</span>
+                  </li>
+                  <li class="flex">
+                    <span class="text-mib-accent mr-2">•</span>
+                    <span>Standard cover stories: gas leak, weather balloon, swamp gas</span>
+                  </li>
+                  <li class="flex">
+                    <span class="text-mib-accent mr-2">•</span>
+                    <span>Alien tech must be contained and returned to HQ</span>
+                  </li>
+                  <li class="flex">
+                    <span class="text-mib-accent mr-2">•</span>
+                    <span>Do not, under any circumstances, use the last coffee pod</span>
+                  </li>
+                </ul>
+                <div class="text-right text-xs text-mib-lightgray">
+                  - ZED
+                </div>
+              </div>
+              
+              <div class="hologram border border-mib-accent/30 p-6 backdrop-blur-sm bg-black/40">
+                <div class="flex items-center mb-4">
+                  <div class="text-xl mr-2">📍</div>
+                  <h4 class="font-bold">ACTIVE HOTSPOTS</h4>
+                </div>
+                <div class="relative h-48 border border-white/10 p-2 mb-4">
+                  <!-- Simple map visualization -->
+                  <div class="w-full h-full bg-mib-darkgray overflow-hidden relative">
+                    <!-- Grid lines -->
+                    <div class="absolute inset-0" style="background-size: 20px 20px; background-image: linear-gradient(to right, rgba(0, 204, 153, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 204, 153, 0.05) 1px, transparent 1px);"></div>
+                    
+                    <!-- Map markers -->
+                    <div class="absolute top-1/4 left-1/3 w-3 h-3 bg-mib-alert rounded-full animate-pulse-slow"></div>
+                    <div class="absolute top-1/2 left-2/3 w-3 h-3 bg-mib-warning rounded-full animate-pulse-slow" style="animation-delay: -1s;"></div>
+                    <div class="absolute top-3/4 left-1/4 w-3 h-3 bg-mib-accent rounded-full animate-pulse-slow" style="animation-delay: -2s;"></div>
+                    
+                    <!-- Landmark outlines -->
+                    <div class="absolute top-1/4 left-1/2 w-32 h-16 border border-white/20 transform -translate-x-1/2"></div>
+                    <div class="absolute top-2/3 left-1/2 w-24 h-24 border border-white/20 transform -translate-x-1/2 rounded-full"></div>
+                  </div>
+                </div>
+                <div class="text-xs">
+                  <div class="flex justify-between mb-2">
+                    <div>MANHATTAN</div>
+                    <div class="text-mib-alert">CRITICAL</div>
+                  </div>
+                  <div class="flex justify-between mb-2">
+                    <div>BROOKLYN</div>
+                    <div class="text-mib-warning">MODERATE</div>
+                  </div>
+                  <div class="flex justify-between">
+                    <div>QUEENS</div>
+                    <div class="text-mib-accent">STANDARD</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    
+      <!-- Alien Registry Section -->
+      <section id="registry" class="py-20 px-6 md:px-12 bg-mib-darkgray">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="text-3xl font-bold mb-12 flex items-center">
+            <span class="text-mib-accent mr-2">/</span>
+            ALIEN REGISTRY
+            <span class="ml-3 text-xs text-mib-lightgray terminal-text font-normal">data_classified</span>
+          </h2>
+    
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Species Registry Card -->
+            <div class="hologram border border-mib-accent/30 p-6 backdrop-blur-sm bg-black/40 col-span-2">
+              <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-mib-accent">SPECIES DATABASE</h3>
+                <div class="flex items-center">
+                  <div class="text-xs text-mib-lightgray mr-3">ENTRIES: 613</div>
+                  <button class="text-xs border border-mib-accent/30 px-3 py-1 hover:bg-mib-accent hover:text-black transition-all">
+                    SEARCH
+                  </button>
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Species Card 1 -->
+                <div class="border border-white/10 p-4 hover:border-mib-accent/30 transition-colors group">
+                  <div class="flex justify-between mb-4">
+                    <h4 class="font-bold">ARQUILLIANS</h4>
+                    <div class="flex space-x-2">
+                      <span class="alien-symbol alien-symbol-1"></span>
+                      <span class="alien-symbol alien-symbol-2"></span>
+                    </div>
+                  </div>
+                  <div class="space-y-2 text-sm mb-4">
+                    <div class="flex justify-between">
+                      <span class="text-mib-lightgray">HOME WORLD:</span>
+                      <span>ARQUILLIA PRIME</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-mib-lightgray">BIOLOGY:</span>
+                      <span>HUMANOID (MINIATURE)</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-mib-lightgray">THREAT LEVEL:</span>
+                      <span class="text-mib-accent">MINIMAL</span>
+                    </div>
+                  </div>
+                  <p class="text-xs mb-4">
+                    Tiny humanoids operating mechanical suits. High intelligence, diplomatic tendencies. Key members of Galactic Federation.
+                  </p>
+                  <div class="text-right">
+                    <button class="text-xs text-mib-accent group-hover:underline">VIEW DETAILS</button>
+                  </div>
+                </div>
+                
+                <!-- Species Card 2 -->
+                <div class="border border-white/10 p-4 hover:border-mib-accent/30 transition-colors group">
+                  <div class="flex justify-between mb-4">
+                    <h4 class="font-bold">BALTIANS</h4>
+                    <div class="flex space-x-2">
+                      <span class="alien-symbol alien-symbol-2"></span>
+                      <span class="alien-symbol alien-symbol-3"></span>
+                    </div>
+                  </div>
+                  <div class="space-y-2 text-sm mb-4">
+                    <div class="flex justify-between">
+                      <span class="text-mib-lightgray">HOME WORLD:</span>
+                      <span>BALTIA</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-mib-lightgray">BIOLOGY:</span>
+                      <span>AMPHIBIOUS</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-mib-lightgray">THREAT LEVEL:</span>
+                      <span class="text-mib-warning">MODERATE</span>
+                    </div>
+                  </div>
+                  <p class="text-xs mb-4">
+                    Amphibious beings with fluid-based technology. Known for distinctive mating fluids that resemble Earth coffee.
+                  </p>
+                  <div class="text-right">
+                    <button class="text-xs text-mib-accent group-hover:underline">VIEW DETAILS</button>
+                  </div>
+                </div>
+                
+                <!-- Species Card 3 -->
+                <div class="border border-white/10 p-4 hover:border-mib-accent/30 transition-colors group">
+                  <div class="flex justify-between mb-4">
+                    <h4 class="font-bold">ZARTHANS</h4>
+                    <div class="flex space-x-2">
+                      <span class="alien-symbol alien-symbol-3"></span>
+                      <span class="alien-symbol alien-symbol-1"></span>
+                    </div>
+                  </div>
+                  <div class="space-y-2 text-sm mb-4">
+                    <div class="flex justify-between">
+                      <span class="text-mib-lightgray">HOME WORLD:</span>
+                      <span>ZARTHA</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-mib-lightgray">BIOLOGY:</span>
+                      <span>ENERGY-BASED</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-mib-lightgray">THREAT LEVEL:</span>
+                      <span class="text-mib-alert">HIGH</span>
+                    </div>
+                  </div>
+                  <p class="text-xs mb-4">
+                    Energy-based life forms with transformative abilities. Known to produce corrosive byproducts harmful to Earth structures.
+                  </p>
+                  <div class="text-right">
+                    <button class="text-xs text-mib-accent group-hover:underline">VIEW DETAILS</button>
+                  </div>
+                </div>
+                
+                <!-- Species Card 4 -->
+                <div class="border border-white/10 p-4 hover:border-mib-accent/30 transition-colors group">
+                  <div class="flex justify-between mb-4">
+                    <h4 class="font-bold">WORM GUYS</h4>
+                    <div class="flex space-x-2">
+                      <span class="alien-symbol alien-symbol-1"></span>
+                    </div>
+                  </div>
+                  <div class="space-y-2 text-sm mb-4">
+                    <div class="flex justify-between">
+                      <span class="text-mib-lightgray">HOME WORLD:</span>
+                      <span>VERMICULUS IV</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-mib-lightgray">BIOLOGY:</span>
+                      <span>INVERTEBRATE</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-mib-lightgray">THREAT LEVEL:</span>
+                      <span class="text-mib-accent">MINIMAL</span>
+                    </div>
+                  </div>
+                  <p class="text-xs mb-4">
+                    Social invertebrates with caffeine dependency. MIB office assistants. Gossipy but reliable. Strong party planning skills.
+                  </p>
+                  <div class="text-right">
+                    <button class="text-xs text-mib-accent group-hover:underline">VIEW DETAILS</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Featured Species Detail -->
+            <div class="hologram border border-mib-accent/30 p-6 backdrop-blur-sm bg-black/40">
+              <h3 class="text-xl font-bold text-mib-accent mb-6">SPECIES SPOTLIGHT</h3>
+              
+              <div class="text-center mb-6">
+                <div class="inline-block w-24 h-24 rounded-full border-2 border-mib-accent/50 flex items-center justify-center mb-4">
+                  <div class="text-3xl">👾</div>
+                </div>
+                <h4 class="font-bold">GRBLZNAX</h4>
+                <div class="text-xs text-mib-lightgray">NEWLY REGISTERED</div>
+              </div>
+              
+              <div class="space-y-3 text-sm mb-6">
+                <div class="flex justify-between">
+                  <span class="text-mib-lightgray">HOME WORLD:</span>
+                  <span>KEPLER-186F</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-mib-lightgray">BIOLOGY:</span>
+                  <span>AVIAN-QUANTUM</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-mib-lightgray">APPEARANCE:</span>
+                  <span>FLAMINGO-LIKE</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-mib-lightgray">ABILITIES:</span>
+                  <span>QUANTUM ENTANGLEMENT</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-mib-lightgray">PREFERRED TITLE:</span>
+                  <span>"YOUR PINKNESS"</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-mib-lightgray">EARTH POPULATION:</span>
+                  <span>1</span>
+                </div>
+              </div>
+              
+              <div class="text-xs">
+                <div class="text-mib-accent mb-2">SPECIAL NOTES:</div>
+                <p class="mb-4">
+                  First of its kind to visit Earth. Can exist in multiple states simultaneously. Enjoys Earth's processed sugars and reality television.
+                </p>
+                <div class="text-right italic">
+                  "One is many, many is one. Also, do you have any cotton candy?"
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    
+      <!-- Technology Section -->
+      <section id="tech" class="py-20 px-6 md:px-12">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="text-3xl font-bold mb-12 flex items-center">
+            <span class="text-mib-accent mr-2">/</span>
+            TECHNOLOGY
+            <span class="ml-3 text-xs text-mib-lightgray terminal-text font-normal">restricted_access</span>
+          </h2>
+    
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <!-- Standard Issue Tech -->
+            <div>
+              <h3 class="text-xl font-bold text-mib-accent mb-6">STANDARD ISSUE</h3>
+              
+              <div class="space-y-6">
+                <!-- Tech Item 1 -->
+                <div class="hologram border border-mib-accent/30 p-6 backdrop-blur-sm bg-black/40 group hover:border-mib-accent transition-all">
+                  <div class="flex justify-between mb-4">
+                    <h4 class="font-bold">NEURALIZER</h4>
+                    <div class="text-xs border border-mib-accent px-2 py-1">MK-V</div>
+                  </div>
+                  <p class="text-sm mb-4">
+                    Memory erasure device with selective targeting capabilities. Updated for improved synapse reconfiguration and reduced headaches in subjects.
+                  </p>
+                  <div class="flex justify-between items-center">
+                    <div class="text-xs">
+                      <span class="text-mib-lightgray">STATUS:</span>
+                      <span class="text-mib-accent ml-1">AVAILABLE</span>
+                    </div>
+                    <button class="text-xs border border-mib-accent/30 px-3 py-1 hover:bg-mib-accent hover:text-black transition-all">
+                      REQUEST
+                    </button>
+                  </div>
+                </div>
+                
+                <!-- Tech Item 2 -->
+                <div class="hologram border border-mib-accent/30 p-6 backdrop-blur-sm bg-black/40 group hover:border-mib-accent transition-all">
+                  <div class="flex justify-between mb-4">
+                    <h4 class="font-bold">DE-ATOMIZER</h4>
+                    <div class="text-xs border border-mib-alert px-2 py-1">SERIES 7</div>
+                  </div>
+                  <p class="text-sm mb-4">
+                    High-powered matter disintegration weapon. Complete molecular dissolution with reduced environmental byproducts. Features expanded power settings.
+                  </p>
+                  <div class="flex justify-between items-center">
+                    <div class="text-xs">
+                      <span class="text-mib-lightgray">STATUS:</span>
+                      <span class="text-mib-warning ml-1">LIMITED</span>
+                    </div>
+                    <button class="text-xs border border-mib-accent/30 px-3 py-1 hover:bg-mib-accent hover:text-black transition-all">
+                      REQUEST
+                    </button>
+                  </div>
+                </div>
+                
+                <!-- Tech Item 3 -->
+                <div class="hologram border border-mib-accent/30 p-6 backdrop-blur-sm bg-black/40 group hover:border-mib-accent transition-all">
+                  <div class="flex justify-between mb-4">
+                    <h4 class="font-bold">UNIVERSAL TRANSLATOR</h4>
+                    <div class="text-xs border border-mib-accent px-2 py-1">OMNI-X</div>
+                  </div>
+                  <p class="text-sm mb-4">
+                    Real-time translation of 3,417 known alien languages. New update includes telepathic species support and improved idiom interpretation.
+                  </p>
+                  <div class="flex justify-between items-center">
+                    <div class="text-xs">
+                      <span class="text-mib-lightgray">STATUS:</span>
+                      <span class="text-mib-accent ml-1">AVAILABLE</span>
+                    </div>
+                    <button class="text-xs border border-mib-accent/30 px-3 py-1 hover:bg-mib-accent hover:text-black transition-all">
+                      REQUEST
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Restricted Tech -->
+            <div>
+              <h3 class="text-xl font-bold text-mib-alert mb-6">RESTRICTED ACCESS</h3>
+              
+              <div class="hologram border border-mib-alert/30 p-6 backdrop-blur-sm bg-black/40">
+                <div class="flex justify-center items-center flex-col p-8">
+                  <div class="w-16 h-16 border-2 border-mib-alert rounded-full flex items-center justify-center mb-6 animate-pulse-slow">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                  </div>
+                  <h4 class="text-center font-bold mb-3">ULTRAVIOLET CLEARANCE REQUIRED</h4>
+                  <p class="text-sm text-center mb-6">
+                    Authorization needed to view classified technology inventory. Please contact Zed for clearance upgrade.
+                  </p>
+                  <button class="border border-mib-alert px-4 py-2 text-sm hover:bg-mib-alert hover:text-black transition-all">
+                    REQUEST ACCESS
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Neuralyzer Logs Section -->
+      <section id="logs" class="py-20 px-6 md:px-12 bg-mib-darkgray">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="text-3xl font-bold mb-12 flex items-center">
+            <span class="text-mib-accent mr-2">/</span>
+            NEURALYZER LOGS
+            <span class="ml-3 text-xs text-mib-lightgray terminal-text font-normal">memory_protocols</span>
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Monthly Stats -->
+            <div class="hologram border border-mib-accent/30 p-6 backdrop-blur-sm bg-black/40">
+              <h3 class="text-xl font-bold text-mib-accent mb-6">MONTHLY STATS</h3>
+              
+              <div class="flex justify-between items-center mb-8">
+                <div class="text-3xl font-bold">1,326</div>
+                <div class="text-xs text-mib-lightgray">MEMORY WIPES</div>
+              </div>
+              
+              <div class="space-y-6 mb-8">
+                <div>
+                  <div class="flex justify-between mb-2 text-sm">
+                    <span>MANHATTAN</span>
+                    <span>784</span>
+                  </div>
+                  <div class="w-full h-1 bg-white/10">
+                    <div class="h-full bg-mib-accent" style="width: 60%"></div>
+                  </div>
+                </div>
+                
+                <div>
+                  <div class="flex justify-between mb-2 text-sm">
+                    <span>BROOKLYN</span>
+                    <span>312</span>
+                  </div>
+                  <div class="w-full h-1 bg-white/10">
+                    <div class="h-full bg-mib-accent" style="width: 25%"></div>
+                  </div>
+                </div>
+                
+                <div>
+                  <div class="flex justify-between mb-2 text-sm">
+                    <span>QUEENS</span>
+                    <span>230</span>
+                  </div>
+                  <div class="w-full h-1 bg-white/10">
+                    <div class="h-full bg-mib-accent" style="width: 15%"></div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="text-xs text-mib-lightgray flex justify-between border-t border-white/10 pt-4">
+                <span>TOP AGENT: K (413)</span>
+                <span>YOY: +12%</span>
+              </div>
+            </div>
+            
+            <!-- Recent Wipes -->
+            <div class="col-span-2 hologram border border-mib-accent/30 p-6 backdrop-blur-sm bg-black/40">
+              <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-mib-accent">RECENT WIPES</h3>
+                <button class="text-xs border border-mib-accent/30 px-3 py-1 hover:bg-mib-accent hover:text-black transition-all">
+                  FILTER
+                </button>
+              </div>
+              
+              <div class="space-y-4">
+                <!-- Wipe Log 1 -->
+                <div class="border border-white/10 p-4 hover:border-mib-accent/30 transition-colors">
+                  <div class="flex justify-between mb-3">
+                    <div class="font-bold">CENTRAL PARK INCIDENT</div>
+                    <div class="text-xs text-mib-lightgray">TODAY, 10:42 AM</div>
+                  </div>
+                  <div class="grid grid-cols-2 gap-4 text-sm mb-3">
+                    <div>
+                      <span class="text-mib-lightgray">AGENT:</span>
+                      <span class="ml-2">K</span>
+                    </div>
+                    <div>
+                      <span class="text-mib-lightgray">SUBJECTS:</span>
+                      <span class="ml-2">27</span>
+                    </div>
+                    <div>
+                      <span class="text-mib-lightgray">DEVICE:</span>
+                      <span class="ml-2">MK-V</span>
+                    </div>
+                    <div>
+                      <span class="text-mib-lightgray">INTENSITY:</span>
+                      <span class="ml-2">MEDIUM</span>
+                    </div>
+                  </div>
+                  <p class="text-xs mb-2">
+                    Cover story: Impromptu yoga flash mob with exotic pets. Witnesses showed minimal resistance to memory reconfiguration.
+                  </p>
+                  <div class="flex justify-end">
+                    <button class="text-xs text-mib-accent hover:underline">VIEW DETAILS</button>
+                  </div>
+                </div>
+                
+                <!-- Wipe Log 2 -->
+                <div class="border border-white/10 p-4 hover:border-mib-accent/30 transition-colors">
+                  <div class="flex justify-between mb-3">
+                    <div class="font-bold">TIMES SQUARE EVENT</div>
+                    <div class="text-xs text-mib-lightgray">YESTERDAY, 15:37 PM</div>
+                  </div>
+                  <div class="grid grid-cols-2 gap-4 text-sm mb-3">
+                    <div>
+                      <span class="text-mib-lightgray">AGENT:</span>
+                      <span class="ml-2">J & O</span>
+                    </div>
+                    <div>
+                      <span class="text-mib-lightgray">SUBJECTS:</span>
+                      <span class="ml-2">156</span>
+                    </div>
+                    <div>
+                      <span class="text-mib-lightgray">DEVICE:</span>
+                      <span class="ml-2">MK-V WIDE</span>
+                    </div>
+                    <div>
+                      <span class="text-mib-lightgray">INTENSITY:</span>
+                      <span class="ml-2">HIGH</span>
+                    </div>
+                  </div>
+                  <p class="text-xs mb-2">
+                    Cover story: Promotional event for upcoming Broadway musical. 3 subjects required secondary wipe due to partial memory retention.
+                  </p>
+                  <div class="flex justify-end">
+                    <button class="text-xs text-mib-accent hover:underline">VIEW DETAILS</button>
+                  </div>
+                </div>
+                
+                <!-- Wipe Log 3 -->
+                <div class="border border-white/10 p-4 hover:border-mib-accent/30 transition-colors">
+                  <div class="flex justify-between mb-3">
+                    <div class="font-bold">BROOKLYN CAFÉ INCIDENT</div>
+                    <div class="text-xs text-mib-lightgray">3 DAYS AGO, 09:13 AM</div>
+                  </div>
+                  <div class="grid grid-cols-2 gap-4 text-sm mb-3">
+                    <div>
+                      <span class="text-mib-lightgray">AGENT:</span>
+                      <span class="ml-2">K</span>
+                    </div>
+                    <div>
+                      <span class="text-mib-lightgray">SUBJECTS:</span>
+                      <span class="ml-2">12</span>
+                    </div>
+                    <div>
+                      <span class="text-mib-lightgray">DEVICE:</span>
+                      <span class="ml-2">MK-V</span>
+                    </div>
+                    <div>
+                      <span class="text-mib-lightgray">INTENSITY:</span>
+                      <span class="ml-2">LOW</span>
+                    </div>
+                  </div>
+                  <p class="text-xs mb-2">
+                    Cover story: Barista training demonstration. Note: One service dog showed signs of memory resistance; recommend updated neuralizer animal protocols.
+                  </p>
+                  <div class="flex justify-end">
+                    <button class="text-xs text-mib-accent hover:underline">VIEW DETAILS</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Coffee Machine Status - Critical Alert Section -->
+      <section class="py-16 px-6 md:px-12">
+        <div class="max-w-6xl mx-auto">
+          <div class="hologram border-2 border-mib-alert p-8 backdrop-blur-sm bg-black/40">
+            <div class="flex flex-col md:flex-row items-center gap-8">
+              <div class="w-32 h-32 md:w-40 md:h-40 flex-shrink-0">
+                <div class="relative w-full h-full">
+                  <!-- Coffee machine "icon" -->
+                  <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="w-20 h-28 border-2 border-mib-alert relative">
+                      <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 border-2 border-mib-alert rounded-full"></div>
+                      <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-12 h-2 bg-mib-alert/50"></div>
+                      <div class="absolute top-1/4 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-mib-alert/50"></div>
+                      <div class="absolute top-1/3 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-mib-alert/50"></div>
+                    </div>
+                  </div>
+                  
+                  <!-- Pulsing alert ring -->
+                  <div class="absolute inset-0 border-4 border-mib-alert rounded-full animate-pulse-slow"></div>
+                  <div class="absolute inset-0 w-full h-full rounded-full animate-spin-slow opacity-30" style="border: 1px dashed #FF3366;"></div>
+                </div>
+              </div>
+              
+              <div class="flex-1 text-center md:text-left">
+                <h3 class="text-2xl font-bold text-mib-alert mb-4">CRITICAL ALERT: COFFEE MACHINE MALFUNCTION</h3>
+                <p class="mb-6">
+                  The Level 3 break room coffee machine is producing what appears to be Baltian mating fluid instead of espresso. Analysis confirms 99.7% match to fluids collected during the 2018 Baltian Embassy incident.
+                </p>
+                <div class="space-y-3 mb-6">
+                  <div class="flex flex-col md:flex-row md:items-center text-sm">
+                    <span class="text-mib-lightgray md:w-32">STATUS:</span>
+                    <span class="font-bold text-mib-alert">CRITICAL CONTAMINATION</span>
+                  </div>
+                  <div class="flex flex-col md:flex-row md:items-center text-sm">
+                    <span class="text-mib-lightgray md:w-32">CONTAINMENT:</span>
+                    <span>IN PROGRESS (THE WORMS INVESTIGATING)</span>
+                  </div>
+                  <div class="flex flex-col md:flex-row md:items-center text-sm">
+                    <span class="text-mib-lightgray md:w-32">CASUALTIES:</span>
+                    <span>AGENT C (MILD DISORIENTATION, EXCESSIVE SINGING)</span>
+                  </div>
+                  <div class="flex flex-col md:flex-row md:items-center text-sm">
+                    <span class="text-mib-lightgray md:w-32">PRIORITY:</span>
+                    <span class="font-bold text-mib-alert">EXTREMELY HIGH (AGENT K NOTIFIED)</span>
+                  </div>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                  <button class="border border-mib-alert px-4 py-2 text-sm hover:bg-mib-alert hover:text-black transition-all">
+                    SUBMIT MAINTENANCE REQUEST
+                  </button>
+                  <button class="border border-white/30 px-4 py-2 text-sm hover:bg-white/10 transition-all">
+                    VIEW SAFETY PROTOCOLS
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Circular Menu Component -->
+      <section class="py-20 px-6 md:px-12 bg-mib-darkgray">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="text-3xl font-bold mb-12 flex items-center">
+            <span class="text-mib-accent mr-2">/</span>
+            SYSTEM CONTROLS
+            <span class="ml-3 text-xs text-mib-lightgray terminal-text font-normal">interface_v7.2</span>
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Circular Interface -->
+            <div class="flex items-center justify-center p-6">
+              <div class="relative w-64 h-64">
+                <!-- Center hub -->
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-black border-2 border-mib-accent flex items-center justify-center z-20">
+                  <div class="text-mib-accent text-xs">MIB</div>
+                </div>
+                
+                <!-- Inner ring -->
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full border border-mib-accent/30"></div>
+                
+                <!-- Outer ring -->
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full border border-mib-accent/30"></div>
+                
+                <!-- Rotating ring -->
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full border border-dashed border-mib-accent/50 animate-spin-slow"></div>
+                
+                <!-- Menu items - positioned in a circle -->
+                <div class="absolute top-12 left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full bg-black border border-mib-accent/70 flex items-center justify-center hover:bg-mib-accent/20 transition-all cursor-pointer">
+                  <span class="text-xs">DASH</span>
+                </div>
+                
+                <div class="absolute top-1/2 right-12 transform -translate-y-1/2 w-12 h-12 rounded-full bg-black border border-mib-accent/70 flex items-center justify-center hover:bg-mib-accent/20 transition-all cursor-pointer">
+                  <span class="text-xs">COMMS</span>
+                </div>
+                
+                <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full bg-black border border-mib-accent/70 flex items-center justify-center hover:bg-mib-accent/20 transition-all cursor-pointer">
+                  <span class="text-xs">TECH</span>
+                </div>
+                
+                <div class="absolute top-1/2 left-12 transform -translate-y-1/2 w-12 h-12 rounded-full bg-black border border-mib-accent/70 flex items-center justify-center hover:bg-mib-accent/20 transition-all cursor-pointer">
+                  <span class="text-xs">LOGS</span>
+                </div>
+                
+                <!-- Secondary points -->
+                <div class="absolute top-24 right-24 w-8 h-8 rounded-full bg-black border border-mib-accent/50 flex items-center justify-center hover:bg-mib-accent/20 transition-all cursor-pointer">
+                  <span class="text-xs">MAP</span>
+                </div>
+                
+                <div class="absolute bottom-24 right-24 w-8 h-8 rounded-full bg-black border border-mib-accent/50 flex items-center justify-center hover:bg-mib-accent/20 transition-all cursor-pointer">
+                  <span class="text-xs">ALIEN</span>
+                </div>
+                
+                <div class="absolute bottom-24 left-24 w-8 h-8 rounded-full bg-black border border-mib-accent/50 flex items-center justify-center hover:bg-mib-accent/20 transition-all cursor-pointer">
+                  <span class="text-xs">FILES</span>
+                </div>
+                
+                <div class="absolute top-24 left-24 w-8 h-8 rounded-full bg-black border border-mib-accent/50 flex items-center justify-center hover:bg-mib-accent/20 transition-all cursor-pointer">
+                  <span class="text-xs">HELP</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Interface Details -->
+            <div class="hologram border border-mib-accent/30 p-6 backdrop-blur-sm bg-black/40 flex flex-col justify-center">
+              <h3 class="text-xl font-bold text-mib-accent mb-6">NEURO-INTERFACE CONTROLS</h3>
+              
+              <p class="text-sm mb-6">
+                Welcome to the MIB Command Interface. The radial menu provides rapid access to all critical MIB systems. Navigate by selection or neural implant thought commands.
+              </p>
+              
+              <div class="space-y-4 mb-6">
+                <div class="flex items-center">
+                  <div class="w-2 h-2 bg-mib-accent rounded-full mr-3"></div>
+                  <span>Primary systems accessible through main nodes</span>
+                </div>
+                <div class="flex items-center">
+                  <div class="w-2 h-2 bg-mib-accent rounded-full mr-3"></div>
+                  <span>Secondary functions through peripheral nodes</span>
+                </div>
+                <div class="flex items-center">
+                  <div class="w-2 h-2 bg-mib-accent rounded-full mr-3"></div>
+                  <span>Thought command latency: 0.42ms</span>
+                </div>
+                <div class="flex items-center">
+                  <div class="w-2 h-2 bg-mib-accent rounded-full mr-3"></div>
+                  <span>Current user: Agent J (44 lifetime neural connections)</span>
+                </div>
+              </div>
+              
+              <div class="text-xs text-mib-lightgray italic">
+                NOTE: Neural interface training available for new agents in Sector 7, Room 42. Contact Agent O for authorization.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="py-12 px-6 border-t border-mib-accent/30">
+        <div class="max-w-6xl mx-auto">
+          <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left">
+              <div class="text-2xl font-bold mb-2 text-mib-accent">MIB</div>
+              <div class="text-xs text-mib-lightgray">PROTECTING THE EARTH FROM THE SCUM OF THE UNIVERSE</div>
+            </div>
+            
+            <div class="flex gap-6">
+              <button class="text-xs hover:text-mib-accent transition-colors">HANDBOOK</button>
+              <button class="text-xs hover:text-mib-accent transition-colors">PROTOCOLS</button>
+              <button class="text-xs hover:text-mib-accent transition-colors">REGULATIONS</button>
+              <button class="text-xs hover:text-mib-accent transition-colors">SUPPORT</button>
+            </div>
+          </div>
+          
+          <div class="mt-8 pt-6 border-t border-white/10 text-xs text-mib-lightgray flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>SYSTEM VERSION: 21.3.7</div>
+            <div class="text-center">
+              THIS SYSTEM IS MONITORED. UNAUTHORIZED ACCESS WILL RESULT IN NEURALYZATION. OR WORSE.
+            </div>
+            <div>LAST UPDATED: STARDATE 73246.2</div>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <!-- Floating Action Button -->
+    <div class="fixed bottom-6 right-6 z-50">
+      <button class="w-14 h-14 bg-mib-accent rounded-full flex items-center justify-center shadow-lg hover:bg-white hover:text-mib-accent transition-all group">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+        <div class="absolute top-0 right-full mr-4 bg-black border border-mib-accent/30 p-2 rounded-lg text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+          NEW REPORT
+        </div>
+      </button>
+    </div>
+
+    <!-- Quick Access Panel (Slide-in from right) -->
+    <div class="fixed top-0 right-0 h-full w-16 bg-black/80 border-l border-mib-accent/30 backdrop-blur-sm z-40 flex flex-col items-center py-8 space-y-8">
+      <button class="w-10 h-10 border border-mib-accent/50 rounded-full flex items-center justify-center hover:bg-mib-accent/20 transition-all">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+      </button>
+      
+      <button class="w-10 h-10 border border-mib-accent/50 rounded-full flex items-center justify-center hover:bg-mib-accent/20 transition-all">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+        </svg>
+      </button>
+      
+      <button class="w-10 h-10 border border-mib-accent/50 rounded-full flex items-center justify-center hover:bg-mib-accent/20 transition-all relative">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+        </svg>
+        <div class="absolute -top-1 -right-1 w-4 h-4 bg-mib-warning rounded-full animate-pulse-slow"></div>
+      </button>
+      
+      <button class="w-10 h-10 border border-mib-accent/50 rounded-full flex items-center justify-center hover:bg-mib-accent/20 transition-all">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      </button>
+      
+      <div class="mt-auto">
+        <button class="w-10 h-10 border border-mib-accent/50 rounded-full flex items-center justify-center hover:bg-mib-alert/20 transition-all">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Special Alien Detection System Section -->
+    <section class="py-16 px-6 md:px-12">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold mb-12 flex items-center">
+          <span class="text-mib-accent mr-2">/</span>
+          ALIEN DETECTION SYSTEM
+          <span class="ml-3 text-xs text-mib-lightgray terminal-text font-normal">scanning_active</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Radar System -->
+          <div class="hologram border border-mib-accent/30 p-6 backdrop-blur-sm bg-black/40">
+            <h3 class="text-xl font-bold text-mib-accent mb-6">PLANETARY SCANNER</h3>
+            
+            <div class="relative h-80 mb-6">
+              <!-- Radar background -->
+              <div class="absolute inset-0 rounded-full border border-mib-accent/30 overflow-hidden">
+                <div class="absolute inset-0" style="background: radial-gradient(circle, rgba(0,204,153,0.1) 0%, rgba(0,0,0,0) 70%);"></div>
+                <div class="w-full h-full" style="background-size: 20px 20px; background-image: linear-gradient(to right, rgba(0, 204, 153, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 204, 153, 0.05) 1px, transparent 1px);"></div>
+                
+                <!-- Concentric circles -->
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1/4 h-1/4 rounded-full border border-mib-accent/20"></div>
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1/2 h-1/2 rounded-full border border-mib-accent/20"></div>
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 rounded-full border border-mib-accent/20"></div>
+                
+                <!-- Radar sweep animation -->
+                <div class="absolute top-1/2 left-1/2 h-1/2 w-1 bg-mib-accent/50 origin-bottom animate-spin-slow" style="transform-origin: bottom center;"></div>
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-mib-accent/10 border border-mib-accent/30"></div>
+                
+                <!-- Blips -->
+                <div class="absolute top-1/4 left-1/3 w-3 h-3 rounded-full bg-mib-accent/70 animate-pulse-slow"></div>
+                <div class="absolute top-2/3 right-1/4 w-3 h-3 rounded-full bg-mib-accent/70 animate-pulse-slow" style="animation-delay: -1s;"></div>
+                <div class="absolute bottom-1/4 left-1/2 w-3 h-3 rounded-full bg-mib-warning/70 animate-pulse-slow" style="animation-delay: -2s;"></div>
+                <div class="absolute top-1/2 right-1/3 w-4 h-4 rounded-full bg-mib-alert/70 animate-pulse-slow" style="animation-delay: -3s;"></div>
+              </div>
+            </div>
+            
+            <div class="space-y-4 text-sm">
+              <div class="flex justify-between">
+                <span class="text-mib-lightgray">ACTIVE SIGNATURES:</span>
+                <span>42</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-mib-lightgray">UNREGISTERED ALIENS:</span>
+                <span class="text-mib-warning">3</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-mib-lightgray">ANOMALOUS READINGS:</span>
+                <span class="text-mib-alert">1</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-mib-lightgray">LAST FULL SCAN:</span>
+                <span>17 MINUTES AGO</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- DNA Analysis -->
+          <div class="hologram border border-mib-accent/30 p-6 backdrop-blur-sm bg-black/40">
+            <h3 class="text-xl font-bold text-mib-accent mb-6">DNA ANALYZER</h3>
+            
+            <div class="relative h-80 border border-white/10 mb-6 overflow-hidden">
+              <!-- DNA visualization -->
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="relative h-full w-24">
+                  <!-- DNA helix animation -->
+                  <div class="absolute top-0 left-1/2 w-1 h-full bg-mib-accent/20 transform -translate-x-1/2"></div>
+                  
+                  <!-- DNA rungs -->
+                  <div class="absolute top-0 left-0 w-full">
+                    <div class="relative h-full w-full">
+                      <!-- These would be generated programmatically in a real app, hardcoded for demo -->
+                      <div class="absolute top-[5%] left-0 w-full h-1 bg-mib-accent/50 transform -rotate-12"></div>
+                      <div class="absolute top-[12%] left-0 w-full h-1 bg-mib-accent/50 transform rotate-12"></div>
+                      <div class="absolute top-[19%] left-0 w-full h-1 bg-mib-accent/50 transform -rotate-12"></div>
+                      <div class="absolute top-[26%] left-0 w-full h-1 bg-mib-warning/50 transform rotate-12"></div>
+                      <div class="absolute top-[33%] left-0 w-full h-1 bg-mib-accent/50 transform -rotate-12"></div>
+                      <div class="absolute top-[40%] left-0 w-full h-1 bg-mib-accent/50 transform rotate-12"></div>
+                      <div class="absolute top-[47%] left-0 w-full h-1 bg-mib-alert/50 transform -rotate-12"></div>
+                      <div class="absolute top-[54%] left-0 w-full h-1 bg-mib-accent/50 transform rotate-12"></div>
+                      <div class="absolute top-[61%] left-0 w-full h-1 bg-mib-accent/50 transform -rotate-12"></div>
+                      <div class="absolute top-[68%] left-0 w-full h-1 bg-mib-accent/50 transform rotate-12"></div>
+                      <div class="absolute top-[75%] left-0 w-full h-1 bg-mib-accent/50 transform -rotate-12"></div>
+                      <div class="absolute top-[82%] left-0 w-full h-1 bg-mib-warning/50 transform rotate-12"></div>
+                      <div class="absolute top-[89%] left-0 w-full h-1 bg-mib-accent/50 transform -rotate-12"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Scan overlay -->
+              <div class="absolute top-0 left-0 w-full h-8 bg-gradient-to-b from-mib-accent/20 to-transparent animate-scan" style="animation-duration: 3s;"></div>
+              
+              <!-- Analysis info -->
+              <div class="absolute top-4 left-4 text-xs">
+                <div class="text-mib-accent mb-1">DNA ANOMALY SCAN</div>
+                <div class="text-mib-lightgray">SEARCHING FOR NON-HUMAN MARKERS</div>
+              </div>
+              
+              <!-- Results panel -->
+              <div class="absolute bottom-0 left-0 right-0 bg-black/50 backdrop-blur-sm p-4">
+                <div class="text-xs space-y-2">
+                  <div class="flex justify-between">
+                    <span class="text-mib-lightgray">HUMAN MARKERS:</span>
+                    <span>98.7%</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-mib-lightgray">ALIEN MARKERS:</span>
+                    <span class="text-mib-warning">1.3%</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span class="text-mib-lightgray">CLOSEST MATCH:</span>
+                    <span>ARQUILLIAN (LOW CONFIDENCE)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="flex justify-between items-center">
+              <button class="text-xs border border-mib-accent/30 px-4 py-2 hover:bg-mib-accent hover:text-black transition-all">
+                START NEW SCAN
+              </button>
+              <div class="text-xs text-mib-accent">
+                ANALYSIS COMPLETE
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Easter Egg Hidden Section (Frank's Secret Page) -->
+    <section id="frank" class="py-16 px-6 md:px-12 bg-black" style="display: none;">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-4xl font-bold mb-8 text-mib-warning">FRANK'S SECRET PAGE</h2>
+        
+        <div class="hologram border-4 border-mib-warning p-8 backdrop-blur-sm bg-black/40 mb-8">
+          <div class="text-center mb-6">
+            <div class="inline-block text-9xl mb-4">🐶</div>
+            <h3 class="text-2xl font-bold text-mib-warning">OFFICIAL PUG BUSINESS</h3>
+          </div>
+          
+          <div class="space-y-6 text-left">
+            <p>Listen up humans (and whatever else might be reading this). As the highest-ranking non-humanoid agent at MIB, I've got some important announcements:</p>
+            
+            <ol class="list-decimal pl-5 space-y-2">
+              <li>The quality of dog treats in the break room is UNACCEPTABLE. I'm a highly trained intergalactic operative, not some common Earth mutt. I expect premium snacks.</li>
+              <li>My walkies schedule is non-negotiable. Three times daily, minimum 15 minutes each. No exceptions for "alien invasions" or whatever.</li>
+              <li>Stop hiding the fact that I'm in charge. We all know who's really running this organization.</li>
+              <li>If one more agent asks me to "play dead" during a mission briefing, I will bite them. This is not a threat, it's a promise.</li>
+            </ol>
+            
+            <p class="italic mt-6">P.S. Agent K - I did NOT chew up those classified Arcturus reports. It was clearly the work of the Worms. They're framing me again.</p>
+          </div>
+          
+          <div class="text-right mt-6">
+            <div class="inline-block border-t border-mib-warning pt-2">
+              <div class="text-mib-warning">AGENT F</div>
+              <div class="text-xs text-mib-lightgray">INTERGALACTIC PUG OF MYSTERY</div>
+            </div>
+          </div>
+        </div>
+        
+        <button class="border border-mib-warning px-6 py-3 text-mib-warning hover:bg-mib-warning hover:text-black transition-all text-sm">
+          I NEVER SAW THIS PAGE
+        </button>
+      </div>
+    </section>
+
+    <!-- Final MIB "Oath of Secrecy" Section -->
+    <section class="py-24 px-6 md:px-12 bg-black text-white text-center">
+      <div class="max-w-3xl mx-auto space-y-8">
+        <h2 class="text-4xl font-bold text-mib-accent">AGENT OATH</h2>
+        
+        <blockquote class="text-xl italic">
+          "We are the Men in Black. We are Earth's best, last, and only line of defense. We work in secret and dress in black. We exist in shadow and operate in darkness to bring light."
+        </blockquote>
+        
+        <div class="flex justify-center items-center">
+          <div class="w-24 h-1 bg-mib-accent/30"></div>
+          <div class="mx-6">MIB</div>
+          <div class="w-24 h-1 bg-mib-accent/30"></div>
+        </div>
+        
+        <p class="text-mib-lightgray">
+          Remember: The galaxy is on Orion's belt. The universe is always bigger than you think.
+        </p>
+      </div>
+    </section>
+
+    <!-- Easter Egg Toggle Script -->
+    <script>
+      // This would normally hide the Frank page until a specific key combination or click pattern
+      document.addEventListener('DOMContentLoaded', function() {
+        // Secret access code: Up, Up, Down, Down, Left, Right, Left, Right, B, A
+        // For this demo, we'll have a simple way to reveal Frank's page
+        let secretCode = '';
+        
+        document.addEventListener('keydown', function(e) {
+          secretCode += e.key;
+          
+          // Check if the code contains 'frank'
+          if (secretCode.toLowerCase().includes('frank')) {
+            const frankPage = document.getElementById('frank');
+            if (frankPage) {
+              frankPage.style.display = 'block';
+              // Scroll to Frank's section
+              frankPage.scrollIntoView({ behavior: 'smooth' });
+              // Reset code
+              secretCode = '';
+            }
+          }
+          
+          // Prevent the code from getting too long
+          if (secretCode.length > 20) {
+            secretCode = secretCode.slice(-20);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

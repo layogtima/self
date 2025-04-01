@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en-absurd">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ÆTH:REAL™ - Designer Contempt System</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Even more insufferable tailwind config
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              manifesto: ['"Bodoni Moda"', "serif"],
+              codex: ['"JetBrains Mono"', "monospace"],
+              ephemeral: ['"Cormorant Garamond"', "serif"],
+              pretense: ['"Marcellus"', "serif"],
+            },
+            colors: {
+              void: "#121212",
+              bone: "#f8f2e9",
+              bruise: "#4a366a",
+              bile: "#c8b432",
+              ennui: "#7d938a",
+              existential: "#453f3f",
+              irony: "#d64045",
+              contempt: "#9a348e",
+              "ivory-tower": "#f4f0e8",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Marcellus&display=swap");
+
+      /* Avant-garde typography styles */
+      .text-rotated {
+        transform: rotate(-90deg);
+        transform-origin: bottom left;
+      }
+
+      /* Vaporwave grid */
+      .vaporwave-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        background: linear-gradient(
+          135deg,
+          rgba(74, 54, 106, 0.05) 0%,
+          rgba(214, 64, 69, 0.05) 100%
+        );
+        position: relative;
+        overflow: hidden;
+      }
+
+      .vaporwave-grid::before {
+        content: "";
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        top: -50%;
+        left: -50%;
+        background: radial-gradient(
+          circle,
+          transparent 20%,
+          rgba(18, 18, 18, 0.03) 20%,
+          rgba(18, 18, 18, 0.03) 21%,
+          transparent 21%,
+          transparent 50%,
+          rgba(18, 18, 18, 0.03) 50%,
+          rgba(18, 18, 18, 0.03) 51%,
+          transparent 51%
+        );
+        background-size: 40px 40px;
+        transform: rotate(30deg);
+        z-index: -1;
+      }
+
+      /* Disruptive elements */
+      .disruptive-element {
+        position: absolute;
+        background: rgba(214, 64, 69, 0.7);
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        mix-blend-mode: overlay;
+      }
+
+      /* Text transformation utilities */
+      .text-disrupt {
+        display: inline-block;
+        position: relative;
+      }
+
+      .text-disrupt::after {
+        content: attr(data-text);
+        position: absolute;
+        left: 2px;
+        top: 2px;
+        opacity: 0.5;
+        color: var(--disruption-color, #d64045);
+        clip-path: polygon(0 15%, 100% 15%, 100% 85%, 0 85%);
+      }
+
+      /* Experimental nav */
+      .experimental-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 1rem;
+        background: #121212;
+        z-index: 50;
+        transition: width 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .experimental-nav:hover {
+        width: 15rem;
+      }
+
+      .experimental-nav-content {
+        opacity: 0;
+        width: 15rem;
+        padding: 2rem;
+        transition: opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .experimental-nav:hover .experimental-nav-content {
+        opacity: 1;
+      }
+
+      /* Conceptual buttons */
+      .conceptual-button {
+        position: relative;
+        display: inline-block;
+        padding: 1rem 2rem;
+        background: transparent;
+        color: #f8f2e9;
+        border: 1px solid #f8f2e9;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        overflow: hidden;
+        transition: all 0.3s ease-out;
+      }
+
+      .conceptual-button::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: -100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        transition: left 0.7s;
+      }
+
+      .conceptual-button:hover::before {
+        left: 100%;
+      }
+
+      .conceptual-button::after {
+        content: attr(data-concept);
+        position: absolute;
+        left: 50%;
+        bottom: -2rem;
+        transform: translateX(-50%);
+        font-size: 0.6rem;
+        white-space: nowrap;
+        opacity: 0;
+        transition: opacity 0.3s, bottom 0.3s;
+      }
+
+      .conceptual-button:hover::after {
+        opacity: 0.7;
+        bottom: -1.5rem;
+      }
+
+      /* Artistic showcase */
+      .artistic-showcase {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        background: #121212;
+        overflow: hidden;
+      }
+
+      .showcase-grid {
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        top: -50%;
+        left: -50%;
+        display: grid;
+        grid-template-columns: repeat(20, 1fr);
+        grid-template-rows: repeat(20, 1fr);
+        transform: rotate(15deg);
+        opacity: 0.2;
+      }
+
+      .showcase-grid-line {
+        background: rgba(248, 242, 233, 0.3);
+      }
+
+      .showcase-horizontal {
+        height: 1px;
+        width: 100%;
+      }
+
+      .showcase-vertical {
+        width: 1px;
+        height: 100%;
+      }
+
+      .showcase-content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+      }
+
+      /* Non-practical layout */
+      .impractical-layout {
+        display: grid;
+        grid-template-columns: 2fr 1fr 3fr 1fr;
+        grid-template-rows: repeat(3, minmax(100px, auto));
+        gap: 2px;
+      }
+
+      .impractical-item {
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(69, 63, 63, 0.1);
+        transition: transform 0.5s;
+      }
+
+      .impractical-item:hover {
+        transform: scale(0.98);
+      }
+
+      /* Artistic blockquote */
+      .artistic-quote {
+        position: relative;
+        padding: 2rem;
+        margin: 2rem 0;
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-weight: 300;
+        font-size: 1.5rem;
+        line-height: 1.6;
+      }
+
+      .artistic-quote::before,
+      .artistic-quote::after {
+        content: "";
+        position: absolute;
+        width: 30%;
+        height: 1px;
+        background: rgba(248, 242, 233, 0.3);
+      }
+
+      .artistic-quote::before {
+        top: 0;
+        left: 0;
+      }
+
+      .artistic-quote::after {
+        bottom: 0;
+        right: 0;
+      }
+
+      /* Conceptual metadata */
+      .meta-concept {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        opacity: 0.5;
+        margin-bottom: 0.5rem;
+      }
+
+      /* Design algorithm visualization */
+      .algorithm-visual {
+        display: grid;
+        grid-template-columns: repeat(16, 1fr);
+        grid-template-rows: repeat(8, 1fr);
+        gap: 2px;
+        height: 200px;
+      }
+
+      .algorithm-node {
+        background: rgba(248, 242, 233, 0.05);
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.5rem;
+        transition: background 0.5s;
+      }
+
+      .algorithm-node:hover {
+        background: rgba(214, 64, 69, 0.2);
+      }
+
+      /* Pseudo-intellectual principles section */
+      .principle-card {
+        position: relative;
+        border: 1px solid rgba(248, 242, 233, 0.1);
+        padding: 2rem;
+        background: rgba(18, 18, 18, 0.5);
+        transition: transform 0.3s ease-out;
+      }
+
+      .principle-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .principle-number {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        font-family: "Bodoni Moda", serif;
+        font-size: 2.5rem;
+        font-style: italic;
+        opacity: 0.2;
+      }
+
+      /* Manifesto pagination */
+      .manifesto-pagination {
+        display: flex;
+        margin: 3rem 0;
+      }
+
+      .manifesto-page {
+        width: 2rem;
+        height: 2px;
+        background: rgba(248, 242, 233, 0.2);
+        margin-right: 0.5rem;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .manifesto-page.active {
+        background: rgba(248, 242, 233, 0.8);
+      }
+
+      .manifesto-page:hover {
+        background: rgba(214, 64, 69, 0.5);
+      }
+
+      /* Unnecessarily complex form styling */
+      .complex-form {
+        position: relative;
+      }
+
+      .complex-input-container {
+        position: relative;
+        margin-bottom: 3rem;
+      }
+
+      .complex-input {
+        width: 100%;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid rgba(248, 242, 233, 0.3);
+        padding: 0.5rem 0;
+        color: #f8f2e9;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.9rem;
+        transition: border-color 0.3s;
+      }
+
+      .complex-input:focus {
+        outline: none;
+        border-bottom-color: rgba(214, 64, 69, 0.7);
+      }
+
+      .complex-label {
+        position: absolute;
+        left: 0;
+        top: 0.5rem;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.9rem;
+        color: rgba(248, 242, 233, 0.5);
+        transition: all 0.3s;
+        pointer-events: none;
+      }
+
+      .complex-input:focus ~ .complex-label,
+      .complex-input:not(:placeholder-shown) ~ .complex-label {
+        top: -1.5rem;
+        font-size: 0.7rem;
+        color: rgba(214, 64, 69, 0.7);
+      }
+
+      .complex-validation {
+        position: absolute;
+        left: 0;
+        bottom: -1.2rem;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.6rem;
+        color: rgba(214, 64, 69, 0.7);
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .complex-input:focus ~ .complex-validation {
+        opacity: 1;
+      }
+
+      /* Footnotes */
+      .scholarly-footnotes {
+        margin-top: 3rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(248, 242, 233, 0.1);
+      }
+
+      .footnote {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7rem;
+        margin-bottom: 0.5rem;
+        opacity: 0.6;
+      }
+
+      .footnote-number {
+        display: inline-block;
+        width: 1.5rem;
+        vertical-align: top;
+      }
+
+      /* Useless but important looking diagram */
+      .important-diagram {
+        width: 100%;
+        height: 200px;
+        position: relative;
+        margin: 2rem 0;
+      }
+
+      .diagram-axis {
+        position: absolute;
+        background: rgba(248, 242, 233, 0.2);
+      }
+
+      .diagram-x-axis {
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+      }
+
+      .diagram-y-axis {
+        bottom: 0;
+        left: 0;
+        top: 0;
+        width: 1px;
+      }
+
+      .diagram-point {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: rgba(214, 64, 69, 0.7);
+        transform: translate(-50%, -50%);
+      }
+
+      .diagram-label {
+        position: absolute;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.6rem;
+        color: rgba(248, 242, 233, 0.5);
+      }
+
+      .diagram-axis-label {
+        position: absolute;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.6rem;
+        color: rgba(248, 242, 233, 0.5);
+      }
+
+      .x-label {
+        bottom: -1.5rem;
+        right: 0;
+      }
+
+      .y-label {
+        top: 0;
+        left: -1.5rem;
+        transform: rotate(-90deg);
+        transform-origin: top left;
+      }
+
+      .diagram-connection {
+        position: absolute;
+        height: 1px;
+        background: rgba(214, 64, 69, 0.3);
+        transform-origin: left center;
+      }
+    </style>
+  </head>
+  <body class="bg-void text-bone font-ephemeral antialiased">
+    <!-- Experimental navigation -->
+    <nav class="experimental-nav">
+      <div class="experimental-nav-content">
+        <div class="text-disrupt font-codex text-lg mb-8" data-text="ÆTH:REAL™">
+          ÆTH:REAL™
+        </div>
+        <ul class="space-y-6">
+          <li>
+            <a
+              href="#manifesto"
+              class="font-codex text-xs tracking-widest opacity-70 hover:opacity-100 transition-opacity"
+              >MANIFESTO</a
+            >
+          </li>
+          <li>
+            <a
+              href="#principles"
+              class="font-codex text-xs tracking-widest opacity-70 hover:opacity-100 transition-opacity"
+              >DESIGN NIHILISM</a
+            >
+          </li>
+          <li>
+            <a
+              href="#portfolio"
+              class="font-codex text-xs tracking-widest opacity-70 hover:opacity-100 transition-opacity"
+              >UNPORTFOLIO</a
+            >
+          </li>
+          <li>
+            <a
+              href="#concepts"
+              class="font-codex text-xs tracking-widest opacity-70 hover:opacity-100 transition-opacity"
+              >META-CONCEPTS</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Artistic showcase section -->
+    <section class="artistic-showcase">
+      <div class="showcase-grid">
+        <!-- Generate grid lines -->
+        <div
+          class="showcase-horizontal"
+          style="grid-column: 1 / span 20; grid-row: 1"
+        ></div>
+        <div
+          class="showcase-horizontal"
+          style="grid-column: 1 / span 20; grid-row: 5"
+        ></div>
+        <div
+          class="showcase-horizontal"
+          style="grid-column: 1 / span 20; grid-row: 10"
+        ></div>
+        <div
+          class="showcase-horizontal"
+          style="grid-column: 1 / span 20; grid-row: 15"
+        ></div>
+        <div
+          class="showcase-horizontal"
+          style="grid-column: 1 / span 20; grid-row: 20"
+        ></div>
+
+        <div
+          class="showcase-vertical"
+          style="grid-column: 1; grid-row: 1 / span 20"
+        ></div>
+        <div
+          class="showcase-vertical"
+          style="grid-column: 5; grid-row: 1 / span 20"
+        ></div>
+        <div
+          class="showcase-vertical"
+          style="grid-column: 10; grid-row: 1 / span 20"
+        ></div>
+        <div
+          class="showcase-vertical"
+          style="grid-column: 15; grid-row: 1 / span 20"
+        ></div>
+        <div
+          class="showcase-vertical"
+          style="grid-column: 20; grid-row: 1 / span 20"
+        ></div>
+      </div>
+
+      <div class="showcase-content">
+        <h1 class="font-manifesto text-5xl md:text-7xl mb-6">
+          POST-USABILITY ERA
+        </h1>
+        <p
+          class="font-codex text-sm tracking-widest uppercase max-w-md text-center"
+        >
+          The definitive framework for the designer who's given up on users
+          entirely
+        </p>
+      </div>
+    </section>
+
+    <!-- Manifesto continued section -->
+    <section id="manifesto" class="py-24 px-8 md:px-16">
+      <div class="max-w-6xl mx-auto">
+        <div class="meta-concept">Manifesto Continuation</div>
+        <h2 class="font-manifesto text-4xl mb-16">
+          The Anti-Design Declaration
+        </h2>
+
+        <div class="principle-card mb-12">
+          <div class="principle-number">06</div>
+          <h3
+            class="font-codex text-xs tracking-widest text-bile uppercase mb-6"
+          >
+            SELECTIVE ELITISM
+          </h3>
+          <p class="mb-6">
+            We believe websites should be accessible only to those who deserve
+            them. Content should be hidden behind layers of unnecessary
+            interaction—like a speakeasy for the digitally determined.
+          </p>
+          <p>
+            If a user cannot decipher your navigation system, they were never
+            meant to consume your content in the first place.
+          </p>
+        </div>
+
+        <div class="principle-card mb-12">
+          <div class="principle-number">07</div>
+          <h3
+            class="font-codex text-xs tracking-widest text-bile uppercase mb-6"
+          >
+            CALCULATED CHAOS
+          </h3>
+          <p class="mb-6">
+            Grid systems are a capitalist construct designed to enforce visual
+            conformity. We prefer to position elements according to the
+            movements of celestial bodies or the vibrational patterns of obscure
+            avant-garde jazz solos.
+          </p>
+          <p>
+            Your layout should confuse even you, the designer. If you can
+            explain your choices, you've failed.
+          </p>
+        </div>
+
+        <div class="principle-card mb-12">
+          <div class="principle-number">08</div>
+          <h3
+            class="font-codex text-xs tracking-widest text-bile uppercase mb-6"
+          >
+            SELF-SABOTAGING USABILITY
+          </h3>
+          <p class="mb-6">
+            Just when users think they've figured out your interface patterns,
+            change them. Buttons should occasionally do nothing. Links should
+            sometimes lead nowhere. Form submissions should succeed or fail
+            based on lunar phases.
+          </p>
+          <p>Keep your users in a permanent state of learned helplessness.</p>
+        </div>
+
+        <div class="manifesto-pagination">
+          <div class="manifesto-page"></div>
+          <div class="manifesto-page active"></div>
+          <div class="manifesto-page"></div>
+          <div class="manifesto-page"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Design algorithm section -->
+    <section class="py-24 px-8 md:px-16 bg-existential/10">
+      <div class="max-w-6xl mx-auto">
+        <div class="meta-concept">Proprietary Methodology</div>
+        <h2 class="font-manifesto text-4xl mb-16">The Anti-Design Algorithm</h2>
+
+        <div class="algorithm-visual mb-16">
+          <div
+            class="algorithm-node"
+            style="grid-column: 3 / span 2; grid-row: 2 / span 2"
+          >
+            CONCEPT
+          </div>
+          <div
+            class="algorithm-node"
+            style="grid-column: 7 / span 2; grid-row: 1 / span 2"
+          >
+            DECONSTRUCT
+          </div>
+          <div
+            class="algorithm-node"
+            style="grid-column: 11 / span 2; grid-row: 2 / span 2"
+          >
+            OBSCURE
+          </div>
+          <div
+            class="algorithm-node"
+            style="grid-column: 5 / span 2; grid-row: 4 / span 2"
+          >
+            ALIENATE
+          </div>
+          <div
+            class="algorithm-node"
+            style="grid-column: 9 / span 2; grid-row: 5 / span 2"
+          >
+            CRITIQUE
+          </div>
+          <div
+            class="algorithm-node"
+            style="grid-column: 2 / span 2; grid-row: 6 / span 2"
+          >
+            GASLIGHTING
+          </div>
+          <div
+            class="algorithm-node"
+            style="grid-column: 13 / span 2; grid-row: 6 / span 2"
+          >
+            PUBLISH
+          </div>
+        </div>
+
+        <p
+          class="font-codex text-sm leading-relaxed max-w-xl mx-auto text-center opacity-70"
+        >
+          Our proprietary anti-design algorithm ensures maximum user frustration
+          while maintaining the illusion of artistic intent. The more users
+          struggle, the more successful your design.
+        </p>
+      </div>
+    </section>
+
+    <!-- Portfolio that hates portfolios section -->
+    <section id="portfolio" class="py-24 px-8 md:px-16">
+      <div class="max-w-6xl mx-auto">
+        <div class="meta-concept">Selected Non-Works</div>
+        <h2 class="font-manifesto text-4xl mb-16">Unportfolio</h2>
+
+        <div class="impractical-layout">
+          <div class="impractical-item col-span-2 row-span-2 p-8">
+            <div class="text-center">
+              <h3 class="font-manifesto text-2xl mb-4">Untitled Rejection</h3>
+              <div class="meta-concept">CLIENT DECLINED</div>
+              <p class="font-codex text-xs mt-4 max-w-xs mx-auto">
+                A website deliberately designed to repel 99.7% of visitors while
+                convincing the remaining 0.3% they've discovered something
+                profound.
+              </p>
+            </div>
+          </div>
+
+          <div class="impractical-item p-8">
+            <div class="text-center">
+              <h3 class="font-manifesto text-lg mb-2">Non-Navigable Space</h3>
+              <div class="meta-concept">SELF-INITIATED</div>
+            </div>
+          </div>
+
+          <div class="impractical-item p-8 row-span-2">
+            <div class="text-center">
+              <h3 class="font-manifesto text-lg mb-2">Deliberately Broken</h3>
+              <div class="meta-concept">COMMISSIONED ERROR</div>
+              <p class="font-codex text-xs mt-4 max-w-xs mx-auto">
+                A functioning website deliberately misaligned by exactly 3
+                pixels throughout, inducing subtle cognitive dissonance.
+              </p>
+            </div>
+          </div>
+
+          <div class="impractical-item p-8">
+            <div class="text-center">
+              <h3 class="font-manifesto text-lg mb-2">Hostile Architecture</h3>
+              <div class="meta-concept">DECLINED BY US</div>
+            </div>
+          </div>
+
+          <div class="impractical-item p-8 col-span-2">
+            <div class="text-center">
+              <h3 class="font-manifesto text-lg mb-2">The Inverse Gallery</h3>
+              <div class="meta-concept">UNRELEASED</div>
+              <p class="font-codex text-xs mt-4 max-w-xs mx-auto">
+                A portfolio site where images only appear when you're not
+                looking at them. Tracks eye movement to ensure perpetual
+                disappointment.
+              </p>
+            </div>
+          </div>
+
+          <div class="impractical-item p-8 col-span-3">
+            <div class="text-center">
+              <h3 class="font-manifesto text-lg mb-2">
+                Existential Sign-Up Flow
+              </h3>
+              <div class="meta-concept">PHILOSOPHICAL EXERCISE</div>
+              <p class="font-codex text-xs mt-4 max-w-xs mx-auto">
+                A 47-field signup form that gradually asks increasingly personal
+                and philosophical questions, culminating in "Why do you deserve
+                to use this website?"
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pretentious quotes section -->
+    <section class="py-24 px-8 md:px-16 bg-existential/10">
+      <div class="max-w-4xl mx-auto">
+        <div class="meta-concept">Influential Non-Thoughts</div>
+        <h2 class="font-manifesto text-4xl mb-16">Critical Theory</h2>
+
+        <div class="artistic-quote">
+          "The truly disruptive designer understands that accessibility is
+          merely a social construct perpetuated by those who lack the courage to
+          alienate their audience entirely."
+          <div class="mt-4 text-right font-codex text-xs">
+            — Viktor Negri,
+            <span class="italic">The Aesthetics of Refusal</span>
+          </div>
+        </div>
+
+        <div class="artistic-quote">
+          "When a user says your interface is confusing, what they're really
+          saying is that they haven't invested enough time to deserve your
+          content."
+          <div class="mt-4 text-right font-codex text-xs">
+            — Claire Obfuscant,
+            <span class="italic">Digital Gatekeeping as Art</span>
+          </div>
+        </div>
+
+        <div class="important-diagram">
+          <div class="diagram-axis diagram-x-axis"></div>
+          <div class="diagram-axis diagram-y-axis"></div>
+
+          <div class="diagram-point" style="left: 30%; bottom: 70%"></div>
+          <div class="diagram-point" style="left: 45%; bottom: 20%"></div>
+          <div class="diagram-point" style="left: 65%; bottom: 50%"></div>
+          <div class="diagram-point" style="left: 80%; bottom: 30%"></div>
+
+          <div
+            class="diagram-connection"
+            style="
+              left: 30%;
+              bottom: 70%;
+              width: 15%;
+              transform: rotate(-53.13deg);
+            "
+          ></div>
+          <div
+            class="diagram-connection"
+            style="
+              left: 45%;
+              bottom: 20%;
+              width: 22.36%;
+              transform: rotate(53.13deg);
+            "
+          ></div>
+          <div
+            class="diagram-connection"
+            style="
+              left: 65%;
+              bottom: 50%;
+              width: 18.03%;
+              transform: rotate(-48.37deg);
+            "
+          ></div>
+
+          <div class="diagram-axis-label x-label">PRETENTIOUSNESS</div>
+          <div class="diagram-axis-label y-label">UNUSABILITY</div>
+
+          <div class="diagram-label" style="left: 45%; bottom: 10%">
+            OPTIMAL USER HOSTILITY
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Paradoxical contact form section -->
+    <section class="py-20 px-8 md:px-16">
+      <div class="max-w-2xl mx-auto">
+        <div class="meta-concept">Intentional Barrier</div>
+        <h2 class="font-manifesto text-4xl mb-16">Discourage Contact</h2>
+
+        <form class="complex-form">
+          <div class="complex-input-container">
+            <input
+              type="text"
+              id="name"
+              class="complex-input"
+              placeholder=" "
+            />
+            <label for="name" class="complex-label">Full Legal Name</label>
+            <div class="complex-validation">
+              Is that really how you identify yourself to the void?
+            </div>
+          </div>
+
+          <div class="complex-input-container">
+            <input
+              type="email"
+              id="email"
+              class="complex-input"
+              placeholder=" "
+            />
+            <label for="email" class="complex-label"
+              >Digital Essence Receptor</label
+            >
+            <div class="complex-validation">
+              A corporate email domain? How disappointingly conformist.
+            </div>
+          </div>
+
+          <div class="complex-input-container">
+            <textarea
+              id="message"
+              class="complex-input h-32"
+              placeholder=" "
+            ></textarea>
+            <label for="message" class="complex-label"
+              >Articulate Your Desperation</label
+            >
+            <div class="complex-validation">
+              Your words betray a concerning level of sincerity.
+            </div>
+          </div>
+
+          <div class="complex-input-container">
+            <input
+              type="text"
+              id="philosophy"
+              class="complex-input"
+              placeholder=" "
+            />
+            <label for="philosophy" class="complex-label"
+              >Your Design Philosophy in 5 Words</label
+            >
+            <div class="complex-validation">
+              Is that the best your consciousness can produce?
+            </div>
+          </div>
+
+          <div class="complex-input-container">
+            <input
+              type="text"
+              id="justification"
+              class="complex-input"
+              placeholder=" "
+            />
+            <label for="justification" class="complex-label"
+              >Justify Your Existence</label
+            >
+            <div class="complex-validation">
+              A bit reductive, don't you think?
+            </div>
+          </div>
+
+          <div class="flex justify-end mt-12">
+            <button
+              type="button"
+              class="conceptual-button"
+              data-concept="This button judges you more the longer you hover"
+            >
+              TRANSMIT ANXIETY
+            </button>
+          </div>
+
+          <div class="microcopy mt-8">
+            By submitting this form, you acknowledge your complicity in
+            perpetuating the myth that digital communication has inherent value.
+            Your data will be contemplated briefly before being conceptually
+            archived in a metaphorical vault of unimportance. Response times
+            vary between 4-6 business months, depending on how your submission
+            ranks on our proprietary algorithm of perceived intellectual worth.
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Design principles continued -->
+    <section class="py-20 px-8 md:px-16 bg-existential/10">
+      <div class="max-w-6xl mx-auto">
+        <div class="meta-concept">Further Deconstruction</div>
+        <h2 class="font-manifesto text-4xl mb-16">Essential Anti-Elements</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div>
+            <h3
+              class="font-codex text-xs tracking-widest text-bile uppercase mb-6"
+            >
+              COLOR THEORY REJECTION
+            </h3>
+            <p class="mb-6">
+              Colors should create mild nausea when viewed together. The ideal
+              palette induces a subtle feeling of wrongness that users can't
+              quite articulate.
+            </p>
+
+            <div class="color-theory">
+              <div class="color-swatch bg-void" data-color="VOID"></div>
+              <div class="color-swatch bg-bone" data-color="BONE"></div>
+              <div class="color-swatch bg-bruise" data-color="BRUISE"></div>
+              <div class="color-swatch bg-bile" data-color="BILE"></div>
+              <div class="color-swatch bg-irony" data-color="IRONY"></div>
+              <div class="color-swatch bg-ennui" data-color="ENNUI"></div>
+            </div>
+          </div>
+
+          <div>
+            <h3
+              class="font-codex text-xs tracking-widest text-bile uppercase mb-6"
+            >
+              TYPOGRAPHY AS BARRIER
+            </h3>
+            <p class="mb-6">
+              Text should actively resist being read. Use font combinations that
+              create cognitive dissonance and force users to work for
+              comprehension.
+            </p>
+
+            <div class="type-specimen">
+              <div class="type-sample">
+                <div class="type-title">MANIFESTO</div>
+                <div class="font-manifesto text-2xl">Bodoni Moda</div>
+              </div>
+
+              <div class="type-sample">
+                <div class="type-title">CODEX</div>
+                <div class="font-codex text-sm tracking-widest">
+                  JetBrains Mono
+                </div>
+              </div>
+
+              <div class="type-sample">
+                <div class="type-title">EPHEMERAL</div>
+                <div class="font-ephemeral text-xl font-light italic">
+                  Cormorant Garamond
+                </div>
+              </div>
+
+              <div class="type-sample">
+                <div class="type-title">PRETENSE</div>
+                <div class="font-pretense text-xl tracking-wide">Marcellus</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3
+              class="font-codex text-xs tracking-widest text-bile uppercase mb-6"
+            >
+              INTERACTION ANXIETY
+            </h3>
+            <p class="mb-6">
+              Every interactive element should induce mild anxiety. Hover states
+              should make users question their decision-making abilities.
+            </p>
+
+            <div class="space-y-6 mt-8">
+              <a
+                href="#"
+                class="absurd-hover block font-codex text-sm"
+                data-hover="REGRET THIS CHOICE"
+                >EXPLORE MANIFESTO</a
+              >
+              <a
+                href="#"
+                class="absurd-hover block font-codex text-sm"
+                data-hover="A QUESTIONABLE DECISION"
+                >VIEW CASE STUDIES</a
+              >
+              <a
+                href="#"
+                class="absurd-hover block font-codex text-sm"
+                data-hover="TRULY DISAPPOINTING"
+                >JOIN MOVEMENT</a
+              >
+              <a
+                href="#"
+                class="absurd-hover block font-codex text-sm"
+                data-hover="EXISTENTIAL MISTAKE"
+                >CONTACT US</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials from fictional design nihilists -->
+    <section class="py-20 px-8 md:px-16">
+      <div class="max-w-6xl mx-auto">
+        <div class="meta-concept">External Validation</div>
+        <h2 class="font-manifesto text-4xl mb-16">Accolades of Alienation</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div class="pretentious-testimonial">
+            <div class="testimonial-quote">
+              "Finally, a framework that understands design's true purpose: to
+              make users question their own perception of reality. ÆTH:REAL™
+              doesn't just break conventions—it burns them down and forces you
+              to inhale the philosophical smoke."
+            </div>
+            <div class="testimonial-attribution">
+              <div class="attribution-image"></div>
+              <div class="attribution-text">
+                <div class="attribution-name">Søren Kierkegaard II</div>
+                <div class="attribution-title">
+                  Design Nihilist, Void & Nothingness
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pretentious-testimonial">
+            <div class="testimonial-quote">
+              "I implemented ÆTH:REAL™ on our client's e-commerce site.
+              Conversion rates dropped to 0.3% and bounce rates hit 97%.
+              Absolutely perfect. Finally, a framework that separates the
+              intellectually worthy from the consumerist sheep."
+            </div>
+            <div class="testimonial-attribution">
+              <div class="attribution-image"></div>
+              <div class="attribution-text">
+                <div class="attribution-name">Cassandra Epiphany</div>
+                <div class="attribution-title">
+                  Former UX Director, now Unemployed by Choice
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pretentious-testimonial">
+            <div class="testimonial-quote">
+              "Our venture capital funding was immediately revoked after
+              launching our ÆTH:REAL™ redesign. Success at last. Design should
+              challenge capitalism, not enable it. This framework is digital
+              arson in the best possible way."
+            </div>
+            <div class="testimonial-attribution">
+              <div class="attribution-image"></div>
+              <div class="attribution-text">
+                <div class="attribution-name">Marcus Aurelius Debord</div>
+                <div class="attribution-title">
+                  Digital Situationist, Anti-Corp Technologies
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pretentious-testimonial">
+            <div class="testimonial-quote">
+              "I spent 17 hours trying to navigate a site built with ÆTH:REAL™
+              and was unable to complete a single task. It's not a failure of
+              the framework—it's a triumph of making me confront my own
+              limitations as a digital consumer. Transcendent."
+            </div>
+            <div class="testimonial-attribution">
+              <div class="attribution-image"></div>
+              <div class="attribution-text">
+                <div class="attribution-name">Echo Labyrinth</div>
+                <div class="attribution-title">
+                  Self-Described Digital Masochist
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final pretentious flourish -->
+    <section class="py-20 px-8 md:px-16 bg-existential/10">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="meta-concept">Final Provocation</div>
+        <h2 class="font-manifesto text-4xl mb-8">The Ultimate Anti-CTA</h2>
+
+        <p class="font-ephemeral text-xl mb-12 max-w-2xl mx-auto">
+          If you've read this far, you've already failed our first test. True
+          design nihilists would have abandoned this page immediately upon
+          sensing its intent.
+        </p>
+
+        <div class="flex flex-col items-center">
+          <button
+            class="conceptual-button mb-12"
+            data-concept="This button judges you for considering its purpose"
+          >
+            EMBRACE IRRELEVANCE
+          </button>
+
+          <p class="font-codex text-xs tracking-wide opacity-50 max-w-md">
+            By clicking this button, you acknowledge that clicking buttons is an
+            outdated interaction paradigm rooted in digital conformity. Nothing
+            will happen. That's the point.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Conceptual footer -->
+    <footer class="conceptual-footer bg-void py-20 px-8 md:px-16">
+      <div class="max-w-6xl mx-auto">
+        <div class="footer-grid">
+          <!-- Grid lines for aesthetic -->
+          <div class="footer-grid-line" style="left: 8.33%"></div>
+          <div class="footer-grid-line" style="left: 16.66%"></div>
+          <div class="footer-grid-line" style="left: 25%"></div>
+          <div class="footer-grid-line" style="left: 33.33%"></div>
+          <div class="footer-grid-line" style="left: 41.66%"></div>
+          <div class="footer-grid-line" style="left: 50%"></div>
+          <div class="footer-grid-line" style="left: 58.33%"></div>
+          <div class="footer-grid-line" style="left: 66.66%"></div>
+          <div class="footer-grid-line" style="left: 75%"></div>
+          <div class="footer-grid-line" style="left: 83.33%"></div>
+          <div class="footer-grid-line" style="left: 91.66%"></div>
+
+          <div class="col-span-12 md:col-span-3 footer-item mb-12 md:mb-0">
+            <div
+              class="text-disrupt font-codex text-lg mb-6"
+              data-text="ÆTH:REAL™"
+            >
+              ÆTH:REAL™
+            </div>
+            <p class="footer-text mb-6">
+              A framework for designers who believe that usability is a
+              bourgeois construct designed to pacify the digitally illiterate.
+            </p>
+            <p class="footer-text">
+              Built with contempt in a cabin with no electricity, using only the
+              power of cognitive dissonance.
+            </p>
+          </div>
+
+          <div class="col-span-6 md:col-span-2 footer-item mb-12 md:mb-0">
+            <h3 class="footer-heading">Manifestos</h3>
+            <a href="#" class="footer-link">Anti-Design Declaration</a>
+            <a href="#" class="footer-link">Hostile Experience</a>
+            <a href="#" class="footer-link">User Alienation</a>
+            <a href="#" class="footer-link">Digital Nihilism</a>
+            <a href="#" class="footer-link">Aesthetic Suffering</a>
+          </div>
+
+          <div class="col-span-6 md:col-span-2 footer-item mb-12 md:mb-0">
+            <h3 class="footer-heading">Anti-Resources</h3>
+            <a href="#" class="footer-link">Unlearning UX</a>
+            <a href="#" class="footer-link">Barriers to Entry</a>
+            <a href="#" class="footer-link">Confusing Patterns</a>
+            <a href="#" class="footer-link">Obscurity Guidelines</a>
+            <a href="#" class="footer-link">Anti-Accessibility</a>
+          </div>
+
+          <div class="col-span-12 md:col-span-5 footer-item">
+            <h3 class="footer-heading">Design Manifesto</h3>
+            <p class="footer-manifesto">
+              "We reject the capitalist notion that digital experiences should
+              be 'intuitive' or 'user-friendly.' These are merely code words for
+              the homogenization of thought and the death of digital autonomy.
+              ÆTH:REAL™ stands as a bastion against the tyranny of usability—a
+              framework that demands intellect, patience, and a willingness to
+              suffer for aesthetic integrity."
+            </p>
+          </div>
+        </div>
+
+        <div class="pretentious-colophon mt-16">
+          <p>
+            Designed with intentional disregard for conventional principles
+            using ÆTH:REAL™ 0.1.3 (BETA) // Typefaces: Bodoni Moda, JetBrains
+            Mono, Cormorant Garamond, Marcellus // Color Theory:
+            Post-Conventional // Interaction Model: Hostile-Contemplative //
+            Inspiration: The void between meaning and form
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
