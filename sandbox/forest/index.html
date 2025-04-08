@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forest Explorer: Whispers of the Wild</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
+
+    :root {
+      --earth-brown: #9b7653;
+      --forest-green: #1b4d2e;
+      --moss-green: #8aa867;
+      --sunbeam: #ffd56b;
+      --magical-blue: #7ab5bd;
+      --mushroom-pink: #e28c8c;
+      --bark-brown: #6a4928;
+      --parchment: #f9f3df;
+      --fern-green: #588157;
+      --pixel-size: 3px;
+    }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background-color: #9b7e4e;
+      background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23705c3b' fill-opacity='0.18' fill-rule='evenodd'/%3E%3C/svg%3E");
+      color: var(--bark-brown);
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Satisfy', cursive;
+      color: var(--bark-brown);
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
+
+    /* Pixelated border style for our UI elements */
+    .pixel-border {
+      position: relative;
+      background-color: var(--parchment);
+      box-shadow: 
+        0 0 0 var(--pixel-size) #6a4928,
+        0 0 0 calc(var(--pixel-size) * 2) #8f6e42,
+        4px 6px 8px rgba(0,0,0,0.3);
+      image-rendering: pixelated;
+      padding: var(--pixel-size);
+      border-radius: calc(var(--pixel-size) * 2);
+    }
+
+    .pixel-border::before {
+      content: "";
+      position: absolute;
+      top: var(--pixel-size);
+      left: var(--pixel-size);
+      right: var(--pixel-size);
+      bottom: var(--pixel-size);
+      background-color: var(--parchment);
+      border-radius: var(--pixel-size);
+      z-index: -1;
+    }
+
+    .pixel-border-inner {
+      background-color: #f9f3df;
+      border-radius: var(--pixel-size);
+      padding: 12px;
+      height: 100%;
+      border: 2px solid rgba(106, 73, 40, 0.1);
+    }
+
+    .leaf-corner {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      opacity: 0.7;
+    }
+
+    .top-left {
+      top: 5px;
+      left: 5px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3E%3Cpath d='M0,30 C0,13.5 13.5,0 30,0 L30,2 C14.5,2 2,14.5 2,30 L0,30 Z' fill='%23588157'/%3E%3C/svg%3E");
+    }
+
+    .top-right {
+      top: 5px;
+      right: 5px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3E%3Cpath d='M30,30 C30,13.5 16.5,0 0,0 L0,2 C15.5,2 28,14.5 28,30 L30,30 Z' fill='%23588157'/%3E%3C/svg%3E");
+    }
+
+    .bottom-right {
+      bottom: 5px;
+      right: 5px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3E%3Cpath d='M30,0 C30,16.5 16.5,30 0,30 L0,28 C15.5,28 28,15.5 28,0 L30,0 Z' fill='%23588157'/%3E%3C/svg%3E");
+    }
+
+    .bottom-left {
+      bottom: 5px;
+      left: 5px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3E%3Cpath d='M0,0 C0,16.5 13.5,30 30,30 L30,28 C14.5,28 2,15.5 2,0 L0,0 Z' fill='%23588157'/%3E%3C/svg%3E");
+    }
+
+    .inventory-slot {
+      background-color: #eae1c7;
+      border: 2px solid #8f6e42;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      border-radius: 4px;
+      box-shadow: inset 0 0 4px rgba(0,0,0,0.1);
+      image-rendering: pixelated;
+    }
+
+    .inventory-slot:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 8px rgba(255, 213, 107, 0.6), inset 0 0 4px rgba(0,0,0,0.1);
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M7,2 L17,2 L17,7 L20,7 L12,15 L4,7 L7,7 Z' fill='%236a4928'/%3E%3C/svg%3E"), pointer;
+    }
+
+    .woodland-btn {
+      background-color: var(--fern-green);
+      color: var(--parchment);
+      border: none;
+      border-radius: 4px;
+      padding: 8px 16px;
+      font-weight: bold;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 
+        0 0 0 2px #43633f,
+        0 4px 0 0 #43633f,
+        0 4px 6px rgba(0,0,0,0.3);
+      text-shadow: 1px 1px 0 #43633f;
+    }
+
+    .woodland-btn:hover {
+      transform: translateY(2px);
+      box-shadow: 
+        0 0 0 2px #43633f,
+        0 2px 0 0 #43633f,
+        0 2px 3px rgba(0,0,0,0.3);
+    }
+
+    .woodland-btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 0 0 2px #43633f;
+    }
+
+    .game-tile {
+      width: 48px;
+      height: 48px;
+      position: relative;
+      transition: all 0.2s;
+      image-rendering: pixelated;
+    }
+    
+    .game-tile.grass {
+      background-color: var(--moss-green);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12,19 C12,14 14,12 19,12 C14,12 12,10 12,5 C12,10 10,12 5,12 C10,12 12,14 12,19 Z' fill='%237c995d' fill-opacity='0.3'/%3E%3C/svg%3E");
+    }
+
+    .game-tile.path {
+      background-color: var(--earth-brown);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M0,0 L24,0 L24,24 L0,24 Z' fill='%239b7653'/%3E%3Cpath d='M6,6 L10,6 L10,10 L6,10 Z M14,6 L18,6 L18,10 L14,10 Z M6,14 L10,14 L10,18 L6,18 Z M14,14 L18,14 L18,18 L14,18 Z' fill='%23876b4a' fill-opacity='0.5'/%3E%3C/svg%3E");
+    }
+
+    .game-tile.water {
+      background-color: var(--magical-blue);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M0,14 Q6,11 12,14 Q18,17 24,14 L24,24 L0,24 Z' fill='%23699da5' fill-opacity='0.5'/%3E%3C/svg%3E");
+      animation: water-shimmer 3s infinite ease-in-out;
+    }
+
+    @keyframes water-shimmer {
+      0% { filter: brightness(1); }
+      50% { filter: brightness(1.2); }
+      100% { filter: brightness(1); }
+    }
+
+    .game-entity {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.3));
+      image-rendering: pixelated;
+      transform-origin: bottom center;
+      transition: transform 0.3s;
+    }
+
+    .game-entity:hover {
+      transform: scale(1.1);
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' stroke='%23fff' stroke-width='2' fill='none'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23fff'/%3E%3C/svg%3E"), pointer;
+    }
+
+    /* Gorgeous pixel mushrooms */
+    .mushroom-red {
+      width: 24px;
+      height: 24px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M10,12 L14,12 L14,20 L10,20 Z' fill='%239b7653'/%3E%3Cpath d='M8,12 C8,8 16,8 16,12 Z' fill='%23e28c8c'/%3E%3Cpath d='M9,10 L10,10 L10,11 L9,11 Z M14,10 L15,10 L15,11 L14,11 Z M11,9 L12,9 L12,10 L11,10 Z' fill='%23f9f3df'/%3E%3C/svg%3E");
+    }
+
+    .mushroom-blue {
+      width: 24px;
+      height: 24px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M10,12 L14,12 L14,20 L10,20 Z' fill='%239b7653'/%3E%3Cpath d='M8,12 C8,8 16,8 16,12 Z' fill='%237ab5bd'/%3E%3Cpath d='M9,10 L10,10 L10,11 L9,11 Z M14,10 L15,10 L15,11 L14,11 Z M11,9 L12,9 L12,10 L11,10 Z' fill='%23f9f3df'/%3E%3C/svg%3E");
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      0% { filter: drop-shadow(0 0 2px rgba(122, 181, 189, 0.5)); }
+      100% { filter: drop-shadow(0 0 8px rgba(122, 181, 189, 0.8)); }
+    }
+
+    .flower-pink {
+      width: 24px;
+      height: 24px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M11,14 L13,14 L13,20 L11,20 Z' fill='%23588157'/%3E%3Cpath d='M12,12 L12,12 C13.5,12 13.5,9 12,9 C10.5,9 10.5,12 12,12 Z' fill='%23e28c8c'/%3E%3Cpath d='M12,12 L12,12 C13.5,12 13.5,15 12,15 C10.5,15 10.5,12 12,12 Z' fill='%23e28c8c'/%3E%3Cpath d='M12,12 L12,12 C12,13.5 9,13.5 9,12 C9,10.5 12,10.5 12,12 Z' fill='%23e28c8c'/%3E%3Cpath d='M12,12 L12,12 C12,13.5 15,13.5 15,12 C15,10.5 12,10.5 12,12 Z' fill='%23e28c8c'/%3E%3Ccircle cx='12' cy='12' r='2' fill='%23ffd56b'/%3E%3C/svg%3E");
+    }
+
+    .bush-green {
+      width: 32px;
+      height: 32px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M8,20 C8,10 24,10 24,20 Z' fill='%23588157'/%3E%3Cpath d='M10,19 C10,13 22,13 22,19 Z' fill='%237a9e63'/%3E%3Cpath d='M12,17 L14,17 L14,24 L12,24 Z M18,17 L20,17 L20,24 L18,24 Z' fill='%239b7653'/%3E%3C/svg%3E");
+    }
+
+    .tree-sprite {
+      width: 48px;
+      height: 48px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cpath d='M20,28 L28,28 L28,48 L20,48 Z' fill='%236a4928'/%3E%3Cpath d='M24,4 L32,20 L16,20 Z' fill='%23588157'/%3E%3Cpath d='M24,12 L34,32 L14,32 Z' fill='%23588157'/%3E%3Cpath d='M24,20 L36,40 L12,40 Z' fill='%23588157'/%3E%3C/svg%3E");
+    }
+
+    .player-character {
+      width: 24px;
+      height: 24px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M8,14 L16,14 L16,19 L8,19 Z' fill='%237a56bc'/%3E%3Cpath d='M10,8 L14,8 L14,14 L10,14 Z' fill='%23edc29b'/%3E%3Ccircle cx='12' cy='6' r='3' fill='%23edc29b'/%3E%3Cpath d='M8,19 L10,19 L10,22 L8,22 Z M14,19 L16,19 L16,22 L14,22 Z' fill='%235d4492'/%3E%3Cpath d='M11,10 L12,10 L12,11 L11,11 Z M13,10 L14,10 L14,11 L13,11 Z' fill='%23000'/%3E%3C/svg%3E");
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      z-index: 20;
+      filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.3));
+      transition: all 0.2s;
+      transform-origin: bottom center;
+    }
+
+    /* Animation effects */
+    .discovery-pulse {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 213, 107, 0.8) 0%, rgba(255, 213, 107, 0) 70%);
+      transform: translate(-50%, -50%);
+      animation: pulse 1s ease-out forwards;
+      z-index: 30;
+      pointer-events: none;
+    }
+
+    @keyframes pulse {
+      0% { transform: translate(-50%, -50%) scale(0.2); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+    }
+
+    /* Progress bar styling */
+    .progress-container {
+      height: 10px;
+      background-color: #eae1c7;
+      border-radius: 5px;
+      overflow: hidden;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+    }
+
+    .progress-bar {
+      height: 100%;
+      background-color: #588157;
+      border-radius: 5px;
+      transition: width 0.5s;
+      background-image: linear-gradient(45deg, 
+        rgba(255,255,255,0.15) 25%, 
+        transparent 25%, 
+        transparent 50%, 
+        rgba(255,255,255,0.15) 50%, 
+        rgba(255,255,255,0.15) 75%, 
+        transparent 75%, 
+        transparent);
+      background-size: 20px 20px;
+      animation: progress-animation 1s linear infinite;
+    }
+
+    @keyframes progress-animation {
+      0% { background-position: 0 0; }
+      100% { background-position: 20px 0; }
+    }
+
+    /* Time indicator styling */
+    .time-indicator {
+      padding: 4px 8px;
+      background-color: rgba(255, 213, 107, 0.2);
+      border-radius: 12px;
+      font-size: 14px;
+      border: 1px solid rgba(255, 213, 107, 0.4);
+    }
+    
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background-color: #eae1c7;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background-color: #8f6e42;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: #6a4928;
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'earth-brown': '#9b7653',
+            'forest-green': '#1b4d2e',
+            'moss-green': '#8aa867',
+            'sunbeam': '#ffd56b',
+            'magical-blue': '#7ab5bd',
+            'mushroom-pink': '#e28c8c',
+            'bark-brown': '#6a4928',
+            'parchment': '#f9f3df',
+            'fern-green': '#588157',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#9b7e4e] p-4">
+  <div id="app" class="max-w-6xl mx-auto">
+    <!-- Game Header -->
+    <header class="text-center mb-4">
+      <h1 class="text-5xl mb-2">Forest Explorer: Whispers of the Wild</h1>
+      <p class="text-xl opacity-80">Discover the stories hidden in every leaf and stone</p>
+    </header>
+
+    <!-- Main Game Container -->
+    <div class="flex gap-4 mb-4">
+      <!-- Left Sidebar - Collection -->
+      <div class="w-64 pixel-border">
+        <div class="pixel-border-inner h-full flex flex-col">
+          <h2 class="text-2xl mb-4 text-center">Collection</h2>
+          
+          <!-- Inventory Grid -->
+          <div class="grid grid-cols-4 gap-2 mb-6">
+            <div class="inventory-slot">
+              <div class="mushroom-red"></div>
+            </div>
+            <div class="inventory-slot"></div>
+            <div class="inventory-slot">
+              <div class="flower-pink"></div>
+            </div>
+            <div class="inventory-slot"></div>
+            <div class="inventory-slot"></div>
+            <div class="inventory-slot">
+              <div class="mushroom-blue"></div>
+            </div>
+            <div class="inventory-slot"></div>
+            <div class="inventory-slot"></div>
+            <div class="inventory-slot"></div>
+            <div class="inventory-slot"></div>
+            <div class="inventory-slot"></div>
+            <div class="inventory-slot"></div>
+          </div>
+          
+          <!-- Discovery Progress -->
+          <div class="mt-auto px-2">
+            <div class="flex justify-between mb-1">
+              <h3 class="text-lg">Discoveries</h3>
+              <span class="text-sm">12/48 Found</span>
+            </div>
+            <div class="progress-container">
+              <div class="progress-bar" style="width: 25%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center - Game Area -->
+      <div class="flex-1 pixel-border relative min-h-[500px]">
+        <div class="leaf-corner top-left"></div>
+        <div class="leaf-corner top-right"></div>
+        <div class="leaf-corner bottom-right"></div>
+        <div class="leaf-corner bottom-left"></div>
+        
+        <div class="pixel-border-inner relative p-0 overflow-hidden">
+          <!-- Game Grid -->
+          <div class="grid grid-cols-12 gap-0 absolute inset-0">
+            <template v-for="(tile, index) in gameMap" :key="index">
+              <div 
+                :class="['game-tile', tile.type]"
+                @click="movePlayer(index)">
+                <!-- Entities on tiles -->
+                <div v-if="tile.entity" :class="['game-entity', tile.entity]"></div>
+              </div>
+            </template>
+          </div>
+          
+          <!-- Player Character -->
+          <div class="player-character" :style="{ top: playerPosition.y + 'px', left: playerPosition.x + 'px' }"></div>
+          
+          <!-- Discovery Animations -->
+          <div v-for="pulse in discoveryPulses" :key="pulse.id" 
+               class="discovery-pulse"
+               :style="{ top: pulse.y + 'px', left: pulse.x + 'px' }">
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Sidebar - Whispers -->
+      <div class="w-72 pixel-border">
+        <div class="pixel-border-inner h-full flex flex-col">
+          <div class="leaf-corner top-left"></div>
+          <div class="leaf-corner top-right"></div>
+          <div class="leaf-corner bottom-right"></div>
+          <div class="leaf-corner bottom-left"></div>
+          
+          <h2 class="text-2xl mb-2 text-center">Whispers</h2>
+          
+          <div class="flex-1 overflow-auto pr-2 my-4">
+            <h3 class="text-xl">Luminescent Mushroom</h3>
+            <p class="mb-3 text-sm italic">A rare fungus that glows with ancient knowledge</p>
+            
+            <p class="mb-3">"I've lived here for centuries, human. My mycelium network connects the entire forest. Listen closely

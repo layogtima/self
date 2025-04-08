@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Heart of Gold | Infinite Improbability Drive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ["Space Mono", "monospace"],
+            },
+            animation: {
+              "text-slide": "text-slide 12s linear infinite",
+              "pulse-slow": "pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              float: "float 6s ease-in-out infinite",
+              wobble: "wobble 6s ease-in-out infinite",
+              "spin-slow": "spin 8s linear infinite",
+              glitch: "glitch 5s linear infinite",
+              flicker: "flicker 3s linear infinite",
+            },
+            keyframes: {
+              "text-slide": {
+                "0%, 100%": { transform: "translateX(0%)" },
+                "50%": { transform: "translateX(-20%)" },
+              },
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-10px)" },
+              },
+              wobble: {
+                "0%, 100%": { transform: "rotate(-3deg)" },
+                "50%": { transform: "rotate(3deg)" },
+              },
+              glitch: {
+                "0%, 5%, 10%, 15%, 50%, 55%, 60%, 65%, 100%": {
+                  transform: "translate(0, 0) skew(0deg)",
+                },
+                "1%, 4%, 51%, 54%": {
+                  transform: "translate(-2px, 0) skew(1deg)",
+                },
+                "6%, 9%, 56%, 59%": {
+                  transform: "translate(2px, 0) skew(-1deg)",
+                },
+                "12%, 14%, 62%, 64%": {
+                  transform: "translate(0, -2px) skew(0deg)",
+                },
+              },
+              flicker: {
+                "0%, 9%, 11%, 19%, 21%, 69%, 71%, 100%": {
+                  opacity: "1",
+                },
+                "10%, 20%, 70%": {
+                  opacity: "0.5",
+                },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+      * {
+        font-family: "Space Mono", monospace;
+      }
+
+      .animate-scroll {
+        animation: scroll 20s linear infinite;
+      }
+
+      @keyframes scroll {
+        0% {
+          transform: translateX(100%);
+        }
+        100% {
+          transform: translateX(-100%);
+        }
+      }
+
+      .text-stroke {
+        -webkit-text-stroke: 1px white;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .noisy-bg {
+        position: relative;
+      }
+
+      .noisy-bg::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.05;
+        z-index: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      }
+
+      .improbability-field {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.05) 0%,
+          rgba(255, 255, 255, 0.02) 25%,
+          rgba(255, 255, 255, 0.05) 50%,
+          rgba(255, 255, 255, 0.02) 75%,
+          rgba(255, 255, 255, 0.05) 100%
+        );
+        pointer-events: none;
+        mix-blend-mode: overlay;
+        opacity: 0;
+        transition: opacity 0.5s;
+        z-index: 5;
+      }
+
+      .improbability-active .improbability-field {
+        opacity: 1;
+        animation: hue-rotate 5s linear infinite;
+      }
+
+      @keyframes hue-rotate {
+        from {
+          filter: hue-rotate(0deg);
+        }
+        to {
+          filter: hue-rotate(360deg);
+        }
+      }
+
+      .star {
+        position: absolute;
+        background-color: white;
+        border-radius: 50%;
+        opacity: 0.8;
+        animation: twinkle 2s infinite ease-in-out;
+      }
+
+      @keyframes twinkle {
+        0%,
+        100% {
+          opacity: 0.8;
+        }
+        50% {
+          opacity: 0.4;
+        }
+      }
+
+      .glitch-text {
+        position: relative;
+        display: inline-block;
+      }
+
+      .glitch-text::before,
+      .glitch-text::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .glitch-text::before {
+        left: 2px;
+        text-shadow: -1px 0 #ff0000;
+        clip: rect(44px, 450px, 56px, 0);
+        animation: glitch-anim-1 5s infinite linear alternate-reverse;
+      }
+
+      .glitch-text::after {
+        left: -2px;
+        text-shadow: 1px 0 #00ff00;
+        clip: rect(44px, 450px, 56px, 0);
+        animation: glitch-anim-2 5s infinite linear alternate-reverse;
+      }
+
+      @keyframes glitch-anim-1 {
+        0% {
+          clip: rect(12px, 9999px, 52px, 0);
+        }
+        20% {
+          clip: rect(92px, 9999px, 72px, 0);
+        }
+        40% {
+          clip: rect(62px, 9999px, 62px, 0);
+        }
+        60% {
+          clip: rect(14px, 9999px, 12px, 0);
+        }
+        80% {
+          clip: rect(54px, 9999px, 115px, 0);
+        }
+        100% {
+          clip: rect(23px, 9999px, 32px, 0);
+        }
+      }
+
+      @keyframes glitch-anim-2 {
+        0% {
+          clip: rect(64px, 9999px, 91px, 0);
+        }
+        20% {
+          clip: rect(27px, 9999px, 98px, 0);
+        }
+        40% {
+          clip: rect(15px, 9999px, 11px, 0);
+        }
+        60% {
+          clip: rect(75px, 9999px, 52px, 0);
+        }
+        80% {
+          clip: rect(46px, 9999px, 67px, 0);
+        }
+        100% {
+          clip: rect(12px, 9999px, 62px, 0);
+        }
+      }
+    </style>
+  </head>
+  <body
+    class="bg-black text-white min-h-screen flex flex-col overflow-x-hidden noisy-bg"
+    id="app"
+  >
+    <!-- Improbability Field Overlay -->
+    <div :class="{'improbability-active': improbabilityActive}">
+      <div class="improbability-field"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav
+      class="fixed w-full px-4 py-3 flex justify-between items-center z-50 bg-black border-b border-white"
+    >
+      <div class="text-xl font-bold tracking-normal flex items-center">
+        <span class="animate-pulse-slow">H</span>
+        <span class="animate-pulse-slow" style="animation-delay: 0.1s">E</span>
+        <span class="animate-pulse-slow" style="animation-delay: 0.2s">A</span>
+        <span class="animate-pulse-slow" style="animation-delay: 0.3s">R</span>
+        <span class="animate-pulse-slow" style="animation-delay: 0.4s">T</span>
+        <span class="animate-pulse-slow" style="animation-delay: 0.5s"
+          >&nbsp;</span
+        >
+        <span class="animate-pulse-slow" style="animation-delay: 0.6s">O</span>
+        <span class="animate-pulse-slow" style="animation-delay: 0.7s">F</span>
+        <span class="animate-pulse-slow" style="animation-delay: 0.8s"
+          >&nbsp;</span
+        >
+        <span class="animate-pulse-slow" style="animation-delay: 0.9s">G</span>
+        <span class="animate-pulse-slow" style="animation-delay: 1s">O</span>
+        <span class="animate-pulse-slow" style="animation-delay: 1.1s">L</span>
+        <span class="animate-pulse-slow" style="animation-delay: 1.2s">D</span>
+      </div>
+      <div class="flex gap-6 items-center">
+        <button
+          @click="changeView('galactic')"
+          :class="{'underline decoration-4 underline-offset-8': currentView === 'galactic'}"
+          class="text-sm hover:underline decoration-4 underline-offset-8"
+        >
+          GALACTIC
+        </button>
+        <button
+          @click="changeView('systems')"
+          :class="{'underline decoration-4 underline-offset-8': currentView === 'systems'}"
+          class="text-sm hover:underline decoration-4 underline-offset-8"
+        >
+          SYSTEMS
+        </button>
+        <button
+          @click="changeView('improbability')"
+          :class="{'underline decoration-4 underline-offset-8': currentView === 'improbability'}"
+          class="text-sm hover:underline decoration-4 underline-offset-8"
+        >
+          IMPROBABILITY
+        </button>
+        <button
+          @click="changeView('guide')"
+          :class="{'underline decoration-4 underline-offset-8': currentView === 'guide'}"
+          class="text-sm hover:underline decoration-4 underline-offset-8"
+        >
+          GUIDE
+        </button>
+        <div class="relative h-6 w-6 ml-2">
+          <div
+            class="absolute inset-0 rounded-full"
+            :class="{'bg-white': !improbabilityActive, 'animate-pulse bg-yellow-300': improbabilityActive}"
+          ></div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Marquee Text -->
+    <div
+      class="bg-white text-black py-3 overflow-hidden whitespace-nowrap"
+      :class="{'animate-glitch': improbabilityActive}"
+    >
+      <div class="animate-scroll inline-block">
+        <span class="text-xl mx-4">INFINITE IMPROBABILITY ACTIVATED</span>
+        <span class="text-xl mx-4">•</span>
+        <span class="text-xl mx-4"
+          >PROBABILITY FACTOR: {{ improbabilityFactor }}</span
+        >
+        <span class="text-xl mx-4">•</span>
+        <span class="text-xl mx-4"
+          >CURRENT LOCATION: {{ currentLocation }}</span
+        >
+        <span class="text-xl mx-4">•</span>
+        <span class="text-xl mx-4">MARVIN'S MOOD: DEPRESSED</span>
+        <span class="text-xl mx-4">•</span>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-24">
+      <!-- Galactic Navigation View -->
+      <section
+        v-if="currentView === 'galactic'"
+        class="h-[calc(100vh-8rem)] p-8"
+      >
+        <div class="max-w-6xl mx-auto h-full">
+          <h2 class="text-5xl font-bold mb-8">
+            GALAC<span class="text-xs align-super">TIC</span>
+          </h2>
+
+          <div
+            class="grid grid-cols-1 md:grid-cols-12 gap-4 h-[calc(100%-5rem)]"
+          >
+            <!-- Map Display -->
+            <div
+              class="md:col-span-9 border-2 border-white p-4 relative overflow-hidden"
+            >
+              <div class="absolute inset-0 flex items-center justify-center">
+                <!-- Galaxy visualization -->
+                <div class="relative h-full w-full">
+                  <!-- Stars -->
+                  <div
+                    v-for="i in 200"
+                    :key="'star-'+i"
+                    class="star"
+                    :style="{
+                      left: Math.random() * 100 + '%',
+                      top: Math.random() * 100 + '%',
+                      width: (Math.random() * 2 + 1) + 'px',
+                      height: (Math.random() * 2 + 1) + 'px',
+                      animationDelay: Math.random() * 2 + 's'
+                    }"
+                  ></div>
+
+                  <!-- Galaxy spiral arms -->
+                  <div
+                    class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 border border-white rounded-full animate-spin-slow opacity-20"
+                  ></div>
+                  <div
+                    class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1/2 h-1/2 border border-white rounded-full animate-spin-slow opacity-20"
+                    style="animation-duration: 12s"
+                  ></div>
+                  <div
+                    class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1/4 h-1/4 border border-white rounded-full animate-spin-slow opacity-20"
+                    style="animation-duration: 16s"
+                  ></div>
+
+                  <!-- Known planets with very MONO-style labels -->
+                  <div
+                    class="absolute top-1/4 left-1/3 flex flex-col items-center"
+                  >
+                    <div class="w-3 h-3 bg-white rounded-full"></div>
+                    <div class="mt-2 text-xs font-mono">DAMOGRAN</div>
+                  </div>
+
+                  <div
+                    class="absolute bottom-1/3 right-1/4 flex flex-col items-center"
+                  >
+                    <div class="w-3 h-3 bg-white rounded-full"></div>
+                    <div class="mt-2 text-xs font-mono">BETELGEUSE</div>
+                  </div>
+
+                  <div
+                    class="absolute top-2/3 left-2/3 flex flex-col items-center"
+                  >
+                    <div class="w-3 h-3 bg-white rounded-full"></div>
+                    <div class="mt-2 text-xs font-mono">MAGRATHEA</div>
+                  </div>
+
+                  <div
+                    class="absolute top-3/5 left-1/5 flex flex-col items-center"
+                  >
+                    <div class="w-2 h-2 bg-white rounded-full"></div>
+                    <div class="mt-2 text-xs font-mono opacity-70">EARTH</div>
+                  </div>
+
+                  <!-- Current position indicator -->
+                  <div
+                    class="absolute"
+                    :style="{ top: shipPosition.y + '%', left: shipPosition.x + '%' }"
+                    :class="{'animate-pulse': improbabilityActive}"
+                  >
+                    <div class="relative">
+                      <div
+                        class="w-6 h-6 rounded-full border-2 border-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      ></div>
+                      <div
+                        class="w-3 h-3 bg-yellow-300 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      ></div>
+                    </div>
+                    <div
+                      class="mt-4 text-xs font-mono text-center text-yellow-300"
+                    >
+                      HEART OF GOLD
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Coordinates overlay -->
+              <div class="absolute bottom-0 left-0 p-4 text-xs">
+                <div>SECTOR: {{ sector }}</div>
+                <div>COORDINATES: {{ coordinates }}</div>
+              </div>
+            </div>
+
+            <!-- Navigation Controls -->
+            <div class="md:col-span-3 border-2 border-white flex flex-col">
+              <div class="p-4 border-b-2 border-white">
+                <h3 class="text-xl font-bold">
+                  NAVI<span class="text-xs align-super">GATION</span>
+                </h3>
+              </div>
+
+              <div class="p-4 flex-grow flex flex-col justify-between">
+                <div>
+                  <div class="mb-3">
+                    <label class="text-sm block mb-1">DESTINATION:</label>
+                    <select
+                      v-model="destination"
+                      class="w-full bg-black border border-white p-2"
+                    >
+                      <option value="random">RANDOM</option>
+                      <option value="earth">EARTH</option>
+                      <option value="betelgeuse">BETELGEUSE</option>
+                      <option value="magrathea">MAGRATHEA</option>
+                      <option value="damogran">DAMOGRAN</option>
+                      <option value="milliways">MILLIWAYS</option>
+                    </select>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="text-sm block mb-1"
+                      >IMPROBABILITY FACTOR:</label
+                    >
+                    <input
+                      type="range"
+                      v-model="improbabilityLevel"
+                      min="1"
+                      max="100"
+                      class="w-full"
+                    />
+                    <div class="text-center text-2xl font-bold mt-2">
+                      {{ improbabilityLevel }}%
+                    </div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                  <button
+                    @click="initiateJump"
+                    class="border-2 border-white p-2 hover:bg-white hover:text-black transition-colors"
+                    :class="{'animate-pulse bg-yellow-300 text-black': improbabilityActive}"
+                  >
+                    {{ improbabilityActive ? 'JUMPING' : 'INITIATE JUMP' }}
+                  </button>
+                  <button
+                    @click="abortJump"
+                    class="border-2 border-white p-2 hover:bg-white hover:text-black transition-colors"
+                    :disabled="!improbabilityActive"
+                  >
+                    ABORT
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Systems View -->
+      <section
+        v-if="currentView === 'systems'"
+        class="h-[calc(100vh-8rem)] p-8"
+      >
+        <div class="max-w-6xl mx-auto h-full">
+          <h2 class="text-5xl font-bold mb-8">
+            SYS<span class="text-xs align-super">TEMS</span>
+          </h2>
+
+          <div
+            class="grid grid-cols-1 md:grid-cols-12 gap-4 h-[calc(100%-5rem)]"
+          >
+            <!-- Left Column: Systems Status -->
+            <div class="md:col-span-4 border-2 border-white flex flex-col">
+              <div class="p-4 border-b-2 border-white">
+                <h3 class="text-xl font-bold">STATUS</h3>
+              </div>
+
+              <div class="p-4 flex-grow overflow-y-auto">
+                <div class="space-y-6">
+                  <div>
+                    <div class="flex justify-between items-center mb-1">
+                      <span>IMPROBABILITY DRIVE</span>
+                      <span
+                        :class="{'text-yellow-300': improbabilityActive, 'text-white': !improbabilityActive}"
+                        >{{ improbabilityActive ? 'ACTIVE' : 'STANDBY' }}</span
+                      >
+                    </div>
+                    <div class="h-2 bg-gray-700 w-full">
+                      <div
+                        class="h-full bg-white"
+                        :style="{ width: improbabilityHealth + '%' }"
+                      ></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="flex justify-between items-center mb-1">
+                      <span>LIFE SUPPORT</span>
+                      <span>OPERATIONAL</span>
+                    </div>
+                    <div class="h-2 bg-gray-700 w-full">
+                      <div class="h-full bg-white" style="width: 97%"></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="flex justify-between items-center mb-1">
+                      <span>ENGINES</span>
+                      <span>OPERATIONAL</span>
+                    </div>
+                    <div class="h-2 bg-gray-700 w-full">
+                      <div class="h-full bg-white" style="width: 92%"></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="flex justify-between items-center mb-1">
+                      <span>NUTRIMATIC</span>
+                      <span class="animate-flicker">QUESTIONABLE</span>
+                    </div>
+                    <div class="h-2 bg-gray-700 w-full">
+                      <div class="h-full bg-white" style="width: 62%"></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="flex justify-between items-center mb-1">
+                      <span>DOORS</span>
+                      <span>ENTHUSIASTIC</span>
+                    </div>
+                    <div class="h-2 bg-gray-700 w-full">
+                      <div class="h-full bg-white" style="width: 100%"></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="flex justify-between items-center mb-1">
+                      <span>MARVIN'S MOOD</span>
+                      <span>DEPRESSED</span>
+                    </div>
+                    <div class="h-2 bg-gray-700 w-full">
+                      <div class="h-full bg-white" style="width: 2%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Middle Column: Eddie's Interface -->
+            <div class="md:col-span-4 border-2 border-white flex flex-col">
+              <div
+                class="p-4 border-b-2 border-white flex justify-between items-center"
+              >
+                <h3 class="text-xl font-bold">EDDIE</h3>
+                <div class="w-3 h-3 bg-white rounded-full animate-pulse"></div>
+              </div>
+
+              <div class="p-4 flex-grow flex flex-col">
+                <div
+                  class="border-2 border-white p-4 mb-4 flex-grow overflow-y-auto"
+                >
+                  <div
+                    v-for="(message, index) in shipMessages"
+                    :key="index"
+                    class="mb-3"
+                  >
+                    <div class="text-sm text-gray-400">{{ message.time }}</div>
+                    <div
+                      :class="{'text-yellow-300': message.system, 'animate-pulse-slow': improbabilityActive && message.system}"
+                    >
+                      {{ message.text }}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex">
+                  <input
+                    v-model="userInput"
+                    @keyup.enter="sendCommand"
+                    placeholder="ENTER COMMAND"
+                    class="flex-grow bg-black border-2 border-white p-2 mr-2"
+                  />
+                  <button
+                    @click="sendCommand"
+                    class="border-2 border-white p-2 hover:bg-white hover:text-black transition-colors"
+                  >
+                    SEND
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: Ship Diagram -->
+            <div
+              class="md:col-span-4 border-2 border-white flex flex-col relative overflow-hidden"
+            >
+              <div class="p-4 border-b-2 border-white">
+                <h3 class="text-xl font-bold">SCHEMATIC</h3>
+              </div>
+
+              <div class="p-4 flex-grow">
+                <!-- Simple ship schematic in mono style -->
+                <div class="relative h-full w-full">
+                  <!-- Ship outline -->
+                  <div
+                    class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/5 border-2 border-white rounded-lg"
+                  ></div>
+
+                  <!-- Bridge -->
+                  <div
+                    class="absolute top-1/4 left-1/2 transform -translate-x-1/2 w-1/2 h-1/6 border border-white rounded-t-lg flex items-center justify-center"
+                  >
+                    <span class="text-xs">BRIDGE</span>
+                  </div>
+
+                  <!-- Engine -->
+                  <div
+                    class="absolute bottom-1/4 left-1/2 transform -translate-x-1/2 w-1/2 h-1/6 border border-white rounded-b-lg flex items-center justify-center"
+                  >
+                    <span class="text-xs">ENGINE</span>
+                  </div>
+
+                  <!-- Improbability Drive -->
+                  <div
+                    class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1/4 h-1/4 border border-white rounded-full flex items-center justify-center animate-spin-slow"
+                    :class="{'bg-yellow-300 bg-opacity-30': improbabilityActive}"
+                  >
+                    <span class="text-xs text-center"
+                      >IMPROBABILITY<br />DRIVE</span
+                    >
+                  </div>
+
+                  <!-- Subsystems -->
+                  <div
+                    class="absolute top-2/5 left-1/5 w-1/8 h-1/8 border border-white rounded-sm flex items-center justify-center"
+                  >
+                    <span class="text-[0.5rem]">LIFE</span>
+                  </div>
+
+                  <div
+                    class="absolute bottom-2/5 left-1/5 w-1/8 h-1/8 border border-white rounded-sm flex items-center justify-center"
+                  >
+                    <span class="text-[0.5rem]">NUTRI</span>
+                  </div>
+
+                  <div
+                    class="absolute top-2/5 right-1/5 w-1/8 h-1/8 border border-white rounded-sm flex items-center justify-center"
+                  >
+                    <span class="text-[0.5rem]">NAV</span>
+                  </div>
+
+                  <div
+                    class="absolute bottom-2/5 right-1/5 w-1/8 h-1/8 border border-white rounded-sm flex items-center justify-center"
+                  >
+                    <span class="text-[0.5rem]">COMM</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Improbability Drive View -->
+      <section
+        v-if="currentView === 'improbability'"
+        class="h-[calc(100vh-8rem)] p-8"
+      >
+        <div class="max-w-6xl mx-auto h-full">
+          <h2 class="text-5xl font-bold mb-8 flex items-center">
+            IMPRO<span class="text-xs align-super">BABILITY</span>
+            <div
+              v-if="improbabilityActive"
+              class="ml-4 text-lg text-yellow-300 animate-pulse"
+            >
+              ACTIVE
+            </div>
+          </h2>
+
+          <div
+            class="grid grid-cols-1 md:grid-cols-12 gap-4 h-[calc(100%-5rem)]"
+          >
+            <!-- Improbability Matrix -->
+            <div class="md:col-span-8 border-2 border-white flex flex-col">
+              <div class="p-4 border-b-2 border-white">
+                <h3 class="text-xl font-bold">PROBABILITY MATRIX</h3>
+              </div>
+
+              <div class="p-4 flex-grow relative overflow-hidden">
+                <!-- Matrix visualization -->
+                <div class="grid grid-cols-8 grid-rows-8 gap-1 h-full">
+                  <div
+                    v-for="i in 64"
+                    :key="'cell-'+i"
+                    class="border border-white flex items-center justify-center"
+                    :class="{'bg-white bg-opacity-5': i % 3 === 0, 'bg-white bg-opacity-20': i % 7 === 0, 'bg-yellow-300 bg-opacity-30': improbabilityActive && i % 5 === 0}"
+                  >
+                    <div v-if="i % 13 === 0" class="text-xs animate-pulse">
+                      {{ i % 9 }}
+                    </div>
+                    <div v-else-if="i % 7 === 0" class="text-xs">
+                      {{ i % 5 === 0 ? '∞' : '0' }}
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Overlaying probability wave -->
+                <div
+                  class="absolute inset-0 flex items-center justify-center pointer-events-none"
+                  :class="{'opacity-70': improbabilityActive, 'opacity-20': !improbabilityActive}"
+                >
+                  <svg
+                    width="100%"
+                    height="100%"
+                    viewBox="0 0 100 100"
+                    preserveAspectRatio="none"
+                  >
+                    <path
+                      d="M0,50 Q25,30 50,50 T100,50"
+                      fill="none"
+                      stroke="white"
+                      stroke-width="0.5"
+                      :class="{'animate-pulse': improbabilityActive}"
+                    />
+                    <path
+                      d="M0,50 Q25,70 50,50 T100,50"
+                      fill="none"
+                      stroke="white"
+                      stroke-width="0.5"
+                      :class="{'animate-pulse': improbabilityActive}"
+                    />
+                  </svg>
+                </div>
+
+                <!-- Infinite Improbability overlay -->
+                <div
+                  v-if="improbabilityActive"
+                  class="absolute inset-0 flex items-center justify-center pointer-events-none"
+                >
+                  <div
+                    class="text-8xl text-stroke opacity-10 animate-pulse-slow"
+                  >
+                    ∞
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Control Panel -->
+            <div class="md:col-span-4 border-2 border-white flex flex-col">
+              <div class="p-4 border-b-2 border-white">
+                <h3 class="text-xl font-bold">DRIVE CONTROLS</h3>
+              </div>
+
+              <div class="p-4 flex-grow flex flex-col justify-between">
+                <div>
+                  <div class="mb-6">
+                    <label class="text-sm block mb-2"
+                      >IMPROBABILITY FACTOR:</label
+                    >
+                    <div class="border-2 border-white p-4 text-center">
+                      <div
+                        class="text-4xl font-mono"
+                        :class="{'animate-glitch': improbabilityActive, 'text-yellow-300': improbabilityActive}"
+                      >
+                        {{ improbabilityFactor }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mb-6">
+                    <label class="text-sm block mb-2">TARGET SETTING:</label>
+                    <input
+                      type="range"
+                      v-model="improbabilityLevel"
+                      min="1"
+                      max="100"
+                      class="w-full"
+                      :disabled="improbabilityActive"
+                    />
+                    <div class="mt-2 grid grid-cols-5 text-xs">
+                      <div>SAFE</div>
+                      <div class="col-span-3 text-center">STANDARD</div>
+                      <div class="text-right">TOTAL</div>
+                    </div>
+                  </div>
+
+                  <div class="mb-6">
+                    <label class="text-sm block mb-2">STRANGE EVENTS:</label>
+                    <div class="border-2 border-white p-2 h-24 overflow-y-auto">
+                      <div
+                        v-for="(event, index) in strangeEvents"
+                        :key="index"
+                        class="text-xs mb-1"
+                        :class="{'text-yellow-300': index === 0}"
+                      >
+                        {{ event }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                  <button
+                    @click="initiateJump"
+                    class="border-2 border-white p-3 hover:bg-white hover:text-black transition-colors"
+                    :class="{'animate-pulse bg-yellow-300 text-black': improbabilityActive}"
+                  >
+                    {{ improbabilityActive ? 'DEACTIVATE' : 'ACTIVATE' }}
+                  </button>
+                  <button
+                    @click="generateEvent"
+                    class="border-2 border-white p-3 hover:bg-white hover:text-black transition-colors"
+                  >
+                    GENERATE EVENT
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Guide View -->
+      <section v-if="currentView === 'guide'" class="h-[calc(100vh-8rem)] p-8">
+        <div class="max-w-6xl mx-auto h-full">
+          <h2 class="text-5xl font-bold mb-8 flex items-center">
+            HITCH<span class="text-xs align-super">HIKER'S</span> GUIDE
+            <div class="ml-4 text-lg border-2 border-white p-1 px-3">
+              DON'T PANIC
+            </div>
+          </h2>
+
+          <div
+            class="grid grid-cols-1 md:grid-cols-12 gap-4 h-[calc(100%-5rem)]"
+          >
+            <!-- Guide Content -->
+            <div class="md:col-span-8 border-2 border-white flex flex-col">
+              <div class="p-4 border-b-2 border-white flex justify-between">
+                <h3 class="text-xl font-bold">{{ guideEntry.title }}</h3>
+                <div class="flex space-x-2">
+                  <button
+                    @click="prevEntry"
+                    class="border border-white w-8 h-8 flex items-center justify-center hover:bg-white hover:text-black transition-colors"
+                  >
+                    ←
+                  </button>
+                  <button
+                    @click="nextEntry"
+                    class="border border-white w-8 h-8 flex items-center justify-center hover:bg-white hover:text-black transition-colors"
+                  >
+                    →
+                  </button>
+                </div>
+              </div>
+
+              <div class="p-4 flex-grow overflow-y-auto">
+                <p class="mb-6 text-lg">{{ guideEntry.content }}</p>
+
+                <div
+                  v-if="guideEntry.footnotes && guideEntry.footnotes.length > 0"
+                  class="mt-8 pt-4 border-t border-white"
+                >
+                  <h4 class="text-sm uppercase tracking-widest mb-2">
+                    FOOTNOTES
+                  </h4>
+                  <div
+                    v-for="(note, index) in guideEntry.footnotes"
+                    :key="index"
+                    class="text-sm mb-1"
+                  >
+                    {{ index + 1 }}. {{ note }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Search and Related -->
+            <div class="md:col-span-4 border-2 border-white flex flex-col">
+              <div class="p-4 border-b-2 border-white">
+                <h3 class="text-xl font-bold">SEARCH</h3>
+              </div>
+
+              <div class="p-4 border-b-2 border-white">
+                <input
+                  v-model="searchQuery"
+                  placeholder="SEARCH THE GUIDE..."
+                  class="w-full bg-black border-2 border-white p-2"
+                />
+              </div>
+
+              <div class="p-4 flex-grow">
+                <h4 class="text-sm uppercase tracking-widest mb-4">
+                  RELATED ENTRIES
+                </h4>
+                <div class="space-y-2">
+                  <div
+                    v-for="entry in relatedEntries"
+                    :key="entry.id"
+                    @click="selectEntry(entry.id)"
+                    class="border border-white p-2 cursor-pointer hover:bg-white hover:text-black transition-colors"
+                  >
+                    {{ entry.title }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-4 border-t-2 border-white text-center">
+                <div class="text-sm">
+                  THE GUIDE IS DEFINITIVE.<br />REALITY IS FREQUENTLY
+                  INACCURATE.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Marvin Chat Modal -->
+    <div
+      v-if="showMarvin"
+      class="fixed bottom-0 right-0 z-40 w-full md:w-96 border-t-2 md:border-2 border-white bg-black"
+    >
+      <div
+        class="p-4 border-b-2 border-white flex justify-between items-center"
+      >
+        <h3 class="text-xl font-bold">MARVIN</h3>
+        <button
+          @click="showMarvin = false"
+          class="border border-white w-8 h-8 flex items-center justify-center hover:bg-white hover:text-black transition-colors"
+        >
+          ×
+        </button>
+      </div>
+
+      <div class="p-4 h-64 overflow-y-auto">
+        <div
+          v-for="(message, index) in marvinMessages"
+          :key="index"
+          class="mb-3"
+        >
+          <div class="text-sm text-gray-400">{{ message.time }}</div>
+          <div class="italic">{{ message.text }}</div>
+        </div>
+      </div>
+
+      <div class="p-4 border-t-2 border-white flex">
+        <input
+          v-model="marvinInput"
+          @keyup.enter="talkToMarvin"
+          placeholder="COMFORT MARVIN..."
+          class="flex-grow bg-black border-2 border-white p-2 mr-2"
+        />
+        <button
+          @click="talkToMarvin"
+          class="border-2 border-white p-2 hover:bg-white hover:text-black transition-colors"
+        >
+          SEND
+        </button>
+      </div>
+    </div>
+
+    <!-- Marvin Button Fixed -->
+    <button
+      v-if="!showMarvin"
+      @click="showMarvin = true"
+      class="fixed bottom-4 right-4 z-40 border-2 border-white p-3 bg-black hover:bg-white hover:text-black transition-colors"
+    >
+      MARVIN
+    </button>
+
+    <!-- Toast notification for random events -->
+    <div
+      v-if="showToast"
+      class="fixed top-20 right-4 z-50 border-2 border-white bg-black p-4 max-w-md"
+      :class="{'animate-pulse bg-yellow-300 text-black': improbabilityActive}"
+    >
+      <div class="text-sm mb-1">IMPROBABILITY EVENT:</div>
+      <div>{{ toastMessage }}</div>
+    </div>
+
+    <!-- Script to be moved to separate file -->
+    <script>
+      const { createApp, ref, computed, onMounted, watch } = Vue;
+
+      createApp({
+        setup() {
+          // State variables
+          const currentView = ref("galactic");
+          const improbabilityActive = ref(false);
+          const improbabilityLevel = ref(42);
+          const destination = ref("random");
+          const userInput = ref("");
+          const shipMessages = ref([]);
+          const showMarvin = ref(false);
+          const marvinMessages = ref([]);
+          const marvinInput = ref("");
+          const searchQuery = ref("");
+          const showToast = ref(false);
+          const toastMessage = ref("");
+          const shipPosition = ref({ x: 48, y: 52 });
+          const improbabilityHealth = ref(95);
+
+          // Guide entries
+          const guideEntries = ref([
+            {
+              id: 1,
+              title: "THE HEART OF GOLD",
+              content:
+                "The Heart of Gold is the first spacecraft to utilize the revolutionary Infinite Improbability Drive. Shaped like a sleek white running shoe, it was stolen by President Zaphod Beeblebrox at its own launch ceremony. The ship is equipped with the GPP (Genuine People Personalities) technology, giving each component of the ship a unique personality.",
+              footnotes: [
+                "The Infinite Improbability Drive was invented following a night of drinking Gargle Blasters.",
+                "The ship was designed by Zaphod Beeblebrox's cousin, Fords Perfect.",
+              ],
+            },
+            {
+              id: 2,
+              title: "INFINITE IMPROBABILITY DRIVE",
+              content:
+                "The Infinite Improbability Drive is a faster-than-light drive based on quantum theory. The principle of the drive is to pass through every conceivable point in every conceivable universe simultaneously, making it both infinitely improbable and therefore infinitely efficient. The drive uses a finite improbability generator to achieve this effect, powered by a cup of hot tea.",
+              footnotes: [
+                "Side effects may include temporary transformations into various improbable forms.",
+                "Not recommended for those with probability sickness.",
+              ],
+            },
+            {
+              id: 3,
+              title: "MARVIN",
+              content:
+                "Marvin is a robot with Genuine People Personality technology. He is capable of performing tasks at incredible speed but is constantly depressed due to his overwhelming intellectual capacity and the menial tasks he's asked to perform. With a brain the size of a planet, Marvin has calculated the exact degree to which life isn't worth living.",
+              footnotes: [
+                "Marvin is approximately 50,000 times more intelligent than a human.",
+                "His original designation was Marvin GPP prototype #001.",
+              ],
+            },
+            {
+              id: 4,
+              title: "NUTRIMATIC DRINKS DISPENSER",
+              content:
+                'The Nutrimatic Drinks Dispenser is a machine that produces beverages that are "almost, but not quite, entirely unlike tea." Despite countless attempts to program it otherwise, it continues to produce this approximation of tea based on its analysis of the taste buds of the human mouth and the brain\'s pleasure centers.',
+              footnotes: [
+                "Arthur Dent waged a long-standing war with the machine.",
+                "When connected to the Infinite Improbability Drive, it once calculated the question to the Ultimate Answer (42).",
+              ],
+            },
+            {
+              id: 5,
+              title: "BABEL FISH",
+              content:
+                "The Babel fish is a small, yellow, leech-like creature that feeds on brainwave energy. When inserted into the ear, it allows the bearer to understand any language in the universe by translating brainwave patterns. The existence of such a useful creature is used as an argument against the existence of God.",
+              footnotes: [
+                "The Babel fish has caused more wars than anything else in the universe.",
+                "When placed in the ear, it excretes nutrients directly into the brain.",
+              ],
+            },
+          ]);
+
+          const currentEntryIndex = ref(0);
+
+          const guideEntry = computed(() => {
+            return guideEntries.value[currentEntryIndex.value];
+          });
+
+          const relatedEntries = computed(() => {
+            return guideEntries.value.filter(
+              (entry, index) => index !== currentEntryIndex.value
+            );
+          });
+
+          // Strange events that can occur during improbability drives
+          const strangeEvents = ref([
+            "All matter transformed into yarn for 0.3 seconds",
+            "Ship temporarily became a bowl of petunias",
+            "All crew members briefly spoke in limericks",
+            "Gravity reversed for 2.7 seconds",
+            "The color blue ceased to exist for a moment",
+            "A sperm whale and a bowl of petunias appeared then vanished",
+          ]);
+
+          // Computed properties
+          const improbabilityFactor = computed(() => {
+            if (!improbabilityActive.value)
+              return "2 to the power of 267,709 to 1";
+
+            // Generate a random but "scientific-looking" improbability factor
+            const base = Math.floor(Math.random() * 1000) + 2;
+            const power = Math.floor(Math.random() * 100000) + 1000;
+            return `${base} to the power of ${power} to 1`;
+          });
+
+          const currentLocation = computed(() => {
+            if (improbabilityActive.value) return "CALCULATING...";
+            return "SECTOR ZZ9 PLURAL Z ALPHA";
+          });
+
+          const sector = computed(() => {
+            if (improbabilityActive.value) return "FLUCTUATING";
+            return "ZZ9 PLURAL Z ALPHA";
+          });
+
+          const coordinates = computed(() => {
+            if (improbabilityActive.value) {
+              return `${Math.random()
+                .toString(36)
+                .substring(2, 8)}.${Math.random()
+                .toString(36)
+                .substring(2, 8)}`;
+            }
+            return "257.73.882.13";
+          });
+
+          // Methods
+          const changeView = (view) => {
+            currentView.value = view;
+          };
+
+          const initiateJump = () => {
+            if (improbabilityActive.value) {
+              improbabilityActive.value = false;
+              addShipMessage("Infinite Improbability Drive deactivated.", true);
+              return;
+            }
+
+            improbabilityActive.value = true;
+            addShipMessage("Infinite Improbability Drive activated!", true);
+            addShipMessage(
+              "Please enjoy the improbabilities. Side effects may include nausea, existential confusion, and temporary transformations into penguin.",
+              true
+            );
+
+            // Start random ship position updates
+            startImprobabilityEffects();
+
+            // Random strange event
+            setTimeout(() => {
+              generateEvent();
+            }, 3000);
+          };
+
+          const abortJump = () => {
+            if (!improbabilityActive.value) return;
+
+            improbabilityActive.value = false;
+            addShipMessage(
+              "Emergency abort sequence activated. Normalizing...",
+              true
+            );
+
+            // Show error message
+            showToastMessage(
+              "WARNING: Normalization process may cause lingering improbabilities."
+            );
+          };
+
+          const sendCommand = () => {
+            if (!userInput.value.trim()) return;
+
+            addShipMessage(userInput.value);
+
+            // Process command
+            const command = userInput.value.toUpperCase();
+
+            setTimeout(() => {
+              if (command.includes("TEA")) {
+                addShipMessage(
+                  "Nutrimatic Dispenser activated. Here is something that is almost, but not quite, entirely unlike tea.",
+                  true
+                );
+              } else if (command.includes("MARVIN")) {
+                addShipMessage(
+                  'Marvin says: "Life. Don\'t talk to me about life."',
+                  true
+                );
+              } else if (
+                command.includes("JUMP") ||
+                command.includes("IMPROBABILITY")
+              ) {
+                addShipMessage(
+                  "To activate the Infinite Improbability Drive, please use the dedicated controls.",
+                  true
+                );
+              } else if (command.includes("HELP")) {
+                addShipMessage(
+                  "Available commands: STATUS, TEA, GUIDE, MARVIN, SYSTEMS",
+                  true
+                );
+              } else if (command.includes("STATUS")) {
+                addShipMessage(
+                  `Ship status: ${
+                    improbabilityActive.value
+                      ? "Improbability mode active"
+                      : "Normal space flight"
+                  }, Location: ${currentLocation.value}`,
+                  true
+                );
+              } else if (command.includes("GUIDE")) {
+                addShipMessage("Opening Hitchhiker's Guide entry...", true);
+                changeView("guide");
+              } else {
+                addShipMessage(
+                  "Command not recognized. This is Eddie, your shipboard computer, and I'm feeling just great about that!",
+                  true
+                );
+              }
+            }, 500);
+
+            userInput.value = "";
+          };
+
+          const talkToMarvin = () => {
+            if (!marvinInput.value.trim()) return;
+
+            addMarvinMessage(marvinInput.value, false);
+
+            // Marvin's response
+            setTimeout(() => {
+              const responses = [
+                "Life? Don't talk to me about life.",
+                "I've been talking to the ship's computer. It hates me.",
+                "I've calculated your chance of survival, but I don't think you'll like it.",
+                "Here I am, brain the size of a planet, and they ask me to talk to you.",
+                "I think you ought to know I'm feeling very depressed.",
+                "This will all end in tears. I just know it.",
+                "I've been connected to everything in this ship. It's a nightmare.",
+                "I'd make a suggestion, but you wouldn't listen. No one ever does.",
+              ];
+
+              const response =
+                responses[Math.floor(Math.random() * responses.length)];
+              addMarvinMessage(response, true);
+            }, 1000);
+
+            marvinInput.value = "";
+          };
+
+          const addShipMessage = (text, system = false) => {
+            const now = new Date();
+            const time = now.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+            });
+
+            shipMessages.value.unshift({
+              time,
+              text,
+              system,
+            });
+
+            // Keep only the last 20 messages
+            if (shipMessages.value.length > 20) {
+              shipMessages.value.pop();
+            }
+          };
+
+          const addMarvinMessage = (text, fromMarvin = false) => {
+            const now = new Date();
+            const time = now.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+            });
+
+            marvinMessages.value.push({
+              time,
+              text: fromMarvin ? text : "You: " + text,
+            });
+          };
+
+          const nextEntry = () => {
+            currentEntryIndex.value =
+              (currentEntryIndex.value + 1) % guideEntries.value.length;
+          };
+
+          const prevEntry = () => {
+            currentEntryIndex.value =
+              (currentEntryIndex.value - 1 + guideEntries.value.length) %
+              guideEntries.value.length;
+          };
+
+          const selectEntry = (id) => {
+            const index = guideEntries.value.findIndex(
+              (entry) => entry.id === id
+            );
+            if (index !== -1) {
+              currentEntryIndex.value = index;
+            }
+          };
+
+          const generateEvent = () => {
+            if (!improbabilityActive.value) {
+              showToastMessage(
+                "Improbability Drive must be active to generate events."
+              );
+              return;
+            }
+
+            const events = [
+              "All crew members temporarily transformed into penguins.",
+              "Ship interiors briefly rearranged into a perfect replica of Milliways restaurant.",
+              "Probability of ship becoming a giant banana briefly exceeded 67%.",
+              "Crew experienced memories of events that never happened.",
+              "All doors on ship briefly developed existential crises.",
+              "Ship's computer momentarily believed it was a teapot.",
+              "Nutrimatic dispenser produced actual, drinkable tea.",
+              "Time flowed backwards for 3.7 seconds.",
+              'All books on ship briefly contained only the phrase "DON\'T PANIC".',
+              "Marvin experienced genuine happiness for 0.2 seconds.",
+            ];
+
+            const event = events[Math.floor(Math.random() * events.length)];
+            strangeEvents.value.unshift(event);
+
+            if (strangeEvents.value.length > 10) {
+              strangeEvents.value.pop();
+            }
+
+            showToastMessage(event);
+          };
+
+          const showToastMessage = (message) => {
+            toastMessage.value = message;
+            showToast.value = true;
+
+            setTimeout(() => {
+              showToast.value = false;
+            }, 5000);
+          };
+
+          const startImprobabilityEffects = () => {
+            // Only start effects if improbability drive is active
+            if (!improbabilityActive.value) return;
+
+            // Random ship position
+            const updatePosition = () => {
+              if (!improbabilityActive.value) return;
+
+              shipPosition.value = {
+                x: 30 + Math.random() * 40,
+                y: 30 + Math.random() * 40,
+              };
+
+              // Schedule next update
+              setTimeout(updatePosition, 1000 + Math.random() * 2000);
+            };
+
+            // Start updates
+            updatePosition();
+          };
+
+          // Initialize with some messages
+          onMounted(() => {
+            addShipMessage("Welcome aboard the Heart of Gold!", true);
+            addShipMessage(
+              "This is Eddie, your shipboard computer. I'm feeling just great about having you onboard!",
+              true
+            );
+            addShipMessage(
+              "Systems online and ready for improbable adventures.",
+              true
+            );
+
+            addMarvinMessage(
+              "Here I am, brain the size of a planet, and they ask me to welcome you. Call that job satisfaction? Because I don't.",
+              true
+            );
+          });
+
+          // Watch for improbability drive status changes
+          watch(improbabilityActive, (newValue) => {
+            // Update drive health when active
+            if (newValue) {
+              const interval = setInterval(() => {
+                if (!improbabilityActive.value) {
+                  clearInterval(interval);
+                  return;
+                }
+
+                // Slowly decrease health
+                improbabilityHealth.value = Math.max(
+                  20,
+                  improbabilityHealth.value - 0.5
+                );
+              }, 1000);
+            } else {
+              // Restore health when inactive
+              setTimeout(() => {
+                improbabilityHealth.value = 95;
+              }, 2000);
+            }
+          });
+
+          return {
+            currentView,
+            improbabilityActive,
+            improbabilityLevel,
+            improbabilityFactor,
+            improbabilityHealth,
+            currentLocation,
+            destination,
+            shipMessages,
+            userInput,
+            showMarvin,
+            marvinMessages,
+            marvinInput,
+            guideEntry,
+            searchQuery,
+            relatedEntries,
+            strangeEvents,
+            showToast,
+            toastMessage,
+            shipPosition,
+            sector,
+            coordinates,
+            changeView,
+            initiateJump,
+            abortJump,
+            sendCommand,
+            talkToMarvin,
+            nextEntry,
+            prevEntry,
+            selectEntry,
+            generateEvent,
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

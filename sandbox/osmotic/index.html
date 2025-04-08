@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MMMmmmMMM: Osmotic Serenity</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background-color: #010b14;
+        touch-action: none;
+      }
+      canvas {
+        display: block;
+      }
+      .intro-screen {
+        opacity: 1;
+        transition: opacity 3s ease-in-out;
+      }
+      .fade-out {
+        opacity: 0;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body class="font-mono text-purple-50">
+    <div
+      id="intro-screen"
+      class="intro-screen absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-purple-900 to-blue-900 z-50"
+    >
+      <h1 class="text-4xl md:text-6xl mb-8 text-purple-200">MMMmmmMMM</h1>
+      <p class="text-xl mb-12 max-w-md text-center text-purple-300">
+        A meditative journey of osmotic serenity
+      </p>
+      <p class="text-sm mb-8 max-w-sm text-center text-purple-400">
+        Move with your cursor or touch.<br />There is no goal.<br />Simply exist
+        and absorb.
+      </p>
+      <button
+        id="begin-button"
+        class="px-8 py-3 bg-purple-700 hover:bg-purple-600 rounded-full text-lg transition-all duration-500 hover:shadow-lg hover:shadow-purple-500/30"
+      >
+        Begin
+      </button>
+    </div>
+
+    <canvas id="game-canvas"></canvas>
+    <script src="script.js"></script>
+  </body>
+</html>

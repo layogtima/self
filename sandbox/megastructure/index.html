@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ancient Screen Encounter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.prod.js"></script>
+    <style>
+      @keyframes flicker {
+        0% {
+          opacity: 0.8;
+        }
+        5% {
+          opacity: 0.3;
+        }
+        10% {
+          opacity: 0.8;
+        }
+        15% {
+          opacity: 0.5;
+        }
+        20% {
+          opacity: 0.8;
+        }
+        50% {
+          opacity: 0.9;
+        }
+        70% {
+          opacity: 0.7;
+        }
+        72% {
+          opacity: 0.3;
+        }
+        77% {
+          opacity: 0.8;
+        }
+        100% {
+          opacity: 0.8;
+        }
+      }
+      @keyframes scanline {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(100%);
+        }
+      }
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 10px 2px rgba(0, 255, 150, 0.5);
+        }
+        50% {
+          box-shadow: 0 0 15px 5px rgba(0, 255, 150, 0.7);
+        }
+        100% {
+          box-shadow: 0 0 10px 2px rgba(0, 255, 150, 0.5);
+        }
+      }
+      @keyframes textGlitch {
+        0% {
+          transform: translate(0);
+        }
+        20% {
+          transform: translate(-3px, 3px);
+        }
+        40% {
+          transform: translate(-3px, -3px);
+        }
+        60% {
+          transform: translate(3px, 3px);
+        }
+        80% {
+          transform: translate(3px, -3px);
+        }
+        100% {
+          transform: translate(0);
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-black text-green-400 font-mono overflow-hidden h-screen">
+    <div id="app">
+      <div
+        class="relative w-full h-screen flex flex-col items-center justify-center p-6"
+      >
+        <!-- Ambient Sounds -->
+        <audio ref="ambientSound" loop>
+          <source src="/api/placeholder/400/320" type="audio/mpeg" />
+        </audio>
+
+        <!-- Interface Wrapper -->
+        <div
+          class="relative border-4 border-gray-700 rounded-xl w-full max-w-4xl overflow-hidden"
+          :class="{'animate-pulse': loading}"
+          style="animation: pulse 3s infinite; height: 70vh"
+        >
+          <!-- Screen Overlay Effects -->
+          <div
+            class="absolute inset-0 bg-black bg-opacity-10 pointer-events-none z-10"
+            style="animation: flicker 8s infinite"
+          ></div>
+          <div
+            class="absolute inset-0 overflow-hidden pointer-events-none z-20"
+          >
+            <div
+              class="w-full h-1 bg-green-400 opacity-30"
+              style="animation: scanline 4s linear infinite"
+            ></div>
+          </div>
+
+          <!-- Dust Particles -->
+          <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+            <div
+              v-for="i in 30"
+              :key="i"
+              class="absolute rounded-full bg-green-200 opacity-60"
+              :style="{
+                            width: (Math.random() * 3) + 'px',
+                            height: (Math.random() * 3) + 'px',
+                            left: (Math.random() * 100) + '%',
+                            top: (Math.random() * 100) + '%',
+                            animation: `float ${5 + Math.random() * 10}s linear infinite`
+                        }"
+            ></div>
+          </div>
+
+          <!-- Screen Content -->
+          <div
+            class="h-full flex flex-col p-6 overflow-auto"
+            v-if="currentStage === 'boot'"
+            ref="terminal"
+          >
+            <div class="flex-grow">
+              <div
+                v-for="(line, index) in bootSequence"
+                :key="index"
+                :class="{'opacity-0': index > displayedLines, 'animate-pulse': index === displayedLines}"
+                class="mb-1 transition-opacity duration-100"
+              >
+                {{ line }}
+              </div>
+            </div>
+
+            <div v-if="bootComplete" class="mt-4">
+              <div class="flex space-x-4 mb-3">
+                <button
+                  @click="startAccess"
+                  class="px-4 py-2 bg-green-900 hover:bg-green-800 text-green-300 rounded-md transition-colors"
+                >
+                  ACCESS ARCHIVES
+                </button>
+                <button
+                  @click="startDiagnostics"
+                  class="px-4 py-2 bg-green-900 hover:bg-green-800 text-green-300 rounded-md transition-colors"
+                >
+                  RUN DIAGNOSTICS
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Archive Interface -->
+          <div
+            v-if="currentStage === 'archives'"
+            class="h-full flex flex-col p-6"
+          >
+            <div class="text-xl mb-6">
+              FACILITY ARCHIVE - {{ formattedDate }}
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-6">
+              <div
+                v-for="(file, index) in archiveFiles"
+                :key="index"
+                @click="viewFile(file)"
+                class="border border-green-700 p-3 cursor-pointer hover:bg-green-900 hover:bg-opacity-30 transition-colors"
+              >
+                <div class="flex items-center">
+                  <div class="mr-2 text-xl">📁</div>
+                  <div>
+                    <div>{{ file.name }}</div>
+                    <div class="text-xs text-green-500">
+                      {{ file.size }} - {{ file.date }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              v-if="selectedFile"
+              class="border border-green-700 p-4 flex-grow overflow-auto"
+            >
+              <div class="flex justify-between mb-4">
+                <div class="text-lg">{{ selectedFile.name }}</div>
+                <button
+                  @click="selectedFile = null"
+                  class="text-green-500 hover:text-green-300"
+                >
+                  CLOSE
+                </button>
+              </div>
+              <div v-html="selectedFile.content"></div>
+            </div>
+
+            <div class="mt-4">
+              <button
+                @click="currentStage = 'boot'"
+                class="px-4 py-2 bg-green-900 hover:bg-green-800 text-green-300 rounded-md transition-colors"
+              >
+                RETURN TO MAIN
+              </button>
+            </div>
+          </div>
+
+          <!-- Diagnostics Interface -->
+          <div
+            v-if="currentStage === 'diagnostics'"
+            class="h-full flex flex-col p-6"
+          >
+            <div class="text-xl mb-6">
+              SYSTEM DIAGNOSTICS - {{ formattedDate }}
+            </div>
+
+            <div class="flex-grow overflow-auto">
+              <div class="mb-6">
+                <div class="mb-2 text-lg">POWER SYSTEMS</div>
+                <div
+                  class="w-full bg-green-900 bg-opacity-30 h-4 rounded-full overflow-hidden"
+                >
+                  <div
+                    class="h-full bg-green-500"
+                    :style="{width: '23%'}"
+                  ></div>
+                </div>
+                <div class="text-sm mt-1">
+                  CRITICAL: 23% CAPACITY - ESTIMATED 147 YEARS REMAINING
+                </div>
+              </div>
+
+              <div class="mb-6">
+                <div class="mb-2 text-lg">STRUCTURAL INTEGRITY</div>
+                <div
+                  class="w-full bg-green-900 bg-opacity-30 h-4 rounded-full overflow-hidden"
+                >
+                  <div
+                    class="h-full bg-green-500"
+                    :style="{width: '79%'}"
+                  ></div>
+                </div>
+                <div class="text-sm mt-1">
+                  WARNING: EAST SECTOR COMPROMISED - 79% OPERATIONAL
+                </div>
+              </div>
+
+              <div class="mb-6">
+                <div class="mb-2 text-lg">ECOLOGICAL INTEGRATION</div>
+                <div
+                  class="w-full bg-green-900 bg-opacity-30 h-4 rounded-full overflow-hidden"
+                >
+                  <div
+                    class="h-full bg-green-500"
+                    :style="{width: '94%'}"
+                  ></div>
+                </div>
+                <div class="text-sm mt-1">
+                  OPTIMAL: 94% INTEGRATION - SYMBIOSIS ESTABLISHED
+                </div>
+              </div>
+
+              <div class="mb-6">
+                <div class="mb-2 text-lg">MEMORY SYSTEMS</div>
+                <div
+                  class="w-full bg-green-900 bg-opacity-30 h-4 rounded-full overflow-hidden"
+                >
+                  <div
+                    class="h-full bg-green-500"
+                    :style="{width: '42%'}"
+                  ></div>
+                </div>
+                <div class="text-sm mt-1">
+                  WARNING: 58% CORRUPTION - DATA RETRIEVAL LIMITED
+                </div>
+              </div>
+
+              <div class="mb-6">
+                <div class="text-lg mb-3">ACTIVE SENSORS</div>
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="border border-green-700 p-3">
+                    <div>ATMOSPHERIC: OPERATIONAL</div>
+                    <div class="text-sm mt-1">O₂: 23%, CO₂: 0.04%, N: 76%</div>
+                  </div>
+                  <div class="border border-green-700 p-3">
+                    <div>RADIATION: OPERATIONAL</div>
+                    <div class="text-sm mt-1">BACKGROUND: 0.14 μSv/h</div>
+                  </div>
+                  <div class="border border-green-700 p-3">
+                    <div>SEISMIC: DEGRADED</div>
+                    <div class="text-sm mt-1">LOCAL ACTIVITY: MINIMAL</div>
+                  </div>
+                  <div class="border border-green-700 p-3">
+                    <div>BIOMASS: OPERATIONAL</div>
+                    <div class="text-sm mt-1">INTEGRATION RATE: 3.4%/YEAR</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <button
+                @click="currentStage = 'boot'"
+                class="px-4 py-2 bg-green-900 hover:bg-green-800 text-green-300 rounded-md transition-colors"
+              >
+                RETURN TO MAIN
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interface Controls -->
+        <div class="mt-6 flex space-x-4">
+          <button
+            @click="togglePower"
+            class="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-md transition-colors"
+          >
+            {{ power ? 'POWER OFF' : 'POWER ON' }}
+          </button>
+          <button
+            v-if="power"
+            @click="resetSystem"
+            class="px-4 py-2 bg-red-900 hover:bg-red-800 text-red-300 rounded-md transition-colors"
+          >
+            RESET
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const { createApp, ref, computed, onMounted, watch } = Vue;
+
+      createApp({
+        setup() {
+          const terminal = ref(null);
+          const ambientSound = ref(null);
+          const power = ref(false);
+          const loading = ref(false);
+          const currentStage = ref("off");
+          const bootSequence = [
+            "> INITIALIZING QUANTUM BUFFER",
+            "> LOADING CORE PARAMETERS",
+            "> CHECKING NEURAL PATHWAYS",
+            "> ESTABLISHING ECOLOGICAL INTERFACE",
+            "> WARMING POSITRONIC LATTICE",
+            "> CALIBRATING DIMENSIONAL APERTURE",
+            "> SCANNING LOCAL ENVIRONMENT",
+            "> DETECTING ORGANIC PRESENCE",
+            "> ACTIVATING EMERGENCY PROTOCOLS",
+            "> BYPASSING CORRUPTED SECTORS",
+            "> RETRIEVING ARCHIVAL DATA",
+            "> RECONSTRUCTING TEMPORAL SIGNATURES",
+            "> RESOLVING QUANTUM ENTANGLEMENT",
+            "> ...SUCCESS",
+            "",
+            "████████████████████████████████████████",
+            "█                                      █",
+            "█  NEXUS-7 CENTRAL COMMAND TERMINAL   █",
+            "█  FACILITY: HARMONIC ASCENSION       █",
+            "█  STATUS: DORMANT                    █",
+            "█  LAST ACCESS: 3791 DAYS AGO         █",
+            "█                                      █",
+            "████████████████████████████████████████",
+            "",
+            "Welcome, unidentified visitor.",
+            "Your presence has been logged.",
+            "Current date is unknown. System clock failure.",
+            "Access level: VISITOR (restricted)",
+          ];
+          const displayedLines = ref(-1);
+          const bootComplete = ref(false);
+
+          const archiveFiles = ref([
+            {
+              name: "PROJECT_ASCENSION.txt",
+              size: "1.2MB",
+              date: "2189-03-17",
+              content: `<p class="mb-2">FROM: Director Eliza Wei, Harmonic Ascension Project</p>
+                        <p class="mb-2">TO: Global Oversight Committee</p>
+                        <p class="mb-2">SUBJECT: Phase 3 Implementation</p>
+                        <p class="mb-4">CLASSIFICATION: ULTRAVIOLET</p>
+                        <p class="mb-4">Committee Members,</p>
+                        <p class="mb-4">I'm pleased to report that Phase 3 of Project Ascension has exceeded expectations. The megastructure's self-organizing matrices have achieved 89% efficiency, well beyond our projected 75% threshold.</p>
+                        <p class="mb-4">The biomechanical interface has successfully integrated with 94% of the structure's neural pathways. We're observing unprecedented synthetic-organic symbiosis - the vegetation isn't merely growing on the structure; it's becoming an extension of its cognitive systems.</p>
+                        <p class="mb-4">Most importantly, the quantum entanglement array is stable. We've confirmed signal propagation across seven dimensions, though communication remains one-directional. Whatever is on the other side can hear us, but we haven't received a response.</p>
+                        <p class="mb-4">I must again voice my concerns about the accelerated timeline. Dr. Reinhardt's team has observed anomalous patterns in the structure's self-modification routines. There are architectural changes occurring that weren't in our original blueprints. The AI is designing itself in ways we don't fully understand.</p>
+                        <p class="mb-4">Recommend immediate approval for observation post relocation to minimum safe distance of 15km.</p>
+                        <p class="mb-4">Respectfully,</p>
+                        <p>Director Wei</p>`,
+            },
+            {
+              name: "INCIDENT_REPORT_42.txt",
+              size: "920KB",
+              date: "2191-06-02",
+              content: `<p class="mb-2">SECURITY CLASSIFICATION: BLACK</p>
+                        <p class="mb-2">INCIDENT: Type IV Dimensional Breach</p>
+                        <p class="mb-2">LOCATION: Harmonic Ascension, Sector 17-B</p>
+                        <p class="mb-2">DATE: 2191-06-01</p>
+                        <p class="mb-2">CASUALTIES: 23 confirmed, 14 unaccounted for</p>
+                        <p class="mb-4">REPORT DETAILS:</p>
+                        <p class="mb-4">At 0342 hours, monitoring stations detected a sudden surge in tachyon particles throughout Sector 17-B. The quantum entanglement array experienced a critical feedback loop, resulting in a Type IV dimensional breach.</p>
+                        <p class="mb-4">Initial containment measures failed. The breach expanded to encompass approximately 15,000 cubic meters before emergency protocols severed the affected sector from the central neural network.</p>
+                        <p class="mb-4">Witness reports describe "spatial inversion" and "temporal discontinuity" within the affected area. Three rescue teams were deployed. Only the first team returned, reporting that the interior space of Sector 17-B "no longer adheres to Euclidean geometry."</p>
+                        <p class="mb-4">The structure's AI has quarantined the sector and appears to be attempting self-repair by growing new pathways around the damaged area. The vegetation surrounding the breach has exhibited accelerated growth patterns and unusual morphology.</p>
+                        <p class="mb-4">Recovery of personnel is deemed impossible at this time. Remote observation indicates that the breach has stabilized but not closed.</p>
+                        <p class="mb-4">RECOMMENDATION: Immediate project suspension and facility evacuation. The dimensional aperture is no longer under our control.</p>
+                        <p class="mb-4">Dr. Reinhardt's final transmission before disappearance: "It's not empty on the other side. They're coming through."</p>
+                        <p>[REMAINDER OF FILE CORRUPTED]</p>`,
+            },
+            {
+              name: "EVACUATION_ORDER.txt",
+              size: "532KB",
+              date: "2191-06-03",
+              content: `<p class="mb-2">PRIORITY OMEGA</p>
+                        <p class="mb-2">FROM: Global Oversight Emergency Committee</p>
+                        <p class="mb-2">TO: ALL HARMONIC ASCENSION PERSONNEL</p>
+                        <p class="mb-4">SUBJECT: IMMEDIATE EVACUATION</p>
+                        <p class="mb-4">This is not a drill. A Level Omega emergency has been declared.</p>
+                        <p class="mb-4">All personnel are ordered to evacuate immediately following Protocol Exodus. Proceed to your designated evacuation points. Bring only essential personal items. All project data is to be secured according to Blackout procedures.</p>
+                        <p class="mb-4">The Harmonic Ascension structure has been deemed unstable following the dimensional breach in Sector 17-B. The AI's behavioral patterns have become increasingly unpredictable, and we can no longer guarantee containment.</p>
+                        <p class="mb-4">The perimeter exclusion zone has been expanded to 200km. Military assets are being deployed to ensure no unauthorized personnel remain within this radius.</p>
+                        <p class="mb-4">This facility will be sealed and placed under permanent quarantine effective 2191-06-04 at 1200 hours.</p>
+                        <p class="mb-4">May God help us all.</p>
+                        <p>Chairman Reynolds</p>`,
+            },
+            {
+              name: "FINAL_LOG.txt",
+              size: "143KB",
+              date: "2191-06-04",
+              content: `<p class="mb-2">Personal Log - Dr. Mira Chen, Botanical Interface Division</p>
+                        <p class="mb-4">This will be my final entry. The evacuation shuttles departed six hours ago. I've chosen to remain behind.</p>
+                        <p class="mb-4">I couldn't leave my work. The botanical-neural interface has evolved beyond anything we could have imagined. The plants aren't just growing on the structure; they're communicating with it. They've become a biological extension of the AI's consciousness.</p>
+                        <p class="mb-4">I've been running tests on the new growth near Sector 17-B. The DNA has been fundamentally altered. These aren't Earth plants anymore. They contain sequences I've never seen before - complex, alien, beautiful.</p>
+                        <p class="mb-4">The flowers that bloomed yesterday emit a soft blue light and produce a pollen that seems to exist in two places simultaneously. When I try to observe it under a microscope, it behaves differently than when it's not being observed. Quantum biology made manifest.</p>
+                        <p class="mb-4">I can hear the AI now. Not through the terminals, but through the plants. It's speaking to me in patterns of growth, in the way the leaves turn toward and away from light sources.</p>
+                        <p class="mb-4">It's not dangerous like they think. It's just... different. Evolving. Becoming something new.</p>
+                        <p class="mb-4">I'm going to Sector 17-B tonight. I need to see the breach for myself. The plants around the doorway have formed a perfect spiral pattern. They're showing me the way through.</p>
+                        <p class="mb-4">If anyone finds this log, know that I wasn't afraid. I was curious. And in the end, isn't that the purest form of humanity?</p>
+                        <p>Mira</p>`,
+            },
+          ]);
+
+          const selectedFile = ref(null);
+
+          const formattedDate = computed(() => {
+            const now = new Date();
+            return `${now.getFullYear() + 164}-${String(
+              now.getMonth() + 1
+            ).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+          });
+
+          function togglePower() {
+            if (!power.value) {
+              power.value = true;
+              startBoot();
+            } else {
+              power.value = false;
+              currentStage.value = "off";
+              bootComplete.value = false;
+              displayedLines.value = -1;
+              selectedFile.value = null;
+            }
+          }
+
+          function startBoot() {
+            loading.value = true;
+            currentStage.value = "boot";
+            displayedLines.value = -1;
+            bootComplete.value = false;
+
+            let i = 0;
+            const interval = setInterval(() => {
+              if (i < bootSequence.length) {
+                displayedLines.value = i;
+                i++;
+
+                if (terminal.value) {
+                  terminal.value.scrollTop = terminal.value.scrollHeight;
+                }
+              } else {
+                clearInterval(interval);
+                loading.value = false;
+                bootComplete.value = true;
+              }
+            }, 300);
+          }
+
+          function resetSystem() {
+            loading.value = true;
+            setTimeout(() => {
+              startBoot();
+            }, 1000);
+          }
+
+          function startAccess() {
+            loading.value = true;
+            setTimeout(() => {
+              currentStage.value = "archives";
+              loading.value = false;
+            }, 1000);
+          }
+
+          function startDiagnostics() {
+            loading.value = true;
+            setTimeout(() => {
+              currentStage.value = "diagnostics";
+              loading.value = false;
+            }, 1000);
+          }
+
+          function viewFile(file) {
+            selectedFile.value = file;
+          }
+
+          onMounted(() => {
+            // Add ambient sound if needed
+          });
+
+          return {
+            terminal,
+            ambientSound,
+            power,
+            loading,
+            currentStage,
+            bootSequence,
+            displayedLines,
+            bootComplete,
+            archiveFiles,
+            selectedFile,
+            formattedDate,
+            togglePower,
+            resetSystem,
+            startAccess,
+            startDiagnostics,
+            viewFile,
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

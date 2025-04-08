@@ -1,83 +1,240 @@
 # MONO | Inventory Management System
 
-A clean, monochromatic personal inventory management system for tracking all your physical belongings - from tech gadgets to creative tools.
+## Architecture Overview
 
-## 🔥 Features
+MONO is a sleek, monochromatic personal inventory management system with a minimalist aesthetic and powerful functionality. The application is built with a modern stack that prioritizes performance, offline capabilities, and elegant design.
 
-- **Full CRUD Operations**: Add, edit, view, and delete inventory items, categories, and tags
-- **Detailed Item Properties**: Track name, value, category, condition, serial number, purchase info, and more
-- **Flexible Organization**: Categorize items, add tags, and filter your inventory
-- **List & Grid Views**: Toggle between different viewing modes
-- **Mobile Responsive**: Works on all devices from phones to desktops
-- **Theme Support**: Multiple visual themes including dark mode
-- **Assistive Mode**: Enhanced accessibility features and LLM navigation support
-- **Local Storage**: All data saved to your browser (no server required)
-- **Import/Export**: Backup and restore your inventory data
+### Technology Stack
 
-## 🛠️ Technical Implementation
+- **Frontend Framework**: Vue.js 3 with Composition API
+- **State Management**: Pinia
+- **Styling**: Tailwind CSS with custom monochromatic theme
+- **Backend API Layer**: Hono.js
+- **Database**: IndexedDB (local browser storage)
+- **Deployment**: Cloudflare Pages + Workers
 
-- **Vue 3**: Frontend framework (CDN version for simplicity)
-- **Tailwind CSS**: Utility-first styling
-- **LocalStorage**: Client-side data persistence
-- **Single Page Application**: With Vue Router for navigation
-- **Modular Design**: Components separated for maintainability
+### Key Design Principles
 
-## 🚀 Getting Started
+1. **Monochromatic Minimalism**: Strict black and white aesthetic with intentional use of whitespace
+2. **Performance First**: Optimized for speedy interactions even with large inventories
+3. **Offline Capability**: Full functionality without internet connection
+4. **Responsive Design**: Seamless experience across all devices
 
-1. Clone or download this repository
-2. Open `index.html` in your browser
-3. Start adding your items!
+## Data Schema
 
-That's it! No build process or server setup required.
+### Item
 
-## 📁 File Structure
+```typescript
+interface Item {
+  id: string; // Unique identifier (generated)
+  name: string; // Item name
+  category: string; // Category ID reference
+  value: number; // Monetary value
+  dateAdded: string; // ISO date string
+  condition: string; // Condition rating (Excellent, Good, Fair, Poor)
+  serialNumber?: string; // Optional serial number
+  notes?: string; // Optional notes/description
+  tags: string[]; // Array of tag IDs
+  images?: string[]; // Array of image data URLs
+  location?: string; // Optional storage location
+  purchaseDate?: string; // Optional ISO date string
+  warranty?: {
+    // Optional warranty information
+    expires: string; // ISO date string
+    provider: string; // Company name
+    details: string; // Additional details
+  };
+}
+```
 
-- **index.html**: Main HTML file with Vue and Tailwind setup
-- **styles.css**: Custom styles and theme variables
-- **hydration.js**: Mock data and storage logic
-- **components.js**: All Vue components
-- **app.js**: Main application and routing logic
+### Category
 
-## 🎛️ Settings & Customization
+```typescript
+interface Category {
+  id: string; // Unique identifier
+  name: string; // Display name
+  icon: string; // SVG icon code or reference
+  itemCount: number; // Number of items in this category (computed)
+}
+```
 
-MONO offers extensive customization options:
+### Tag
 
-- **Theme**: Choose from Default, Neon Brutalist, Eco, or Absurd
-- **Dark Mode**: Toggle between light and dark modes
-- **View Mode**: Grid or list display
-- **Currency**: Change the currency symbol for values
-- **Date Format**: Customize how dates are displayed
-- **Experimental Features**: Enable cutting-edge features
+```typescript
+interface Tag {
+  id: string; // Unique identifier
+  name: string; // Display name
+  color?: string; // Optional custom color (defaults to black)
+}
+```
 
-## 🔮 Potential Future Enhancements
+## Application Architecture
 
-- **Cloud Sync**: Backup to cloud storage
-- **Multi-user Support**: Share inventories with family or roommates
-- **QR Code Generation**: For quick item identification
-- **Warranty Tracking**: Get notifications before warranties expire
-- **Value Appreciation/Depreciation**: Track value changes over time
-- **Insurance Integration**: Generate reports for insurance purposes
-- **Image Uploads**: Add photos of your items
+### Frontend (Vue.js)
 
-## 👩‍💻 For Developers
+The frontend is organized into the following structure:
 
-This project is designed to be easy to modify and extend:
+```
+src/
+├── assets/            # Static assets like SVG icons
+├── components/        # Reusable Vue components
+│   ├── layout/        # Layout components (Sidebar, Header, etc.)
+│   ├── items/         # Item-related components
+│   ├── modals/        # Modal dialogs
+│   └── ui/            # Reusable UI elements
+├── composables/       # Shared composition functions
+├── router/            # Vue Router configuration
+├── stores/            # Pinia stores
+│   ├── itemStore.js   # Inventory items management
+│   ├── categoryStore.js # Categories management
+│   └── uiStore.js     # UI state management
+├── views/             # Page components
+└── App.vue            # Root component
+```
 
-- All data is managed through the `DataService` in `hydration.js`
-- Components are organized by feature in `components.js`
-- Theme variables are in CSS custom properties in `styles.css`
-- The application structure follows Vue best practices
+### State Management (Pinia)
 
-To replace the mock data layer with a real backend:
+Three primary stores manage the application state:
 
-1. Modify the functions in `DataService` to make API calls
-2. Keep the same function signatures to maintain compatibility
-3. Update the storage layer as needed
+1. **Item Store**: Manages inventory items CRUD operations and filtering
+2. **Category Store**: Manages categories and their relationships with items
+3. **UI Store**: Manages UI state (modal visibility, active filters, view preferences)
 
-## License
+### Database Layer (IndexedDB)
 
-This project is open source under the GPLv3 License.
+The IndexedDB interface will be abstracted through a service layer:
 
----
+```
+services/
+├── db.js              # Database initialization and connection
+├── itemService.js     # Item CRUD operations
+├── categoryService.js # Category CRUD operations
+└── tagService.js      # Tag CRUD operations
+```
 
-Built with ❤️ by Amartha for Absurd Industries
+### API Layer (Hono.js)
+
+The Hono.js API provides a RESTful interface to interact with IndexedDB:
+
+```
+api/
+├── routes/
+│   ├── items.js       # Item routes (GET, POST, PUT, DELETE)
+│   ├── categories.js  # Category routes
+│   └── tags.js        # Tag routes
+└── index.js           # API initialization and middleware
+```
+
+## Feature Specification
+
+### Core Features
+
+1. **Inventory Management**
+
+   - Add, edit, delete items
+   - Bulk operations (delete, categorize, tag)
+   - Image attachment (stored as data URLs)
+   - Detailed item view with all metadata
+
+2. **Categorization & Organization**
+
+   - Hierarchical categories
+   - Tagging system
+   - Custom fields for specific categories
+   - Location tracking
+
+3. **Search & Filter**
+
+   - Full-text search across all item fields
+   - Advanced filtering by multiple criteria
+   - Saved searches/filters
+   - Sort by various properties (name, value, date, etc.)
+
+4. **Views**
+
+   - Grid view (default)
+   - List view
+   - Gallery view (image-focused)
+   - Stats view (charts and analytics)
+
+5. **Data Management**
+   - Export to CSV/JSON
+   - Import from CSV/JSON
+   - Backup/restore functionality
+   - Optional cloud sync (future enhancement)
+
+### User Experience Enhancements
+
+1. **Keyboard Navigation**
+
+   - Shortcuts for common actions
+   - Arrow key navigation in grid/list views
+
+2. **Offline Support**
+
+   - Complete offline functionality
+   - Background sync when connection returns
+
+3. **Performance Optimizations**
+
+   - Virtualized lists for large inventories
+   - Lazy loading of images
+   - Efficient filtering and search algorithms
+
+4. **Responsive Design**
+   - Optimized layouts for mobile, tablet, and desktop
+   - Touch-friendly interactions on mobile
+
+## Future Enhancements
+
+1. **Cloud Sync**
+
+   - Optional sync with cloud storage
+   - Multi-device support
+
+2. **Barcode Scanner**
+
+   - Use camera to scan barcodes/QR codes
+   - Auto-fill item details from public databases
+
+3. **Sharing & Collaboration**
+
+   - Share inventory lists with others
+   - Collaborative editing
+
+4. **Advanced Analytics**
+   - Value tracking over time
+   - Category distribution insights
+   - Custom reports
+
+## Development Roadmap
+
+### Phase 1: Core Frontend (Vue.js)
+
+- Implement basic UI components matching the design
+- Set up Vue Router and basic navigation
+- Create Pinia stores with mock data
+
+### Phase 2: IndexedDB Integration
+
+- Implement IndexedDB service layer
+- Connect Pinia stores to IndexedDB
+- Basic CRUD operations working locally
+
+### Phase 3: Hono API Layer
+
+- Develop Hono.js API endpoints
+- Connect frontend to Hono API
+- Implement error handling and loading states
+
+### Phase 4: Feature Completion
+
+- Finalize all planned features
+- Polish UI and interactions
+- Optimize performance
+
+### Phase 5: Deployment
+
+- Deploy to Cloudflare Pages and Workers
+- Configure caching and offline support
+- Final testing and bug fixes

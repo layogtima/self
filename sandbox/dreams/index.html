@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dreamscape Navigation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.prod.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              dream: {
+                100: "#f0e6ff",
+                200: "#d9c2ff",
+                300: "#b399ff",
+                400: "#8c66ff",
+                500: "#6633ff",
+                600: "#5229cc",
+                700: "#3d1f99",
+                800: "#291466",
+                900: "#140a33",
+              },
+              void: "#0a0a12",
+            },
+            animation: {
+              float: "float 6s ease-in-out infinite",
+              "spin-slow": "spin 20s linear infinite",
+              drift: "drift 15s ease-in-out infinite",
+              "pulse-slow": "pulse 8s ease-in-out infinite",
+            },
+            keyframes: {
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-20px)" },
+              },
+              drift: {
+                "0%, 100%": { transform: "translateX(0)" },
+                "50%": { transform: "translateX(30px)" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @keyframes shimmer {
+        0% {
+          background-position: -468px 0;
+        }
+        100% {
+          background-position: 468px 0;
+        }
+      }
+
+      .shimmer {
+        background: linear-gradient(
+          to right,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.5) 50%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        background-size: 468px 100%;
+        animation: shimmer 2s infinite linear;
+      }
+
+      .dream-cursor {
+        cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 24 24' fill='none' stroke='%236633ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'></circle><circle cx='12' cy='12' r='4'></circle></svg>")
+            20 20,
+          auto;
+      }
+
+      .void-background {
+        background-color: #0a0a12;
+        background-image: radial-gradient(
+            circle at 20% 80%,
+            rgba(102, 51, 255, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 20%,
+            rgba(102, 51, 255, 0.1) 0%,
+            transparent 50%
+          );
+      }
+    </style>
+  </head>
+  <body class="void-background min-h-screen dream-cursor overflow-hidden">
+    <div
+      id="app"
+      class="relative w-full h-screen flex items-center justify-center overflow-hidden"
+    >
+      <!-- Floating elements -->
+      <div class="absolute w-full h-full pointer-events-none">
+        <div
+          class="absolute top-1/4 left-1/3 w-32 h-32 bg-dream-400 rounded-full opacity-20 blur-3xl animate-pulse-slow"
+        ></div>
+        <div
+          class="absolute bottom-1/4 right-1/3 w-40 h-40 bg-dream-300 rounded-full opacity-10 blur-3xl animate-float"
+        ></div>
+        <div
+          class="absolute top-2/3 left-1/2 w-24 h-24 bg-dream-500 rounded-full opacity-30 blur-2xl animate-drift"
+        ></div>
+      </div>
+
+      <transition name="fade" mode="out-in">
+        <div
+          v-if="currentScene === 'start'"
+          class="relative z-10 max-w-md mx-auto text-center"
+        >
+          <h1
+            class="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight"
+          >
+            <span class="block text-dream-300">Dream</span>
+            <span class="block">Logic</span>
+            <span class="block text-dream-300">Navigation</span>
+          </h1>
+          <p class="text-gray-300 mb-8 leading-relaxed">
+            Enter a realm where clicks lead to unexpected places and reality
+            bends to the whims of dream logic.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4 mb-8">
+            <button
+              @click="navigateDream('door')"
+              class="dream-btn group relative overflow-hidden rounded-lg bg-dream-700 px-6 py-3 text-white shadow-lg transition-all duration-300 hover:bg-dream-600 hover:shadow-dream-500/50"
+            >
+              <span class="relative z-10">Enter the Door</span>
+              <div
+                class="absolute inset-0 scale-0 rounded-lg bg-dream-500 transition-all duration-500 group-hover:scale-100 group-hover:opacity-30"
+              ></div>
+            </button>
+            <button
+              @click="navigateDream('window')"
+              class="dream-btn group relative overflow-hidden rounded-lg bg-dream-700 px-6 py-3 text-white shadow-lg transition-all duration-300 hover:bg-dream-600 hover:shadow-dream-500/50"
+            >
+              <span class="relative z-10">Through the Window</span>
+              <div
+                class="absolute inset-0 scale-0 rounded-lg bg-dream-500 transition-all duration-500 group-hover:scale-100 group-hover:opacity-30"
+              ></div>
+            </button>
+          </div>
+          <p class="text-dream-200 text-sm italic">
+            The same path leads to different destinations each time.
+          </p>
+        </div>
+
+        <div
+          v-else-if="currentScene === 'teacup'"
+          class="relative z-10 max-w-md mx-auto text-center p-6 bg-void rounded-xl bg-opacity-50 backdrop-blur-md border border-dream-700/20"
+        >
+          <h2 class="text-3xl font-bold text-dream-300 mb-3">
+            The Talking Teacup
+          </h2>
+          <p class="text-gray-200 mb-6">
+            "You've clicked your way into my parlor," says the Teacup with the
+            chipped rim. "Most visitors don't come through {{entryPoint}} like
+            you did. How peculiar."
+          </p>
+          <div class="flex justify-center space-x-4 mb-6">
+            <button
+              @click="askTeacup('fortune')"
+              class="px-4 py-2 rounded-lg bg-dream-600 text-white hover:bg-dream-500 transition-colors"
+            >
+              Ask for a fortune
+            </button>
+            <button
+              @click="askTeacup('riddle')"
+              class="px-4 py-2 rounded-lg bg-dream-600 text-white hover:bg-dream-500 transition-colors"
+            >
+              Request a riddle
+            </button>
+          </div>
+          <div
+            v-if="teacupResponse"
+            class="mt-4 p-4 bg-dream-900/50 rounded-lg text-dream-100 italic"
+          >
+            {{ teacupResponse }}
+          </div>
+          <div class="mt-6">
+            <button
+              @click="navigateDream()"
+              class="underline text-dream-300 hover:text-dream-200"
+            >
+              Wander elsewhere...
+            </button>
+          </div>
+        </div>
+
+        <div
+          v-else-if="currentScene === 'memory'"
+          class="relative z-10 max-w-md mx-auto text-center p-6 bg-void rounded-xl bg-opacity-50 backdrop-blur-md border border-dream-700/20"
+        >
+          <h2 class="text-3xl font-bold text-dream-300 mb-3">
+            A Forgotten Memory
+          </h2>
+          <p class="text-gray-200 mb-6">
+            The {{entryPoint}} fades away, and you find yourself surrounded by
+            fragments of what seems to be a memory. Not yours, perhaps, but
+            someone's.
+          </p>
+          <div
+            class="memory-fragment p-4 bg-dream-900/60 rounded-lg text-dream-100 mb-6"
+          >
+            {{ currentMemory }}
+          </div>
+          <div class="flex justify-center space-x-4">
+            <button
+              @click="changeMemory()"
+              class="px-4 py-2 rounded-lg bg-dream-600 text-white hover:bg-dream-500 transition-colors"
+            >
+              Reach for another fragment
+            </button>
+            <button
+              @click="navigateDream()"
+              class="px-4 py-2 rounded-lg bg-dream-600 text-white hover:bg-dream-500 transition-colors"
+            >
+              Let it fade away
+            </button>
+          </div>
+        </div>
+
+        <div
+          v-else-if="currentScene === 'garden'"
+          class="relative z-10 max-w-md mx-auto text-center p-6 bg-void rounded-xl bg-opacity-50 backdrop-blur-md border border-dream-700/20"
+        >
+          <h2 class="text-3xl font-bold text-dream-300 mb-3">
+            The Impossible Garden
+          </h2>
+          <p class="text-gray-200 mb-6">
+            Beyond the {{entryPoint}}, there's a garden where flowers grow in
+            shapes of mathematical impossibilities. Their petals fold in
+            dimensions that shouldn't exist.
+          </p>
+          <div class="garden-interaction flex flex-col items-center mb-6">
+            <div class="w-32 h-32 relative mb-4">
+              <div class="absolute inset-0 flex items-center justify-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 200 200"
+                  class="w-full h-full"
+                >
+                  <g :class="{'animate-spin-slow': isFlowerAnimated}">
+                    <path
+                      d="M100,10 C120,30 150,30 170,10 C190,30 190,60 170,80 C190,100 190,130 170,150 C150,170 120,170 100,150 C80,170 50,170 30,150 C10,130 10,100 30,80 C10,60 10,30 30,10 C50,30 80,30 100,10 Z"
+                      :fill="flowerColor"
+                    />
+                    <circle cx="100" cy="80" r="15" fill="#f9a8d4" />
+                  </g>
+                </svg>
+              </div>
+            </div>
+            <div class="flex space-x-3 mb-4">
+              <button
+                @click="changeFlower('color')"
+                class="px-3 py-1 rounded-lg bg-dream-600 text-white hover:bg-dream-500 transition-colors text-sm"
+              >
+                Change Color
+              </button>
+              <button
+                @click="changeFlower('animate')"
+                class="px-3 py-1 rounded-lg bg-dream-600 text-white hover:bg-dream-500 transition-colors text-sm"
+              >
+                {{isFlowerAnimated ? 'Stop' : 'Animate'}} Flower
+              </button>
+            </div>
+            <p class="text-dream-200 text-sm italic mb-4">
+              The gardener says each flower contains a universe.
+            </p>
+          </div>
+          <div class="mt-4">
+            <button
+              @click="navigateDream()"
+              class="underline text-dream-300 hover:text-dream-200"
+            >
+              Leave the garden
+            </button>
+          </div>
+        </div>
+
+        <div
+          v-else-if="currentScene === 'clockwork'"
+          class="relative z-10 max-w-md mx-auto text-center p-6 bg-void rounded-xl bg-opacity-50 backdrop-blur-md border border-dream-700/20"
+        >
+          <h2 class="text-3xl font-bold text-dream-300 mb-3">
+            The Clockwork Room
+          </h2>
+          <p class="text-gray-200 mb-6">
+            The {{entryPoint}} reveals a room where time has physical form.
+            Gears rotate in the air, ticking away moments that might have been
+            or are yet to be.
+          </p>
+          <div class="clock-interaction mb-6">
+            <div class="mb-4 flex justify-center">
+              <div
+                class="w-32 h-32 rounded-full border-4 border-dream-300 relative flex items-center justify-center"
+              >
+                <div
+                  class="absolute w-1 h-16 bg-dream-200 origin-bottom"
+                  :style="{transform: `rotate(${clockHands.hour}deg)`}"
+                ></div>
+                <div
+                  class="absolute w-0.5 h-20 bg-dream-100 origin-bottom"
+                  :style="{transform: `rotate(${clockHands.minute}deg)`}"
+                ></div>
+                <div
+                  class="absolute w-10 h-10 rounded-full bg-dream-900 flex items-center justify-center"
+                >
+                  <span class="text-dream-200 text-xs">{{ clockQuote }}</span>
+                </div>
+              </div>
+            </div>
+            <button
+              @click="adjustTime()"
+              class="px-4 py-2 rounded-lg bg-dream-600 text-white hover:bg-dream-500 transition-colors"
+            >
+              Adjust the Hands
+            </button>
+          </div>
+          <div class="mt-4">
+            <button
+              @click="navigateDream()"
+              class="underline text-dream-300 hover:text-dream-200"
+            >
+              Step through time
+            </button>
+          </div>
+        </div>
+      </transition>
+
+      <!-- Dream navigation controller -->
+      <div class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-20">
+        <div
+          v-if="currentScene !== 'start'"
+          class="bg-dream-900/70 backdrop-blur-sm rounded-full px-4 py-2.5 flex items-center space-x-1"
+        >
+          <button
+            @click="returnToStart()"
+            class="text-dream-300 hover:text-dream-200 flex items-center transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 mr-1"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+              />
+            </svg>
+            <span class="text-sm">Return</span>
+          </button>
+          <div class="text-dream-400">|</div>
+          <span class="text-dream-400 text-xs"
+            >Dream state: {{ dreamStateDisplay }}</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const { createApp, ref, computed, onMounted } = Vue;
+
+      createApp({
+        setup() {
+          const currentScene = ref("start");
+          const entryPoint = ref("door");
+          const dreamState = ref(Math.random());
+          const teacupResponse = ref("");
+          const currentMemory = ref("");
+          const flowerColor = ref("#a78bfa");
+          const isFlowerAnimated = ref(false);
+          const clockHands = ref({ hour: 0, minute: 0 });
+          const clockQuote = ref("");
+
+          // Memory fragments
+          const memories = [
+            "A child standing at the edge of the ocean for the first time, toes curling in wet sand.",
+            "The smell of cinnamon and star anise in a kitchen you've never been to before.",
+            "Laughter echoing in an empty hallway of a school during summer break.",
+            "The peculiar feeling of déjà vu while visiting a place you're certain you've never been.",
+            "A song playing on the radio that reminds you of someone whose face you can't quite recall.",
+            "Hands touching, static electricity, a small jump, and a shared laugh that feels timeless.",
+            "The weight of a book in your hands, its pages yellowed, containing stories that feel like borrowed memories.",
+          ];
+
+          // Teacup responses
+          const fortunes = [
+            "The next door you open will lead somewhere unexpected. Bring an umbrella for the metaphorical rain.",
+            "You will soon meet someone who knows the answer to a question you haven't asked yet.",
+            "The music you hear in your dreams is being played by someone else's memories.",
+            "A letter is making its way to you through unconventional means. Look for it in odd places.",
+            "Your reflection has been talking about you to other reflections. They're mostly saying nice things.",
+          ];
+
+          const riddles = [
+            "I am a word of letters three, add two and fewer there will be. What am I?",
+            "I speak without a mouth and hear without ears. I have no body, but come alive with wind. What am I?",
+            "The more you take, the more you leave behind. What am I?",
+            "What can travel around the world while staying in a corner?",
+            "I'm light as a feather, yet the strongest person can't hold me for more than a few minutes. What am I?",
+          ];
+
+          // Clock quotes
+          const clockTexts = ["now", "then", "never", "always", "between"];
+
+          // Computed property for display dream state
+          const dreamStateDisplay = computed(() => {
+            return dreamState.value.toFixed(2);
+          });
+
+          // Initialize
+          onMounted(() => {
+            changeMemory();
+            adjustTime();
+          });
+
+          // Navigation function with dream logic
+          function navigateDream(entry) {
+            // Update entry point if provided
+            if (entry) {
+              entryPoint.value = entry;
+            }
+
+            // Change dream state
+            dreamState.value = Math.random();
+
+            // Navigate based on current time and dream state
+            const now = new Date();
+            const secondsFactor = now.getSeconds() / 60;
+            const destinations = ["teacup", "memory", "garden", "clockwork"];
+
+            if (currentScene.value !== "start") {
+              // Calculate destination based on multiple factors for dream-like unpredictability
+              let index;
+              if (dreamState.value < 0.25) {
+                index = Math.floor(secondsFactor * destinations.length);
+              } else if (dreamState.value < 0.5) {
+                index = Math.floor(dreamState.value * destinations.length);
+              } else if (dreamState.value < 0.75) {
+                // Based on entry point
+                index = entryPoint.value === "door" ? 0 : 2;
+              } else {
+                // Just random
+                index = Math.floor(Math.random() * destinations.length);
+              }
+              currentScene.value = destinations[index];
+            } else {
+              // From start, base it mostly on which entry was chosen, with a hint of randomness
+              const baseIndex = entry === "door" ? 0 : 2;
+              const randomOffset = Math.random() < 0.3 ? 1 : 0; // 30% chance to offset
+              const index = (baseIndex + randomOffset) % destinations.length;
+              currentScene.value = destinations[index];
+            }
+          }
+
+          function returnToStart() {
+            currentScene.value = "start";
+            teacupResponse.value = "";
+          }
+
+          function askTeacup(type) {
+            if (type === "fortune") {
+              const index = Math.floor(Math.random() * fortunes.length);
+              teacupResponse.value = fortunes[index];
+            } else {
+              const index = Math.floor(Math.random() * riddles.length);
+              teacupResponse.value = riddles[index];
+            }
+          }
+
+          function changeMemory() {
+            let newMemory;
+            do {
+              const index = Math.floor(Math.random() * memories.length);
+              newMemory = memories[index];
+            } while (newMemory === currentMemory.value);
+
+            currentMemory.value = newMemory;
+          }
+
+          function changeFlower(type) {
+            if (type === "color") {
+              const colors = [
+                "#a78bfa",
+                "#f472b6",
+                "#34d399",
+                "#60a5fa",
+                "#fbbf24",
+              ];
+              let newColor;
+              do {
+                const index = Math.floor(Math.random() * colors.length);
+                newColor = colors[index];
+              } while (newColor === flowerColor.value);
+
+              flowerColor.value = newColor;
+            } else {
+              isFlowerAnimated.value = !isFlowerAnimated.value;
+            }
+          }
+
+          function adjustTime() {
+            clockHands.value.hour = Math.random() * 360;
+            clockHands.value.minute = Math.random() * 360;
+
+            const index = Math.floor(Math.random() * clockTexts.length);
+            clockQuote.value = clockTexts[index];
+          }
+
+          return {
+            currentScene,
+            entryPoint,
+            dreamState,
+            dreamStateDisplay,
+            teacupResponse,
+            currentMemory,
+            flowerColor,
+            isFlowerAnimated,
+            clockHands,
+            clockQuote,
+            navigateDream,
+            returnToStart,
+            askTeacup,
+            changeMemory,
+            changeFlower,
+            adjustTime,
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

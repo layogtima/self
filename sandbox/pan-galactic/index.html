@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pan-Galactic Gargle Trading</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="terminal-container">
+      <header class="terminal-header">
+        <h1 class="terminal-title">
+          <i class="fas fa-rocket"></i> PAN-GALACTIC GARGLE TRADING
+          <i class="fas fa-rocket"></i>
+        </h1>
+        <div class="subtitle blink-slow">DON'T PANIC</div>
+      </header>
+
+      <main id="game-container">
+        <!-- Start Screen -->
+        <div id="start-screen" class="screen active">
+          <div class="guide-entry">
+            <p class="guide-text">
+              "In the beginning, the Universe was created. This has made a lot
+              of people very angry and been widely regarded as a bad move."
+            </p>
+            <p class="guide-text">
+              Welcome to the aftermath. Earth has been demolished to make way
+              for a hyperspace bypass, and you've been unwittingly thrust into
+              the role of an interstellar trader.
+            </p>
+            <p class="guide-text">
+              Your mission: Navigate the absurdities of cosmic capitalism to
+              earn enough money to find the legendary planet of Magrathea and
+              possibly commission a new Earth.
+            </p>
+            <p class="guide-text">
+              Armed with nothing but your towel and a copy of "The Hitchhiker's
+              Guide to the Galaxy," your journey begins now.
+            </p>
+          </div>
+          <div class="start-options">
+            <div class="start-option" id="start-new-game">
+              <i class="fas fa-play"></i> START NEW GAME
+            </div>
+            <div class="start-option" id="game-instructions">
+              <i class="fas fa-book"></i> HOW TO PLAY
+            </div>
+          </div>
+        </div>
+
+        <!-- Instructions Screen -->
+        <div id="instructions-screen" class="screen">
+          <h2><i class="fas fa-info-circle"></i> THE GUIDE TO TRADING</h2>
+          <div class="guide-entry">
+            <p class="guide-text">
+              "The Hitchhiker's Guide to the Galaxy has this to say about
+              interstellar trading: It's mostly about knowing where to be, when
+              to be there, and what not to be carrying when the Vogons arrive."
+            </p>
+            <ul class="instruction-list">
+              <li>
+                <i class="fas fa-money-bill-wave"></i>
+                <strong>Buy low, sell high</strong> - Different planets have
+                different prices for goods
+              </li>
+              <li>
+                <i class="fas fa-rocket"></i> <strong>Travel smartly</strong> -
+                Each journey costs money and time
+              </li>
+              <li>
+                <i class="fas fa-random"></i>
+                <strong>Embrace improbability</strong> - Random events will
+                occur
+              </li>
+              <li>
+                <i class="fas fa-users"></i> <strong>Build reputation</strong> -
+                Different species will offer different deals
+              </li>
+              <li>
+                <i class="fas fa-bath"></i>
+                <strong>Always know where your towel is</strong> - Essential for
+                any galactic hitchhiker
+              </li>
+            </ul>
+            <p class="guide-text">
+              Your goal is to accumulate 1 million Altairian Dollars and locate
+              Magrathea to commission a new Earth.
+            </p>
+          </div>
+          <div class="back-button" id="back-to-start">
+            <i class="fas fa-arrow-left"></i> BACK
+          </div>
+        </div>
+
+        <!-- Main Game Screen -->
+        <div id="game-screen" class="screen">
+          <div class="info-bar">
+            <div class="location-info">
+              <i class="fas fa-map-marker-alt"></i>
+              <span id="current-location">Earth</span>
+            </div>
+            <div class="player-money">
+              <i class="fas fa-money-bill-wave"></i>
+              <span id="player-credits">1000</span> Altairian Dollars
+            </div>
+            <div class="turn-counter">
+              <i class="fas fa-hourglass-half"></i> Day
+              <span id="turn-count">1</span>
+            </div>
+          </div>
+
+          <div class="main-interface">
+            <!-- Tab navigation -->
+            <div class="tab-navigation">
+              <div class="tab active" data-tab="location-tab">
+                <i class="fas fa-globe"></i> LOCATION
+              </div>
+              <div class="tab" data-tab="market-tab">
+                <i class="fas fa-store"></i> MARKET
+              </div>
+              <div class="tab" data-tab="inventory-tab">
+                <i class="fas fa-suitcase"></i> INVENTORY
+              </div>
+              <div class="tab" data-tab="travel-tab">
+                <i class="fas fa-rocket"></i> TRAVEL
+              </div>
+            </div>
+
+            <!-- Tab content -->
+            <div class="tab-content">
+              <!-- Location tab -->
+              <div id="location-tab" class="tab-pane active">
+                <h2 id="location-name">Earth</h2>
+                <div class="guide-entry">
+                  <p id="location-description" class="guide-text">
+                    Your home planet, soon to be demolished to make way for a
+                    hyperspace bypass. Better leave quickly.
+                  </p>
+                </div>
+                <div class="reputation-section">
+                  <h3>LOCAL REPUTATION</h3>
+                  <div class="reputation-bars">
+                    <!-- Reputation bars will be populated dynamically -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Market tab -->
+              <div id="market-tab" class="tab-pane">
+                <h2>MARKET PRICES</h2>
+                <div class="market-explainer guide-entry">
+                  <p class="guide-text">
+                    "Markets throughout the galaxy operate on the principle that
+                    nobody really knows what anything is worth, but everyone is
+                    afraid of getting a bad deal."
+                  </p>
+                </div>
+                <div class="market-container">
+                  <table class="market-table">
+                    <thead>
+                      <tr>
+                        <th>ITEM</th>
+                        <th>BUY</th>
+                        <th>SELL</th>
+                        <th>ACTION</th>
+                      </tr>
+                    </thead>
+                    <tbody id="market-items">
+                      <!-- Market items will be populated dynamically -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Inventory tab -->
+              <div id="inventory-tab" class="tab-pane">
+                <h2>YOUR INVENTORY</h2>
+                <div class="inventory-explainer guide-entry">
+                  <p class="guide-text">
+                    "The seasoned traveler knows that what you carry is often
+                    more important than where you're going."
+                  </p>
+                </div>
+                <div class="inventory-container">
+                  <table class="inventory-table">
+                    <thead>
+                      <tr>
+                        <th>ITEM</th>
+                        <th>QTY</th>
+                        <th>VALUE</th>
+                        <th>ACTION</th>
+                      </tr>
+                    </thead>
+                    <tbody id="inventory-items">
+                      <!-- Inventory items will be populated dynamically -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Travel tab -->
+              <div id="travel-tab" class="tab-pane">
+                <h2>DESTINATIONS</h2>
+                <div class="travel-explainer guide-entry">
+                  <p class="guide-text">
+                    "Space is big. Really big. You just won't believe how
+                    vastly, hugely, mind-bogglingly big it is."
+                  </p>
+                </div>
+                <div class="travel-options" id="travel-destinations">
+                  <!-- Travel destinations will be populated dynamically -->
+                </div>
+                <div class="special-travel-options">
+                  <button
+                    id="improbability-drive"
+                    class="special-button"
+                    disabled
+                  >
+                    <i class="fas fa-dice"></i> ACTIVATE INFINITE IMPROBABILITY
+                    DRIVE
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="terminal-output">
+            <div class="terminal-output-header">
+              <i class="fas fa-terminal"></i> GUIDE NOTIFICATIONS
+            </div>
+            <div id="terminal-messages" class="terminal-messages">
+              <div class="message">
+                Welcome to Pan-Galactic Gargle Trading. Don't Panic!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trade Modal -->
+        <div id="trade-modal" class="modal">
+          <div class="modal-content">
+            <h2 id="trade-modal-title">Buy Item</h2>
+            <div class="modal-body">
+              <p><span id="trade-item-name">Item Name</span></p>
+              <p id="trade-item-description" class="guide-text">
+                Item description goes here.
+              </p>
+              <div class="trade-controls">
+                <div class="trade-quantity">
+                  <label for="trade-quantity-input">Quantity:</label>
+                  <div class="quantity-control">
+                    <button id="decrease-quantity">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <input
+                      type="number"
+                      id="trade-quantity-input"
+                      value="1"
+                      min="1"
+                      max="999"
+                    />
+                    <button id="increase-quantity">
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="trade-total">
+                  <p>
+                    Total Cost: <span id="trade-total-cost">0</span> Altairian
+                    Dollars
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button id="cancel-trade" class="modal-button cancel">
+                CANCEL
+              </button>
+              <button id="confirm-trade" class="modal-button confirm">
+                CONFIRM
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Modal -->
+        <div id="event-modal" class="modal">
+          <div class="modal-content">
+            <h2 id="event-modal-title">Random Event</h2>
+            <div class="modal-body">
+              <div id="event-icon" class="event-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+              </div>
+              <p id="event-description" class="guide-text">
+                Event description goes here.
+              </p>
+              <div id="event-effects" class="event-effects">
+                <!-- Event effects go here -->
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button id="acknowledge-event" class="modal-button confirm">
+                ACKNOWLEDGE
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="terminal-footer">
+        <div class="footer-text">© Megadodo Publications, Ursa Minor Beta</div>
+        <div class="footer-hidden easter-egg">The answer is 42</div>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPACEWAR! - 1962 Reimagined</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="gameContainer">
+      <canvas id="gameCanvas"></canvas>
+      <canvas id="effectCanvas"></canvas>
+      <div class="chromatic-aberration"></div>
+
+      <div class="title">SPACEWAR! 1962</div>
+
+      <div id="player1Info" class="info">
+        NEEDLE<br />
+        FUEL: <span id="player1Fuel">100</span><br />
+        TORPEDOES: <span id="player1Torpedoes">10</span>
+      </div>
+
+      <div id="player2Info" class="info">
+        WEDGE<br />
+        FUEL: <span id="player2Fuel">100</span><br />
+        TORPEDOES: <span id="player2Torpedoes">10</span>
+      </div>
+
+      <div class="controls">
+        NEEDLE: W/A/S/D + SPACE (HYPERSPACE: Q)<br />
+        WEDGE: ARROWS + ENTER (HYPERSPACE: SHIFT)
+      </div>
+    </div>
+
+    <div id="startScreen">
+      <h1>SPACEWAR!</h1>
+      <div>THE ORIGINAL 1962 SPACE COMBAT SIMULATOR</div>
+      <div>A GAME BY STEVE RUSSELL AND FRIENDS FROM MIT</div>
+      <button id="startButton">INITIATE COMBAT SEQUENCE</button>
+    </div>
+
+    <div id="gameOverScreen">
+      <div id="gameOverMessage">COMBAT TERMINATED</div>
+      <button id="restartButton">RESTART MISSION</button>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

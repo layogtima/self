@@ -1,0 +1,333 @@
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #000;
+  font-family: "Courier New", monospace;
+  color: #33ff33;
+  height: 100%;
+  width: 100%;
+  user-select: none;
+}
+
+#gameContainer {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+canvas {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  image-rendering: pixelated;
+}
+
+#gameCanvas {
+  z-index: 1;
+}
+
+#effectCanvas {
+  z-index: 2;
+  pointer-events: none;
+}
+
+.info {
+  position: absolute;
+  z-index: 3;
+  padding: 10px;
+  background: rgba(0, 20, 0, 0.7);
+  border: 1px solid #33ff33;
+  border-radius: 5px;
+}
+
+#player1Info {
+  top: 20px;
+  left: 20px;
+}
+
+#player2Info {
+  top: 20px;
+  right: 20px;
+}
+
+.title {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 24px;
+  z-index: 3;
+  text-shadow: 0 0 10px #33ff33;
+  letter-spacing: 3px;
+}
+
+.controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  text-align: center;
+  background: rgba(0, 20, 0, 0.7);
+  padding: 10px;
+  border: 1px solid #33ff33;
+  border-radius: 5px;
+}
+
+#startScreen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  color: #33ff33;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+#startScreen h1 {
+  font-size: 50px;
+  margin-bottom: 30px;
+  text-shadow: 0 0 20px #33ff33;
+  letter-spacing: 10px;
+}
+
+#startButton {
+  padding: 15px 30px;
+  background-color: transparent;
+  color: #33ff33;
+  border: 2px solid #33ff33;
+  font-family: "Courier New", monospace;
+  font-size: 20px;
+  cursor: pointer;
+  margin-top: 30px;
+  transition: all 0.3s;
+}
+
+#startButton:hover {
+  background-color: #33ff33;
+  color: #000;
+  box-shadow: 0 0 20px #33ff33;
+}
+
+#gameOverScreen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #33ff33;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+#gameOverMessage {
+  font-size: 40px;
+  margin-bottom: 30px;
+  text-shadow: 0 0 20px #33ff33;
+}
+
+#restartButton {
+  padding: 15px 30px;
+  background-color: transparent;
+  color: #33ff33;
+  border: 2px solid #33ff33;
+  font-family: "Courier New", monospace;
+  font-size: 20px;
+  cursor: pointer;
+  margin-top: 30px;
+  transition: all 0.3s;
+}
+
+#restartButton:hover {
+  background-color: #33ff33;
+  color: #000;
+  box-shadow: 0 0 20px #33ff33;
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 0.95;
+  }
+  5% {
+    opacity: 0.85;
+  }
+  10% {
+    opacity: 0.97;
+  }
+  15% {
+    opacity: 0.88;
+  }
+  20% {
+    opacity: 0.92;
+  }
+  25% {
+    opacity: 0.9;
+  }
+  30% {
+    opacity: 0.98;
+  }
+  35% {
+    opacity: 0.93;
+  }
+  40% {
+    opacity: 0.97;
+  }
+  45% {
+    opacity: 0.94;
+  }
+  50% {
+    opacity: 0.98;
+  }
+  55% {
+    opacity: 0.91;
+  }
+  60% {
+    opacity: 0.94;
+  }
+  65% {
+    opacity: 0.97;
+  }
+  70% {
+    opacity: 0.92;
+  }
+  75% {
+    opacity: 0.96;
+  }
+  80% {
+    opacity: 0.94;
+  }
+  85% {
+    opacity: 0.98;
+  }
+  90% {
+    opacity: 0.91;
+  }
+  95% {
+    opacity: 0.97;
+  }
+  100% {
+    opacity: 0.95;
+  }
+}
+
+#gameContainer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+      rgba(18, 16, 16, 0) 50%,
+      rgba(0, 0, 0, 0.25) 50%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.06),
+      rgba(0, 255, 0, 0.02),
+      rgba(0, 0, 255, 0.06)
+    );
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+  z-index: 5;
+  animation: flicker 0.15s infinite;
+}
+
+// Add this to your style.css to enhance the CRT effect
+#gameContainer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, transparent 50%, rgba(0, 0, 0, 0.7) 100%);
+  pointer-events: none;
+  z-index: 6;
+}
+
+/* Add chromatic aberration effect */
+.chromatic-aberration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 7;
+}
+
+/* Add these to your HTML, right after the #gameContainer::before closing bracket */
+.chromatic-aberration::before, 
+.chromatic-aberration::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  mix-blend-mode: screen;
+}
+
+.chromatic-aberration::before {
+  background: linear-gradient(to right, rgba(255,0,0,0.1), rgba(0,0,0,0));
+  transform: translate(-1px, 0);
+}
+
+.chromatic-aberration::after {
+  background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,255,0.1));
+  transform: translate(1px, 0);
+}
+
+/* Intensify the flicker effect */
+@keyframes flicker {
+  0% { opacity: 0.95; }
+  5% { opacity: 0.85; }
+  7% { opacity: 0.91; }
+  10% { opacity: 0.94; filter: brightness(1.2); }
+  15% { opacity: 0.98; }
+  20% { opacity: 0.92; filter: brightness(0.9); }
+  25% { opacity: 0.95; }
+  30% { opacity: 0.98; filter: brightness(1.1); }
+  35% { opacity: 0.93; }
+  40% { opacity: 0.97; }
+  45% { opacity: 0.94; filter: brightness(0.8); }
+  50% { opacity: 0.85; }
+  52% { opacity: 0.75; filter: brightness(1.3); }
+  55% { opacity: 0.91; }
+  60% { opacity: 0.94; }
+  65% { opacity: 0.97; }
+  70% { opacity: 0.92; filter: brightness(0.95); }
+  75% { opacity: 0.96; }
+  80% { opacity: 0.94; }
+  85% { opacity: 0.98; }
+  90% { opacity: 0.91; filter: brightness(1.1); }
+  95% { opacity: 0.97; }
+  100% { opacity: 0.95; }
+}
+
+/* Set a better flicker animation timing */
+#gameContainer::before {
+  animation: flicker 0.08s infinite steps(1);
+}

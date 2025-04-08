@@ -1,0 +1,165 @@
+/* Additional Vogon Interface Styling */
+
+/* Extra small text size */
+.text-2xs {
+    font-size: 0.65rem;
+    line-height: 0.85rem;
+  }
+  
+  /* Typing effect for terminal output */
+  .typing-effect {
+    overflow: hidden;
+    border-right: 2px solid #b5b682;
+    white-space: nowrap;
+    margin: 0;
+    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+  }
+  
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+  
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #b5b682 }
+  }
+  
+  /* Alarm effect */
+  .alarm {
+    animation: alarm 1s infinite;
+  }
+  
+  @keyframes alarm {
+    0% { background-color: rgba(239, 68, 68, 0.1); }
+    50% { background-color: rgba(239, 68, 68, 0.4); }
+    100% { background-color: rgba(239, 68, 68, 0.1); }
+  }
+  
+  /* Vogon poetry effect - makes text appear uncomfortable to read */
+  .vogon-poetry {
+    font-style: italic;
+    letter-spacing: -0.5px;
+    word-spacing: 5px;
+    line-height: 1.7;
+    text-shadow: 0 0 1px rgba(181, 182, 130, 0.5);
+  }
+  
+  /* Scanning effect */
+  .scanning:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, 
+      transparent 0%, 
+      rgba(181, 182, 130, 0.15) 50%, 
+      transparent 100%);
+    animation: scan-fast 2s linear infinite;
+  }
+  
+  @keyframes scan-fast {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(100%); }
+  }
+  
+  /* Holographic display effect */
+  .holographic {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .holographic:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+      120deg,
+      rgba(181, 182, 130, 0.1) 0px,
+      rgba(181, 182, 130, 0.1) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    pointer-events: none;
+  }
+  
+  .holographic:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(181, 182, 130, 0.1) 0%,
+      transparent 20%,
+      transparent 80%,
+      rgba(181, 182, 130, 0.1) 100%
+    );
+    pointer-events: none;
+  }
+  
+  /* Green terminal text effect */
+  .green-terminal {
+    color: #4ade80;
+    text-shadow: 0 0 5px rgba(74, 222, 128, 0.5);
+  }
+  
+  /* Red alert text effect */
+  .red-alert {
+    color: #ef4444;
+    text-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
+  }
+  
+  /* Fading cursor effect */
+  .fading-cursor:after {
+    content: "_";
+    animation: fading-cursor 1s infinite;
+  }
+  
+  @keyframes fading-cursor {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+  }
+  
+  /* Space dust effect for galaxy view */
+  .space-dust {
+    position: relative;
+  }
+  
+  .space-dust:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(
+      circle at center,
+      rgba(255, 255, 255, 0.1) 1px,
+      transparent 1px
+    );
+    background-size: 20px 20px;
+    pointer-events: none;
+  }
+  
+  /* Button hover glow effect */
+  .button-glow:hover {
+    box-shadow: 0 0 8px rgba(181, 182, 130, 0.7);
+  }
+  
+  /* Form error highlight */
+  .form-error {
+    animation: form-error-pulse 2s infinite;
+  }
+  
+  @keyframes form-error-pulse {
+    0%, 100% { border-color: #5c5c46; }
+    50% { border-color: #ef4444; }
+  }

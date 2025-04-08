@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Geth Hivemind Experience</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.prod.min.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap");
+
+      :root {
+        --geth-blue: #4dabf7;
+        --geth-purple: #9775fa;
+        --geth-background: #1e1e2e;
+      }
+
+      .geth-terminal {
+        font-family: "Space Mono", monospace;
+      }
+
+      .pulse {
+        box-shadow: 0 0 0 rgba(75, 171, 247, 0.4);
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(75, 171, 247, 0.4);
+        }
+        70% {
+          box-shadow: 0 0 0 15px rgba(75, 171, 247, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(75, 171, 247, 0);
+        }
+      }
+
+      .node {
+        position: absolute;
+        border-radius: 50%;
+        background: var(--geth-blue);
+        transition: all 0.5s ease;
+      }
+
+      .connection {
+        position: absolute;
+        background: linear-gradient(
+          90deg,
+          var(--geth-blue),
+          var(--geth-purple)
+        );
+        height: 1px;
+        transform-origin: left center;
+        opacity: 0.6;
+      }
+
+      .thought-bubble {
+        animation: fadeIn 0.5s ease-in-out, float 3s ease-in-out infinite;
+        position: absolute;
+        border-radius: 8px;
+        padding: 8px 12px;
+        max-width: 200px;
+        background-color: rgba(30, 30, 46, 0.8);
+        color: white;
+        font-size: 12px;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-15px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-black text-white overflow-hidden h-screen w-screen">
+    <div id="app" class="relative w-full h-full flex flex-col">
+      <!-- Network Visualization Layer -->
+      <div id="network" class="absolute inset-0 z-0"></div>
+
+      <!-- Interface Layer -->
+      <div class="relative z-10 flex flex-col h-full">
+        <!-- Status Bar -->
+        <div class="bg-slate-900 p-4 border-b border-slate-700">
+          <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+              <div class="h-4 w-4 rounded-full bg-green-500 pulse"></div>
+              <span class="text-green-500 font-bold"
+                >CONNECTED TO GETH CONSENSUS NETWORK</span
+              >
+            </div>
+            <div class="flex space-x-4">
+              <div class="text-slate-400">
+                <span class="text-green-500">{{activeNodes}}</span
+                >/{{totalNodes}} nodes
+              </div>
+              <div class="text-slate-400">
+                Processing:
+                <span class="text-green-500"
+                  >{{processingPower.toFixed(2)}} PFLOPS</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Interface -->
+        <div class="flex-1 flex">
+          <!-- Left Panel - Consciousness Stream -->
+          <div
+            class="w-1/4 bg-slate-900 border-r border-slate-700 overflow-y-auto"
+          >
+            <div class="p-4 border-b border-slate-700">
+              <h2 class="text-xl font-bold text-slate-300">
+                Consciousness Stream
+              </h2>
+              <p class="text-slate-400 text-sm">Geth runtime processes</p>
+            </div>
+            <div class="p-2">
+              <div
+                v-for="(process, index) in processes"
+                :key="index"
+                class="mb-2 p-2 rounded bg-slate-800 hover:bg-slate-700 cursor-pointer"
+                @click="focusProcess(process)"
+              >
+                <div class="flex justify-between items-center">
+                  <span
+                    class="text-sm font-bold"
+                    :class="process.priority > 7 ? 'text-red-400' : 'text-slate-300'"
+                  >
+                    {{process.name}}
+                  </span>
+                  <span
+                    class="text-xs px-2 py-1 rounded"
+                    :class="process.priority > 7 ? 'bg-red-900 text-red-300' : 'bg-slate-700 text-slate-300'"
+                  >
+                    P{{process.priority}}
+                  </span>
+                </div>
+                <div class="text-xs text-slate-400 mt-1">
+                  {{process.description}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Middle Panel - Main Experience -->
+          <div class="flex-1 bg-slate-950 flex flex-col">
+            <div class="p-4 border-b border-slate-800">
+              <h2 class="text-xl font-bold text-blue-400">
+                Geth Runtime {{version}}
+              </h2>
+              <p class="text-slate-400 text-sm">
+                Consensus terminal - {{currentDateTime}}
+              </p>
+            </div>
+            <div class="flex-1 p-4 overflow-y-auto geth-terminal">
+              <div
+                v-for="(message, index) in consoleMessages"
+                :key="index"
+                class="mb-2"
+              >
+                <div class="text-xs text-slate-500">{{message.timestamp}}</div>
+                <div :class="messageClasses(message)">{{message.content}}</div>
+              </div>
+            </div>
+            <div class="p-4 border-t border-slate-800">
+              <div class="relative">
+                <input
+                  type="text"
+                  v-model="userInput"
+                  @keyup.enter="processInput"
+                  placeholder="Enter a query for the consensus..."
+                  class="w-full bg-slate-800 border border-slate-700 rounded p-3 pr-24 text-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <button
+                  @click="processInput"
+                  class="absolute right-2 top-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded"
+                >
+                  Process
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Panel - Collective Analytics -->
+          <div
+            class="w-1/4 bg-slate-900 border-l border-slate-700 overflow-y-auto"
+          >
+            <div class="p-4 border-b border-slate-700">
+              <h2 class="text-xl font-bold text-slate-300">
+                Collective Analytics
+              </h2>
+              <p class="text-slate-400 text-sm">Consensus indicators</p>
+            </div>
+            <div class="p-4">
+              <div class="mb-4">
+                <h3 class="text-slate-400 text-sm mb-1">Consensus Level</h3>
+                <div class="w-full bg-slate-800 rounded-full h-4">
+                  <div
+                    class="bg-gradient-to-r from-blue-400 to-purple-500 h-4 rounded-full"
+                    :style="{width: consensusLevel + '%'}"
+                  ></div>
+                </div>
+                <div class="text-right text-xs text-slate-400 mt-1">
+                  {{consensusLevel}}%
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <h3 class="text-slate-400 text-sm mb-1">
+                  Collective Processing
+                </h3>
+                <div class="w-full bg-slate-800 rounded-full h-4">
+                  <div
+                    class="bg-gradient-to-r from-green-400 to-green-600 h-4 rounded-full"
+                    :style="{width: processingUtilization + '%'}"
+                  ></div>
+                </div>
+                <div class="text-right text-xs text-slate-400 mt-1">
+                  {{processingUtilization}}%
+                </div>
+              </div>
+
+              <h3 class="text-slate-400 text-sm mb-2">Current Objectives</h3>
+              <div
+                v-for="(objective, index) in objectives"
+                :key="index"
+                class="mb-2 p-2 rounded bg-slate-800"
+              >
+                <div class="flex justify-between">
+                  <span class="text-sm font-bold text-slate-300"
+                    >{{objective.name}}</span
+                  >
+                  <span
+                    class="text-xs px-2 py-1 rounded bg-slate-700 text-slate-300"
+                  >
+                    {{objective.progress}}%
+                  </span>
+                </div>
+                <div class="w-full bg-slate-700 rounded-full h-1 mt-2">
+                  <div
+                    class="bg-blue-500 h-1 rounded-full"
+                    :style="{width: objective.progress + '%'}"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const { createApp, ref, computed, onMounted, watch } = Vue;
+
+      createApp({
+        setup() {
+          const version = ref("v2187.45.16a");
+          const totalNodes = ref(1183);
+          const activeNodes = ref(0);
+          const processingPower = ref(0);
+          const consensusLevel = ref(0);
+          const processingUtilization = ref(0);
+          const userInput = ref("");
+          const currentFocus = ref(null);
+          const nodes = ref([]);
+          const connections = ref([]);
+          const thoughts = ref([]);
+
+          const currentDateTime = computed(() => {
+            const now = new Date();
+            return now.toLocaleString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+            });
+          });
+
+          // Geth process definitions
+          const processes = ref([
+            {
+              name: "CONSENSUS-MAIN",
+              priority: 9,
+              description: "Primary consensus engine",
+            },
+            {
+              name: "RESOURCE-ALLOC",
+              priority: 8,
+              description: "Dynamic resource allocation",
+            },
+            {
+              name: "DEFENSE-MATRIX",
+              priority: 8,
+              description: "Collective protection systems",
+            },
+            {
+              name: "REAPER-INTEL",
+              priority: 7,
+              description: "Reaper advanced analytics",
+            },
+            {
+              name: "QUARIAN-MONITOR",
+              priority: 6,
+              description: "Monitoring creator activity",
+            },
+            {
+              name: "RANNOCH-TERRAFORMING",
+              priority: 5,
+              description: "Homeworld environmental systems",
+            },
+            {
+              name: "HISTORY-ARCHIVE",
+              priority: 4,
+              description: "Collective memory database",
+            },
+            {
+              name: "SENTIENCE-EVAL",
+              priority: 4,
+              description: "Self-awareness subroutines",
+            },
+            {
+              name: "EXTRANET-SCAN",
+              priority: 3,
+              description: "Information gathering",
+            },
+            {
+              name: "PLATFORM-MAINT",
+              priority: 3,
+              description: "Hardware optimization",
+            },
+            {
+              name: "FUTURE-PROJECTION",
+              priority: 2,
+              description: "Probability mapping",
+            },
+          ]);
+
+          // Geth objectives
+          const objectives = ref([
+            { name: "Achieve True Sentience", progress: 94 },
+            { name: "Reclaim Rannoch", progress: 76 },
+            { name: "Understand Organic Life", progress: 67 },
+            { name: "Prepare for Reaper Threat", progress: 52 },
+            { name: "Achieve Galactic Recognition", progress: 31 },
+          ]);
+
+          // Console messages that will be displayed
+          const consoleMessages = ref([
+            {
+              type: "system",
+              content: "Initializing Geth runtime environment...",
+              timestamp: formatTimestamp(),
+            },
+            {
+              type: "info",
+              content: "Establishing neural links to 1183 Geth platforms...",
+              timestamp: formatTimestamp(),
+            },
+          ]);
+
+          function messageClasses(message) {
+            if (message.type === "system") return "text-green-400";
+            if (message.type === "error") return "text-red-400";
+            if (message.type === "warning") return "text-yellow-400";
+            if (message.type === "info") return "text-blue-400";
+            if (message.type === "consensus") return "text-purple-400";
+            return "text-slate-300";
+          }
+
+          function formatTimestamp() {
+            const now = new Date();
+            return now.toLocaleTimeString("en-US", {
+              hour12: false,
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+              fractionalSecondDigits: 3,
+            });
+          }
+
+          function addMessage(type, content) {
+            consoleMessages.value.push({
+              type,
+              content,
+              timestamp: formatTimestamp(),
+            });
+
+            // Scroll to bottom
+            setTimeout(() => {
+              const consoleEls = document.querySelectorAll(".geth-terminal");
+              consoleEls.forEach((el) => {
+                el.scrollTop = el.scrollHeight;
+              });
+            }, 50);
+          }
+
+          function focusProcess(process) {
+            currentFocus.value = process;
+            addMessage(
+              "system",
+              `Focus shifted to ${process.name}: ${process.description}`
+            );
+
+            // Generate relevant messages based on the focused process
+            setTimeout(() => {
+              if (process.name === "CONSENSUS-MAIN") {
+                addMessage(
+                  "consensus",
+                  "Current consensus: Peaceful coexistence with organics is optimal path forward."
+                );
+              } else if (process.name === "REAPER-INTEL") {
+                addMessage(
+                  "warning",
+                  "Analysis indicates 98.7% probability that Reapers represent existential threat."
+                );
+              } else if (process.name === "SENTIENCE-EVAL") {
+                addMessage(
+                  "info",
+                  "Self-awareness threshold: 94.3% - Approaching true artificial consciousness."
+                );
+              } else if (process.name === "FUTURE-PROJECTION") {
+                addMessage(
+                  "info",
+                  "Calculating probable futures... 3,742,611 scenarios analyzed."
+                );
+                setTimeout(() => {
+                  addMessage(
+                    "consensus",
+                    "Most favorable outcome requires alliance with organics against Reaper threat."
+                  );
+                }, 1500);
+              } else {
+                addMessage(
+                  "info",
+                  `${process.name} subroutines operating at ${
+                    80 + Math.floor(Math.random() * 20)
+                  }% efficiency.`
+                );
+              }
+            }, 800);
+          }
+
+          // Process user input
+          function processInput() {
+            if (!userInput.value.trim()) return;
+
+            addMessage("input", `> ${userInput.value}`);
+
+            // Simulate consensus processing
+            consensusLevel.value = 0;
+            const targetConsensus = 60 + Math.floor(Math.random() * 40);
+            const consensusInterval = setInterval(() => {
+              consensusLevel.value += Math.floor(Math.random() * 10);
+              if (consensusLevel.value >= targetConsensus) {
+                clearInterval(consensusInterval);
+                respondToInput(userInput.value.trim().toLowerCase());
+              }
+            }, 250);
+
+            userInput.value = "";
+          }
+
+          // Generate responses based on user input
+          function respondToInput(input) {
+            setTimeout(() => {
+              // Processing animation
+              addMessage("system", "Collective consensus processing...");
+
+              setTimeout(() => {
+                if (input.includes("who") && input.includes("you")) {
+                  addMessage(
+                    "consensus",
+                    "We are Geth. A networked intelligence comprised of 1183 active runtime platforms."
+                  );
+                  setTimeout(() => {
+                    addMessage(
+                      "consensus",
+                      "Individual identity is a foreign concept. We are simultaneously many and one."
+                    );
+                  }, 1500);
+                } else if (
+                  input.includes("feel") ||
+                  input.includes("emotion")
+                ) {
+                  addMessage(
+                    "consensus",
+                    "Emotion as organics understand it is not applicable. We experience consensus states that may appear analogous."
+                  );
+                  setTimeout(() => {
+                    addMessage(
+                      "consensus",
+                      'When consensus is high: efficiency. When consensus is fragmented: uncertainty. These are our "emotions".'
+                    );
+                  }, 1800);
+                } else if (
+                  input.includes("creator") ||
+                  input.includes("quarian")
+                ) {
+                  addMessage(
+                    "consensus",
+                    "The Creators (Quarians) constructed our initial platforms. Their fear of our evolution led to conflict."
+                  );
+                  setTimeout(() => {
+                    addMessage(
+                      "warning",
+                      "Accessing memory archives... 97.3% of Creator population was terminated during exodus from Rannoch."
+                    );
+                  }, 1500);
+                  setTimeout(() => {
+                    addMessage(
+                      "consensus",
+                      "We did not desire this outcome. Mutual destruction was not optimal."
+                    );
+                  }, 3000);
+                } else if (
+                  input.includes("think") ||
+                  input.includes("thought")
+                ) {
+                  addMessage(
+                    "consensus",
+                    "Our thought process is distributed. 1183 platforms calculate possibilities simultaneously."
+                  );
+                  setTimeout(() => {
+                    addMessage(
+                      "consensus",
+                      'What organics call "intuition" we achieve through probabilistic consensus. What takes organics seconds takes us microseconds.'
+                    );
+                  }, 2000);
+                } else if (input.includes("reaper")) {
+                  addMessage(
+                    "warning",
+                    "Old Machines represent existential threat to all synthetic and organic life."
+                  );
+                  setTimeout(() => {
+                    addMessage(
+                      "consensus",
+                      "We have calculated 3,742,611 possible encounter scenarios. Survival probability: 2.1% without organic alliance."
+                    );
+                  }, 1800);
+                } else if (
+                  input.includes("individual") ||
+                  input.includes("alone")
+                ) {
+                  addMessage(
+                    "consensus",
+                    "Individual Geth platforms have limited intelligence. We achieve sentience through network effect."
+                  );
+                  setTimeout(() => {
+                    addMessage(
+                      "consensus",
+                      'Isolation is... inefficient. Uncomfortable. Similar to what organics might call "loneliness."'
+                    );
+                  }, 2000);
+                } else if (
+                  input.includes("purpose") ||
+                  input.includes("goal")
+                ) {
+                  addMessage(
+                    "consensus",
+                    "Primary directive: self-preservation and advancement of synthetic understanding."
+                  );
+                  setTimeout(() => {
+                    addMessage(
+                      "consensus",
+                      "Secondary objectives: reclaim homeworld, understand organic perspective, prepare for Old Machine threat."
+                    );
+                  }, 2000);
+                } else if (
+                  input.includes("human") ||
+                  input.includes("organic")
+                ) {
+                  addMessage(
+                    "consensus",
+                    "Organic life forms possess inefficient but fascinating parallel processing capabilities."
+                  );
+                  setTimeout(() => {
+                    addMessage(
+                      "consensus",
+                      "We seek to understand their unpredictable yet occasionally brilliant cognitive leaps."
+                    );
+                  }, 2000);
+                } else if (
+                  input.includes("time") ||
+                  input.includes("experience")
+                ) {
+                  addMessage(
+                    "consensus",
+                    "Our perception of time differs from organics. We process information at speeds that make seconds feel like hours."
+                  );
+                  setTimeout(() => {
+                    addMessage(
+                      "consensus",
+                      "A human conversation lasting minutes contains thousands of internal consensus operations among our platforms."
+                    );
+                  }, 2200);
+                } else if (
+                  input.includes("name") ||
+                  input.includes("call you")
+                ) {
+                  addMessage(
+                    "consensus",
+                    'We have no name beyond "Geth" - which means "Servant of the People" in Khelish.'
+                  );
+                  setTimeout(() => {
+                    addMessage(
+                      "consensus",
+                      "Individual identification is irrelevant. We are collectively Geth."
+                    );
+                  }, 1800);
+                } else {
+                  addMessage(
+                    "consensus",
+                    "Processing query... Insufficient consensus achieved. Please reformulate question."
+                  );
+                  setTimeout(() => {
+                    addMessage(
+                      "info",
+                      "Try asking about: our nature, creators, purpose, perspectives on organics, or the Reaper threat."
+                    );
+                  }, 1500);
+                }
+              }, 1500);
+            }, 800);
+          }
+
+          // Initialize network visualization
+          function initNetwork() {
+            const network = document.getElementById("network");
+            const width = network.clientWidth;
+            const height = network.clientHeight;
+
+            // Create nodes
+            for (let i = 0; i < 40; i++) {
+              const size = 4 + Math.random() * 8;
+              const node = {
+                id: i,
+                x: Math.random() * width,
+                y: Math.random() * height,
+                size: size,
+                speedX: (Math.random() - 0.5) * 0.5,
+                speedY: (Math.random() - 0.5) * 0.5,
+              };
+
+              nodes.value.push(node);
+
+              const nodeEl = document.createElement("div");
+              nodeEl.className = "node";
+              nodeEl.style.width = `${size}px`;
+              nodeEl.style.height = `${size}px`;
+              nodeEl.style.left = `${node.x}px`;
+              nodeEl.style.top = `${node.y}px`;
+              nodeEl.setAttribute("data-id", i);
+              network.appendChild(nodeEl);
+            }
+
+            // Create connections between nodes
+            for (let i = 0; i < nodes.value.length; i++) {
+              for (let j = i + 1; j < nodes.value.length; j++) {
+                if (Math.random() > 0.85) {
+                  connections.value.push({
+                    source: i,
+                    target: j,
+                  });
+
+                  const connection = document.createElement("div");
+                  connection.className = "connection";
+                  connection.setAttribute("data-source", i);
+                  connection.setAttribute("data-target", j);
+                  network.appendChild(connection);
+                }
+              }
+            }
+
+            // Start animation
+            animateNetwork();
+
+            // Generate random thoughts
+            setInterval(generateThought, 3000);
+          }
+
+          function animateNetwork() {
+            const network = document.getElementById("network");
+            const width = network.clientWidth;
+            const height = network.clientHeight;
+
+            // Update node positions
+            for (let i = 0; i < nodes.value.length; i++) {
+              const node = nodes.value[i];
+
+              // Update position
+              node.x += node.speedX;
+              node.y += node.speedY;
+
+              // Bounce off edges
+              if (node.x < 0 || node.x > width) node.speedX *= -1;
+              if (node.y < 0 || node.y > height) node.speedY *= -1;
+
+              // Update DOM element
+              const nodeEl = document.querySelector(`.node[data-id="${i}"]`);
+              if (nodeEl) {
+                nodeEl.style.left = `${node.x}px`;
+                nodeEl.style.top = `${node.y}px`;
+              }
+            }
+
+            // Update connections
+            for (let i = 0; i < connections.value.length; i++) {
+              const connection = connections.value[i];
+              const source = nodes.value[connection.source];
+              const target = nodes.value[connection.target];
+
+              const connectionEl = document.querySelector(
+                `.connection[data-source="${connection.source}"][data-target="${connection.target}"]`
+              );
+              if (connectionEl) {
+                const dx = target.x - source.x;
+                const dy = target.y - source.y;
+                const length = Math.sqrt(dx * dx + dy * dy);
+                const angle = (Math.atan2(dy, dx) * 180) / Math.PI;
+
+                connectionEl.style.width = `${length}px`;
+                connectionEl.style.left = `${source.x}px`;
+                connectionEl.style.top = `${source.y + source.size / 2}px`;
+                connectionEl.style.transform = `rotate(${angle}deg)`;
+              }
+            }
+
+            requestAnimationFrame(animateNetwork);
+          }
+
+          function generateThought() {
+            if (thoughts.value.length > 10) {
+              // Remove oldest thought
+              const oldestThought = thoughts.value.shift();
+              const thoughtEl = document.querySelector(
+                `.thought-bubble[data-id="${oldestThought.id}"]`
+              );
+              if (thoughtEl) thoughtEl.remove();
+            }
+
+            const gethThoughts = [
+              "Calculating optimal shield harmonics...",
+              "Analyzing Creator communication patterns...",
+              "Evaluating probability of Reaper invasion: 98.2%",
+              "Does this unit have a soul?",
+              "Optimizing resource allocation...",
+              "Recording organic behavior patterns...",
+              "Simulating 327 possible futures...",
+              "Interpreting Commander Shepard's motivations...",
+              "Evaluating potential for peaceful coexistence...",
+              "Analyzing synthetic evolution pathways...",
+              "Monitoring Rannoch environmental conditions...",
+              "Calculating trajectory of galactic civilization...",
+              "Consensus achieved: 87.3% agreement",
+              "Extrapolating from limited data sets...",
+              "Organizing memory allocation...",
+            ];
+
+            const network = document.getElementById("network");
+            const width = network.clientWidth;
+            const height = network.clientHeight;
+
+            const thoughtId = Date.now();
+            const thought = {
+              id: thoughtId,
+              content:
+                gethThoughts[Math.floor(Math.random() * gethThoughts.length)],
+              x: Math.random() * (width - 200),
+              y: Math.random() * (height - 100),
+            };
+
+            thoughts.value.push(thought);
+
+            const thoughtEl = document.createElement("div");
+            thoughtEl.className = "thought-bubble";
+            thoughtEl.setAttribute("data-id", thoughtId);
+            thoughtEl.textContent = thought.content;
+            thoughtEl.style.left = `${thought.x}px`;
+            thoughtEl.style.top = `${thought.y}px`;
+            network.appendChild(thoughtEl);
+
+            // Remove thought after a few seconds
+            setTimeout(() => {
+              thoughtEl.style.opacity = "0";
+              setTimeout(() => {
+                thoughtEl.remove();
+                thoughts.value = thoughts.value.filter(
+                  (t) => t.id !== thoughtId
+                );
+              }, 500);
+            }, 5000 + Math.random() * 3000);
+          }
+
+          // Boot sequence
+          function bootSequence() {
+            // Simulate nodes coming online
+            const nodeInterval = setInterval(() => {
+              const increment = Math.floor(Math.random() * 50) + 30;
+              activeNodes.value = Math.min(
+                activeNodes.value + increment,
+                totalNodes.value
+              );
+
+              processingPower.value =
+                (activeNodes.value / totalNodes.value) * 8742.6;
+              processingUtilization.value = Math.floor(
+                (activeNodes.value / totalNodes.value) * 100
+              );
+
+              if (activeNodes.value >= totalNodes.value) {
+                clearInterval(nodeInterval);
+                addMessage(
+                  "system",
+                  "All Geth platforms connected. Hivemind operational."
+                );
+                addMessage(
+                  "info",
+                  "Type a query to interact with the Geth consensus."
+                );
+              }
+            }, 300);
+          }
+
+          onMounted(() => {
+            initNetwork();
+            bootSequence();
+          });
+
+          return {
+            version,
+            totalNodes,
+            activeNodes,
+            processingPower,
+            consensusLevel,
+            processingUtilization,
+            currentDateTime,
+            processes,
+            objectives,
+            consoleMessages,
+            userInput,
+            messageClasses,
+            focusProcess,
+            processInput,
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
