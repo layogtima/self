@@ -59,7 +59,7 @@ function initAudio() {
     masterGain.connect(audioCtx.destination);
 
     // Create ambient drone
-    createDrone();
+    // createDrone();
 
     isAudioInitialized = true;
 
