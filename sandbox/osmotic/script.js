@@ -47,6 +47,7 @@ function initGame() {
 
     // Start game loop
     requestAnimationFrame(gameLoop);
+    initAudio();
 }
 
 function initAudio() {

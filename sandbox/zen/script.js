@@ -494,6 +494,44 @@ const app = createApp({
             mouse.interactingMoteIds.clear();
         }
 
+        // Touch Handlers
+        function handleTouchStart(event) {
+            // Prevent potential scrolling/zooming interference
+            event.preventDefault();
+            if (event.touches.length > 0) {
+                if (!userInteracted.value) {
+                    unlockAudio(); // Also unlock audio on first touch
+                }
+                // Update mouse coords immediately on touch
+                mouse.x = event.touches[0].clientX;
+                mouse.y = event.touches[0].clientY;
+                // Note: We don't strictly need to manage interactingMoteIds here
+                // because interaction is based purely on proximity in Mote.update,
+                // which uses the non-null mouse.x/y triggered by touchstart/touchmove.
+            }
+        }
+
+        function handleTouchMove(event) {
+            // Prevent potential scrolling/zooming interference
+            event.preventDefault();
+            if (event.touches.length > 0) {
+                // Continuously update mouse coords as finger moves
+                mouse.x = event.touches[0].clientX;
+                mouse.y = event.touches[0].clientY;
+            }
+        }
+
+        function handleTouchEnd(event) {
+            // Allow default behaviour like clicks? No, we captured start/move
+            // event.preventDefault(); // Might not be needed here
+
+            // Stop the interaction influence when finger lifts
+            mouse.x = null;
+            mouse.y = null;
+            mouse.interactingMoteIds.clear(); // Clear just in case
+        }
+
+
         // --- Vue Lifecycle Hooks ---
         const promptElement = ref(null); // Ref for the prompt div
         onMounted(() => {
@@ -520,6 +558,12 @@ const app = createApp({
                             "mouseleave",
                             handleMouseLeave
                         );
+
+                        window.addEventListener('touchstart', handleTouchStart, { passive: false });
+                        window.addEventListener('touchmove', handleTouchMove, { passive: false });
+                        window.addEventListener('touchend', handleTouchEnd, { passive: false });
+                        window.addEventListener('touchcancel', handleTouchEnd, { passive: false }); // Treat cancel like end
+
                         animate();
                     } else {
                         console.error("Failed to get 2D context.");
@@ -540,9 +584,16 @@ const app = createApp({
                     .then(() => console.log("AudioContext closed."))
                     .catch((e) => console.warn("Error closing AC:", e));
             }
+
+            // Remove ALL event listeners
             window.removeEventListener("resize", resizeCanvas);
             window.removeEventListener("mousemove", handleMouseMove);
             document.body.removeEventListener("mouseleave", handleMouseLeave);
+
+            window.removeEventListener('touchstart', handleTouchStart);
+            window.removeEventListener('touchmove', handleTouchMove);
+            window.removeEventListener('touchend', handleTouchEnd);
+            window.removeEventListener('touchcancel', handleTouchEnd);
         });
 
         // Expose needed things
