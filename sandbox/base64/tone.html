@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tone Generator with Base64</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center p-4"
+  >
+    <div class="max-w-lg w-full bg-gray-800 rounded-lg shadow-lg p-6">
+      <h1 class="text-2xl font-bold text-teal-400 mb-4">
+        Test #2: Tone Generator
+      </h1>
+      <p class="mb-4">
+        This test generates various tones and encodes them to base64 on-the-fly.
+      </p>
+
+      <div class="mb-4">
+        <label class="block text-sm font-medium mb-1" for="frequencySlider"
+          >Frequency: <span id="frequencyValue">440</span> Hz</label
+        >
+        <input
+          type="range"
+          id="frequencySlider"
+          min="100"
+          max="2000"
+          value="440"
+          class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+        />
+      </div>
+
+      <div class="mb-6">
+        <label class="block text-sm font-medium mb-1" for="durationSlider"
+          >Duration: <span id="durationValue">1.0</span> seconds</label
+        >
+        <input
+          type="range"
+          id="durationSlider"
+          min="0.1"
+          max="3"
+          value="1.0"
+          step="0.1"
+          class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+        />
+      </div>
+
+      <div class="flex space-x-2 mb-6">
+        <button
+          id="generateButton"
+          class="bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-md transition-colors"
+        >
+          Generate & Play
+        </button>
+        <button
+          id="stopButton"
+          class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md transition-colors"
+        >
+          Stop Sound
+        </button>
+      </div>
+
+      <div class="mb-2 text-sm">Base64 Output (first 100 chars):</div>
+      <div class="text-xs bg-gray-700 p-3 rounded-md overflow-auto max-h-24">
+        <pre id="base64Display" class="whitespace-pre-wrap break-all">
+Generate a tone to see base64...</pre
+        >
+      </div>
+    </div>
+
+    <script>
+      let audioContext = null;
+      let currentOscillator = null;
+      let audioElement = null;
+
+      // Update displayed values
+      document
+        .getElementById("frequencySlider")
+        .addEventListener("input", function () {
+          document.getElementById("frequencyValue").textContent = this.value;
+        });
+
+      document
+        .getElementById("durationSlider")
+        .addEventListener("input", function () {
+          document.getElementById("durationValue").textContent = this.value;
+        });
+
+      // Generate tone function
+      document
+        .getElementById("generateButton")
+        .addEventListener("click", async function () {
+          const frequency = parseFloat(
+            document.getElementById("frequencySlider").value
+          );
+          const duration = parseFloat(
+            document.getElementById("durationSlider").value
+          );
+
+          // Create audio context if not created
+          if (!audioContext) {
+            audioContext = new (window.AudioContext ||
+              window.webkitAudioContext)();
+          }
+
+          // Stop any playing sounds
+          stopSound();
+
+          // Generate a simple sine wave
+          const sampleRate = audioContext.sampleRate;
+          const numFrames = Math.floor(sampleRate * duration);
+          const buffer = audioContext.createBuffer(1, numFrames, sampleRate);
+          const data = buffer.getChannelData(0);
+
+          // Fill the buffer with a sine wave
+          for (let i = 0; i < numFrames; i++) {
+            const t = i / sampleRate;
+            data[i] = Math.sin(2 * Math.PI * frequency * t);
+          }
+
+          // Convert AudioBuffer to WAV
+          const wavBuffer = bufferToWav(buffer);
+
+          // Convert to base64
+          const base64String = arrayBufferToBase64(wavBuffer);
+          const audioDataUri = "data:audio/wav;base64," + base64String;
+
+          // Display the base64 string (shortened)
+          document.getElementById("base64Display").textContent =
+            audioDataUri.substring(0, 100) + "...";
+
+          // Play the audio
+          audioElement = new Audio(audioDataUri);
+          audioElement.play();
+        });
+
+      // Convert AudioBuffer to WAV format
+      function bufferToWav(buffer) {
+        const numChannels = buffer.numberOfChannels;
+        const sampleRate = buffer.sampleRate;
+        const format = 1; // PCM
+        const bitDepth = 16;
+
+        const bytesPerSample = bitDepth / 8;
+        const blockAlign = numChannels * bytesPerSample;
+
+        const dataLength = buffer.length * numChannels * bytesPerSample;
+        const bufferLength = 44 + dataLength;
+
+        const arrayBuffer = new ArrayBuffer(bufferLength);
+        const view = new DataView(arrayBuffer);
+
+        // RIFF identifier
+        writeString(view, 0, "RIFF");
+        // RIFF chunk length
+        view.setUint32(4, 36 + dataLength, true);
+        // RIFF type
+        writeString(view, 8, "WAVE");
+        // format chunk identifier
+        writeString(view, 12, "fmt ");
+        // format chunk length
+        view.setUint32(16, 16, true);
+        // sample format (raw)
+        view.setUint16(20, format, true);
+        // channel count
+        view.setUint16(22, numChannels, true);
+        // sample rate
+        view.setUint32(24, sampleRate, true);
+        // byte rate (sample rate * block align)
+        view.setUint32(28, sampleRate * blockAlign, true);
+        // block align (channel count * bytes per sample)
+        view.setUint16(32, blockAlign, true);
+        // bits per sample
+        view.setUint16(34, bitDepth, true);
+        // data chunk identifier
+        writeString(view, 36, "data");
+        // data chunk length
+        view.setUint32(40, dataLength, true);
+
+        // Write the PCM samples
+        const channelData = [];
+        for (let i = 0; i < numChannels; i++) {
+          channelData[i] = buffer.getChannelData(i);
+        }
+
+        let offset = 44;
+        for (let i = 0; i < buffer.length; i++) {
+          for (let channel = 0; channel < numChannels; channel++) {
+            // Convert float to int
+            let sample = Math.max(-1, Math.min(1, channelData[channel][i]));
+            sample = sample < 0 ? sample * 0x8000 : sample * 0x7fff;
+            view.setInt16(offset, sample, true);
+            offset += bytesPerSample;
+          }
+        }
+
+        return arrayBuffer;
+      }
+
+      // Helper function to write a string to a DataView
+      function writeString(view, offset, string) {
+        for (let i = 0; i < string.length; i++) {
+          view.setUint8(offset + i, string.charCodeAt(i));
+        }
+      }
+
+      // Convert ArrayBuffer to base64
+      function arrayBufferToBase64(buffer) {
+        let binary = "";
+        const bytes = new Uint8Array(buffer);
+        for (let i = 0; i < bytes.byteLength; i++) {
+          binary += String.fromCharCode(bytes[i]);
+        }
+        return window.btoa(binary);
+      }
+
+      // Stop any playing sounds
+      function stopSound() {
+        if (currentOscillator) {
+          currentOscillator.stop();
+          currentOscillator = null;
+        }
+
+        if (audioElement) {
+          audioElement.pause();
+          audioElement = null;
+        }
+      }
+
+      document
+        .getElementById("stopButton")
+        .addEventListener("click", stopSound);
+    </script>
+  </body>
+</html>

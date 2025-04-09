@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stellar Meditation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <style>
+      body {
+        overflow: hidden;
+        touch-action: none;
+        user-select: none;
+      }
+      canvas {
+        display: block;
+      }
+      .hidden {
+        display: none;
+      }
+      .fade-in {
+        animation: fadeIn 2s ease-in;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .pulse {
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          opacity: 0.8;
+        }
+        50% {
+          transform: scale(1.05);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 0.8;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-black text-white">
+    <div
+      id="loading"
+      class="fixed inset-0 flex flex-col items-center justify-center z-50 bg-black"
+    >
+      <div class="text-3xl mb-6 text-blue-300">Stellar Meditation</div>
+      <div class="text-lg mb-8">Preparing your cosmic journey...</div>
+      <div class="w-64 h-2 bg-gray-800 rounded-full overflow-hidden">
+        <div
+          id="progress-bar"
+          class="h-full bg-blue-500 rounded-full"
+          style="width: 0%"
+        ></div>
+      </div>
+      <div id="loading-message" class="mt-4 text-gray-400 text-sm">
+        Aligning stellar frequencies...
+      </div>
+    </div>
+
+    <div id="experience" class="hidden">
+      <canvas id="canvas"></canvas>
+
+      <div
+        id="intro-message"
+        class="fixed inset-0 flex items-center justify-center z-40 bg-black bg-opacity-80"
+      >
+        <div class="max-w-md p-6 text-center">
+          <h1 class="text-3xl mb-6 text-blue-300">Stellar Meditation</h1>
+          <p class="mb-6">
+            Move slowly through the cosmos. Guide stars with gentle movements.
+            Listen to their resonance.
+          </p>
+          <p class="mb-8">No goals. No scores. Just presence.</p>
+          <button
+            id="begin-button"
+            class="px-6 py-3 bg-indigo-800 hover:bg-indigo-700 rounded-full text-lg pulse"
+          >
+            Begin Journey
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-6 opacity-60 hover:opacity-100 transition-opacity duration-300 z-30"
+      >
+        <button id="toggle-sound" class="p-3 bg-gray-900 rounded-full">
+          <svg
+            id="sound-on"
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M6 16l4 4m0 0l4-4m-4 4V8"
+            />
+          </svg>
+          <svg
+            id="sound-off"
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 hidden"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5.586 15.414a2 2 0 01-2.828 0L1.586 14.242a2 2 0 010-2.828l1.172-1.172a2 2 0 012.828 0L6.758 11.414a2 2 0 010 2.828l-1.172 1.172z"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M2 12h20"
+            />
+          </svg>
+        </button>
+        <button id="toggle-guide" class="p-3 bg-gray-900 rounded-full">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <div
+        id="guide-panel"
+        class="hidden fixed right-6 bottom-20 p-4 bg-gray-900 bg-opacity-80 rounded-lg max-w-xs text-sm z-30"
+      >
+        <h3 class="font-medium mb-2">How to Meditate with Stars:</h3>
+        <ul class="space-y-2">
+          <li>• Move slowly to attract nearby stars</li>
+          <li>• Rest in one place to form clusters</li>
+          <li>• Double-tap/click to create a new star</li>
+          <li>• Notice how patterns and sounds evolve</li>
+          <li>• There are no goals - simply be present</li>
+        </ul>
+        <div class="text-xs mt-3 text-blue-300">
+          The longer you stay, the more the cosmos responds to you.
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Show loading screen with progress
+      const loadingElement = document.getElementById("loading");
+      const experienceElement = document.getElementById("experience");
+      const progressBar = document.getElementById("progress-bar");
+      const loadingMessage = document.getElementById("loading-message");
+
+      // Simulate loading process
+      const loadingMessages = [
+        "Aligning stellar frequencies...",
+        "Calibrating cosmic resonance...",
+        "Gathering stardust particles...",
+        "Harmonizing universal energies...",
+        "Preparing stellar meditation space...",
+      ];
+
+      let loadingProgress = 0;
+      const loadingInterval = setInterval(() => {
+        loadingProgress += 2;
+        if (loadingProgress > 100) {
+          clearInterval(loadingInterval);
+          loadingElement.classList.add("hidden");
+          experienceElement.classList.remove("hidden");
+          experienceElement.classList.add("fade-in");
+          initExperience();
+          return;
+        }
+
+        progressBar.style.width = `${loadingProgress}%`;
+
+        if (loadingProgress % 20 === 0) {
+          const messageIndex = Math.floor(loadingProgress / 20);
+          if (messageIndex < loadingMessages.length) {
+            loadingMessage.textContent = loadingMessages[messageIndex];
+          }
+        }
+      }, 50);
+
+      // Initialize the meditation experience
+      function initExperience() {
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        const introMessage = document.getElementById("intro-message");
+        const beginButton = document.getElementById("begin-button");
+        const toggleSoundButton = document.getElementById("toggle-sound");
+        const soundOnIcon = document.getElementById("sound-on");
+        const soundOffIcon = document.getElementById("sound-off");
+        const toggleGuideButton = document.getElementById("toggle-guide");
+        const guidePanel = document.getElementById("guide-panel");
+
+        // Canvas setup
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Audio setup with Tone.js
+        const reverb = new Tone.Reverb({
+          decay: 4,
+          wet: 0.6,
+        }).toDestination();
+
+        const filter = new Tone.Filter({
+          type: "lowpass",
+          frequency: 1000,
+        }).connect(reverb);
+
+        // Create synths for different notes
+        const synths = [
+          new Tone.FMSynth({
+            harmonicity: 3,
+            modulationIndex: 2,
+            oscillator: {
+              type: "sine",
+            },
+            envelope: {
+              attack: 0.5,
+              decay: 0.5,
+              sustain: 0.5,
+              release: 3,
+            },
+            modulation: {
+              type: "sine",
+            },
+            modulationEnvelope: {
+              attack: 0.5,
+              decay: 0.5,
+              sustain: 0.5,
+              release: 2,
+            },
+          }).connect(filter),
+          new Tone.AMSynth({
+            harmonicity: 2,
+            oscillator: {
+              type: "sine",
+            },
+            envelope: {
+              attack: 0.8,
+              decay: 1,
+              sustain: 0.5,
+              release: 4,
+            },
+            modulation: {
+              type: "sine",
+            },
+            modulationEnvelope: {
+              attack: 0.8,
+              decay: 1,
+              sustain: 0.5,
+              release: 2,
+            },
+          }).connect(filter),
+          new Tone.MembraneSynth({
+            pitchDecay: 0.05,
+            octaves: 2,
+            oscillator: {
+              type: "sine",
+            },
+            envelope: {
+              attack: 0.001,
+              decay: 0.8,
+              sustain: 0.1,
+              release: 1.4,
+              attackCurve: "exponential",
+            },
+          }).connect(filter),
+        ];
+
+        // Pentatonic scale notes for a calming effect
+        const notes = [
+          "C4",
+          "D4",
+          "E4",
+          "G4",
+          "A4",
+          "C5",
+          "D5",
+          "E5",
+          "G5",
+          "A5",
+        ];
+
+        // Star particles
+        let stars = [];
+        const maxStars = 100;
+        let mouseX = null;
+        let mouseY = null;
+        let isAudioStarted = false;
+        let soundEnabled = true;
+        let lastInteractionTime = Date.now();
+        const interactionCooldown = 300; // ms cooldown for playing sounds
+
+        // Initialize with some stars
+        for (let i = 0; i < 30; i++) {
+          createStar(
+            Math.random() * canvas.width,
+            Math.random() * canvas.height
+          );
+        }
+
+        function createStar(x, y, isInteractive = false) {
+          if (stars.length >= maxStars) return;
+
+          const baseSize = Math.random() * 3 + 1;
+          const sizeVariation = Math.random() * 1.5;
+
+          stars.push({
+            x: x,
+            y: y,
+            size: baseSize,
+            targetSize: baseSize + sizeVariation,
+            originalSize: baseSize,
+            vx: (Math.random() - 0.5) * 0.2,
+            vy: (Math.random() - 0.5) * 0.2,
+            color: {
+              r: 150 + Math.floor(Math.random() * 100),
+              g: 150 + Math.floor(Math.random() * 100),
+              b: 255,
+            },
+            luminosity: Math.random() * 0.3 + 0.7,
+            pulseSpeed: Math.random() * 0.02 + 0.01,
+            pulseDirection: 1,
+            lastSound: 0,
+            isInteractive: isInteractive,
+            life: isInteractive ? 1 : Math.random() * 0.5 + 0.5,
+            noteIndex: Math.floor(Math.random() * notes.length),
+          });
+        }
+
+        function playStar(star) {
+          if (!soundEnabled || !isAudioStarted) return;
+
+          const now = Date.now();
+          if (now - star.lastSound < 2000) return; // Don't play too frequently
+          if (now - lastInteractionTime < interactionCooldown) return;
+
+          lastInteractionTime = now;
+          star.lastSound = now;
+
+          // Select synth based on star properties
+          const synthIndex = Math.floor(star.size) % synths.length;
+          const synth = synths[synthIndex];
+
+          // Get note from star's assigned index
+          const note = notes[star.noteIndex];
+
+          // Volume based on star size and life
+          const volume = -30 + star.size * 3;
+
+          // Play the note
+          synth.triggerAttackRelease(
+            note,
+            star.isInteractive ? "8n" : "16n",
+            undefined,
+            star.life * 0.2
+          );
+        }
+
+        function update() {
+          // Clear canvas
+          ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          // Update and draw stars
+          for (let i = 0; i < stars.length; i++) {
+            const star = stars[i];
+
+            // Update position
+            star.x += star.vx;
+            star.y += star.vy;
+
+            // Wrap around edges
+            if (star.x < 0) star.x = canvas.width;
+            if (star.x > canvas.width) star.x = 0;
+            if (star.y < 0) star.y = canvas.height;
+            if (star.y > canvas.height) star.y = 0;
+
+            // Pulsing effect
+            star.size += star.pulseSpeed * star.pulseDirection;
+            if (star.size > star.targetSize || star.size < star.originalSize) {
+              star.pulseDirection *= -1;
+            }
+
+            // Mouse interaction
+            if (mouseX !== null && mouseY !== null) {
+              const dx = mouseX - star.x;
+              const dy = mouseY - star.y;
+              const distance = Math.sqrt(dx * dx + dy * dy);
+
+              if (distance < 200) {
+                // Attract towards mouse, strength inversely proportional to distance
+                const strength = 0.02 * (1 - distance / 200);
+                star.vx += (dx / distance) * strength;
+                star.vy += (dy / distance) * strength;
+
+                // Limit velocity
+                const speed = Math.sqrt(star.vx * star.vx + star.vy * star.vy);
+                if (speed > 1.5) {
+                  star.vx = (star.vx / speed) * 1.5;
+                  star.vy = (star.vy / speed) * 1.5;
+                }
+
+                // Play sound when star gets close to mouse
+                if (distance < 50 && Math.random() < 0.01) {
+                  playStar(star);
+                }
+              }
+            }
+
+            // Apply some drag
+            star.vx *= 0.99;
+            star.vy *= 0.99;
+
+            // Draw star
+            const glow = ctx.createRadialGradient(
+              star.x,
+              star.y,
+              0,
+              star.x,
+              star.y,
+              star.size * 5
+            );
+
+            glow.addColorStop(
+              0,
+              `rgba(${star.color.r}, ${star.color.g}, ${star.color.b}, ${star.luminosity})`
+            );
+            glow.addColorStop(1, "rgba(0, 0, 50, 0)");
+
+            ctx.beginPath();
+            ctx.fillStyle = glow;
+            ctx.arc(star.x, star.y, star.size * 5, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Core of star
+            ctx.beginPath();
+            ctx.fillStyle = `rgba(255, 255, 255, ${star.luminosity})`;
+            ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Occasionally play sound for ambient effect
+            if (Math.random() < 0.0003) {
+              playStar(star);
+            }
+
+            // Star connections - draw lines between nearby stars
+            for (let j = i + 1; j < stars.length; j++) {
+              const otherStar = stars[j];
+              const dx = star.x - otherStar.x;
+              const dy = star.y - otherStar.y;
+              const distance = Math.sqrt(dx * dx + dy * dy);
+
+              if (distance < 150) {
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(${star.color.r}, ${star.color.g}, ${
+                  star.color.b
+                }, ${(1 - distance / 150) * 0.2})`;
+                ctx.lineWidth = (1 - distance / 150) * 2;
+                ctx.moveTo(star.x, star.y);
+                ctx.lineTo(otherStar.x, otherStar.y);
+                ctx.stroke();
+
+                // Create subtle attraction between connected stars
+                const strength = 0.0001 * (1 - distance / 150);
+                const forceX = dx * strength;
+                const forceY = dy * strength;
+
+                star.vx -= forceX;
+                star.vy -= forceY;
+                otherStar.vx += forceX;
+                otherStar.vy += forceY;
+
+                // Occasionally play harmonizing notes for connected stars
+                if (Math.random() < 0.0001 && distance < 50) {
+                  // Play both stars with slight delay
+                  playStar(star);
+                  setTimeout(() => playStar(otherStar), 200);
+                }
+              }
+            }
+          }
+
+          // Occasionally add a new star
+          if (stars.length < maxStars && Math.random() < 0.01) {
+            createStar(
+              Math.random() * canvas.width,
+              Math.random() * canvas.height
+            );
+          }
+
+          requestAnimationFrame(update);
+        }
+
+        // Event listeners
+        window.addEventListener("resize", () => {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        });
+
+        // Mouse/touch handling
+        const handlePointerMove = (e) => {
+          const x = e.clientX || e.touches[0].clientX;
+          const y = e.clientY || e.touches[0].clientY;
+
+          mouseX = x;
+          mouseY = y;
+        };
+
+        const handlePointerEnd = () => {
+          mouseX = null;
+          mouseY = null;
+        };
+
+        const handlePointerTap = (e) => {
+          if (!isAudioStarted) {
+            Tone.start();
+            isAudioStarted = true;
+          }
+
+          const x = e.clientX || (e.touches && e.touches[0].clientX);
+          const y = e.clientY || (e.touches && e.touches[0].clientY);
+
+          // Double tap/click creates a new star
+          const now = Date.now();
+          if (now - lastInteractionTime < 300) {
+            createStar(x, y, true);
+
+            // Play a sound for the new star
+            const randomSynthIndex = Math.floor(Math.random() * synths.length);
+            const randomNoteIndex = Math.floor(Math.random() * notes.length);
+            if (soundEnabled) {
+              synths[randomSynthIndex].triggerAttackRelease(
+                notes[randomNoteIndex],
+                "8n"
+              );
+            }
+          }
+
+          lastInteractionTime = now;
+        };
+
+        canvas.addEventListener("mousemove", handlePointerMove);
+        canvas.addEventListener("touchmove", handlePointerMove);
+        canvas.addEventListener("mouseout", handlePointerEnd);
+        canvas.addEventListener("touchend", handlePointerEnd);
+        canvas.addEventListener("click", handlePointerTap);
+        canvas.addEventListener("touchstart", handlePointerTap);
+
+        // UI controls
+        beginButton.addEventListener("click", () => {
+          introMessage.classList.add("hidden");
+
+          // Start audio context
+          Tone.start();
+          isAudioStarted = true;
+
+          // Show guide briefly
+          guidePanel.classList.remove("hidden");
+          setTimeout(() => {
+            guidePanel.classList.add("hidden");
+          }, 5000);
+        });
+
+        toggleSoundButton.addEventListener("click", () => {
+          soundEnabled = !soundEnabled;
+          soundOnIcon.classList.toggle("hidden");
+          soundOffIcon.classList.toggle("hidden");
+
+          if (!isAudioStarted && soundEnabled) {
+            Tone.start();
+            isAudioStarted = true;
+          }
+        });
+
+        toggleGuideButton.addEventListener("click", () => {
+          guidePanel.classList.toggle("hidden");
+        });
+
+        // Start animation loop
+        update();
+      }
+    </script>
+  </body>
+</html>

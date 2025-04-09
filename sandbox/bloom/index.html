@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resonance // Amartha's Caress</title>
+    <!-- New Name! -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <!-- No Font Awesome needed now -->
+    <style>
+      :root {
+        /* -- Plum Palette (Unchanged) -- */
+        --c-void: #10001a;
+        --c-whisper: #350655;
+        --c-murmur: #500a80;
+        --c-pulse: #6a0dad;
+        --c-glow: #9c41f7;
+        --c-bloom: #c487fb;
+        --c-apex: #ead2fe;
+      }
+      body {
+        font-family: sans-serif;
+        overflow: hidden;
+        margin: 0;
+        background-color: var(--c-void);
+        cursor: none;
+      }
+      canvas {
+        display: block;
+      }
+
+      /* Subtle Hint Text */
+      #interaction-hint {
+        position: absolute;
+        bottom: 5vh;
+        left: 50%;
+        transform: translateX(-50%);
+        color: var(--c-murmur);
+        opacity: 0.6;
+        font-size: 0.8rem;
+        z-index: 5;
+        transition: opacity 1.5s 1s ease-out; /* Fade out slower, after delay */
+        pointer-events: none;
+        text-align: center;
+        line-height: 1.4;
+      }
+      #interaction-hint.hidden {
+        opacity: 0;
+      }
+
+      /* Mouse Follower Glow */
+      #mouse-follower {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: radial-gradient(
+          ellipse at center,
+          hsla(271, 90%, 85%, 0.15) 0%,
+          /* Base Bloom color, subtle */ hsla(271, 90%, 85%, 0) 70%
+            /* Fade out */
+        );
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5); /* Start small */
+        transition: opacity 1s ease, transform 1s ease, background 1s ease;
+        z-index: 9;
+        pointer-events: none;
+      }
+      #mouse-follower.visible {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1); /* Scale up gently */
+      }
+      #mouse-follower.interacting {
+        /* Slightly more intense when holding */
+        transform: translate(-50%, -50%) scale(1.1);
+        background: radial-gradient(
+          ellipse at center,
+          hsla(271, 90%, 90%, 0.25) 0%,
+          /* Brighter center */ hsla(271, 90%, 85%, 0) 70%
+        );
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="h-screen w-screen relative">
+      <canvas
+        ref="canvas"
+        class="absolute top-0 left-0 w-full h-full z-0"
+      ></canvas>
+
+      <!-- Mouse follower glow -->
+      <div
+        id="mouse-follower"
+        :style="mouseFollowerStyle"
+        :class="{ visible: mouse.visible, interacting: mouse.isDown }"
+      ></div>
+
+      <!-- Initial Hint Text -->
+      <div id="interaction-hint" :class="{ hidden: userHasInteracted }">
+        Gently touch and hold.<br />Explore the space.
+      </div>
+    </div>
+
+    <script>
+      const {
+        createApp,
+        ref,
+        reactive,
+        computed,
+        onMounted,
+        onUnmounted,
+        nextTick,
+      } = Vue;
+
+      const app = createApp({
+        setup() {
+          // --- State ---
+          const canvas = ref(null);
+          let ctx = null;
+          let animationFrameId = null;
+          const particles = reactive([]);
+          const MAX_PARTICLES = 150; // Reduced for subtlety
+          const mouse = reactive({
+            x: window.innerWidth / 2,
+            y: window.innerHeight / 2,
+            isDown: false,
+            visible: false, // Is the mouse follower showing?
+            rawX: 0.5, // Normalized X (0-1) for audio panning
+            rawY: 0.5, // Normalized Y (0-1) for audio modulation
+          });
+          const interactionLevel = ref(0); // 0 to 1 intensity
+          const userHasInteracted = ref(false); // For hint fade
+
+          // --- Configurable Sensitivity ---
+          const INTERACTION_RAMP_UP_RATE = 0.0015; // Much slower buildup
+          const INTERACTION_RAMP_DOWN_RATE = 0.003; // Slower fade out
+          const PARTICLE_LIFESPAN_MULTIPLIER = 1.5; // Particles live longer
+          const PARTICLE_SPEED_MULTIPLIER = 0.7; // Particles move slower
+
+          // --- Palette & Color (Unchanged) ---
+          /* ... lerpColor function ... */
+          function lerpColor(c1, c2, a) {
+            const i = parseInt,
+              r = Math.round,
+              f = 16;
+            const h1 = i(c1.slice(1), f),
+              h2 = i(c2.slice(1), f);
+            const r1 = (h1 >> f) & 255,
+              g1 = (h1 >> 8) & 255,
+              b1 = h1 & 255;
+            const r2 = (h2 >> f) & 255,
+              g2 = (h2 >> 8) & 255,
+              b2 = h2 & 255;
+            return `#${(
+              (1 << 24) |
+              (r(r1 + (r2 - r1) * a) << f) |
+              (r(g1 + (g2 - g1) * a) << 8) |
+              r(b1 + (b2 - b1) * a)
+            )
+              .toString(f)
+              .slice(1)}`;
+          }
+          const palette = {
+            void: "#10001a",
+            whisper: "#350655",
+            murmur: "#500a80",
+            pulse: "#6a0dad",
+            glow: "#9c41f7",
+            bloom: "#c487fb",
+            apex: "#ead2fe",
+          };
+
+          // --- Particle Class (Adjusted) ---
+          class Particle {
+            constructor(x, y, intensity) {
+              this.x = x;
+              this.y = y;
+              const angle = Math.random() * Math.PI * 2;
+              // Speed influenced slightly by intensity, overall slower
+              const speed =
+                (Math.random() * 0.5 + 0.1) *
+                PARTICLE_SPEED_MULTIPLIER *
+                (1 + intensity * 0.5);
+              this.vx = Math.cos(angle) * speed;
+              this.vy = Math.sin(angle) * speed;
+              this.life = 1; // Reset life on creation
+              // Decay rate affects lifespan, inverse relationship
+              this.decay =
+                (Math.random() * 0.005 + 0.002) / PARTICLE_LIFESPAN_MULTIPLIER;
+              this.size = (Math.random() * 1.8 + 0.8) * (1 + intensity * 0.2); // Slightly bigger with intensity
+              // Base color on murmur->pulse initially
+              this.color = lerpColor(palette.murmur, palette.pulse, intensity);
+            }
+            update(intensity, canvasWidth, canvasHeight) {
+              this.x += this.vx;
+              this.y += this.vy;
+              this.life -= this.decay;
+              this.vx *= 0.99; // Even more friction/drag
+              this.vy *= 0.99;
+              // Color shifts towards bloom/apex as intensity grows AND particle is older
+              const ageRatio = Math.max(0, 1 - this.life); // 0=new, 1=old
+              const baseColor = lerpColor(
+                palette.murmur,
+                palette.pulse,
+                intensity
+              );
+              const peakColor = lerpColor(
+                palette.glow,
+                palette.bloom,
+                intensity
+              );
+              this.color = lerpColor(baseColor, peakColor, ageRatio);
+
+              // Gently repel from edges? Or wrap? Let's wrap gently
+              if (this.x > canvasWidth + this.size * 5)
+                this.life = 0; // Fade out faster if way off screen
+              else if (this.x < -this.size * 5) this.life = 0;
+              if (this.y > canvasHeight + this.size * 5) this.life = 0;
+              else if (this.y < -this.size * 5) this.life = 0;
+            }
+            draw(ctx) {
+              // Alpha depends on life squared for slower fade-in, faster fade-out feel
+              ctx.globalAlpha = Math.max(0, Math.pow(this.life, 2) * 0.7);
+              ctx.fillStyle = this.color;
+              ctx.beginPath();
+              // Size decreases slightly with age
+              ctx.arc(
+                this.x,
+                this.y,
+                this.size * (0.5 + this.life * 0.5),
+                0,
+                Math.PI * 2
+              );
+              ctx.fill();
+            }
+          }
+
+          // --- Web Audio API Setup ---
+          let audioCtx = null;
+          let masterGain, filterNode, reverbNode, reverbGain, pannerNode; // Added Panner
+          let droneGain; // Just need the gain node for drones now
+          let padOsc1, padOsc2, padLFO, padGain, padFilter; // Pads get own subtle filter?
+          let shimmerOsc, shimmerGain;
+          let isAudioReady = false;
+          const AUDIO_RAMP_TIME = 1.8; // Default smooth transition time (seconds)
+
+          function initAudio() {
+            if (audioCtx) return;
+            try {
+              audioCtx = new (window.AudioContext ||
+                window.webkitAudioContext)();
+              isAudioReady = true; // Assume success unless error
+
+              masterGain = audioCtx.createGain();
+              masterGain.gain.setValueAtTime(0.0, audioCtx.currentTime);
+
+              // Panner for spatial movement (controlled by mouse X)
+              pannerNode = audioCtx.createStereoPanner();
+
+              // Main Low-pass Filter (less extreme range)
+              filterNode = audioCtx.createBiquadFilter();
+              filterNode.type = "lowpass";
+              filterNode.frequency.value = 350; // Start slightly higher, less muffled
+              filterNode.Q.value = 1; // Slightly more resonance default
+
+              // Reverb (Longer tail, controlled by Y?)
+              reverbNode = audioCtx.createConvolver();
+              reverbGain = audioCtx.createGain();
+              reverbGain.gain.value = 0.4; // Reverb Mix (can be modulated by Y)
+              const impulse = createPseudoReverbImpulse(4.0, 2.5); // Longer, slower decay reverb
+              if (impulse) reverbNode.buffer = impulse;
+
+              // -- Audio Routing --
+              // Source -> Panner -> Filter -> Master Gain -> Destination
+              //             |-> Reverb Gain -> Reverb -> Master Gain
+              pannerNode.connect(filterNode);
+              filterNode.connect(masterGain);
+              filterNode.connect(reverbGain); // Send filtered signal pre-reverb mix adjustment
+              reverbGain.connect(reverbNode);
+              reverbNode.connect(masterGain);
+              masterGain.connect(audioCtx.destination);
+
+              // -- Sound Sources --
+
+              // NEW Drone: Warmer, Subtler - multiple low sines
+              droneGain = audioCtx.createGain();
+              droneGain.gain.value = 0; // Start silent
+              const droneFreqs = [36, 36.5, 40.1]; // Very low, slightly detuned fundamentals
+              droneFreqs.forEach((freq) => {
+                const osc = audioCtx.createOscillator();
+                osc.type = "sine";
+                osc.frequency.value = freq;
+                const droneIndivGain = audioCtx.createGain();
+                droneIndivGain.gain.value = 0.02; // VERY quiet each
+                osc.connect(droneIndivGain).connect(droneGain); // Connect to drone group gain
+                osc.start();
+              });
+              droneGain.connect(pannerNode); // Drone also goes through panner/filter chain
+
+              // Pads: Smoother tones, subtle dedicated filter, panned
+              padOsc1 = audioCtx.createOscillator();
+              padOsc1.type = "triangle";
+              padOsc1.frequency.value = 110; // A2
+              padOsc2 = audioCtx.createOscillator();
+              padOsc2.type = "sine";
+              padOsc2.frequency.value = 110 * 1.505; // E3 slightly sharp
+              padGain = audioCtx.createGain();
+              padGain.gain.value = 0; // Start silent
+
+              padFilter = audioCtx.createBiquadFilter(); // Optional: subtle filter just for pads?
+              padFilter.type = "lowpass";
+              padFilter.frequency.value = 4000;
+              padFilter.Q.value = 0.5;
+
+              padLFO = audioCtx.createOscillator();
+              padLFO.frequency.value = 0.08; // Even slower LFO
+              const padLFOGain = audioCtx.createGain();
+              padLFOGain.gain.value = 15; // Modulates pad filter freq slightly? Or gain? Let's try filter freq
+              padLFO.connect(padLFOGain).connect(padFilter.frequency); // LFO wiggles pad filter
+
+              padOsc1.connect(padGain);
+              padOsc2.connect(padGain);
+              padGain.connect(padFilter).connect(pannerNode); // Pads through own filter, then main chain
+              padOsc1.start();
+              padOsc2.start();
+              padLFO.start();
+
+              // Shimmer: Quieter, delayed onset, panned
+              shimmerOsc = audioCtx.createOscillator();
+              shimmerOsc.type = "sine";
+              shimmerOsc.frequency.value = 880 * 2; // A6
+              shimmerGain = audioCtx.createGain();
+              shimmerGain.gain.value = 0; // Start silent
+              shimmerOsc.connect(shimmerGain).connect(pannerNode); // Connect to main panner
+              shimmerOsc.start();
+
+              console.log("Resonance Audio Engine Ready.");
+            } catch (e) {
+              console.error("Audio setup failed:", e);
+              isAudioReady = false;
+            }
+          }
+
+          // Reverb Helper (Unchanged logic, values adjusted above)
+          function createPseudoReverbImpulse(duration = 4.0, decay = 2.5) {
+            /* ... same logic ... */ if (!audioCtx) return null;
+            const sr = audioCtx.sampleRate;
+            const len = sr * duration;
+            const imp = audioCtx.createBuffer(2, len, sr);
+            const iL = imp.getChannelData(0);
+            const iR = imp.getChannelData(1);
+            for (let i = 0; i < len; i++) {
+              const n = Math.random() * 2 - 1;
+              const e = Math.pow(1 - i / len, decay);
+              iL[i] = n * e;
+              iR[i] = n * e;
+            }
+            return imp;
+          }
+
+          function updateAudio(level, mouseNormX, mouseNormY) {
+            if (!isAudioReady || !audioCtx || audioCtx.state !== "running")
+              return;
+            const now = audioCtx.currentTime;
+
+            // Overall Volume (Slower ramp, slightly lower max)
+            const targetMasterGain = level > 0 ? 0.02 + level * 0.28 : 0.0; // Lower ceiling
+            masterGain.gain.setTargetAtTime(
+              targetMasterGain,
+              now,
+              AUDIO_RAMP_TIME
+            );
+
+            // Panning based on Mouse X
+            const panValue = (mouseNormX - 0.5) * 2; // -1 (Left) to 1 (Right)
+            if (pannerNode) pannerNode.pan.setTargetAtTime(panValue, now, 0.5); // Quicker pan adjust
+
+            // Main Filter Frequency (slower ramp)
+            const minFilterFreq = 300;
+            const maxFilterFreq = 5000;
+            const targetFilterFreq =
+              minFilterFreq +
+              Math.pow(level, 1.8) * (maxFilterFreq - minFilterFreq); // Steeper curve near end
+            filterNode.frequency.setTargetAtTime(
+              targetFilterFreq,
+              now,
+              AUDIO_RAMP_TIME * 1.2
+            );
+
+            // Filter Q based on Mouse Y (Subtle: Higher Y = more resonance)
+            const minQ = 0.8;
+            const maxQ = 3.5;
+            const targetQ = minQ + mouseNormY * (maxQ - minQ);
+            filterNode.Q.setTargetAtTime(targetQ, now, 0.8); // Moderately fast Q adjust
+
+            // Drone Volume (Fade in slowly)
+            const targetDroneGain = level * 0.4; // Drone gets reasonably present
+            if (droneGain)
+              droneGain.gain.setTargetAtTime(
+                targetDroneGain,
+                now,
+                AUDIO_RAMP_TIME * 1.5
+              );
+
+            // Pad Volume (Fade in gently)
+            const targetPadGain = level * 0.6; // Pads are core sound
+            if (padGain)
+              padGain.gain.setTargetAtTime(targetPadGain, now, AUDIO_RAMP_TIME);
+
+            // Shimmer Volume (Later onset, more gradual fade)
+            const shimmerThreshold = 0.6;
+            const shimmerMaxGain = 0.4;
+            const targetShimmerGain =
+              level > shimmerThreshold
+                ? Math.pow(
+                    (level - shimmerThreshold) / (1 - shimmerThreshold),
+                    2
+                  ) * shimmerMaxGain // Square curve for slower start
+                : 0;
+            if (shimmerGain)
+              shimmerGain.gain.setTargetAtTime(
+                targetShimmerGain,
+                now,
+                AUDIO_RAMP_TIME * 1.2
+              );
+
+            // Reverb Mix based on Mouse Y (Subtle: Higher Y = more reverb)
+            const minReverb = 0.3;
+            const maxReverb = 0.7;
+            const targetReverb =
+              minReverb + mouseNormY * (maxReverb - minReverb);
+            if (reverbGain)
+              reverbGain.gain.setTargetAtTime(targetReverb, now, 1.0);
+
+            // Rhythmic Pulse (Much slower, softer)
+            handlePulse(level, targetQ); // Pass Q for potential sound variation?
+          }
+
+          // Pulse Logic (Slower, Softer)
+          let lastPulseTime = 0;
+          let pulseSource = null,
+            pulseEnv = null,
+            pulseDelay = null,
+            pulseFeedback = null;
+          function handlePulse(level, filterQ) {
+            if (
+              !isAudioReady ||
+              !audioCtx ||
+              audioCtx.state !== "running" ||
+              !filterNode
+            )
+              return;
+            const now = audioCtx.currentTime;
+            const baseInterval = 2500; // ms - Much slower base
+            const fastestInterval = 600; // ms - Still quite slow fastest
+            const targetInterval =
+              baseInterval -
+              Math.pow(level, 2) * (baseInterval - fastestInterval); // Slower ramp-up
+
+            if (level < 0.05) return; // Don't pulse unless clearly interacting
+
+            if ((now - lastPulseTime) * 1000 >= targetInterval) {
+              // Soft click/pluck sound - Filtered Noise?
+              pulseSource = audioCtx.createBufferSource();
+              const buffer = audioCtx.createBuffer(
+                1,
+                audioCtx.sampleRate * 0.1,
+                audioCtx.sampleRate
+              ); // Short buffer
+              const data = buffer.getChannelData(0);
+              for (let i = 0; i < data.length; i++) {
+                data[i] = Math.random() * 2 - 1;
+              } // White noise
+              pulseSource.buffer = buffer;
+
+              const pulseFilter = audioCtx.createBiquadFilter();
+              pulseFilter.type = "bandpass";
+              pulseFilter.frequency.value = 800 + level * 800; // Pitch perception varies slightly
+              pulseFilter.Q.value = 1 + filterQ * 0.5; // Q slightly linked to main filter Q?
+
+              pulseEnv = audioCtx.createGain();
+              pulseEnv.gain.setValueAtTime(0, now);
+              pulseEnv.gain.linearRampToValueAtTime(
+                0.1 + level * 0.1,
+                now + 0.005
+              ); // Very sharp attack
+              pulseEnv.gain.exponentialRampToValueAtTime(
+                0.0001,
+                now + 0.08 + (1 - level) * 0.1
+              ); // Faster decay than overall sound
+
+              // Optional simple delay
+              if (!pulseDelay) {
+                // Create delay nodes only once
+                pulseDelay = audioCtx.createDelay(0.5); // Max delay time
+                pulseFeedback = audioCtx.createGain();
+                pulseFeedback.gain.value = 0.3; // Feedback amount
+                pulseDelay.connect(pulseFeedback).connect(pulseDelay); // Feedback loop
+              }
+              const delayTime = targetInterval / 2000; // Delay time relates to pulse interval?
+              pulseDelay.delayTime.setTargetAtTime(
+                Math.min(0.45, delayTime),
+                now,
+                0.1
+              );
+
+              pulseSource.connect(pulseFilter).connect(pulseEnv);
+              pulseEnv.connect(pannerNode); // Connect pre-delay to main chain
+              pulseEnv.connect(pulseDelay).connect(pannerNode); // Connect delayed signal too, quieter?
+              // Adjust gain balance between dry/wet delay? For now, both connect.
+
+              pulseSource.start(now);
+              lastPulseTime = now;
+            }
+          }
+
+          // --- Interaction Handling ---
+          function startInteraction() {
+            if (!userHasInteracted.value) {
+              userHasInteracted.value = true; // Hide hint
+              if (!isAudioReady) initAudio();
+              if (audioCtx && audioCtx.state === "suspended") {
+                audioCtx.resume().then(() => {
+                  console.log("Resonance Awake.");
+                  isAudioReady = true;
+                  // Update audio immediately AFTER resume promise resolves
+                  updateAudio(interactionLevel.value, mouse.rawX, mouse.rawY);
+                });
+              } else if (audioCtx && audioCtx.state === "running") {
+                isAudioReady = true; // Ensure flag is set
+              }
+            }
+            mouse.isDown = true;
+          }
+          function stopInteraction() {
+            mouse.isDown = false;
+          }
+          function updateInteractionLevel() {
+            // Renamed from updateInteraction
+            if (mouse.isDown) {
+              interactionLevel.value = Math.min(
+                1,
+                interactionLevel.value + INTERACTION_RAMP_UP_RATE
+              );
+            } else {
+              interactionLevel.value = Math.max(
+                0,
+                interactionLevel.value - INTERACTION_RAMP_DOWN_RATE
+              );
+            }
+          }
+
+          // --- Animation Loop (Visuals) ---
+          function gameLoop() {
+            animationFrameId = requestAnimationFrame(gameLoop); // Request next frame early
+            if (!canvas.value || !ctx) return;
+
+            updateInteractionLevel(); // Update intensity based on hold
+            // Call audio update less frequently? No, needs responsiveness.
+            updateAudio(interactionLevel.value, mouse.rawX, mouse.rawY); // Keep audio sync'd
+
+            // --- Draw ---
+            ctx.clearRect(0, 0, canvas.value.width, canvas.value.height); // Clear canvas
+            ctx.globalAlpha = 1.0; // Reset alpha
+
+            // Add particles if interacting and below limit
+            const intensity = interactionLevel.value;
+            if (
+              mouse.isDown &&
+              particles.length < MAX_PARTICLES &&
+              Math.random() < 0.6
+            ) {
+              // Throttled creation
+              for (let i = 0; i < (intensity > 0.2 ? 2 : 1); i++) {
+                // More particles at higher intensity
+                particles.push(new Particle(mouse.x, mouse.y, intensity));
+              }
+            }
+
+            // Background radial gradient - much softer
+            if (intensity > 0.01) {
+              const baseRadius =
+                Math.min(canvas.value.width, canvas.value.height) * 0.1;
+              const gradientRadius =
+                baseRadius +
+                Math.max(canvas.value.width, canvas.value.height) *
+                  0.8 *
+                  Math.pow(intensity, 0.6); // Slower expansion curve
+              const gradient = ctx.createRadialGradient(
+                mouse.x,
+                mouse.y,
+                0,
+                mouse.x,
+                mouse.y,
+                gradientRadius
+              );
+              const centerColor = lerpColor(
+                palette.whisper,
+                palette.murmur,
+                intensity
+              );
+              const midColor = lerpColor(
+                palette.pulse,
+                palette.glow,
+                intensity
+              );
+              // More subtle alphas, maybe fade out quicker
+              gradient.addColorStop(0, `${centerColor}1A`); // Very subtle core, 10% alpha
+              gradient.addColorStop(0.2 + intensity * 0.2, `${midColor}0D`); // Mid glow ~5% alpha
+              gradient.addColorStop(0.8, `${palette.void}00`); // Fade quickly
+              ctx.fillStyle = gradient;
+              ctx.fillRect(0, 0, canvas.value.width, canvas.value.height);
+            }
+
+            // Update & Draw Particles
+            particles.forEach((p, index) => {
+              p.update(intensity, canvas.value.width, canvas.value.height);
+              if (p.life <= 0) {
+                particles.splice(index, 1);
+              } else {
+                p.draw(ctx);
+              }
+            });
+            ctx.globalAlpha = 1.0; // Reset alpha
+          } // End gameLoop
+
+          // --- Event Handlers ---
+          let hideHintTimeout;
+          function handleMouseMove(event) {
+            mouse.x = event.clientX;
+            mouse.y = event.clientY;
+            mouse.rawX = mouse.x / window.innerWidth;
+            mouse.rawY = mouse.y / window.innerHeight;
+            if (!mouse.visible) mouse.visible = true; // Show follower on first move
+            if (!userHasInteracted.value) {
+              // Set timeout to hide hint after first move if not already interacted
+              clearTimeout(hideHintTimeout);
+              hideHintTimeout = setTimeout(() => {
+                if (!mouse.isDown) userHasInteracted.value = true;
+              }, 3000); // Hide after 3s if no click
+            }
+          }
+          function handleMouseDown(event) {
+            clearTimeout(hideHintTimeout);
+            startInteraction();
+          }
+          function handleMouseUp(event) {
+            stopInteraction();
+          }
+          function handleMouseLeave() {
+            mouse.visible = false;
+            stopInteraction();
+          } // Hide follower, stop interaction
+          function handleTouchStart(event) {
+            event.preventDefault();
+            if (event.touches.length > 0) {
+              mouse.x = event.touches[0].clientX;
+              mouse.y = event.touches[0].clientY;
+              mouse.rawX = mouse.x / window.innerWidth;
+              mouse.rawY = mouse.y / window.innerHeight;
+              mouse.visible = true;
+              clearTimeout(hideHintTimeout);
+              startInteraction();
+            }
+          }
+          function handleTouchMove(event) {
+            event.preventDefault();
+            if (event.touches.length > 0) {
+              mouse.x = event.touches[0].clientX;
+              mouse.y = event.touches[0].clientY;
+              mouse.rawX = mouse.x / window.innerWidth;
+              mouse.rawY = mouse.y / window.innerHeight;
+            }
+          }
+          function handleTouchEnd(event) {
+            event.preventDefault();
+            stopInteraction();
+          }
+          function resizeCanvas() {
+            if (canvas.value) {
+              const newWidth = window.innerWidth;
+              const newHeight = window.innerHeight;
+              if (
+                (canvas.value.width !== newWidth ||
+                  canvas.value.height !== newHeight) &&
+                newWidth > 0 &&
+                newHeight > 0
+              ) {
+                canvas.value.width = newWidth;
+                canvas.value.height = newHeight;
+                mouse.rawX = mouse.x / newWidth;
+                mouse.rawY = mouse.y / newHeight; // Recalculate norm
+                console.log(`Resized canvas.`);
+              }
+            }
+          }
+
+          // --- Lifecycle ---
+          onMounted(() => {
+            nextTick(() => {
+              /* ... canvas/ctx init ... */
+              if (canvas.value) {
+                ctx = canvas.value.getContext("2d");
+                if (ctx) {
+                  canvas.value.width = window.innerWidth;
+                  canvas.value.height = window.innerHeight;
+                  initAudio(); // Setup but don't start
+                  window.addEventListener("mousemove", handleMouseMove);
+                  window.addEventListener("mousedown", handleMouseDown);
+                  window.addEventListener("mouseup", handleMouseUp);
+                  document.body.addEventListener(
+                    "mouseleave",
+                    handleMouseLeave
+                  ); // Use body for leave detection
+                  window.addEventListener("touchstart", handleTouchStart, {
+                    passive: false,
+                  });
+                  window.addEventListener("touchend", handleTouchEnd, {
+                    passive: false,
+                  });
+                  window.addEventListener("touchmove", handleTouchMove, {
+                    passive: false,
+                  });
+                  window.addEventListener("resize", resizeCanvas);
+                  gameLoop();
+                }
+              }
+            });
+          });
+          onUnmounted(() => {
+            /* ... cancelAnimationFrame, close audioCtx, remove listeners ... */
+            cancelAnimationFrame(animationFrameId);
+            if (audioCtx && audioCtx.state !== "closed") {
+              audioCtx.close();
+            }
+            window.removeEventListener("mousemove", handleMouseMove);
+            window.removeEventListener("mousedown", handleMouseDown);
+            window.removeEventListener("mouseup", handleMouseUp);
+            document.body.removeEventListener("mouseleave", handleMouseLeave);
+            window.removeEventListener("touchstart", handleTouchStart);
+            window.removeEventListener("touchend", handleTouchEnd);
+            window.removeEventListener("touchmove", handleTouchMove);
+            window.removeEventListener("resize", resizeCanvas);
+            clearTimeout(hideHintTimeout);
+          });
+
+          // --- Styles for Follower ---
+          const mouseFollowerStyle = computed(() => ({
+            left: `${mouse.x}px`,
+            top: `${mouse.y}px`,
+            // Maybe follower color shifts subtly too? Nah, keep it simple glow for now.
+          }));
+
+          // --- Expose ---
+          return { canvas, mouse, userHasInteracted, mouseFollowerStyle };
+        }, // end setup
+      }); // end createApp
+
+      app.mount("#app");
+    </script>
+  </body>
+</html>

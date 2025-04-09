@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voice Recorder with Base64 Encoding</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              absurd: {
+                50: "#f8f9ff",
+                100: "#eef0ff",
+                200: "#e0e5ff",
+                300: "#c4cdff",
+                400: "#a5b1ff",
+                500: "#8c93ff",
+                600: "#6d68ff",
+                700: "#5f4fff",
+                800: "#4e3be5",
+                900: "#4433b8",
+                950: "#2a1e7a",
+              },
+            },
+            animation: {
+              "pulse-fast": "pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              "bounce-slow": "bounce 2s infinite",
+              wiggle: "wiggle 1s ease-in-out infinite",
+            },
+            keyframes: {
+              wiggle: {
+                "0%, 100%": { transform: "rotate(-3deg)" },
+                "50%": { transform: "rotate(3deg)" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-gray-900 text-white min-h-screen">
+    <div id="app" class="container mx-auto px-4 py-8">
+      <header class="mb-10 text-center">
+        <h1 class="text-4xl font-extrabold text-absurd-400 mb-2">
+          Test #4: Voice to Base64
+        </h1>
+        <p class="text-xl text-gray-300">
+          Record your voice and convert it to base64 on the fly
+        </p>
+      </header>
+
+      <div
+        class="max-w-2xl mx-auto bg-gray-800 rounded-xl shadow-xl overflow-hidden"
+      >
+        <!-- Main recorder UI -->
+        <div class="p-6">
+          <div class="flex items-center justify-center space-x-6 mb-8">
+            <!-- Recording indicator -->
+            <div class="w-32 h-32 relative flex items-center justify-center">
+              <div
+                v-if="isRecording"
+                class="absolute inset-0 bg-red-500 bg-opacity-20 rounded-full animate-pulse-fast"
+              ></div>
+              <div
+                v-if="isRecording"
+                class="absolute inset-2 bg-red-500 bg-opacity-30 rounded-full animate-pulse"
+              ></div>
+              <div
+                :class="['rounded-full w-24 h-24 flex items-center justify-center text-white', isRecording ? 'bg-red-600' : 'bg-absurd-600']"
+              >
+                <div class="text-center">
+                  <div
+                    v-if="isRecording"
+                    class="text-xl font-bold"
+                    v-text="recordingTime"
+                  ></div>
+                  <div v-else class="text-lg">Ready</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Main controls -->
+            <div class="flex flex-col items-center space-y-3">
+              <button
+                @click="toggleRecording"
+                :class="['px-6 py-3 rounded-lg font-bold text-lg shadow-lg transform hover:scale-105 transition-all w-48', 
+                isRecording ? 'bg-red-600 hover:bg-red-700' : 'bg-absurd-600 hover:bg-absurd-700']"
+              >
+                {{ isRecording ? 'Stop Recording' : 'Start Recording' }}
+              </button>
+
+              <button
+                @click="playRecording"
+                :disabled="!hasRecording"
+                :class="['px-6 py-3 rounded-lg font-bold shadow-lg transform hover:scale-105 transition-all w-48',
+                hasRecording ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-600 cursor-not-allowed']"
+              >
+                Play Recording
+              </button>
+            </div>
+          </div>
+
+          <!-- Waveform visualization -->
+          <div
+            class="relative h-24 bg-gray-700 rounded-lg overflow-hidden mb-6"
+          >
+            <canvas
+              ref="visualizer"
+              class="absolute inset-0 w-full h-full"
+            ></canvas>
+            <div
+              v-if="!hasRecording && !isRecording"
+              class="absolute inset-0 flex items-center justify-center text-gray-400"
+            >
+              Record something to see waveform
+            </div>
+          </div>
+
+          <!-- Base64 result -->
+          <div v-if="hasRecording" class="mb-6">
+            <div class="flex justify-between items-center mb-2">
+              <h3 class="text-lg font-semibold text-absurd-300">
+                Base64 Encoded Audio
+              </h3>
+              <div class="flex space-x-2">
+                <button
+                  @click="copyBase64"
+                  class="px-3 py-1 bg-absurd-700 hover:bg-absurd-800 rounded text-sm"
+                >
+                  Copy Base64
+                </button>
+                <button
+                  @click="downloadAudio"
+                  class="px-3 py-1 bg-green-700 hover:bg-green-800 rounded text-sm"
+                >
+                  Download WAV
+                </button>
+              </div>
+            </div>
+
+            <div class="relative">
+              <div class="bg-gray-700 rounded-lg p-4 max-h-32 overflow-y-auto">
+                <pre class="text-xs break-all" v-text="truncatedBase64"></pre>
+              </div>
+              <div
+                v-if="isCopied"
+                class="absolute top-2 right-2 px-2 py-1 bg-green-500 text-white text-xs rounded animate-bounce-slow"
+              >
+                Copied!
+              </div>
+            </div>
+          </div>
+
+          <!-- Audio element -->
+          <audio
+            ref="audioPlayer"
+            controls
+            class="w-full"
+            v-if="hasRecording"
+          ></audio>
+        </div>
+
+        <!-- Metrics and info -->
+        <div class="bg-gray-900 p-4 border-t border-gray-700">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-gray-800 p-3 rounded-lg">
+              <div class="text-sm text-gray-400">Recording Length</div>
+              <div class="text-xl font-semibold text-absurd-300">
+                {{ recordingMetrics.duration }}
+              </div>
+            </div>
+            <div class="bg-gray-800 p-3 rounded-lg">
+              <div class="text-sm text-gray-400">Sample Rate</div>
+              <div class="text-xl font-semibold text-absurd-300">
+                {{ recordingMetrics.sampleRate }} Hz
+              </div>
+            </div>
+            <div class="bg-gray-800 p-3 rounded-lg">
+              <div class="text-sm text-gray-400">File Size</div>
+              <div class="text-xl font-semibold text-absurd-300">
+                {{ recordingMetrics.fileSize }}
+              </div>
+            </div>
+            <div class="bg-gray-800 p-3 rounded-lg">
+              <div class="text-sm text-gray-400">Base64 Length</div>
+              <div class="text-xl font-semibold text-absurd-300">
+                {{ recordingMetrics.base64Length }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fun quotes -->
+        <div class="bg-gray-800 p-4 border-t border-gray-700 text-center">
+          <p class="italic text-gray-400">"{{ randomQuote }}"</p>
+        </div>
+      </div>
+
+      <!-- Sassy error message modal -->
+      <div
+        v-if="showErrorModal"
+        class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
+      >
+        <div class="bg-gray-800 rounded-xl p-6 max-w-md animate-wiggle">
+          <div class="text-red-500 text-xl font-bold mb-2">
+            {{ errorModal.title }}
+          </div>
+          <p class="text-gray-300 mb-4">{{ errorModal.message }}</p>
+          <div class="flex justify-end">
+            <button
+              @click="showErrorModal = false"
+              class="px-4 py-2 bg-absurd-600 hover:bg-absurd-700 rounded-lg"
+            >
+              I'll fix it!
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const { createApp, ref, computed, onMounted } = Vue;
+
+      createApp({
+        setup() {
+          // State variables
+          const isRecording = ref(false);
+          const hasRecording = ref(false);
+          const recordingTime = ref("0:00");
+          const base64Data = ref("");
+          const isCopied = ref(false);
+          const visualizer = ref(null);
+          const audioPlayer = ref(null);
+          const showErrorModal = ref(false);
+          const errorModal = ref({ title: "", message: "" });
+
+          // Recording variables
+          let mediaRecorder = null;
+          let audioChunks = [];
+          let startTime = 0;
+          let timerInterval = null;
+          let audioContext = null;
+          let analyser = null;
+          let audioStream = null;
+          let canvasContext = null;
+          let dataArray = null;
+          let audioUrl = "";
+
+          // Recording metrics
+          const recordingMetrics = ref({
+            duration: "0:00",
+            sampleRate: "0",
+            fileSize: "0 KB",
+            base64Length: "0",
+          });
+
+          // Sassy quotes
+          const quotes = [
+            "Your voice is now officially trapped in base64 prison. No parole.",
+            "I've converted your dulcet tones into the digital equivalent of alphabet soup.",
+            "If aliens intercept this base64 string, they'll think humans communicate in gibberish.",
+            "Congratulations! Your voice is now indistinguishable from a crypto wallet address.",
+            "I've transformed your beautiful voice into something only a computer could love.",
+            "Your voice sounds SO much better as an incomprehensible string of characters.",
+            "Base64: making human communication as efficient as a government office since 1987.",
+            "This base64 string contains exactly 73% of your personality. The rest was too spicy for encoding.",
+            "I've seen better encoded data in a corrupted zip file, but this'll do.",
+            "Your voice has been digitally immortalized. Future civilizations will have no idea what this means.",
+          ];
+
+          const randomQuote = computed(() => {
+            return quotes[Math.floor(Math.random() * quotes.length)];
+          });
+
+          // Truncated base64 for display
+          const truncatedBase64 = computed(() => {
+            if (base64Data.value.length <= 1000) return base64Data.value;
+            return (
+              base64Data.value.substring(0, 1000) +
+              "... [truncated, full data copyable]"
+            );
+          });
+
+          // Initialize
+          onMounted(() => {
+            if (visualizer.value) {
+              canvasContext = visualizer.value.getContext("2d");
+              visualizer.value.width = visualizer.value.offsetWidth;
+              visualizer.value.height = visualizer.value.offsetHeight;
+            }
+
+            // Check for microphone support
+            if (
+              !navigator.mediaDevices ||
+              !navigator.mediaDevices.getUserMedia
+            ) {
+              showError(
+                "Your Browser is Being Difficult",
+                "Either your browser was made in the Jurassic era, or it's decided microphones are overrated. Try a modern browser that doesn't fear technology."
+              );
+            }
+          });
+
+          // Start recording
+          const startRecording = async () => {
+            try {
+              audioStream = await navigator.mediaDevices.getUserMedia({
+                audio: true,
+              });
+
+              // Initialize audio context for visualization
+              audioContext = new (window.AudioContext ||
+                window.webkitAudioContext)();
+              const source = audioContext.createMediaStreamSource(audioStream);
+              analyser = audioContext.createAnalyser();
+              analyser.fftSize = 2048;
+
+              source.connect(analyser);
+              dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+              // Start recording
+              mediaRecorder = new MediaRecorder(audioStream);
+              audioChunks = [];
+
+              mediaRecorder.ondataavailable = (event) => {
+                audioChunks.push(event.data);
+              };
+
+              mediaRecorder.onstop = async () => {
+                const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+                audioUrl = URL.createObjectURL(audioBlob);
+
+                if (audioPlayer.value) {
+                  audioPlayer.value.src = audioUrl;
+                }
+
+                // Convert to base64
+                const reader = new FileReader();
+                reader.readAsDataURL(audioBlob);
+                reader.onloadend = () => {
+                  const base64 = reader.result;
+                  base64Data.value = base64;
+                  hasRecording.value = true;
+
+                  // Update metrics
+                  recordingMetrics.value.fileSize = formatBytes(audioBlob.size);
+                  recordingMetrics.value.base64Length =
+                    base64.length.toLocaleString();
+
+                  if (audioContext) {
+                    recordingMetrics.value.sampleRate =
+                      audioContext.sampleRate.toLocaleString();
+                  }
+                };
+              };
+
+              mediaRecorder.start();
+              startTime = Date.now();
+              isRecording.value = true;
+
+              // Update timer
+              timerInterval = setInterval(updateTimer, 100);
+
+              // Start visualization
+              drawVisualizer();
+            } catch (error) {
+              showError(
+                "Microphone Access Denied",
+                "Your microphone just ghosted us harder than your last Tinder date. Check your privacy settings or try a device that actually works."
+              );
+              console.error("Error accessing microphone:", error);
+            }
+          };
+
+          // Stop recording
+          const stopRecording = () => {
+            if (mediaRecorder && isRecording.value) {
+              mediaRecorder.stop();
+              clearInterval(timerInterval);
+              isRecording.value = false;
+
+              // Stop audio tracks
+              if (audioStream) {
+                audioStream.getTracks().forEach((track) => track.stop());
+              }
+
+              // Update final duration
+              recordingMetrics.value.duration = recordingTime.value;
+            }
+          };
+
+          // Toggle recording
+          const toggleRecording = () => {
+            if (isRecording.value) {
+              stopRecording();
+            } else {
+              startRecording();
+            }
+          };
+
+          // Update timer display
+          const updateTimer = () => {
+            const elapsed = Date.now() - startTime;
+            const seconds = Math.floor(elapsed / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            recordingTime.value = `${minutes}:${remainingSeconds
+              .toString()
+              .padStart(2, "0")}`;
+          };
+
+          // Draw visualizer
+          const drawVisualizer = () => {
+            if (!isRecording.value || !analyser || !canvasContext) return;
+
+            requestAnimationFrame(drawVisualizer);
+
+            analyser.getByteTimeDomainData(dataArray);
+
+            canvasContext.fillStyle = "rgba(40, 40, 40)";
+            canvasContext.fillRect(
+              0,
+              0,
+              visualizer.value.width,
+              visualizer.value.height
+            );
+
+            canvasContext.lineWidth = 2;
+            canvasContext.strokeStyle = "rgb(165, 177, 255)";
+
+            canvasContext.beginPath();
+
+            const sliceWidth =
+              (visualizer.value.width * 1.0) / dataArray.length;
+            let x = 0;
+
+            for (let i = 0; i < dataArray.length; i++) {
+              const v = dataArray[i] / 128.0;
+              const y = (v * visualizer.value.height) / 2;
+
+              if (i === 0) {
+                canvasContext.moveTo(x, y);
+              } else {
+                canvasContext.lineTo(x, y);
+              }
+
+              x += sliceWidth;
+            }
+
+            canvasContext.lineTo(
+              visualizer.value.width,
+              visualizer.value.height / 2
+            );
+            canvasContext.stroke();
+          };
+
+          // Play recording
+          const playRecording = () => {
+            if (audioPlayer.value && hasRecording.value) {
+              audioPlayer.value.play();
+            }
+          };
+
+          // Copy base64 data
+          const copyBase64 = () => {
+            if (base64Data.value) {
+              navigator.clipboard
+                .writeText(base64Data.value)
+                .then(() => {
+                  isCopied.value = true;
+                  setTimeout(() => {
+                    isCopied.value = false;
+                  }, 2000);
+                })
+                .catch(() => {
+                  showError(
+                    "Clipboard Drama",
+                    "Your clipboard just had an existential crisis. Try again or manually select and copy like it's 1999."
+                  );
+                });
+            }
+          };
+
+          // Download audio
+          const downloadAudio = () => {
+            if (audioUrl) {
+              const a = document.createElement("a");
+              a.href = audioUrl;
+              a.download = `absurd-voice-recording-${Date.now()}.wav`;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+            }
+          };
+
+          // Show error modal
+          const showError = (title, message) => {
+            errorModal.value = { title, message };
+            showErrorModal.value = true;
+          };
+
+          // Format bytes to human-readable size
+          const formatBytes = (bytes, decimals = 2) => {
+            if (bytes === 0) return "0 Bytes";
+
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ["Bytes", "KB", "MB", "GB"];
+
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+            return (
+              parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i]
+            );
+          };
+
+          return {
+            isRecording,
+            hasRecording,
+            recordingTime,
+            base64Data,
+            truncatedBase64,
+            isCopied,
+            visualizer,
+            audioPlayer,
+            recordingMetrics,
+            randomQuote,
+            showErrorModal,
+            errorModal,
+            toggleRecording,
+            playRecording,
+            copyBase64,
+            downloadAudio,
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

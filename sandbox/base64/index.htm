@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced Sound Mixer with Base64</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              absurd: {
+                100: "#ffd6ff",
+                200: "#e7c6ff",
+                300: "#c8b6ff",
+                400: "#b8c0ff",
+                500: "#bbd0ff",
+                600: "#a2c7ff",
+              },
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center p-4"
+  >
+    <div class="max-w-2xl w-full bg-gray-800 rounded-lg shadow-lg p-6">
+      <h1 class="text-3xl font-bold text-absurd-300 mb-2">
+        Test #3: Absurd Sound Machine
+      </h1>
+      <p class="mb-6 text-absurd-500">
+        Mix, match, and convert sounds to base64 on the fly!
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Sound 1 -->
+        <div class="bg-gray-700 p-4 rounded-lg">
+          <h3 class="text-lg font-semibold text-absurd-200 mb-2">
+            Sound 1: Pure Tone
+          </h3>
+
+          <div class="mb-3">
+            <label class="block text-sm font-medium mb-1">Type:</label>
+            <select
+              id="sound1Type"
+              class="bg-gray-800 text-white rounded px-3 py-1 w-full"
+            >
+              <option value="sine">Sine Wave</option>
+              <option value="square">Square Wave</option>
+              <option value="sawtooth">Sawtooth</option>
+              <option value="triangle">Triangle</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="block text-sm font-medium mb-1"
+              >Frequency: <span id="sound1FreqValue">440</span> Hz</label
+            >
+            <input
+              type="range"
+              id="sound1Freq"
+              min="50"
+              max="2000"
+              value="440"
+              class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer"
+            />
+          </div>
+
+          <button
+            id="sound1Play"
+            class="bg-absurd-400 hover:bg-absurd-300 px-3 py-1 rounded-md transition-colors mr-2"
+          >
+            Play
+          </button>
+          <button
+            id="sound1Stop"
+            class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded-md transition-colors"
+          >
+            Stop
+          </button>
+        </div>
+
+        <!-- Sound 2 -->
+        <div class="bg-gray-700 p-4 rounded-lg">
+          <h3 class="text-lg font-semibold text-absurd-200 mb-2">
+            Sound 2: White Noise
+          </h3>
+
+          <div class="mb-3">
+            <label class="block text-sm font-medium mb-1"
+              >Intensity: <span id="sound2IntensityValue">50</span>%</label
+            >
+            <input
+              type="range"
+              id="sound2Intensity"
+              min="0"
+              max="100"
+              value="50"
+              class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="block text-sm font-medium mb-1"
+              >Filter: <span id="sound2FilterValue">1000</span> Hz</label
+            >
+            <input
+              type="range"
+              id="sound2Filter"
+              min="100"
+              max="8000"
+              value="1000"
+              class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer"
+            />
+          </div>
+
+          <button
+            id="sound2Play"
+            class="bg-absurd-400 hover:bg-absurd-300 px-3 py-1 rounded-md transition-colors mr-2"
+          >
+            Play
+          </button>
+          <button
+            id="sound2Stop"
+            class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded-md transition-colors"
+          >
+            Stop
+          </button>
+        </div>
+      </div>
+
+      <!-- Mix Controls -->
+      <div class="bg-gray-700 p-4 rounded-lg mb-6">
+        <h3 class="text-lg font-semibold text-absurd-200 mb-4">Mix Controls</h3>
+
+        <div class="flex space-x-4">
+          <div class="flex-1">
+            <label class="block text-sm font-medium mb-1"
+              >Duration: <span id="mixDurationValue">2.0</span> seconds</label
+            >
+            <input
+              type="range"
+              id="mixDuration"
+              min="0.5"
+              max="5"
+              value="2"
+              step="0.5"
+              class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer"
+            />
+          </div>
+
+          <div class="flex-1">
+            <label class="block text-sm font-medium mb-1"
+              >Mix Ratio: <span id="mixRatioValue">50</span>% /
+              <span id="mixRatioValue2">50</span>%</label
+            >
+            <input
+              type="range"
+              id="mixRatio"
+              min="0"
+              max="100"
+              value="50"
+              class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer"
+            />
+          </div>
+        </div>
+
+        <div class="mt-4 flex justify-center">
+          <button
+            id="mixButton"
+            class="bg-absurd-300 hover:bg-absurd-200 px-6 py-2 rounded-md transition-colors text-lg font-semibold"
+          >
+            Mix & Convert to Base64
+          </button>
+        </div>
+      </div>
+
+      <!-- Visualization and Base64 Output -->
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4">
+        <div class="md:col-span-3">
+          <label class="block text-sm font-medium mb-1"
+            >Sound Visualization:</label
+          >
+          <canvas
+            id="waveformCanvas"
+            class="w-full h-32 bg-gray-700 rounded-lg"
+          ></canvas>
+        </div>
+
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium mb-1">Audio Controls:</label>
+          <div
+            class="bg-gray-700 rounded-lg p-3 flex flex-col h-32 justify-center items-center"
+          >
+            <audio id="mixedAudio" controls class="w-full mb-3"></audio>
+            <button
+              id="downloadButton"
+              class="bg-absurd-500 hover:bg-absurd-400 px-4 py-1 rounded-md transition-colors w-full"
+            >
+              Download Audio File
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-2 text-sm">Base64 Output (first 100 chars):</div>
+      <div class="text-xs bg-gray-700 p-3 rounded-md overflow-auto max-h-28">
+        <pre id="base64Display" class="whitespace-pre-wrap break-all">
+Mix sounds to see base64 output...</pre
+        >
+      </div>
+    </div>
+
+    <script>
+      let audioContext = null;
+      let sound1Oscillator = null;
+      let sound1Gain = null;
+      let sound2NoiseNode = null;
+      let sound2Filter = null;
+      let sound2Gain = null;
+      let mixedAudioBase64 = null;
+      let analyser = null;
+      let requestAnimationId = null;
+
+      // Initialize audio context
+      function initAudioContext() {
+        if (!audioContext) {
+          audioContext = new (window.AudioContext ||
+            window.webkitAudioContext)();
+
+          // Create analyzer for visualization
+          analyser = audioContext.createAnalyser();
+          analyser.fftSize = 2048;
+          analyser.connect(audioContext.destination);
+        }
+      }
+
+      // Update displayed values
+      document
+        .getElementById("sound1Freq")
+        .addEventListener("input", function () {
+          document.getElementById("sound1FreqValue").textContent = this.value;
+          if (sound1Oscillator) {
+            sound1Oscillator.frequency.setValueAtTime(
+              parseFloat(this.value),
+              audioContext.currentTime
+            );
+          }
+        });
+
+      document
+        .getElementById("sound2Intensity")
+        .addEventListener("input", function () {
+          document.getElementById("sound2IntensityValue").textContent =
+            this.value;
+          if (sound2Gain) {
+            const gainValue = parseFloat(this.value) / 100;
+            sound2Gain.gain.setValueAtTime(gainValue, audioContext.currentTime);
+          }
+        });
+
+      document
+        .getElementById("sound2Filter")
+        .addEventListener("input", function () {
+          document.getElementById("sound2FilterValue").textContent = this.value;
+          if (sound2Filter) {
+            sound2Filter.frequency.setValueAtTime(
+              parseFloat(this.value),
+              audioContext.currentTime
+            );
+          }
+        });
+
+      document
+        .getElementById("mixDuration")
+        .addEventListener("input", function () {
+          document.getElementById("mixDurationValue").textContent = this.value;
+        });
+
+      document
+        .getElementById("mixRatio")
+        .addEventListener("input", function () {
+          const value = parseInt(this.value);
+          document.getElementById("mixRatioValue").textContent = value;
+          document.getElementById("mixRatioValue2").textContent = 100 - value;
+        });
+
+      // Play Sound 1
+      document
+        .getElementById("sound1Play")
+        .addEventListener("click", function () {
+          initAudioContext();
+
+          // Stop if already playing
+          if (sound1Oscillator) {
+            sound1Oscillator.stop();
+            sound1Oscillator = null;
+          }
+
+          // Create oscillator
+          sound1Oscillator = audioContext.createOscillator();
+          sound1Oscillator.type = document.getElementById("sound1Type").value;
+          sound1Oscillator.frequency.setValueAtTime(
+            parseFloat(document.getElementById("sound1Freq").value),
+            audioContext.currentTime
+          );
+
+          // Create gain node
+          if (!sound1Gain) {
+            sound1Gain = audioContext.createGain();
+            sound1Gain.gain.value = 0.5;
+            sound1Gain.connect(analyser);
+          }
+
+          // Connect and start
+          sound1Oscillator.connect(sound1Gain);
+          sound1Oscillator.start();
+
+          // Start visualization
+          startVisualization();
+        });
+
+      // Stop Sound 1
+      document
+        .getElementById("sound1Stop")
+        .addEventListener("click", function () {
+          if (sound1Oscillator) {
+            sound1Oscillator.stop();
+            sound1Oscillator = null;
+          }
+        });
+
+      // Play Sound 2 (White Noise)
+      document
+        .getElementById("sound2Play")
+        .addEventListener("click", function () {
+          initAudioContext();
+
+          // Stop if already playing
+          if (sound2NoiseNode) {
+            sound2NoiseNode.stop();
+            sound2NoiseNode = null;
+          }
+
+          // Create noise
+          const bufferSize = 2 * audioContext.sampleRate;
+          sound2NoiseNode = audioContext.createBufferSource();
+          const noiseBuffer = audioContext.createBuffer(
+            1,
+            bufferSize,
+            audioContext.sampleRate
+          );
+          const output = noiseBuffer.getChannelData(0);
+
+          for (let i = 0; i < bufferSize; i++) {
+            output[i] = Math.random() * 2 - 1;
+          }
+
+          sound2NoiseNode.buffer = noiseBuffer;
+          sound2NoiseNode.loop = true;
+
+          // Create filter
+          sound2Filter = audioContext.createBiquadFilter();
+          sound2Filter.type = "lowpass";
+          sound2Filter.frequency.value = parseFloat(
+            document.getElementById("sound2Filter").value
+          );
+
+          // Create gain node
+          sound2Gain = audioContext.createGain();
+          sound2Gain.gain.value =
+            parseFloat(document.getElementById("sound2Intensity").value) / 100;
+
+          // Connect nodes
+          sound2NoiseNode.connect(sound2Filter);
+          sound2Filter.connect(sound2Gain);
+          sound2Gain.connect(analyser);
+
+          // Start
+          sound2NoiseNode.start();
+
+          // Start visualization
+          startVisualization();
+        });
+
+      // Stop Sound 2
+      document
+        .getElementById("sound2Stop")
+        .addEventListener("click", function () {
+          if (sound2NoiseNode) {
+            sound2NoiseNode.stop();
+            sound2NoiseNode = null;
+          }
+        });
+
+      // Mix and convert to base64
+      document
+        .getElementById("mixButton")
+        .addEventListener("click", async function () {
+          initAudioContext();
+
+          // Get parameters
+          const duration = parseFloat(
+            document.getElementById("mixDuration").value
+          );
+          const mixRatio =
+            parseFloat(document.getElementById("mixRatio").value) / 100;
+
+          // Create offline context for rendering
+          const offlineContext = new OfflineAudioContext(
+            1,
+            audioContext.sampleRate * duration,
+            audioContext.sampleRate
+          );
+
+          // Sound 1: Oscillator
+          const osc = offlineContext.createOscillator();
+          osc.type = document.getElementById("sound1Type").value;
+          osc.frequency.value = parseFloat(
+            document.getElementById("sound1Freq").value
+          );
+
+          const oscGain = offlineContext.createGain();
+          oscGain.gain.value = mixRatio;
+
+          // Sound 2: White Noise
+          const noiseBuffer = offlineContext.createBuffer(
+            1,
+            offlineContext.sampleRate * duration,
+            offlineContext.sampleRate
+          );
+          const noiseData = noiseBuffer.getChannelData(0);
+
+          for (let i = 0; i < noiseData.length; i++) {
+            noiseData[i] = Math.random() * 2 - 1;
+          }
+
+          const noise = offlineContext.createBufferSource();
+          noise.buffer = noiseBuffer;
+
+          const filter = offlineContext.createBiquadFilter();
+          filter.type = "lowpass";
+          filter.frequency.value = parseFloat(
+            document.getElementById("sound2Filter").value
+          );
+
+          const noiseGain = offlineContext.createGain();
+          noiseGain.gain.value =
+            (1 - mixRatio) *
+            (parseFloat(document.getElementById("sound2Intensity").value) /
+              100);
+
+          // Connect everything
+          osc.connect(oscGain);
+          noise.connect(filter);
+          filter.connect(noiseGain);
+
+          oscGain.connect(offlineContext.destination);
+          noiseGain.connect(offlineContext.destination);
+
+          // Start the sources
+          osc.start();
+          noise.start();
+
+          // Render audio
+          offlineContext
+            .startRendering()
+            .then(function (renderedBuffer) {
+              // Convert to WAV format
+              const wavBuffer = bufferToWav(renderedBuffer);
+
+              // Convert to base64
+              const base64String = arrayBufferToBase64(wavBuffer);
+              const audioDataUri = "data:audio/wav;base64," + base64String;
+
+              // Display the base64 string (shortened)
+              document.getElementById("base64Display").textContent =
+                audioDataUri.substring(0, 100) + "...";
+
+              // Set the audio source
+              document.getElementById("mixedAudio").src = audioDataUri;
+
+              // Save for download
+              mixedAudioBase64 = audioDataUri;
+
+              // Update visualization
+              updateVisualization(renderedBuffer);
+            })
+            .catch(function (err) {
+              console.error("Rendering failed:", err);
+            });
+        });
+
+      // Download the mixed audio
+      document
+        .getElementById("downloadButton")
+        .addEventListener("click", function () {
+          if (!mixedAudioBase64) {
+            alert("Please mix sounds first!");
+            return;
+          }
+
+          const a = document.createElement("a");
+          a.href = mixedAudioBase64;
+          a.download = "absurd_mix_" + Date.now() + ".wav";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        });
+
+      // Start visualization
+      function startVisualization() {
+        if (!analyser) return;
+
+        const canvas = document.getElementById("waveformCanvas");
+        const canvasCtx = canvas.getContext("2d");
+
+        // Set canvas dimensions
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+
+        canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+
+        function draw() {
+          requestAnimationId = requestAnimationFrame(draw);
+
+          analyser.getByteTimeDomainData(dataArray);
+
+          canvasCtx.fillStyle = "rgb(40, 40, 40)";
+          canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+          canvasCtx.lineWidth = 2;
+          canvasCtx.strokeStyle = "rgb(200, 182, 255)";
+
+          canvasCtx.beginPath();
+
+          const sliceWidth = (canvas.width * 1.0) / bufferLength;
+          let x = 0;
+
+          for (let i = 0; i < bufferLength; i++) {
+            const v = dataArray[i] / 128.0;
+            const y = (v * canvas.height) / 2;
+
+            if (i === 0) {
+              canvasCtx.moveTo(x, y);
+            } else {
+              canvasCtx.lineTo(x, y);
+            }
+
+            x += sliceWidth;
+          }
+
+          canvasCtx.lineTo(canvas.width, canvas.height / 2);
+          canvasCtx.stroke();
+        }
+
+        if (requestAnimationId) {
+          cancelAnimationFrame(requestAnimationId);
+        }
+
+        draw();
+      }
+
+      // Update visualization with rendered buffer
+      function updateVisualization(buffer) {
+        const canvas = document.getElementById("waveformCanvas");
+        const canvasCtx = canvas.getContext("2d");
+
+        // Set canvas dimensions
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+
+        // Get audio data
+        const data = buffer.getChannelData(0);
+        const step = Math.ceil(data.length / canvas.width);
+
+        canvasCtx.fillStyle = "rgb(40, 40, 40)";
+        canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+        canvasCtx.lineWidth = 2;
+        canvasCtx.strokeStyle = "rgb(200, 182, 255)";
+
+        canvasCtx.beginPath();
+
+        for (let i = 0; i < canvas.width; i++) {
+          const idx = i * step;
+          const value = data[idx];
+          const y = (0.5 + value / 2) * canvas.height;
+
+          if (i === 0) {
+            canvasCtx.moveTo(i, y);
+          } else {
+            canvasCtx.lineTo(i, y);
+          }
+        }
+
+        canvasCtx.stroke();
+      }
+
+      // Convert AudioBuffer to WAV format
+      function bufferToWav(buffer) {
+        const numChannels = buffer.numberOfChannels;
+        const sampleRate = buffer.sampleRate;
+        const format = 1; // PCM
+        const bitDepth = 16;
+
+        const bytesPerSample = bitDepth / 8;
+        const blockAlign = numChannels * bytesPerSample;
+
+        const dataLength = buffer.length * numChannels * bytesPerSample;
+        const bufferLength = 44 + dataLength;
+
+        const arrayBuffer = new ArrayBuffer(bufferLength);
+        const view = new DataView(arrayBuffer);
+
+        // RIFF identifier
+        writeString(view, 0, "RIFF");
+        // RIFF chunk length
+        view.setUint32(4, 36 + dataLength, true);
+        // RIFF type
+        writeString(view, 8, "WAVE");
+        // format chunk identifier
+        writeString(view, 12, "fmt ");
+        // format chunk length
+        view.setUint32(16, 16, true);
+        // sample format (raw)
+        view.setUint16(20, format, true);
+        // channel count
+        view.setUint16(22, numChannels, true);
+        // sample rate
+        view.setUint32(24, sampleRate, true);
+        // byte rate (sample rate * block align)
+        view.setUint32(28, sampleRate * blockAlign, true);
+        // block align (channel count * bytes per sample)
+        view.setUint16(32, blockAlign, true);
+        // bits per sample
+        view.setUint16(34, bitDepth, true);
+        // data chunk identifier
+        writeString(view, 36, "data");
+        // data chunk length
+        view.setUint32(40, dataLength, true);
+
+        // Write the PCM samples
+        const channelData = [];
+        for (let i = 0; i < numChannels; i++) {
+          channelData[i] = buffer.getChannelData(i);
+        }
+
+        let offset = 44;
+        for (let i = 0; i < buffer.length; i++) {
+          for (let channel = 0; channel < numChannels; channel++) {
+            // Convert float to int
+            let sample = Math.max(-1, Math.min(1, channelData[channel][i]));
+            sample = sample < 0 ? sample * 0x8000 : sample * 0x7fff;
+            view.setInt16(offset, sample, true);
+            offset += bytesPerSample;
+          }
+        }
+
+        return arrayBuffer;
+      }
+
+      // Helper function to write a string to a DataView
+      function writeString(view, offset, string) {
+        for (let i = 0; i < string.length; i++) {
+          view.setUint8(offset + i, string.charCodeAt(i));
+        }
+      }
+
+      // Convert ArrayBuffer to base64
+      function arrayBufferToBase64(buffer) {
+        let binary = "";
+        const bytes = new Uint8Array(buffer);
+        for (let i = 0; i < bytes.byteLength; i++) {
+          binary += String.fromCharCode(bytes[i]);
+        }
+        return window.btoa(binary);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Beep Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center p-4"
+  >
+    <div class="max-w-md w-full bg-gray-800 rounded-lg shadow-lg p-6">
+      <h1 class="text-2xl font-bold text-purple-400 mb-4">
+        Test #1: Simple Beep
+      </h1>
+      <p class="mb-4">
+        This is the most basic test - a simple beep sound encoded in base64.
+      </p>
+
+      <div class="flex space-x-2 mb-6">
+        <button
+          id="playButton"
+          class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-md transition-colors"
+        >
+          Play Sound
+        </button>
+        <button
+          id="stopButton"
+          class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md transition-colors"
+        >
+          Stop Sound
+        </button>
+      </div>
+
+      <div class="text-xs bg-gray-700 p-3 rounded-md overflow-auto max-h-32">
+        <pre id="base64Display" class="whitespace-pre-wrap break-all">
+Loading base64...</pre
+        >
+      </div>
+    </div>
+
+    <script>
+      // A simple beep sound encoded in base64
+      const beepBase64 =
+        "data:audio/wav;base64,UklGRnQFAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YVAFAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAP////8AAAAA/////wAAAAD/////AAAAAA==";
+
+      // Display the base64 string (shortened for clarity)
+      document.getElementById("base64Display").textContent =
+        beepBase64.substring(0, 100) + "...";
+
+      let audio = null;
+
+      document.getElementById("playButton").addEventListener("click", () => {
+        if (audio) {
+          audio.pause();
+          audio = null;
+        }
+        audio = new Audio(beepBase64);
+        audio.play();
+      });
+
+      document.getElementById("stopButton").addEventListener("click", () => {
+        if (audio) {
+          audio.pause();
+          audio = null;
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lumi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background-color: #050510;
+        font-family: "Inter", sans-serif;
+      }
+      canvas {
+        touch-action: none;
+      }
+      .fade-in {
+        animation: fadeIn 3s ease;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .pulsate {
+        animation: pulsate 6s ease-in-out infinite;
+      }
+      @keyframes pulsate {
+        0% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0.6;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="relative w-screen h-screen">
+      <canvas ref="canvas" class="absolute top-0 left-0 w-full h-full"></canvas>
+
+      <!-- UI Overlay -->
+      <div
+        class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-6 fade-in"
+      >
+        <button
+          @click="toggleAudio"
+          class="bg-violet-900 bg-opacity-40 hover:bg-opacity-60 text-violet-200 px-4 py-2 rounded-full backdrop-blur-sm transition-all duration-500"
+        >
+          {{ audioEnabled ? 'Mute Sounds' : 'Enable Sounds' }}
+        </button>
+        <button
+          @click="resetGarden"
+          class="bg-violet-900 bg-opacity-40 hover:bg-opacity-60 text-violet-200 px-4 py-2 rounded-full backdrop-blur-sm transition-all duration-500"
+        >
+          Reset Garden
+        </button>
+      </div>
+
+      <!-- Initial Instructions -->
+      <div
+        v-if="showInstructions"
+        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-violet-200 fade-in"
+      >
+        <p class="text-2xl mb-4 pulsate">Move to nurture the ecosystem</p>
+        <p class="text-lg opacity-70">No goals. No metrics. Just flow.</p>
+      </div>
+    </div>
+
+    <script>
+      const { createApp, ref, onMounted, onUnmounted } = Vue;
+
+      createApp({
+        setup() {
+          const canvas = ref(null);
+          const ctx = ref(null);
+          const particles = ref([]);
+          const cells = ref([]);
+          const audioEnabled = ref(false);
+          const audioContext = ref(null);
+          const sounds = ref({});
+          const showInstructions = ref(true);
+
+          // Game settings
+          const GRID_SIZE = 24; // Size of each cell
+          const SIMULATION_SPEED = 5; // Steps per second
+          let lastSimulationTime = 0;
+          let animationFrame = null;
+          let lastInteractionTime = Date.now();
+
+          // Color themes - violet monochrome with rare teal entities
+          const COLORS = {
+            background: "#050510",
+            primary: "#8B5CF6", // Violet-500
+            variants: ["#C4B5FD", "#A78BFA", "#7C3AED", "#6D28D9", "#5B21B6"], // Violet shades
+            rare: "#FAE033", // Sunflower-600
+            text: "#F5F3FF", // Violet-50
+          };
+
+          // Mouse/touch position tracking
+          const mouse = { x: null, y: null, isActive: false };
+
+          const initCanvas = () => {
+            ctx.value = canvas.value.getContext("2d");
+            canvas.value.width = window.innerWidth;
+            canvas.value.height = window.innerHeight;
+
+            // Initialize grid for Game of Life patterns
+            initGrid();
+
+            // Create initial particles
+            for (let i = 0; i < 12; i++) {
+              particles.value.push(createParticle());
+            }
+          };
+
+          const initGrid = () => {
+            const cols = Math.ceil(canvas.value.width / GRID_SIZE);
+            const rows = Math.ceil(canvas.value.height / GRID_SIZE);
+
+            cells.value = Array(rows)
+              .fill()
+              .map(() => Array(cols).fill(0));
+
+            // Seed with a few random living cells
+            for (let i = 0; i < rows * cols * 0.01; i++) {
+              const x = Math.floor(Math.random() * cols);
+              const y = Math.floor(Math.random() * rows);
+              cells.value[y][x] = 1;
+            }
+          };
+
+          const createParticle = (x, y, isRare = false) => {
+            return {
+              x: x || Math.random() * canvas.value.width,
+              y: y || Math.random() * canvas.value.height,
+              size: Math.random() * 4 + 2,
+              speedX: Math.random() * 0.3 - 0.15,
+              speedY: Math.random() * 0.3 - 0.15,
+              isRare: isRare || Math.random() < 0.05, // 5% chance of rare entity
+              energy: Math.random() * 0.5 + 0.2,
+              connections: [],
+              age: 0,
+              maxAge: Math.random() * 2000 + 1000,
+              lastEmitTime: 0,
+              trail: [],
+            };
+          };
+
+          const animate = (timestamp) => {
+            // Clear with semi-transparent overlay for trails
+            ctx.value.fillStyle = "rgba(5, 5, 16, 0.12)";
+            ctx.value.fillRect(0, 0, canvas.value.width, canvas.value.height);
+
+            // Update Game of Life grid
+            if (timestamp - lastSimulationTime > 1000 / SIMULATION_SPEED) {
+              updateGrid();
+              lastSimulationTime = timestamp;
+            }
+
+            // Draw the grid subtly
+            drawGrid();
+
+            // Update and draw particles
+            updateParticles();
+
+            // Check if we should hide instructions
+            if (
+              showInstructions.value &&
+              Date.now() - lastInteractionTime > 5000
+            ) {
+              showInstructions.value = false;
+            }
+
+            animationFrame = requestAnimationFrame(animate);
+          };
+
+          const updateGrid = () => {
+            const cols = cells.value[0].length;
+            const rows = cells.value.length;
+            const nextGen = Array(rows)
+              .fill()
+              .map(() => Array(cols).fill(0));
+
+            // Apply Conway's Game of Life rules with some randomness
+            for (let y = 0; y < rows; y++) {
+              for (let x = 0; x < cols; x++) {
+                const neighbors = countNeighbors(x, y);
+
+                // Standard Conway's rules
+                if (cells.value[y][x] === 1) {
+                  // Any live cell with 2 or 3 live neighbors survives
+                  if (neighbors === 2 || neighbors === 3) {
+                    nextGen[y][x] = 1;
+                  }
+                } else {
+                  // Any dead cell with exactly 3 live neighbors becomes alive
+                  if (neighbors === 3) {
+                    nextGen[y][x] = 1;
+                  }
+                }
+
+                // Rare random birth (0.01% chance)
+                if (nextGen[y][x] === 0 && Math.random() < 0.0001) {
+                  nextGen[y][x] = 1;
+                }
+              }
+            }
+
+            // Apply influence from particles to grid
+            particles.value.forEach((p) => {
+              const gridX = Math.floor(p.x / GRID_SIZE);
+              const gridY = Math.floor(p.y / GRID_SIZE);
+
+              // Particle influence radius
+              const radius = Math.floor(p.energy * 3);
+
+              // Affect cells in radius
+              for (let dy = -radius; dy <= radius; dy++) {
+                for (let dx = -radius; dx <= radius; dx++) {
+                  const nx = gridX + dx;
+                  const ny = gridY + dy;
+
+                  // Check bounds
+                  if (nx >= 0 && nx < cols && ny >= 0 && ny < rows) {
+                    // Higher energy particles have more influence
+                    if (Math.random() < p.energy * 0.3) {
+                      // Rare entities create life, normal entities can destroy
+                      if (p.isRare) {
+                        nextGen[ny][nx] = 1;
+                      } else {
+                        // 30% chance to flip cell state when particle is energetic
+                        if (p.energy > 0.7 && Math.random() < 0.3) {
+                          nextGen[ny][nx] = 1 - nextGen[ny][nx];
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            });
+
+            cells.value = nextGen;
+          };
+
+          const countNeighbors = (x, y) => {
+            const cols = cells.value[0].length;
+            const rows = cells.value.length;
+            let count = 0;
+
+            // Check all 8 neighbors with wrapping
+            for (let dy = -1; dy <= 1; dy++) {
+              for (let dx = -1; dx <= 1; dx++) {
+                if (dx === 0 && dy === 0) continue; // Skip self
+
+                const nx = (x + dx + cols) % cols; // Wrap around x
+                const ny = (y + dy + rows) % rows; // Wrap around y
+
+                count += cells.value[ny][nx];
+              }
+            }
+
+            return count;
+          };
+
+          const drawGrid = () => {
+            const cols = cells.value[0].length;
+            const rows = cells.value.length;
+
+            for (let y = 0; y < rows; y++) {
+              for (let x = 0; x < cols; x++) {
+                if (cells.value[y][x] === 1) {
+                  // Draw living cells very subtly
+                  ctx.value.fillStyle = `${COLORS.primary}22`; // Very transparent
+                  ctx.value.fillRect(
+                    x * GRID_SIZE,
+                    y * GRID_SIZE,
+                    GRID_SIZE,
+                    GRID_SIZE
+                  );
+                }
+              }
+            }
+          };
+
+          const updateParticles = () => {
+            // Draw connections first (behind particles)
+            drawConnections();
+
+            particles.value.forEach((particle, index) => {
+              // Update particle position
+              particle.x += particle.speedX;
+              particle.y += particle.speedY;
+              particle.age++;
+
+              // Add current position to trail with limit
+              particle.trail.push({ x: particle.x, y: particle.y });
+              if (particle.trail.length > 20) {
+                particle.trail.shift();
+              }
+
+              // Random movement variations (more organic)
+              if (Math.random() < 0.03) {
+                particle.speedX += (Math.random() - 0.5) * 0.05;
+                particle.speedY += (Math.random() - 0.5) * 0.05;
+              }
+
+              // Speed limits
+              particle.speedX = Math.max(-0.5, Math.min(0.5, particle.speedX));
+              particle.speedY = Math.max(-0.5, Math.min(0.5, particle.speedY));
+
+              // Boundary checking (wrap around)
+              if (particle.x < 0) particle.x = canvas.value.width;
+              if (particle.x > canvas.value.width) particle.x = 0;
+              if (particle.y < 0) particle.y = canvas.value.height;
+              if (particle.y > canvas.value.height) particle.y = 0;
+
+              // Grid influence - particles are attracted to living cells
+              const gridX = Math.floor(particle.x / GRID_SIZE);
+              const gridY = Math.floor(particle.y / GRID_SIZE);
+
+              // Check surrounding cells for influence
+              const checkRadius = 3;
+              let influenceX = 0;
+              let influenceY = 0;
+
+              for (let dy = -checkRadius; dy <= checkRadius; dy++) {
+                for (let dx = -checkRadius; dx <= checkRadius; dx++) {
+                  const nx =
+                    (gridX + dx + cells.value[0].length) %
+                    cells.value[0].length;
+                  const ny =
+                    (gridY + dy + cells.value.length) % cells.value.length;
+
+                  if (cells.value[ny][nx] === 1) {
+                    // Calculate direction to cell
+                    const cellCenterX = nx * GRID_SIZE + GRID_SIZE / 2;
+                    const cellCenterY = ny * GRID_SIZE + GRID_SIZE / 2;
+
+                    const dx = cellCenterX - particle.x;
+                    const dy = cellCenterY - particle.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 100) {
+                      // Strength inversely proportional to distance
+                      const strength = 0.005 * (1 - dist / 100);
+                      influenceX += dx * strength;
+                      influenceY += dy * strength;
+                    }
+                  }
+                }
+              }
+
+              // Apply influence
+              particle.speedX += influenceX;
+              particle.speedY += influenceY;
+
+              // Mouse interaction
+              if (mouse.isActive && mouse.x && mouse.y) {
+                const dx = mouse.x - particle.x;
+                const dy = mouse.y - particle.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < 150) {
+                  // Gentle attraction to cursor
+                  const forceX = (dx / distance) * 0.03;
+                  const forceY = (dy / distance) * 0.03;
+                  particle.speedX += forceX;
+                  particle.speedY += forceY;
+
+                  // Increase energy near mouse
+                  particle.energy = Math.min(1, particle.energy + 0.001);
+
+                  // Play sound if enabled and not too frequent
+                  if (
+                    audioEnabled.value &&
+                    Date.now() - particle.lastEmitTime > 800
+                  ) {
+                    playSound(particle, distance);
+                    particle.lastEmitTime = Date.now();
+                  }
+                }
+              }
+
+              // Gradually decrease energy
+              particle.energy *= 0.998;
+
+              // Remove old particles
+              if (particle.age > particle.maxAge) {
+                // 80% chance to create a new particle
+                if (Math.random() < 0.8) {
+                  // New particles sometimes inherit rare status
+                  const newIsRare = particle.isRare
+                    ? Math.random() < 0.8
+                    : Math.random() < 0.05;
+                  particles.value[index] = createParticle(
+                    null,
+                    null,
+                    newIsRare
+                  );
+                } else {
+                  // 20% chance to remove without replacement
+                  particles.value.splice(index, 1);
+                }
+                return;
+              }
+
+              // Draw particle
+              drawParticle(particle);
+
+              // Random chance to spawn a child particle when energy is high
+              if (
+                particle.energy > 0.8 &&
+                Math.random() < 0.001 &&
+                particles.value.length < 30
+              ) {
+                const childParticle = createParticle(
+                  particle.x + (Math.random() - 0.5) * 20,
+                  particle.y + (Math.random() - 0.5) * 20,
+                  particle.isRare && Math.random() < 0.7 // 70% chance to inherit rare status
+                );
+                particles.value.push(childParticle);
+              }
+            });
+          };
+
+          const drawParticle = (particle) => {
+            // Draw trail first
+            if (particle.trail.length > 1) {
+              ctx.value.beginPath();
+              ctx.value.moveTo(particle.trail[0].x, particle.trail[0].y);
+
+              for (let i = 1; i < particle.trail.length; i++) {
+                ctx.value.lineTo(particle.trail[i].x, particle.trail[i].y);
+              }
+
+              // Color based on rare status
+              const color = particle.isRare ? COLORS.rare : COLORS.primary;
+              const alpha = Math.min(0.3, particle.energy * 0.5);
+              ctx.value.strokeStyle = `${color}${Math.floor(alpha * 255)
+                .toString(16)
+                .padStart(2, "0")}`;
+              ctx.value.lineWidth = particle.size * 0.5;
+              ctx.value.stroke();
+            }
+
+            // Draw particle body
+            const glow = 15 + particle.energy * 20;
+            ctx.value.shadowBlur = glow;
+            ctx.value.shadowColor = particle.isRare
+              ? COLORS.rare
+              : COLORS.primary;
+
+            // Select shade from variants for normal particles
+            let fillColor;
+            if (particle.isRare) {
+              fillColor = COLORS.rare;
+            } else {
+              const shade =
+                COLORS.variants[
+                  Math.floor(particle.energy * COLORS.variants.length)
+                ];
+              fillColor = shade || COLORS.primary;
+            }
+
+            ctx.value.fillStyle = fillColor;
+            ctx.value.beginPath();
+            ctx.value.arc(
+              particle.x,
+              particle.y,
+              particle.size,
+              0,
+              Math.PI * 2
+            );
+            ctx.value.fill();
+          };
+
+          const drawConnections = () => {
+            // Reset connections
+            particles.value.forEach((p) => (p.connections = []));
+
+            // Find connections between particles
+            for (let i = 0; i < particles.value.length; i++) {
+              const particleA = particles.value[i];
+
+              for (let j = i + 1; j < particles.value.length; j++) {
+                const particleB = particles.value[j];
+                const dx = particleA.x - particleB.x;
+                const dy = particleA.y - particleB.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < 120) {
+                  particleA.connections.push(j);
+                  particleB.connections.push(i);
+
+                  // Draw connection
+                  const opacity =
+                    (1 - distance / 120) *
+                    0.6 *
+                    Math.min(particleA.energy, particleB.energy);
+
+                  // Different connection style based on particle types
+                  if (particleA.isRare && particleB.isRare) {
+                    // Rare-to-rare connections
+                    ctx.value.strokeStyle = `${COLORS.rare}${Math.floor(
+                      opacity * 255
+                    )
+                      .toString(16)
+                      .padStart(2, "0")}`;
+                  } else if (particleA.isRare || particleB.isRare) {
+                    // Mixed connections
+                    const gradient = ctx.value.createLinearGradient(
+                      particleA.x,
+                      particleA.y,
+                      particleB.x,
+                      particleB.y
+                    );
+
+                    const startColor = particleA.isRare
+                      ? COLORS.rare
+                      : COLORS.primary;
+                    const endColor = particleB.isRare
+                      ? COLORS.rare
+                      : COLORS.primary;
+
+                    gradient.addColorStop(
+                      0,
+                      `${startColor}${Math.floor(opacity * 255)
+                        .toString(16)
+                        .padStart(2, "0")}`
+                    );
+                    gradient.addColorStop(
+                      1,
+                      `${endColor}${Math.floor(opacity * 255)
+                        .toString(16)
+                        .padStart(2, "0")}`
+                    );
+                    ctx.value.strokeStyle = gradient;
+                  } else {
+                    // Normal connections
+                    ctx.value.strokeStyle = `${COLORS.primary}${Math.floor(
+                      opacity * 255
+                    )
+                      .toString(16)
+                      .padStart(2, "0")}`;
+                  }
+
+                  ctx.value.lineWidth =
+                    1.5 * Math.min(particleA.energy, particleB.energy);
+                  ctx.value.beginPath();
+                  ctx.value.moveTo(particleA.x, particleA.y);
+                  ctx.value.lineTo(particleB.x, particleB.y);
+                  ctx.value.stroke();
+
+                  // Small attraction between connected particles
+                  const force = 0.001;
+                  particleA.speedX -= dx * force;
+                  particleA.speedY -= dy * force;
+                  particleB.speedX += dx * force;
+                  particleB.speedY += dy * force;
+                }
+              }
+            }
+          };
+
+          const toggleAudio = () => {
+            audioEnabled.value = !audioEnabled.value;
+
+            if (audioEnabled.value) {
+              // Initialize or resume audio context
+              if (!audioContext.value) {
+                audioContext.value = new (window.AudioContext ||
+                  window.webkitAudioContext)();
+              }
+              if (audioContext.value.state === "suspended") {
+                audioContext.value.resume();
+              }
+            } else {
+              // Stop all sounds
+              Object.values(sounds.value).forEach((sound) => {
+                if (sound && sound.oscillator) {
+                  try {
+                    sound.oscillator.stop();
+                    sound.oscillator.disconnect();
+                  } catch (e) {
+                    // Ignore already stopped
+                  }
+                }
+              });
+              sounds.value = {};
+            }
+          };
+
+          const playSound = (particle, distance) => {
+            if (!audioContext.value) return;
+
+            const particleId = particles.value.indexOf(particle);
+            const now = audioContext.value.currentTime;
+
+            // Deeper, more subtle frequencies
+            let baseFreq;
+            if (particle.isRare) {
+              // Rare particles are even deeper
+              baseFreq = 65 + particle.energy * 40; // 65-105Hz (bass range)
+            } else {
+              baseFreq = 110 + particle.energy * 60; // 110-170Hz (low-mid range)
+            }
+
+            // Distance affects volume (very quiet)
+            const volume = Math.max(0, 0.08 * (1 - distance / 150));
+
+            // Play a more atmospheric sound
+            const soundId = `particle_${particleId}`;
+
+            if (!sounds.value[soundId]) {
+              // Create a more complex, ambient sound
+              const oscillator = audioContext.value.createOscillator();
+              const gain = audioContext.value.createGain();
+              const filter = audioContext.value.createBiquadFilter();
+
+              // Select oscillator type based on particle properties
+              oscillator.type = particle.isRare ? "sine" : "triangle";
+              oscillator.frequency.value = baseFreq;
+
+              // Low pass filter for a more mellow sound
+              filter.type = "lowpass";
+              filter.frequency.value = 800;
+              filter.Q.value = 0.7;
+
+              // Very gentle fade in/out
+              gain.gain.value = 0;
+              gain.gain.setTargetAtTime(volume, now, 0.2);
+
+              // Connect everything
+              oscillator.connect(filter);
+              filter.connect(gain);
+              gain.connect(audioContext.value.destination);
+              oscillator.start();
+
+              sounds.value[soundId] = {
+                oscillator,
+                gain,
+                filter,
+                startTime: now,
+              };
+
+              // Schedule gentle fade out and stop
+              gain.gain.setTargetAtTime(0, now + 1.2, 0.5);
+              setTimeout(() => {
+                if (sounds.value[soundId]) {
+                  try {
+                    sounds.value[soundId].oscillator.stop(now + 3);
+                    delete sounds.value[soundId];
+                  } catch (e) {
+                    // Ignore already stopped
+                  }
+                }
+              }, 3000);
+            } else {
+              // Update existing sound
+              const sound = sounds.value[soundId];
+              if (sound) {
+                sound.oscillator.frequency.setTargetAtTime(baseFreq, now, 0.1);
+                sound.gain.gain.setTargetAtTime(volume, now, 0.1);
+              }
+            }
+          };
+
+          const resetGarden = () => {
+            particles.value = [];
+
+            // New particles
+            for (let i = 0; i < 12; i++) {
+              particles.value.push(createParticle());
+            }
+
+            // Reset grid
+            initGrid();
+
+            // Stop all sounds
+            if (audioEnabled.value) {
+              Object.values(sounds.value).forEach((sound) => {
+                if (sound && sound.oscillator) {
+                  try {
+                    sound.oscillator.stop();
+                    sound.oscillator.disconnect();
+                  } catch (e) {
+                    // Ignore already stopped
+                  }
+                }
+              });
+              sounds.value = {};
+            }
+          };
+
+          // Event handlers
+          const handleMouseMove = (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+            mouse.isActive = true;
+            lastInteractionTime = Date.now();
+
+            // Check if we should add a new particle on rare occasions
+            if (Math.random() < 0.003 && particles.value.length < 30) {
+              // New particles near mouse have rare chance of being special
+              const newParticle = createParticle(
+                mouse.x + (Math.random() - 0.5) * 20,
+                mouse.y + (Math.random() - 0.5) * 20,
+                Math.random() < 0.1 // 10% chance of rare entity
+              );
+              particles.value.push(newParticle);
+            }
+
+            // Influence the grid cells near the mouse
+            const gridX = Math.floor(mouse.x / GRID_SIZE);
+            const gridY = Math.floor(mouse.y / GRID_SIZE);
+
+            // Affect a small area
+            const radius = 2;
+            for (let dy = -radius; dy <= radius; dy++) {
+              for (let dx = -radius; dx <= radius; dx++) {
+                const nx =
+                  (gridX + dx + cells.value[0].length) % cells.value[0].length;
+                const ny =
+                  (gridY + dy + cells.value.length) % cells.value.length;
+
+                // Small chance to flip cell state
+                if (Math.random() < 0.1) {
+                  cells.value[ny][nx] = 1 - cells.value[ny][nx];
+                }
+              }
+            }
+          };
+
+          const handleTouchMove = (e) => {
+            e.preventDefault();
+            if (e.touches.length > 0) {
+              mouse.x = e.touches[0].clientX;
+              mouse.y = e.touches[0].clientY;
+              mouse.isActive = true;
+              lastInteractionTime = Date.now();
+
+              // Call mouse move handler to apply same logic
+              handleMouseMove({
+                clientX: mouse.x,
+                clientY: mouse.y,
+              });
+            }
+          };
+
+          const handleMouseLeave = () => {
+            mouse.isActive = false;
+          };
+
+          const handleResize = () => {
+            canvas.value.width = window.innerWidth;
+            canvas.value.height = window.innerHeight;
+
+            // Reset grid for new dimensions
+            initGrid();
+          };
+
+          onMounted(() => {
+            initCanvas();
+            animate(0);
+
+            // Add event listeners
+            window.addEventListener("resize", handleResize);
+            canvas.value.addEventListener("mousemove", handleMouseMove);
+            canvas.value.addEventListener("touchmove", handleTouchMove, {
+              passive: false,
+            });
+            canvas.value.addEventListener("mouseleave", handleMouseLeave);
+            canvas.value.addEventListener("touchend", handleMouseLeave);
+
+            // Hide instructions after 8 seconds
+            setTimeout(() => {
+              showInstructions.value = false;
+            }, 8000);
+          });
+
+          onUnmounted(() => {
+            cancelAnimationFrame(animationFrame);
+            window.removeEventListener("resize", handleResize);
+            if (canvas.value) {
+              canvas.value.removeEventListener("mousemove", handleMouseMove);
+              canvas.value.removeEventListener("touchmove", handleTouchMove);
+              canvas.value.removeEventListener("mouseleave", handleMouseLeave);
+              canvas.value.removeEventListener("touchend", handleMouseLeave);
+            }
+
+            // Stop any sounds
+            if (audioContext.value) {
+              Object.values(sounds.value).forEach((sound) => {
+                if (sound && sound.oscillator) {
+                  try {
+                    sound.oscillator.stop();
+                    sound.oscillator.disconnect();
+                  } catch (e) {
+                    // Ignore already stopped
+                  }
+                }
+              });
+            }
+          });
+
+          return {
+            canvas,
+            audioEnabled,
+            showInstructions,
+            toggleAudio,
+            resetGarden,
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
