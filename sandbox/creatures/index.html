@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Creature Ecosystem</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              teal: {
+                50: "#f0fdfa",
+                100: "#ccfbf1",
+                200: "#99f6e4",
+                300: "#5eead4",
+                400: "#2dd4bf",
+                500: "#14b8a6",
+                600: "#0d9488",
+                700: "#0f766e",
+                800: "#115e59",
+                900: "#134e4a",
+                950: "#042f2e",
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        font-family: "Courier New", monospace;
+      }
+      canvas {
+        display: block;
+      }
+      .controls {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        z-index: 10;
+        padding: 12px;
+        border-radius: 8px;
+        background-color: rgba(15, 118, 110, 0.2);
+        backdrop-filter: blur(5px);
+      }
+      .slider-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .slider-container label {
+        width: 180px;
+      }
+      input[type="range"] {
+        accent-color: #14b8a6;
+      }
+      select {
+        background-color: rgba(15, 118, 110, 0.3);
+        border: 1px solid #0d9488;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body class="bg-teal-950">
+    <canvas id="ecosystem"></canvas>
+
+    <div class="controls text-teal-100">
+      <h2 class="text-xl mb-4 font-bold">Ecosystem Controls</h2>
+
+      <div class="slider-container">
+        <label for="anxious-count">Anxious Creatures:</label>
+        <input
+          type="range"
+          id="anxious-count"
+          min="0"
+          max="20"
+          value="5"
+          class="w-32"
+        />
+        <span id="anxious-value" class="ml-2">5</span>
+      </div>
+
+      <div class="slider-container">
+        <label for="curious-count">Curious Creatures:</label>
+        <input
+          type="range"
+          id="curious-count"
+          min="0"
+          max="20"
+          value="5"
+          class="w-32"
+        />
+        <span id="curious-value" class="ml-2">5</span>
+      </div>
+
+      <div class="slider-container">
+        <label for="lazy-count">Lazy Creatures:</label>
+        <input
+          type="range"
+          id="lazy-count"
+          min="0"
+          max="20"
+          value="5"
+          class="w-32"
+        />
+        <span id="lazy-value" class="ml-2">5</span>
+      </div>
+
+      <div class="slider-container">
+        <label for="aggressive-count">Aggressive Creatures:</label>
+        <input
+          type="range"
+          id="aggressive-count"
+          min="0"
+          max="20"
+          value="5"
+          class="w-32"
+        />
+        <span id="aggressive-value" class="ml-2">5</span>
+      </div>
+
+      <div class="slider-container">
+        <label for="social-count">Social Creatures:</label>
+        <input
+          type="range"
+          id="social-count"
+          min="0"
+          max="20"
+          value="5"
+          class="w-32"
+        />
+        <span id="social-value" class="ml-2">5</span>
+      </div>
+
+      <div class="mt-4">
+        <button
+          id="reset-btn"
+          class="bg-teal-700 hover:bg-teal-600 text-white px-4 py-2 rounded-md mr-2"
+        >
+          Reset Simulation
+        </button>
+        <button
+          id="pause-btn"
+          class="bg-teal-700 hover:bg-teal-600 text-white px-4 py-2 rounded-md"
+        >
+          Pause
+        </button>
+      </div>
+
+      <div class="mt-4">
+        <label for="attractor-type">Attractor Type:</label>
+        <select id="attractor-type" class="ml-2">
+          <option value="none">None</option>
+          <option value="food">Food Source</option>
+          <option value="predator">Predator</option>
+          <option value="mouse">Mouse Follow</option>
+        </select>
+      </div>
+    </div>
+
+    <script>
+      // Vector class for 2D physics
+      class Vector {
+        constructor(x, y) {
+          this.x = x;
+          this.y = y;
+        }
+
+        add(vector) {
+          this.x += vector.x;
+          this.y += vector.y;
+          return this;
+        }
+
+        sub(vector) {
+          this.x -= vector.x;
+          this.y -= vector.y;
+          return this;
+        }
+
+        mult(scalar) {
+          this.x *= scalar;
+          this.y *= scalar;
+          return this;
+        }
+
+        div(scalar) {
+          if (scalar !== 0) {
+            this.x /= scalar;
+            this.y /= scalar;
+          }
+          return this;
+        }
+
+        mag() {
+          return Math.sqrt(this.x * this.x + this.y * this.y);
+        }
+
+        normalize() {
+          const m = this.mag();
+          if (m !== 0) {
+            this.div(m);
+          }
+          return this;
+        }
+
+        limit(max) {
+          if (this.mag() > max) {
+            this.normalize();
+            this.mult(max);
+          }
+          return this;
+        }
+
+        setMag(magnitude) {
+          this.normalize();
+          this.mult(magnitude);
+          return this;
+        }
+
+        heading() {
+          return Math.atan2(this.y, this.x);
+        }
+
+        // Static methods
+        static random2D() {
+          const angle = Math.random() * Math.PI * 2;
+          return new Vector(Math.cos(angle), Math.sin(angle));
+        }
+
+        static sub(v1, v2) {
+          return new Vector(v1.x - v2.x, v1.y - v2.y);
+        }
+
+        // Clone this vector
+        copy() {
+          return new Vector(this.x, this.y);
+        }
+      }
+
+      // Base Creature class
+      class Creature {
+        constructor(x, y, personality) {
+          this.position = new Vector(x, y);
+          this.velocity = new Vector(0, 0);
+          this.acceleration = new Vector(0, 0);
+          this.personality = personality;
+
+          // Personality-based properties
+          switch (personality) {
+            case "anxious":
+              this.maxSpeed = 4;
+              this.maxForce = 0.2;
+              this.size = 6;
+              this.color = "#5eead4"; // teal-300
+              this.perception = 100;
+              this.wanderStrength = 0.8;
+              this.edgeAvoidanceStrength = 1;
+              this.mouseAvoidanceStrength = 2;
+              break;
+            case "curious":
+              this.maxSpeed = 3;
+              this.maxForce = 0.15;
+              this.size = 8;
+              this.color = "#2dd4bf"; // teal-400
+              this.perception = 150;
+              this.wanderStrength = 0.5;
+              this.edgeAvoidanceStrength = 0.3;
+              this.mouseAttractionStrength = 0.8;
+              break;
+            case "lazy":
+              this.maxSpeed = 1.5;
+              this.maxForce = 0.05;
+              this.size = 10;
+              this.color = "#14b8a6"; // teal-500
+              this.perception = 50;
+              this.wanderStrength = 0.2;
+              this.edgeAvoidanceStrength = 0.2;
+              this.restProbability = 0.02; // Probability of stopping
+              this.restDuration = 0; // Current rest duration
+              break;
+            case "aggressive":
+              this.maxSpeed = 5;
+              this.maxForce = 0.25;
+              this.size = 9;
+              this.color = "#0d9488"; // teal-600
+              this.perception = 120;
+              this.wanderStrength = 0.4;
+              this.edgeAvoidanceStrength = 0.6;
+              this.attackStrength = 1.5;
+              this.targetCreature = null;
+              break;
+            case "social":
+              this.maxSpeed = 2.5;
+              this.maxForce = 0.1;
+              this.size = 7;
+              this.color = "#0f766e"; // teal-700
+              this.perception = 80;
+              this.wanderStrength = 0.3;
+              this.edgeAvoidanceStrength = 0.4;
+              this.flockingStrength = 1.2;
+              break;
+            default:
+              this.maxSpeed = 3;
+              this.maxForce = 0.1;
+              this.size = 8;
+              this.color = "#14b8a6"; // teal-500
+              this.perception = 100;
+              this.wanderStrength = 0.5;
+              this.edgeAvoidanceStrength = 0.5;
+          }
+
+          // Common properties
+          this.mass = this.size * 0.5;
+          this.wanderAngle = 0;
+          this.wanderRadius = 25;
+          this.wanderDistance = 80;
+          this.wanderChange = 0.3;
+          this.edgePadding = 50;
+          this.health = 100;
+          this.age = 0;
+
+          // History for trail
+          this.history = [];
+          this.historyMax = 10;
+
+          // Emotional state (affects behavior)
+          this.arousal = 0.5; // Low to high excitement
+          this.valence = 0.5; // Negative to positive emotion
+        }
+
+        applyForce(force) {
+          // F = m * a => a = F / m
+          const f = force.copy();
+          f.div(this.mass);
+          this.acceleration.add(f);
+        }
+
+        seek(target) {
+          // Calculate desired velocity (vector pointing to target)
+          const desired = Vector.sub(target, this.position);
+
+          // Scale to maximum speed
+          desired.setMag(this.maxSpeed);
+
+          // Steering force = desired - current velocity
+          const steer = Vector.sub(desired, this.velocity);
+          steer.limit(this.maxForce);
+
+          return steer;
+        }
+
+        flee(target) {
+          // Same as seek but in opposite direction
+          const desired = Vector.sub(this.position, target);
+
+          // Only flee if the target is within perception range
+          const distance = desired.mag();
+          if (distance < this.perception) {
+            // The closer the target, the stronger the flee force
+            const strength = Math.map(distance, 0, this.perception, 1, 0);
+            desired.setMag(this.maxSpeed * strength);
+
+            const steer = Vector.sub(desired, this.velocity);
+            steer.limit(this.maxForce);
+            return steer;
+          } else {
+            return new Vector(0, 0);
+          }
+        }
+
+        wander() {
+          // Predict future position
+          const futurePos = this.velocity.copy();
+          futurePos.normalize();
+          futurePos.mult(this.wanderDistance);
+          futurePos.add(this.position);
+
+          // Random angle change
+          this.wanderAngle += (Math.random() * 2 - 1) * this.wanderChange;
+
+          // Calculate target point on circle
+          const offset = new Vector(
+            Math.cos(this.wanderAngle) * this.wanderRadius,
+            Math.sin(this.wanderAngle) * this.wanderRadius
+          );
+
+          const target = new Vector(
+            futurePos.x + offset.x,
+            futurePos.y + offset.y
+          );
+
+          // Seek target point
+          return this.seek(target);
+        }
+
+        avoidEdges(width, height) {
+          let desired = null;
+
+          // Left edge
+          if (this.position.x < this.edgePadding) {
+            desired = new Vector(this.maxSpeed, this.velocity.y);
+          }
+          // Right edge
+          else if (this.position.x > width - this.edgePadding) {
+            desired = new Vector(-this.maxSpeed, this.velocity.y);
+          }
+
+          // Top edge
+          if (this.position.y < this.edgePadding) {
+            desired = desired || new Vector(this.velocity.x, this.maxSpeed);
+            if (desired.y !== this.maxSpeed) desired.y = this.maxSpeed;
+          }
+          // Bottom edge
+          else if (this.position.y > height - this.edgePadding) {
+            desired = desired || new Vector(this.velocity.x, -this.maxSpeed);
+            if (desired.y !== -this.maxSpeed) desired.y = -this.maxSpeed;
+          }
+
+          // Calculate steering force if needed
+          if (desired) {
+            desired.normalize();
+            desired.mult(this.maxSpeed);
+
+            const steer = Vector.sub(desired, this.velocity);
+            steer.limit(this.maxForce);
+            return steer;
+          } else {
+            return new Vector(0, 0);
+          }
+        }
+
+        separate(creatures, desiredSeparation) {
+          const steer = new Vector(0, 0);
+          let count = 0;
+
+          // Check distance with every other creature
+          for (const other of creatures) {
+            if (other !== this) {
+              const d = Vector.sub(this.position, other.position).mag();
+
+              // If within separation distance
+              if (d < desiredSeparation) {
+                // Vector pointing away from neighbor
+                const diff = Vector.sub(this.position, other.position);
+                diff.normalize();
+                diff.div(d); // Weight by distance (closer = stronger)
+                steer.add(diff);
+                count++;
+              }
+            }
+          }
+
+          // Average steering force
+          if (count > 0) {
+            steer.div(count);
+            steer.normalize();
+            steer.mult(this.maxSpeed);
+            steer.sub(this.velocity);
+            steer.limit(this.maxForce);
+          }
+
+          return steer;
+        }
+
+        align(creatures, neighborDist) {
+          const sum = new Vector(0, 0);
+          let count = 0;
+
+          for (const other of creatures) {
+            if (other !== this && other.personality === this.personality) {
+              const d = Vector.sub(this.position, other.position).mag();
+              if (d < neighborDist) {
+                sum.add(other.velocity);
+                count++;
+              }
+            }
+          }
+
+          if (count > 0) {
+            sum.div(count);
+            sum.normalize();
+            sum.mult(this.maxSpeed);
+
+            const steer = Vector.sub(sum, this.velocity);
+            steer.limit(this.maxForce);
+            return steer;
+          } else {
+            return new Vector(0, 0);
+          }
+        }
+
+        cohesion(creatures, neighborDist) {
+          const sum = new Vector(0, 0);
+          let count = 0;
+
+          for (const other of creatures) {
+            if (other !== this && other.personality === this.personality) {
+              const d = Vector.sub(this.position, other.position).mag();
+              if (d < neighborDist) {
+                sum.add(other.position);
+                count++;
+              }
+            }
+          }
+
+          if (count > 0) {
+            sum.div(count);
+            return this.seek(sum);
+          } else {
+            return new Vector(0, 0);
+          }
+        }
+
+        flock(creatures) {
+          const separation = this.separate(creatures, this.size * 3);
+          const alignment = this.align(creatures, this.perception);
+          const cohesion = this.cohesion(creatures, this.perception);
+
+          separation.mult(1.5);
+          alignment.mult(1.0);
+          cohesion.mult(1.0);
+
+          return {
+            separation,
+            alignment,
+            cohesion,
+          };
+        }
+
+        update() {
+          // Record position history for trail
+          this.history.push(this.position.copy());
+          if (this.history.length > this.historyMax) {
+            this.history.shift();
+          }
+
+          // Apply physics
+          this.velocity.add(this.acceleration);
+          this.velocity.limit(this.maxSpeed);
+          this.position.add(this.velocity);
+
+          // Reset acceleration
+          this.acceleration.mult(0);
+
+          // Increment age
+          this.age += 0.01;
+
+          // Gradually return emotional state to neutral
+          this.arousal += (0.5 - this.arousal) * 0.01;
+          this.valence += (0.5 - this.valence) * 0.01;
+        }
+
+        // Wrapped around canvas edges (alternative to edge avoidance)
+        wrap(width, height) {
+          if (this.position.x < 0) this.position.x = width;
+          if (this.position.y < 0) this.position.y = height;
+          if (this.position.x > width) this.position.x = 0;
+          if (this.position.y > height) this.position.y = 0;
+        }
+
+        // Unique behavior implementation for each personality
+        behaviors(creatures, attractor, mousePos) {
+          // Common behaviors
+          let wanderForce = this.wander().mult(this.wanderStrength);
+          let edgeForce = this.avoidEdges(canvas.width, canvas.height).mult(
+            this.edgeAvoidanceStrength
+          );
+
+          // Apply forces based on personality
+          switch (this.personality) {
+            case "anxious":
+              // Anxious creatures panic when anything comes close
+              let panicForce = new Vector(0, 0);
+
+              // Panic from nearby creatures
+              for (const other of creatures) {
+                if (other !== this) {
+                  const d = Vector.sub(this.position, other.position).mag();
+                  if (d < this.perception) {
+                    const flee = this.flee(other.position);
+                    flee.mult(1.5); // Extra strong avoidance
+                    panicForce.add(flee);
+
+                    // Increase arousal when panicking
+                    this.arousal = Math.min(1, this.arousal + 0.05);
+                    this.valence = Math.max(0, this.valence - 0.02);
+                  }
+                }
+              }
+
+              // Panic from mouse
+              if (mousePos) {
+                const mouseVec = new Vector(mousePos.x, mousePos.y);
+                const mouseDist = Vector.sub(this.position, mouseVec).mag();
+
+                if (mouseDist < this.perception * 1.5) {
+                  const mouseAvoid = this.flee(mouseVec);
+                  mouseAvoid.mult(this.mouseAvoidanceStrength);
+                  panicForce.add(mouseAvoid);
+
+                  // Extreme panic from mouse
+                  this.arousal = Math.min(1, this.arousal + 0.1);
+                  this.valence = Math.max(0, this.valence - 0.05);
+                }
+              }
+
+              // Anxious creatures move more erratically when aroused
+              const jitterFactor = this.arousal * 0.5;
+              const jitter = Vector.random2D().mult(jitterFactor);
+
+              this.applyForce(wanderForce);
+              this.applyForce(edgeForce);
+              this.applyForce(panicForce);
+              this.applyForce(jitter);
+              break;
+
+            case "curious":
+              // Curious creatures investigate attractors and the mouse
+              let investigateForce = new Vector(0, 0);
+
+              // Investigate attractor
+              if (attractor && attractor.active) {
+                const attractorVec = new Vector(attractor.x, attractor.y);
+                const d = Vector.sub(this.position, attractorVec).mag();
+
+                if (d < this.perception * 1.5) {
+                  const seek = this.seek(attractorVec);
+                  seek.mult(0.8);
+                  investigateForce.add(seek);
+
+                  // Excitement about discovery
+                  this.arousal = Math.min(1, this.arousal + 0.03);
+                  this.valence = Math.min(1, this.valence + 0.02);
+                }
+              }
+
+              // Investigate mouse
+              if (mousePos) {
+                const mouseVec = new Vector(mousePos.x, mousePos.y);
+                const mouseDist = Vector.sub(this.position, mouseVec).mag();
+
+                if (mouseDist < this.perception) {
+                  const mouseSeek = this.seek(mouseVec);
+                  mouseSeek.mult(this.mouseAttractionStrength);
+                  investigateForce.add(mouseSeek);
+
+                  // Very excited by mouse
+                  this.arousal = Math.min(1, this.arousal + 0.05);
+                  this.valence = Math.min(1, this.valence + 0.03);
+                }
+              }
+
+              // Occasionally change direction unpredictably
+              if (Math.random() < 0.02) {
+                const randomTurn = Vector.random2D().mult(0.8);
+                this.applyForce(randomTurn);
+              }
+
+              this.applyForce(wanderForce);
+              this.applyForce(edgeForce);
+              this.applyForce(investigateForce);
+              break;
+
+            case "lazy":
+              // Lazy creatures move slowly and sometimes stop to rest
+
+              // Decide whether to rest
+              if (this.restDuration > 0) {
+                // Currently resting
+                this.restDuration--;
+
+                // While resting, barely move
+                this.velocity.mult(0.9);
+
+                // Low arousal when resting
+                this.arousal = Math.max(0, this.arousal - 0.02);
+
+                // But content (high valence)
+                this.valence = Math.min(1, this.valence + 0.01);
+              } else {
+                // Not resting, decide whether to start resting
+                if (Math.random() < this.restProbability) {
+                  // Start resting for a random duration
+                  this.restDuration = Math.random() * 100 + 50;
+                } else {
+                  // Move very slowly
+                  this.applyForce(wanderForce.mult(0.5));
+                  this.applyForce(edgeForce);
+
+                  // Separate from others (like personal space)
+                  const separationForce = this.separate(
+                    creatures,
+                    this.size * 5
+                  );
+                  separationForce.mult(0.8);
+                  this.applyForce(separationForce);
+                }
+              }
+              break;
+
+            case "aggressive":
+              // Aggressive creatures actively seek other creatures to chase
+
+              // Find a target if don't have one
+              if (!this.targetCreature) {
+                let closestDist = Infinity;
+                let closestCreature = null;
+
+                for (const other of creatures) {
+                  if (other !== this && other.personality !== "aggressive") {
+                    const d = Vector.sub(this.position, other.position).mag();
+                    if (d < this.perception && d < closestDist) {
+                      closestDist = d;
+                      closestCreature = other;
+                    }
+                  }
+                }
+
+                if (closestCreature) {
+                  this.targetCreature = closestCreature;
+
+                  // Excitement of the hunt
+                  this.arousal = Math.min(1, this.arousal + 0.1);
+                }
+              }
+
+              // Chase target if have one
+              if (this.targetCreature) {
+                const targetDist = Vector.sub(
+                  this.position,
+                  this.targetCreature.position
+                ).mag();
+
+                if (targetDist < this.perception) {
+                  // Chase!
+                  const chaseForce = this.seek(this.targetCreature.position);
+                  chaseForce.mult(this.attackStrength);
+                  this.applyForce(chaseForce);
+
+                  // High arousal during chase
+                  this.arousal = Math.min(1, this.arousal + 0.02);
+
+                  // If caught target (got close enough)
+                  if (targetDist < this.size + this.targetCreature.size) {
+                    // "Bounces" off target
+                    const bounceForce = Vector.sub(
+                      this.position,
+                      this.targetCreature.position
+                    );
+                    bounceForce.normalize().mult(2);
+                    this.applyForce(bounceForce);
+
+                    // Satisfied after "attack"
+                    this.valence = Math.min(1, this.valence + 0.2);
+
+                    // Reset target
+                    this.targetCreature = null;
+                  }
+                } else {
+                  // Lost sight of target
+                  this.targetCreature = null;
+
+                  // Frustration when losing target
+                  this.valence = Math.max(0, this.valence - 0.1);
+                }
+              } else {
+                // No target, wander around looking for one
+                this.applyForce(wanderForce.mult(1.2)); // More active wandering
+              }
+
+              this.applyForce(edgeForce);
+              break;
+
+            case "social":
+              // Social creatures flock together with others of their kind
+              const flockingForces = this.flock(creatures);
+
+              flockingForces.separation.mult(1.5);
+              flockingForces.alignment.mult(1.0);
+              flockingForces.cohesion.mult(1.2);
+
+              // Apply flocking behaviors
+              this.applyForce(flockingForces.separation);
+              this.applyForce(
+                flockingForces.alignment.mult(this.flockingStrength)
+              );
+              this.applyForce(
+                flockingForces.cohesion.mult(this.flockingStrength)
+              );
+
+              // Less wandering when in a group
+              const neighborCount = creatures.filter(
+                (c) =>
+                  c !== this &&
+                  c.personality === "social" &&
+                  Vector.sub(this.position, c.position).mag() < this.perception
+              ).length;
+
+              // Adjust emotional state based on social connection
+              if (neighborCount > 2) {
+                // Happiness in groups
+                this.valence = Math.min(1, this.valence + 0.01);
+                // Calmer in groups
+                this.arousal = Math.max(0, this.arousal - 0.005);
+                // Less random movement when in a group
+                wanderForce.mult(0.5);
+              } else {
+                // Sadness when alone
+                this.valence = Math.max(0, this.valence - 0.01);
+                // Anxious when alone
+                this.arousal = Math.min(1, this.arousal + 0.01);
+                // More random movement to find friends
+                wanderForce.mult(1.2);
+              }
+
+              this.applyForce(wanderForce);
+              this.applyForce(edgeForce);
+              break;
+
+            default:
+              // Default behavior for any other type
+              this.applyForce(wanderForce);
+              this.applyForce(edgeForce);
+          }
+        }
+
+        draw(ctx) {
+          // Save current drawing state
+          ctx.save();
+
+          // Draw trail if moving fast enough
+          if (this.velocity.mag() > 1) {
+            ctx.beginPath();
+
+            for (let i = 0; i < this.history.length; i++) {
+              const pos = this.history[i];
+              const alpha = i / this.historyMax;
+
+              if (i === 0) {
+                ctx.moveTo(pos.x, pos.y);
+              } else {
+                ctx.lineTo(pos.x, pos.y);
+              }
+            }
+
+            ctx.strokeStyle = this.color + "30"; // ctx.strokeStyle = this.color + '30'; // 30% opacity
+            ctx.lineWidth = 2;
+            ctx.stroke();
+          }
+
+          // Translate to creature position
+          ctx.translate(this.position.x, this.position.y);
+
+          // Rotate in direction of movement if moving
+          if (this.velocity.mag() > 0.1) {
+            ctx.rotate(this.velocity.heading());
+          }
+
+          // Draw creature based on personality
+          switch (this.personality) {
+            case "anxious":
+              // Anxious creature - jittery triangle
+              const jitter = this.arousal * 2;
+
+              ctx.beginPath();
+              ctx.moveTo(this.size + (Math.random() - 0.5) * jitter, 0);
+              ctx.lineTo(
+                -this.size / 2 + (Math.random() - 0.5) * jitter,
+                -this.size / 2 + (Math.random() - 0.5) * jitter
+              );
+              ctx.lineTo(
+                -this.size / 2 + (Math.random() - 0.5) * jitter,
+                this.size / 2 + (Math.random() - 0.5) * jitter
+              );
+              ctx.closePath();
+
+              // Higher arousal = more vibrant color
+              const anxiousHue = 180 + this.arousal * 20;
+              const anxiousSat = 60 + this.arousal * 40;
+              const anxiousLight = 60 - this.arousal * 10;
+              ctx.fillStyle = `hsl(${anxiousHue}, ${anxiousSat}%, ${anxiousLight}%)`;
+
+              ctx.fill();
+              break;
+
+            case "curious":
+              // Curious creature - seeking eye shape
+              ctx.beginPath();
+              ctx.ellipse(0, 0, this.size, this.size * 0.7, 0, 0, Math.PI * 2);
+
+              // Curiosity affects color
+              const curiousHue = 200 - this.arousal * 15;
+              const curiousSat = 70 + this.arousal * 30;
+              const curiousLight = 60 + this.valence * 20;
+              ctx.fillStyle = `hsl(${curiousHue}, ${curiousSat}%, ${curiousLight}%)`;
+
+              ctx.fill();
+
+              // Draw pupil that looks ahead
+              const pupilSize = this.size * 0.4;
+              const pupilDist = this.size * 0.3;
+
+              ctx.beginPath();
+              ctx.arc(pupilDist, 0, pupilSize, 0, Math.PI * 2);
+              ctx.fillStyle = "#000";
+              ctx.fill();
+
+              // Highlight in the eye
+              ctx.beginPath();
+              ctx.arc(
+                pupilDist + pupilSize * 0.3,
+                -pupilSize * 0.3,
+                pupilSize * 0.3,
+                0,
+                Math.PI * 2
+              );
+              ctx.fillStyle = "#fff";
+              ctx.fill();
+              break;
+
+            case "lazy":
+              // Lazy creature - blobby circle
+              ctx.beginPath();
+
+              // If resting, draw as more squished
+              if (this.restDuration > 0) {
+                ctx.ellipse(
+                  0,
+                  0,
+                  this.size * 1.1,
+                  this.size * 0.7,
+                  0,
+                  0,
+                  Math.PI * 2
+                );
+              } else {
+                ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+              }
+
+              // Laziness affects color - more saturated when active
+              const lazyHue = 160 + this.arousal * 10;
+              const lazySat = 50 + this.arousal * 30;
+              const lazyLight = 50 + this.valence * 20;
+              ctx.fillStyle = `hsl(${lazyHue}, ${lazySat}%, ${lazyLight}%)`;
+
+              ctx.fill();
+
+              // When resting, draw sleepy eyes
+              if (this.restDuration > 0) {
+                ctx.beginPath();
+                ctx.moveTo(-this.size * 0.4, -this.size * 0.1);
+                ctx.lineTo(-this.size * 0.1, -this.size * 0.1);
+                ctx.moveTo(this.size * 0.1, -this.size * 0.1);
+                ctx.lineTo(this.size * 0.4, -this.size * 0.1);
+                ctx.strokeStyle = "#000";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+              } else {
+                // Active eyes
+                ctx.beginPath();
+                ctx.arc(
+                  -this.size * 0.3,
+                  -this.size * 0.1,
+                  this.size * 0.1,
+                  0,
+                  Math.PI * 2
+                );
+                ctx.arc(
+                  this.size * 0.3,
+                  -this.size * 0.1,
+                  this.size * 0.1,
+                  0,
+                  Math.PI * 2
+                );
+                ctx.fillStyle = "#000";
+                ctx.fill();
+              }
+              break;
+
+            case "aggressive":
+              // Aggressive creature - sharp, angular shape
+              ctx.beginPath();
+
+              // More aggressive spikes when aroused
+              const spikeSize = this.size * (0.8 + this.arousal * 0.4);
+              const bodySize = this.size * 0.7;
+
+              ctx.moveTo(bodySize, 0);
+              ctx.lineTo(0, -bodySize);
+              ctx.lineTo(-bodySize * 0.8, 0);
+              ctx.lineTo(0, bodySize);
+              ctx.closePath();
+
+              // Aggression affects color - redder when excited
+              const aggressiveHue = 180 - this.arousal * 40;
+              const aggressiveSat = 60 + this.arousal * 40;
+              const aggressiveLight = 40 + this.valence * 20;
+              ctx.fillStyle = `hsl(${aggressiveHue}, ${aggressiveSat}%, ${aggressiveLight}%)`;
+
+              ctx.fill();
+
+              // Draw angry eyes
+              ctx.beginPath();
+              ctx.moveTo(-this.size * 0.15, -this.size * 0.15);
+              ctx.lineTo(-this.size * 0.35, -this.size * 0.25);
+              ctx.moveTo(this.size * 0.15, -this.size * 0.15);
+              ctx.lineTo(this.size * 0.35, -this.size * 0.25);
+              ctx.strokeStyle = "#000";
+              ctx.lineWidth = 2;
+              ctx.stroke();
+              break;
+
+            case "social":
+              // Social creature - soft rounded shape
+              ctx.beginPath();
+
+              // Draw creature as a pentagon
+              const points = 5;
+              const radius = this.size;
+              const innerRadius = this.size * 0.6;
+
+              ctx.beginPath();
+              for (let i = 0; i < points * 2; i++) {
+                const r = i % 2 === 0 ? radius : innerRadius;
+                const angle = (Math.PI * 2 * i) / (points * 2) - Math.PI / 2;
+                const x = Math.cos(angle) * r;
+                const y = Math.sin(angle) * r;
+
+                if (i === 0) {
+                  ctx.moveTo(x, y);
+                } else {
+                  ctx.lineTo(x, y);
+                }
+              }
+              ctx.closePath();
+
+              // Social mood affects color - brighter when with friends
+              const socialHue = 200 + this.valence * 20;
+              const socialSat = 60 + this.valence * 30;
+              const socialLight = 50 + this.valence * 30;
+              ctx.fillStyle = `hsl(${socialHue}, ${socialSat}%, ${socialLight}%)`;
+
+              ctx.fill();
+
+              // Draw happy face when valence is high
+              if (this.valence > 0.6) {
+                // Smile
+                ctx.beginPath();
+                ctx.arc(0, 0, this.size * 0.4, 0.1, Math.PI - 0.1);
+                ctx.strokeStyle = "rgba(0, 0, 0, 0.5)";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+              } else if (this.valence < 0.4) {
+                // Sad face
+                ctx.beginPath();
+                ctx.arc(
+                  0,
+                  this.size * 0.3,
+                  this.size * 0.4,
+                  Math.PI + 0.1,
+                  Math.PI * 2 - 0.1
+                );
+                ctx.strokeStyle = "rgba(0, 0, 0, 0.5)";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+              }
+              break;
+
+            default:
+              // Default creature - simple circle
+              ctx.beginPath();
+              ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+              ctx.fillStyle = this.color;
+              ctx.fill();
+          }
+
+          // Restore drawing state
+          ctx.restore();
+        }
+      }
+
+      // Helper functions
+      Math.map = function (value, in_min, in_max, out_min, out_max) {
+        return (
+          ((value - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min
+        );
+      };
+
+      // Setup canvas
+      const canvas = document.getElementById("ecosystem");
+      const ctx = canvas.getContext("2d");
+
+      // Make canvas fill the window
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
+
+      // Ecosystem state
+      let creatures = [];
+      let isPaused = false;
+      let mousePos = null;
+      let attractor = {
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+        type: "none",
+        active: false,
+      };
+
+      // Create creatures based on slider values
+      function createCreatures() {
+        creatures = [];
+
+        const types = [
+          {
+            count: parseInt(document.getElementById("anxious-count").value),
+            personality: "anxious",
+          },
+          {
+            count: parseInt(document.getElementById("curious-count").value),
+            personality: "curious",
+          },
+          {
+            count: parseInt(document.getElementById("lazy-count").value),
+            personality: "lazy",
+          },
+          {
+            count: parseInt(document.getElementById("aggressive-count").value),
+            personality: "aggressive",
+          },
+          {
+            count: parseInt(document.getElementById("social-count").value),
+            personality: "social",
+          },
+        ];
+
+        types.forEach((type) => {
+          for (let i = 0; i < type.count; i++) {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            creatures.push(new Creature(x, y, type.personality));
+          }
+        });
+      }
+
+      // Update attractor based on selection
+      function updateAttractor() {
+        const attractorType = document.getElementById("attractor-type").value;
+        attractor.type = attractorType;
+        attractor.active = attractorType !== "none";
+
+        // If mouse follow is selected, attractor follows mouse position
+        if (attractorType === "mouse") {
+          if (mousePos) {
+            attractor.x = mousePos.x;
+            attractor.y = mousePos.y;
+          }
+        } else if (attractorType !== "none" && !mousePos) {
+          // Place attractor in center if no mouse position
+          attractor.x = canvas.width / 2;
+          attractor.y = canvas.height / 2;
+        }
+      }
+
+      // Main animation loop
+      function animate() {
+        if (!isPaused) {
+          // Clear canvas
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          // Update attractor if it's mouse-following
+          if (attractor.type === "mouse" && mousePos) {
+            attractor.x = mousePos.x;
+            attractor.y = mousePos.y;
+          }
+
+          // Draw attractor
+          if (attractor.active) {
+            ctx.save();
+            ctx.translate(attractor.x, attractor.y);
+
+            if (attractor.type === "food") {
+              // Draw food source
+              ctx.beginPath();
+              ctx.arc(0, 0, 15, 0, Math.PI * 2);
+              ctx.fillStyle = "rgba(100, 255, 100, 0.8)";
+              ctx.fill();
+
+              // Pulsating glow
+              const pulse = 0.5 + Math.sin(Date.now() * 0.003) * 0.5;
+              ctx.beginPath();
+              ctx.arc(0, 0, 25 * pulse, 0, Math.PI * 2);
+              ctx.fillStyle = "rgba(100, 255, 100, 0.2)";
+              ctx.fill();
+            } else if (attractor.type === "predator") {
+              // Draw predator
+              ctx.beginPath();
+
+              // Sharp teeth-like shape
+              ctx.moveTo(20, 0);
+              ctx.lineTo(5, -15);
+              ctx.lineTo(0, -5);
+              ctx.lineTo(-5, -15);
+              ctx.lineTo(-20, 0);
+              ctx.lineTo(-5, 15);
+              ctx.lineTo(0, 5);
+              ctx.lineTo(5, 15);
+              ctx.closePath();
+
+              ctx.fillStyle = "rgba(255, 60, 60, 0.8)";
+              ctx.fill();
+
+              // Pulsating danger zone
+              const pulse = 0.5 + Math.sin(Date.now() * 0.005) * 0.5;
+              ctx.beginPath();
+              ctx.arc(0, 0, 50 * pulse, 0, Math.PI * 2);
+              ctx.fillStyle = "rgba(255, 0, 0, 0.1)";
+              ctx.fill();
+            } else if (attractor.type === "mouse") {
+              // Draw mouse attractor (subtle cursor highlight)
+              ctx.beginPath();
+              ctx.arc(0, 0, 10, 0, Math.PI * 2);
+              ctx.fillStyle = "rgba(200, 200, 255, 0.5)";
+              ctx.fill();
+
+              ctx.beginPath();
+              ctx.arc(0, 0, 30, 0, Math.PI * 2);
+              ctx.strokeStyle = "rgba(200, 200, 255, 0.2)";
+              ctx.lineWidth = 2;
+              ctx.stroke();
+            }
+
+            ctx.restore();
+          }
+
+          // Update and draw creatures
+          for (const creature of creatures) {
+            creature.behaviors(
+              creatures,
+              attractor.active ? attractor : null,
+              mousePos
+            );
+            creature.update();
+            creature.draw(ctx);
+          }
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      // Event listeners
+      document.addEventListener("mousemove", (e) => {
+        mousePos = {
+          x: e.clientX,
+          y: e.clientY,
+        };
+      });
+
+      document.addEventListener("mouseout", () => {
+        mousePos = null;
+      });
+
+      document.getElementById("pause-btn").addEventListener("click", () => {
+        isPaused = !isPaused;
+        document.getElementById("pause-btn").textContent = isPaused
+          ? "Resume"
+          : "Pause";
+      });
+
+      document.getElementById("reset-btn").addEventListener("click", () => {
+        createCreatures();
+      });
+
+      document
+        .getElementById("attractor-type")
+        .addEventListener("change", updateAttractor);
+
+      // Setup slider value displays
+      const sliders = ["anxious", "curious", "lazy", "aggressive", "social"];
+      sliders.forEach((type) => {
+        const slider = document.getElementById(`${type}-count`);
+        const value = document.getElementById(`${type}-value`);
+
+        slider.addEventListener("input", () => {
+          value.textContent = slider.value;
+        });
+      });
+
+      // Initialize and start animation
+      createCreatures();
+      updateAttractor();
+      animate();
+
+      // Add some informational tooltips
+      function addTooltip(element, text) {
+        element.title = text;
+      }
+
+      addTooltip(
+        document.getElementById("anxious-count"),
+        "Anxious creatures are nervous and flee from others and your cursor. They move erratically when stressed."
+      );
+
+      addTooltip(
+        document.getElementById("curious-count"),
+        "Curious creatures investigate attractors and your cursor. They change direction unpredictably."
+      );
+
+      addTooltip(
+        document.getElementById("lazy-count"),
+        "Lazy creatures move slowly and frequently stop to rest. They conserve energy and avoid others."
+      );
+
+      addTooltip(
+        document.getElementById("aggressive-count"),
+        "Aggressive creatures chase other creatures. They're predatory and move quickly."
+      );
+
+      addTooltip(
+        document.getElementById("social-count"),
+        "Social creatures form groups with others of their kind. They get sad when alone."
+      );
+    </script>
+  </body>
+</html>

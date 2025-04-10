@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Pain Interface</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              pain: {
+                50: "#fef2f2",
+                100: "#fee2e2",
+                200: "#fecaca",
+                300: "#fca5a5",
+                400: "#f87171",
+                500: "#ef4444",
+                600: "#dc2626",
+                700: "#b91c1c",
+                800: "#991b1b",
+                900: "#7f1d1d",
+                950: "#450a0a",
+              },
+            },
+            fontFamily: {
+              pain: ["Courier New", "monospace"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        cursor: none;
+      }
+
+      #custom-cursor {
+        position: fixed;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #ef4444;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+        transition: width 0.3s, height 0.3s;
+      }
+
+      .inverted-controls input[type="range"] {
+        direction: rtl;
+      }
+
+      .delayed-input {
+        transition: background-color 0.5s;
+      }
+
+      .delayed-input:focus {
+        animation: delay-feedback 1.5s infinite;
+      }
+
+      @keyframes delay-feedback {
+        0% {
+          background-color: #fecaca;
+        }
+        50% {
+          background-color: #dc2626;
+        }
+        100% {
+          background-color: #fecaca;
+        }
+      }
+
+      .button-shift:hover {
+        transform: translate(
+          calc(100px * var(--random-x)),
+          calc(100px * var(--random-y))
+        );
+        transition: transform 0.2s ease-out;
+      }
+
+      .password-strength::after {
+        content: "Weak password";
+        color: #b91c1c;
+        font-size: 0.8rem;
+        margin-left: 8px;
+      }
+
+      .password-input:valid + .password-strength::after {
+        content: "Strong password";
+        color: #b91c1c;
+      }
+
+      .upside-down {
+        transform: rotate(180deg);
+      }
+
+      .mirror {
+        transform: scaleX(-1);
+      }
+
+      #captcha-container {
+        position: relative;
+        height: 150px;
+        overflow: hidden;
+      }
+
+      .captcha-letter {
+        position: absolute;
+        font-size: 32px;
+        font-weight: bold;
+        color: #b91c1c;
+        pointer-events: none;
+        animation: float 8s infinite;
+        user-select: none;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-50px) rotate(180deg);
+        }
+        100% {
+          transform: translateY(0) rotate(360deg);
+        }
+      }
+
+      .shake-on-hover:hover {
+        animation: shake 0.5s infinite;
+      }
+
+      @keyframes shake {
+        0% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-5px);
+        }
+        50% {
+          transform: translateX(5px);
+        }
+        75% {
+          transform: translateX(-5px);
+        }
+        100% {
+          transform: translateX(0);
+        }
+      }
+
+      #form-container {
+        transition: opacity 0.3s;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-pain-950 text-pain-100 font-pain p-8 min-h-screen flex flex-col items-center justify-center relative"
+  >
+    <div id="custom-cursor"></div>
+
+    <div class="absolute top-5 right-5 text-pain-500 mirror">
+      <span id="timeout-counter" class="text-xl"
+        >Session expires in: 04:59</span
+      >
+    </div>
+
+    <h1 class="text-4xl mb-10 text-pain-500 font-bold upside-down">
+      THE PAIN INTERFACE
+    </h1>
+    <h2 class="text-xl mb-6 text-pain-400 tracking-widest">
+      DIGITAL MASOCHISM
+    </h2>
+
+    <div
+      id="form-container"
+      class="w-full max-w-md bg-pain-900 p-8 rounded border-4 border-pain-700 shake-on-hover"
+    >
+      <form
+        class="space-y-8"
+        id="pain-form"
+        onsubmit="event.preventDefault(); simulateSubmit();"
+      >
+        <div class="relative">
+          <label for="username" class="block mb-2 text-pain-300 text-right"
+            >USERNAME:</label
+          >
+          <input
+            type="text"
+            id="username"
+            class="delayed-input w-full bg-pain-800 border border-pain-600 text-pain-200 p-3 rounded focus:outline-none focus:ring-2 focus:ring-pain-500"
+            placeholder="◕‿◕"
+            autocomplete="off"
+            required
+          />
+        </div>
+
+        <div class="relative">
+          <label for="password" class="block mb-2 text-pain-300 mirror"
+            >PASSWORD:</label
+          >
+          <input
+            type="password"
+            id="password"
+            class="password-input w-full bg-pain-800 border border-pain-600 text-pain-200 p-3 rounded focus:outline-none focus:ring-2 focus:ring-pain-500"
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$"
+            required
+          />
+          <div class="password-strength mt-1"></div>
+        </div>
+
+        <div class="relative inverted-controls">
+          <label for="pain-level" class="block mb-2 text-pain-300"
+            >PAIN TOLERANCE LEVEL:</label
+          >
+          <input
+            type="range"
+            id="pain-level"
+            min="1"
+            max="10"
+            value="5"
+            class="w-full accent-pain-600"
+          />
+          <div class="flex justify-between text-pain-400 text-xs mt-1">
+            <span>EXCRUCIATING</span>
+            <span>UNBEARABLE</span>
+          </div>
+        </div>
+
+        <div id="captcha-container" class="border border-pain-600 rounded">
+          <p class="text-pain-400 text-center pt-2">
+            Select all floating characters:
+          </p>
+        </div>
+
+        <div class="flex items-center ml-12">
+          <input
+            type="checkbox"
+            id="consent"
+            class="w-5 h-5 bg-pain-800 border-pain-600 rounded mr-3"
+            required
+          />
+          <label
+            for="consent"
+            class="text-pain-300 text-sm inline-block animate-pulse"
+            >I consent to digital torment and relinquish all rights to interface
+            satisfaction</label
+          >
+        </div>
+
+        <button
+          type="submit"
+          id="submit-button"
+          class="button-shift w-full bg-pain-600 hover:bg-pain-700 text-pain-50 font-bold py-3 px-4 rounded focus:outline-none focus:ring-2 focus:ring-pain-500"
+          style="--random-x: 0; --random-y: 0"
+        >
+          SUBMIT TO PAIN
+        </button>
+      </form>
+    </div>
+
+    <div
+      id="success-screen"
+      class="hidden fixed inset-0 bg-pain-950 flex flex-col items-center justify-center z-50"
+    >
+      <h2 class="text-3xl mb-6 text-pain-500">AUTHENTICATION FAILED</h2>
+      <p class="text-pain-300 mb-10">Your pain tolerance is insufficient.</p>
+      <button
+        onclick="resetForm()"
+        class="bg-pain-600 hover:bg-pain-700 text-pain-50 font-bold py-3 px-8 rounded"
+      >
+        RETRY
+      </button>
+    </div>
+
+    <script>
+      // Custom cursor
+      const cursor = document.createElement("div");
+      cursor.id = "custom-cursor";
+      document.body.appendChild(cursor);
+
+      document.addEventListener("mousemove", (e) => {
+        // Add random offset to cursor position
+        const randomOffsetX = (Math.random() - 0.5) * 10;
+        const randomOffsetY = (Math.random() - 0.5) * 10;
+
+        cursor.style.left = e.clientX + randomOffsetX + "px";
+        cursor.style.top = e.clientY + randomOffsetY + "px";
+
+        // Randomly change cursor size
+        if (Math.random() < 0.01) {
+          const size = Math.floor(Math.random() * 30) + 10;
+          cursor.style.width = size + "px";
+          cursor.style.height = size + "px";
+        }
+      });
+
+      // Submit button that moves away
+      const submitButton = document.getElementById("submit-button");
+      submitButton.addEventListener("mouseover", () => {
+        submitButton.style.setProperty(
+          "--random-x",
+          (Math.random() * 2 - 1).toFixed(2)
+        );
+        submitButton.style.setProperty(
+          "--random-y",
+          (Math.random() * 2 - 1).toFixed(2)
+        );
+      });
+
+      // Username input that randomly changes case
+      const usernameInput = document.getElementById("username");
+      usernameInput.addEventListener("input", (e) => {
+        setTimeout(() => {
+          let newValue = "";
+          for (let i = 0; i < e.target.value.length; i++) {
+            if (Math.random() > 0.5) {
+              newValue += e.target.value[i].toUpperCase();
+            } else {
+              newValue += e.target.value[i].toLowerCase();
+            }
+          }
+          e.target.value = newValue;
+        }, 800);
+      });
+
+      // Generate floating captcha letters
+      const captchaContainer = document.getElementById("captcha-container");
+      const captchaChars =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      const captchaLength = 6;
+      let captchaCode = "";
+
+      for (let i = 0; i < captchaLength; i++) {
+        const char = captchaChars.charAt(
+          Math.floor(Math.random() * captchaChars.length)
+        );
+        captchaCode += char;
+
+        const letterElem = document.createElement("span");
+        letterElem.classList.add("captcha-letter");
+        letterElem.textContent = char;
+        letterElem.style.left = i * 40 + Math.random() * 20 + "px";
+        letterElem.style.top = Math.random() * 50 + "px";
+        letterElem.style.animationDelay = Math.random() * 5 + "s";
+
+        captchaContainer.appendChild(letterElem);
+      }
+
+      // Timer countdown
+      let timeLeft = 299; // 4:59 in seconds
+      const timerElement = document.getElementById("timeout-counter");
+
+      const countdown = setInterval(() => {
+        timeLeft--;
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timerElement.textContent = `Session expires in: ${minutes
+          .toString()
+          .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+
+        if (timeLeft <= 0) {
+          clearInterval(countdown);
+          resetForm();
+        }
+      }, 1000);
+
+      // Simulate form submission
+      function simulateSubmit() {
+        const formContainer = document.getElementById("form-container");
+        const successScreen = document.getElementById("success-screen");
+
+        formContainer.style.opacity = "0";
+
+        setTimeout(() => {
+          formContainer.style.display = "none";
+          successScreen.classList.remove("hidden");
+          successScreen.classList.add("flex");
+        }, 300);
+      }
+
+      // Reset form
+      function resetForm() {
+        const formContainer = document.getElementById("form-container");
+        const successScreen = document.getElementById("success-screen");
+
+        document.getElementById("pain-form").reset();
+        successScreen.classList.add("hidden");
+        successScreen.classList.remove("flex");
+        formContainer.style.display = "block";
+
+        setTimeout(() => {
+          formContainer.style.opacity = "1";
+        }, 100);
+
+        // Reset timer
+        timeLeft = 299;
+      }
+    </script>
+  </body>
+</html>
