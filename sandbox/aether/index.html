@@ -176,7 +176,7 @@
           <div class="select-wrapper">
             <select id="waveformSelect" class="text-sm">
               <option value="sine">SINE WAVE</option>
-              <option value="triangle">TRIANGLE WAVE</option>
+              <option value="triangle" selected>TRIANGLE WAVE</option>
               <option value="sawtooth">SAWTOOTH WAVE</option>
               <option value="square">SQUARE WAVE</option>
             </select>
@@ -191,7 +191,7 @@
             min="0"
             max="1"
             step="0.01"
-            value="0.3"
+            value="0.7"
           />
         </div>
 
@@ -203,7 +203,7 @@
             min="20"
             max="5000"
             step="1"
-            value="1000"
+            value="3000"
           />
         </div>
 
@@ -213,11 +213,11 @@
           </div>
           <div class="flex flex-col space-y-2">
             <label class="flex items-center">
-              <input type="checkbox" id="showLandmarks" checked class="mr-2" />
+              <input type="checkbox" id="showLandmarks" class="mr-2" />
               <span class="text-sm">Show Landmarks</span>
             </label>
             <label class="flex items-center">
-              <input type="checkbox" id="showConnectors" checked class="mr-2" />
+              <input type="checkbox" id="showConnectors" class="mr-2" />
               <span class="text-sm">Show Connectors</span>
             </label>
             <label class="flex items-center">
@@ -225,7 +225,7 @@
               <span class="text-sm">Show Coordinates</span>
             </label>
             <label class="flex items-center">
-              <input type="checkbox" id="showAura" checked class="mr-2" />
+              <input type="checkbox" id="showAura" class="mr-2" />
               <span class="text-sm">Show Audio Aura</span>
             </label>
           </div>
@@ -237,7 +237,7 @@
           </div>
           <div class="flex flex-col space-y-2">
             <label class="flex items-center">
-              <input type="checkbox" id="filterResults" checked class="mr-2" />
+              <input type="checkbox" id="filterResults" class="mr-2" />
               <span class="text-sm">Smooth Tracking</span>
             </label>
             <div class="flex items-center justify-between mt-2">
