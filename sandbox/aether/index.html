@@ -3,7 +3,71 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ÆTHERWAVES: Air Theremin</title>
+
+    <!-- Primary Meta Tags -->
+    <title>ÆTHERWAVES</title>
+    <meta name="title" content="ÆTHERWAVES" />
+    <meta
+      name="description"
+      content="Make eerie, ethereal music with your bare hands through this no-touch instrument. Perfect for aspiring electronic musicians, sci-fi enthusiasts, and anyone who's ever wanted to look like they're casting spells while making music!"
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://aether.layogtima.com/" />
+    <meta property="og:title" content="ÆTHERWAVES" />
+    <meta
+      property="og:description"
+      content="Make eerie, ethereal music with your bare hands through this no-touch instrument. Perfect for aspiring electronic musicians, sci-fi enthusiasts, and anyone who's ever wanted to look like they're casting spells while making music!"
+    />
+    <meta
+      property="og:image"
+      content="https://aether.layogtima.com/screenshot.png"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://aether.layogtima.com/" />
+    <meta property="twitter:title" content="ÆTHERWAVES" />
+    <meta
+      property="twitter:description"
+      content="Make eerie, ethereal music with your bare hands through this no-touch instrument. Perfect for aspiring electronic musicians, sci-fi enthusiasts, and anyone who's ever wanted to look like they're casting spells while making music!"
+    />
+    <meta
+      property="twitter:image"
+      content="https://aether.layogtima.com/screenshot.png"
+    />
+
+    <!-- Meta Tags Generated with https://metatags.io -->
+    <meta
+      name="author"
+      content="Amartha [Absurd Industries' CAI], Claude 3.7 Sonnet and Amit [amit@absurd.industries]"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://aether.layogtima.com/favicon/favicon-96x96.png"
+      sizes="96x96"
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="https://aether.layogtima.com/favicon/favicon.svg"
+    />
+    <link
+      rel="shortcut icon"
+      href="https://aether.layogtima.com/favicon/favicon.ico"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="https://aether.layogtima.com/favicon/apple-touch-icon.png"
+    />
+    <meta name="apple-mobile-web-app-title" content="ÆTHER" />
+    <link
+      rel="manifest"
+      href="https://aether.layogtima.com/favicon/site.webmanifest"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- MediaPipe dependencies -->
     <script
@@ -73,21 +137,24 @@
       <h1
         class="absolute top-8 w-full text-center text-5xl tracking-widest z-10 opacity-80"
       >
-        ÆTHERWAVES: AIR THEREMIN
+        ÆTHERWAVES
       </h1>
 
       <!-- Status Panel -->
       <div class="absolute left-8 bottom-8 z-10 flex flex-col items-start">
-        <div class="text-6xl font-light tracking-widest mb-2" id="noteDisplay">
+        <div
+          class="text-6xl font-light tracking-widest mb-2 hidden"
+          id="noteDisplay"
+        >
           -
         </div>
-        <div class="flex items-center space-x-2 opacity-70">
+        <div class="flex items-center space-x-2 opacity-70 hidden">
           <div class="status-indicator"></div>
           <div class="text-sm tracking-wider">
             FREQUENCY: <span id="frequencyDisplay">0.00</span> HZ
           </div>
         </div>
-        <div class="text-sm tracking-wider opacity-70">
+        <div class="text-sm tracking-wider opacity-70 hidden">
           VOLUME: <span id="volumeDisplay">0</span>%
         </div>
         <div class="waveform-container mt-6 opacity-70 w-64">
@@ -97,7 +164,6 @@
 
       <!-- Control Panel -->
       <div class="absolute right-8 top-8 z-10 flex flex-col items-end">
-        <h2 class="text-xl mb-6 tracking-widest opacity-70">INTERFACE</h2>
         <button
           id="startButton"
           class="w-48 py-3 mb-6 text-center tracking-widest hover:bg-white hover:text-black transition-all text-sm border border-white/30"
@@ -215,7 +281,9 @@ Waiting for hand detection...</pre
       </div>
 
       <!-- Key Points Label -->
-      <div class="absolute right-8 bottom-8 z-10 bg-black/50 p-4 rounded-lg">
+      <div
+        class="absolute right-8 bottom-8 z-10 bg-black/50 p-4 rounded-lg hidden"
+      >
         <h3 class="text-sm mb-2 tracking-widest opacity-70">HAND LANDMARKS</h3>
         <div class="grid grid-cols-2 gap-x-4 gap-y-2">
           <div class="flex items-center">
