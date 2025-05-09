@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLRHikes - Trail Blazer Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.36/dist/vue.global.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: {
+                            50: '#FFFCF8',
+                            100: '#FEF9F0',
+                            200: '#FEF3E2',
+                            300: '#FDE8C4',
+                            400: '#FCDCA0',
+                            500: '#FBCE73',
+                            600: '#FAC13E',
+                            700: '#F9AE0A',
+                            800: '#D08C01',
+                            900: '#986701',
+                        },
+                        gold: {
+                            50: '#FEFAE8',
+                            100: '#FEF6D1',
+                            200: '#FCE9A3',
+                            300: '#F9DA76',
+                            400: '#F7CC4A',
+                            500: '#F3C623',
+                            600: '#DBA708',
+                            700: '#A57D06',
+                            800: '#6F5304',
+                            900: '#3A2A02',
+                        },
+                        amber: {
+                            50: '#FFF8EB',
+                            100: '#FFF2D7',
+                            200: '#FFE4B0',
+                            300: '#FFD688',
+                            400: '#FFC461',
+                            500: '#FFB22C',
+                            600: '#F89A00',
+                            700: '#C57A00',
+                            800: '#925A00',
+                            900: '#5F3A00',
+                        },
+                        orange: {
+                            50: '#FEF0E8',
+                            100: '#FDE1D1',
+                            200: '#FBC3A4',
+                            300: '#F9A676',
+                            400: '#F78849',
+                            500: '#FA812F',
+                            600: '#ED6207',
+                            700: '#BB4E06',
+                            800: '#883804',
+                            900: '#562402',
+                        },
+                    },
+                    fontFamily: {
+                        'newsreader': ['Newsreader', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        @keyframes pulse-subtle {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.03);
+            }
+        }
+
+        @keyframes slide-up {
+            0% {
+                transform: translateY(10px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fade-in {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .badge-hover {
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .badge-hover:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(250, 129, 47, 0.1), 0 8px 10px -6px rgba(250, 129, 47, 0.05);
+        }
+
+        .pulse-subtle {
+            animation: pulse-subtle 2s infinite;
+        }
+
+        .slide-up {
+            animation: slide-up 0.3s ease-out forwards;
+        }
+
+        .fade-in {
+            animation: fade-in 0.5s ease-out forwards;
+        }
+
+        .scroll-hidden::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scroll-hidden {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Pokédex-style button */
+        .pokedex-button {
+            transition: all 0.1s ease;
+        }
+
+        .pokedex-button:active {
+            transform: scale(0.97);
+        }
+    </style>
+</head>
+
+<body class="bg-cream-200 font-newsreader text-orange-900">
+    <div id="app" class="min-h-screen md:max-w-[450px] mx-auto md:my-10 md:rounded-xl overflow-hidden">
+        <!-- Profile Header -->
+        <header class="relative bg-[url(https://blrhikes.com/_astro/hero.D-Cm33uB_t2Cfo.webp)] bg-center pb-24 pt-16">
+            <div class="bg-black/40 inset-0 absolute z-0"></div>
+            <div class="absolute top-4 right-4 flex space-x-3">
+                <button
+                    class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center text-white hover:bg-opacity-30 transition-all pokedex-button">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <button
+                    class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center text-white hover:bg-opacity-30 transition-all pokedex-button">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col relative z-10">
+                    <!-- Profile Image -->
+                    <div class="relative">
+                        <div class="h-28 w-28 rounded-full bg-white p-1.5 shadow-lg">
+                            <div class="h-full w-full rounded-full bg-cover bg-center"
+                                style="background-image: url('https://blrhikes.com/_astro/shreshth.BJfNebKL_Z19yttd.webp')">
+                            </div>
+                        </div>
+                        <div
+                            class="absolute -left-1 -bottom-1 w-8 h-8 bg-gold-500 text-orange-900 rounded-full flex items-center justify-center text-xs font-bold border-2 border-white">
+                            42
+                        </div>
+                    </div>
+
+                    <!-- Profile Name -->
+                    <h1 class="text-3xl font-bold text-white mt-4">Shresht M.</h1>
+                    <p class="text-white text-opacity-90 max-w-md">"Finding peace at every summit."</p>
+
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-3 gap-4 mt-6 w-full max-w-md">
+                        <div class="flex flex-col">
+                            <div class="text-2xl font-bold text-white">127</div>
+                            <div class="text-xs uppercase text-white text-opacity-80 tracking-wide">Hikes</div>
+                        </div>
+                        <div class="flex flex-col">
+                            <div class="text-2xl font-bold text-white">9,842</div>
+                            <div class="text-xs uppercase text-white text-opacity-80 tracking-wide">Meters</div>
+                        </div>
+                        <div class="flex flex-col">
+                            <div class="text-2xl font-bold text-white">68</div>
+                            <div class="text-xs uppercase text-white text-opacity-80 tracking-wide">Badges</div>
+                        </div>
+                    </div>
+
+                    <!-- Tags -->
+                    <div class="flex mt-6 gap-2 flex-wrap z-10">
+                        <span class="bg-white bg-opacity-40 px-3 py-1 rounded-full text-sm text-white">Trail
+                            Hunter</span>
+                        <span class="bg-white bg-opacity-40 px-3 py-1 rounded-full text-sm text-white">Wildlife
+                            Spotter</span>
+                        <span class="bg-white bg-opacity-40 px-3 py-1 rounded-full text-sm text-white">Peak
+                            Master</span>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+
+        <!-- Main Content -->
+        <main class="bg-cream-100 rounded-t-3xl -mt-12 relative z-10 shadow-lg">
+
+            <!-- Badge Showcase -->
+            <div class="px-4 pt-8 pb-4">
+                <h2 class="text-xl font-bold text-orange-900 flex items-center mb-4">
+                    <i class="fas fa-award text-orange-500 mr-2"></i>
+                    Latest Badges
+                </h2>
+                <div class="overflow-x-auto scroll-hidden -mx-4 px-4">
+                    <div class="flex space-x-6 py-2">
+                        <!-- Badge examples -->
+                        <div class="flex-shrink-0 badge-hover flex flex-col items-center cursor-pointer"
+                            @click="showBadgeInfo('summit')">
+                            <div class="w-16 h-16 rounded-full bg-orange-500 flex items-center justify-center mb-2">
+                                <i class="fas fa-mountain text-white text-2xl"></i>
+                            </div>
+                            <span class="text-sm font-medium">Summit Master</span>
+                        </div>
+                        <div class="flex-shrink-0 badge-hover flex flex-col items-center cursor-pointer"
+                            @click="showBadgeInfo('wildlife')">
+                            <div class="w-16 h-16 rounded-full bg-amber-500 flex items-center justify-center mb-2">
+                                <i class="fas fa-paw text-white text-2xl"></i>
+                            </div>
+                            <span class="text-sm font-medium">Wildlife Spotter</span>
+                        </div>
+                        <div class="flex-shrink-0 badge-hover flex flex-col items-center cursor-pointer"
+                            @click="showBadgeInfo('distance')">
+                            <div class="w-16 h-16 rounded-full bg-gold-500 flex items-center justify-center mb-2">
+                                <i class="fas fa-hiking text-white text-2xl"></i>
+                            </div>
+                            <span class="text-sm font-medium">100K Steps</span>
+                        </div>
+                        <div class="flex-shrink-0 badge-hover flex flex-col items-center cursor-pointer"
+                            @click="showBadgeInfo('explorer')">
+                            <div class="w-16 h-16 rounded-full bg-cream-500 flex items-center justify-center mb-2">
+                                <i class="fas fa-map-marked-alt text-white text-2xl"></i>
+                            </div>
+                            <span class="text-sm font-medium">Trail Explorer</span>
+                        </div>
+                        <div class="flex-shrink-0 badge-hover flex flex-col items-center cursor-pointer"
+                            @click="showBadgeInfo('night')">
+                            <div class="w-16 h-16 rounded-full bg-orange-900 flex items-center justify-center mb-2">
+                                <i class="fas fa-moon text-white text-2xl"></i>
+                            </div>
+                            <span class="text-sm font-medium">Night Hiker</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="px-4 mt-2">
+                <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                    <div class="flex text-sm font-medium">
+                        <button @click="activeTab = 'hikes'"
+                            :class="{'bg-orange-500 text-white': activeTab === 'hikes', 'text-orange-900 hover:bg-cream-100': activeTab !== 'hikes'}"
+                            class="flex-1 py-4 px-2 transition-colors flex items-center justify-center space-x-1">
+                            <i class="fas fa-route"></i>
+                            <span>Hikes</span>
+                        </button>
+                        <button @click="activeTab = 'discoveries'"
+                            :class="{'bg-orange-500 text-white': activeTab === 'discoveries', 'text-orange-900 hover:bg-cream-100': activeTab !== 'discoveries'}"
+                            class="flex-1 py-4 px-2 transition-colors flex items-center justify-center space-x-1">
+                            <i class="fas fa-compass"></i>
+                            <span>Discoveries</span>
+                        </button>
+                        <button @click="activeTab = 'skills'"
+                            :class="{'bg-orange-500 text-white': activeTab === 'skills', 'text-orange-900 hover:bg-cream-100': activeTab !== 'skills'}"
+                            class="flex-1 py-4 px-2 transition-colors flex items-center justify-center space-x-1">
+                            <i class="fas fa-seedling"></i>
+                            <span>Skills</span>
+                        </button>
+                        <button @click="activeTab = 'gear'"
+                            :class="{'bg-orange-500 text-white': activeTab === 'gear', 'text-orange-900 hover:bg-cream-100': activeTab !== 'gear'}"
+                            class="flex-1 py-4 px-2 transition-colors flex items-center justify-center space-x-1">
+                            <i class="fas fa-campground"></i>
+                            <span>Gear</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="py-6 px-4">
+                <!-- Hikes Tab -->
+                <div v-if="activeTab === 'hikes'" class="space-y-5">
+                    <!-- Hike Entry -->
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden card-hover border-2 border-orange-500">
+                        <div class="aspect-w-16 aspect-h-9 relative">
+                            <img src="https://blrhikes.com/cdn-cgi/image/width=800,quality=80,format=jpeg/https://images.blrhikes.com/be4cbba1-4671-4981-a3d6-25b867a08eaf"
+                                alt="Trail thumbnail" class="w-full h-48 object-cover">
+                            <div
+                                class="absolute top-0 right-0 bg-orange-500 text-white text-xs font-bold px-3 py-1 m-3 rounded">
+                                FEATURED
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex justify-between items-start">
+                                <h3 class="font-bold text-xl">Nandi Hills Sunrise Trek</h3>
+                                <span class="text-xs bg-cream-300 text-orange-800 px-2 py-1 rounded-full">3 days
+                                    ago</span>
+                            </div>
+                            <div class="text-sm text-orange-700 mt-2 flex items-center">
+                                <i class="fas fa-map-marker-alt mr-1 text-orange-500"></i>
+                                Nandi Hills, Bengaluru
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 mt-4 text-sm">
+                                <div class="flex flex-col items-center p-2 bg-cream-100 rounded-lg">
+                                    <i class="fas fa-route text-orange-500 mb-1"></i>
+                                    <span class="font-semibold">11.2 km</span>
+                                </div>
+                                <div class="flex flex-col items-center p-2 bg-cream-100 rounded-lg">
+                                    <i class="fas fa-clock text-orange-500 mb-1"></i>
+                                    <span class="font-semibold">4h 20m</span>
+                                </div>
+                                <div class="flex flex-col items-center p-2 bg-cream-100 rounded-lg">
+                                    <i class="fas fa-mountain text-orange-500 mb-1"></i>
+                                    <span class="font-semibold">457m</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hike Entry -->
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden card-hover border-2 border-orange-500">
+                        <div class="aspect-w-16 aspect-h-9 relative">
+                            <img src="https://blrhikes.com/cdn-cgi/image/width=800,quality=80,format=jpeg/https://images.blrhikes.com/7ff2b311-909a-44b2-9332-5790c5ff3ba1"
+                                alt="Trail thumbnail" class="w-full h-48 object-cover">
+                        </div>
+                        <div class="p-4">
+                            <div class="flex justify-between items-start">
+                                <h3 class="font-bold text-xl">Skandagiri Night Trek</h3>
+                                <span class="text-xs bg-cream-300 text-orange-800 px-2 py-1 rounded-full">1 week
+                                    ago</span>
+                            </div>
+                            <div class="text-sm text-orange-700 mt-2 flex items-center">
+                                <i class="fas fa-map-marker-alt mr-1 text-orange-500"></i>
+                                Skandagiri Hills, Chikkaballapur
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 mt-4 text-sm">
+                                <div class="flex flex-col items-center p-2 bg-cream-100 rounded-lg">
+                                    <i class="fas fa-route text-orange-500 mb-1"></i>
+                                    <span class="font-semibold">8.7 km</span>
+                                </div>
+                                <div class="flex flex-col items-center p-2 bg-cream-100 rounded-lg">
+                                    <i class="fas fa-clock text-orange-500 mb-1"></i>
+                                    <span class="font-semibold">5h 45m</span>
+                                </div>
+                                <div class="flex flex-col items-center p-2 bg-cream-100 rounded-lg">
+                                    <i class="fas fa-mountain text-orange-500 mb-1"></i>
+                                    <span class="font-semibold">1350m</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button
+                        class="w-full py-3 bg-white border-2 border-orange-500 text-orange-600 rounded-xl font-medium hover:bg-cream-50 transition-colors pokedex-button">
+                        View All Hikes
+                    </button>
+                </div>
+
+                <!-- Discoveries Tab -->
+                <div v-if="activeTab === 'discoveries'" class="space-y-5">
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden card-hover border-2 border-amber-500">
+                        <div class="p-4">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-bold text-xl flex items-center">
+                                    <i class="fas fa-map-pin text-amber-500 mr-2"></i>
+                                    Hidden Waterfall Trail
+                                </h3>
+                                <span
+                                    class="bg-amber-100 text-amber-800 px-2 py-1 rounded-full text-xs font-medium">Verified</span>
+                            </div>
+
+                            <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden mb-3">
+                                <img src="https://blrhikes.com/cdn-cgi/image/width=800,quality=80,format=jpeg/https://images.blrhikes.com/32fcf612-a3b7-47d5-8548-0e5f62a77b00"
+                                    alt="Discovery thumbnail" class="w-full h-40 object-cover">
+                            </div>
+
+                            <p class="text-orange-800 text-sm">Discovered a hidden waterfall trail 2km east of the main
+                                Savandurga trek. Perfect spot for a quiet break. The pool at the base is ideal for a
+                                quick dip in summer.</p>
+
+                            <div class="mt-4 pt-3 border-t border-cream-200 flex justify-between items-center">
+                                <div class="flex items-center text-sm text-orange-700">
+                                    <i class="fas fa-calendar-alt mr-1 text-amber-500"></i>
+                                    Added on May 12, 2024
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="text-sm mr-3 text-orange-700 flex items-center">
+                                        <i class="fas fa-users mr-1 text-amber-500"></i>
+                                        23 hikers visited
+                                    </span>
+                                    <button
+                                        class="w-8 h-8 bg-amber-500 text-white rounded-full flex items-center justify-center hover:bg-amber-600 transition-colors pokedex-button">
+                                        <i class="fas fa-map-marked-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden card-hover border-2 border-amber-500">
+                        <div class="p-4">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-bold text-xl flex items-center">
+                                    <i class="fas fa-tree text-amber-500 mr-2"></i>
+                                    Ancient Banyan Lookout
+                                </h3>
+                                <span
+                                    class="bg-amber-100 text-amber-800 px-2 py-1 rounded-full text-xs font-medium">Verified</span>
+                            </div>
+
+                            <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden mb-3">
+                                <img src="https://blrhikes.com/cdn-cgi/image/width=800,quality=80,format=jpeg/https://images.blrhikes.com/c52220f4-387d-4567-9f6f-a0361be1e302"
+                                    alt="Discovery thumbnail" class="w-full h-40 object-cover">
+                            </div>
+
+                            <p class="text-orange-800 text-sm">Found a 200+ year old banyan tree halfway up Anthargange
+                                that offers an incredible panoramic view. The massive roots create natural seating areas
+                                for resting.</p>
+
+                            <div class="mt-4 pt-3 border-t border-cream-200 flex justify-between items-center">
+                                <div class="flex items-center text-sm text-orange-700">
+                                    <i class="fas fa-calendar-alt mr-1 text-amber-500"></i>
+                                    Added on April 3, 2024
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="text-sm mr-3 text-orange-700 flex items-center">
+                                        <i class="fas fa-users mr-1 text-amber-500"></i>
+                                        47 hikers visited
+                                    </span>
+                                    <button
+                                        class="w-8 h-8 bg-amber-500 text-white rounded-full flex items-center justify-center hover:bg-amber-600 transition-colors pokedex-button">
+                                        <i class="fas fa-map-marked-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button
+                        class="w-full py-3 bg-white border-2 border-amber-500 text-amber-600 rounded-xl font-medium hover:bg-cream-50 transition-colors pokedex-button">
+                        View All Discoveries
+                    </button>
+                </div>
+
+                <!-- Skills Tab -->
+                <div v-if="activeTab === 'skills'" class="space-y-5">
+                    <!-- Skills Badge System -->
+                    <div class="p-4 md:p-6 bg-cream-100 min-h-screen">
+
+                        <!-- Newly Unlocked Badge - Animation -->
+                        <div
+                            class="bg-orange-100 rounded-xl p-5 border-2 border-orange-500 relative overflow-hidden mb-8">
+                            <div class="absolute top-0 right-0 w-20 h-20">
+                                <div
+                                    class="absolute transform rotate-45 bg-orange-500 text-white text-xs font-bold py-1 text-center w-28 top-4 -right-8">
+                                    NEW!
+                                </div>
+                            </div>
+
+                            <h3 class="text-xl font-bold text-orange-900 mb-4 flex items-center">
+                                <i class="fas fa-certificate text-amber-500 mr-2"></i>
+                                Recently Unlocked
+                            </h3>
+
+                            <div class="flex items-center">
+                                <div
+                                    class="h-20 w-20 bg-amber-500 rounded-full flex items-center justify-center mr-4 skill-bounce">
+                                    <i class="fas fa-camera text-white text-3xl"></i>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-2xl text-orange-900">Wildlife Photographer</div>
+                                    <div class="text-sm text-orange-700 mt-1">You've documented 20 different wildlife
+                                        species across your hikes!</div>
+                                    <div class="flex mt-3 gap-2">
+                                        <div class="bg-amber-200 text-amber-800 text-xs px-2 py-1 rounded-full">+1
+                                            Naturalist Badge</div>
+                                        <div class="bg-amber-200 text-amber-800 text-xs px-2 py-1 rounded-full">5/7
+                                            Collection Progress</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 flex justify-end">
+                                <button
+                                    class="bg-amber-500 text-white py-2 px-4 rounded-lg font-medium hover:bg-amber-600 transition-colors flex items-center pokedex-button">
+                                    <i class="fas fa-images mr-1"></i>
+                                    View Your Collection
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Navigation Badge Collection -->
+                        <div
+                            class="mb-8 bg-white rounded-xl shadow p-4 border-l-4 border-gold-500 relative overflow-hidden">
+                            <div class="flex justify-between items-start mb-5">
+                                <div class="flex items-center z-10">
+                                    <div
+                                        class="h-12 w-12 bg-gold-500 rounded-full flex items-center justify-center text-white mr-3">
+                                        <i class="fas fa-compass text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-lg">Pathfinder</h3>
+                                        <div class="text-sm text-orange-700">Navigation mastery badges</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-bold text-amber-600">4/7</div>
+                                    <div class="text-xs text-amber-800">COLLECTED</div>
+                                </div>
+                            </div>
+
+                            <!-- Badge progression visualization - circles connected by line -->
+                            <div class="flex items-center justify-between relative mb-4">
+                                <!-- Connection line -->
+                                <div
+                                    class="absolute h-1 bg-gray-200 left-0 right-0 top-1/2 transform -translate-y-1/2 z-0">
+                                </div>
+                                <!-- Completed line -->
+                                <div class="absolute h-1 bg-gold-500 left-0 right-0 top-1/2 transform -translate-y-1/2 z-0"
+                                    style="width: 57%"></div>
+
+                                <!-- Badge 1 - Complete -->
+                                <div class="z-10 scale-on-hover badge-tooltip relative group">
+                                    <div
+                                        class="h-12 w-12 rounded-full bg-gold-500 flex items-center justify-center text-white">
+                                        <i class="fas fa-map text-lg"></i>
+                                    </div>
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 transition-opacity bg-gold-600 text-white text-xs rounded py-1 px-2 absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-36 z-50">
+                                        <div class="font-bold">Map Reader</div>
+                                        <div>Basic map orientation skills</div>
+                                    </div>
+                                </div>
+
+                                <!-- Badge 2 - Complete -->
+                                <div class="z-10 scale-on-hover badge-tooltip relative group">
+                                    <div
+                                        class="h-12 w-12 rounded-full bg-gold-500 flex items-center justify-center text-white">
+                                        <i class="fas fa-route text-lg"></i>
+                                    </div>
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 transition-opacity bg-gold-600 text-white text-xs rounded py-1 px-2 absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-36 z-50">
+                                        <div class="font-bold">Trail Follower</div>
+                                        <div>Advanced trail navigation</div>
+                                    </div>
+                                </div>
+
+                                <!-- Badge 3 - Complete -->
+                                <div class="z-10 scale-on-hover badge-tooltip relative group">
+                                    <div
+                                        class="h-12 w-12 rounded-full bg-gold-500 flex items-center justify-center text-white">
+                                        <i class="fas fa-search-location text-lg"></i>
+                                    </div>
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 transition-opacity bg-gold-600 text-white text-xs rounded py-1 px-2 absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-36 z-50">
+                                        <div class="font-bold">Landmark Spotter</div>
+                                        <div>Identifying key terrain features</div>
+                                    </div>
+                                </div>
+
+                                <!-- Badge 4 - Complete -->
+                                <div class="z-10 scale-on-hover badge-tooltip relative group">
+                                    <div
+                                        class="h-12 w-12 rounded-full bg-gold-500 flex items-center justify-center text-white">
+                                        <i class="fas fa-thumbtack text-lg"></i>
+                                    </div>
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 transition-opacity bg-gold-600 text-white text-xs rounded py-1 px-2 absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-36 z-50">
+                                        <div class="font-bold">Trail Marker</div>
+                                        <div>Creating safe navigation points</div>
+                                    </div>
+                                </div>
+
+                                <!-- Badge 5 - Locked -->
+                                <div class="z-10 scale-on-hover badge-tooltip relative group grayscale opacity-70">
+                                    <div
+                                        class="h-12 w-12 rounded-full bg-amber-300 flex items-center justify-center text-white">
+                                        <i class="fas fa-mountain text-lg"></i>
+                                    </div>
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 transition-opacity bg-gray-600 text-white text-xs rounded py-1 px-2 absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-36 z-50">
+                                        <div class="font-bold">Off-Trail Explorer</div>
+                                        <div>LOCKED: Complete 5 pathless hikes</div>
+                                    </div>
+                                </div>
+
+                                <!-- Badge 6 - Locked -->
+                                <div class="z-10 scale-on-hover badge-tooltip relative group grayscale opacity-70">
+                                    <div
+                                        class="h-12 w-12 rounded-full bg-amber-300 flex items-center justify-center text-white">
+                                        <i class="fas fa-satellite text-lg"></i>
+                                    </div>
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 transition-opacity bg-gray-600 text-white text-xs rounded py-1 px-2 absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-36 z-50">
+                                        <div class="font-bold">Tech Navigator</div>
+                                        <div>LOCKED: Master GPS tools</div>
+                                    </div>
+                                </div>
+
+                                <!-- Badge 7 - Locked Master Badge -->
+                                <div class="z-10 scale-on-hover badge-tooltip relative group grayscale opacity-70">
+                                    <div
+                                        class="h-14 w-14 rounded-full bg-orange-600 border-2 border-dotted border-gold-400 flex items-center justify-center text-white">
+                                        <i class="fas fa-compass text-xl"></i>
+                                    </div>
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 transition-opacity bg-gray-600 text-white text-xs rounded py-1 px-2 absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-36 z-50">
+                                        <div class="font-bold">Master Pathfinder</div>
+                                        <div>LOCKED: Complete all navigation badges</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Next Badge Challenge -->
+                            <div class="bg-cream-100 rounded-lg p-3 mt-2">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <div class="text-sm font-bold text-orange-800 flex items-center">
+                                            <i class="fas fa-mountain text-amber-500 mr-1"></i>
+                                            Off-Trail Explorer Badge
+                                        </div>
+                                        <div class="text-xs text-orange-700 mt-1">Complete 5 pathless hikes (3/5 done)
+                                        </div>
+                                    </div>
+                                    <button
+                                        class="bg-amber-500 text-white text-xs font-bold py-1 px-3 rounded-full hover:bg-amber-600 transition-colors pokedex-button">
+                                        View Routes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Survival Badge Collection -->
+                        <div
+                            class="mb-8 bg-white rounded-xl shadow p-4 border-l-4 border-orange-500 relative overflow-hidden">
+                            <div class="flex justify-between items-start mb-5">
+                                <div class="flex items-center z-10">
+                                    <div
+                                        class="h-12 w-12 bg-orange-500 rounded-full flex items-center justify-center text-white mr-3">
+                                        <i class="fas fa-fire text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-lg">Survivalist</h3>
+                                        <div class="text-sm text-orange-700">Wilderness survival badges</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-bold text-amber-600">3/7</div>
+                                    <div class="text-xs text-amber-800">COLLECTED</div>
+                                </div>
+                            </div>
+
+                            <!-- Badge progression visualization - circles connected by line -->
+                            <div class="flex items-center justify-between relative mb-4">
+                                <!-- Connection line -->
+                                <div
+                                    class="absolute h-1 bg-gray-200 left-0 right-0 top-1/2 transform -translate-y-1/2 z-0">
+                                </div>
+                                <!-- Completed line -->
+                                <div class="absolute h-1 bg-orange-500 left-0 right-0 top-1/2 transform -translate-y-1/2 z-0"
+                                    style="width: 43%"></div>
+
+                                <!-- Badge 1 - Complete -->
+                                <div class="z-10 scale-on-hover badge-tooltip relative group">
+                                    <div
+                                        class="h-12 w-12 rounded-full bg-orange-500 flex items-center justify-center text-white">
+                                        <i class="fas fa-campground text-lg"></i>
+                                    </div>
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 transition-opacity bg-orange-600 text-white text-xs rounded py-1 px-2 absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-36 z-50">
+                                        <div class="font-bold">Camp Setter</div>
+                                        <div>Basic campsite setup skills</div>
+                                    </div>
+                                </div>
+
+                                <!-- Badge 2 - Complete -->
+                                <div class="z-10 scale-on-hover badge-tooltip relative group">
+                                    <div
+                                        class="h-12 w-12 rounded-full bg-orange-500 flex items-center justify-center text-white">
+                                        <i class="fas fa-burn text-lg"></i>
+                                    </div>
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 transition-opacity bg-orange-600 text-white text-xs rounded py-1 px-2 absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-36 z-50">
+                                        <div class="font-bold">Fire Starter</div>
+                                        <div>Fire making in various conditions</div>
+                                    </div>
+                                </div>
+
+                                <!-- Badge 3 - Complete -->
+                                <div class="z-10 scale-on-hover badge-tooltip relative group">
+                                    <div
+                                        class="h-12 w-12 rounded-full bg-orange-500 flex items-center justify-center text-white">
+                                        <i class="fas fa-tint text-lg"></i>
+                                    </div>
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 transition-opacity bg-orange-600 text-white text-xs rounded py-1 px-2 absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-36 z-50">
+                                        <div class="font-bold">Water Finder</div>
+                                        <div>Locating and purifying water</div>
+                                    </div>
+                                </div>
+
+                                <!-- Badge 4 - Locked -->
+                                <div class="z-10 scale-on-hover badge-tooltip relative group grayscale opacity-70">
+                                    <div
+                                        class="h-12 w-12 rounded-full bg-amber-300 flex items-center justify-center text-white">
+                                        <i class="fas fa-medkit text-lg"></i>
+                                    </div>
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 transition-opacity bg-gray-600 text-white text-xs rounded py-1 px-2 absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-36 z-50">
+                                        <div class="font-bold">First Responder</div>
+                                        <div>LOCKED: Complete wilderness first aid</div>
+                                    </div>
+                                </div>
+
+                                <!-- Badge 5 - Locked -->
+                                <div class="z-10 scale-on-hover badge-tooltip relative group grayscale opacity-70">
+                                    <div
+                                        class="h-12 w-12 rounded-full bg-amber-300 flex items-center justify-center text-white">
+                                        <i class="fas fa-tree text-lg"></i>
+                                    </div>
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 transition-opacity bg-gray-600 text-white text-xs rounded py-1 px-2 absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-36 z-50">
+                                        <div class="font-bold">Shelter Crafter</div>
+                                        <div>LOCKED: Build natural shelters</div>
+                                    </div>
+                                </div>
+
+                                <!-- Badge 6 - Locked -->
+                                <div class="z-10 scale-on-hover badge-tooltip relative group grayscale opacity-70">
+                                    <div
+                                        class="h-12 w-12 rounded-full bg-amber-300 flex items-center justify-center text-white">
+                                        <i class="fas fa-utensils text-lg"></i>
+                                    </div>
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 transition-opacity bg-gray-600 text-white text-xs rounded py-1 px-2 absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-36 z-50">
+                                        <div class="font-bold">Wild Forager</div>
+                                        <div>LOCKED: Identify edible plants</div>
+                                    </div>
+                                </div>
+
+                                <!-- Badge 7 - Locked Master Badge -->
+                                <div class="z-10 scale-on-hover badge-tooltip relative group grayscale opacity-70">
+                                    <div
+                                        class="h-14 w-14 rounded-full bg-orange-600 border-2 border-dotted border-gold-400 flex items-center justify-center text-white">
+                                        <i class="fas fa-fire text-xl"></i>
+                                    </div>
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 transition-opacity bg-gray-600 text-white text-xs rounded py-1 px-2 absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-36 z-50">
+                                        <div class="font-bold">Master Survivalist</div>
+                                        <div>LOCKED: Complete all survival badges</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Next Badge Challenge -->
+                            <div class="bg-cream-100 rounded-lg p-3 mt-2">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <div class="text-sm font-bold text-orange-800 flex items-center">
+                                            <i class="fas fa-medkit text-orange-500 mr-1"></i>
+                                            First Responder Badge
+                                        </div>
+                                        <div class="text-xs text-orange-700 mt-1">Attend a wilderness first aid workshop
+                                        </div>
+                                    </div>
+                                    <button
+                                        class="bg-orange-500 text-white text-xs font-bold py-1 px-3 rounded-full hover:bg-orange-600 transition-colors pokedex-button">
+                                        Find Workshops
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Wildlife Badge Collection -->
+                        <div
+                            class="mb-8 bg-white rounded-xl shadow p-4 border-l-4 border-amber-500 relative overflow-hidden">
+                            <div class="flex justify-between items-start mb-5">
+                                <div class="flex items-center z-10">
+                                    <div
+                                        class="h-12 w-12 bg-amber-500 rounded-full flex items-center justify-center text-white mr-3">
+                                        <i class="fas fa-paw text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-lg">Naturalist</h3>
+                                        <div class="text-sm text-orange-700">Wildlife identification badges</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-bold text-amber-600">5/7</div>
+                                    <div class="text-xs text-amber-800">COLLECTED</div>
+                                </div>
+                            </div>
+
+                            <!-- Badge progression visualization - circles connected by line -->
+                            <div class="flex items-center justify-between relative mb-4">
+                                <!-- Connection line -->
+                                <div
+                                    class="absolute h-1 bg-gray-200 left-0 right-0 top-1/2 transform -translate-y-1/2 z-0">
+                                </div>
+                                <!-- Completed line -->
+                                <div class="absolute h-1 bg-amber-500 left-0 right-0 top-1/2 transform -translate-y-1/2 z-0"
+                                    style="width: 71%"></div>
+
+                                <!-- Badge 1 - Complete -->
+                                <div class="z-10 scale-on-hover badge-tooltip relative group">
+                                    <div
+                                        class="h-12 w-12 rounded-full bg-amber-500 flex items-center justify-center text-white">
+                                        <i class="fas fa-feather-alt text-lg"></i>
+                                    </div>
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 transition-opacity bg-amber-600 text-white text-xs rounded py-1 px-2 absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-36 z-50">
+                                        <div class="font-bold">Bird Watcher</div>
+                                        <div>Identify common bird species</div>
+                                    </div>
+                                </div>
+
+                                <!-- Badge 2 - Complete -->
+                                <div class="z-10 scale-on-hover badge-tooltip relative group">
+                                    <div
+                                        class="h-12 w-12 rounded-full bg-amber-500 flex items-center justify-center text-white">
+                                        <i class="fas fa-paw text-lg"></i>
+                                    </div>
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 transition-opacity bg-amber-600 text-white text-xs rounded py-1 px-2 absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-36 z-50">
+                                        <div class="font-bold">Mammal Tracker</div>
+                                        <div>Identify animal signs and tracks</div>
+                                    </div>
+                                </div>
+
+                                <!-- Badge 3 - Complete -->
+                                <div class="z-10 scale-on-hover badge-tooltip relative group">
+                                    <div
+                                        class="h-12 w-12 rounded-full bg-amber-500 flex items-center justify-center text-white">
+                                        <i class="fas fa-leaf text-lg"></i>
+                                    </div>
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 transition-opacity bg-amber-600 text-white text-xs rounded py-1 px-2 absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-36 z-50">
+                                        <div class="font-bold">Plant Scholar</div>
+                                        <div>Identify local flora species</div>
+                                    </div>
+                                </div>
+
+                                <!-- Badge 4 - Complete -->
+                                <div class="z-10 scale-on-hover badge-tooltip relative group">
+                                    <div
+                                        class="h-12 w-12 rounded-full bg-amber-500 flex items-center justify-center text-white">
+                                        <i class="fas fa-spider text-lg"></i>
+                                    </div>
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 transition-opacity bg-amber-600 text-white text-xs rounded py-1 px-2 absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-36 z-50">
+                                        <div class="font-bold">Bug Hunter</div>
+                                        <div>Identify insects and arthropods</div>
+                                    </div>
+                                </div>
+
+                                <!-- Badge 5 - Complete -->
+                                <div class="z-10 scale-on-hover badge-tooltip relative group">
+                                    <div
+                                        class="h-12 w-12 rounded-full bg-amber-500 flex items-center justify-center text-white pulse-subtle">
+                                        <i class="fas fa-camera text-lg"></i>
+                                    </div>
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 transition-opacity bg-amber-600 text-white text-xs rounded py-1 px-2 absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-36 z-50">
+                                        <div class="font-bold">Wildlife Photographer</div>
+                                        <div>Document 20+ species (NEW!)</div>
+                                    </div>
+                                </div>
+
+                                <!-- Badge 6 - Locked -->
+                                <div class="z-10 scale-on-hover badge-tooltip relative group grayscale opacity-70">
+                                    <div
+                                        class="h-12 w-12 rounded-full bg-amber-300 flex items-center justify-center text-white">
+                                        <i class="fas fa-frog text-lg"></i>
+                                    </div>
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 transition-opacity bg-gray-600 text-white text-xs rounded py-1 px-2 absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-36 z-50">
+                                        <div class="font-bold">Wetland Spotter</div>
+                                        <div>LOCKED: Identify aquatic species</div>
+                                    </div>
+                                </div>
+
+                                <!-- Badge 7 - Locked Master Badge -->
+                                <div class="z-10 scale-on-hover badge-tooltip relative group grayscale opacity-70">
+                                    <div
+                                        class="h-14 w-14 rounded-full bg-orange-600 border-2 border-dotted border-gold-400 flex items-center justify-center text-white">
+                                        <i class="fas fa-paw text-xl"></i>
+                                    </div>
+                                    <div
+                                        class="opacity-0 group-hover:opacity-100 transition-opacity bg-gray-600 text-white text-xs rounded py-1 px-2 absolute -bottom-10 left-1/2 transform -translate-x-1/2 w-36 z-50">
+                                        <div class="font-bold">Master Naturalist</div>
+                                        <div>LOCKED: Complete all wildlife badges</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Next Badge Challenge -->
+                            <div class="bg-cream-100 rounded-lg p-3 mt-2">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <div class="text-sm font-bold text-orange-800 flex items-center">
+                                            <i class="fas fa-frog text-amber-500 mr-1"></i>
+                                            Wetland Spotter Badge
+                                        </div>
+                                        <div class="text-xs text-orange-700 mt-1">Document 5 aquatic species (2/5 done)
+                                        </div>
+                                    </div>
+                                    <button
+                                        class="bg-amber-500 text-white text-xs font-bold py-1 px-3 rounded-full hover:bg-amber-600 transition-colors pokedex-button">
+                                        Wetland Treks
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div v-if="activeTab === 'gear'" class="space-y-5">
+                    <!-- Gear Tab Content -->
+                    <div class="space-y-6">
+                        <!-- User Gear Collection -->
+                        <div class="bg-white rounded-xl p-4 border-2 border-orange-500 overflow-hidden">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-xl font-bold text-orange-900 flex items-center">
+                                    <i class="fas fa-hiking text-orange-500 mr-2"></i>
+                                    Trail Arsenal
+                                </h3>
+                                <button
+                                    class="bg-orange-500 hover:bg-orange-600 text-white text-sm rounded-full py-1 px-3 transition-colors flex items-center pokedex-button">
+                                    <i class="fas fa-plus mr-1"></i>
+                                    Add Gear
+                                </button>
+                            </div>
+
+                            <!-- Gear Tabs -->
+                            <div class="border-b border-cream-200 mb-4">
+                                <div class="flex space-x-1 overflow-x-auto scroll-hidden -mx-1 px-1 pb-1">
+                                    <button
+                                        class="py-2 px-4 bg-orange-500 text-white rounded-t-lg text-sm font-medium whitespace-nowrap">
+                                        Essential Kit
+                                    </button>
+                                    <button
+                                        class="py-2 px-4 text-orange-800 hover:bg-cream-100 rounded-t-lg text-sm font-medium transition-colors whitespace-nowrap">
+                                        Trail Tech
+                                    </button>
+                                    <button
+                                        class="py-2 px-4 text-orange-800 hover:bg-cream-100 rounded-t-lg text-sm font-medium transition-colors whitespace-nowrap">
+                                        Camp Gear
+                                    </button>
+                                    <button
+                                        class="py-2 px-4 text-orange-800 hover:bg-cream-100 rounded-t-lg text-sm font-medium transition-colors whitespace-nowrap">
+                                        Wishlist
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Featured Gear -->
+                            <div class="mb-5">
+                                <div class="relative overflow-hidden rounded-xl mb-4">
+                                    <img src="https://blrhikes.com/cdn-cgi/image/width=800,quality=80,format=jpeg/https://images.blrhikes.com/be4cbba1-4671-4981-a3d6-25b867a08eaf"
+                                        alt="Mountain landscape" class="w-full h-32 object-cover">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                                    <div class="absolute bottom-0 left-0 p-3 text-white">
+                                        <div class="flex items-center">
+                                            <div
+                                                class="w-12 h-12 bg-white rounded-lg flex items-center justify-center mr-3">
+                                                <img src="https://blrhikes.com/cdn-cgi/image/width=200,quality=80,format=jpeg/https://images.blrhikes.com/32fcf612-a3b7-47d5-8548-0e5f62a77b00"
+                                                    alt="Wildcraft Logo" class="w-10 h-10 object-cover rounded">
+                                            </div>
+                                            <div>
+                                                <h4 class="font-bold">Wildcraft Hydraulic 30L</h4>
+                                                <p class="text-xs text-white/80">Loyal companion for 112 hikes</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="absolute top-2 right-2 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                                        LEGENDARY
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Gear Items -->
+                            <div class="space-y-3">
+                                <!-- Gear Item 1 -->
+                                <div
+                                    class="bg-cream-100 rounded-lg p-3 flex items-start hover:bg-cream-200 transition-colors card-hover">
+                                    <div
+                                        class="h-14 w-14 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-shoe-prints text-orange-500 text-2xl"></i>
+                                    </div>
+                                    <div class="ml-3 flex-1">
+                                        <div class="flex justify-between">
+                                            <div>
+                                                <div class="font-bold">Quechua MH500 Hiking Boots</div>
+                                                <div class="text-xs text-orange-700 mt-0.5">Waterproof | Mid-ankle
+                                                    support | 87 hikes</div>
+                                            </div>
+                                            <div
+                                                class="text-xs bg-orange-200 text-orange-800 font-medium px-2 py-1 rounded-full h-fit flex items-center">
+                                                <i class="fas fa-trophy text-orange-500 mr-1"></i>
+                                                <span>Legendary</span>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2 flex justify-between items-center">
+                                            <div class="flex items-center">
+                                                <div class="flex items-center text-amber-500">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star-half-alt"></i>
+                                                </div>
+                                                <span class="text-xs ml-2 text-orange-700">4.7/5</span>
+                                            </div>
+                                            <button
+                                                class="text-orange-500 hover:text-orange-700 text-xs font-medium transition-colors pokedex-button">
+                                                View Details
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Gear Item 2 -->
+                                <div
+                                    class="bg-cream-100 rounded-lg p-3 flex items-start hover:bg-cream-200 transition-colors card-hover">
+                                    <div
+                                        class="h-14 w-14 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-tshirt text-amber-500 text-2xl"></i>
+                                    </div>
+                                    <div class="ml-3 flex-1">
+                                        <div class="flex justify-between">
+                                            <div>
+                                                <div class="font-bold">Columbia Silver Ridge Convertible Pants</div>
+                                                <div class="text-xs text-orange-700 mt-0.5">Quick-dry | UV protection |
+                                                    63 hikes</div>
+                                            </div>
+                                            <div
+                                                class="text-xs bg-amber-200 text-amber-800 font-medium px-2 py-1 rounded-full h-fit flex items-center">
+                                                <i class="fas fa-medal text-amber-500 mr-1"></i>
+                                                <span>Epic</span>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2 flex justify-between items-center">
+                                            <div class="flex items-center">
+                                                <div class="flex items-center text-amber-500">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="far fa-star"></i>
+                                                </div>
+                                                <span class="text-xs ml-2 text-orange-700">4.0/5</span>
+                                            </div>
+                                            <button
+                                                class="text-orange-500 hover:text-orange-700 text-xs font-medium transition-colors pokedex-button">
+                                                View Details
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Gear Item 3 -->
+                                <div
+                                    class="bg-cream-100 rounded-lg p-3 flex items-start hover:bg-cream-200 transition-colors card-hover">
+                                    <div
+                                        class="h-14 w-14 bg-gold-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-walking text-gold-500 text-2xl"></i>
+                                    </div>
+                                    <div class="ml-3 flex-1">
+                                        <div class="flex justify-between">
+                                            <div>
+                                                <div class="font-bold">Black Diamond Trail Trek Poles</div>
+                                                <div class="text-xs text-orange-700 mt-0.5">Aluminum | FlickLock | 65
+                                                    hikes</div>
+                                            </div>
+                                            <div
+                                                class="text-xs bg-gold-200 text-gold-800 font-medium px-2 py-1 rounded-full h-fit flex items-center">
+                                                <i class="fas fa-gem text-gold-500 mr-1"></i>
+                                                <span>Rare</span>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2 flex justify-between items-center">
+                                            <div class="flex items-center">
+                                                <div class="flex items-center text-amber-500">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="far fa-star"></i>
+                                                    <i class="far fa-star"></i>
+                                                </div>
+                                                <span class="text-xs ml-2 text-orange-700">3.2/5</span>
+                                            </div>
+                                            <button
+                                                class="text-orange-500 hover:text-orange-700 text-xs font-medium transition-colors pokedex-button">
+                                                View Details
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Gear Item 4 -->
+                                <div
+                                    class="bg-cream-100 rounded-lg p-3 flex items-start hover:bg-cream-200 transition-colors card-hover">
+                                    <div
+                                        class="h-14 w-14 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-flask text-orange-500 text-2xl"></i>
+                                    </div>
+                                    <div class="ml-3 flex-1">
+                                        <div class="flex justify-between">
+                                            <div>
+                                                <div class="font-bold">Hydro Flask 32 oz Bottle</div>
+                                                <div class="text-xs text-orange-700 mt-0.5">Insulated | Dent-resistant |
+                                                    103 hikes</div>
+                                            </div>
+                                            <div
+                                                class="text-xs bg-orange-200 text-orange-800 font-medium px-2 py-1 rounded-full h-fit flex items-center">
+                                                <i class="fas fa-trophy text-orange-500 mr-1"></i>
+                                                <span>Legendary</span>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2 flex justify-between items-center">
+                                            <div class="flex items-center">
+                                                <div class="flex items-center text-amber-500">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                </div>
+                                                <span class="text-xs ml-2 text-orange-700">5.0/5</span>
+                                            </div>
+                                            <button
+                                                class="text-orange-500 hover:text-orange-700 text-xs font-medium transition-colors pokedex-button">
+                                                View Details
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Gear Item 5 -->
+                                <div
+                                    class="bg-cream-100 rounded-lg p-3 flex items-start hover:bg-cream-200 transition-colors card-hover">
+                                    <div
+                                        class="h-14 w-14 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-hat-cowboy text-amber-500 text-2xl"></i>
+                                    </div>
+                                    <div class="ml-3 flex-1">
+                                        <div class="flex justify-between">
+                                            <div>
+                                                <div class="font-bold">Tilley Endurables LTM6 Airflo Hat</div>
+                                                <div class="text-xs text-orange-700 mt-0.5">UPF 50+ | Floatable | 94
+                                                    hikes</div>
+                                            </div>
+                                            <div
+                                                class="text-xs bg-amber-200 text-amber-800 font-medium px-2 py-1 rounded-full h-fit flex items-center">
+                                                <i class="fas fa-medal text-amber-500 mr-1"></i>
+                                                <span>Epic</span>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2 flex justify-between items-center">
+                                            <div class="flex items-center">
+                                                <div class="flex items-center text-amber-500">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="far fa-star"></i>
+                                                </div>
+                                                <span class="text-xs ml-2 text-orange-700">4.1/5</span>
+                                            </div>
+                                            <button
+                                                class="text-orange-500 hover:text-orange-700 text-xs font-medium transition-colors pokedex-button">
+                                                View Details
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 pt-4 border-t border-cream-200">
+                                <button
+                                    class="w-full py-2 text-orange-500 border border-orange-500 rounded-lg font-medium hover:bg-orange-50 transition-colors flex items-center justify-center pokedex-button">
+                                    <i class="fas fa-hiking mr-2"></i>
+                                    View Full Gear Collection (18)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Gear Stats -->
+                        <div class="bg-white rounded-xl p-4 border-2 border-amber-500 overflow-hidden">
+                            <h3 class="text-xl font-bold text-orange-900 flex items-center mb-4">
+                                <i class="fas fa-chart-pie text-amber-500 mr-2"></i>
+                                Gear Stats
+                            </h3>
+
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div class="bg-cream-100 rounded-lg p-3 text-center">
+                                    <div class="text-3xl font-bold text-amber-600">18</div>
+                                    <div class="text-sm text-orange-800">Total Pieces</div>
+                                </div>
+                                <div class="bg-cream-100 rounded-lg p-3 text-center">
+                                    <div class="text-3xl font-bold text-amber-600">3</div>
+                                    <div class="text-sm text-orange-800">Legendary Items</div>
+                                </div>
+                                <div class="bg-cream-100 rounded-lg p-3 text-center">
+                                    <div class="text-3xl font-bold text-amber-600">4.2</div>
+                                    <div class="text-sm text-orange-800">Avg. Rating</div>
+                                </div>
+                                <div class="bg-cream-100 rounded-lg p-3 text-center">
+                                    <div class="text-3xl font-bold text-amber-600">1,238</div>
+                                    <div class="text-sm text-orange-800">Total Trail KMs</div>
+                                </div>
+                            </div>
+
+                            <!-- Most Reliable Gear Chart -->
+                            <div class="bg-cream-100 rounded-lg p-3">
+                                <h4 class="text-sm font-bold text-orange-900 mb-2">Most Trail-Tested Gear</h4>
+
+                                <div class="space-y-2">
+                                    <div>
+                                        <div class="flex justify-between text-xs mb-1">
+                                            <span>Wildcraft Backpack</span>
+                                            <span class="font-medium">112 hikes</span>
+                                        </div>
+                                        <div class="w-full h-2 bg-cream-300 rounded-full overflow-hidden">
+                                            <div class="bg-orange-500 h-full rounded-full" style="width: 100%"></div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="flex justify-between text-xs mb-1">
+                                            <span>Hydro Flask Bottle</span>
+                                            <span class="font-medium">103 hikes</span>
+                                        </div>
+                                        <div class="w-full h-2 bg-cream-300 rounded-full overflow-hidden">
+                                            <div class="bg-orange-500 h-full rounded-full" style="width: 92%"></div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="flex justify-between text-xs mb-1">
+                                            <span>Tilley Hat</span>
+                                            <span class="font-medium">94 hikes</span>
+                                        </div>
+                                        <div class="w-full h-2 bg-cream-300 rounded-full overflow-hidden">
+                                            <div class="bg-orange-500 h-full rounded-full" style="width: 84%"></div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="flex justify-between text-xs mb-1">
+                                            <span>Quechua Boots</span>
+                                            <span class="font-medium">87 hikes</span>
+                                        </div>
+                                        <div class="w-full h-2 bg-cream-300 rounded-full overflow-hidden">
+                                            <div class="bg-orange-500 h-full rounded-full" style="width: 78%"></div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="flex justify-between text-xs mb-1">
+                                            <span>Black Diamond Poles</span>
+                                            <span class="font-medium">65 hikes</span>
+                                        </div>
+                                        <div class="w-full h-2 bg-cream-300 rounded-full overflow-hidden">
+                                            <div class="bg-orange-500 h-full rounded-full" style="width: 58%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gear Tips and Advice -->
+                        <div class="bg-white rounded-xl p-4 border-2 border-orange-500 overflow-hidden">
+                            <h3 class="text-lg font-bold text-orange-900 flex items-center mb-4">
+                                <i class="fas fa-lightbulb text-orange-500 mr-2"></i>
+                                Shresht's Trail Tips
+                            </h3>
+
+                            <div class="bg-cream-100 rounded-lg p-3 mb-3">
+                                <div class="flex items-start">
+                                    <i class="fas fa-quote-left text-orange-300 text-2xl mt-1 mr-2"></i>
+                                    <div>
+                                        <p class="text-sm italic text-orange-800">"Always break in new hiking boots at
+                                            least 2 weeks before a major trek. Your feet will thank you when you're 10km
+                                            into a difficult trail."</p>
+                                        <div class="mt-2 flex justify-between items-center">
+                                            <div class="text-xs text-orange-600">May 18, 2024</div>
+                                            <div class="flex items-center">
+                                                <i class="fas fa-thumbs-up text-amber-500 mr-1"></i>
+                                                <span class="text-xs text-orange-700">53 hikers found this useful</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-cream-100 rounded-lg p-3">
+                                <div class="flex items-start">
+                                    <i class="fas fa-quote-left text-orange-300 text-2xl mt-1 mr-2"></i>
+                                    <div>
+                                        <p class="text-sm italic text-orange-800">"For Western Ghats treks during
+                                            monsoon, invest in a good rain cover for your backpack and quick-dry
+                                            clothing. The weather can change in minutes, and staying dry is crucial for
+                                            comfort and safety."</p>
+                                        <div class="mt-2 flex justify-between items-center">
+                                            <div class="text-xs text-orange-600">April 7, 2024</div>
+                                            <div class="flex items-center">
+                                                <i class="fas fa-thumbs-up text-amber-500 mr-1"></i>
+                                                <span class="text-xs text-orange-700">42 hikers found this useful</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <button
+                                    class="w-full py-2 text-orange-500 border border-orange-500 rounded-lg font-medium hover:bg-orange-50 transition-colors flex items-center justify-center pokedex-button">
+                                    <i class="fas fa-plus-circle mr-1"></i>
+                                    Share Your Gear Tip
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Achievement Showcase -->
+                        <div class="bg-white rounded-xl overflow-hidden">
+                            <div class="px-4 py-3 bg-orange-500 text-white font-bold flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <i class="fas fa-trophy mr-2"></i>
+                                    Gear Achievements
+                                </div>
+                                <div class="text-sm bg-white text-orange-500 px-2 py-0.5 rounded-full">3/10</div>
+                            </div>
+
+                            <div class="p-4 grid grid-cols-3 gap-3">
+                                <div class="flex flex-col items-center">
+                                    <div
+                                        class="h-16 w-16 rounded-full bg-orange-500 flex items-center justify-center mb-1">
+                                        <i class="fas fa-suitcase-rolling text-white text-2xl"></i>
+                                    </div>
+                                    <span class="text-xs font-medium text-center">Gear Collector</span>
+                                </div>
+
+                                <div class="flex flex-col items-center">
+                                    <div
+                                        class="h-16 w-16 rounded-full bg-orange-500 flex items-center justify-center mb-1">
+                                        <i class="fas fa-snowflake text-white text-2xl"></i>
+                                    </div>
+                                    <span class="text-xs font-medium text-center">Winter Ready</span>
+                                </div>
+
+                                <div class="flex flex-col items-center">
+                                    <div
+                                        class="h-16 w-16 rounded-full bg-orange-500 flex items-center justify-center mb-1">
+                                        <i class="fas fa-tools text-white text-2xl"></i>
+                                    </div>
+                                    <span class="text-xs font-medium text-center">Trail Fixer</span>
+                                </div>
+
+                                <div class="flex flex-col items-center opacity-50">
+                                    <div
+                                        class="h-16 w-16 rounded-full bg-gray-300 flex items-center justify-center mb-1">
+                                        <i class="fas fa-camera text-gray-500 text-2xl"></i>
+                                    </div>
+                                    <span class="text-xs font-medium text-center">Gear Photographer</span>
+                                </div>
+
+                                <div class="flex flex-col items-center opacity-50">
+                                    <div
+                                        class="h-16 w-16 rounded-full bg-gray-300 flex items-center justify-center mb-1">
+                                        <i class="fas fa-recycle text-gray-500 text-2xl"></i>
+                                    </div>
+                                    <span class="text-xs font-medium text-center">Eco Hiker</span>
+                                </div>
+
+                                <div class="flex flex-col items-center opacity-50">
+                                    <div
+                                        class="h-16 w-16 rounded-full bg-gray-300 flex items-center justify-center mb-1">
+                                        <i class="fas fa-fire-alt text-gray-500 text-2xl"></i>
+                                    </div>
+                                    <span class="text-xs font-medium text-center">Camp Chef</span>
+                                </div>
+                            </div>
+
+                            <div class="px-4 pb-4">
+                                <div class="bg-cream-100 rounded-lg p-3">
+                                    <h4 class="text-sm font-bold text-orange-900 mb-2 flex items-center">
+                                        <i class="fas fa-award text-amber-500 mr-1"></i>
+                                        Next Achievement: Eco Hiker
+                                    </h4>
+                                    <p class="text-xs text-orange-700">Use eco-friendly gear for 5 consecutive hikes.
+                                        Currently: 3/5</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+
+    <!-- Vue JS for Interactions -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.36/dist/vue.global.min.js"></script>
+    <script>
+        const { createApp, ref, onMounted } = Vue;
+
+        createApp({
+            setup() {
+                const isScrolled = ref(false);
+                const menuOpen = ref(false);
+                const activeTab = ref('skills'); // Start on skills tab
+
+                // Handle scroll detection for floating menu
+                const handleScroll = () => {
+                    isScrolled.value = window.scrollY > 100;
+                };
+
+                const toggleMenu = () => {
+                    menuOpen.value = !menuOpen.value;
+                };
+
+                const showBadgeInfo = (badgeId) => {
+                    // Show badge details modal or tooltip
+                    console.log(`Showing info for badge: ${badgeId}`);
+                    // Implementation would be here (modal, tooltip, etc)
+                };
+
+                onMounted(() => {
+                    window.addEventListener('scroll', handleScroll);
+
+                    // For demo, simulate badge progress notifications
+                    setTimeout(() => {
+                        console.log('Badge progress notification would appear here');
+                    }, 3000);
+                });
+
+                return {
+                    isScrolled,
+                    menuOpen,
+                    activeTab,
+                    toggleMenu,
+                    showBadgeInfo
+                };
+            }
+        }).mount('#app');
+    </script>
+</body>
+
+</html>

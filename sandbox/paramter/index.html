@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PARAMETER SPACE</title>
+    <meta
+      name="description"
+      content="What if the fundamental laws of physics weren't laws at all, but more like... suggestions?"
+    />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="PARAMETER SPACE" />
+    <meta
+      property="og:description"
+      content="Adjust the fundamental constants of reality. See what happens. Discover your unique universe variant."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://parameter.space/" />
+    <meta
+      property="og:image"
+      content="https://parameter.space/images/social-card.png"
+    />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ["Space Mono", "monospace"],
+            },
+            animation: {
+              "pulse-slow": "pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              float: "float 8s ease-in-out infinite",
+              glitch: "glitch 3s infinite",
+              flicker: "flicker 4s linear infinite",
+            },
+            keyframes: {
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-10px)" },
+              },
+              glitch: {
+                "0%, 100%": { transform: "translate(0)" },
+                "20%": { transform: "translate(-2px, 2px)" },
+                "40%": { transform: "translate(-2px, -2px)" },
+                "60%": { transform: "translate(2px, 2px)" },
+                "80%": { transform: "translate(2px, -2px)" },
+              },
+              flicker: {
+                "0%, 100%": { opacity: 1 },
+                "40%": { opacity: 1 },
+                "42%": { opacity: 0.8 },
+                "43%": { opacity: 1 },
+                "45%": { opacity: 0.3 },
+                "46%": { opacity: 1 },
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <!-- Tone.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="bg-white text-black font-mono min-h-screen flex flex-col">
+    <div id="app" class="flex flex-col flex-grow relative">
+      <!-- Navigation -->
+      <nav
+        class="fixed w-full px-4 py-3 flex justify-between items-center z-50 bg-white border-b border-black transition-all duration-500"
+      >
+        <div class="text-xl font-bold tracking-normal">
+          PARAMETER<span class="text-xs align-super"> SPACE</span>
+        </div>
+        <div class="flex gap-6">
+          <div class="text-sm opacity-80" v-if="currentPhase > 0">
+            VARIANT <span>#{{ realityId }}</span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Loading Screen/Intro -->
+      <section
+        v-if="currentPhase === 0"
+        class="pt-16 min-h-screen flex flex-col items-center justify-center px-4"
+      >
+        <div class="max-w-xl mx-auto text-center">
+          <h1 class="text-4xl md:text-6xl font-bold mb-12 leading-tight">
+            PARAMETER<span class="text-xs align-super"> SPACE</span>
+          </h1>
+
+          <p class="text-lg mb-8">
+            What if the fundamental laws of physics weren't laws at all, but
+            more like... suggestions?
+          </p>
+
+          <div class="space-y-2 mb-16">
+            <p class="text-sm opacity-70">
+              You are about to enter a narrative experience.
+            </p>
+            <p class="text-sm opacity-70">
+              Your choices will affect the fundamental constants of reality.
+            </p>
+            <p class="text-sm opacity-70">The results will be unpredictable.</p>
+          </div>
+
+          <button
+            @click="startExperience"
+            class="px-8 py-4 border-2 border-black transition-all duration-300 hover:bg-black hover:text-white uppercase tracking-wider text-sm"
+          >
+            Begin Reality Engineering
+          </button>
+        </div>
+      </section>
+
+      <!-- Parameter Selection Phase -->
+      <section
+        v-if="currentPhase === 1"
+        class="pt-16 min-h-screen flex flex-col"
+      >
+        <div
+          class="flex-grow flex flex-col items-center justify-center px-4 py-16"
+        >
+          <div class="max-w-4xl w-full">
+            <h2 class="text-3xl font-bold mb-12">
+              Select a parameter to modify:
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div
+                v-for="param in availableParameters"
+                :key="param.id"
+                @click="selectParameter(param)"
+                class="border-2 border-black p-6 cursor-pointer transition-all hover:bg-black hover:text-white group"
+                :class="{'opacity-40': selectedParameter && selectedParameter.id !== param.id}"
+              >
+                <h3 class="text-xl font-bold mb-2">{{ param.name }}</h3>
+                <p class="text-sm mb-4">{{ param.description }}</p>
+                <div
+                  class="text-xs uppercase tracking-wider group-hover:underline"
+                >
+                  Select
+                </div>
+              </div>
+            </div>
+
+            <div v-if="selectedParameter" class="mt-12">
+              <h3 class="text-2xl font-bold mb-6">
+                Modify {{ selectedParameter.name }}
+              </h3>
+
+              <div class="mb-12">
+                <div class="flex justify-between text-sm mb-2">
+                  <span>Decrease</span>
+                  <span>Current Reality</span>
+                  <span>Increase</span>
+                </div>
+                <div class="relative">
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    v-model="parameterValue"
+                    class="w-full parameter-slider"
+                    @input="onParameterChange"
+                  />
+                  <div
+                    class="absolute top-1/2 left-1/2 h-6 w-1 -translate-y-1/2 -translate-x-1/2 bg-black"
+                  ></div>
+                </div>
+              </div>
+
+              <div class="flex justify-end">
+                <button
+                  @click="confirmParameterChange"
+                  class="px-8 py-4 border-2 border-black transition-all duration-300 hover:bg-black hover:text-white uppercase tracking-wider text-sm"
+                >
+                  Apply Parameter Change
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Simulation Phase: Showing Effects -->
+      <section
+        v-if="currentPhase === 2"
+        class="pt-16 min-h-screen flex flex-col"
+      >
+        <div
+          class="flex-grow relative"
+          :class="currentScenario ? currentScenario.backgroundClass : ''"
+        >
+          <!-- Visual representation of the simulation -->
+          <div
+            class="parameter-visualization"
+            :class="'param-' + selectedParameter.id"
+          >
+            <div class="simulation-objects"></div>
+          </div>
+
+          <!-- Narrative overlay -->
+          <div class="absolute inset-0 flex items-center justify-center p-4">
+            <div
+              class="bg-white/90 backdrop-blur-sm max-w-xl p-8 shadow-lg"
+              :class="{'glitch-effect': isGlitching}"
+            >
+              <h2 class="text-2xl font-bold mb-4">
+                {{ currentScenario.title }}
+              </h2>
+              <p class="mb-6">{{ currentScenario.description }}</p>
+
+              <div class="flex justify-between">
+                <button
+                  @click="revertParameter"
+                  class="px-6 py-3 border-2 border-black transition-all duration-300 hover:bg-black hover:text-white uppercase tracking-wider text-xs"
+                >
+                  Revert Change
+                </button>
+
+                <button
+                  @click="continueStory"
+                  class="px-6 py-3 border-2 border-black transition-all duration-300 hover:bg-black hover:text-white uppercase tracking-wider text-xs"
+                >
+                  Continue
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Ethical Decision Phase -->
+      <section
+        v-if="currentPhase === 3"
+        class="pt-16 min-h-screen flex flex-col"
+      >
+        <div
+          class="flex-grow flex flex-col items-center justify-center px-4 py-16 relative"
+        >
+          <div
+            class="absolute inset-0 bg-black transition-opacity duration-1000"
+            :style="{opacity: 0.05 + (ethicalScore / 100) * 0.2}"
+          ></div>
+
+          <div class="max-w-xl z-10 bg-white p-8">
+            <h2 class="text-3xl font-bold mb-8">Ethical Dilemma</h2>
+
+            <p class="mb-8">{{ currentDilemma.description }}</p>
+
+            <div class="space-y-4 mb-12">
+              <div
+                v-for="(option, index) in currentDilemma.options"
+                :key="index"
+                @click="selectEthicalOption(option)"
+                class="border-2 border-black p-4 cursor-pointer transition-all hover:bg-black hover:text-white"
+              >
+                <p>{{ option.text }}</p>
+              </div>
+            </div>
+
+            <div class="text-sm opacity-70 italic">
+              Note: Your choices shape this reality variant. Choose carefully.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reality Collision Event -->
+      <section
+        v-if="currentPhase === 4"
+        class="pt-16 min-h-screen flex flex-col"
+      >
+        <div
+          class="collision-event flex-grow flex flex-col items-center justify-center px-4 py-16"
+        >
+          <div class="max-w-2xl text-center mb-8">
+            <h2 class="text-3xl font-bold mb-6 animate-glitch">
+              Reality Collision Detected
+            </h2>
+            <p class="text-lg mb-8 animate-flicker">
+              A parallel reality variant is bleeding into your simulation...
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl">
+            <div class="border-2 border-black p-6 bg-white">
+              <h3 class="text-xl font-bold mb-2">
+                Your Reality (Variant #{{ realityId }})
+              </h3>
+              <p class="text-sm mb-4">
+                {{ selectedParameter.name }}: {{ parameterValue > 50 ?
+                'Increased' : 'Decreased' }}
+              </p>
+              <p>{{ yourRealitySummary }}</p>
+            </div>
+
+            <div class="border-2 border-black p-6 bg-white animate-pulse">
+              <h3 class="text-xl font-bold mb-2">
+                Colliding Reality (Variant #{{ collidingRealityId }})
+              </h3>
+              <p class="text-sm mb-4">
+                {{ collidingParameter.name }}: {{ collidingParameterValue > 50 ?
+                'Increased' : 'Decreased' }}
+              </p>
+              <p>{{ collidingRealitySummary }}</p>
+            </div>
+          </div>
+
+          <button
+            @click="resolveCollision"
+            class="mt-12 px-8 py-4 border-2 border-black transition-all duration-300 hover:bg-black hover:text-white uppercase tracking-wider text-sm"
+          >
+            Stabilize Reality
+          </button>
+        </div>
+      </section>
+
+      <!-- Final Report: Reality Engineering Results -->
+      <section
+        v-if="currentPhase === 5"
+        class="pt-16 min-h-screen flex flex-col"
+      >
+        <div
+          class="flex-grow flex flex-col items-center justify-center px-4 py-16"
+        >
+          <div class="max-w-2xl">
+            <div class="border-4 border-black p-8 mb-12">
+              <h2 class="text-4xl font-bold mb-4">
+                Reality Variant #{{ realityId }}
+              </h2>
+              <p class="text-lg mb-8">
+                Your engineered universe has been stabilized.
+              </p>
+
+              <div class="mb-8">
+                <h3 class="text-xl font-bold mb-2">Parameter Adjustments:</h3>
+                <p class="mb-1">
+                  • {{ selectedParameter.name }}: {{ parameterValue > 50 ?
+                  'Increased' : 'Decreased' }} ({{ parameterValue }}%)
+                </p>
+                <p class="text-sm opacity-70 mb-4">
+                  {{ selectedParameter.description }}
+                </p>
+
+                <p class="mb-1">• Ethical Alignment: {{ ethicalScore }}%</p>
+                <p class="text-sm opacity-70">
+                  {{ ethicalAlignmentDescription }}
+                </p>
+              </div>
+
+              <div class="mb-8">
+                <h3 class="text-xl font-bold mb-2">Cosmic Consequences:</h3>
+                <ul class="space-y-2">
+                  <li
+                    v-for="consequence in finalConsequences"
+                    :key="consequence"
+                    class="text-sm"
+                  >
+                    • {{ consequence }}
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 class="text-xl font-bold mb-2">
+                  Reality Engineer Assessment:
+                </h3>
+                <p>{{ finalAssessment }}</p>
+              </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-4">
+              <button
+                @click="restartExperience"
+                class="flex-1 px-8 py-4 border-2 border-black transition-all duration-300 hover:bg-black hover:text-white uppercase tracking-wider text-sm"
+              >
+                Engineer New Reality
+              </button>
+
+              <button
+                @click="shareExperience"
+                class="flex-1 px-8 py-4 bg-black text-white border-2 border-black transition-all duration-300 hover:bg-white hover:text-black uppercase tracking-wider text-sm"
+              >
+                Share Your Reality Variant
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reality Collapse Warning (Occasional) -->
+      <div
+        v-if="showCollapseWarning"
+        class="fixed inset-0 flex items-center justify-center z-50 bg-black/50 backdrop-blur-sm"
+      >
+        <div class="bg-white border-2 border-black p-8 max-w-md animate-pulse">
+          <h3 class="text-2xl font-bold mb-4 text-red-600">
+            REALITY STABILITY WARNING
+          </h3>
+          <p class="mb-6">
+            Parameter fluctuations detected. Timeline instability increasing.
+          </p>
+          <button
+            @click="dismissWarning"
+            class="w-full px-4 py-2 border-2 border-black transition-all duration-300 hover:bg-black hover:text-white uppercase tracking-wider text-sm"
+          >
+            Acknowledge
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+  </body>
+</html>

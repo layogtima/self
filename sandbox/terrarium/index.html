@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MossCode - Terrarium Designer</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "sap-green": "#708B75",
+              "dewdrop-gold": "#F4E58C",
+              "sun-dried-clay": "#D9A06B",
+              "sunset-ember": "#E3655B",
+              "foggy-white": "#F5F3EB",
+            },
+            fontFamily: {
+              playfair: ["Playfair Display", "serif"],
+              inter: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="font-inter bg-foggy-white">
+    <div
+      id="app"
+      class="min-h-screen flex flex-col items-center justify-center py-8 px-4"
+    >
+      <!-- App title -->
+      <h1 class="playfair text-3xl md:text-4xl text-sap-green mb-8 text-center">
+        MossCode<br /><span class="text-lg text-sun-dried-clay"
+          >Citrus Bloom Edition</span
+        >
+      </h1>
+
+      <!-- Tab selector -->
+      <div class="mb-6 flex gap-3">
+        <button
+          @click="activeScreen = 'welcome'"
+          class="px-4 py-2 rounded-full"
+          :class="activeScreen === 'welcome' ? 'bg-dewdrop-gold text-sap-green font-medium' : 'bg-foggy-white text-gray-500'"
+        >
+          Welcome
+        </button>
+        <button
+          @click="activeScreen = 'design'"
+          class="px-4 py-2 rounded-full"
+          :class="activeScreen === 'design' ? 'bg-dewdrop-gold text-sap-green font-medium' : 'bg-foggy-white text-gray-500'"
+        >
+          Design
+        </button>
+        <button
+          @click="activeScreen = 'care'"
+          class="px-4 py-2 rounded-full"
+          :class="activeScreen === 'care' ? 'bg-dewdrop-gold text-sap-green font-medium' : 'bg-foggy-white text-gray-500'"
+        >
+          Care
+        </button>
+        <button
+          @click="activeScreen = 'ar'"
+          class="px-4 py-2 rounded-full"
+          :class="activeScreen === 'ar' ? 'bg-dewdrop-gold text-sap-green font-medium' : 'bg-foggy-white text-gray-500'"
+        >
+          AR View
+        </button>
+      </div>
+
+      <!-- Phone frame -->
+      <div class="phone-frame bg-foggy-white">
+        <!-- Welcome Screen -->
+        <div
+          v-if="activeScreen === 'welcome'"
+          class="relative h-full flex flex-col"
+        >
+          <div class="leaf-bg absolute inset-0"></div>
+          <div
+            class="flex-1 flex flex-col items-center justify-center p-8 z-10 text-center"
+          >
+            <h2 class="playfair text-4xl mb-6 text-sap-green">
+              Your jungle hasn't arrived yet
+            </h2>
+            <p class="text-gray-600 mb-10">
+              Begin your plant journey with a terrarium that reflects your
+              style.
+            </p>
+            <button
+              class="btn-ripple w-full py-3 mb-4 rounded-full bg-dewdrop-gold text-sap-green font-medium hover:bg-opacity-90 transition-all duration-300 glow-on-hover"
+            >
+              Adopt a Ready-Made
+            </button>
+            <button
+              class="btn-ripple w-full py-3 rounded-full border-2 border-sap-green text-sap-green font-medium hover:bg-sap-green hover:bg-opacity-10 transition-all duration-300"
+            >
+              Design Your Own
+            </button>
+          </div>
+          <!-- Bottom Navigation -->
+          <nav-bar active-icon="home"></nav-bar>
+        </div>
+
+        <!-- Design Screen -->
+        <div v-if="activeScreen === 'design'" class="h-full flex flex-col">
+          <div
+            class="p-4 bg-foggy-white border-b border-gray-200 flex items-center"
+          >
+            <div class="flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-gray-500 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+              <h2 class="playfair text-xl text-sap-green">
+                Design Our Own Terrarium
+              </h2>
+            </div>
+          </div>
+          <div class="flex-1 overflow-y-auto p-4">
+            <h3 class="font-medium text-gray-700 mb-3">Container</h3>
+            <div class="grid grid-cols-3 gap-2 mb-6">
+              <container-option
+                v-for="container in containers"
+                :key="container.id"
+                :container="container"
+              ></container-option>
+            </div>
+
+            <h3 class="font-medium text-gray-700 mb-3">Substrate</h3>
+            <div class="grid grid-cols-3 gap-2 mb-6">
+              <substrate-option
+                v-for="substrate in substrates"
+                :key="substrate.id"
+                :substrate="substrate"
+              ></substrate-option>
+            </div>
+
+            <h3 class="font-medium text-gray-700 mb-3">Plants</h3>
+            <div class="space-y-3 mb-6">
+              <plant-option
+                v-for="plant in plants"
+                :key="plant.id"
+                :plant="plant"
+              ></plant-option>
+            </div>
+          </div>
+          <!-- Bottom Navigation -->
+          <nav-bar active-icon="explore"></nav-bar>
+        </div>
+
+        <!-- Care Screen -->
+        <div v-if="activeScreen === 'care'" class="h-full flex flex-col">
+          <div
+            class="p-4 bg-foggy-white border-b border-gray-200 flex items-center"
+          >
+            <div class="flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-gray-500 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+              <h2 class="playfair text-xl text-sap-green">
+                Terrarium Care Guide
+              </h2>
+            </div>
+          </div>
+          <div class="flex-1 overflow-y-auto p-4 space-y-4">
+            <care-card
+              v-for="card in careCards"
+              :key="card.id"
+              :card="card"
+            ></care-card>
+          </div>
+          <!-- Bottom Navigation -->
+          <nav-bar active-icon="care"></nav-bar>
+        </div>
+
+        <!-- AR Screen -->
+        <div v-if="activeScreen === 'ar'" class="h-full flex flex-col">
+          <div class="relative h-full">
+            <div
+              class="absolute top-4 right-4 text-foggy-white font-medium bg-sap-green bg-opacity-60 backdrop-blur-sm rounded-lg px-3 py-1"
+            >
+              AR
+            </div>
+            <img
+              src="/api/placeholder/375/500"
+              alt="AR Camera View"
+              class="w-full h-full object-cover rounded-t-3xl"
+            />
+
+            <div
+              class="absolute inset-x-0 top-1/3 flex flex-col space-y-3 items-center"
+            >
+              <div class="bounce">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-12 w-12 text-dewdrop-gold drop-shadow-lg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15l-5-5 1.4-1.4L9 13.2l3.6-3.6L14 11l-4 6z"
+                  />
+                </svg>
+              </div>
+
+              <div
+                class="bg-black bg-opacity-40 text-white px-4 py-2 rounded-full backdrop-blur-sm flex items-center"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                  />
+                </svg>
+                <span>Find a flat surface</span>
+              </div>
+            </div>
+
+            <div
+              class="absolute bottom-24 inset-x-0 px-4 flex flex-col space-y-3"
+            >
+              <div
+                class="bg-dewdrop-gold bg-opacity-90 backdrop-blur-sm text-sap-green px-4 py-3 rounded-xl flex items-center"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6 mr-3"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                  />
+                </svg>
+                <span class="font-medium">Humidity: Optimal</span>
+              </div>
+
+              <div
+                class="bg-sunset-ember bg-opacity-90 backdrop-blur-sm text-white px-4 py-3 rounded-xl flex items-center"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6 mr-3"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <circle cx="12" cy="12" r="5" />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+                  />
+                </svg>
+                <span class="font-medium">Sunlight: Too Harsh</span>
+              </div>
+
+              <div
+                class="bg-dewdrop-gold bg-opacity-90 backdrop-blur-sm text-sap-green px-4 py-3 rounded-xl flex items-center"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6 mr-3"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 19c-4 0-7-3-7-7 0-2.3 2-5 4-7 .6-.6 1.4-.6 2 0 2 2 4 4.7 4 7 0 4-3 7-7 7z"
+                  />
+                </svg>
+                <span class="font-medium">Soil Moisture: Needs Water</span>
+              </div>
+            </div>
+
+            <div class="absolute bottom-4 inset-x-0 flex justify-center">
+              <button
+                class="bg-dewdrop-gold px-6 py-3 rounded-full text-sap-green font-medium shadow-lg"
+              >
+                Scan Another Spot
+              </button>
+            </div>
+          </div>
+          <!-- Bottom Navigation -->
+          <nav-bar active-icon="ar"></nav-bar>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

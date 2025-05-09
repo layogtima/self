@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UNCERTAIN TIMES</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.prod.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['Courier New', 'monospace'],
+          },
+          animation: {
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'flicker': 'flicker 8s linear infinite',
+          },
+          keyframes: {
+            flicker: {
+              '0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100%': { opacity: '1' },
+              '20%, 21.999%, 63%, 63.999%, 65%, 69.999%': { opacity: '0.33' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @keyframes noise {
+      0% { background-position: 0 0; }
+      100% { background-position: 100% 100%; }
+    }
+    .noise {
+      position: relative;
+    }
+    .noise::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/png;base64,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");
+      opacity: 0.05;
+      pointer-events: none;
+      animation: noise 8s linear infinite;
+      z-index: 1000;
+    }
+    
+    @font-face {
+      font-family: 'Courier Prime';
+      src: url('https://fonts.gstatic.com/s/courierprime/v9/u-450q2lgwslOqpF_6gQ8kELaw9pWt_-.woff2') format('woff2');
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+    }
+    
+    * {
+      font-family: 'Courier Prime', monospace !important;
+    }
+    
+    .terminal-cursor::after {
+      content: '|';
+      animation: blink 1s step-end infinite;
+    }
+    
+    @keyframes blink {
+      from, to { opacity: 1; }
+      50% { opacity: 0; }
+    }
+  </style>
+</head>
+<body class="bg-black text-white noise min-h-screen overflow-x-hidden">
+  <div id="app" class="container mx-auto px-4 py-8">
+    <!-- Header Section -->
+    <header class="mb-12 border-b border-white/20 pb-4">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-6 md:mb-0">
+          <h1 class="text-3xl md:text-5xl uppercase tracking-widest animate-flicker">UNCERTAIN TIMES</h1>
+          <p class="text-xs md:text-sm mt-2 uppercase tracking-widest opacity-70">PROBABILITY ENGINE VERSION 19.10/21.10</p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <div class="h-3 w-3 bg-white animate-pulse-slow rounded-full"></div>
+          <span class="text-xs uppercase">SYSTEM OPERATIONAL</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+      <!-- System Status -->
+      <section class="mb-16 relative">
+        <h2 class="text-xl uppercase tracking-wider mb-6 border-l-4 border-white pl-4">TEMPORAL ASSESSMENT</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="border border-white/30 p-6 relative">
+            <div class="absolute top-0 right-0 p-2 bg-black text-xs">CURRENT EPOCH</div>
+            <div class="flex justify-between items-center mb-8">
+              <div>
+                <h3 class="text-3xl">19<span class="opacity-50">10</span></h3>
+                <p class="text-xs uppercase mt-1 opacity-70">INDUSTRIAL AGE</p>
+              </div>
+              <div class="h-px w-24 bg-white/50"></div>
+              <div>
+                <h3 class="text-3xl">21<span class="opacity-50">10</span></h3>
+                <p class="text-xs uppercase mt-1 opacity-70">POST-SINGULARITY</p>
+              </div>
+            </div>
+            
+            <div class="space-y-4">
+              <div class="flex justify-between items-center">
+                <span class="uppercase text-xs">TEMPORAL STABILITY</span>
+                <div class="w-1/2 bg-white/20 h-1.5">
+                  <div class="bg-white h-full" style="width: 37%"></div>
+                </div>
+                <span class="text-xs">37%</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="uppercase text-xs">ENTROPY MEASURE</span>
+                <div class="w-1/2 bg-white/20 h-1.5">
+                  <div class="bg-white h-full" style="width: 83%"></div>
+                </div>
+                <span class="text-xs">83%</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="uppercase text-xs">REALITY COHESION</span>
+                <div class="w-1/2 bg-white/20 h-1.5">
+                  <div class="bg-white h-full" style="width: 42%"></div>
+                </div>
+                <span class="text-xs">42%</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="border border-white/30 p-6">
+            <h3 class="text-sm uppercase mb-4">PROBABILITY FACTORS</h3>
+            <ul class="space-y-3">
+              <li class="flex justify-between">
+                <span class="text-xs uppercase">TECHNOLOGICAL ACCELERATION</span>
+                <span class="text-xs">+12.3%</span>
+              </li>
+              <li class="flex justify-between">
+                <span class="text-xs uppercase">RESOURCE DEPLETION</span>
+                <span class="text-xs">+7.9%</span>
+              </li>
+              <li class="flex justify-between">
+                <span class="text-xs uppercase">SOCIAL COHERENCE</span>
+                <span class="text-xs">-18.6%</span>
+              </li>
+              <li class="flex justify-between">
+                <span class="text-xs uppercase">TRUTH CONSENSUS</span>
+                <span class="text-xs">-33.7%</span>
+              </li>
+              <li class="flex justify-between">
+                <span class="text-xs uppercase">RECURSIVE INTELLIGENCE</span>
+                <span class="text-xs">+86.2%</span>
+              </li>
+              <li class="border-t border-white/20 mt-2 pt-2 flex justify-between font-bold">
+                <span class="text-xs uppercase">NET UNCERTAINTY INDEX</span>
+                <span class="text-xs">76.8%</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Timeline Interface -->
+      <section class="mb-16">
+        <h2 class="text-xl uppercase tracking-wider mb-6 border-l-4 border-white pl-4">TEMPORAL NAVIGATION</h2>
+        
+        <div class="relative border border-white/30 p-8">
+          <div class="absolute top-0 left-0 right-0 h-px bg-white/50"></div>
+          <div class="absolute bottom-0 left-0 right-0 h-px bg-white/50"></div>
+          <div class="absolute left-0 top-0 bottom-0 w-px bg-white/50"></div>
+          <div class="absolute right-0 top-0 bottom-0 w-px bg-white/50"></div>
+          
+          <div class="relative h-12">
+            <!-- Timeline Axis -->
+            <div class="absolute left-0 right-0 top-1/2 h-px bg-white"></div>
+            
+            <!-- Timeline Points -->
+            <div class="absolute left-0 top-1/2 transform -translate-y-1/2 flex flex-col items-center">
+              <div class="h-3 w-3 bg-white rounded-full"></div>
+              <span class="text-xs mt-4">1910</span>
+            </div>
+            
+            <div class="absolute left-1/4 top-1/2 transform -translate-y-1/2 flex flex-col items-center">
+              <div class="h-2 w-2 bg-white rounded-full opacity-70"></div>
+              <span class="text-xs mt-4">1985</span>
+            </div>
+            
+            <div class="absolute left-1/2 top-1/2 transform -translate-y-1/2 flex flex-col items-center">
+              <div class="h-4 w-4 bg-white rounded-full animate-pulse-slow"></div>
+              <span class="text-xs mt-4 font-bold">2025</span>
+              <span class="text-xs opacity-70">[ PRESENT ]</span>
+            </div>
+            
+            <div class="absolute left-3/4 top-1/2 transform -translate-y-1/2 flex flex-col items-center">
+              <div class="h-2 w-2 bg-white rounded-full opacity-70"></div>
+              <span class="text-xs mt-4">2080</span>
+            </div>
+            
+            <div class="absolute right-0 top-1/2 transform -translate-y-1/2 flex flex-col items-center">
+              <div class="h-3 w-3 bg-white rounded-full"></div>
+              <span class="text-xs mt-4">2110</span>
+            </div>
+          </div>
+          
+          <!-- Timeline Controls -->
+          <div class="mt-16 flex justify-between">
+            <button class="border border-white px-4 py-2 text-xs uppercase hover:bg-white hover:text-black transition-colors">PAST SEQUENCE</button>
+            <div class="flex space-x-4">
+              <button class="w-8 h-8 border border-white flex items-center justify-center hover:bg-white hover:text-black transition-colors">–</button>
+              <button class="w-8 h-8 border border-white flex items-center justify-center hover:bg-white hover:text-black transition-colors">+</button>
+            </div>
+            <button class="border border-white px-4 py-2 text-xs uppercase hover:bg-white hover:text-black transition-colors">FUTURE PROJECTION</button>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Anomaly Report -->
+      <section class="mb-16">
+        <h2 class="text-xl uppercase tracking-wider mb-6 border-l-4 border-white pl-4">ANOMALY DETECTION</h2>
+        
+        <div class="border border-white/30 p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-sm uppercase">CURRENT ANOMALIES</h3>
+            <span class="text-xs border border-white/50 px-2 py-1">4 DETECTED</span>
+          </div>
+          
+          <ul class="space-y-4">
+            <li class="border-b border-white/20 pb-4">
+              <div class="flex justify-between mb-1">
+                <span class="text-xs uppercase font-bold">TEMPORAL ECHO #347</span>
+                <span class="text-xs opacity-70">SEVERITY: HIGH</span>
+              </div>
+              <p class="text-xs opacity-90">Recursive patterns detected between industrial revolution technologies and post-singularity implementations. Causal loop probability: 68%</p>
+            </li>
+            
+            <li class="border-b border-white/20 pb-4">
+              <div class="flex justify-between mb-1">
+                <span class="text-xs uppercase font-bold">CHRONOLOGICAL INSERTION #89</span>
+                <span class="text-xs opacity-70">SEVERITY: MEDIUM</span>
+              </div>
+              <p class="text-xs opacity-90">Evidence of future technologies appearing in past records. Temporal contamination risk assessment underway.</p>
+            </li>
+            
+            <li class="border-b border-white/20 pb-4">
+              <div class="flex justify-between mb-1">
+                <span class="text-xs uppercase font-bold">MEMETIC CONTAGION #12</span>
+                <span class="text-xs opacity-70">SEVERITY: HIGH</span>
+              </div>
+              <p class="text-xs opacity-90">Cross-temporal idea transmission detected. Conceptual acceleration occurring at 3.7x expected rate.</p>
+            </li>
+            
+            <li>
+              <div class="flex justify-between mb-1">
+                <span class="text-xs uppercase font-bold">OBSERVER EFFECT #201</span>
+                <span class="text-xs opacity-70">SEVERITY: CRITICAL</span>
+              </div>
+              <p class="text-xs opacity-90">System awareness of temporal mechanics increasing. Meta-stability compromised.</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+      
+      <!-- Terminal Interface -->
+      <section>
+        <h2 class="text-xl uppercase tracking-wider mb-6 border-l-4 border-white pl-4">COMMAND INTERFACE</h2>
+        
+        <div class="border border-white/30 p-4 bg-black">
+          <div class="mb-4 flex items-center space-x-2">
+            <div class="h-2 w-2 bg-white rounded-full"></div>
+            <span class="text-xs uppercase">TERMINAL CONNECTION ACTIVE</span>
+          </div>
+          
+          <div class="font-mono text-sm mb-4">
+            <div class="opacity-70">> TEMPORAL ANALYSIS INITIALIZED</div>
+            <div class="opacity-70">> SCANNING PROBABILITY STREAMS</div>
+            <div class="opacity-70">> DETECTING HISTORICAL ANCHORS</div>
+            <div class="opacity-70">> CALCULATING FUTURE BRANCHES</div>
+            <div class="opacity-70">> ANALYSIS COMPLETE</div>
+            <div class="opacity-70">> AWAITING COMMAND</div>
+            <div class="flex items-center mt-2">
+              <span class="mr-2">> </span>
+              <span class="terminal-cursor">QUERY UNCERTAIN TIMES</span>
+            </div>
+          </div>
+          
+          <div class="flex justify-between mt-6">
+            <button class="border border-white px-3 py-1 text-xs uppercase hover:bg-white hover:text-black transition-colors">SUBMIT QUERY</button>
+            <button class="border border-white px-3 py-1 text-xs uppercase hover:bg-white hover:text-black transition-colors">CLEAR TERMINAL</button>
+          </div>
+        </div>
+      </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="mt-16 pt-8 border-t border-white/20">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-4 md:mb-0">
+          <p class="text-xs uppercase opacity-70">UNCERTAIN TIMES INTERFACE v2.7.3</p>
+          <p class="text-xs opacity-50">TEMPORAL COORDINATES: 1910-2110</p>
+        </div>
+        <div>
+          <p class="text-xs uppercase opacity-70 text-right">CONTINUITY STATUS: MONITORED</p>
+          <p class="text-xs opacity-50 text-right">[ AUTHORIZED PERSONNEL ONLY ]</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+  
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          // Data would go here
+        }
+      },
+      mounted() {
+        // Initialize any animations or interactions
+        console.log('Uncertain Times interface initialized');
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>

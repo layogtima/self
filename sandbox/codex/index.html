@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>∷∿⋯∞</title>
+    <meta name="description" content="⋮⋮⋱∷∿⋯∞" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ["Space Mono", "monospace"],
+            },
+            animation: {
+              float: "float 6s ease-in-out infinite",
+              "spin-slow": "spin 12s linear infinite",
+              "pulse-slow": "pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              morph: "morph 8s ease-in-out infinite",
+            },
+            keyframes: {
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-20px)" },
+              },
+              morph: {
+                "0%, 100%": { borderRadius: "60% 40% 30% 70%/60% 30% 70% 40%" },
+                "25%": { borderRadius: "30% 60% 70% 40%/50% 60% 30% 60%" },
+                "50%": { borderRadius: "50% 60% 30% 40%/80% 30% 70% 40%" },
+                "75%": { borderRadius: "70% 30% 50% 60%/30% 40% 60% 70%" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+      * {
+        font-family: "Space Mono", monospace;
+      }
+
+      .codex-glyph {
+        font-family: sans-serif;
+        font-weight: bold;
+        transition: all 0.3s ease;
+      }
+
+      .noise-bg {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .noise-bg::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.05;
+        z-index: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      }
+
+      .strange-grid {
+        background-image: repeating-linear-gradient(
+            0deg,
+            #000,
+            #000 1px,
+            transparent 1px,
+            transparent 30px
+          ),
+          repeating-linear-gradient(
+            90deg,
+            #000,
+            #000 1px,
+            transparent 1px,
+            transparent 30px
+          );
+      }
+
+      .blob {
+        background: #000;
+        border-radius: 60% 40% 30% 70%/60% 30% 70% 40%;
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: white;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: black;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #444;
+      }
+    </style>
+  </head>
+  <body class="bg-white text-black min-h-screen flex flex-col overflow-hidden">
+    <div id="app" class="h-screen flex flex-col">
+      <!-- Game Interface -->
+      <div class="flex-1 flex flex-col relative">
+        <!-- Top Navigation Bar -->
+        <div
+          class="px-6 py-3 flex justify-between items-center z-20 bg-white border-b border-black"
+        >
+          <div class="flex items-center gap-6">
+            <div class="font-bold text-xl cursor-pointer" @click="resetGame">
+              ⋮⋮⋱
+            </div>
+            <div class="flex gap-4">
+              <div
+                class="codex-glyph text-lg cursor-pointer hover:scale-110"
+                @click="changePhase('explore')"
+              >
+                ⌘
+              </div>
+              <div
+                class="codex-glyph text-lg cursor-pointer hover:scale-110"
+                @click="changePhase('collect')"
+              >
+                ⏣
+              </div>
+              <div
+                class="codex-glyph text-lg cursor-pointer hover:scale-110"
+                @click="changePhase('transform')"
+              >
+                ⟲
+              </div>
+              <div
+                class="codex-glyph text-lg cursor-pointer hover:scale-110"
+                @click="changePhase('create')"
+              >
+                ⌬
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="text-lg">{{ score }}</div>
+            <div
+              class="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white text-xs"
+            >
+              {{ level }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Game Area -->
+        <div class="flex-1 flex relative overflow-hidden">
+          <!-- Game Board -->
+          <div class="flex-1 relative noise-bg p-8 overflow-auto">
+            <div class="strange-grid absolute inset-0 opacity-10"></div>
+
+            <!-- Game Elements Container -->
+            <div class="grid grid-cols-6 gap-6 relative z-10">
+              <div
+                v-for="(element, index) in gameElements"
+                :key="index"
+                class="aspect-square border border-black flex items-center justify-center relative cursor-pointer group"
+                @click="interactWithElement(index)"
+              >
+                <div
+                  class="absolute inset-0 flex items-center justify-center transition-opacity"
+                  :class="element.collected ? 'opacity-30' : 'opacity-100'"
+                >
+                  <component
+                    :is="element.type === 'symbol' ? 'div' : 'div'"
+                    class="flex items-center justify-center transition-all duration-300 ease-in-out"
+                    :class="[
+                      element.type === 'symbol' ? 'text-4xl codex-glyph' : '',
+                      element.type === 'shape' ? getShapeClass(element.value) : '',
+                      element.active ? 'scale-110' : '',
+                      element.collected ? 'opacity-50' : '',
+                    ]"
+                  >
+                    <span v-if="element.type === 'symbol'"
+                      >{{ element.value }}</span
+                    >
+                  </component>
+                </div>
+
+                <div
+                  class="absolute bottom-2 right-2 text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  {{ element.power }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Floating Entities -->
+            <div
+              v-for="(entity, index) in floatingEntities"
+              :key="'entity-'+index"
+              class="absolute"
+              :style="`top: ${entity.top}%; left: ${entity.left}%; transform: translate(-50%, -50%); z-index: ${entity.zIndex};`"
+            >
+              <div
+                class="blob animate-morph w-16 h-16 flex items-center justify-center text-white cursor-pointer transition-all hover:scale-110"
+                @click="interactWithEntity(index)"
+              >
+                <span class="codex-glyph">{{ entity.symbol }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Side Panel -->
+          <div class="w-72 border-l border-black bg-white overflow-auto">
+            <div class="p-4 border-b border-black">
+              <div class="text-lg font-bold mb-2">{{ currentPhaseSymbol }}</div>
+              <div class="flex gap-2 flex-wrap">
+                <div
+                  v-for="(item, index) in inventory"
+                  :key="'inv-'+index"
+                  class="w-10 h-10 border border-black flex items-center justify-center cursor-pointer hover:bg-gray-100"
+                  @click="selectInventoryItem(index)"
+                  :class="{'border-2 border-black': selectedInventoryIndex === index}"
+                >
+                  <span v-if="item.type === 'symbol'" class="codex-glyph"
+                    >{{ item.value }}</span
+                  >
+                  <div
+                    v-else-if="item.type === 'shape'"
+                    :class="getShapeClass(item.value, true)"
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Codex Section -->
+            <div class="p-4">
+              <div class="text-sm mb-4">⌖⍚⌖⍑</div>
+              <div class="space-y-3">
+                <div
+                  v-for="(entry, index) in codexEntries"
+                  :key="'codex-'+index"
+                  class="p-2 border border-black cursor-pointer hover:bg-gray-50"
+                  @click="viewCodexEntry(index)"
+                >
+                  <div class="flex items-center gap-2">
+                    <span class="codex-glyph">{{ entry.symbol }}</span>
+                    <span class="text-xs"
+                      >{{ entry.discovered ? entry.power : '???' }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal for Combinations and Discoveries -->
+      <div
+        v-if="showModal"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      >
+        <div class="bg-white p-6 max-w-md w-full border-2 border-black">
+          <div
+            class="text-2xl font-bold mb-4 flex justify-between items-center"
+          >
+            <span class="codex-glyph">{{ modalContent.title }}</span>
+            <span class="cursor-pointer hover:scale-110" @click="closeModal"
+              >✕</span
+            >
+          </div>
+          <div class="mb-4">
+            <div class="flex justify-center items-center gap-4 my-6">
+              <div
+                v-if="modalContent.type === 'discovery'"
+                class="w-20 h-20 blob animate-pulse-slow flex items-center justify-center"
+              >
+                <span class="codex-glyph text-3xl"
+                  >{{ modalContent.symbol }}</span
+                >
+              </div>
+              <div v-else class="flex gap-4 items-center">
+                <div
+                  class="w-16 h-16 flex items-center justify-center border border-black"
+                >
+                  <span class="codex-glyph text-2xl"
+                    >{{ modalContent.item1 }}</span
+                  >
+                </div>
+                <div class="text-xl">+</div>
+                <div
+                  class="w-16 h-16 flex items-center justify-center border border-black"
+                >
+                  <span class="codex-glyph text-2xl"
+                    >{{ modalContent.item2 }}</span
+                  >
+                </div>
+                <div class="text-xl">=</div>
+                <div
+                  class="w-16 h-16 flex items-center justify-center border border-black bg-gray-900 text-white"
+                >
+                  <span class="codex-glyph text-2xl"
+                    >{{ modalContent.result }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-center">
+            <button class="px-4 py-2 bg-black text-white" @click="closeModal">
+              ⌂
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const { createApp, ref, reactive, computed, onMounted } = Vue;
+
+      createApp({
+        setup() {
+          // Game State
+          const phase = ref("explore"); // explore, collect, transform, create
+          const level = ref(1);
+          const score = ref(0);
+          const inventory = ref([]);
+          const selectedInventoryIndex = ref(-1);
+          const gameElements = ref([]);
+          const floatingEntities = ref([]);
+          const codexEntries = ref([]);
+          const showModal = ref(false);
+          const modalContent = ref({});
+
+          // Symbol sets for the game
+          const symbols = [
+            "⁂",
+            "⁑",
+            "⌘",
+            "⌬",
+            "⍚",
+            "⍜",
+            "⍾",
+            "⍥",
+            "⎊",
+            "⎋",
+            "☉",
+            "☼",
+            "☽",
+            "☿",
+            "♁",
+            "♄",
+            "♅",
+            "♇",
+            "⚉",
+            "⚇",
+          ];
+          const powers = [
+            "⟲",
+            "⟳",
+            "↺",
+            "↻",
+            "⋯",
+            "⋮",
+            "⋰",
+            "⋱",
+            "∿",
+            "∞",
+            "∫",
+            "∬",
+            "∭",
+            "∮",
+            "∯",
+            "∰",
+            "≈",
+            "≋",
+            "≡",
+            "≣",
+          ];
+          const shapes = [
+            "circle",
+            "square",
+            "triangle",
+            "diamond",
+            "pentagon",
+            "hexagon",
+          ];
+
+          // Computed properties
+          const currentPhaseSymbol = computed(() => {
+            switch (phase.value) {
+              case "explore":
+                return "⌘";
+              case "collect":
+                return "⏣";
+              case "transform":
+                return "⟲";
+              case "create":
+                return "⌬";
+              default:
+                return "⌘";
+            }
+          });
+
+          // Methods
+          const initializeGame = () => {
+            // Create game elements
+            gameElements.value = Array(18)
+              .fill()
+              .map((_, i) => {
+                const isSymbol = Math.random() > 0.3;
+                return {
+                  type: isSymbol ? "symbol" : "shape",
+                  value: isSymbol
+                    ? symbols[Math.floor(Math.random() * symbols.length)]
+                    : shapes[Math.floor(Math.random() * shapes.length)],
+                  power: powers[Math.floor(Math.random() * powers.length)],
+                  active: false,
+                  collected: false,
+                };
+              });
+
+            // Initialize floating entities
+            floatingEntities.value = Array(5)
+              .fill()
+              .map((_, i) => ({
+                symbol: symbols[Math.floor(Math.random() * symbols.length)],
+                top: 20 + Math.random() * 60,
+                left: 20 + Math.random() * 60,
+                zIndex: Math.floor(Math.random() * 5),
+                power: Math.floor(Math.random() * 10) + 1,
+              }));
+
+            // Initialize codex
+            codexEntries.value = symbols.map((symbol) => ({
+              symbol,
+              power: powers[Math.floor(Math.random() * powers.length)],
+              discovered: false,
+              description: "",
+            }));
+          };
+
+          const resetGame = () => {
+            level.value = 1;
+            score.value = 0;
+            inventory.value = [];
+            selectedInventoryIndex.value = -1;
+            phase.value = "explore";
+            initializeGame();
+          };
+
+          const changePhase = (newPhase) => {
+            phase.value = newPhase;
+          };
+
+          const interactWithElement = (index) => {
+            const element = gameElements.value[index];
+
+            if (phase.value === "collect" && !element.collected) {
+              // Collect element
+              element.collected = true;
+              inventory.value.push({ ...element });
+              score.value += 5;
+
+              if (Math.random() > 0.7) {
+                // Discover new codex entry
+                const entryIndex = codexEntries.value.findIndex(
+                  (entry) =>
+                    entry.symbol === element.value && entry.type === "symbol"
+                );
+                if (entryIndex >= 0) {
+                  codexEntries.value[entryIndex].discovered = true;
+
+                  // Show discovery modal
+                  modalContent.value = {
+                    type: "discovery",
+                    title: "⍚⌖⍑",
+                    symbol: element.value,
+                  };
+                  showModal.value = true;
+                }
+              }
+            } else if (phase.value === "explore") {
+              // Toggle active state for exploration
+              gameElements.value.forEach((el, i) => {
+                el.active = i === index;
+              });
+            } else if (
+              phase.value === "transform" &&
+              selectedInventoryIndex.value >= 0
+            ) {
+              // Transform elements
+              const selectedItem =
+                inventory.value[selectedInventoryIndex.value];
+
+              // Show transformation modal
+              modalContent.value = {
+                type: "combination",
+                title: "⟲⟳",
+                item1: selectedItem.value,
+                item2: element.value,
+                result: symbols[Math.floor(Math.random() * symbols.length)],
+              };
+              showModal.value = true;
+
+              // Add new item to inventory
+              inventory.value.push({
+                type: "symbol",
+                value: modalContent.value.result,
+                power: powers[Math.floor(Math.random() * powers.length)],
+                active: false,
+                collected: false,
+              });
+
+              // Remove used item from inventory
+              inventory.value.splice(selectedInventoryIndex.value, 1);
+              selectedInventoryIndex.value = -1;
+
+              score.value += 15;
+            }
+          };
+
+          const interactWithEntity = (index) => {
+            const entity = floatingEntities.value[index];
+
+            if (phase.value === "explore") {
+              // Just observe
+              score.value += 2;
+            } else if (phase.value === "collect") {
+              // Capture entity
+              inventory.value.push({
+                type: "symbol",
+                value: entity.symbol,
+                power: powers[Math.floor(Math.random() * powers.length)],
+                active: false,
+                collected: false,
+              });
+
+              // Remove entity from game
+              floatingEntities.value.splice(index, 1);
+
+              // Add a new one in a different position
+              floatingEntities.value.push({
+                symbol: symbols[Math.floor(Math.random() * symbols.length)],
+                top: 20 + Math.random() * 60,
+                left: 20 + Math.random() * 60,
+                zIndex: Math.floor(Math.random() * 5),
+                power: Math.floor(Math.random() * 10) + 1,
+              });
+
+              score.value += 10;
+            }
+          };
+
+          const selectInventoryItem = (index) => {
+            selectedInventoryIndex.value =
+              index === selectedInventoryIndex.value ? -1 : index;
+          };
+
+          const viewCodexEntry = (index) => {
+            const entry = codexEntries.value[index];
+
+            if (entry.discovered) {
+              modalContent.value = {
+                type: "codex",
+                title: entry.symbol,
+                description: entry.power,
+              };
+              showModal.value = true;
+            }
+          };
+
+          const closeModal = () => {
+            showModal.value = false;
+
+            // Check for level up
+            if (score.value >= level.value * 50) {
+              level.value += 1;
+
+              // Add new elements on level up
+              gameElements.value = [
+                ...gameElements.value.filter((el) => !el.collected),
+                ...Array(6)
+                  .fill()
+                  .map(() => ({
+                    type: Math.random() > 0.3 ? "symbol" : "shape",
+                    value:
+                      Math.random() > 0.3
+                        ? symbols[Math.floor(Math.random() * symbols.length)]
+                        : shapes[Math.floor(Math.random() * shapes.length)],
+                    power: powers[Math.floor(Math.random() * powers.length)],
+                    active: false,
+                    collected: false,
+                  })),
+              ];
+            }
+          };
+
+          const getShapeClass = (shapeName, small = false) => {
+            const size = small ? "w-6 h-6" : "w-12 h-12";
+            const baseClasses = `${size} bg-black`;
+
+            switch (shapeName) {
+              case "circle":
+                return `${baseClasses} rounded-full`;
+              case "square":
+                return baseClasses;
+              case "triangle":
+                return `${size} bg-transparent relative before:content-[''] before:absolute before:bottom-0 before:left-0 before:border-l-[20px] before:border-r-[20px] before:border-b-[35px] before:border-l-transparent before:border-r-transparent before:border-b-black`;
+              case "diamond":
+                return `${baseClasses} transform rotate-45`;
+              case "pentagon":
+                return `${baseClasses} rounded-lg clip-pentagon`;
+              case "hexagon":
+                return `${baseClasses} rounded-lg clip-hexagon`;
+              default:
+                return baseClasses;
+            }
+          };
+
+          // Initialize game on mount
+          onMounted(() => {
+            initializeGame();
+
+            // Add keyboard controls
+            window.addEventListener("keydown", (e) => {
+              switch (e.key) {
+                case "1":
+                  changePhase("explore");
+                  break;
+                case "2":
+                  changePhase("collect");
+                  break;
+                case "3":
+                  changePhase("transform");
+                  break;
+                case "4":
+                  changePhase("create");
+                  break;
+                case "r":
+                  resetGame();
+                  break;
+              }
+            });
+
+            // Animate floating entities
+            setInterval(() => {
+              floatingEntities.value = floatingEntities.value.map((entity) => ({
+                ...entity,
+                top: entity.top + (Math.random() * 4 - 2),
+                left: entity.left + (Math.random() * 4 - 2),
+              }));
+            }, 3000);
+          });
+
+          return {
+            phase,
+            level,
+            score,
+            inventory,
+            selectedInventoryIndex,
+            gameElements,
+            floatingEntities,
+            codexEntries,
+            showModal,
+            modalContent,
+            currentPhaseSymbol,
+
+            resetGame,
+            changePhase,
+            interactWithElement,
+            interactWithEntity,
+            selectInventoryItem,
+            viewCodexEntry,
+            closeModal,
+            getShapeClass,
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

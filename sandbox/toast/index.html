@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GravToast™ | Defy Gravity</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              toast: "#E67E22",
+              butter: "#F1C40F",
+              midnight: "#2C3E50",
+              tech: "#3498DB",
+              success: "#2ECC71",
+            },
+            fontFamily: {
+              display: ["Space Grotesk", "system-ui", "sans-serif"],
+              mono: ["JetBrains Mono", "monospace"],
+              sans: ["Inter", "system-ui", "sans-serif"],
+            },
+            animation: {
+              float: "float 6s ease-in-out infinite",
+              "spin-slow": "spin 15s linear infinite",
+              "reverse-spin": "reverse-spin 20s linear infinite",
+              "glow-pulse": "glow-pulse 2s ease-in-out infinite",
+              "crumb-float": "crumb-float 4s ease-in-out infinite",
+            },
+            keyframes: {
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-20px)" },
+              },
+              "reverse-spin": {
+                "0%": { transform: "rotate(0deg)" },
+                "100%": { transform: "rotate(-360deg)" },
+              },
+              "glow-pulse": {
+                "0%, 100%": { filter: "brightness(1)" },
+                "50%": { filter: "brightness(1.3)" },
+              },
+              "crumb-float": {
+                "0%": {
+                  transform: "translate(0, 0) rotate(0deg)",
+                  opacity: "0.6",
+                },
+                "50%": {
+                  transform: "translate(10px, -15px) rotate(90deg)",
+                  opacity: "1",
+                },
+                "100%": {
+                  transform: "translate(0, 0) rotate(0deg)",
+                  opacity: "0.6",
+                },
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Custom CSS -->
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;700&display=swap");
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        overflow-x: hidden;
+      }
+
+      /* Progress bar */
+      .progress-container {
+        width: 100%;
+        height: 4px;
+        background: transparent;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+      }
+
+      .progress-bar {
+        height: 4px;
+        background: #e67e22;
+        width: 0%;
+        transition: width 0.05s ease;
+      }
+
+      /* Parallax base */
+      .parallax-container {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .parallax-element {
+        will-change: transform;
+      }
+
+      /* Toast animation states */
+      .toast-container {
+        min-height: 500vh;
+        position: relative;
+      }
+
+      #toast {
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: transform 0.05s cubic-bezier(0.33, 1, 0.68, 1),
+          top 0.05s cubic-bezier(0.33, 1, 0.68, 1),
+          rotate 0.05s cubic-bezier(0.33, 1, 0.68, 1);
+        will-change: transform;
+      }
+
+      .tech-rings {
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+
+      .toast-active .tech-rings {
+        opacity: 1;
+      }
+
+      .crumb {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background-color: #e67e22;
+        border-radius: 50%;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+
+      .toast-active .crumb {
+        opacity: 0.6;
+        animation: crumb-float 4s ease-in-out infinite;
+      }
+
+      .butter-glow {
+        filter: drop-shadow(0 0 10px rgba(241, 196, 15, 0.7));
+        transition: filter 0.5s ease;
+      }
+
+      .toast-active .butter-glow {
+        filter: drop-shadow(0 0 20px rgba(241, 196, 15, 0.9));
+      }
+
+      /* Story sections */
+      .story-section {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      /* Reveal animation for content */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Toaster animation */
+      @keyframes toaster-pop {
+        0% {
+          transform: translateY(0);
+        }
+        20% {
+          transform: translateY(-30px);
+        }
+        30% {
+          transform: translateY(-25px);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+
+      .toaster-slot {
+        position: relative;
+        overflow: hidden;
+        height: 60px;
+        width: 90px;
+        border-radius: 8px;
+        background: #2c3e50;
+      }
+
+      .toaster-heating-element {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        width: calc(100% - 20px);
+        height: 3px;
+        background: #e74c3c;
+        border-radius: 1px;
+      }
+
+      .toast-entering {
+        animation: toaster-pop 1s ease-out forwards;
+      }
+
+      /* Perspective container for 3D toast movements */
+      .perspective-container {
+        perspective: 1000px;
+      }
+    </style>
+  </head>
+  <body class="bg-white text-midnight font-sans">
+    <!-- Progress Bar -->
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Fixed Logo and Nav -->
+    <div class="fixed top-0 w-full z-50 pointer-events-none">
+      <div
+        class="container mx-auto px-6 py-4 flex justify-between items-center"
+      >
+        <div class="flex items-center gap-2 pointer-events-auto">
+          <!-- REPLACE: Logo SVG -->
+          <div
+            class="w-10 h-10 bg-toast rounded-full flex items-center justify-center"
+          >
+            <span class="text-white font-bold text-xs">GT</span>
+          </div>
+          <span
+            class="font-display font-bold text-xl text-toast hidden md:block"
+            >GravToast™</span
+          >
+        </div>
+
+        <button
+          class="bg-toast text-white px-4 py-2 rounded-full hover:bg-butter hover:text-midnight transition-all duration-300 transform hover:scale-105 pointer-events-auto"
+        >
+          Pre-Order
+        </button>
+      </div>
+    </div>
+
+    <!-- Toast Journey Container - This is where the magic happens -->
+    <div class="toast-container" id="toastJourney">
+      <!-- Toast Element - This will be positioned by scroll -->
+      <div id="toast" class="w-64 h-64 absolute top-1/3 left-1/2 z-10">
+        <!-- REPLACE: Toast SVG -->
+        <div class="relative w-64 h-64">
+          <!-- Toast body -->
+          <div class="absolute inset-0 bg-toast rounded-lg"></div>
+
+          <!-- Butter layer -->
+          <div
+            class="absolute top-8 left-8 right-8 h-6 bg-butter rounded-sm butter-glow"
+          ></div>
+
+          <!-- Tech rings (initially invisible) -->
+          <div
+            class="tech-rings absolute inset-0 flex items-center justify-center"
+          >
+            <div
+              class="w-72 h-72 border-2 border-tech rounded-full opacity-20 animate-spin-slow"
+            ></div>
+            <div
+              class="w-80 h-80 border-2 border-tech rounded-full opacity-30 animate-reverse-spin"
+            ></div>
+          </div>
+
+          <!-- Floating crumbs -->
+          <div
+            class="crumb"
+            style="top: 70%; left: 20%; animation-delay: 0.5s"
+          ></div>
+          <div
+            class="crumb"
+            style="top: 40%; left: 80%; animation-delay: 1.2s"
+          ></div>
+          <div
+            class="crumb"
+            style="top: 20%; left: 40%; animation-delay: 0.8s"
+          ></div>
+          <div
+            class="crumb"
+            style="top: 60%; left: 60%; animation-delay: 1.5s"
+          ></div>
+          <div
+            class="crumb"
+            style="top: 30%; left: 10%; animation-delay: 0.3s"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Section 1: Introduction -->
+      <div
+        class="story-section h-screen bg-white flex items-center justify-center"
+      >
+        <div class="container mx-auto px-6 text-center">
+          <h1 class="text-4xl md:text-6xl font-display font-bold mb-6 reveal">
+            <span class="text-toast">GRAVITY</span> HAS MET ITS MATCH
+          </h1>
+          <p class="text-lg md:text-xl mb-8 max-w-xl mx-auto reveal">
+            Scroll to defy physics
+          </p>
+        </div>
+      </div>
+
+      <!-- Section 2: The Birth (Toaster) -->
+      <div
+        class="story-section min-h-screen bg-gray-100 relative"
+        id="birthSection"
+      >
+        <div class="container mx-auto px-6 py-32 relative">
+          <!-- Toaster placement -->
+          <div
+            class="absolute left-1/2 bottom-1/4 transform -translate-x-1/2 perspective-container"
+          >
+            <!-- REPLACE: Toaster SVG -->
+            <div class="w-64 h-48 bg-gray-700 rounded-lg relative">
+              <div
+                class="toaster-slot absolute top-0 left-1/4 transform -translate-x-1/2"
+              ></div>
+              <div
+                class="toaster-slot absolute top-0 right-1/4 transform translate-x-1/2"
+              ></div>
+              <div
+                class="absolute bottom-6 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-gray-800 rounded-full"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Text appears after toast pops -->
+          <div class="absolute top-1/4 left-0 w-full">
+            <div class="max-w-md mx-auto text-center pt-20">
+              <p class="text-2xl font-display font-bold text-midnight reveal">
+                <span class="text-toast">Birth</span> of a Legend
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: The Fall -->
+      <div class="story-section min-h-screen bg-white" id="fallSection">
+        <div class="container mx-auto px-6 py-32 relative">
+          <!-- Kitchen table -->
+          <div
+            class="absolute left-0 right-0 bottom-1/4 h-8 bg-midnight bg-opacity-10"
+          ></div>
+
+          <div class="max-w-md mx-auto text-center">
+            <p class="text-2xl font-display font-bold text-midnight reveal">
+              <span class="text-butter">Physics</span> Can Be Cruel
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 4: The Moment (Tech Activation) -->
+      <div
+        class="story-section min-h-screen bg-gradient-to-b from-white to-gray-100"
+        id="techSection"
+      >
+        <div class="container mx-auto px-6 py-32">
+          <div class="max-w-md mx-auto text-center">
+            <p class="text-2xl font-display font-bold text-midnight reveal">
+              Unless You Have <span class="text-tech">Technology</span>
+            </p>
+
+            <div class="mt-16 reveal">
+              <!-- Tech specs -->
+              <div
+                class="inline-block bg-midnight text-tech p-6 rounded-lg font-mono text-sm text-left"
+              >
+                <div class="mb-2">// GravToast™ System Activation</div>
+                <div class="mb-1">
+                  quantum_field: <span class="text-success">ACTIVE</span>
+                </div>
+                <div class="mb-1">
+                  gravity_defiance: <span class="text-success">98.7%</span>
+                </div>
+                <div class="mb-1">
+                  butter_integrity: <span class="text-success">MAINTAINED</span>
+                </div>
+                <div class="mb-1">
+                  landing_prediction:
+                  <span class="text-butter">BUTTER-SIDE UP</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 5: The Victory (Landing) -->
+      <div class="story-section min-h-screen bg-gray-100" id="victorySection">
+        <div class="container mx-auto px-6 py-32 relative">
+          <!-- Floor -->
+          <div
+            class="absolute left-0 right-0 bottom-0 h-16 bg-midnight bg-opacity-5"
+          ></div>
+
+          <div class="max-w-md mx-auto text-center">
+            <p class="text-2xl font-display font-bold text-midnight reveal">
+              Victory Tastes Like <span class="text-butter">Butter</span>. Right
+              Side Up.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 6: The Product -->
+      <div class="story-section min-h-screen bg-midnight text-white">
+        <div class="container mx-auto px-6 py-32">
+          <h2
+            class="text-3xl md:text-5xl font-display font-bold text-center mb-16 reveal"
+          >
+            <span class="text-toast">Defy</span> Gravity
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-5xl mx-auto">
+            <!-- Product 1 -->
+            <div
+              class="bg-white bg-opacity-5 rounded-xl backdrop-blur-sm overflow-hidden transform transition-all duration-300 hover:scale-105 reveal"
+            >
+              <div
+                class="h-48 bg-toast bg-opacity-20 flex justify-center items-center"
+              >
+                <!-- REPLACE: Product image -->
+                <div class="w-24 h-24 bg-toast rounded-lg"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2 text-butter">
+                  GravToast Basic
+                </h3>
+                <p class="text-gray-300 mb-4 text-sm">
+                  For the casual breakfast rebel.
+                </p>
+                <div class="flex justify-between items-center">
+                  <span class="text-toast font-bold text-xl">$299</span>
+                  <button
+                    class="bg-toast text-white px-4 py-2 rounded-full hover:bg-butter hover:text-midnight transition-all duration-300"
+                  >
+                    Pre-Order
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div
+              class="bg-white bg-opacity-5 rounded-xl backdrop-blur-sm overflow-hidden transform transition-all duration-300 hover:scale-105 reveal"
+              style="animation-delay: 0.2s"
+            >
+              <div
+                class="h-48 bg-tech bg-opacity-20 flex justify-center items-center"
+              >
+                <!-- REPLACE: Product image -->
+                <div class="w-24 h-24 bg-toast rounded-lg"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2 text-butter">
+                  GravToast Pro
+                </h3>
+                <p class="text-gray-300 mb-4 text-sm">
+                  Smart home integration. Butter AI.
+                </p>
+                <div class="flex justify-between items-center">
+                  <span class="text-toast font-bold text-xl">$499</span>
+                  <button
+                    class="bg-toast text-white px-4 py-2 rounded-full hover:bg-butter hover:text-midnight transition-all duration-300"
+                  >
+                    Pre-Order
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div
+              class="bg-white bg-opacity-5 rounded-xl backdrop-blur-sm overflow-hidden transform transition-all duration-300 hover:scale-105 reveal"
+              style="animation-delay: 0.4s"
+            >
+              <div
+                class="h-48 bg-butter bg-opacity-10 flex justify-center items-center"
+              >
+                <!-- REPLACE: Product image -->
+                <div class="w-24 h-24 bg-toast rounded-lg"></div>
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2 text-butter">
+                  GravToast Ultra
+                </h3>
+                <p class="text-gray-300 mb-4 text-sm">
+                  Unlimited range. Quantum crumb control.
+                </p>
+                <div class="flex justify-between items-center">
+                  <span class="text-toast font-bold text-xl">$999</span>
+                  <button
+                    class="bg-toast text-white px-4 py-2 rounded-full hover:bg-butter hover:text-midnight transition-all duration-300"
+                  >
+                    Pre-Order
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 7: Testimonials -->
+      <div
+        class="story-section min-h-screen bg-gradient-to-b from-midnight to-gray-900 text-white"
+      >
+        <div class="container mx-auto px-6 py-32">
+          <h2
+            class="text-3xl md:text-4xl font-display font-bold text-center mb-16 reveal"
+          >
+            <span class="text-butter">Butter-Side Up</span> Believers
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <!-- Testimonial 1 -->
+            <div class="p-6 rounded-lg bg-white bg-opacity-5 reveal">
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 rounded-full bg-toast mr-4"></div>
+                <div>
+                  <h4 class="font-bold">Dr. Marcus Crumb</h4>
+                  <p class="text-gray-400 text-sm">Quantum Physicist</p>
+                </div>
+              </div>
+              <p class="text-gray-300">
+                "This tech breaks all known laws of physics. I'm both terrified
+                and impressed."
+              </p>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div
+              class="p-6 rounded-lg bg-white bg-opacity-5 reveal"
+              style="animation-delay: 0.2s"
+            >
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 rounded-full bg-toast mr-4"></div>
+                <div>
+                  <h4 class="font-bold">Sarah Williams</h4>
+                  <p class="text-gray-400 text-sm">Mom of Three</p>
+                </div>
+              </div>
+              <p class="text-gray-300">
+                "No more breakfast tears. Worth every penny of the second
+                mortgage."
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Final CTA -->
+      <div
+        class="story-section min-h-screen bg-toast text-white flex items-center"
+      >
+        <div class="container mx-auto px-6 text-center">
+          <h2 class="text-4xl md:text-6xl font-display font-bold mb-8 reveal">
+            Ready to Defy Gravity?
+          </h2>
+          <button
+            class="bg-white text-toast px-8 py-4 rounded-full text-lg font-bold hover:bg-butter transition-all duration-300 transform hover:scale-105 reveal"
+          >
+            Pre-Order Now
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.js"></script>
+    <script>
+      // Initialize scroll-based animation
+      document.addEventListener("DOMContentLoaded", function () {
+        // Toast journey animation
+        const toast = document.getElementById("toast");
+        const toastJourney = document.getElementById("toastJourney");
+        const progressBar = document.getElementById("progressBar");
+
+        // Section references
+        const birthSection = document.getElementById("birthSection");
+        const fallSection = document.getElementById("fallSection");
+        const techSection = document.getElementById("techSection");
+        const victorySection = document.getElementById("victorySection");
+
+        // Reveal elements on scroll
+        const revealElements = document.querySelectorAll(".reveal");
+
+        // Get viewport dimensions
+        const viewportHeight = window.innerHeight;
+        const journeyHeight = toastJourney.offsetHeight;
+
+        // Animation breakpoints (percentage of journey)
+        const BIRTH_START = 0.05; // 5% - Toast starts in toaster
+        const BIRTH_END = 0.15; // 15% - Toast fully popped from toaster
+        const FALL_START = 0.2; // 20% - Toast begins falling
+        const FALL_END = 0.4; // 40% - Toast completes fall
+        const TECH_START = 0.45; // 45% - Tech activation begins
+        const TECH_END = 0.65; // 65% - Tech fully activated
+        const VICTORY_START = 0.7; // 70% - Toast begins victory landing
+        const VICTORY_END = 0.85; // 85% - Toast landed successfully
+
+        // Resting positions of toast (percentage from top of viewport)
+        const TOASTER_POS = 0.4; // 40% - Toaster position
+        const VICTORY_POS = 0.6; // 60% - Final landing position
+
+        // Update animation based on scroll position
+        function updateToastPosition() {
+          // Get scroll progress as percentage of journey
+          const scrollTop =
+            window.pageYOffset || document.documentElement.scrollTop;
+          const scrollProgress = Math.min(
+            scrollTop / (journeyHeight - viewportHeight),
+            1
+          );
+
+          // Update progress bar
+          progressBar.style.width = `${scrollProgress * 100}%`;
+
+          // Calculate toast position
+          let toastTopPosition;
+          let toastRotation = 0;
+          let toastScale = 1;
+
+          // Update toast tech activation state
+          if (scrollProgress >= TECH_START && scrollProgress <= TECH_END) {
+            const techProgress =
+              (scrollProgress - TECH_START) / (TECH_END - TECH_START);
+            toast.classList.add("toast-active");
+          } else if (scrollProgress > TECH_END) {
+            toast.classList.add("toast-active");
+          } else {
+            toast.classList.remove("toast-active");
+          }
+
+          // Phase 1: Toast in toaster
+          if (scrollProgress < BIRTH_START) {
+            // Toast hidden in toaster
+            toastTopPosition = viewportHeight * TOASTER_POS - 100; // Hidden below toaster top
+          }
+          // Phase 2: Toast popping from toaster
+          else if (
+            scrollProgress >= BIRTH_START &&
+            scrollProgress < BIRTH_END
+          ) {
+            const birthProgress =
+              (scrollProgress - BIRTH_START) / (BIRTH_END - BIRTH_START);
+            // Pop up animation
+            toastTopPosition =
+              viewportHeight * TOASTER_POS - 100 + birthProgress * -150;
+            toastRotation = birthProgress * 10; // Slight rotation as it pops
+          }
+          // Phase 3: Toast hovering briefly after pop
+          else if (scrollProgress >= BIRTH_END && scrollProgress < FALL_START) {
+            // Hover slightly above toaster
+            toastTopPosition = viewportHeight * TOASTER_POS - 250;
+            toastRotation = 10;
+          }
+          // Phase 4: Toast falling
+          else if (scrollProgress >= FALL_START && scrollProgress < FALL_END) {
+            const fallProgress =
+              (scrollProgress - FALL_START) / (FALL_END - FALL_START);
+            // Fall with acceleration
+            toastTopPosition =
+              viewportHeight * TOASTER_POS -
+              250 +
+              fallProgress * fallProgress * 400;
+            toastRotation = 10 + fallProgress * 170; // Rotate as it falls (butter side down)
+          }
+          // Phase 5: Tech activation slowing fall
+          else if (scrollProgress >= FALL_END && scrollProgress < TECH_START) {
+            // Continue falling but slower
+            toastTopPosition = viewportHeight * TOASTER_POS + 150;
+            toastRotation = 180; // Butter side down
+          }
+          // Phase 6: Tech active, toast hovering
+          else if (scrollProgress >= TECH_START && scrollProgress < TECH_END) {
+            const techProgress =
+              (scrollProgress - TECH_START) / (TECH_END - TECH_START);
+            // Slow stop and hover
+            toastTopPosition =
+              viewportHeight * TOASTER_POS + 150 + techProgress * 50;
+            toastRotation = 180 - techProgress * 180; // Rotate back (butter side up)
+            toastScale = 1 + techProgress * 0.2; // Slight grow effect
+          }
+          // Phase 7: Toast approaching victory landing
+          else if (
+            scrollProgress >= TECH_END &&
+            scrollProgress < VICTORY_START
+          ) {
+            // Hover in position
+            toastTopPosition = viewportHeight * TOASTER_POS + 200;
+            toastRotation = 0; // Butter side up
+            toastScale = 1.2;
+          }
+          // Phase 8: Toast landing gently
+          else if (
+            scrollProgress >= VICTORY_START &&
+            scrollProgress < VICTORY_END
+          ) {
+            const victoryProgress =
+              (scrollProgress - VICTORY_START) / (VICTORY_END - VICTORY_START);
+            // Gentle landing
+            toastTopPosition =
+              viewportHeight * TOASTER_POS +
+              200 +
+              victoryProgress *
+                (viewportHeight * VICTORY_POS -
+                  (viewportHeight * TOASTER_POS + 200));
+            toastScale = 1.2 - victoryProgress * 0.2; // Return to normal size
+          }
+          // Phase 9: Toast landed victory
+          else {
+            // Resting on surface
+            toastTopPosition = viewportHeight * VICTORY_POS;
+            toastRotation = 0;
+            toastScale = 1;
+          }
+
+          // Apply transformed position to toast
+          toast.style.top = `${toastTopPosition}px`;
+          toast.style.transform = `translateX(-50%) rotate(${toastRotation}deg) scale(${toastScale})`;
+        }
+
+        // Check if elements are in viewport and reveal them
+        function revealElementsInView() {
+          revealElements.forEach((element) => {
+            const elementTop = element.getBoundingClientRect().top;
+            const elementVisible = 150;
+
+            if (elementTop < viewportHeight - elementVisible) {
+              element.classList.add("visible");
+            }
+          });
+        }
+
+        // Add scroll listener
+        window.addEventListener("scroll", function () {
+          updateToastPosition();
+          revealElementsInView();
+        });
+
+        // Initialize on load
+        updateToastPosition();
+        revealElementsInView();
+
+        // Handle resize
+        window.addEventListener("resize", function () {
+          // Recalculate viewport dimensions
+          viewportHeight = window.innerHeight;
+          updateToastPosition();
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,388 @@
+/* Base styles */
+:root {
+    --void-black: #050505;
+    --pure-white: #f8fafc;
+    --transition-speed: 800ms;
+}
+
+* {
+    font-family: 'Space Mono', monospace;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+/* Glitch effect */
+.glitch-effect {
+    position: relative;
+}
+
+.glitch-effect::before,
+.glitch-effect::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+    animation: glitch-slide 4s infinite alternate-reverse;
+}
+
+.glitch-effect::before {
+    left: -2px;
+    background-color: rgba(255, 0, 255, 0.1);
+    animation-delay: -1s;
+}
+
+.glitch-effect::after {
+    left: 2px;
+    background-color: rgba(0, 255, 255, 0.1);
+    animation-delay: -2s;
+}
+
+@keyframes glitch-slide {
+    0% {
+        transform: translateX(0);
+    }
+
+    80% {
+        transform: translateX(0);
+    }
+
+    81% {
+        transform: translateX(10px);
+    }
+
+    82% {
+        transform: translateX(-10px);
+    }
+
+    83% {
+        transform: translateX(0);
+    }
+
+    90% {
+        transform: translateX(0);
+    }
+
+    91% {
+        transform: translateX(-5px);
+    }
+
+    92% {
+        transform: translateX(5px);
+    }
+
+    93% {
+        transform: translateX(0);
+    }
+}
+
+/* Parameter slider styling */
+.parameter-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 2px;
+    background: #000;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.parameter-slider:hover {
+    opacity: 1;
+}
+
+.parameter-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border: 2px solid black;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+}
+
+.parameter-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: white;
+    border: 2px solid black;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+}
+
+/* Parameter visualizations */
+.parameter-visualization {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+}
+
+/* Gravity parameter visualization */
+.param-gravity .simulation-objects {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    padding: 20px;
+}
+
+.param-gravity .simulation-objects::before,
+.param-gravity .simulation-objects::after {
+    content: '';
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: black;
+    margin: 20px;
+    position: relative;
+}
+
+/* Light parameter visualization */
+.param-light .simulation-objects {
+    position: relative;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.param-light .simulation-objects::before {
+    content: '';
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: black;
+    position: relative;
+    z-index: 1;
+}
+
+.param-light .simulation-objects::after {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+/* Quantum parameter visualization */
+.param-quantum .simulation-objects {
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    gap: 1px;
+}
+
+.param-quantum .simulation-objects::before {
+    content: '';
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    background-image:
+        radial-gradient(circle at 30% 70%, black 1px, transparent 1px),
+        radial-gradient(circle at 70% 30%, black 1px, transparent 1px),
+        radial-gradient(circle at 50% 50%, black 1px, transparent 1px);
+    background-size: 50px 50px;
+    opacity: 0.3;
+}
+
+/* Nuclear force parameter visualization */
+.param-nuclear .simulation-objects {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.param-nuclear .simulation-objects::before {
+    content: '';
+    width: 150px;
+    height: 150px;
+    background:
+        repeating-radial-gradient(circle at center,
+            black,
+            black 2px,
+            transparent 2px,
+            transparent 10px);
+    border-radius: 50%;
+    opacity: 0.3;
+}
+
+/* Scenario background classes */
+.bg-cosmic {
+    background-color: black;
+    color: white;
+}
+
+.bg-cosmic .bg-white\/90 {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: black;
+}
+
+.bg-distorted {
+    background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.05) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(0, 0, 0, 0.05) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(0, 0, 0, 0.05) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(0, 0, 0, 0.05) 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+
+.bg-void {
+    background-color: #050505;
+    color: white;
+}
+
+.bg-void .bg-white\/90 {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: black;
+}
+
+/* Reality collision event styling */
+.collision-event {
+    position: relative;
+    overflow: hidden;
+}
+
+.collision-event::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+    animation: grid-shift 8s linear infinite;
+    z-index: -1;
+}
+
+@keyframes grid-shift {
+    0% {
+        transform: perspective(500px) rotateX(0) rotateY(0);
+    }
+
+    25% {
+        transform: perspective(500px) rotateX(2deg) rotateY(1deg);
+    }
+
+    50% {
+        transform: perspective(500px) rotateX(0) rotateY(0);
+    }
+
+    75% {
+        transform: perspective(500px) rotateX(-2deg) rotateY(-1deg);
+    }
+
+    100% {
+        transform: perspective(500px) rotateX(0) rotateY(0);
+    }
+}
+
+/* Animation for reality objects based on parameter values */
+.gravity-high .simulation-objects::before,
+.gravity-high .simulation-objects::after {
+    animation: fall 3s cubic-bezier(0.4, 0, 1, 1) infinite;
+}
+
+.gravity-low .simulation-objects::before,
+.gravity-low .simulation-objects::after {
+    animation: float 8s ease-in-out infinite;
+}
+
+.light-high .simulation-objects::after {
+    animation: pulse 2s infinite;
+}
+
+.light-low .simulation-objects::after {
+    opacity: 0.3;
+    width: 150px;
+    height: 150px;
+}
+
+.quantum-high .simulation-objects::before {
+    animation: quantum-shift 3s infinite;
+}
+
+.quantum-low .simulation-objects::before {
+    background-size: 100px 100px;
+    opacity: 0.1;
+}
+
+.nuclear-high .simulation-objects::before {
+    animation: nuclear-pulse 2s infinite;
+}
+
+.nuclear-low .simulation-objects::before {
+    background:
+        repeating-radial-gradient(circle at center,
+            black,
+            black 1px,
+            transparent 1px,
+            transparent 30px);
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-50px);
+    }
+
+    100% {
+        transform: translateY(50px);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.2;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 0.3;
+    }
+}
+
+@keyframes quantum-shift {
+
+    0%,
+    100% {
+        background-position: 0 0;
+        opacity: 0.3;
+    }
+
+    50% {
+        background-position: 25px 25px;
+        opacity: 0.4;
+    }
+}
+
+@keyframes nuclear-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.4;
+    }
+}

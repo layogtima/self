@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLRHikes - Skills Tab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.36/dist/vue.global.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: {
+                            50: '#FFFCF8',
+                            100: '#FEF9F0',
+                            200: '#FEF3E2',
+                            300: '#FDE8C4',
+                            400: '#FCDCA0',
+                            500: '#FBCE73',
+                            600: '#FAC13E',
+                            700: '#F9AE0A',
+                            800: '#D08C01',
+                            900: '#986701',
+                        },
+                        gold: {
+                            50: '#FEFAE8',
+                            100: '#FEF6D1',
+                            200: '#FCE9A3',
+                            300: '#F9DA76',
+                            400: '#F7CC4A',
+                            500: '#F3C623',
+                            600: '#DBA708',
+                            700: '#A57D06',
+                            800: '#6F5304',
+                            900: '#3A2A02',
+                        },
+                        amber: {
+                            50: '#FFF8EB',
+                            100: '#FFF2D7',
+                            200: '#FFE4B0',
+                            300: '#FFD688',
+                            400: '#FFC461',
+                            500: '#FFB22C',
+                            600: '#F89A00',
+                            700: '#C57A00',
+                            800: '#925A00',
+                            900: '#5F3A00',
+                        },
+                        orange: {
+                            50: '#FEF0E8',
+                            100: '#FDE1D1',
+                            200: '#FBC3A4',
+                            300: '#F9A676',
+                            400: '#F78849',
+                            500: '#FA812F',
+                            600: '#ED6207',
+                            700: '#BB4E06',
+                            800: '#883804',
+                            900: '#562402',
+                        },
+                    },
+                    fontFamily: {
+                        'newsreader': ['Newsreader', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes progress-fill {
+            0% { width: 0%; }
+            100% { width: var(--progress-width); }
+        }
+        
+        .progress-bar {
+            animation: progress-fill 1s ease-out forwards;
+        }
+        
+        @keyframes pulse-subtle {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes ripple {
+            0% { transform: scale(0.95); opacity: 1; }
+            100% { transform: scale(1.8); opacity: 0; }
+        }
+        
+        @keyframes skill-bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-7px); }
+        }
+        
+        .skill-bounce {
+            animation: skill-bounce 2s ease;
+        }
+        
+        .pulse-subtle {
+            animation: pulse-subtle 2s infinite;
+        }
+        
+        .float {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            animation: ripple 1s linear infinite;
+        }
+        
+        .pokedex-button {
+            transition: all 0.1s ease;
+        }
+        
+        .pokedex-button:active {
+            transform: scale(0.97);
+        }
+        
+        .flip-card {
+            perspective: 1000px;
+        }
+        
+        .flip-card-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flip-card-front, .flip-card-back {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+        
+        .scale-on-hover {
+            transition: transform 0.2s ease;
+        }
+        
+        .scale-on-hover:hover {
+            transform: scale(1.05);
+        }
+        
+        .tree-connector {
+            position: absolute;
+            background-color: #D1D5DB;
+            z-index: 0;
+        }
+        
+        .vertical-connector {
+            width: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .horizontal-connector {
+            height: 2px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .skill-node {
+            z-index: 1;
+            transition: all 0.2s ease;
+        }
+        
+        .skill-node:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+        
+        .locked-skill {
+            filter: grayscale(1);
+            opacity: 0.7;
+        }
+        
+        /* Scrollbar styling */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #FEF3E2;
+            border-radius: 10px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #FA812F;
+            border-radius: 10px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #ED6207;
+        }
+    </style>
+</head>
+<body class="bg-cream-200 font-newsreader text-orange-900">
+    <div id="app" class="min-h-screen md:max-w-[450px] mx-auto md:my-10 md:rounded-xl overflow-hidden">
+        <!-- Skills Tab Content -->
+        <div class="p-4 md:p-6 bg-cream-100 min-h-screen">
+            <!-- Header & Skill Overview -->
+            <div class="mb-6 flex items-center justify-between">
+                <h1 class="text-2xl font-bold text-orange-900">My Trail Skills</h1>
+                <div class="bg-orange-500 text-white px-3 py-1 rounded-full flex items-center">
+                    <i class="fas fa-bolt mr-1"></i>
+                    <span class="font-medium">1,275 XP</span>
+                </div>
+            </div>
+            
+            <!-- Current Streak -->
+            <div class="bg-white rounded-xl p-4 border-2 border-amber-500 mb-6">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div class="h-12 w-12 bg-amber-500 rounded-full flex items-center justify-center text-white">
+                            <i class="fas fa-fire text-xl"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h2 class="font-bold text-lg">Hiking Streak</h2>
+                            <p class="text-orange-800 text-sm">Keep it up to earn bonus XP!</p>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-amber-600">7</div>
+                        <div class="text-xs text-amber-800">DAYS</div>
+                    </div>
+                </div>
+                
+                <div class="mt-4 flex justify-between">
+                    <div v-for="day in 7" :key="day" class="flex flex-col items-center">
+                        <div class="text-xs text-orange-700 mb-1">{{ ['M', 'T', 'W', 'T', 'F', 'S', 'S'][day-1] }}</div>
+                        <div class="h-8 w-8 rounded-full flex items-center justify-center" :class="day <= 5 ? 'bg-amber-500 text-white' : 'bg-amber-100 text-amber-500'">
+                            <i :class="day <= 5 ? 'fas fa-check' : 'fas fa-hiking'"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4 text-center text-sm text-orange-700">
+                    <i class="fas fa-clock text-amber-500 mr-1"></i>
+                    Next achievement: <span class="font-medium text-orange-900">10-day streak</span> (3 days to go)
+                </div>
+            </div>
+            
+            <!-- Main Skill Categories -->
+            <div class="space-y-8 mb-8">
+                <!-- Navigation Skills -->
+                <div class="bg-white rounded-xl p-4 border-l-4 border-gold-500">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex items-center">
+                            <div class="h-10 w-10 bg-gold-500 rounded-full flex items-center justify-center text-white mr-3">
+                                <i class="fas fa-compass text-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg">Navigation</h3>
+                                <div class="text-sm text-orange-700">Master the art of finding your way</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center bg-gold-100 px-2 py-1 rounded-full">
+                            <i class="fas fa-star text-gold-500 mr-1 text-xs"></i>
+                            <span class="text-sm font-medium text-gold-800">Level 4</span>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full bg-cream-300 rounded-full h-3 overflow-hidden">
+                        <div class="bg-gold-500 h-3 rounded-full progress-bar" style="--progress-width: 80%"></div>
+                    </div>
+                    <div class="flex justify-between text-xs mt-1 mb-3">
+                        <span>80 XP to next level</span>
+                        <span>320/400 XP</span>
+                    </div>
+                    
+                    <!-- Sub-skills -->
+                    <div class="grid grid-cols-2 gap-3 mt-4">
+                        <div class="bg-cream-100 rounded-lg p-2 flex items-center">
+                            <div class="h-8 w-8 bg-gold-200 rounded-full flex items-center justify-center text-gold-700 mr-2">
+                                <i class="fas fa-map-marked-alt"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">Map Reading</div>
+                                <div class="text-xs text-orange-700">Level 5 - Mastered</div>
+                            </div>
+                        </div>
+                        <div class="bg-cream-100 rounded-lg p-2 flex items-center">
+                            <div class="h-8 w-8 bg-gold-200 rounded-full flex items-center justify-center text-gold-700 mr-2">
+                                <i class="fas fa-satellite"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">GPS Navigation</div>
+                                <div class="text-xs text-orange-700">Level 4 - Advanced</div>
+                            </div>
+                        </div>
+                        <div class="bg-cream-100 rounded-lg p-2 flex items-center">
+                            <div class="h-8 w-8 bg-gold-200 rounded-full flex items-center justify-center text-gold-700 mr-2">
+                                <i class="fas fa-mountain"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">Trail Marking</div>
+                                <div class="text-xs text-orange-700">Level 3 - Intermediate</div>
+                            </div>
+                        </div>
+                        <div class="bg-cream-100 rounded-lg p-2 flex items-center">
+                            <div class="h-8 w-8 bg-gold-200 rounded-full flex items-center justify-center text-gold-700 mr-2">
+                                <i class="fas fa-moon"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">Night Navigation</div>
+                                <div class="text-xs text-orange-700">Level 2 - Beginner</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Survival Skills -->
+                <div class="bg-white rounded-xl p-4 border-l-4 border-orange-500">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex items-center">
+                            <div class="h-10 w-10 bg-orange-500 rounded-full flex items-center justify-center text-white mr-3">
+                                <i class="fas fa-fire text-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg">Survival</h3>
+                                <div class="text-sm text-orange-700">Thrive in the wild environment</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center bg-orange-100 px-2 py-1 rounded-full">
+                            <i class="fas fa-star text-orange-500 mr-1 text-xs"></i>
+                            <span class="text-sm font-medium text-orange-800">Level 3</span>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full bg-cream-300 rounded-full h-3 overflow-hidden">
+                        <div class="bg-orange-500 h-3 rounded-full progress-bar" style="--progress-width: 65%"></div>
+                    </div>
+                    <div class="flex justify-between text-xs mt-1 mb-3">
+                        <span>140 XP to next level</span>
+                        <span>195/300 XP</span>
+                    </div>
+                    
+                    <!-- Sub-skills -->
+                    <div class="grid grid-cols-2 gap-3 mt-4">
+                        <div class="bg-cream-100 rounded-lg p-2 flex items-center">
+                            <div class="h-8 w-8 bg-orange-200 rounded-full flex items-center justify-center text-orange-700 mr-2">
+                                <i class="fas fa-campground"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">Shelter Building</div>
+                                <div class="text-xs text-orange-700">Level 4 - Advanced</div>
+                            </div>
+                        </div>
+                        <div class="bg-cream-100 rounded-lg p-2 flex items-center">
+                            <div class="h-8 w-8 bg-orange-200 rounded-full flex items-center justify-center text-orange-700 mr-2">
+                                <i class="fas fa-burn"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">Fire Making</div>
+                                <div class="text-xs text-orange-700">Level 3 - Intermediate</div>
+                            </div>
+                        </div>
+                        <div class="bg-cream-100 rounded-lg p-2 flex items-center">
+                            <div class="h-8 w-8 bg-orange-200 rounded-full flex items-center justify-center text-orange-700 mr-2">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">Water Collection</div>
+                                <div class="text-xs text-orange-700">Level 3 - Intermediate</div>
+                            </div>
+                        </div>
+                        <div class="bg-cream-100 rounded-lg p-2 flex items-center">
+                            <div class="h-8 w-8 bg-orange-200 rounded-full flex items-center justify-center text-orange-700 mr-2">
+                                <i class="fas fa-medkit"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">First Aid</div>
+                                <div class="text-xs text-orange-700">Level 2 - Beginner</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Wildlife ID Skills -->
+                <div class="bg-white rounded-xl p-4 border-l-4 border-amber-500">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex items-center">
+                            <div class="h-10 w-10 bg-amber-500 rounded-full flex items-center justify-center text-white mr-3">
+                                <i class="fas fa-paw text-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg">Wildlife ID</h3>
+                                <div class="text-sm text-orange-700">Identify local flora and fauna</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center bg-amber-100 px-2 py-1 rounded-full">
+                            <i class="fas fa-star text-amber-500 mr-1 text-xs"></i>
+                            <span class="text-sm font-medium text-amber-800">Level 5</span>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full bg-cream-300 rounded-full h-3 overflow-hidden">
+                        <div class="bg-amber-500 h-3 rounded-full progress-bar" style="--progress-width: 90%"></div>
+                    </div>
+                    <div class="flex justify-between text-xs mt-1 mb-3">
+                        <span>40 XP to next level</span>
+                        <span>460/500 XP</span>
+                    </div>
+                    
+                    <!-- Sub-skills -->
+                    <div class="grid grid-cols-2 gap-3 mt-4">
+                        <div class="bg-cream-100 rounded-lg p-2 flex items-center">
+                            <div class="h-8 w-8 bg-amber-200 rounded-full flex items-center justify-center text-amber-700 mr-2">
+                                <i class="fas fa-feather-alt"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">Bird Identification</div>
+                                <div class="text-xs text-orange-700">Level 5 - Mastered</div>
+                            </div>
+                        </div>
+                        <div class="bg-cream-100 rounded-lg p-2 flex items-center">
+                            <div class="h-8 w-8 bg-amber-200 rounded-full flex items-center justify-center text-amber-700 mr-2">
+                                <i class="fas fa-paw"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">Mammal Tracking</div>
+                                <div class="text-xs text-orange-700">Level 4 - Advanced</div>
+                            </div>
+                        </div>
+                        <div class="bg-cream-100 rounded-lg p-2 flex items-center">
+                            <div class="h-8 w-8 bg-amber-200 rounded-full flex items-center justify-center text-amber-700 mr-2">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">Plant Identification</div>
+                                <div class="text-xs text-orange-700">Level 5 - Mastered</div>
+                            </div>
+                        </div>
+                        <div class="bg-cream-100 rounded-lg p-2 flex items-center">
+                            <div class="h-8 w-8 bg-amber-200 rounded-full flex items-center justify-center text-amber-700 mr-2">
+                                <i class="fas fa-spider"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">Insect Knowledge</div>
+                                <div class="text-xs text-orange-700">Level 3 - Intermediate</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Photography Skills -->
+                <div class="bg-white rounded-xl p-4 border-l-4 border-cream-500">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex items-center">
+                            <div class="h-10 w-10 bg-cream-500 rounded-full flex items-center justify-center text-white mr-3">
+                                <i class="fas fa-camera text-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg">Photography</h3>
+                                <div class="text-sm text-orange-700">Capture the beauty of nature</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center bg-cream-200 px-2 py-1 rounded-full">
+                            <i class="fas fa-star text-cream-600 mr-1 text-xs"></i>
+                            <span class="text-sm font-medium text-cream-800">Level 2</span>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full bg-cream-300 rounded-full h-3 overflow-hidden">
+                        <div class="bg-cream-500 h-3 rounded-full progress-bar" style="--progress-width: 40%"></div>
+                    </div>
+                    <div class="flex justify-between text-xs mt-1 mb-3">
+                        <span>120 XP to next level</span>
+                        <span>80/200 XP</span>
+                    </div>
+                    
+                    <!-- Sub-skills -->
+                    <div class="grid grid-cols-2 gap-3 mt-4">
+                        <div class="bg-cream-100 rounded-lg p-2 flex items-center">
+                            <div class="h-8 w-8 bg-cream-300 rounded-full flex items-center justify-center text-cream-700 mr-2">
+                                <i class="fas fa-mountain"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">Landscape Photos</div>
+                                <div class="text-xs text-orange-700">Level 3 - Intermediate</div>
+                            </div>
+                        </div>
+                        <div class="bg-cream-100 rounded-lg p-2 flex items-center">
+                            <div class="h-8 w-8 bg-cream-300 rounded-full flex items-center justify-center text-cream-700 mr-2">
+                                <i class="fas fa-paw"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">Wildlife Photos</div>
+                                <div class="text-xs text-orange-700">Level 2 - Beginner</div>
+                            </div>
+                        </div>
+                        <div class="bg-cream-100 rounded-lg p-2 flex items-center">
+                            <div class="h-8 w-8 bg-cream-300 rounded-full flex items-center justify-center text-cream-700 mr-2">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">Macro Photography</div>
+                                <div class="text-xs text-orange-700">Level 1 - Novice</div>
+                            </div>
+                        </div>
+                        <div class="bg-cream-100 rounded-lg p-2 flex items-center">
+                            <div class="h-8 w-8 bg-cream-300 rounded-full flex items-center justify-center text-cream-700 mr-2">
+                                <i class="fas fa-moon"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">Night Photography</div>
+                                <div class="text-xs text-orange-700">Level 1 - Novice</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
