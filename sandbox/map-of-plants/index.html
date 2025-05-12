@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Botanical Evolution Timeline</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'neo-black': '#121212',
+            'neo-white': '#f0f0f0',
+            'accent': '#36D399',
+            'accent-alt': '#FF4D8F',
+          },
+          fontFamily: {
+            'future': ['Space Grotesk', 'sans-serif'],
+            'mono': ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body class="bg-neo-black text-neo-white font-future">
+  <div id="app">
+    <header class="fixed top-0 w-full z-50 bg-neo-black/80 backdrop-blur-md">
+      <div class="container mx-auto px-4 py-6 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+          <span class="text-accent text-3xl font-bold tracking-tighter">BOTANICAL</span>
+          <span class="text-neo-white/70 text-xs font-mono uppercase tracking-widest">TIMELINE</span>
+        </div>
+        <nav class="hidden md:flex space-x-8">
+          <a v-for="category in mainCategories" 
+             :href="'#' + category.id" 
+             class="text-sm uppercase tracking-wider hover:text-accent transition-colors">
+            {{ category.name }}
+          </a>
+        </nav>
+        <button @click="toggleNav" class="md:hidden text-neo-white hover:text-accent transition-colors">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+      
+      <!-- Mobile Navigation -->
+      <div v-if="mobileNavOpen" class="md:hidden absolute top-full left-0 w-full bg-neo-black/95 backdrop-blur-md animate-fade-in">
+        <div class="container mx-auto px-4 py-6">
+          <a v-for="category in mainCategories" 
+             :href="'#' + category.id" 
+             class="block py-3 text-sm uppercase tracking-wider hover:text-accent transition-colors border-b border-neo-white/10"
+             @click="mobileNavOpen = false">
+            {{ category.name }}
+          </a>
+        </div>
+      </div>
+    </header>
+    
+    <div class="intro-section h-screen flex items-center justify-center relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-b from-neo-black via-neo-black/70 to-neo-black z-10"></div>
+      <div class="plant-bg absolute inset-0 opacity-20" style="background-image: url('https://images.unsplash.com/photo-1503149779833-1de50ebe5f8a?q=80&w=2560'); background-size: cover; background-position: center;"></div>
+      
+      <div class="container mx-auto px-4 z-20 text-center">
+        <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tighter">The Evolution of <span class="text-accent">Plants</span></h1>
+        <p class="text-neo-white/70 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-light">A journey through time exploring the magnificent diversity of plant life on Earth — from primitive algae to complex flowering species.</p>
+        
+        <div class="flex flex-wrap justify-center gap-4 mb-12">
+          <a href="#timeline" class="inline-flex items-center justify-center px-8 py-4 bg-accent/20 border border-accent text-accent hover:bg-accent hover:text-neo-black transition-all rounded-full">
+            <span class="mr-2">Explore Timeline</span>
+            <i class="fas fa-chevron-down"></i>
+          </a>
+          <button @click="toggleContextPanel" class="inline-flex items-center justify-center px-8 py-4 bg-accent-alt/20 border border-accent-alt text-accent-alt hover:bg-accent-alt hover:text-neo-black transition-all rounded-full">
+            <span class="mr-2">Historical Context</span>
+            <i class="fas fa-brain"></i>
+          </button>
+        </div>
+        
+        <div class="text-xs text-neo-white/40 font-mono">
+          Original map by Dominic Walliman © 2023
+        </div>
+      </div>
+      
+      <div class="absolute bottom-10 left-0 right-0 flex justify-center animate-bounce z-20">
+        <div class="w-8 h-8 rounded-full border-2 border-accent/50 flex items-center justify-center">
+          <i class="fas fa-chevron-down text-accent/50"></i>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Historical Context Panel -->
+    <div v-if="showContextPanel" class="fixed inset-0 bg-neo-black/90 z-50 flex items-center justify-center p-4 backdrop-blur-md">
+      <div class="bg-neo-black border border-neo-white/20 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="p-6 flex justify-between items-center border-b border-neo-white/10">
+          <h2 class="text-2xl font-bold">Historical Context</h2>
+          <button @click="toggleContextPanel" class="text-neo-white/50 hover:text-accent-alt">
+            <i class="fas fa-times text-xl"></i>
+          </button>
+        </div>
+        <div class="p-6">
+          <div v-for="(era, index) in historicalContext" :key="index" class="mb-8">
+            <h3 class="text-xl font-bold mb-3 text-accent-alt">{{ era.period }}</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-neo-white/5 p-4 rounded-lg">
+                <h4 class="font-medium mb-2 text-accent">Plant Evolution</h4>
+                <ul class="space-y-2">
+                  <li v-for="(event, i) in era.plantEvents" :key="i" class="flex items-start">
+                    <span class="inline-block w-1 h-1 rounded-full bg-accent mt-2 mr-2"></span>
+                    <span>{{ event }}</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="bg-neo-white/5 p-4 rounded-lg">
+                <h4 class="font-medium mb-2 text-accent-alt">Earth & Life</h4>
+                <ul class="space-y-2">
+                  <li v-for="(event, i) in era.worldEvents" :key="i" class="flex items-start">
+                    <span class="inline-block w-1 h-1 rounded-full bg-accent-alt mt-2 mr-2"></span>
+                    <span>{{ event }}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-8 pt-4 border-t border-neo-white/10">
+            <h3 class="text-xl font-bold mb-4">Mind-Blowing Plant Facts</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div v-for="(fact, index) in mindBlowingFacts" :key="index" class="bg-neo-white/5 p-4 rounded-lg">
+                <div class="flex items-start">
+                  <span class="inline-block w-6 h-6 rounded-full bg-accent flex items-center justify-center mr-3 flex-shrink-0">
+                    <i class="fas fa-bolt text-neo-black text-xs"></i>
+                  </span>
+                  <p>{{ fact }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="timeline" class="timeline-section relative py-32">
+      <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full timeline-line"></div>
+      
+      <div class="container mx-auto px-4">
+        <div v-for="(category, index) in plantData" :key="category.id" :id="category.id" class="timeline-item mb-32 reveal">
+          <div class="flex flex-col md:flex-row items-center md:items-start relative">
+            <div class="absolute left-1/2 transform -translate-x-1/2 -mt-4 md:mt-8 z-20">
+              <div class="w-6 h-6 rounded-full bg-accent timeline-dot pulse"></div>
+            </div>
+            
+            <div class="w-full md:w-1/2 pr-0 md:pr-16 mb-8 md:mb-0 text-right">
+              <div class="time-tag">{{ category.period }}</div>
+              <h2 class="text-4xl font-bold mb-4">{{ category.name }}</h2>
+              <p class="text-neo-white/70 mb-6">{{ category.description }}</p>
+              
+              <!-- Evolutionary Features Section -->
+              <div class="mb-6 bg-neo-white/5 p-4 rounded-lg">
+                <h3 class="text-sm uppercase tracking-wider text-accent mb-3">Evolutionary Features</h3>
+                <ul class="text-sm text-neo-white/80 space-y-2">
+                  <li v-for="feature in category.features" class="flex items-start">
+                    <span v-if="feature.present" class="text-accent mr-2"><i class="fas fa-check"></i></span>
+                    <span v-else class="text-neo-white/30 mr-2"><i class="fas fa-times"></i></span>
+                    <span :class="{ 'text-accent font-medium': feature.present, 'text-neo-white/50': !feature.present }">
+                      {{ feature.name }}
+                    </span>
+                  </li>
+                </ul>
+              </div>
+              
+              <div class="flex justify-end space-x-2">
+                <span v-for="tag in category.tags" class="text-xs bg-neo-white/5 px-3 py-1 rounded-full text-neo-white/50">{{ tag }}</span>
+              </div>
+            </div>
+            
+            <div class="w-full md:w-1/2 pl-0 md:pl-16">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div v-for="plant in category.plants" class="plant-card bg-neo-black/50 border border-neo-white/10 rounded-lg overflow-hidden hover:border-accent/50">
+                  <div class="h-40 overflow-hidden bg-neo-white/5">
+                    <img :src="plant.image" :alt="plant.name" class="plant-image w-full h-full object-contain">
+                  </div>
+                  <div class="p-4">
+                    <h3 class="font-medium text-lg">{{ plant.name }}</h3>
+                    <p class="text-neo-white/50 text-sm font-mono">{{ plant.scientific }}</p>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Fun Facts -->
+              <div v-if="category.funFact" class="mt-6 p-4 bg-accent/10 border border-accent/20 rounded-lg">
+                <div class="flex items-start">
+                  <div class="text-accent mr-3 mt-1">
+                    <i class="fas fa-lightbulb"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-medium text-accent mb-1">Fun Fact</h4>
+                    <p class="text-neo-white/80 text-sm">{{ category.funFact }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <footer class="bg-neo-black border-t border-neo-white/10 py-12">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="mb-6 md:mb-0">
+            <div class="flex items-center space-x-3 mb-3">
+              <span class="text-accent text-2xl font-bold tracking-tighter">BOTANICAL</span>
+              <span class="text-neo-white/70 text-xs font-mono uppercase tracking-widest">TIMELINE</span>
+            </div>
+            <p class="text-neo-white/50 text-sm">Exploring the epic evolutionary journey of plants.</p>
+          </div>
+          
+          <div class="flex flex-col space-y-2 items-center md:items-end">
+            <p class="text-neo-white/50 text-sm">Created by Absurd Industries</p>
+            <div class="flex space-x-4">
+              <a href="#" class="text-neo-white/50 hover:text-accent transition-colors">
+                <i class="fab fa-github"></i>
+              </a>
+              <a href="#" class="text-neo-white/50 hover:text-accent transition-colors">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="text-neo-white/50 hover:text-accent transition-colors">
+                <i class="fab fa-instagram"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

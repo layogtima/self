@@ -1,0 +1,212 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400;500&display=swap');
+
+:root {
+  --accent: #36D399;
+  --accent-alt: #FF4D8F;
+  --neo-black: #121212;
+  --neo-white: #f0f0f0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  background-color: var(--neo-black);
+  color: var(--neo-white);
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Timeline Styles */
+.timeline-line {
+  background: linear-gradient(to bottom, transparent, var(--accent) 15%, var(--accent) 85%, transparent);
+}
+
+.plant-card {
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-origin: center center;
+}
+
+.plant-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(54, 211, 153, 0.15);
+}
+
+.plant-image {
+  filter: grayscale(100%) contrast(120%);
+  transition: filter 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.plant-card:hover .plant-image {
+  filter: grayscale(0%) contrast(100%);
+}
+
+.timeline-dot {
+  box-shadow: 0 0 0 5px rgba(54, 211, 153, 0.1);
+}
+
+.timeline-item {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  will-change: opacity, transform;
+}
+
+.timeline-item.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Time tag styling */
+.time-tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: linear-gradient(to right, var(--accent), var(--accent-alt));
+  color: var(--neo-black);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border-radius: 9999px;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+}
+
+/* Animation Keyframes */
+@keyframes pulse {
+  0% { 
+    box-shadow: 0 0 0 0 rgba(54, 211, 153, 0.7);
+    transform: scale(1);
+  }
+  70% { 
+    box-shadow: 0 0 0 10px rgba(54, 211, 153, 0);
+    transform: scale(1.1);
+  }
+  100% { 
+    box-shadow: 0 0 0 0 rgba(54, 211, 153, 0);
+    transform: scale(1);
+  }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-in-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s ease-out forwards;
+}
+
+/* Feature animations */
+@keyframes feature-highlight {
+  0% { background-color: rgba(54, 211, 153, 0); }
+  50% { background-color: rgba(54, 211, 153, 0.2); }
+  100% { background-color: rgba(54, 211, 153, 0); }
+}
+
+.feature-highlight {
+  animation: feature-highlight 2s ease-in-out;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .time-tag {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+  }
+}
+
+/* Smooth animations for modals */
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Additional neon effects for hover states */
+a:hover, button:hover {
+  text-shadow: 0 0 8px rgba(54, 211, 153, 0.7);
+}
+
+/* Enhanced Timeline Connector Styles */
+.timeline-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 100px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  z-index: 1;
+  bottom: -100px;
+}
+
+/* Enhanced factoid styling */
+.factoid {
+  position: relative;
+  overflow: hidden;
+}
+
+.factoid::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--accent), var(--accent-alt));
+}
+
+/* Cyber details */
+.cyber-corner {
+  position: relative;
+}
+
+.cyber-corner::before,
+.cyber-corner::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--accent);
+}
+
+.cyber-corner::before {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+
+.cyber-corner::after {
+  bottom: 0;
+  right: 0;
+  border-left: none;
+  border-top: none;
+}
