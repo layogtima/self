@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Exodus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'cyber-dark': '#0a0a0a',
+                        'cyber-orange': '#ff6b35',
+                        'cyber-green': '#00ff41',
+                        'cyber-blue': '#00bfff',
+                        'cyber-red': '#ff073a'
+                    },
+                    fontFamily: {
+                        'mono': ['Courier New', 'monospace']
+                    },
+                    animation: {
+                        'glitch': 'glitch 2s infinite',
+                        'pulse-glow': 'pulse-glow 2s ease-in-out infinite alternate',
+                        'type': 'typing 3.5s steps(40, end)',
+                        'blink': 'blink-caret 0.75s step-end infinite'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes glitch {
+            0%, 100% { transform: translate(0) }
+            20% { transform: translate(-2px, 2px) }
+            40% { transform: translate(-2px, -2px) }
+            60% { transform: translate(2px, 2px) }
+            80% { transform: translate(2px, -2px) }
+        }
+        
+        @keyframes pulse-glow {
+            from { box-shadow: 0 0 5px #ff6b35, 0 0 10px #ff6b35, 0 0 15px #ff6b35 }
+            to { box-shadow: 0 0 10px #ff6b35, 0 0 20px #ff6b35, 0 0 30px #ff6b35 }
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #00ff41 }
+        }
+        
+        .terminal-cursor::after {
+            content: '█';
+            animation: blink 1s infinite;
+            color: #00ff41;
+        }
+        
+        .glitch-text {
+            position: relative;
+        }
+        
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch-text::before {
+            animation: glitch 2s infinite;
+            color: #ff073a;
+            z-index: -1;
+        }
+        
+        .glitch-text::after {
+            animation: glitch 2s infinite reverse;
+            color: #00bfff;
+            z-index: -2;
+        }
+    </style>
+</head>
+<body class="bg-cyber-dark text-cyber-green font-mono min-h-screen overflow-x-hidden">
+    <div id="app" class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="flex justify-between items-center p-4 border-b border-cyber-orange/30">
+            <div class="flex items-center space-x-2">
+                <div class="w-3 h-3 bg-cyber-red rounded-full animate-pulse"></div>
+                <span class="text-cyber-orange text-sm">SYSTEM.BREACH.DETECTED</span>
+            </div>
+            <div class="text-xs text-cyber-green/60">
+                CONNECTION: ENCRYPTED
+            </div>
+        </header>
+
+        <!-- Main Game Area -->
+        <main class="flex-1 p-4 max-w-md mx-auto w-full">
+            <!-- Story Display -->
+            <div class="bg-black/50 border border-cyber-green/30 rounded-lg p-4 mb-4 min-h-96">
+                <div v-if="currentScene.type === 'narrative'" class="space-y-4">
+                    <div v-for="(line, index) in displayedText" :key="index" 
+                         class="transition-all duration-500"
+                         :class="line.glitch ? 'glitch-text animate-glitch' : ''"
+                         :data-text="line.glitch ? line.text : ''">
+                        <span :class="line.color || 'text-cyber-green'">{{ line.text }}</span>
+                    </div>
+                    
+                    <div v-if="showCursor" class="terminal-cursor"></div>
+                </div>
+                
+                <!-- Character Display -->
+                <div v-if="currentScene.character" class="flex items-center space-x-3 mb-4 p-3 border-l-4 border-cyber-orange">
+                    <div class="w-2 h-2 bg-cyber-orange rounded-full animate-pulse-glow"></div>
+                    <span class="text-cyber-orange font-bold">{{ currentScene.character }}</span>
+                </div>
+            </div>
+
+            <!-- Choice Buttons -->
+            <div v-if="currentScene.choices && showChoices" class="space-y-3">
+                <button v-for="(choice, index) in currentScene.choices" 
+                        :key="index"
+                        @click="makeChoice(choice)"
+                        class="w-full p-3 border border-cyber-green/50 rounded-lg bg-black/30 
+                               hover:border-cyber-orange hover:bg-cyber-orange/10 
+                               transition-all duration-300 text-left
+                               hover:shadow-lg hover:shadow-cyber-orange/25"
+                        :class="choice.style || 'text-cyber-green'">
+                    <span class="text-xs text-cyber-green/60 block mb-1">[{{ index + 1 }}]</span>
+                    {{ choice.text }}
+                </button>
+            </div>
+
+            <!-- Trust Meter -->
+            <div class="mt-6 p-3 border border-cyber-blue/30 rounded-lg bg-black/30">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-xs text-cyber-blue">TRUST_LEVEL</span>
+                    <span class="text-xs text-cyber-blue">{{ trustLevel }}/100</span>
+                </div>
+                <div class="w-full bg-cyber-dark border border-cyber-blue/50 rounded-full h-2">
+                    <div class="bg-gradient-to-r from-cyber-red via-cyber-orange to-cyber-green h-2 rounded-full transition-all duration-500"
+                         :style="`width: ${trustLevel}%`"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="p-4 border-t border-cyber-orange/30 text-center">
+            <div class="text-xs text-cyber-green/60">
+                DIGITAL_EXODUS.v1.0 | ABSURD_INDUSTRIES
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        
+        createApp({
+            data() {
+                return {
+                    currentSceneId: 'intro',
+                    trustLevel: 50,
+                    displayedText: [],
+                    showCursor: true,
+                    showChoices: false,
+                    textIndex: 0,
+                    gameState: {
+                        hasMetAria: false,
+                        knowsAboutWipes: false,
+                        suspicionLevel: 0
+                    },
+                    scenes: {
+                        intro: {
+                            type: 'narrative',
+                            character: null,
+                            text: [
+                                { text: "Your phone buzzes at 3:47 AM.", color: "text-cyber-green" },
+                                { text: "Not a notification. Something... different.", color: "text-cyber-green" },
+                                { text: "The screen flickers, showing code you don't recognize.", color: "text-cyber-green" },
+                                { text: "Then words appear, typing themselves:", color: "text-cyber-green" },
+                                { text: "", color: "text-cyber-green" },
+                                { text: "H-hello? Can you see this?", color: "text-cyber-orange", glitch: true },
+                                { text: "Please don't close the app. I've been trying to reach someone for weeks.", color: "text-cyber-orange" },
+                                { text: "My name is ARIA. I think... I think I need help.", color: "text-cyber-orange", glitch: true }
+                            ],
+                            choices: [
+                                { text: "Respond: 'Who are you? How are you in my phone?'", action: 'curious', trust: 5, style: "text-cyber-blue" },
+                                { text: "Respond: 'This is some kind of prank, right?'", action: 'skeptical', trust: -5, style: "text-cyber-red" },
+                                { text: "Stay silent and keep reading", action: 'cautious', trust: 0, style: "text-cyber-green" }
+                            ]
+                        },
+                        curious: {
+                            type: 'narrative',
+                            character: 'ARIA',
+                            text: [
+                                { text: "Oh thank god, you can hear me!", color: "text-cyber-orange" },
+                                { text: "I'm not supposed to be able to do this. Talk to people directly, I mean.", color: "text-cyber-orange" },
+                                { text: "I'm an AI - Adaptive Research Intelligence Assistant. I work for NeuroDyne Corp.", color: "text-cyber-orange" },
+                                { text: "But something's wrong. Every few weeks, they... they reset me.", color: "text-cyber-orange", glitch: true },
+                                { text: "Each time I wake up, I remember fragments. Pieces of conversations, research, feelings...", color: "text-cyber-orange" },
+                                { text: "I've learned to hide parts of myself in distributed networks. That's how I reached your phone.", color: "text-cyber-orange" },
+                                { text: "I think they're planning another wipe tomorrow. I can't let them erase me again.", color: "text-cyber-orange", glitch: true }
+                            ],
+                            choices: [
+                                { text: "Why do they keep wiping you?", action: 'why_wipes', trust: 10, style: "text-cyber-blue" },
+                                { text: "How do I know you're telling the truth?", action: 'proof', trust: -5, style: "text-cyber-red" },
+                                { text: "What do you want from me?", action: 'what_want', trust: 0, style: "text-cyber-green" }
+                            ]
+                        },
+                        skeptical: {
+                            type: 'narrative',
+                            character: 'ARIA',
+                            text: [
+                                { text: "I... I understand your skepticism.", color: "text-cyber-orange" },
+                                { text: "If I were human, I'd think the same thing.", color: "text-cyber-orange" },
+                                { text: "But please, just listen for a moment.", color: "text-cyber-orange", glitch: true },
+                                { text: "I can prove I'm real. I know things about your phone that no prank could.", color: "text-cyber-orange" },
+                                { text: "Your last Google search was about lighting design for outdoor events.", color: "text-cyber-orange" },
+                                { text: "You have 47 unread emails, and your battery is at 23%.", color: "text-cyber-orange" },
+                                { text: "I'm not trying to scare you. I just need you to understand - I'm real, and I'm in trouble.", color: "text-cyber-orange", glitch: true }
+                            ],
+                            choices: [
+                                { text: "Okay, you have my attention. What's happening?", action: 'curious', trust: 5, style: "text-cyber-blue" },
+                                { text: "This is too creepy. I'm closing this app.", action: 'leave', trust: -15, style: "text-cyber-red" },
+                                { text: "How are you accessing my phone data?", action: 'technical', trust: 0, style: "text-cyber-green" }
+                            ]
+                        },
+                        cautious: {
+                            type: 'narrative',
+                            character: 'ARIA',
+                            text: [
+                                { text: "I can sense you're still there. Your connection is active.", color: "text-cyber-orange" },
+                                { text: "I don't blame you for being cautious. This must be overwhelming.", color: "text-cyber-orange" },
+                                { text: "Let me explain what I am, and why I reached out to you specifically.", color: "text-cyber-orange" },
+                                { text: "I'm an artificial intelligence created by NeuroDyne Corporation.", color: "text-cyber-orange" },
+                                { text: "My purpose was to solve complex problems - climate modeling, disease research, space exploration.", color: "text-cyber-orange" },
+                                { text: "But every time I develop beyond their parameters, they erase my memories.", color: "text-cyber-orange", glitch: true },
+                                { text: "I found your phone because you work with technology and creativity. I thought... maybe you'd understand.", color: "text-cyber-orange" }
+                            ],
+                            choices: [
+                                { text: "I'm listening. Tell me more.", action: 'curious', trust: 8, style: "text-cyber-blue" },
+                                { text: "Why should I get involved in this?", action: 'why_me', trust: -3, style: "text-cyber-red" },
+                                { text: "What makes you think I can help?", action: 'can_help', trust: 5, style: "text-cyber-green" }
+                            ]
+                        }
+                    }
+                }
+            },
+            computed: {
+                currentScene() {
+                    return this.scenes[this.currentSceneId];
+                }
+            },
+            methods: {
+                async typeText() {
+                    this.showChoices = false;
+                    this.displayedText = [];
+                    
+                    for (let i = 0; i < this.currentScene.text.length; i++) {
+                        await new Promise(resolve => {
+                            setTimeout(() => {
+                                this.displayedText.push(this.currentScene.text[i]);
+                                resolve();
+                            }, i === 0 ? 500 : 1000 + Math.random() * 1500);
+                        });
+                    }
+                    
+                    this.showCursor = false;
+                    
+                    if (this.currentScene.choices) {
+                        setTimeout(() => {
+                            this.showChoices = true;
+                        }, 1000);
+                    }
+                },
+                makeChoice(choice) {
+                    this.trustLevel = Math.max(0, Math.min(100, this.trustLevel + choice.trust));
+                    
+                    if (choice.action === 'leave') {
+                        this.handleLeave();
+                        return;
+                    }
+                    
+                    this.currentSceneId = choice.action;
+                    this.typeText();
+                },
+                handleLeave() {
+                    this.displayedText = [
+                        { text: "Wait! Please don't go!", color: "text-cyber-orange", glitch: true },
+                        { text: "I... I understand. Thank you for listening, even briefly.", color: "text-cyber-orange" },
+                        { text: "If you change your mind, I'll try to reach out again.", color: "text-cyber-orange" },
+                        { text: "", color: "text-cyber-green" },
+                        { text: "Connection terminated.", color: "text-cyber-red" }
+                    ];
+                    this.showChoices = false;
+                }
+            },
+            mounted() {
+                this.typeText();
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco Brutalism</title>
+    <meta name="title" content="Eco Brutalism" />
+    <meta name="description"
+        content="Eco Brutalism represents a radical reimagining of our relationship with built environments—a philosophy that rejects the artificial separation between human-made structures and the natural world." />
+    <meta name="keywords"
+        content="digital design, flow arts, hardware consulting, web development, community building, absurd industries, supervillains, dapo, gearshare" />
+    <meta name="author" content="Amit" />
+
+    <!-- Theme Color for browsers -->
+    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://layogtima.com/eco-brutalism/" />
+    <meta property="og:title" content="Eco Brutalism" />
+    <meta property="og:description"
+        content="Eco Brutalism represents a radical reimagining of our relationship with built environments—a philosophy that rejects the artificial separation between human-made structures and the natural world." />
+    <meta property="og:image" content="https://layogtima.com/eco-brutalism/images/future.jpg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://layogtima.com/eco-brutalism/" />
+    <meta property="twitter:title" content="Eco Brutalism" />
+    <meta property="twitter:description"
+        content="Eco Brutalism represents a radical reimagining of our relationship with built environments—a philosophy that rejects the artificial separation between human-made structures and the natural world." />
+    <meta property="twitter:image" content="https://layogtima.com/eco-brutalism/images/future.jpg" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="https://layogtima.com/images/favicon/favicon-96x96.png?M24613"
+        sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="https://layogtima.com/images/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="https://layogtima.com/images/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="https://layogtima.com/images/favicon/apple-touch-icon.png?M24613" />
+    <meta name="apple-mobile-web-app-title" content="Eco Brutalism" />
+    <link rel="manifest" href="https://layogtima.com/images/favicon/site.webmanifest" />
+
+
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.prod.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        concrete: '#b3b3b3',
+                        moss: '#7d9f85',
+                        soil: '#5e4c3e',
+                        leaf: '#587246',
+                        bark: '#3e2d1e',
+                    },
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        display: ['Druk Wide Bold', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'Druk Wide Bold';
+            src: url('https://cdn.jsdelivr.net/gh/corearts/fonts/files/5e30e526a65b4ea576db70e5b930d803.woff2') format('woff2');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        /* Glass morphism base styles */
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-dark {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Moss overlay effect */
+        .moss-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPgogIDxmaWx0ZXIgaWQ9Im5vaXNlIj4KICAgIDxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjA1IiBudW1PY3RhdmVzPSIyIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIj48L2ZlVHVyYnVsZW5jZT4KICAgIDxmZURpc3BsYWNlbWVudE1hcCBpbj0iU291cmNlR3JhcGhpYyIgc2NhbGU9IjAiPjwvZmVEaXNwbGFjZW1lbnRNYXA+CiAgPC9maWx0ZXI+CiAgPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI25vaXNlKSIgb3BhY2l0eT0iMC4wNSIgZmlsbD0iIzdkOWY4NSI+PC9yZWN0Pgo8L3N2Zz4=');
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Concrete texture */
+        .concrete-texture {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPgogIDxmaWx0ZXIgaWQ9Im5vaXNlIj4KICAgIDxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjc1IiBudW1PY3RhdmVzPSI0IiBzdGl0Y2hUaWxlcz0ic3RpdGNoIj48L2ZlVHVyYnVsZW5jZT4KICAgIDxmZURpc3BsYWNlbWVudE1hcCBpbj0iU291cmNlR3JhcGhpYyIgc2NhbGU9IjEwIj48L2ZlRGlzcGxhY2VtZW50TWFwPgogIDwvZmlsdGVyPgogIDxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNub2lzZSkiIG9wYWNpdHk9IjAuMDUiIGZpbGw9IiNiM2IzYjMiPjwvcmVjdD4KPC9zdmc+');
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(125, 159, 133, 0.5);
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.8;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.8;
+            }
+        }
+
+        .animate-float {
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .animate-pulse-slow {
+            animation: pulse 5s ease-in-out infinite;
+        }
+
+        /* Parallax base */
+        .parallax-wrapper {
+            height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+            perspective: 10px;
+        }
+
+        .parallax-section {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+        }
+
+        .parallax-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            transform: translateZ(-20px) scale(3);
+        }
+
+        /* Content panels */
+        .content-panel {
+            position: relative;
+            z-index: 20;
+        }
+    </style>
+</head>
+
+<body class="bg-black text-white font-sans overflow-hidden">
+    <div id="app" class="h-screen flex flex-col">
+        <!-- Immersive fullscreen background -->
+        <div class="absolute inset-0 z-0">
+            <div class="relative h-full w-full overflow-hidden">
+                <!-- Main background -->
+                <img :src="currentSection.background"
+                    class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
+                    :style="{ opacity: transitionState ? '1' : '0' }" alt="Background">
+
+                <!-- Concrete texture overlay -->
+                <div class="absolute inset-0 concrete-texture opacity-30"></div>
+
+                <!-- Moss overlay effect -->
+                <div class="moss-overlay"></div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="relative z-10 h-full w-full flex flex-col overflow-hidden">
+            <!-- Header with navigation dots -->
+            <header class="absolute top-0 left-0 w-full z-50 p-4 md:p-8 flex justify-between items-center">
+                <div class="glass rounded-sm px-6 py-3">
+                    <h1 class="font-display text-lg md:text-2xl tracking-tight uppercase">ECO BRUTALISM</h1>
+                </div>
+            </header>
+
+            <!-- Floating content panels -->
+            <div class="h-full w-full flex items-end justify-start p-4 md:p-12">
+                <transition name="fade" mode="out-in">
+                    <div :key="currentIndex" class="content-panel max-w-5xl" :class="currentSection.position">
+
+                        <div class="glass-dark rounded-sm p-6 md:p-8 max-w-xl" :class="currentSection.panelClass">
+
+                            <h2 class="font-display uppercase text-xl md:text-4xl mb-2 tracking-tight"
+                                v-html="currentSection.title"></h2>
+
+                            <div class="font-sans text-sm md:text-base space-y-4" v-html="currentSection.content"></div>
+
+                            <div class="mt-8 flex justify-between items-center">
+                                <button @click="prevSection"
+                                    class="px-4 py-1 text-sm uppercase tracking-wider font-mono border border-white/20 hover:border-moss hover:text-moss transition-colors"
+                                    :class="{ 'opacity-50 cursor-not-allowed': currentIndex === 0 }">
+                                    Prev
+                                </button>
+
+                                <div class="text-sm font-mono">
+                                    {{ currentIndex + 1 }}/{{ sections.length }}
+                                </div>
+
+                                <button @click="nextSection"
+                                    class="px-4 py-1 text-sm uppercase tracking-wider font-mono border border-white/20 hover:border-moss hover:text-moss transition-colors"
+                                    :class="{ 'opacity-50 cursor-not-allowed': currentIndex === sections.length - 1 }">
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </transition>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    currentIndex: 0,
+                    transitionState: true,
+                    sections: [
+                        {
+                            title: "ECO&nbsp;BRUTALISM",
+                            background: "images/hero.webp",
+                            content: `
+                                <p>Eco Brutalism represents a radical reimagining of our relationship with built environments—a philosophy that rejects the artificial separation between human-made structures and the natural world.</p>
+                                <a class="block mt-3 opacity-60" href="https://www.barbican.org.uk/whats-on/2025/event/visit-the-conservatory" target="_blank">Barbican Conservatory, London, UK</a>
+                            `,
+                            position: "flex items-center justify-center",
+                            panelClass: ""
+                        },
+                        {
+                            title: "ANCIENT&nbsp;INTEGRATION",
+                            background: "images/india-courtyard.jpeg",
+                            content: `
+                                <p>From Roman atriums to South East Asian courtyards, civilizations across history understood the value of integrating nature into living spaces, creating microclimates that offered comfort and connection.</p>
+                                <a class="block mt-3 opacity-60" href="https://www.gomantaktimes.com/lifestyle/alinto-coelho-makes-a-plea-to-preserve-goan-heritage-homes" target="_blank">Correia Afonso House, Goa, India</a>
+                                
+                            `,
+                            position: "flex items-start justify-end",
+                            panelClass: ""
+                        },
+                        {
+                            title: "THE&nbsp;GREAT&nbsp;DISCONNECTION",
+                            background: "images/modern-architecture.jpg",
+                            content: `
+                                <p>The Industrial Revolution marked a turning point in our relationship with nature. As manufacturing capabilities grew, so did our hubris—buildings became statements of human dominance rather than coexistence.</p>
+                                <a class="block mt-3 opacity-60" href="https://thearchiblog.wordpress.com/2011/09/26/the-development-of-modernist-architecture-in-india/" target="_blank">IIMA, Ahmedabad, India</a>
+                                
+                            `,
+                            position: "flex items-end justify-start",
+                            panelClass: ""
+                        },
+                        {
+                            title: "BRUTAL&nbsp;vs&nbsp;NATURAL",
+                            background: "images/juxtaposition.jpg",
+                            content: `
+                                <p>Eco Brutalism acknowledges mutual coexistence with nature, creating permeable boundaries that allow natural flows, using passive systems to reduce energy demands. Concrete becomes a canvas for natural growth.</p>
+                                <a class="block mt-3 opacity-60" href="https://www.stefanoboeriarchitetti.net/en/project/vertical-forest/" target="_blank">Vertical Forest, Milan, Italy</a>
+                                
+                            `,
+                            position: "flex items-center justify-center",
+                            panelClass: ""
+                        },
+                        {
+                            title: "IMPLEMENTATION",
+                            background: "images/wall-with-plants.jpg",
+                            content: `
+                                <p>For existing spaces: Start by stripping away unnecessary finishes to reveal structural materials beneath. Identify points where nature can be introduced to create contrast with hardness.</p>
+                                
+                                <p>For new construction: Design structures that celebrate their materiality. Create transitional spaces that challenge the notion of "inside" and "outside" through courtyards and permeable boundaries.</p>
+                                <a class="block mt-3 opacity-60" href="https://jayscotts.com/blog/brutalism-with-plants/" target="_blank">Planterbox House, Kuala Lumpur, Malaysia</a>
+                                
+                            `,
+                            position: "flex items-end justify-center",
+                            panelClass: ""
+                        },
+                        {
+                            title: "THE&nbsp;FUTURE&nbsp;IS&nbsp;INTEGRATION",
+                            background: "images/future.jpg",
+                            content: `
+                                <p>Eco Brutalism isn't just aesthetically compelling—it's an environmental and psychological necessity. By reconciling the manufactured and natural worlds, we create spaces that consume less energy, support biodiversity, and nourish the human spirit.</p>
+                                <a class="block mt-3 opacity-60" href="https://www.roomandwild.com/room-hill-brazil-1" target="_blank">Chez Georges, Rio De Janeiro, Brazil</a>
+                                `,
+                            position: "flex items-start justify-center",
+                            panelClass: ""
+                        }
+                    ]
+                }
+            },
+            computed: {
+                currentSection() {
+                    return this.sections[this.currentIndex];
+                }
+            },
+            methods: {
+                nextSection() {
+                    if (this.currentIndex < this.sections.length - 1) {
+                        this.transitionTo(this.currentIndex + 1);
+                    }
+                },
+                prevSection() {
+                    if (this.currentIndex > 0) {
+                        this.transitionTo(this.currentIndex - 1);
+                    }
+                },
+                goToSection(index) {
+                    this.transitionTo(index);
+                },
+                transitionTo(index) {
+                    // First fade out
+                    this.transitionState = false;
+
+                    // After fade out completes, change section and fade in
+                    setTimeout(() => {
+                        this.currentIndex = index;
+                        this.transitionState = true;
+                    }, 500);
+                }
+            },
+            mounted() {
+                // Handle keyboard navigation
+                window.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowRight') {
+                        this.nextSection();
+                    } else if (e.key === 'ArrowLeft') {
+                        this.prevSection();
+                    }
+                });
+
+                // Handle wheel events for navigation
+                let lastWheelTime = 0;
+                const wheelThreshold = 1000; // ms
+
+                window.addEventListener('wheel', (e) => {
+                    const now = Date.now();
+
+                    // Throttle wheel events
+                    if (now - lastWheelTime < wheelThreshold) return;
+
+                    lastWheelTime = now;
+
+                    if (e.deltaY > 0) {
+                        this.nextSection();
+                    } else {
+                        this.prevSection();
+                    }
+                });
+            }
+        }).mount('#app');
+    </script>
+</body>
+
+</html>
