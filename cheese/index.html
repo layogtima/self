@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Girl Who Wanted the World to Be Cheese</title>
+    <meta name="title" content="The Girl Who Wanted the World to Be Cheese" />
+    <meta
+      name="description"
+      content="PROCESS - Where chaos meets method, and beautiful disasters become intent."
+    />
+    <meta
+      name="keywords"
+      content="digital design, flow arts, hardware consulting, web development, community building, absurd industries, supervillains, dapo, gearshare"
+    />
+    <meta name="author" content="Amit" />
+
+    <!-- Theme Color for browsers -->
+    <meta
+      name="theme-color"
+      content="#0a0a0a"
+      media="(prefers-color-scheme: dark)"
+    />
+    <meta
+      name="theme-color"
+      content="#ffffff"
+      media="(prefers-color-scheme: light)"
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://layogtima.com/cheese" />
+    <meta property="og:title" content="The Girl Who Wanted the World to Be Cheese" />
+    <meta
+      property="og:description"
+      content="On her seventh birthday, while other children would have wished for toys and treats, Priya made the most extraordinary wish..."
+    />
+    <meta
+      property="og:image"
+      content="https://layogtima.com/cheese/screenshot.jpg?M24613"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://layogtima.com/cheese" />
+    <meta property="twitter:title" content="The Girl Who Wanted the World to Be Cheese" />
+    <meta
+      property="twitter:description"
+      content="On her seventh birthday, while other children would have wished for toys and treats, Priya made the most extraordinary wish..."
+    />
+    <meta
+      property="twitter:image"
+      content="https://layogtima.com/cheese/screenshot.jpg?M24613"
+    />
+
+    <!-- Favicons -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://layogtima.com/images/favicon/favicon-96x96.png?M24613"
+      sizes="96x96"
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="https://layogtima.com/images/favicon/favicon.svg"
+    />
+    <link
+      rel="shortcut icon"
+      href="https://layogtima.com/images/favicon/favicon.ico"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="https://layogtima.com/images/favicon/apple-touch-icon.png?M24613"
+    />
+    <meta name="apple-mobile-web-app-title" content="Amit" />
+    <link
+      rel="manifest"
+      href="https://layogtima.com/images/favicon/site.webmanifest"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cheese-gold': '#F5C842',
+                        'cheese-amber': '#E6B800',
+                        'cheese-cream': '#FFF9E6',
+                        'cheese-deep': '#CC9900',
+                        'cheese-shadow': '#B8860B',
+                        'cheese-light': '#FFFACD',
+                        'cheese-hole': '#E6B800',
+                        'cheese-highlight': '#FFE55C'
+                    },
+                    fontFamily: {
+                        'cheese': ['Fredoka One', 'Nunito', 'Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(245, 200, 66, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(230, 184, 0, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #FFF9E6 0%, #FFFACD 50%, #F5C842 100%);
+            min-height: 100vh;
+        }
+        
+        .cheese-texture {
+            background: linear-gradient(145deg, #F5C842, #E6B800);
+            border: 3px solid #CC9900;
+            box-shadow: 
+                0 8px 25px rgba(229, 184, 0, 0.3),
+                inset 0 2px 4px rgba(255, 255, 255, 0.3),
+                inset 0 -2px 4px rgba(204, 153, 0, 0.3);
+            position: relative;
+        }
+        
+        .cheese-texture::before {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: 20%;
+            width: 12px;
+            height: 12px;
+            background: #CC9900;
+            border-radius: 50%;
+            box-shadow: 
+                25px 10px 0 #CC9900,
+                -10px 25px 0 #CC9900,
+                40px -5px 0 #CC9900,
+                15px 35px 0 #CC9900;
+            opacity: 0.4;
+        }
+        
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px) scale(0.95);
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        
+        .melting-text {
+            background: linear-gradient(145deg, #F5C842, #E6B800, #CC9900);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 4px rgba(204, 153, 0, 0.3);
+            filter: drop-shadow(0 0 8px rgba(245, 200, 66, 0.5));
+        }
+        
+        .black-breaker {
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+        }
+        
+        .interlaced-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        
+        .interlaced-container .video-item:nth-child(2) {
+            margin-top: 8rem;
+        }
+        
+        .split-section {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .interlaced-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .interlaced-container .video-item:nth-child(2) {
+                margin-top: 0;
+            }
+            
+            .split-section {
+                flex-direction: column;
+            }
+            
+            .split-section .text-content {
+                order: 2;
+                margin-top: 1rem;
+            }
+            
+            .split-section .video-content {
+                order: 1;
+            }
+        }
+    </style>
+</head>
+<body class="font-cheese">
+    
+    <!-- Header Hero -->
+    <header class="relative h-screen scroll-reveal">
+        <video 
+            class="w-full h-full object-cover"
+            muted 
+            loop 
+            playsinline
+            autoplay>
+            <source src="videos/birthday-cake-made-of-cheese.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10"></div>
+        <div class="absolute -bottom-10 md:left-1/2 transform md:-translate-x-1/2 text-center z-20 px-4 md:px-0">
+            <h1 class="text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight max-w-5xl">
+                The Girl Who Wanted the World to Be Cheese
+            </h1>
+            <div class="cheese-texture rounded-3xl p-4 inline-block">
+                <p class="text-lg md:text-2xl text-white font-bold uppercase">
+                    A magnificently cheesy tale
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Opening Story -->
+    <section class="mt-24 mb-8 py-16 px-4 scroll-reveal">
+        <div class="max-w-5xl mx-auto text-center">
+            <p class="text-3xl md:text-5xl font-bold leading-relaxed mb-8 text-cheese-gold">
+                Priya Gouda was not like other girls.
+            </p>
+            <p class="text-2xl md:text-4xl font-semibold leading-relaxed text-cheese-gold">
+                On her seventh birthday, while other children would have wished for toys and treats, 
+                Priya made the most extraordinary wish...
+            </p>
+        </div>
+    </section>
+
+    <!-- The Wish -->
+    <section class="py-16 pb-48 px-4 scroll-reveal">
+        <div class="text-center">
+            <div class="cheese-texture rounded-3xl p-8 max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-6xl font-black text-white">
+                    "I wish the whole world was made of cheese!"
+                </h2>
+            </div>
+        </div>
+    </section>
+
+    <!-- Magic Wave - Full Screen -->
+    <section class="relative h-screen overflow-hidden scroll-reveal">
+        <video 
+            class="w-full h-full object-cover"
+            muted 
+            loop 
+            autoplay
+            playsinline>
+            <source src="videos/cheese-wave.mp4" type="video/mp4">
+        </video>
+        <div class="absolute bottom-8 md:bottom-16 mx-4 md:mx-0 md:left-8 cheese-texture rounded-3xl p-6 max-w-2xl">
+            <p class="text-xl md:text-2xl font-bold text-white leading-relaxed">
+                And then something incredible happened! The universe giggled and a golden wave of cheese magic swept across the land...
+            </p>
+        </div>
+    </section>
+
+    <!-- Camels and Dolphins Split Screens -->
+    <section class="py-16 px-4 scroll-reveal">
+        <!-- Camels - Video Right, Text Left -->
+        <div class="max-w-7xl mx-auto mb-16">
+            <div class="split-section lg:flex-row">
+                <div class="lg:w-1/5 text-content">
+                    <div class="cheese-texture rounded-3xl p-8 -mt-24 md:mt-64 md:-mr-24">
+                        <p class="text-xl md:text-2xl text-white leading-relaxed">
+                            Across the desert sands, camels transformed into the most magnificent creamy beings the world had ever seen
+                        </p>
+                    </div>
+                </div>
+                <div class="lg:w-4/5 video-content">
+                    <video 
+                        class="w-full h-[75vh] object-cover rounded-3xl"
+                        muted 
+                        loop 
+                        autoplay
+                        playsinline>
+                        <source src="videos/camels-made-of-cheese.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dolphins - Video Left, Text Right -->
+        <div class="max-w-7xl mx-auto">
+            <div class="split-section lg:flex-row-reverse">
+                <div class="lg:w-1/5 text-content">
+                    <div class="cheese-texture rounded-3xl p-8 -mt-24 md:mt-48 md:-ml-24">
+                        <p class="text-xl md:text-2xl text-white leading-relaxed">
+                            Through the ocean's waves, golden dolphins leaped and spun with newfound grace
+                        </p>
+                    </div>
+                </div>
+                <div class="lg:w-4/5 video-content">
+                    <video 
+                        class="w-full h-[80vh] object-cover rounded-3xl"
+                        muted 
+                        loop 
+                        autoplay
+                        playsinline>
+                        <source src="videos/dolphins-made-of-cheese.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fish and Octopi Black Breakers -->
+    <section class="black-breaker py-16 px-4 scroll-reveal">
+        <!-- Fish - Video Right, Text Left -->
+        <div class="max-w-7xl mx-auto mb-16">
+            <div class="split-section lg:flex-row">
+                <div class="lg:w-1/5 text-content">
+                    <div class="bg-cheese-gold md:bg-transparent rounded-3xl p-8 -mt-24">
+                        <p class="text-xl md:text-2xl text-black md:text-cheese-gold leading-relaxed">
+                            The underwater world became a symphony of stretchy, gooey mozzarella fish
+                        </p>
+                    </div>
+                </div>
+                <div class="lg:w-4/5 video-content">
+                    <video 
+                        class="w-full h-[80vh] object-cover rounded-3xl"
+                        muted 
+                        loop 
+                        autoplay
+                        playsinline>
+                        <source src="videos/fish-made-of-cheese.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <!-- Octopi - Video Left, Text Right -->
+        <div class="max-w-7xl mx-auto">
+            <div class="split-section lg:flex-row-reverse">
+                <div class="lg:w-1/5 text-content">
+                    <div class="bg-cheese-gold md:bg-transparent rounded-3xl p-8 -mt-24">
+                        <p class="text-xl md:text-2xl text-black md:text-cheese-gold leading-relaxed">
+                            Eight arms of pure cheese danced through the dairy depths
+                        </p>
+                    </div>
+                </div>
+                <div class="lg:w-4/5 video-content">
+                    <video 
+                        class="w-full h-[80vh] object-cover rounded-3xl"
+                        muted 
+                        loop 
+                        autoplay
+                        playsinline>
+                        <source src="videos/octopi-made-of-cheese.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Giant Squid - Edge to Edge -->
+    <section class="relative h-screen overflow-hidden scroll-reveal">
+        <video 
+            class="w-full h-full object-cover"
+            muted 
+            loop 
+            autoplay
+            playsinline>
+            <source src="videos/giant-squid-made-of-cheese.mp4" type="video/mp4">
+        </video>
+        <div class="absolute bottom-8 md:bottom-16 md:right-8 cheese-texture rounded-3xl p-6 max-w-2xl mx-4 md:mx-0">
+            <p class="text-xl md:text-2xl font-bold text-white leading-relaxed">
+                Even the great creatures of the deep became magnificent and cheesy
+            </p>
+        </div>
+    </section>
+
+    <!-- Capybaras and House - Interlaced -->
+    <section class="py-16 px-4 scroll-reveal">
+        <div class="max-w-7xl mx-auto">
+            <div class="interlaced-container">
+                <!-- Capybaras -->
+                <div class="video-item">
+                    <video 
+                        class="w-full h-[60vh] object-cover rounded-3xl mb-6"
+                        muted 
+                        loop 
+                        autoplay
+                        playsinline>
+                        <source src="videos/capybaras-made-of-cheese.mp4" type="video/mp4">
+                    </video>
+                    <div class="cheese-texture rounded-3xl p-6 -mt-24">
+                        <p class="text-xl md:text-2xl font-bold text-white leading-relaxed text-left">
+                            The capybaras, already the calmest creatures on Earth, 
+                            became even more serene in their cheesy transformation
+                        </p>
+                    </div>
+                </div>
+
+                <!-- House -->
+                <div class="video-item">
+                    <video 
+                        class="w-full h-[60vh] object-cover rounded-3xl mb-6"
+                        muted 
+                        loop 
+                        autoplay
+                        playsinline>
+                        <source src="videos/pan-shot-of-house-made-of-cheese.mp4" type="video/mp4">
+                    </video>
+                    <div class="cheese-texture rounded-3xl p-6 -mt-24">
+                        <p class="text-xl md:text-2xl font-bold text-white leading-relaxed text-center">
+                            Even Priya's home became a palace of parmesan
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Ending -->
+    <section class="py-16 px-4 scroll-reveal">
+        <div class="max-w-4xl mx-auto">
+            <div class="rounded-3xl p-8 text-center">
+                <h2 class="text-4xl md:text-6xl font-black text-white mb-12">
+                    And Priya?
+                </h2>
+                <p class="text-3xl md:text-6xl font-bold text-white leading-relaxed mb-12">
+                    She smiled the biggest, cheesiest smile in the world!
+                </p>
+                <p class="text-xl md:text-4xl font-semibold text-white leading-relaxed">
+                    Because sometimes, the most wonderfully ridiculous wishes 
+                    are exactly what the world needs :)
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 px-4 scroll-reveal">
+        <div class="text-center">
+            <div class="cheese-texture rounded-3xl p-6 text-center mx-auto inline-block">
+                <p class="text-2xl font-black text-white">
+                    Fin
+                </p>
+            </div>
+
+            <a href="https://layogtima.com" class="text-lg font-bold text-white block mt-10 opacity-60 hover:opacity-80">
+                    a cheesy tale by layogtima
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll reveal animation
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.scroll-reveal');
+            
+            reveals.forEach(reveal => {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveal.getBoundingClientRect().top;
+                const elementVisible = 120;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('revealed');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealOnScroll);
+        
+        // Reveal first elements immediately
+        setTimeout(() => {
+            const firstElements = document.querySelectorAll('.scroll-reveal');
+            firstElements[0]?.classList.add('revealed');
+        }, 400);
+    </script>
+</body>
+</html>
