@@ -377,7 +377,7 @@
       </section>
 
       <!-- Leaderboard Section -->
-      <section id="leaderboard" class="py-24 px-8 bg-gray-100">
+      <section id="leaderboard" class="hidden py-24 px-8 bg-gray-100">
         <div class="max-w-6xl mx-auto">
           <h2 class="text-5xl font-bold mb-4">
             MATER<span class="text-xs align-super">IAL</span> LEADERBOARD
@@ -454,7 +454,7 @@
           </div>
 
           <!-- Global Impact Visualization -->
-          <div class="bg-white border-2 border-black p-6">
+          <div class="hidden bg-white border-2 border-black p-6">
             <h3 class="text-xl font-bold mb-4">GLOBAL IMPACT</h3>
             <div class="h-8 w-full bg-gray-200 overflow-hidden">
               <div
@@ -504,7 +504,7 @@
 
             <div class="mt-8 text-sm">
               <p>
-                Created by <a href="#" class="underline">Absurd Industries</a>
+                Created by <a href="https://layogtima.com" class="underline">@layogtima</a> as an experiment.
               </p>
               <p>Data compiled from various scientific and industry sources.</p>
             </div>
@@ -757,21 +757,36 @@
       </div>
 
       <!-- Footer -->
-      <footer class="py-8 px-8 border-t border-gray-200">
-        <div
-          class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center"
-        >
-          <div class="mb-4 md:mb-0">
-            <a href="#" class="text-xl font-bold tracking-tighter">
-              M<span class="text-xs align-text-top">ATERIAL</span>
+      <footer class="py-6 px-4 sm:px-6 md:px-8 border-t border-gray-400 dark:border-gray-600">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
+      <!-- Logo/Built with section -->
+      <div class="text-gray-600 dark:text-gray-400 text-xs flex items-center">
+        <span>Built with</span>
+        <a href="https://mono.layogtima.com/" target="_blank"
+          class="font-mono font-bold tracking-tight ml-2 relative group">
+          <span class="transition-colors duration-300 group-hover:text-black">MONO</span>
+          <span
+            class="absolute -bottom-px left-0 w-0 h-px bg-black dark:bg-white transition-all duration-300 group-hover:w-full"></span>
+        </a>
+      </div>
+
+      <!-- Copyleft section -->
+      <div class="flex items-center gap-4">
+        <div class="text-xs text-gray-600 dark:text-gray-400 block sm:flex text-center items-center gap-2">
+          <span class="inline-block transform rotate-180 text-lg mb-2">©</span>
+          <span>
+            Copyleft 2025 -
+            <a target="_blank" href="https://github.com/layogtima/self" class="relative inline-block group">
+              <span class="transition-colors duration-300 group-hover:text-black">Share,
+                Adapt, Build</span>
+              <span
+                class="absolute -bottom-px left-0 w-0 h-px bg-black dark:bg-white transition-all duration-300 group-hover:w-full"></span>
             </a>
-          </div>
-          <div class="text-xs text-gray-600">
-            &copy; 2025 Absurd Industries. A project by
-            <a href="#" class="underline">Amartha</a>.
-          </div>
+          </span>
         </div>
-      </footer>
+      </div>
+    </div>
+  </footer>
     </div>
 
     <!-- Vue Script -->
