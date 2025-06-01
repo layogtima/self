@@ -138,17 +138,6 @@
             opacity: 0.4;
         }
         
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(50px) scale(0.95);
-            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        
-        .scroll-reveal.revealed {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-        
         .melting-text {
             background: linear-gradient(145deg, #F5C842, #E6B800, #CC9900);
             -webkit-background-clip: text;
@@ -462,30 +451,5 @@
             </a>
         </div>
     </footer>
-
-    <script>
-        // Scroll reveal animation
-        function revealOnScroll() {
-            const reveals = document.querySelectorAll('.scroll-reveal');
-            
-            reveals.forEach(reveal => {
-                const windowHeight = window.innerHeight;
-                const elementTop = reveal.getBoundingClientRect().top;
-                const elementVisible = 120;
-                
-                if (elementTop < windowHeight - elementVisible) {
-                    reveal.classList.add('revealed');
-                }
-            });
-        }
-
-        window.addEventListener('scroll', revealOnScroll);
-        
-        // Reveal first elements immediately
-        setTimeout(() => {
-            const firstElements = document.querySelectorAll('.scroll-reveal');
-            firstElements[0]?.classList.add('revealed');
-        }, 400);
-    </script>
 </body>
 </html>
