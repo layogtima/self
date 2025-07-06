@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solarpunk Earthship | MONO</title>
+    <meta name="description" content="An interactive exploration of a five-story regenerative habitat, designed with Solarpunk principles and a MONO aesthetic." />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Google Fonts: Space Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ["Space Mono", "monospace"],
+                    },
+                    colors: {
+                        'off-white': '#f7f7f7',
+                        'brand-grey': '#cccccc',
+                    },
+                    animation: {
+                       'fade-in-up': 'fadeInUp 1s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                },
+            },
+        };
+    </script>
+
+    <style>
+        * {
+            font-family: "Space Mono", monospace;
+        }
+        .text-stroke {
+            -webkit-text-stroke: 1px black;
+            color: transparent;
+        }
+        .section {
+            opacity: 0;
+            transition: opacity 1s;
+        }
+        .section.visible {
+            opacity: 1;
+        }
+        .floor-indicator {
+            transition: all 0.5s ease-in-out;
+        }
+        .floor-info {
+            transition: all 0.5s ease-in-out;
+            opacity: 0;
+            transform: translateY(20px);
+            visibility: hidden;
+        }
+        .floor-info.active {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+        .hotspot {
+            transition: all 0.3s ease;
+        }
+        .hotspot:hover .hotspot-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -110%);
+        }
+    </style>
+</head>
+
+<body class="bg-white text-black">
+
+    <!-- HEADER -->
+    <header class="h-screen flex flex-col justify-center items-center text-center p-8 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://placehold.co/1200x800/000000/FFFFFF?text=Placeholder')] bg-cover bg-center opacity-5"></div>
+        <div class="z-10">
+            <h1 class="text-5xl md:text-8xl font-bold tracking-tighter">
+                SOLAR<span class="text-xs align-super">PUNK</span>
+            </h1>
+            <h2 class="text-4xl md:text-7xl font-bold text-stroke">EARTHSHIP</h2>
+            <p class="mt-6 max-w-2xl mx-auto text-sm md:text-base">
+                A design report for a five-story regenerative habitat. A living organism built on hope, community, and radical self-sufficiency.
+            </p>
+            <div class="mt-12">
+                <a href="#journey" class="inline-block text-2xl animate-bounce">
+                    <i class="fa-solid fa-chevron-down"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN NARRATIVE -->
+    <main id="journey" class="py-24 px-4 md:px-8">
+
+        <!-- INTRODUCTION -->
+        <section class="max-w-4xl mx-auto text-center mb-24 section">
+            <h2 class="text-3xl md:text-5xl font-bold mb-6">A<span class="text-xs align-super"> VISION</span></h2>
+            <p class="text-base md:text-lg">This is not merely a structure, but a living system—an exemplar of "Archibiotecture". It fuses Earthship self-sufficiency with the optimistic, nature-integrated philosophy of Solarpunk. A built argument for a world of ingenuity, generativity, and community.</p>
+        </section>
+
+        <!-- THE TOWER INTERACTIVE SECTION -->
+        <section class="sticky top-0 h-screen grid grid-cols-1 md:grid-cols-2 gap-8 items-center section">
+            <!-- Left: Interactive Tower Graphic -->
+            <div class="relative w-full max-w-md mx-auto h-[70vh]">
+                <!-- Placeholder for the isometric house graphic -->
+                <div class="absolute inset-0 bg-gray-100 border-2 border-dashed border-gray-400 flex items-center justify-center">
+                   <div class="text-center text-gray-500">
+                        <i class="fa-solid fa-house-chimney-window text-6xl mb-4"></i>
+                        <p>Isometric House Graphic</p>
+                   </div>
+                </div>
+
+                <!-- Floor Indicators -->
+                <div id="floor-indicator-5" class="floor-indicator absolute w-full h-1/5 top-0 left-0 border-2 border-black bg-white/50"></div>
+                <div id="floor-indicator-4" class="floor-indicator absolute w-full h-1/5 top-[20%] left-0 border-2 border-transparent"></div>
+                <div id="floor-indicator-3" class="floor-indicator absolute w-full h-1/5 top-[40%] left-0 border-2 border-transparent"></div>
+                <div id="floor-indicator-2" class="floor-indicator absolute w-full h-1/5 top-[60%] left-0 border-2 border-transparent"></div>
+                <div id="floor-indicator-1" class="floor-indicator absolute w-full h-1/5 top-[80%] left-0 border-2 border-transparent"></div>
+
+                <!-- Hotspots -->
+                <div class="hotspot absolute top-[10%] right-[10%]" data-tooltip="BIPV Skin">
+                    <i class="fa-solid fa-solar-panel text-2xl text-black cursor-pointer"></i>
+                    <div class="hotspot-tooltip absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 w-48 bg-black text-white text-xs text-center p-2 rounded-md opacity-0 invisible transition-all">
+                        <strong>Living Envelope:</strong> Building-Integrated Photovoltaics (BIPV) turn the entire facade into a power source.
+                    </div>
+                </div>
+                <div class="hotspot absolute top-[50%] left-[5%]" data-tooltip="Vertical Gardens">
+                    <i class="fa-solid fa-leaf text-2xl text-black cursor-pointer"></i>
+                     <div class="hotspot-tooltip absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 w-48 bg-black text-white text-xs text-center p-2 rounded-md opacity-0 invisible transition-all">
+                        <strong>Vertical Gardens:</strong> Integrated hydroponic systems provide fresh produce and natural insulation.
+                    </div>
+                </div>
+                 <div class="hotspot absolute top-[90%] right-[20%]" data-tooltip="Water Cycle">
+                    <i class="fa-solid fa-recycle text-2xl text-black cursor-pointer"></i>
+                     <div class="hotspot-tooltip absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 w-48 bg-black text-white text-xs text-center p-2 rounded-md opacity-0 invisible transition-all">
+                        <strong>Closed-Loop Water:</strong> Rainwater harvesting and 4-stage greywater recycling for total water autonomy.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Floor Information -->
+            <div class="relative h-full flex items-center">
+                <div class="w-full">
+                    <div id="floor-info-5" class="floor-info active">
+                        <p class="text-sm uppercase tracking-widest text-gray-500">Level 5</p>
+                        <h3 class="text-3xl md:text-4xl font-bold mb-4">The Sky Observatory</h3>
+                        <p>A light-drenched solarium for contemplation, crowned with a BIPV glass skylight, offering a top-down view of the five-story green core.</p>
+                    </div>
+                    <div id="floor-info-4" class="floor-info">
+                         <p class="text-sm uppercase tracking-widest text-gray-500">Level 4</p>
+                        <h3 class="text-3xl md:text-4xl font-bold mb-4">The Hanging Gardens</h3>
+                        <p>Residential pods and a community library, partitioned by floor-to-ceiling hydroponic walls. Bridges cross through the central tree's upper canopy.</p>
+                    </div>
+                    <div id="floor-info-3" class="floor-info">
+                         <p class="text-sm uppercase tracking-widest text-gray-500">Level 3</p>
+                        <h3 class="text-3xl md:text-4xl font-bold mb-4">The Living Canopy</h3>
+                        <p>Flexible living pods in a lightweight bamboo superstructure, each with a private balcony garden, creating a cascade of greenery.</p>
+                    </div>
+                    <div id="floor-info-2" class="floor-info">
+                         <p class="text-sm uppercase tracking-widest text-gray-500">Level 2</p>
+                        <h3 class="text-3xl md:text-4xl font-bold mb-4">The Community Hearth</h3>
+                        <p>The social heart. A communal kitchen and lounge space that opens into the main garden level of the central atrium, featuring an aquaponics pond.</p>
+                    </div>
+                    <div id="floor-info-1" class="floor-info">
+                         <p class="text-sm uppercase tracking-widest text-gray-500">Level 1</p>
+                        <h3 class="text-3xl md:text-4xl font-bold mb-4">The Root Cellar</h3>
+                        <p>The functional bedrock. A fully earth-bermed utility core, workshop, and mycelium lab, built from rammed-earth tires.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Spacer for scroll effect -->
+        <div class="h-[400vh]"></div>
+
+        <!-- THE HEART SECTION -->
+        <section class="max-w-4xl mx-auto text-center my-24 section">
+             <h2 class="text-3xl md:text-5xl font-bold mb-6">THE<span class="text-xs align-super"> HEART</span></h2>
+             <div class="w-full h-64 md:h-96 bg-gray-100 border-2 border-dashed border-gray-400 my-8 flex items-center justify-center">
+                <div class="text-center text-gray-500">
+                    <i class="fa-solid fa-tree text-6xl mb-4"></i>
+                    <p>Central Atrium Video/Image</p>
+                </div>
+             </div>
+             <p class="text-base md:text-lg">The central veranda is the building's ecological lung and social nucleus. At its core, a five-story tree—a living chronometer that marks the passage of time, its health a direct indicator of the habitat's vitality.</p>
+        </section>
+
+
+        <!-- CONCLUSION -->
+        <section class="max-w-4xl mx-auto text-center mt-24 section">
+            <h2 class="text-3xl md:text-5xl font-bold mb-6">A<span class="text-xs align-super"> LIVING ORGANISM</span></h2>
+            <p class="text-base md:text-lg">This Solarpunk Earthship is not an escape, but a direct, creative, and hopeful engagement with our world's challenges. It is a blueprint for a future that is not only sustainable, but also beautiful, joyful, and abundant.</p>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="py-8 px-8 border-t border-gray-300 mt-24">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center text-center sm:text-left">
+            <div class="mb-4 sm:mb-0">
+                <a href="https://github.com/layogtima/mono" target="_blank" class="text-xl font-bold tracking-normal">MONO</a>
+                 <p class="text-xs text-gray-500">Powered Design</p>
+            </div>
+            <div class="text-xs text-gray-600 flex items-center gap-2">
+                <span class="inline-block transform rotate-180 text-lg mb-2">©</span>
+                <span>Copyleft 2025 - Share, Adapt, Build.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- Intersection Observer for section fade-in ---
+            const sections = document.querySelectorAll('.section');
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // --- Scroll-based interaction for the tower ---
+            const floorInfos = document.querySelectorAll('.floor-info');
+            const floorIndicators = document.querySelectorAll('.floor-indicator');
+            const journeySection = document.getElementById('journey');
+
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                const journeyTop = journeySection.offsetTop;
+                const journeyHeight = journeySection.offsetHeight;
+                
+                // We only want this logic to run when we are in the "journey" part of the page
+                if (scrollY > journeyTop && scrollY < journeyTop + journeyHeight) {
+                    // This determines how far we are scrolled *within* the 400vh spacer div
+                    // The range is from ~1 (start) to ~5 (end)
+                    const scrollFraction = (scrollY - journeyTop - window.innerHeight) / (window.innerHeight) + 1;
+                    
+                    let activeFloor = Math.min(5, Math.max(1, 6 - Math.floor(scrollFraction)));
+
+                    // Update active floor info
+                    floorInfos.forEach(info => {
+                        if (info.id === `floor-info-${activeFloor}`) {
+                            info.classList.add('active');
+                        } else {
+                            info.classList.remove('active');
+                        }
+                    });
+
+                    // Update indicator highlight
+                    floorIndicators.forEach(indicator => {
+                         if (indicator.id === `floor-indicator-${activeFloor}`) {
+                            indicator.style.borderColor = 'black';
+                            indicator.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
+                        } else {
+                           indicator.style.borderColor = 'transparent';
+                           indicator.style.backgroundColor = 'transparent';
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Particle Symphony - Neural Interface v2.1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'mono': ['JetBrains Mono', 'Consolas', 'Monaco', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+        
+        .glass-panel {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .neural-glow {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            animation: pulse-glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes pulse-glow {
+            from { box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); }
+            to { box-shadow: 0 0 30px rgba(255, 255, 255, 0.5); }
+        }
+        
+        #camera-feed {
+            filter: grayscale(100%) contrast(1.2) brightness(0.8);
+        }
+        
+        .gesture-indicator {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .active-gesture {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+        
+        .debug-panel {
+            font-size: 10px;
+            line-height: 1.2;
+        }
+    </style>
+</head>
+<body class="bg-black text-white font-mono overflow-hidden">
+    <div id="app" class="h-screen w-screen relative">
+        <!-- Neural Interface Header -->
+        <div class="absolute top-0 left-0 right-0 z-50 p-4">
+            <div class="glass-panel rounded-lg p-4">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h1 class="text-xl font-bold">PARTICLE SYMPHONY</h1>
+                        <p class="text-sm opacity-60">Neural Interface v2.1 - DEBUG MODE</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-sm opacity-60">STATUS</div>
+                        <div class="flex items-center gap-2">
+                            <div :class="['w-2 h-2 rounded-full', cameraActive ? 'bg-white' : 'bg-white opacity-30']"></div>
+                            <span class="text-xs">{{ cameraActive ? 'NEURAL LINK ACTIVE' : 'INITIALIZING...' }}</span>
+                        </div>
+                        <div class="text-xs mt-1 opacity-60">{{ debugStatus }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Canvas Area -->
+        <div class="absolute inset-0">
+            <canvas ref="particleCanvas" class="absolute inset-0 z-10 bg-black"></canvas>
+            <video ref="videoElement" id="camera-feed" class="absolute top-24 right-4 w-64 h-48 rounded-lg glass-panel z-20" autoplay muted playsinline></video>
+            <canvas ref="handCanvas" class="absolute top-24 right-4 w-64 h-48 rounded-lg z-30" width="640" height="480"></canvas>
+        </div>
+
+        <!-- Debug Panel -->
+        <div class="absolute top-6 left-6 z-50">
+            <div class="glass-panel rounded-lg p-3">
+                <div class="debug-panel">
+                    <div class="text-xs opacity-60 mb-1">DEBUG CONSOLE</div>
+                    <div class="text-sm">{{ Math.round(fps) }} FPS</div>
+                    <div class="text-xs">{{ particleCount }} PARTICLES</div>
+                    <div class="text-xs opacity-60">3JS: {{ threeJsStatus }}</div>
+                    <div class="text-xs opacity-60">MP: {{ mediaPipeStatus }}</div>
+                    <div class="text-xs opacity-60">CAM: {{ cameraStatus }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gesture Control Panel -->
+        <div class="absolute bottom-0 left-0 right-0 z-50 p-4">
+            <div class="glass-panel rounded-lg p-4">
+                <div class="grid grid-cols-5 gap-4">
+                    <div v-for="(finger, index) in fingers" :key="index" 
+                         :class="['gesture-indicator glass-panel rounded-lg p-3 text-center', finger.active ? 'active-gesture neural-glow' : '']">
+                        <div class="text-xs opacity-60 mb-1">{{ finger.name }}</div>
+                        <div class="text-lg font-bold">{{ finger.intensity }}%</div>
+                        <div class="text-xs mt-1 opacity-80">{{ finger.effect }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    // Status tracking
+                    cameraActive: false,
+                    debugStatus: 'Initializing systems...',
+                    threeJsStatus: 'Loading...',
+                    mediaPipeStatus: 'Loading...',
+                    cameraStatus: 'Waiting...',
+                    
+                    // Performance metrics
+                    fps: 0,
+                    particleCount: 0,
+                    lastTime: 0,
+                    frameCount: 0,
+                    
+                    // Gesture data
+                    fingers: [
+                        { name: 'THUMB', intensity: 0, effect: 'SPAWN RATE', active: false },
+                        { name: 'INDEX', intensity: 0, effect: 'VELOCITY', active: false },
+                        { name: 'MIDDLE', intensity: 0, effect: 'SIZE', active: false },
+                        { name: 'RING', intensity: 0, effect: 'SPREAD', active: false },
+                        { name: 'PINKY', intensity: 0, effect: 'GRAVITY', active: false }
+                    ],
+                    
+                    // Three.js components
+                    scene: null,
+                    renderer: null,
+                    camera: null,
+                    particles: [],
+                    particleGeometry: null,
+                    particleMaterial: null,
+                    
+                    // MediaPipe components
+                    hands: null,
+                    cameraUtils: null,
+                    handResults: null,
+                    
+                    // Animation control
+                    animationId: null,
+                    isInitialized: false
+                }
+            },
+            async mounted() {
+                console.log('🚀 Starting Particle Symphony initialization...');
+                this.debugStatus = 'Starting Three.js...';
+                
+                try {
+                    await this.initializeThreeJS();
+                    this.debugStatus = 'Starting MediaPipe...';
+                    await this.initializeMediaPipe();
+                    this.debugStatus = 'Starting animation loop...';
+                    this.startAnimation();
+                    this.isInitialized = true;
+                    this.debugStatus = 'All systems operational';
+                    console.log('✅ All systems initialized successfully!');
+                } catch (error) {
+                    console.error('💥 Initialization failed:', error);
+                    this.debugStatus = `Error: ${error.message}`;
+                }
+            },
+            beforeUnmount() {
+                if (this.animationId) {
+                    cancelAnimationFrame(this.animationId);
+                }
+                this.cleanup();
+            },
+            methods: {
+                async initializeThreeJS() {
+                    console.log('🎬 Initializing Three.js...');
+                    
+                    try {
+                        const canvas = this.$refs.particleCanvas;
+                        if (!canvas) throw new Error('Canvas not found');
+                        
+                        // Scene setup
+                        this.scene = new THREE.Scene();
+                        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                        this.renderer = new THREE.WebGLRenderer({ 
+                            canvas, 
+                            alpha: true,
+                            antialias: false, // Disable for performance
+                            powerPreference: "high-performance"
+                        });
+                        
+                        this.renderer.setSize(window.innerWidth, window.innerHeight);
+                        this.renderer.setClearColor(0x000000, 0);
+                        this.camera.position.z = 5;
+                        
+                        // Pre-create geometry and material for performance
+                        this.particleGeometry = new THREE.SphereGeometry(0.02, 8, 6);
+                        this.particleMaterial = new THREE.MeshBasicMaterial({ 
+                            color: 0xffffff,
+                            transparent: true,
+                            opacity: 0.8
+                        });
+                        
+                        // Handle resize
+                        window.addEventListener('resize', this.handleResize);
+                        
+                        this.threeJsStatus = 'Ready';
+                        console.log('✅ Three.js initialized successfully');
+                        
+                    } catch (error) {
+                        this.threeJsStatus = 'Error';
+                        throw new Error(`Three.js initialization failed: ${error.message}`);
+                    }
+                },
+                
+                async initializeMediaPipe() {
+                    console.log('🤖 Initializing MediaPipe...');
+                    
+                    try {
+                        const hands = new Hands({
+                            locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+                        });
+                        
+                        hands.setOptions({
+                            maxNumHands: 2,
+                            modelComplexity: 1,
+                            minDetectionConfidence: 0.7,
+                            minTrackingConfidence: 0.5
+                        });
+                        
+                        hands.onResults(this.onHandResults);
+                        
+                        const camera = new Camera(this.$refs.videoElement, {
+                            onFrame: async () => {
+                                if (this.$refs.videoElement && this.$refs.videoElement.readyState === 4) {
+                                    await hands.send({ image: this.$refs.videoElement });
+                                }
+                            },
+                            width: 640,
+                            height: 480
+                        });
+                        
+                        await camera.start();
+                        
+                        this.hands = hands;
+                        this.cameraUtils = camera;
+                        this.cameraActive = true;
+                        this.mediaPipeStatus = 'Ready';
+                        this.cameraStatus = 'Active';
+                        
+                        console.log('✅ MediaPipe initialized successfully');
+                        
+                    } catch (error) {
+                        this.mediaPipeStatus = 'Error';
+                        this.cameraStatus = 'Failed';
+                        throw new Error(`MediaPipe initialization failed: ${error.message}`);
+                    }
+                },
+                
+                onHandResults(results) {
+                    this.handResults = results;
+                    this.drawHands(results);
+                    this.updateGestureData(results);
+                },
+                
+                drawHands(results) {
+                    const canvas = this.$refs.handCanvas;
+                    if (!canvas) return;
+                    
+                    const ctx = canvas.getContext('2d');
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    
+                    if (results.multiHandLandmarks) {
+                        for (const landmarks of results.multiHandLandmarks) {
+                            // Draw connections
+                            ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+                            ctx.lineWidth = 2;
+                            this.drawConnections(ctx, landmarks, canvas);
+                            
+                            // Draw landmarks
+                            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                            for (const landmark of landmarks) {
+                                ctx.beginPath();
+                                ctx.arc(landmark.x * canvas.width, landmark.y * canvas.height, 4, 0, 2 * Math.PI);
+                                ctx.fill();
+                            }
+                        }
+                    }
+                },
+                
+                drawConnections(ctx, landmarks, canvas) {
+                    const connections = [
+                        [0, 1], [1, 2], [2, 3], [3, 4], // Thumb
+                        [0, 5], [5, 6], [6, 7], [7, 8], // Index
+                        [5, 9], [9, 10], [10, 11], [11, 12], // Middle
+                        [9, 13], [13, 14], [14, 15], [15, 16], // Ring
+                        [13, 17], [17, 18], [18, 19], [19, 20], // Pinky
+                        [0, 17] // Palm
+                    ];
+                    
+                    for (const [start, end] of connections) {
+                        const startPoint = landmarks[start];
+                        const endPoint = landmarks[end];
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(startPoint.x * canvas.width, startPoint.y * canvas.height);
+                        ctx.lineTo(endPoint.x * canvas.width, endPoint.y * canvas.height);
+                        ctx.stroke();
+                    }
+                },
+                
+                updateGestureData(results) {
+                    // Reset all fingers
+                    this.fingers.forEach(finger => {
+                        finger.active = false;
+                        finger.intensity = Math.max(0, finger.intensity - 2); // Smooth decay
+                    });
+                    
+                    if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+                        const landmarks = results.multiHandLandmarks[0];
+                        this.processFingerData(landmarks);
+                    }
+                },
+                
+                processFingerData(landmarks) {
+                    const fingerTips = [4, 8, 12, 16, 20]; // Thumb, Index, Middle, Ring, Pinky
+                    const fingerBases = [3, 6, 10, 14, 18];
+                    
+                    fingerTips.forEach((tipIndex, i) => {
+                        const tip = landmarks[tipIndex];
+                        const base = landmarks[fingerBases[i]];
+                        
+                        // Calculate extension (distance from base to tip)
+                        const extension = Math.sqrt(
+                            Math.pow(tip.x - base.x, 2) + 
+                            Math.pow(tip.y - base.y, 2)
+                        );
+                        
+                        const intensity = Math.min(100, Math.max(0, extension * 400));
+                        
+                        this.fingers[i].intensity = Math.round(intensity);
+                        this.fingers[i].active = intensity > 40;
+                        
+                        // Create particles based on finger activity
+                        if (this.fingers[i].active && this.isInitialized) {
+                            this.createParticlesForFinger(i, intensity, tip);
+                        }
+                    });
+                },
+                
+                createParticlesForFinger(fingerIndex, intensity, position) {
+                    if (!this.scene || !this.renderer || this.particles.length > 300) return;
+                    
+                    // Throttle particle creation
+                    if (Math.random() > 0.3) return;
+                    
+                    try {
+                        const particle = this.createSingleParticle(fingerIndex, intensity, position);
+                        if (particle) {
+                            this.scene.add(particle);
+                            this.particles.push(particle);
+                        }
+                    } catch (error) {
+                        console.warn('Failed to create particle:', error);
+                    }
+                },
+                
+                createSingleParticle(fingerIndex, intensity, position) {
+                    // Use instanced geometry for better performance
+                    const geometry = this.particleGeometry.clone();
+                    const material = this.particleMaterial.clone();
+                    
+                    const size = Math.max(0.01, 0.02 + intensity / 3000);
+                    geometry.scale(size, size, size);
+                    
+                    material.opacity = Math.min(0.9, intensity / 120);
+                    
+                    const particle = new THREE.Mesh(geometry, material);
+                    
+                    // Convert normalized coordinates to 3D space
+                    const x = (position.x - 0.5) * 8;
+                    const y = -(position.y - 0.5) * 6;
+                    const z = (Math.random() - 0.5) * 2;
+                    
+                    particle.position.set(x, y, z);
+                    
+                    // Add movement properties
+                    particle.velocity = this.calculateVelocity(fingerIndex, intensity);
+                    particle.life = 1.0;
+                    particle.maxLife = 1.0;
+                    particle.fingerType = fingerIndex;
+                    particle.birthTime = Date.now();
+                    
+                    return particle;
+                },
+                
+                calculateVelocity(fingerIndex, intensity) {
+                    const baseSpeed = intensity / 8000;
+                    const time = Date.now() / 1000;
+                    
+                    switch(fingerIndex) {
+                        case 0: // Thumb - Spiral
+                            return {
+                                x: Math.cos(time * 2) * baseSpeed * 2,
+                                y: Math.sin(time * 2) * baseSpeed * 2,
+                                z: baseSpeed
+                            };
+                        case 1: // Index - Upward stream
+                            return { 
+                                x: (Math.random() - 0.5) * baseSpeed, 
+                                y: baseSpeed * 3, 
+                                z: 0 
+                            };
+                        case 2: // Middle - Explosion
+                            return {
+                                x: (Math.random() - 0.5) * baseSpeed * 4,
+                                y: (Math.random() - 0.5) * baseSpeed * 4,
+                                z: (Math.random() - 0.5) * baseSpeed * 4
+                            };
+                        case 3: // Ring - Circular
+                            return {
+                                x: Math.cos(time * 3) * baseSpeed * 2,
+                                y: 0,
+                                z: Math.sin(time * 3) * baseSpeed * 2
+                            };
+                        case 4: // Pinky - Downward rain
+                            return { 
+                                x: (Math.random() - 0.5) * baseSpeed, 
+                                y: -baseSpeed * 3, 
+                                z: 0 
+                            };
+                        default:
+                            return { x: 0, y: 0, z: 0 };
+                    }
+                },
+                
+                updateParticles() {
+                    if (!this.particles.length) return;
+                    
+                    const particlesToRemove = [];
+                    
+                    this.particles.forEach((particle, index) => {
+                        try {
+                            // Update position
+                            particle.position.x += particle.velocity.x;
+                            particle.position.y += particle.velocity.y;
+                            particle.position.z += particle.velocity.z;
+                            
+                            // Update life
+                            particle.life -= 0.008;
+                            
+                            // Update visual properties
+                            if (particle.material && particle.material.opacity !== undefined) {
+                                particle.material.opacity = Math.max(0, particle.life);
+                            }
+                            
+                            // Apply finger-specific effects
+                            this.applyFingerEffects(particle);
+                            
+                            // Mark for removal if dead or out of bounds
+                            if (particle.life <= 0 || 
+                                Math.abs(particle.position.x) > 12 || 
+                                Math.abs(particle.position.y) > 10 ||
+                                Math.abs(particle.position.z) > 8) {
+                                particlesToRemove.push(index);
+                            }
+                        } catch (error) {
+                            console.warn('Error updating particle:', error);
+                            particlesToRemove.push(index);
+                        }
+                    });
+                    
+                    // Clean up dead particles
+                    this.removeParticles(particlesToRemove);
+                    this.particleCount = this.particles.length;
+                },
+                
+                removeParticles(indices) {
+                    // Remove in reverse order to maintain indices
+                    for (let i = indices.length - 1; i >= 0; i--) {
+                        const index = indices[i];
+                        const particle = this.particles[index];
+                        
+                        if (particle) {
+                            try {
+                                this.scene.remove(particle);
+                                if (particle.geometry && particle.geometry.dispose) {
+                                    particle.geometry.dispose();
+                                }
+                                if (particle.material && particle.material.dispose) {
+                                    particle.material.dispose();
+                                }
+                            } catch (error) {
+                                console.warn('Error removing particle:', error);
+                            }
+                        }
+                        
+                        this.particles.splice(index, 1);
+                    }
+                },
+                
+                applyFingerEffects(particle) {
+                    const time = Date.now() / 1000;
+                    const age = (particle.maxLife - particle.life) / particle.maxLife;
+                    
+                    try {
+                        switch(particle.fingerType) {
+                            case 0: // Thumb - Growing spiral
+                                const spiralScale = 1 + Math.sin(time * 3 + age * 10) * 0.2;
+                                particle.scale.setScalar(spiralScale);
+                                break;
+                                
+                            case 1: // Index - Pulsing
+                                const pulseScale = 1 + Math.sin(time * 8 + age * 5) * 0.3;
+                                particle.scale.setScalar(pulseScale);
+                                break;
+                                
+                            case 2: // Middle - Rotating
+                                particle.rotation.x += 0.05;
+                                particle.rotation.y += 0.03;
+                                particle.rotation.z += 0.07;
+                                break;
+                                
+                            case 3: // Ring - Wave motion
+                                particle.position.y += Math.sin(time * 4 + particle.position.x) * 0.002;
+                                break;
+                                
+                            case 4: // Pinky - Fade and shrink
+                                const shrinkScale = 1 - age * 0.5;
+                                particle.scale.setScalar(Math.max(0.1, shrinkScale));
+                                break;
+                        }
+                    } catch (error) {
+                        console.warn('Error applying finger effects:', error);
+                    }
+                },
+                
+                startAnimation() {
+                    const animate = (currentTime) => {
+                        try {
+                            // Calculate FPS
+                            this.frameCount++;
+                            if (currentTime - this.lastTime >= 1000) {
+                                this.fps = this.frameCount;
+                                this.frameCount = 0;
+                                this.lastTime = currentTime;
+                            }
+                            
+                            // Update particles
+                            this.updateParticles();
+                            
+                            // Render scene
+                            if (this.renderer && this.scene && this.camera) {
+                                this.renderer.render(this.scene, this.camera);
+                            }
+                            
+                            this.animationId = requestAnimationFrame(animate);
+                        } catch (error) {
+                            console.error('Animation loop error:', error);
+                            this.debugStatus = `Animation error: ${error.message}`;
+                        }
+                    };
+                    
+                    this.animationId = requestAnimationFrame(animate);
+                    console.log('🎬 Animation loop started');
+                },
+                
+                handleResize() {
+                    if (this.camera && this.renderer) {
+                        this.camera.aspect = window.innerWidth / window.innerHeight;
+                        this.camera.updateProjectionMatrix();
+                        this.renderer.setSize(window.innerWidth, window.innerHeight);
+                    }
+                },
+                
+                cleanup() {
+                    // Clean up Three.js resources
+                    this.particles.forEach(particle => {
+                        if (particle.geometry) particle.geometry.dispose();
+                        if (particle.material) particle.material.dispose();
+                    });
+                    
+                    if (this.particleGeometry) this.particleGeometry.dispose();
+                    if (this.particleMaterial) this.particleMaterial.dispose();
+                    
+                    // Clean up MediaPipe
+                    if (this.cameraUtils) {
+                        this.cameraUtils.stop();
+                    }
+                    
+                    window.removeEventListener('resize', this.handleResize);
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

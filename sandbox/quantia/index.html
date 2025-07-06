@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MONO | Quantum Interface</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ["Space Mono", "monospace"],
+          },
+          animation: {
+            "slow-ping": "ping 3s cubic-bezier(0, 0, 0.2, 1) infinite",
+            "spin-slow": "spin 8s linear infinite",
+            "text-slide": "text-slide 12s linear infinite",
+          },
+          keyframes: {
+            "text-slide": {
+              "0%, 100%": { transform: "translateX(0%)" },
+              "50%": { transform: "translateX(-20%)" },
+            },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+    * {
+      font-family: "Space Mono", monospace;
+    }
+
+    .grid-lines {
+      background-size: 20px 20px;
+      background-image: linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    }
+
+    .grid-lines-white {
+      background-size: 20px 20px;
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    }
+
+    .text-outline {
+      -webkit-text-stroke: 1px black;
+      -webkit-text-fill-color: white;
+    }
+
+    .text-outline-white {
+      -webkit-text-stroke: 1px white;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .animate-scroll {
+      animation: scroll 20s linear infinite;
+    }
+
+    @keyframes scroll {
+      0% {
+        transform: translateX(100%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    .qubit {
+      position: relative;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .qubit-white {
+      border: 2px solid white;
+    }
+
+    .qubit-black {
+      border: 2px solid black;
+    }
+  </style>
+</head>
+<body class="bg-white text-black min-h-screen flex flex-col">
+  <!-- Navigation -->
+  <nav class="fixed w-full px-4 py-3 flex justify-between items-center z-50 bg-white border-b border-gray-900">
+    <a href="#" class="text-xl font-bold tracking-tighter">Q<span class="text-xs align-text-top">UANTUM</span></a>
+    <div class="flex gap-6">
+      <a href="#algorithms" class="text-sm hover:underline decoration-4 underline-offset-8">ALGORITHMS</a>
+      <a href="#qubits" class="text-sm hover:underline decoration-4 underline-offset-8">QUBITS</a>
+      <a href="#entanglement" class="text-sm hover:underline decoration-4 underline-offset-8">ENTANGLEMENT</a>
+      <a href="#terminal" class="text-sm hover:underline decoration-4 underline-offset-8">TERMINAL</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="h-screen flex flex-col justify-center items-center pt-16 relative overflow-hidden">
+    <div class="grid-lines absolute inset-0 z-0"></div>
+    <div class="z-10 px-8 max-w-4xl text-center">
+      <h1 class="text-6xl md:text-8xl font-bold mb-6 leading-none">
+        QUAN<span class="text-xs align-super">TUM</span>
+      </h1>
+      <p class="text-lg md:text-xl max-w-2xl mx-auto">
+        Superposition. Entanglement. Computation.
+      </p>
+    </div>
+    <div class="absolute bottom-8 left-0 right-0 flex justify-center">
+      <div class="animate-bounce">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <polyline points="19 12 12 19 5 12"></polyline>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- Marquee Text -->
+  <div class="bg-black text-white py-3 overflow-hidden whitespace-nowrap">
+    <div class="animate-scroll inline-block">
+      <span class="text-xl mx-4">QUANTUM SUPREMACY</span>
+      <span class="text-xl mx-4">•</span>
+      <span class="text-xl mx-4">SUPERPOSITION</span>
+      <span class="text-xl mx-4">•</span>
+      <span class="text-xl mx-4">ENTANGLEMENT DISTANCE: ∞</span>
+      <span class="text-xl mx-4">•</span>
+      <span class="text-xl mx-4">QUANTUM COHERENCE: 99.9987%</span>
+      <span class="text-xl mx-4">•</span>
+    </div>
+  </div>
+
+  <!-- Quantum Stats Section -->
+  <section id="algorithms" class="py-24 px-8">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-5xl font-bold mb-16">
+        ALGO<span class="text-xs align-super">RITHMS</span>
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Card 1 -->
+        <div class="group">
+          <div class="border-2 border-black p-6 h-96 flex flex-col justify-between transition-all duration-300 group-hover:bg-black group-hover:text-white relative overflow-hidden">
+            <h3 class="text-3xl font-bold z-10">
+              SHOR<span class="text-xs align-super">++</span>
+            </h3>
+            <div class="flex items-center space-x-2">
+              <div class="qubit qubit-black group-hover:qubit-white"></div>
+              <p class="text-sm">v9.7.3</p>
+            </div>
+            <p class="z-10">
+              Advanced integer factorization algorithm. Breaking modern cryptography since 2023.
+            </p>
+            <div class="text-xs self-end uppercase tracking-widest mt-4 group-hover:underline decoration-2 underline-offset-4 z-10">
+              Execute →
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="group">
+          <div class="border-2 border-black p-6 h-96 flex flex-col justify-between transition-all duration-300 group-hover:bg-black group-hover:text-white relative overflow-hidden bg-black text-white">
+            <h3 class="text-3xl font-bold z-10">
+              GROVER<span class="text-xs align-super">+++</span>
+            </h3>
+            <div class="flex items-center space-x-2">
+              <div class="qubit qubit-white group-hover:qubit-black animate-ping"></div>
+              <p class="text-sm">v12.3.5</p>
+            </div>
+            <p class="z-10">
+              Quantum search algorithm. Finding needles in exponential haystacks.
+            </p>
+            <div class="text-xs self-end uppercase tracking-widest mt-4 group-hover:underline decoration-2 underline-offset-4 z-10">
+              Active ◈
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="group">
+          <div class="border-2 border-black p-6 h-96 flex flex-col justify-between transition-all duration-300 group-hover:bg-black group-hover:text-white">
+            <h3 class="text-3xl font-bold z-10">
+              QAI<span class="text-xs align-super">.5</span>
+            </h3>
+            <div class="flex items-center space-x-2">
+              <div class="qubit qubit-black group-hover:qubit-white"></div>
+              <p class="text-sm">v8.9.1</p>
+            </div>
+            <p class="z-10">
+              Quantum AI Acceleration. Neural networks that exist in superposition.
+            </p>
+            <div class="text-xs self-end uppercase tracking-widest mt-4 group-hover:underline decoration-2 underline-offset-4 z-10">
+              Execute →
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Qubits Visualization -->
+  <section id="qubits" class="py-24 px-8 bg-black text-white">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-5xl font-bold mb-16">
+        QUB<span class="text-xs align-super">ITS</span>
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+        <!-- Qubit Visualization -->
+        <div class="h-96 border-2 border-white p-8 flex flex-col justify-between relative overflow-hidden">
+          <div class="grid-lines-white absolute inset-0 z-0"></div>
+          <h3 class="text-3xl font-bold z-10">VISUALIZATION</h3>
+          
+          <div class="flex-1 flex items-center justify-center">
+            <div class="relative">
+              <div class="w-48 h-48 border-2 border-white rounded-full animate-spin-slow"></div>
+              <div class="w-24 h-24 border-2 border-white rounded-full animate-spin-slow absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" style="animation-direction: reverse;"></div>
+              <div class="qubit qubit-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+            </div>
+          </div>
+          
+          <div class="mt-4 z-10">
+            <div class="text-xs uppercase tracking-widest">Coherence Time</div>
+            <div class="flex items-center mt-2">
+              <div class="h-1 bg-white flex-grow">
+                <div class="h-full w-4/5 bg-white"></div>
+              </div>
+              <span class="ml-2 text-sm">99.9987%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Qubit Stats -->
+        <div class="h-96 border-2 border-white p-8 flex flex-col justify-between">
+          <h3 class="text-3xl font-bold">QUANTUM REGISTER</h3>
+          
+          <div class="space-y-6 my-auto">
+            <div>
+              <div class="text-xs uppercase tracking-widest mb-2">Active Qubits</div>
+              <div class="text-5xl font-bold">12,345,789</div>
+            </div>
+            
+            <div>
+              <div class="text-xs uppercase tracking-widest mb-2">Entanglement Score</div>
+              <div class="text-5xl font-bold">∞</div>
+            </div>
+            
+            <div>
+              <div class="text-xs uppercase tracking-widest mb-2">Error Rate</div>
+              <div class="text-5xl font-bold">0.0000013%</div>
+            </div>
+          </div>
+          
+          <div class="text-xs self-end uppercase tracking-widest">
+            QUANTUM SUPREMACY LEVEL: 10<sup>23</sup>x
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Entanglement Section -->
+  <section id="entanglement" class="py-24 px-8 relative">
+    <div class="grid-lines absolute inset-0 z-0"></div>
+    <div class="max-w-6xl mx-auto relative z-10">
+      <h2 class="text-5xl font-bold mb-16">
+        ENTANG<span class="text-xs align-super">LEMENT</span>
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+        <div class="md:col-span-8 border-2 border-black p-8 h-64 flex flex-col justify-between">
+          <h3 class="text-2xl font-bold">PAIR STATES</h3>
+          
+          <div class="flex-1 flex items-center justify-around">
+            <div class="flex items-center">
+              <div class="qubit qubit-black animate-pulse mr-2"></div>
+              <span class="text-sm">QUBIT A</span>
+            </div>
+            
+            <div class="w-32 h-px bg-black"></div>
+            
+            <div class="flex items-center">
+              <div class="qubit qubit-black animate-pulse mr-2" style="animation-delay: 0ms;"></div>
+              <span class="text-sm">QUBIT B</span>
+            </div>
+          </div>
+          
+          <div class="text-xs uppercase tracking-widest">
+            CORRELATION: 100%
+          </div>
+        </div>
+
+        <div class="md:col-span-4 border-2 border-black p-8 h-64 flex flex-col justify-between bg-black text-white">
+          <h3 class="text-2xl font-bold">BELL STATES</h3>
+          
+          <div class="flex-1 flex items-center justify-center">
+            <span class="text-4xl font-mono">|Φ<sup>+</sup>⟩</span>
+          </div>
+          
+          <div class="text-xs uppercase tracking-widest">
+            MAXIMALLY ENTANGLED
+          </div>
+        </div>
+
+        <div class="md:col-span-6 border-2 border-black p-8 h-64">
+          <h3 class="text-2xl font-bold mb-6">NON-LOCALITY</h3>
+          
+          <div class="flex justify-between items-center h-24">
+            <div class="text-center">
+              <div class="qubit qubit-black mx-auto mb-2"></div>
+              <span class="text-xs">EARTH</span>
+            </div>
+            
+            <div class="flex-1 mx-4 h-px bg-black relative">
+              <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 text-xs">INSTANT</div>
+            </div>
+            
+            <div class="text-center">
+              <div class="qubit qubit-black mx-auto mb-2"></div>
+              <span class="text-xs">ALPHA CENTAURI</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="md:col-span-6 border-2 border-black p-8 h-64 bg-black text-white">
+          <h3 class="text-2xl font-bold mb-6">TELEPORTATION</h3>
+          
+          <div class="grid grid-cols-3 gap-2 h-24">
+            <div class="text-center flex flex-col items-center justify-center">
+              <span class="text-xs mb-2">SOURCE</span>
+              <div class="w-8 h-8 border border-white"></div>
+            </div>
+            
+            <div class="flex flex-col items-center justify-center">
+              <span class="text-xs mb-2">QUANTUM CHANNEL</span>
+              <div class="w-full h-px bg-white"></div>
+            </div>
+            
+            <div class="text-center flex flex-col items-center justify-center">
+              <span class="text-xs mb-2">TARGET</span>
+              <div class="w-8 h-8 border border-white"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Terminal Section -->
+  <section id="terminal" class="py-24 px-8 bg-black text-white">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-5xl font-bold mb-16">
+        TERM<span class="text-xs align-super">INAL</span>
+      </h2>
+
+      <div class="border-2 border-white p-8">
+        <div class="flex justify-between items-center mb-8">
+          <div class="text-sm">quantum@mono:~$</div>
+          <div class="flex items-center space-x-2">
+            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+          </div>
+        </div>
+
+        <div class="font-mono text-sm space-y-2">
+          <p>quantum@mono:~$ <span class="text-white">initialize_qubits</span> --count=12345789</p>
+          <p>[INFO] Initializing quantum processor...</p>
+          <p>[INFO] Stabilizing quantum coherence...</p>
+          <p>[SUCCESS] Quantum processor ready.</p>
+          <p>quantum@mono:~$ <span class="text-white">run</span> --algorithm="Grover+++" --target="encryption_key"</p>
+          <p>[INFO] Preparing quantum gates...</p>
+          <p>[INFO] Applying superposition to all qubits...</p>
+          <p>[SUCCESS] Superposition achieved.</p>
+          <p>[INFO] Implementing quantum oracle...</p>
+          <p>[SUCCESS] Oracle defined.</p>
+          <p>[INFO] Running Grover iterations...</p>
+          <p>[STATUS] Iteration 1/√N: Probability amplification in progress...</p>
+          <p class="animate-pulse">[ACTIVE] Processing... <span class="animate-pulse">▊</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quote Section -->
+  <section class="py-24 px-8">
+    <div class="max-w-4xl mx-auto text-center">
+      <blockquote class="text-3xl md:text-5xl font-bold mb-8 leading-tight">
+        "God does not play dice with the universe."
+      </blockquote>
+      <p class="text-xl text-gray-600">— Albert Einstein</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-8 px-8 border-t border-gray-900">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <div>
+        <a href="#" class="text-xl font-bold tracking-tighter">Q<span class="text-xs align-text-top">UANTUM</span></a>
+      </div>
+      <div class="text-xs text-gray-600">
+        &copy; 2025 MONO QUANTUM. Temporally shifted from 2087.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Minimal JavaScript to enhance interactivity
+    document.addEventListener('DOMContentLoaded', function() {
+      // Create qubit particles in terminal section
+      const terminal = document.getElementById('terminal');
+      
+      function createQubits() {
+        // Remove existing qubits
+        const existingQubits = terminal.querySelectorAll('.particle');
+        existingQubits.forEach(qubit => qubit.remove());
+        
+        // Add new qubits
+        for (let i = 0; i < 15; i++) {
+          const qubit = document.createElement('div');
+          qubit.classList.add('qubit', 'qubit-white', 'absolute');
+          qubit.style.top = `${Math.random() * 100}%`;
+          qubit.style.left = `${Math.random() * 100}%`;
+          qubit.style.opacity = Math.random() * 0.5 + 0.5;
+          qubit.style.transform = 'scale(' + (Math.random() * 0.5 + 0.5) + ')';
+          terminal.appendChild(qubit);
+        }
+      }
+      
+      // Initial creation
+      createQubits();
+      
+      // Re-create periodically
+      setInterval(createQubits, 5000);
+      
+      // Terminal typing simulation
+      const terminalOutput = document.querySelector('.font-mono');
+      const commands = [
+        "analyze_entanglement --pairs=1000",
+        "check_coherence --precision=high",
+        "run_simulation --universe='prime' --iterations=∞",
+        "teleport_state --source=A --target=B",
+      ];
+      
+      let commandIdx = 0;
+      
+      setInterval(() => {
+        const cmd = commands[commandIdx];
+        const newLine = document.createElement('p');
+        newLine.innerHTML = `quantum@mono:~$ <span class="text-white">${cmd.split(' ')[0]}</span> ${cmd.split(' ').slice(1).join(' ')}`;
+        terminalOutput.appendChild(newLine);
+        
+        setTimeout(() => {
+          const responseLine = document.createElement('p');
+          responseLine.textContent = `[SUCCESS] Command executed in quantum space.`;
+          terminalOutput.appendChild(responseLine);
+        }, 800);
+        
+        // Limit number of lines
+        setTimeout(() => {
+          while (terminalOutput.children.length > 15) {
+            terminalOutput.removeChild(terminalOutput.firstChild);
+          }
+        }, 1000);
+        
+        commandIdx = (commandIdx + 1) % commands.length;
+      }, 4000);
+    });
+  </script>
+</body>
+</html>
