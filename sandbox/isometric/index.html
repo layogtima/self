@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MONO VALLEY | Collaborative Zen Garden</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ["Space Mono", "monospace"],
+          },
+          animation: {
+            'float': 'float 4s ease-in-out infinite',
+            'grow': 'grow 8s ease-out forwards',
+            'pulse-soft': 'pulse-soft 3s ease-in-out infinite',
+            'seed-drift': 'seed-drift 15s linear infinite',
+            'sparkle': 'sparkle 2s ease-in-out infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+              '50%': { transform: 'translateY(-8px) rotate(1deg)' }
+            },
+            grow: {
+              '0%': { transform: 'scale(0.1)', opacity: '0' },
+              '20%': { transform: 'scale(0.3)', opacity: '0.6' },
+              '100%': { transform: 'scale(1)', opacity: '1' }
+            },
+            'pulse-soft': {
+              '0%, 100%': { opacity: '0.6' },
+              '50%': { opacity: '1' }
+            },
+            'seed-drift': {
+              '0%': { transform: 'translateX(-20px) translateY(100vh) scale(0)', opacity: '0' },
+              '10%': { opacity: '0.8', transform: 'scale(1)' },
+              '90%': { opacity: '0.8' },
+              '100%': { transform: 'translateX(20px) translateY(-20px) scale(0)', opacity: '0' }
+            },
+            sparkle: {
+              '0%, 100%': { opacity: '0', transform: 'scale(0.5)' },
+              '50%': { opacity: '1', transform: 'scale(1)' }
+            }
+          }
+        },
+      },
+    };
+  </script>
+  
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen overflow-hidden">
+  <div id="app">
+    <!-- Floating Seeds (Collaborative Magic) -->
+    <div class="fixed inset-0 pointer-events-none z-10">
+      <div v-for="seed in floatingSeeds" 
+           :key="seed.id"
+           :class="[
+             'absolute w-2 h-2 bg-gray-400 rounded-full animate-seed-drift',
+             seed.type === 'collaborative' ? 'animate-sparkle' : ''
+           ]"
+           :style="{ 
+             left: seed.x + 'px', 
+             animationDelay: seed.delay + 's',
+             animationDuration: seed.duration + 's'
+           }">
+      </div>
+    </div>
+
+    <!-- Header UI -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-sm border-b border-gray-300">
+      <div class="flex justify-between items-center p-4">
+        <h1 class="text-2xl font-bold font-mono">
+          MONO<span class="text-xs align-super">VALLEY</span>
+        </h1>
+        
+        <!-- Zen Mode Indicator -->
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2 text-sm font-mono">
+            <div :class="[
+              'w-3 h-3 rounded-full transition-all duration-1000',
+              zenMode ? 'bg-green-500 animate-pulse-soft' : 'bg-gray-400'
+            ]"></div>
+            <span>{{ zenMode ? 'FLOW STATE' : 'EXPLORING' }}</span>
+          </div>
+          
+          <button @click="toggleSound" 
+                  class="w-10 h-10 border border-gray-400 hover:border-gray-600 transition-all rounded font-mono text-sm">
+            {{ soundEnabled ? '🔊' : '🔇' }}
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Seed Inventory -->
+    <div class="fixed left-4 top-1/2 transform -translate-y-1/2 z-40">
+      <div class="bg-white/90 backdrop-blur-sm border border-gray-300 rounded-lg p-4 space-y-3">
+        <h3 class="text-xs font-mono uppercase tracking-wider">SEEDS</h3>
+        <div v-for="(seedType, key) in seedTypes" 
+             :key="key"
+             @click="selectSeed(key)"
+             :class="[
+               'w-12 h-12 border-2 cursor-pointer transition-all duration-300 rounded-lg flex items-center justify-center font-mono text-lg',
+               selectedSeed === key ? 'border-black bg-black text-white' : 'border-gray-400 hover:border-gray-600 bg-white'
+             ]">
+          {{ seedType.icon }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Garden Grid -->
+    <main class="pt-20 p-8 h-screen">
+      <div class="max-w-4xl mx-auto h-full">
+        <div class="grid grid-cols-8 gap-2 h-full">
+          <div v-for="(plot, index) in garden" 
+               :key="index"
+               @click="handlePlotClick(index)"
+               @mouseenter="handlePlotHover(index)"
+               @mouseleave="handlePlotLeave(index)"
+               :class="[
+                 'aspect-square border border-gray-300 cursor-pointer transition-all duration-500 relative overflow-hidden rounded-lg',
+                 plot.canPlant && selectedSeed ? 'hover:bg-yellow-100 hover:border-yellow-400' : '',
+                 plot.isHovered ? 'shadow-lg transform scale-105' : '',
+                 getPlotBackground(plot)
+               ]">
+            
+            <!-- Soil -->
+            <div v-if="!plot.plant" 
+                 :class="[
+                   'w-full h-full transition-all duration-300',
+                   plot.canPlant ? 'bg-gradient-to-br from-gray-200 to-gray-300' : 'bg-gray-100'
+                 ]">
+            </div>
+            
+            <!-- Plant -->
+            <div v-if="plot.plant" 
+                 :class="[
+                   'w-full h-full flex items-center justify-center text-2xl transition-all duration-1000 relative',
+                   'animate-grow'
+                 ]"
+                 :style="{ 
+                   animationDelay: plot.plant.plantTime * 0.1 + 's',
+                   fontSize: plot.plant.stage * 8 + 16 + 'px'
+                 }">
+              
+              <!-- Plant Visual -->
+              <div :class="[
+                'transition-all duration-2000',
+                plot.plant.isSwaying ? 'animate-float' : ''
+              ]"
+              :style="{ 
+                filter: `hue-rotate(${plot.plant.geneticHue}deg) saturate(0%)` 
+              }">
+                {{ getPlantVisual(plot.plant) }}
+              </div>
+              
+              <!-- Collaborative Sparkle -->
+              <div v-if="plot.plant.isCollaborative" 
+                   class="absolute -top-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full animate-sparkle">
+              </div>
+              
+              <!-- Harvest Indicator -->
+              <div v-if="plot.plant.stage >= 3" 
+                   class="absolute inset-0 bg-green-200/20 rounded-lg animate-pulse-soft">
+              </div>
+            </div>
+            
+            <!-- Growth Progress -->
+            <div v-if="plot.plant && plot.plant.stage < 3" 
+                 class="absolute bottom-0 left-0 h-1 bg-green-400 transition-all duration-1000"
+                 :style="{ width: (plot.plant.stage / 3) * 100 + '%' }">
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Notifications -->
+    <div class="fixed bottom-4 right-4 space-y-2 z-50">
+      <div v-for="notification in notifications" 
+           :key="notification.id"
+           :class="[
+             'px-4 py-3 bg-white/90 backdrop-blur-sm border rounded-lg font-mono text-sm transition-all duration-500',
+             notification.type === 'zen' ? 'border-green-400 text-green-800' :
+             notification.type === 'collaborative' ? 'border-purple-400 text-purple-800' :
+             'border-gray-400'
+           ]">
+        {{ notification.message }}
+      </div>
+    </div>
+
+    <!-- Zen Overlay -->
+    <div v-if="zenMode" 
+         class="fixed inset-0 bg-black/10 backdrop-blur-sm z-30 pointer-events-none">
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="text-white/50 font-mono text-lg animate-pulse-soft">
+          ✨ FLOW STATE ACTIVATED ✨
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

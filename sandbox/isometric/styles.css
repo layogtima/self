@@ -1,0 +1,271 @@
+/* MONO VALLEY - Advanced CSS Styling */
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+/* Global Overrides */
+* {
+  font-family: "Space Mono", monospace;
+}
+
+body {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Advanced Pseudo-3D Effects */
+.depth-shadow-soft {
+  filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1)) 
+          drop-shadow(4px 4px 8px rgba(0,0,0,0.05));
+}
+
+.depth-shadow-medium {
+  filter: drop-shadow(3px 3px 6px rgba(0,0,0,0.15)) 
+          drop-shadow(6px 6px 12px rgba(0,0,0,0.08));
+}
+
+.depth-shadow-strong {
+  filter: drop-shadow(4px 4px 8px rgba(0,0,0,0.2)) 
+          drop-shadow(8px 8px 16px rgba(0,0,0,0.1));
+}
+
+/* Smooth Interactions */
+.smooth-all {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.smooth-transform {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.smooth-opacity {
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover Effects for Garden Plots */
+.plot-hover-glow:hover {
+  box-shadow: 
+    inset 0 0 20px rgba(255, 255, 255, 0.3),
+    0 0 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Plant Growth Stages */
+.plant-seedling {
+  transform: scale(0.3) rotateZ(-2deg);
+  opacity: 0.7;
+}
+
+.plant-growing {
+  transform: scale(0.6) rotateZ(1deg);
+  opacity: 0.85;
+}
+
+.plant-mature {
+  transform: scale(1) rotateZ(0deg);
+  opacity: 1;
+}
+
+.plant-ready {
+  transform: scale(1.1) rotateZ(-1deg);
+  opacity: 1;
+  filter: brightness(1.1) contrast(1.05);
+}
+
+/* Particle Effects */
+.harvest-particle {
+  animation: harvest-float 2s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes harvest-float {
+  0% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-30px) scale(1.2) rotate(180deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-60px) scale(0.8) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Collaborative Seed Magic */
+.collaborative-shimmer {
+  background: linear-gradient(45deg, 
+    transparent 30%, 
+    rgba(255, 255, 255, 0.5) 50%, 
+    transparent 70%);
+  background-size: 200% 200%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: -200% -200%; }
+  50% { background-position: 200% 200%; }
+}
+
+/* Zen Mode Visual Effects */
+.zen-blur {
+  backdrop-filter: blur(8px) saturate(1.2);
+  -webkit-backdrop-filter: blur(8px) saturate(1.2);
+}
+
+.zen-glow {
+  box-shadow: 
+    0 0 30px rgba(255, 255, 255, 0.1),
+    inset 0 0 30px rgba(255, 255, 255, 0.05);
+}
+
+/* Sound Wave Visualization */
+.sound-wave {
+  position: relative;
+  overflow: hidden;
+}
+
+.sound-wave::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transform: translate(-50%, -50%) scaleX(0);
+  transition: transform 0.3s ease-out;
+}
+
+.sound-wave.active::before {
+  transform: translate(-50%, -50%) scaleX(1);
+}
+
+/* Advanced Typography */
+.text-depth {
+  text-shadow: 
+    1px 1px 0px rgba(0,0,0,0.1),
+    2px 2px 0px rgba(0,0,0,0.05),
+    3px 3px 0px rgba(0,0,0,0.025);
+}
+
+.text-glow {
+  text-shadow: 
+    0 0 10px rgba(255, 255, 255, 0.5),
+    0 0 20px rgba(255, 255, 255, 0.3),
+    0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive Grid Improvements */
+@media (max-width: 768px) {
+  .mobile-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  
+  .mobile-seed-inventory {
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    flex-direction: row;
+  }
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .high-contrast-border {
+    border-width: 2px;
+    border-color: #000000;
+  }
+  
+  .high-contrast-bg {
+    background-color: #ffffff;
+    color: #000000;
+  }
+}
+
+/* Performance Optimizations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.gpu-accelerate {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Advanced Layout Helpers */
+.aspect-square-exact {
+  aspect-ratio: 1 / 1;
+}
+
+.golden-ratio {
+  aspect-ratio: 1.618 / 1;
+}
+
+.grid-dense {
+  grid-auto-flow: dense;
+}
+
+/* Micro-interactions */
+.click-feedback:active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease-out;
+}
+
+.ripple-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-effect::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.ripple-effect:active::after {
+  width: 300px;
+  height: 300px;
+}

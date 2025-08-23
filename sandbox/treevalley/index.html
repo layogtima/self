@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en" class="light scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TREE VALLEY - Cubbon Park</title>
+    <meta name="description" content="Discover and explore the magnificent trees of Cubbon Park, Bengaluru">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['Space Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f0f9f4',
+                            100: '#dbf0e1',
+                            200: '#b9e1c7',
+                            300: '#8cc9a4',
+                            400: '#5cad7e',
+                            500: '#3a8f60',
+                            600: '#2d724c',
+                            700: '#255c3f',
+                            800: '#1f4a34',
+                            900: '#1a3d2c',
+                        },
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                    },
+                },
+            },
+        }
+    </script>
+    
+    <!-- Space Mono Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-white dark:bg-gray-900 text-black dark:text-white font-mono min-h-screen transition-colors duration-300">
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="sticky top-0 z-40 bg-white dark:bg-gray-900 border-b border-black dark:border-gray-700 transition-colors duration-300">
+            <div class="flex items-center justify-between px-4 py-3">
+                <div class="flex items-center">
+                    <h1 class="text-xl font-bold tracking-tighter">
+                        TREE VALLEY
+                        <span class="ml-2 text-xs tracking-wider bg-black dark:bg-white text-white dark:text-black px-1">
+                            CUBBON PARK
+                        </span>
+                    </h1>
+                </div>
+                
+                <div class="flex items-center gap-3">
+                    <!-- Stats Badge -->
+                    <div class="hidden sm:flex items-center gap-2 bg-black/10 dark:bg-white/10 px-3 py-1 rounded-full">
+                        <span class="text-xs">{{ trees.length }} TREES</span>
+                    </div>
+                    
+                    <!-- Dark Mode Toggle -->
+                    <button @click="darkMode = !darkMode" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded">
+                        <svg v-if="!darkMode" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                        </svg>
+                        <svg v-else xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Search Section -->
+        <section class="px-4 py-8 bg-gradient-to-b from-green-50 to-white dark:from-gray-800 dark:to-gray-900">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="text-6xl mb-4">🌳</div>
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">
+                    DISCOVER CUBBON'S GIANTS
+                </h2>
+                <p class="text-sm md:text-base text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
+                    Search by tree number, name, or characteristics. Every tree tells a story—discover yours.
+                </p>
+                
+                <!-- Search Bar -->
+                <div class="relative max-w-2xl mx-auto mb-6">
+                    <input 
+                        v-model="searchQuery" 
+                        @input="handleSearch"
+                        type="text" 
+                        placeholder="Search by #1327, Gulmohar, red flowers, medicinal..." 
+                        class="w-full px-4 py-4 pl-12 border-2 border-black dark:border-gray-700 bg-white dark:bg-gray-800 text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
+                    >
+                    <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+                
+                <!-- Quick Filters -->
+                <div class="flex flex-wrap justify-center gap-2 mb-4">
+                    <button 
+                        v-for="filter in quickFilters" 
+                        :key="filter"
+                        @click="applyQuickFilter(filter)"
+                        class="px-3 py-1 text-xs border border-black dark:border-gray-700 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors"
+                    >
+                        {{ filter }}
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="px-4 py-8">
+            <div class="max-w-6xl mx-auto">
+                <!-- Results Header -->
+                <div v-if="searchQuery" class="mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold">
+                            {{ filteredTrees.length }} RESULTS FOR "{{ searchQuery.toUpperCase() }}"
+                        </h3>
+                        <button @click="clearSearch" class="text-xs underline hover:no-underline">
+                            CLEAR SEARCH
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Featured Trees (when no search) -->
+                <div v-if="!searchQuery" class="mb-8">
+                    <h3 class="text-lg font-bold mb-4">CATALOG TREES</h3>
+                </div>
+
+                <!-- Tree Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div 
+                        v-for="tree in displayTrees" 
+                        :key="tree.id"
+                        @click="openTreeDetail(tree)"
+                        class="border-2 border-black dark:border-gray-700 cursor-pointer hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300 group animate-slide-up"
+                    >
+                        <!-- Tree Image -->
+                        <div class="aspect-square bg-gray-200 dark:bg-gray-700 relative overflow-hidden">
+                            <img 
+                                :src="tree.image" 
+                                :alt="tree.name"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            >
+                            <!-- Tree Number Badge -->
+                            <div class="absolute top-2 left-2 bg-black text-white px-2 py-1 text-xs font-bold">
+                                #{{ tree.number }}
+                            </div>
+                            <!-- Status Badge -->
+                            <div v-if="tree.status === 'native'" class="absolute top-2 right-2 bg-green-600 text-white px-2 py-1 text-xs">
+                                NATIVE
+                            </div>
+                            <div v-else-if="tree.status === 'heritage'" class="absolute top-2 right-2 bg-yellow-600 text-white px-2 py-1 text-xs">
+                                HERITAGE
+                            </div>
+                            <div v-else-if="tree.status === 'flowering'" class="absolute top-2 right-2 bg-pink-600 text-white px-2 py-1 text-xs">
+                                FLOWERING
+                            </div>
+                        </div>
+                        
+                        <!-- Tree Info -->
+                        <div class="p-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="text-lg font-bold group-hover:underline">{{ tree.name.toUpperCase() }}</h4>
+                                <span class="text-xs text-gray-500 dark:text-gray-400 group-hover:text-gray-300">
+                                    {{ tree.localName }}
+                                </span>
+                            </div>
+                            
+                            <p class="text-xs text-gray-600 dark:text-gray-400 group-hover:text-gray-300 mb-2">
+                                {{ tree.scientificName }}
+                            </p>
+                            
+                            <div class="flex items-center justify-between text-xs">
+                                <span>{{ tree.nativeRegion.split('.')[0] }}</span>
+                                <span class="group-hover:underline">VIEW DETAILS →</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Load More -->
+                <div v-if="displayTrees.length < filteredTrees.length" class="text-center mt-8">
+                    <button 
+                        @click="loadMore"
+                        class="border-2 border-black dark:border-gray-700 px-6 py-3 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors"
+                    >
+                        LOAD MORE TREES
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tree Detail Modal -->
+        <div 
+            v-if="selectedTree" 
+            class="fixed inset-0 bg-black/90 dark:bg-gray-900/95 z-50 overflow-auto transition-colors duration-300"
+            @click="closeTreeDetail"
+        >
+            <div class="min-h-screen flex items-center justify-center p-4">
+                <div 
+                    @click.stop 
+                    class="bg-white dark:bg-gray-800 w-full max-w-5xl max-h-[90vh] overflow-y-auto animate-fade-in"
+                >
+                    <!-- Modal Header -->
+                    <div class="sticky top-0 bg-white dark:bg-gray-800 border-b border-black dark:border-gray-700 z-10">
+                        <div class="flex justify-between items-center p-4">
+                            <div class="flex items-center gap-3">
+                                <span class="bg-black dark:bg-white text-white dark:text-black px-2 py-1 text-sm font-bold">
+                                    #{{ selectedTree.number }}
+                                </span>
+                                <h3 class="text-xl font-bold">{{ selectedTree.name.toUpperCase() }}</h3>
+                                <span class="text-sm text-gray-500 dark:text-gray-400">{{ selectedTree.localName }}</span>
+                            </div>
+                            <button @click="closeTreeDetail" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Modal Content -->
+                    <div class="p-6">
+                        <!-- Hero Image -->
+                        <div class="aspect-video md:aspect-[16/10] bg-gray-200 dark:bg-gray-700 mb-6 overflow-hidden">
+                            <img 
+                                :src="selectedTree.image" 
+                                :alt="selectedTree.name"
+                                class="w-full h-full object-cover"
+                            >
+                        </div>
+
+                        <!-- Tree Details Grid -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <!-- Official BBMP Info -->
+                            <div>
+                                <h4 class="text-lg font-bold mb-4 border-b border-black dark:border-gray-700 pb-2">OFFICIAL DETAILS</h4>
+                                <dl class="space-y-3 text-sm">
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <dt class="font-bold text-gray-700 dark:text-gray-300">Common Names:</dt>
+                                        <dd class="col-span-2">{{ selectedTree.commonNames }}</dd>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <dt class="font-bold text-gray-700 dark:text-gray-300">Scientific Name:</dt>
+                                        <dd class="col-span-2 italic">{{ selectedTree.scientificName }}</dd>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <dt class="font-bold text-gray-700 dark:text-gray-300">Local Name:</dt>
+                                        <dd class="col-span-2">{{ selectedTree.localName }}</dd>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <dt class="font-bold text-gray-700 dark:text-gray-300">Native Region:</dt>
+                                        <dd class="col-span-2">{{ selectedTree.nativeRegion }}</dd>
+                                    </div>
+                                </dl>
+                            </div>
+
+                            <!-- Identification -->
+                            <div>
+                                <h4 class="text-lg font-bold mb-4 border-b border-black dark:border-gray-700 pb-2">IDENTIFICATION</h4>
+                                <div class="space-y-3 text-sm">
+                                    <div>
+                                        <span class="font-bold text-gray-700 dark:text-gray-300">Key Feature 1:</span> 
+                                        <p class="mt-1">{{ selectedTree.characteristic1 }}</p>
+                                    </div>
+                                    <div>
+                                        <span class="font-bold text-gray-700 dark:text-gray-300">Key Feature 2:</span> 
+                                        <p class="mt-1">{{ selectedTree.characteristic2 }}</p>
+                                    </div>
+                                    <div>
+                                        <span class="font-bold text-gray-700 dark:text-gray-300">How to Identify:</span> 
+                                        <p class="mt-1">{{ selectedTree.howToIdentify }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Story Section -->
+                        <div class="mt-8">
+                            <h4 class="text-lg font-bold mb-4 border-b border-black dark:border-gray-700 pb-2">TREE STORY</h4>
+                            <p class="text-sm leading-relaxed">{{ selectedTree.story }}</p>
+                        </div>
+
+                        <!-- Uses Section -->
+                        <div class="mt-8">
+                            <h4 class="text-lg font-bold mb-4 border-b border-black dark:border-gray-700 pb-2">POPULAR USES</h4>
+                            <p class="text-sm leading-relaxed">{{ selectedTree.popularUses }}</p>
+                        </div>
+
+                        <!-- Location -->
+                        <div class="mt-8 p-4 bg-gray-100 dark:bg-gray-700 border border-black dark:border-gray-600">
+                            <h4 class="text-sm font-bold mb-2">📍 FIND THIS TREE</h4>
+                            <p class="text-xs">{{ selectedTree.location }}</p>
+                        </div>
+
+                        <!-- BBMP Footer -->
+                        <div class="mt-6 pt-4 border-t border-gray-300 dark:border-gray-600 text-center">
+                            <p class="text-xs text-gray-500 dark:text-gray-400">
+                                Tree #{{ selectedTree.number }} • BBMP Urban Forest Catalog • Cubbon Park, Bengaluru
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="treeData.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
