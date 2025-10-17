@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MONOTONE | ISLANDS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['Space Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
+        * {
+            font-family: 'Space Mono', monospace;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            cursor: crosshair;
+        }
+
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+
+<body class="bg-white">
+    <canvas id="stage"></canvas>
+
+    <!-- Top Left Info -->
+    <div class="fixed top-4 left-4 text-xs z-50 pointer-events-none select-none">
+        <div class="bg-black text-white px-3 py-2 mb-2 flex items-center gap-2">
+            <i class="fas fa-drum"></i>
+            MONO<span class="text-[8px] align-super">TONE</span>
+        </div>
+        <div class="bg-white border border-black px-3 py-2 text-[10px] leading-tight">
+            <div class="mb-2 flex items-center gap-2">
+                <i class="fas fa-mouse-pointer"></i>
+                <i class="fas fa-circle text-[6px]"></i>
+            </div>
+            <div class="mb-2 flex items-center gap-2">
+                <i class="fas fa-hand-pointer"></i>
+                <i class="fas fa-water text-[6px]"></i>
+            </div>
+            <div class="flex items-center gap-2">
+                <kbd class="px-1 border border-black text-[8px]">SPC</kbd>
+                <i class="fas fa-volume-xmark text-[8px]"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Right Status -->
+    <div class="fixed bottom-4 right-4 text-xs z-50 pointer-events-none select-none">
+        <div class="bg-black text-white px-3 py-2 text-right text-[10px] min-w-[100px]">
+            <div id="currentSound" class="flex items-center justify-end gap-2">
+                <i class="fas fa-circle-notch"></i>
+            </div>
+            <div id="velocity" class="mt-1 opacity-60 flex items-center justify-end gap-1">
+                <i class="fas fa-volume-up text-[8px]"></i>
+                <span>0</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Canvas Setup
+        const canvas = document.getElementById('stage');
+        const c = canvas.getContext('2d');
+        let w = canvas.width = window.innerWidth;
+        let h = canvas.height = window.innerHeight;
+
+        // Audio samples
+        const samples = {
+            kick: new Audio('https://raw.githubusercontent.com/ArunMichaelDsouza/javascript-30-course/master/src/01-javascript-drum-kit/sounds/kick.wav'),
+            snare: new Audio('https://raw.githubusercontent.com/ArunMichaelDsouza/javascript-30-course/master/src/01-javascript-drum-kit/sounds/snare.wav'),
+            hihatOpen: new Audio('https://raw.githubusercontent.com/ArunMichaelDsouza/javascript-30-course/master/src/01-javascript-drum-kit/sounds/hihat-open.wav'),
+            hihatClose: new Audio('https://raw.githubusercontent.com/ArunMichaelDsouza/javascript-30-course/master/src/01-javascript-drum-kit/sounds/hihat-close.wav'),
+            crash: new Audio('https://raw.githubusercontent.com/ArunMichaelDsouza/javascript-30-course/master/src/01-javascript-drum-kit/sounds/crash.wav'),
+            ride: new Audio('https://raw.githubusercontent.com/ArunMichaelDsouza/javascript-30-course/master/src/01-javascript-drum-kit/sounds/ride.wav'),
+            tomLow: new Audio('https://raw.githubusercontent.com/ArunMichaelDsouza/javascript-30-course/master/src/01-javascript-drum-kit/sounds/tom-low.wav'),
+            tomMid: new Audio('https://raw.githubusercontent.com/ArunMichaelDsouza/javascript-30-course/master/src/01-javascript-drum-kit/sounds/tom-mid.wav'),
+            tomHigh: new Audio('https://raw.githubusercontent.com/ArunMichaelDsouza/javascript-30-course/master/src/01-javascript-drum-kit/sounds/tom-high.wav')
+        };
+
+        // Preload all samples
+        Object.values(samples).forEach(audio => {
+            audio.load();
+            audio.volume = 0.8;
+        });
+
+        // Islands configuration with Font Awesome icons
+        const islands = [
+            { x: 0.15, y: 0.7, r: 120, color: 20, drum: 'kick', icon: 'fa-drum' },
+            { x: 0.65, y: 0.55, r: 85, color: 100, drum: 'snare', icon: 'fa-compact-disc' },
+            { x: 0.25, y: 0.25, r: 55, color: 220, drum: 'hihatClose', icon: 'fa-circle' },
+            { x: 0.35, y: 0.22, r: 50, color: 200, drum: 'hihatOpen', icon: 'fa-circle-dot' },
+            { x: 0.85, y: 0.15, r: 95, color: 180, drum: 'crash', icon: 'fa-asterisk' },
+            { x: 0.72, y: 0.25, r: 70, color: 160, drum: 'ride', icon: 'fa-certificate' },
+            { x: 0.5, y: 0.6, r: 65, color: 60, drum: 'tomLow', icon: 'fa-circle-notch' },
+            { x: 0.45, y: 0.45, r: 62, color: 80, drum: 'tomMid', icon: 'fa-circle-notch' },
+            { x: 0.55, y: 0.35, r: 58, color: 120, drum: 'tomHigh', icon: 'fa-circle-notch' }
+        ];
+
+        // Convert relative positions to absolute
+        islands.forEach(island => {
+            island.absX = island.x * w;
+            island.absY = island.y * h;
+            island.pulse = 0;
+        });
+
+        // Ripple effects
+        const ripples = [];
+
+        // Ocean trail
+        const oceanTrail = [];
+        const maxTrailPoints = 50;
+
+        // Track mouse state
+        let lastPos = null;
+        let isOverOcean = true;
+
+        // Check if point is inside any island
+        const getIsland = (x, y) => {
+            for (let island of islands) {
+                const dx = x - island.absX;
+                const dy = y - island.absY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist <= island.r) {
+                    return { island, dist, centerDist: dist / island.r };
+                }
+            }
+            return null;
+        };
+
+        // Play drum sample
+        const playDrum = (island, velocity) => {
+            const audio = samples[island.drum];
+            if (!audio) return;
+
+            // Clone audio for polyphonic playback
+            const clone = audio.cloneNode();
+            clone.volume = Math.max(0.3, velocity) * 0.8;
+            clone.play().catch(e => console.log('Audio play failed:', e));
+
+            // Visual feedback
+            island.pulse = 1;
+            ripples.push({ x: island.absX, y: island.absY, r: 0, maxR: island.r * 2, life: 1 });
+
+            // Update display with icon
+            const iconMap = {
+                kick: 'fa-drum',
+                snare: 'fa-compact-disc',
+                hihatClose: 'fa-circle',
+                hihatOpen: 'fa-circle-dot',
+                crash: 'fa-asterisk',
+                ride: 'fa-certificate',
+                tomLow: 'fa-circle-notch',
+                tomMid: 'fa-circle-notch',
+                tomHigh: 'fa-circle-notch'
+            };
+
+            document.getElementById('currentSound').innerHTML = `<i class="fas ${iconMap[island.drum]}"></i>`;
+            document.getElementById('velocity').innerHTML = `<i class="fas fa-volume-up text-[8px]"></i><span>${Math.round(velocity * 100)}</span>`;
+        };
+
+        // Draw everything
+        const draw = () => {
+            c.clearRect(0, 0, w, h);
+
+            // Draw ocean trail
+            if (oceanTrail.length > 1) {
+                for (let i = 1; i < oceanTrail.length; i++) {
+                    const alpha = i / oceanTrail.length;
+                    c.strokeStyle = `rgba(0, 0, 0, ${alpha * 0.15})`;
+                    c.lineWidth = 2;
+                    c.beginPath();
+                    c.moveTo(oceanTrail[i - 1].x, oceanTrail[i - 1].y);
+                    c.lineTo(oceanTrail[i].x, oceanTrail[i].y);
+                    c.stroke();
+                }
+            }
+
+            // Draw islands
+            islands.forEach(island => {
+                // Main island body
+                const gray = island.color;
+                c.fillStyle = `rgb(${gray}, ${gray}, ${gray})`;
+                c.beginPath();
+                c.arc(island.absX, island.absY, island.r, 0, Math.PI * 2);
+                c.fill();
+
+                // Pulse effect
+                if (island.pulse > 0) {
+                    const pulseR = island.r + (island.pulse * 20);
+                    c.strokeStyle = `rgba(0, 0, 0, ${island.pulse * 0.5})`;
+                    c.lineWidth = 3;
+                    c.beginPath();
+                    c.arc(island.absX, island.absY, pulseR, 0, Math.PI * 2);
+                    c.stroke();
+                    island.pulse -= 0.05;
+                    if (island.pulse < 0) island.pulse = 0;
+                }
+
+                // Border
+                c.strokeStyle = '#000';
+                c.lineWidth = 2;
+                c.beginPath();
+                c.arc(island.absX, island.absY, island.r, 0, Math.PI * 2);
+                c.stroke();
+
+                // Icon (using text as FA placeholder - in production would use actual icons)
+                if (island.r > 55) {
+                    c.fillStyle = gray > 128 ? '#000' : '#fff';
+                    c.font = `bold ${island.r / 4}px "Font Awesome 6 Free"`;
+                    c.textAlign = 'center';
+                    c.textBaseline = 'middle';
+
+                    // Draw icon character based on type
+                    const iconChars = {
+                        'fa-drum': '🥁',
+                        'fa-compact-disc': '💿',
+                        'fa-circle': '●',
+                        'fa-circle-dot': '◉',
+                        'fa-asterisk': '✱',
+                        'fa-certificate': '✦',
+                        'fa-circle-notch': '◐'
+                    };
+
+                    c.fillText(iconChars[island.icon] || '○', island.absX, island.absY);
+                }
+            });
+
+            // Draw ripples
+            for (let i = ripples.length - 1; i >= 0; i--) {
+                const ripple = ripples[i];
+                ripple.r += 3;
+                ripple.life -= 0.02;
+
+                if (ripple.life <= 0) {
+                    ripples.splice(i, 1);
+                    continue;
+                }
+
+                c.strokeStyle = `rgba(0, 0, 0, ${ripple.life * 0.3})`;
+                c.lineWidth = 2;
+                c.beginPath();
+                c.arc(ripple.x, ripple.y, ripple.r, 0, Math.PI * 2);
+                c.stroke();
+            }
+
+            requestAnimationFrame(draw);
+        };
+
+        // Mouse handlers
+        canvas.addEventListener('mousedown', (e) => {
+            const result = getIsland(e.clientX, e.clientY);
+
+            if (result) {
+                const velocity = 1 - (result.centerDist * 0.4);
+                playDrum(result.island, velocity);
+                isOverOcean = false;
+            }
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            const result = getIsland(e.clientX, e.clientY);
+
+            if (!result) {
+                if (!isOverOcean) {
+                    isOverOcean = true;
+                }
+
+                // Add to ocean trail
+                oceanTrail.push({ x: e.clientX, y: e.clientY });
+                if (oceanTrail.length > maxTrailPoints) {
+                    oceanTrail.shift();
+                }
+
+                canvas.style.cursor = 'crosshair';
+            } else {
+                isOverOcean = false;
+                oceanTrail.length = 0;
+                canvas.style.cursor = 'pointer';
+            }
+
+            lastPos = { x: e.clientX, y: e.clientY };
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            oceanTrail.length = 0;
+            lastPos = null;
+            isOverOcean = true;
+        });
+
+        // Touch support
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const result = getIsland(touch.clientX, touch.clientY);
+
+            if (result) {
+                const velocity = 1 - (result.centerDist * 0.4);
+                playDrum(result.island, velocity);
+            }
+        });
+
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const result = getIsland(touch.clientX, touch.clientY);
+
+            if (!result) {
+                oceanTrail.push({ x: touch.clientX, y: touch.clientY });
+                if (oceanTrail.length > maxTrailPoints) {
+                    oceanTrail.shift();
+                }
+            } else {
+                oceanTrail.length = 0;
+            }
+        });
+
+        canvas.addEventListener('touchend', () => {
+            oceanTrail.length = 0;
+        });
+
+        // Keyboard
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                oceanTrail.length = 0;
+                ripples.length = 0;
+
+                // Stop all audio
+                Object.values(samples).forEach(audio => {
+                    audio.pause();
+                    audio.currentTime = 0;
+                });
+            }
+        });
+
+        // Resize
+        window.addEventListener('resize', () => {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+            islands.forEach(island => {
+                island.absX = island.x * w;
+                island.absY = island.y * h;
+            });
+        });
+
+        // Start
+        draw();
+    </script>
+</body>
+
+</html>

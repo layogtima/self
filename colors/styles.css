@@ -1,0 +1,291 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    font-family:
+        system-ui,
+        -apple-system,
+        sans-serif;
+    cursor: crosshair;
+    transition: background 1s ease;
+}
+
+#canvas {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.panel {
+    position: fixed;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 50px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    z-index: 100;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Toggle Buttons */
+.toggle-btn {
+    position: fixed;
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 101;
+    transition: all 0.3s ease;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.toggle-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+}
+
+.toggle-btn:active {
+    transform: scale(0.95);
+}
+
+#paletteToggle {
+    top: 1rem;
+    left: 1rem;
+}
+
+#modeToggle {
+    top: 1rem;
+    right: 1rem;
+}
+
+/* Palettes */
+#palettes {
+    top: 1rem;
+    left: 5rem;
+    padding: 0.5rem;
+    display: flex;
+    gap: 0.4rem;
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+#palettes.expanded {
+    max-width: 400px;
+    opacity: 1;
+    padding: 0.5rem;
+}
+
+.pal {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pal.active {
+    border-color: #333;
+    transform: scale(1.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.pal:hover {
+    transform: scale(1.1);
+}
+
+/* Modes */
+#modes {
+    top: 1rem;
+    right: 5rem;
+    padding: 0.5rem;
+    display: flex;
+    gap: 0.4rem;
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+#modes.expanded {
+    max-width: 300px;
+    opacity: 1;
+    padding: 0.5rem;
+}
+
+.mode-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    color: #333;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.mode-btn.active {
+    background: rgba(0, 0, 0, 0.1);
+    border-color: #333;
+    transform: scale(1.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.mode-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+    transform: scale(1.05);
+}
+
+/* Clear Button */
+.clear-panel {
+    bottom: 1rem;
+    right: 1rem;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #e74c3c;
+    font-size: 1.1rem;
+}
+
+.clear-panel:hover {
+    transform: scale(1.05);
+    background: rgba(231, 76, 60, 0.1);
+}
+
+.clear-panel:active {
+    transform: scale(0.95);
+}
+
+/* Info Panel (desktop only) */
+.info-panel {
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.5rem 1rem;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 0.85rem;
+    text-align: center;
+    pointer-events: none;
+}
+
+/* Shapes */
+.shape {
+    position: absolute;
+    pointer-events: none;
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    mix-blend-mode: screen;
+}
+
+#filter {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    transition: all 0.5s ease;
+    z-index: 50;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .toggle-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 1rem;
+    }
+
+    #paletteToggle {
+        top: 0.75rem;
+        left: 0.75rem;
+    }
+
+    #modeToggle {
+        top: 0.75rem;
+        right: 0.75rem;
+    }
+
+    #palettes {
+        left: 4rem;
+        top: 0.75rem;
+    }
+
+    #modes {
+        right: 4rem;
+        top: 0.75rem;
+    }
+
+    #palettes.expanded {
+        max-width: calc(100vw - 6rem);
+    }
+
+    #modes.expanded {
+        max-width: calc(100vw - 6rem);
+    }
+
+    .pal,
+    .mode-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .info-panel {
+        display: none;
+    }
+
+    .clear-panel {
+        bottom: 0.75rem;
+        right: 0.75rem;
+        width: 44px;
+        height: 44px;
+    }
+}
+
+@media (max-width: 480px) {
+    .pal,
+    .mode-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+    }
+
+    .toggle-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 0.95rem;
+    }
+
+    .clear-panel {
+        width: 40px;
+        height: 40px;
+    }
+}

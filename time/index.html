@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temporal Web Museum</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font, monospace);
+            background: var(--bg, #000);
+            color: var(--fg, #fff);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #container {
+            width: 100%;
+            height: 100vh;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #site {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #nav {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+        }
+
+        button {
+            background: var(--accent, #f00);
+            color: var(--btn-fg, #fff);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1.1rem;
+            font-family: inherit;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 700;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        #yearDisplay {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            text-align: right;
+            line-height: 1.4;
+        }
+
+        .era-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            font-weight: 400;
+            display: block;
+            margin-top: 0.5rem;
+        }
+
+        /* BIG BANG */
+        .bigbang #site {
+            background: radial-gradient(circle, #ff6b9d 0%, #1a0033 50%, #000 100%);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .bigbang {
+            --font: 'Courier New', monospace;
+            --accent: #00ffff;
+        }
+
+        .bigbang .content {
+            font-size: 4rem;
+            letter-spacing: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.5;
+                transform: scale(0.95);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+        }
+
+        /* CAVE PAINTINGS */
+        .cave #site {
+            background: #2a1810;
+            padding: 4rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .cave {
+            --font: 'Courier New', monospace;
+            --accent: #8b4513;
+        }
+
+        .cave .symbol {
+            width: 80px;
+            height: 80px;
+            border: 4px solid #d4a574;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 1rem;
+        }
+
+        /* HIEROGLYPHS */
+        .hieroglyph #site {
+            background: #f4e8d0;
+            color: #1a1a1a;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .hieroglyph {
+            --font: Georgia, serif;
+            --accent: #c9950d;
+        }
+
+        .hieroglyph .block {
+            background: #fff;
+            border: 4px solid #1a1a1a;
+            padding: 2rem;
+            box-shadow: 6px 6px 0 #c9950d;
+            font-size: 1.2rem;
+        }
+
+        /* MEDIEVAL */
+        .medieval #site {
+            background: #1a0f0f;
+            color: #d4af37;
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .medieval {
+            --font: 'Times New Roman', serif;
+            --accent: #8b0000;
+        }
+
+        .medieval .illuminated {
+            font-size: 4rem;
+            font-style: italic;
+            text-shadow: 0 0 20px #d4af37;
+            margin: 2rem 0;
+        }
+
+        /* GUTENBERG 1440 */
+        .gutenberg #site {
+            background: #f5f5dc;
+            color: #000;
+            padding: 3rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .gutenberg {
+            --font: Georgia, serif;
+            --accent: #000;
+        }
+
+        .gutenberg h1 {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-bottom: 4px solid #000;
+            padding-bottom: 1rem;
+        }
+
+        .gutenberg p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            column-count: 2;
+            column-gap: 3rem;
+            text-align: justify;
+        }
+
+        /* BAUHAUS 1919 */
+        .bauhaus #site {
+            background: #fff;
+            color: #000;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            grid-template-rows: 100px 1fr;
+            height: 100%;
+        }
+
+        .bauhaus {
+            --font: 'Arial', sans-serif;
+            --accent: #ff0000;
+        }
+
+        .bauhaus .header {
+            grid-column: 1 / -1;
+            background: #ff0000;
+            display: flex;
+            align-items: center;
+            padding: 2rem;
+            font-size: 2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .bauhaus .sidebar {
+            background: #ffeb3b;
+            padding: 2rem;
+            border-right: 4px solid #000;
+        }
+
+        .bauhaus .main {
+            padding: 3rem;
+        }
+
+        .bauhaus .shape {
+            width: 100px;
+            height: 100px;
+            background: #0000ff;
+            margin: 1rem 0;
+        }
+
+        /* SWISS 1957 */
+        .swiss #site {
+            background: #fff;
+            color: #000;
+            padding: 4rem;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 2rem;
+        }
+
+        .swiss {
+            --font: 'Helvetica Neue', 'Arial', sans-serif;
+            --accent: #ff0000;
+        }
+
+        .swiss .hero {
+            grid-column: 1 / -1;
+            font-size: 5rem;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 0.5rem;
+        }
+
+        .swiss .content {
+            grid-column: 1 / 7;
+            font-size: 1rem;
+            line-height: 2;
+        }
+
+        .swiss .image {
+            grid-column: 7 / -1;
+            aspect-ratio: 16/9;
+            background: #ff0000;
+        }
+
+        /* PSYCHEDELIC 1967 */
+        .psychedelic #site {
+            background: radial-gradient(circle, #ff00ff 0%, #ff6600 50%, #ffff00 100%);
+            color: #ff00ff;
+            padding: 2rem;
+            text-align: center;
+            animation: psychRotate 10s infinite linear;
+        }
+
+        .psychedelic {
+            --font: 'Comic Sans MS', cursive;
+            --accent: #00ff00;
+        }
+
+        .psychedelic h1 {
+            font-size: 4rem;
+            text-shadow: 3px 3px #00ff00, 6px 6px #ff00ff;
+            transform: rotate(-5deg);
+        }
+
+        @keyframes psychRotate {
+            0% {
+                filter: hue-rotate(0deg);
+            }
+
+            100% {
+                filter: hue-rotate(360deg);
+            }
+        }
+
+        /* MEMPHIS 1981 */
+        .memphis #site {
+            background: #ff6b9d;
+            color: #000;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .memphis {
+            --font: 'Arial', sans-serif;
+            --accent: #ffff00;
+        }
+
+        .memphis .card {
+            background: linear-gradient(135deg, #00ffff 0%, #ff00ff 100%);
+            border: 5px solid #000;
+            border-radius: 30px;
+            padding: 2rem;
+            transform: rotate(var(--rot, 0deg));
+        }
+
+        .memphis .card:nth-child(1) {
+            --rot: -3deg;
+        }
+
+        .memphis .card:nth-child(2) {
+            --rot: 2deg;
+        }
+
+        .memphis .card:nth-child(3) {
+            --rot: 3deg;
+        }
+
+        .memphis .card:nth-child(4) {
+            --rot: -2deg;
+        }
+
+        /* FIRST WEBSITE 1991 */
+        .earlyweb #site {
+            background: #c0c0c0;
+            color: #000;
+            padding: 2rem;
+        }
+
+        .earlyweb {
+            --font: 'Times New Roman', serif;
+            --accent: #0000ff;
+        }
+
+        .earlyweb h1 {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .earlyweb a {
+            color: #0000ff;
+            text-decoration: underline;
+        }
+
+        .earlyweb ul {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        .earlyweb li {
+            margin: 0.5rem 0;
+        }
+
+        /* WEB 1.0 1999 */
+        .web1 #site {
+            background: #000080;
+            color: #ffff00;
+            padding: 0;
+        }
+
+        .web1 {
+            --font: 'Comic Sans MS', cursive;
+            --accent: #00ff00;
+        }
+
+        .web1 .header {
+            background: #ff00ff;
+            padding: 1rem;
+            text-align: center;
+            border: 3px ridge #ffff00;
+        }
+
+        .web1 .sidebar {
+            float: left;
+            width: 200px;
+            background: #00ff00;
+            color: #000;
+            padding: 1rem;
+            margin: 1rem;
+            border: 3px groove #ffff00;
+        }
+
+        .web1 .main {
+            margin: 1rem;
+        }
+
+        .web1 .counter {
+            background: #000;
+            color: #0f0;
+            padding: 0.5rem;
+            font-family: monospace;
+            display: inline-block;
+            border: 2px solid #0f0;
+        }
+
+        /* FLASH ERA 2000 */
+        .flash #site {
+            background: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .flash {
+            --font: 'Verdana', sans-serif;
+            --accent: #00ccff;
+        }
+
+        .flash .splash {
+            font-size: 4rem;
+            text-shadow: 0 0 30px #00ccff;
+            animation: flashPulse 2s infinite;
+        }
+
+        @keyframes flashPulse {
+
+            0%,
+            100% {
+                text-shadow: 0 0 30px #00ccff;
+            }
+
+            50% {
+                text-shadow: 0 0 60px #00ccff, 0 0 90px #00ccff;
+            }
+        }
+
+        /* CSS ZEN GARDEN 2003 */
+        .csszengarden #site {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 4rem;
+        }
+
+        .csszengarden {
+            --font: 'Georgia', serif;
+            --accent: #ffd700;
+        }
+
+        .csszengarden .hero {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* WEB 2.0 2006 */
+        .web2 #site {
+            background: linear-gradient(180deg, #4ca1af 0%, #2c3e50 100%);
+            color: #fff;
+            padding: 0;
+        }
+
+        .web2 {
+            --font: 'Trebuchet MS', sans-serif;
+            --accent: #3498db;
+        }
+
+        .web2 .navbar {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1rem 2rem;
+            display: flex;
+            gap: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .web2 .hero {
+            padding: 4rem 2rem;
+            text-align: center;
+            font-size: 3rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .web2 .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .web2 .card {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* FLAT DESIGN 2013 */
+        .flat #site {
+            background: #2c3e50;
+            color: #ecf0f1;
+        }
+
+        .flat {
+            --font: 'Segoe UI', sans-serif;
+            --accent: #e74c3c;
+        }
+
+        .flat .navbar {
+            background: #34495e;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .flat .hero {
+            padding: 6rem 2rem;
+            text-align: center;
+            background: #34495e;
+        }
+
+        .flat .hero h1 {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        .flat .cta {
+            background: #e74c3c;
+            color: #fff;
+            padding: 1rem 3rem;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 2rem;
+        }
+
+        /* MATERIAL 2014 */
+        .material #site {
+            background: #fafafa;
+            color: #212121;
+        }
+
+        .material {
+            --font: 'Roboto', sans-serif;
+            --accent: #6200ea;
+        }
+
+        .material .appbar {
+            background: #6200ea;
+            color: #fff;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            font-size: 1.5rem;
+        }
+
+        .material .content {
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .material .card {
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .material .card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            transform: translateY(-4px);
+        }
+
+        .material .card-content {
+            padding: 1.5rem;
+        }
+
+        /* BRUTALISM 2016 */
+        .brutalism #site {
+            background: #000;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            padding: 2rem;
+        }
+
+        .brutalism {
+            --accent: #ff0000;
+        }
+
+        .brutalism h1 {
+            border: 4px solid #00ff00;
+            padding: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5rem;
+            font-size: 3rem;
+        }
+
+        .brutalism .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0;
+            margin-top: 2rem;
+        }
+
+        .brutalism .box {
+            border: 2px solid #00ff00;
+            padding: 2rem;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* STRIPE 2019 */
+        .stripe #site {
+            background: linear-gradient(180deg, #f6f9fc 0%, #e9ecef 100%);
+            color: #1a1f36;
+            padding: 0;
+        }
+
+        .stripe {
+            --font: -apple-system, 'Segoe UI', sans-serif;
+            --accent: #635bff;
+        }
+
+        .stripe .navbar {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .stripe .hero {
+            padding: 8rem 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stripe .hero h1 {
+            font-size: 4rem;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .stripe .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            padding: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stripe .feature-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        /* BENTO 2022 */
+        .bento #site {
+            background: #0d0d0d;
+            color: #fff;
+            padding: 2rem;
+        }
+
+        .bento {
+            --font: 'Inter', sans-serif;
+            --accent: #8b5cf6;
+        }
+
+        .bento .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 200px);
+            gap: 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .bento .box {
+            background: #1a1a1a;
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .bento .box:nth-child(1) {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .bento .box:nth-child(2) {
+            grid-column: span 2;
+        }
+
+        .bento .box:nth-child(3) {
+            grid-column: span 1;
+        }
+
+        .bento .box:nth-child(4) {
+            grid-column: span 1;
+            grid-row: span 2;
+        }
+
+        /* MANDARIN 2028 */
+        .mandarin #site {
+            background: #1a1a1a;
+            color: #f5e6d3;
+            padding: 3rem;
+        }
+
+        .mandarin {
+            --font: 'Noto Serif SC', serif;
+            --accent: #c41e3a;
+        }
+
+        .mandarin .header {
+            writing-mode: vertical-rl;
+            float: right;
+            font-size: 3rem;
+            margin-left: 2rem;
+            border-left: 4px solid #c41e3a;
+            padding-left: 2rem;
+            font-weight: 300;
+            letter-spacing: 0.5em;
+        }
+
+        .mandarin .content {
+            max-width: 800px;
+            line-height: 2.5;
+            font-size: 1.2rem;
+        }
+
+        .mandarin .seal {
+            width: 100px;
+            height: 100px;
+            border: 2px solid #c41e3a;
+            display: inline-block;
+            margin: 2rem;
+            box-shadow: 0 4px 0 #c41e3a;
+        }
+
+        /* SEA+INDIA PUNK 2035 */
+        .seapunk #site {
+            background: radial-gradient(circle, #ff6b35 0%, #f7931e 25%, #c21f91 50%, #0066cc 75%, #00a86b 100%);
+            color: #fff;
+            padding: 0;
+            position: relative;
+        }
+
+        .seapunk {
+            --font: 'Noto Sans Devanagari', sans-serif;
+            --accent: #ffff00;
+        }
+
+        .seapunk .layer {
+            position: absolute;
+            border: 3px solid #ffff00;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.7);
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .seapunk .layer:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            transform: rotate(-5deg);
+            background: rgba(255, 107, 53, 0.9);
+        }
+
+        .seapunk .layer:nth-child(2) {
+            top: 30%;
+            right: 10%;
+            transform: rotate(3deg);
+            background: rgba(194, 31, 145, 0.9);
+        }
+
+        .seapunk .layer:nth-child(3) {
+            bottom: 20%;
+            left: 15%;
+            transform: rotate(2deg);
+            background: rgba(0, 102, 204, 0.9);
+        }
+
+        .seapunk .layer:nth-child(4) {
+            top: 50%;
+            left: 40%;
+            transform: rotate(-3deg);
+            font-size: 2rem;
+            background: rgba(247, 147, 30, 0.9);
+        }
+
+        /* FAVELLA 2045 */
+        .favella #site {
+            background: #1a0000;
+            color: #fff;
+            padding: 0;
+        }
+
+        .favella {
+            --font: 'Bebas Neue', sans-serif;
+            --accent: #ff0000;
+        }
+
+        .favella .poster {
+            background: linear-gradient(135deg, #8b0000 0%, #ff0000 100%);
+            border: 8px solid #ffff00;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .favella h1 {
+            font-size: 5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3rem;
+            text-shadow: 4px 4px 0 #000;
+        }
+
+        .favella .star {
+            font-size: 4rem;
+            color: #ffff00;
+            margin: 2rem 0;
+        }
+
+        .favella .manifesto {
+            padding: 2rem;
+            font-size: 1.5rem;
+            line-height: 2;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+        }
+
+        /* SOLARPUNK 2060 */
+        .solarpunk #site {
+            background: linear-gradient(180deg, #d4fc79 0%, #96e6a1 50%, #4a7c59 100%);
+            color: #1a4d2e;
+            padding: 2rem;
+        }
+
+        .solarpunk {
+            --font: 'Quicksand', sans-serif;
+            --accent: #f5cb5c;
+        }
+
+        .solarpunk .organic {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            padding: 3rem;
+            margin: 2rem;
+            box-shadow: 0 8px 32px rgba(74, 124, 89, 0.3);
+            transition: all 1s ease;
+        }
+
+        .solarpunk .organic:hover {
+            border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+        }
+
+        .solarpunk .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .solarpunk .cell {
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        /* NEON 2100 */
+        .neon #site {
+            background: #000;
+            color: #fff;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .neon {
+            --font: 'Share Tech Mono', monospace;
+            --accent: #ff00ff;
+        }
+
+        .neon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(0deg,
+                    rgba(0, 255, 255, 0.1) 0px,
+                    transparent 2px,
+                    transparent 4px,
+                    rgba(0, 255, 255, 0.1) 4px);
+            pointer-events: none;
+            animation: scanlines 10s linear infinite;
+        }
+
+        @keyframes scanlines {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(20px);
+            }
+        }
+
+        .neon h1 {
+            font-size: 4rem;
+            text-transform: uppercase;
+            text-align: center;
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff;
+            letter-spacing: 0.5rem;
+        }
+
+        .neon .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .neon .box {
+            border: 2px solid #00ffff;
+            padding: 2rem;
+            box-shadow: 0 0 20px #00ffff, inset 0 0 20px rgba(0, 255, 255, 0.1);
+        }
+
+        /* NEURAL 3000 */
+        .neural #site {
+            background: radial-gradient(ellipse at center, #0a0e27 0%, #000000 100%);
+            color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .neural {
+            --font: 'Space Mono', monospace;
+            --accent: #00d9ff;
+        }
+
+        .neural .interface {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        .neural .node {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(0, 217, 255, 0.05);
+            border: 1px solid #00d9ff;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.4), inset 0 0 20px rgba(0, 217, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            animation: neuralPulse 3s infinite;
+        }
+
+        @keyframes neuralPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 30px rgba(0, 217, 255, 0.4), inset 0 0 20px rgba(0, 217, 255, 0.1);
+            }
+
+            50% {
+                box-shadow: 0 0 60px rgba(0, 217, 255, 0.8), inset 0 0 40px rgba(0, 217, 255, 0.3);
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .hieroglyph #site,
+            .web2 .features,
+            .stripe .features,
+            .bento .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bauhaus #site {
+                grid-template-columns: 1fr;
+            }
+
+            .swiss #site {
+                grid-template-columns: 1fr;
+            }
+
+            .swiss .hero {
+                font-size: 2rem;
+            }
+
+            .swiss .content,
+            .swiss .image {
+                grid-column: 1 / -1;
+            }
+        }
+    </style>
+</head>
+
+<body class="aiera">
+    <div id="container">
+        <div id="yearDisplay">
+            <div id="year">2024</div>
+            <span class="era-label" id="era">AI Era</span>
+        </div>
+
+        <div id="site"></div>
+
+        <div id="nav">
+            <button id="prev"><i class="fas fa-arrow-left"></i></button>
+            <button id="next"><i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <script>
+        const eras = [
+            {
+                year: -13800000000,
+                name: 'The Big Bang',
+                theme: 'bigbang',
+                html: '<div class="content">•</div>'
+            },
+            {
+                year: -40000,
+                name: 'Lascaux Cave Paintings',
+                theme: 'cave',
+                html: '<div style="text-align: center;"><h1 style="font-size: 3rem; color: #d4a574; margin-bottom: 2rem;">primitive marks</h1><div class="symbol"></div><div class="symbol"></div><div class="symbol"></div><div class="symbol"></div></div>'
+            },
+            {
+                year: -3000,
+                name: 'Egyptian Hieroglyphs',
+                theme: 'hieroglyph',
+                html: '<div class="block">☥</div><div class="block">𓂀</div><div class="block">𓃭</div><div class="block">𓆣</div><div class="block">𓇋</div><div class="block">𓈖</div>'
+            },
+            {
+                year: 500,
+                name: 'Medieval Illumination',
+                theme: 'medieval',
+                html: '<div class="illuminated">✠</div><h1 style="font-size: 2.5rem; font-style: italic;">Codex Manuscript</h1><p style="font-size: 1.2rem; line-height: 2; max-width: 600px; margin: 2rem auto;">In nomine Patris et Filii et Spiritus Sancti</p>'
+            },
+            {
+                year: 1440,
+                name: 'Gutenberg Press',
+                theme: 'gutenberg',
+                html: '<h1>Biblia Sacra</h1><p>In principio creavit Deus cælum et terram. Terra autem erat inanis et vacua, et tenebræ erant super faciem abyssi: et spiritus Dei ferebatur super aquas. Dixitque Deus: Fiat lux. Et facta est lux.</p>'
+            },
+            {
+                year: 1919,
+                name: 'Bauhaus',
+                theme: 'bauhaus',
+                html: '<div class="header">BAUHAUS</div><div class="sidebar"><div class="shape"></div><div class="shape" style="background: #ff0000; border-radius: 50%;"></div></div><div class="main"><h1 style="font-size: 3rem; margin-bottom: 2rem;">FORM FOLLOWS FUNCTION</h1><p style="font-size: 1.2rem; line-height: 1.8;">The ultimate aim of all creative activity is a building! The decoration of buildings was once the noblest function of fine arts.</p></div>'
+            },
+            {
+                year: 1957,
+                name: 'Swiss International',
+                theme: 'swiss',
+                html: '<div class="hero">GRID</div><div class="content"><p>The grid system is an aid, not a guarantee. It permits a number of possible uses and each designer can look for a solution appropriate to his personal style. But one must learn how to use the grid; it is an art that requires practice.</p></div><div class="image"></div>'
+            },
+            {
+                year: 1967,
+                name: 'Psychedelic Movement',
+                theme: 'psychedelic',
+                html: '<h1>☮ LOVE ☮</h1><p style="font-size: 2rem; margin: 2rem 0; transform: rotate(3deg);">expand your mind</p><div style="font-size: 4rem;">✿ ❀ ✾</div>'
+            },
+            {
+                year: 1981,
+                name: 'Memphis Milano',
+                theme: 'memphis',
+                html: '<div class="card"><h2 style="font-size: 2rem;">PATTERN</h2><p style="font-size: 1.2rem;">△ ○ □</p></div><div class="card"><h2 style="font-size: 2rem;">COLOR</h2><p style="font-size: 1.2rem;">■ ● ▲</p></div><div class="card"><h2 style="font-size: 2rem;">CHAOS</h2><p style="font-size: 1.2rem;">◆ ◇ ◈</p></div><div class="card"><h2 style="font-size: 2rem;">DESIGN</h2><p style="font-size: 1.2rem;">★ ☆ ✦</p></div>'
+            },
+            {
+                year: 1991,
+                name: 'First Website',
+                theme: 'earlyweb',
+                html: '<h1>World Wide Web</h1><p>The WorldWideWeb (W3) is a wide-area hypermedia information retrieval initiative aiming to give universal access to a large universe of documents.</p><h2>Navigation</h2><ul><li><a href="#">What\'s out there?</a></li><li><a href="#">Help</a></li><li><a href="#">Software Products</a></li><li><a href="#">Technical</a></li><li><a href="#">Bibliography</a></li></ul>'
+            },
+            {
+                year: 1999,
+                name: 'Web 1.0 Chaos',
+                theme: 'web1',
+                html: '<div class="header"><h1 style="font-size: 2.5rem; margin: 0;">★ WELCOME TO MY HOMEPAGE ★</h1><div style="margin-top: 1rem;">🔥 BEST VIEWED IN NETSCAPE 🔥</div></div><div class="sidebar"><h3>COOL LINKS</h3><ul style="list-style: none;"><li>⚡ Guestbook</li><li>⚡ Web Rings</li><li>⚡ Awards</li></ul></div><div class="main"><p style="font-size: 1.2rem; margin: 2rem 0;">🚧 UNDER CONSTRUCTION 🚧</p><div class="counter">VISITOR: 000042</div><p style="margin-top: 2rem; font-size: 1.5rem;">♪♫ NOW PLAYING: MIDI ♫♪</p></div>'
+            },
+            {
+                year: 2000,
+                name: 'Flash Era',
+                theme: 'flash',
+                html: '<div class="splash"><i class="fas fa-play-circle" style="display: block; margin-bottom: 2rem;"></i>LOADING EXPERIENCE<div style="margin-top: 2rem; font-size: 1.5rem; opacity: 0.7;">SKIP INTRO</div></div>'
+            },
+            {
+                year: 2003,
+                name: 'CSS Zen Garden',
+                theme: 'csszengarden',
+                html: '<div class="hero"><h1 style="font-size: 3.5rem; margin-bottom: 1rem;">The Beauty of CSS Design</h1><p style="font-size: 1.3rem; line-height: 1.8;">A demonstration of what can be accomplished visually through CSS-based design. Select any style sheet from the list to load it into this page.</p></div><div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;"><div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 15px;"><h3 style="font-size: 1.5rem; margin-bottom: 1rem;"><i class="fas fa-palette"></i> Select Design</h3><p>Various designs available</p></div><div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 15px;"><h3 style="font-size: 1.5rem; margin-bottom: 1rem;"><i class="fas fa-code"></i> View Source</h3><p>Same markup, different CSS</p></div></div>'
+            },
+            {
+                year: 2006,
+                name: 'Web 2.0',
+                theme: 'web2',
+                html: '<div class="navbar"><div style="font-size: 1.5rem; font-weight: bold;">Logo</div><div style="display: flex; gap: 2rem;"><span>Home</span><span>Features</span><span>About</span></div></div><div class="hero">Share. Connect. Collaborate.</div><div class="features"><div class="card"><i class="fas fa-users" style="font-size: 3rem; margin-bottom: 1rem;"></i><h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Social</h3><p>Connect with friends</p></div><div class="card"><i class="fas fa-rss" style="font-size: 3rem; margin-bottom: 1rem;"></i><h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Subscribe</h3><p>Stay updated with RSS</p></div><div class="card"><i class="fas fa-comment" style="font-size: 3rem; margin-bottom: 1rem;"></i><h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Discuss</h3><p>Join the conversation</p></div></div>'
+            },
+            {
+                year: 2013,
+                name: 'Flat Design',
+                theme: 'flat',
+                html: '<div class="navbar"><div style="font-size: 1.8rem; font-weight: 300;">flatdesign</div><div style="display: flex; gap: 2rem; font-weight: 300;"><span>products</span><span>about</span><span>contact</span></div></div><div class="hero"><h1>Simple. Clean. Flat.</h1><p style="font-size: 1.3rem; opacity: 0.8;">No more skeuomorphism</p><div class="cta">Get Started</div></div><div style="display: grid; grid-template-columns: repeat(4, 1fr); padding: 2rem;"><div style="background: #e74c3c; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 3rem;"><i class="fas fa-heart"></i></div><div style="background: #3498db; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 3rem;"><i class="fas fa-star"></i></div><div style="background: #2ecc71; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 3rem;"><i class="fas fa-check"></i></div><div style="background: #f39c12; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 3rem;"><i class="fas fa-bolt"></i></div></div>'
+            },
+            {
+                year: 2014,
+                name: 'Material Design',
+                theme: 'material',
+                html: '<div class="appbar"><i class="fas fa-bars" style="margin-right: 1rem;"></i>Material Design</div><div class="content"><div class="card"><div style="height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; font-size: 4rem; color: white;"><i class="fas fa-cube"></i></div><div class="card-content"><h3 style="font-size: 1.5rem; font-weight: 500; margin-bottom: 0.5rem;">Elevation</h3><p style="opacity: 0.7;">Surfaces and shadows</p></div></div><div class="card"><div style="height: 200px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; font-size: 4rem; color: white;"><i class="fas fa-palette"></i></div><div class="card-content"><h3 style="font-size: 1.5rem; font-weight: 500; margin-bottom: 0.5rem;">Color</h3><p style="opacity: 0.7;">Bold and intentional</p></div></div><div class="card"><div style="height: 200px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; font-size: 4rem; color: white;"><i class="fas fa-layer-group"></i></div><div class="card-content"><h3 style="font-size: 1.5rem; font-weight: 500; margin-bottom: 0.5rem;">Motion</h3><p style="opacity: 0.7;">Meaningful transitions</p></div></div></div>'
+            },
+            {
+                year: 2016,
+                name: 'Neo-Brutalism',
+                theme: 'brutalism',
+                html: '<h1>TERMINAL://ROOT</h1><div class="grid"><div class="box">&gt; SYSTEM</div><div class="box">&gt; ACCESS</div><div class="box">&gt; DENIED</div><div class="box">&gt; ERROR</div></div><div style="margin-top: 2rem; border: 2px solid #00ff00; padding: 2rem;"><p style="font-size: 1.2rem; line-height: 2;">RAW. UNPOLISHED. FUNCTIONAL. NO DECORATION. PURE STRUCTURE.</p></div>'
+            },
+            {
+                year: 2019,
+                name: 'Stripe Minimalism',
+                theme: 'stripe',
+                html: '<div class="navbar"><div style="font-weight: 600; font-size: 1.3rem;">stripe</div><div style="display: flex; gap: 2rem;"><span>Products</span><span>Developers</span><span>Company</span></div></div><div class="hero"><h1>Payments infrastructure for the internet</h1><p style="font-size: 1.5rem; opacity: 0.7; margin-top: 1rem;">Millions of companies use Stripe to accept payments and manage their businesses online.</p></div><div class="features"><div class="feature-card"><i class="fas fa-credit-card" style="font-size: 2rem; color: #635bff; margin-bottom: 1rem;"></i><h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem;">Payments</h3><p style="opacity: 0.7;">Accept payments online and in person</p></div><div class="feature-card"><i class="fas fa-chart-line" style="font-size: 2rem; color: #635bff; margin-bottom: 1rem;"></i><h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem;">Revenue</h3><p style="opacity: 0.7;">Optimize revenue with data</p></div><div class="feature-card"><i class="fas fa-globe" style="font-size: 2rem; color: #635bff; margin-bottom: 1rem;"></i><h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem;">Global</h3><p style="opacity: 0.7;">Expand to new markets</p></div></div>'
+            },
+            {
+                year: 2022,
+                name: 'Bento Grid',
+                theme: 'bento',
+                html: '<div class="grid"><div class="box"><h2 style="font-size: 2rem; font-weight: 600; margin-bottom: 1rem;">Linear</h2><p style="opacity: 0.7; font-size: 1.1rem;">The issue tracking tool you\'ll enjoy using</p><i class="fas fa-arrow-right" style="font-size: 2rem; color: #8b5cf6; margin-top: auto;"></i></div><div class="box"><i class="fas fa-bolt" style="font-size: 3rem; color: #8b5cf6;"></i></div><div class="box"><i class="fas fa-rocket" style="font-size: 3rem; color: #8b5cf6;"></i></div><div class="box"><p style="font-size: 1.2rem; opacity: 0.8;">Component-based design system</p></div><div class="box"><i class="fas fa-star" style="font-size: 3rem; color: #8b5cf6;"></i></div></div>'
+            },
+            {
+                year: 2024,
+                name: 'AI Era',
+                theme: 'aiera',
+                html: '<div style="text-align: center; padding: 4rem 2rem;"><h1 style="font-size: 4rem; font-weight: 600; margin-bottom: 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Generate Anything</h1><p style="font-size: 1.5rem; opacity: 0.9; margin-bottom: 3rem;">Powered by artificial intelligence</p><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1000px; margin: 0 auto;"><div style="background: rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; backdrop-filter: blur(10px);"><i class="fas fa-brain" style="font-size: 3rem; margin-bottom: 1rem;"></i><h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem;">Think</h3></div><div style="background: rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; backdrop-filter: blur(10px);"><i class="fas fa-wand-magic-sparkles" style="font-size: 3rem; margin-bottom: 1rem;"></i><h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem;">Create</h3></div><div style="background: rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; backdrop-filter: blur(10px);"><i class="fas fa-infinity" style="font-size: 3rem; margin-bottom: 1rem;"></i><h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem;">Evolve</h3></div></div></div>'
+            },
+            {
+                year: 2028,
+                name: 'Mandarin Minimalism',
+                theme: 'mandarin',
+                html: '<div class="header">新时代</div><div class="content"><h1 style="font-size: 2.5rem; font-weight: 300; margin-bottom: 2rem;">东方美学的复兴</h1><p>当代设计融合了宋代的克制与现代政治软实力。垂直布局、红金黑的调色板、书法般的优雅，但带有权威的底色。</p><div class="seal"></div><p style="margin-top: 2rem; line-height: 2.5;">形式追随文化，设计反映权力。</p></div>'
+            },
+            {
+                year: 2035,
+                name: 'SEA + India Punk',
+                theme: 'seapunk',
+                html: '<div class="layer">देवनागरी</div><div class="layer">ภาษาไทย</div><div class="layer">മലയാളം</div><div class="layer" style="font-size: 3rem;">🌺 ధన్యవాదాలు 🌸</div><div style="position: absolute; bottom: 10%; right: 5%; background: rgba(0,168,107,0.9); padding: 2rem; border: 3px solid #ffff00; transform: rotate(-2deg); max-width: 400px;"><p style="font-size: 1.3rem; font-weight: 900; line-height: 1.6;">DENSE. MAXIMALIST. BORDERLESS. COLORS GO ABSOLUTELY FERAL. ZERO WHITESPACE. ONLY ABUNDANCE.</p></div>'
+            },
+            {
+                year: 2045,
+                name: 'South American Favella',
+                theme: 'favella',
+                html: '<div class="poster"><div class="star">★</div><h1>REVOLUCIÓN</h1><div class="star">☭</div></div><div class="manifesto"><p>EL PUEBLO UNIDO JAMÁS SERÁ VENCIDO</p><p style="margin-top: 2rem;">COMMUNITY-FIRST DESIGN. BUILT WITH OUR HANDS. BRUTAL. BEAUTIFUL. BOLD.</p></div>'
+            },
+            {
+                year: 2060,
+                name: 'Solarpunk',
+                theme: 'solarpunk',
+                html: '<div class="organic"><h1 style="font-size: 3rem; text-align: center; margin-bottom: 2rem;">🌿 Bio-Integrated Future 🌱</h1><p style="font-size: 1.3rem; line-height: 2; text-align: center;">Technology grows with nature. Mycelium networks connect communities. Solar panels bloom like flowers. Design that breathes.</p></div><div class="grid"><div class="cell">🌾</div><div class="cell">☀️</div><div class="cell">💚</div></div>'
+            },
+            {
+                year: 2100,
+                name: 'Neon Cyberpunk',
+                theme: 'neon',
+                html: '<h1>CYBERPUNK::2100</h1><div class="grid"><div class="box"><i class="fas fa-robot" style="font-size: 4rem; color: #ff00ff;"></i><p style="margin-top: 1rem; text-transform: uppercase; letter-spacing: 0.3em;">AUGMENTED</p></div><div class="box"><i class="fas fa-microchip" style="font-size: 4rem; color: #00ffff;"></i><p style="margin-top: 1rem; text-transform: uppercase; letter-spacing: 0.3em;">NEURAL</p></div></div><div style="text-align: center; margin-top: 3rem; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 0.5em; color: #ff00ff; text-shadow: 0 0 10px #ff00ff;">TOO MUCH IS NOT ENOUGH</div>'
+            },
+            {
+                year: 3000,
+                name: 'Neural Holographic',
+                theme: 'neural',
+                html: '<div class="interface"><div class="node">◯</div><div class="node">◉</div><div class="node">◯</div></div><div style="margin-top: 4rem; text-align: center; font-size: 1.5rem; letter-spacing: 1em; opacity: 0.5;">T H O U G H T - R E S P O N S I V E</div>'
+            }
+        ];
+
+        let idx = eras.findIndex(e => e.year === 2024);
+
+        function formatYear(y) {
+            if (y < 0) return Math.abs(y).toLocaleString() + ' BCE';
+            if (y < 1000) return y + ' CE';
+            return y.toString();
+        }
+
+        function render() {
+            const era = eras[idx];
+            document.body.className = era.theme;
+            document.getElementById('year').textContent = formatYear(era.year);
+            document.getElementById('era').textContent = era.name;
+            document.getElementById('site').innerHTML = era.html;
+        }
+
+        document.getElementById('prev').onclick = () => {
+            idx = (idx - 1 + eras.length) % eras.length;
+            render();
+        };
+
+        document.getElementById('next').onclick = () => {
+            idx = (idx + 1) % eras.length;
+            render();
+        };
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowLeft') {
+                idx = (idx - 1 + eras.length) % eras.length;
+                render();
+            } else if (e.key === 'ArrowRight') {
+                idx = (idx + 1) % eras.length;
+                render();
+            }
+        });
+
+        render();
+    </script>
+</body>
+
+</html>
