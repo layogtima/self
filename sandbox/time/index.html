@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temporal Web Museum: 13.8 Billion Years of Design</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.prod.js"></script>
+
+    <style>
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: rotate(-2deg) translateY(0);
+            }
+
+            50% {
+                transform: rotate(2deg) translateY(-4px);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .paper-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .fade-enter-active {
+            animation: fadeIn 0.5s;
+        }
+
+        .fade-leave-active {
+            animation: fadeIn 0.5s reverse;
+        }
+
+        /* Era-specific animations */
+        @keyframes expand {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(100);
+                opacity: 0;
+            }
+        }
+
+        @keyframes particle {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(var(--tx), var(--ty));
+                opacity: 0;
+            }
+        }
+
+        @keyframes shimmer {
+
+            0%,
+            100% {
+                filter: brightness(1);
+            }
+
+            50% {
+                filter: brightness(1.5);
+            }
+        }
+
+        @keyframes vibrate {
+
+            0%,
+            100% {
+                transform: translate(0);
+            }
+
+            25% {
+                transform: translate(-2px, 2px);
+            }
+
+            50% {
+                transform: translate(2px, -2px);
+            }
+
+            75% {
+                transform: translate(-2px, -2px);
+            }
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes flicker {
+
+            0%,
+            18%,
+            22%,
+            25%,
+            53%,
+            57%,
+            100% {
+                opacity: 1;
+            }
+
+            20%,
+            24%,
+            55% {
+                opacity: 0.4;
+            }
+        }
+
+        @keyframes fall {
+            from {
+                transform: translateY(-100vh);
+            }
+
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        @keyframes morph {
+
+            0%,
+            100% {
+                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            }
+
+            50% {
+                border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+            }
+        }
+
+        @keyframes gradientFlow {
+
+            0%,
+            100% {
+                opacity: 0.8;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes holographic {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+    </style>
+</head>
+
+<body class="overflow-hidden">
+    <div id="app">
+        <!-- Current Era Display -->
+        <transition name="fade" mode="out-in">
+            <component :is="currentEra.component" :key="currentIndex"></component>
+        </transition>
+
+        <!-- Navigation -->
+        <div class="fixed bottom-8 left-8 flex items-center gap-4 z-50">
+            <button @click="navigate(-1)"
+                class="paper-float bg-white p-4 rounded-lg shadow-lg hover:shadow-2xl transition-all">
+                <i class="fas fa-chevron-left text-2xl text-gray-800"></i>
+            </button>
+
+            <div class="paper-float bg-white px-8 py-4 rounded-lg shadow-lg">
+                <div class="text-4xl font-bold text-gray-800 font-serif">
+                    {{ currentEra.year }}
+                </div>
+            </div>
+
+            <button @click="navigate(1)"
+                class="paper-float bg-white p-4 rounded-lg shadow-lg hover:shadow-2xl transition-all">
+                <i class="fas fa-chevron-right text-2xl text-gray-800"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        // Era Components
+        const BigBang = {
+            template: `
+        <div class="absolute inset-0 bg-black overflow-hidden">
+          <div class="absolute top-1/2 left-1/2 w-1 h-1 bg-white rounded-full" 
+               style="animation: expand 3s ease-out infinite;"></div>
+          <div v-for="i in 100" :key="i" 
+               class="absolute top-1/2 left-1/2 w-0.5 h-0.5 bg-white rounded-full"
+               :style="getParticleStyle(i)"></div>
+        </div>
+      `,
+            methods: {
+                getParticleStyle(i) {
+                    const angle = i * 0.0628;
+                    return {
+                        '--tx': `${Math.cos(angle) * 2000}px`,
+                        '--ty': `${Math.sin(angle) * 2000}px`,
+                        animation: `particle 2s ease-out ${Math.random() * 2}s infinite`
+                    };
+                }
+            }
+        };
+
+        const Lascaux = {
+            template: `
+        <div class="absolute inset-0 bg-gradient-to-br from-[#3d2817] to-[#2d1810] p-16">
+          <div class="text-center text-amber-200 space-y-8">
+            <div class="text-8xl">🦬</div>
+            <div class="text-6xl">🖐️</div>
+            <div class="text-4xl opacity-70">Cave Paintings</div>
+            <div class="text-2xl opacity-50">Ochre • Charcoal • Calcium</div>
+          </div>
+        </div>
+      `
+        };
+
+        const Egypt = {
+            template: `
+        <div class="absolute inset-0 bg-gradient-to-b from-[#1a0f0a] to-[#2d1a10] flex items-center justify-center">
+          <div class="text-center space-y-12">
+            <div class="text-8xl text-cyan-400">☥</div>
+            <div class="flex gap-8 text-6xl">
+              <span class="text-green-600">𓆣</span>
+              <span class="text-red-700">𓋹</span>
+              <span class="text-yellow-600">𓇯</span>
+            </div>
+            <div class="text-4xl text-yellow-600">Hieroglyphs</div>
+            <div class="text-2xl text-yellow-600/70">Sacred Geometry • Blue Pigment • Papyrus</div>
+          </div>
+        </div>
+      `
+        };
+
+        const Medieval = {
+            template: `
+        <div class="absolute inset-0 bg-gradient-to-br from-[#1a1a2e] to-[#2d2d44] flex items-center justify-center">
+          <div class="border-8 border-yellow-500 p-12 relative" style="animation: shimmer 3s infinite;">
+            <div class="text-9xl text-blue-600">I</div>
+            <div class="absolute inset-0 border-4 border-yellow-600" style="animation: shimmer 3s infinite 0.5s;"></div>
+          </div>
+          <div class="absolute bottom-16 text-center">
+            <div class="text-4xl text-yellow-500">Illuminated Manuscripts</div>
+            <div class="text-xl text-yellow-500/70">Gold Leaf • Ultramarine • Vellum</div>
+          </div>
+        </div>
+      `
+        };
+
+        const Gutenberg = {
+            template: `
+        <div class="absolute inset-0 bg-black flex items-center justify-center text-gray-200">
+          <div class="text-center space-y-8">
+            <div class="text-9xl">✠</div>
+            <div class="text-7xl font-serif italic">Biblia</div>
+            <div class="text-4xl">XLII Lines</div>
+            <div class="text-2xl opacity-70">Movable Type • Oil-based Ink • 1440</div>
+          </div>
+        </div>
+      `
+        };
+
+        const Bauhaus = {
+            template: `
+        <div class="absolute inset-0 bg-white grid grid-cols-3 grid-rows-3 gap-0 p-20">
+          <div class="bg-red-600 flex items-center justify-center">
+            <div class="w-32 h-32 bg-red-700"></div>
+          </div>
+          <div class="bg-yellow-400 flex items-center justify-center">
+            <div class="w-0 h-0 border-l-[60px] border-r-[60px] border-b-[100px] border-l-transparent border-r-transparent border-b-yellow-500"></div>
+          </div>
+          <div class="bg-blue-600 flex items-center justify-center">
+            <div class="w-32 h-32 bg-blue-700 rounded-full"></div>
+          </div>
+          <div class="bg-black flex items-center justify-center">
+            <div class="w-32 h-32 bg-black rotate-45"></div>
+          </div>
+          <div class="bg-white border-4 border-black flex items-center justify-center">
+            <div class="text-6xl font-black">∞</div>
+          </div>
+          <div class="bg-red-600 flex items-center justify-center">
+            <div class="w-0 h-0 border-t-[60px] border-b-[60px] border-l-[100px] border-t-transparent border-b-transparent border-l-red-700"></div>
+          </div>
+          <div class="bg-yellow-400 flex items-center justify-center">
+            <div class="w-32 h-32 bg-yellow-500 rounded-full" style="animation: spin 4s linear infinite;"></div>
+          </div>
+          <div class="bg-blue-600 flex items-center justify-center">
+            <div class="w-24 h-24 bg-blue-700"></div>
+          </div>
+          <div class="bg-black flex items-center justify-center">
+            <div class="w-48 h-1 bg-white"></div>
+            <div class="w-1 h-48 bg-white absolute"></div>
+          </div>
+        </div>
+      `
+        };
+
+        const Swiss = {
+            template: `
+        <div class="absolute inset-0 bg-white grid grid-cols-8 grid-rows-8 gap-0.5 p-20 bg-black">
+          <div class="bg-white col-span-3 row-span-2 flex items-center justify-center text-9xl font-black">A</div>
+          <div class="bg-black"></div>
+          <div class="bg-white"></div>
+          <div class="bg-black"></div>
+          <div class="bg-white"></div>
+          <div class="bg-black"></div>
+          <div class="bg-white"></div>
+          <div class="bg-black"></div>
+          <div class="bg-white"></div>
+          <div class="bg-black"></div>
+          <div class="bg-white col-span-4 row-span-2 flex items-center justify-center text-6xl">Grid</div>
+          <div class="bg-black"></div>
+          <div class="bg-white"></div>
+          <div class="bg-black"></div>
+          <div class="bg-white"></div>
+        </div>
+      `
+        };
+
+        const Psychedelic = {
+            template: `
+        <div class="absolute inset-0 bg-gradient-to-br from-pink-500 via-purple-500 to-cyan-500 flex items-center justify-center">
+          <div class="text-center space-y-8" style="animation: vibrate 0.3s infinite;">
+            <div class="text-9xl text-green-400 transform -rotate-6" style="text-shadow: 3px 3px 0 #ff00ff, -3px -3px 0 #00ffff;">☮</div>
+            <div class="text-6xl text-yellow-300">∿∿∿</div>
+            <div class="text-9xl text-pink-400 transform rotate-6" style="text-shadow: 3px 3px 0 #00ffff, -3px -3px 0 #ff00ff;">✌</div>
+          </div>
+        </div>
+      `
+        };
+
+        const Memphis = {
+            template: `
+        <div class="absolute inset-0 bg-black overflow-hidden">
+          <div class="absolute top-[20%] left-[10%] w-48 h-48 bg-red-600 rounded-full"></div>
+          <div class="absolute top-[60%] right-[15%] w-36 h-36 bg-yellow-400 rotate-45"></div>
+          <div class="absolute bottom-[20%] left-[40%] w-0 h-0 border-l-[100px] border-r-[100px] border-b-[173px] border-l-transparent border-r-transparent border-b-cyan-400"></div>
+          <div class="absolute top-[30%] right-[30%] w-48 h-24 bg-gradient-to-r from-pink-500 to-green-500"></div>
+          <div class="absolute bottom-16 left-1/2 -translate-x-1/2 text-center">
+            <div class="text-5xl text-white">Memphis Milano</div>
+            <div class="text-2xl text-white/70">Less is a Bore • 1981</div>
+          </div>
+        </div>
+      `
+        };
+
+        const FirstWeb = {
+            template: `
+        <div class="absolute inset-0 bg-gray-300 p-16">
+          <div class="max-w-4xl mx-auto bg-white p-8 font-serif">
+            <h1 class="text-5xl mb-4">info.cern.ch</h1>
+            <p class="text-2xl mb-4">The WorldWideWeb project</p>
+            <ul class="space-y-2 text-xl">
+              <li><a href="#" class="text-blue-600 underline">[1] What's new</a></li>
+              <li><a href="#" class="text-blue-600 underline">[2] Overview</a></li>
+              <li><a href="#" class="text-blue-600 underline">[3] Getting started</a></li>
+            </ul>
+            <hr class="my-4 border-black">
+            <p class="text-lg">Line-mode browser • Zero style • Pure function</p>
+          </div>
+        </div>
+      `
+        };
+
+        const Tables = {
+            template: `
+        <div class="absolute inset-0 bg-white flex items-center justify-center p-16">
+          <div class="border-2 border-black max-w-4xl w-full">
+            <div class="flex">
+              <div class="w-48 border-r-2 border-black bg-gray-300 p-4">
+                <div class="font-bold mb-4">Navigation</div>
+                <div class="space-y-2 text-sm">Link 1<br>Link 2<br>Link 3</div>
+              </div>
+              <div class="flex-1 p-4">
+                <h2 class="text-4xl font-bold mb-4">Welcome</h2>
+                <p class="text-xl mb-4">Table-based layouts • Spacer GIFs • 1996</p>
+                <p class="text-gray-600">Fixed 800px width</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `
+        };
+
+        const Geocities = {
+            template: `
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
+          <div class="text-center space-y-8">
+            <div class="text-6xl animate-bounce" style="font-family: 'Comic Sans MS', cursive; color: #ff00ff; text-shadow: 2px 2px 0 #ffff00;">
+              🚧 UNDER CONSTRUCTION 🚧
+            </div>
+            <div class="text-4xl text-yellow-300">⭐ NEW! ⭐</div>
+            <div class="text-2xl text-green-400">★ ☆ ✦ ✧ ◆ ◇ ○ ● ★ ☆</div>
+            <div class="text-xl text-white">Best viewed in Netscape Navigator 4.0</div>
+          </div>
+        </div>
+      `
+        };
+
+        const CSSZenGarden = {
+            template: `
+        <div class="absolute inset-0 bg-gradient-to-br from-green-900 to-green-700 p-16">
+          <div class="max-w-4xl mx-auto text-white space-y-8">
+            <h1 class="text-7xl font-bold mb-8">☯ CSS Zen Garden</h1>
+            <div class="columns-2 gap-8 text-xl leading-relaxed">
+              <p class="mb-4">Same HTML. Different CSS.</p>
+              <p class="mb-4">Float-based layouts • Image replacement • Clearfix hacks</p>
+              <p class="mb-4">Web standards revolution • 2003</p>
+              <p>Separation of content and presentation</p>
+            </div>
+          </div>
+        </div>
+      `
+        };
+
+        const FlashEra = {
+            template: `
+        <div class="absolute inset-0 bg-black overflow-hidden">
+          <div class="absolute w-24 h-24 bg-pink-500/60 rounded-full" style="top: 40%; left: 30%; animation: spin 4s ease-in-out infinite;"></div>
+          <div class="absolute w-32 h-32 bg-cyan-500/50 rounded-full" style="top: 60%; left: 70%; animation: spin 4s ease-in-out infinite reverse;"></div>
+          <div class="absolute w-28 h-28 bg-yellow-500/40 rounded-full" style="top: 50%; left: 50%; animation: spin 4s ease-in-out infinite;"></div>
+          <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-gray-500 text-xl">
+            praystation.com • ActionScript • Generative Art
+          </div>
+        </div>
+      `
+        };
+
+        const Web2 = {
+            template: `
+        <div class="absolute inset-0 bg-gray-100 flex items-center justify-center gap-8">
+          <button class="relative px-12 py-6 text-3xl text-white rounded-full overflow-hidden"
+                  style="background: linear-gradient(to bottom, #94c4fe 31%, #d3f6fe 100%); 
+                         box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                         text-shadow: 0 1px 2px rgba(0,0,0,0.3);">
+            <div class="absolute inset-0 bg-gradient-to-b from-white/80 to-white/20" style="height: 50%;"></div>
+            <span class="relative">Sign Up</span>
+          </button>
+          <div class="absolute bottom-16 text-4xl text-gray-400">Beta</div>
+        </div>
+      `
+        };
+
+        const jQuery = {
+            template: `
+        <div class="absolute inset-0 bg-[#0769ad] flex items-center justify-center">
+          <div class="text-center space-y-8">
+            <div class="text-9xl text-white font-bold">$( )</div>
+            <div class="text-3xl text-white space-y-4">
+              <div>.fadeIn()</div>
+              <div>.slideToggle()</div>
+              <div>.animate()</div>
+            </div>
+          </div>
+        </div>
+      `
+        };
+
+        const Responsive = {
+            template: `
+        <div class="absolute inset-0 bg-white p-16">
+          <div class="grid grid-cols-4 gap-4 h-full">
+            <div class="bg-gradient-to-br from-purple-500 to-purple-700 rounded"></div>
+            <div class="bg-gradient-to-br from-purple-500 to-purple-700 rounded"></div>
+            <div class="bg-gradient-to-br from-purple-500 to-purple-700 rounded"></div>
+            <div class="bg-gradient-to-br from-purple-500 to-purple-700 rounded"></div>
+          </div>
+          <div class="absolute bottom-16 left-1/2 -translate-x-1/2 text-3xl text-gray-800">
+            320px • 768px • 1024px • Fluid Grids
+          </div>
+        </div>
+      `
+        };
+
+        const Flat = {
+            template: `
+        <div class="absolute inset-0 bg-blue-500 flex items-center justify-center">
+          <div class="space-y-8">
+            <div class="bg-white p-8 max-w-md">
+              <h2 class="text-4xl font-bold mb-4">Metro</h2>
+              <p class="text-xl mb-2">No gradients</p>
+              <p class="text-xl mb-2">No shadows</p>
+              <p class="text-xl">Content over chrome</p>
+            </div>
+            <button class="border-4 border-gray-800 px-8 py-4 text-2xl bg-transparent hover:bg-gray-800 hover:text-white transition-all">
+              Ghost Button
+            </button>
+          </div>
+        </div>
+      `
+        };
+
+        const Material = {
+            template: `
+        <div class="absolute inset-0 bg-white">
+          <div class="absolute top-[20%] left-[20%] bg-white rounded p-8 shadow-md hover:shadow-xl transition-shadow max-w-sm">
+            <h3 class="text-3xl font-bold mb-4">Elevation 2dp</h3>
+            <p class="text-xl mb-2">Paper metaphor</p>
+            <p class="text-xl">Z-axis depth</p>
+          </div>
+          <div class="absolute top-[40%] right-[20%] bg-white rounded p-8 shadow-md hover:shadow-xl transition-shadow max-w-md">
+            <h3 class="text-3xl font-bold mb-4">8dp Grid</h3>
+            <p class="text-xl mb-2">Roboto font</p>
+            <p class="text-xl">Primary 500</p>
+          </div>
+          <button class="absolute bottom-8 right-8 w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center text-white text-2xl shadow-lg hover:shadow-2xl transition-all">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+      `
+        };
+
+        const NeoBrutal = {
+            template: `
+        <div class="absolute inset-0 bg-yellow-400 p-16 space-y-8">
+          <div class="bg-white border-4 border-black p-8 text-6xl font-black" style="box-shadow: 8px 8px 0 black;">
+            RAW
+          </div>
+          <div class="bg-black border-4 border-black p-8 text-6xl font-black text-white" style="box-shadow: 8px 8px 0 white;">
+            HONEST
+          </div>
+          <div class="bg-red-600 border-4 border-black p-8 text-6xl font-black" style="box-shadow: 8px 8px 0 black;">
+            BOLD
+          </div>
+        </div>
+      `
+        };
+
+        const Stripe = {
+            template: `
+        <div class="absolute inset-0 bg-white overflow-hidden">
+          <div class="absolute inset-0" style="background: radial-gradient(at 27% 37%, #6ec3f4 0px, transparent 50%),
+                                                        radial-gradient(at 63% 20%, #3a3aff 0px, transparent 50%),
+                                                        radial-gradient(at 49% 71%, #ff61ab 0px, transparent 50%),
+                                                        radial-gradient(at 10% 90%, #E63946 0px, transparent 50%);
+                                                animation: gradientFlow 15s ease-in-out infinite;"></div>
+          <div class="relative z-10 flex items-center justify-center h-full">
+            <div class="text-center">
+              <h1 class="text-8xl font-bold text-gray-900 mb-8">CIELAB</h1>
+              <p class="text-3xl text-gray-600">Perceptual Uniformity</p>
+            </div>
+          </div>
+        </div>
+      `
+        };
+
+        const Bento = {
+            template: `
+        <div class="absolute inset-0 bg-gray-50 p-16">
+          <div class="grid grid-cols-4 grid-rows-4 gap-4 h-full max-w-6xl mx-auto">
+            <div class="col-span-2 row-span-2 bg-gradient-to-br from-purple-500 to-purple-700 rounded-3xl flex items-center justify-center text-white text-6xl">
+              ◎
+            </div>
+            <div class="bg-gradient-to-br from-pink-400 to-red-500 rounded-3xl flex items-center justify-center text-white text-4xl">▣</div>
+            <div class="bg-gradient-to-br from-blue-400 to-cyan-500 rounded-3xl flex items-center justify-center text-white text-4xl">◆</div>
+            <div class="col-span-2 bg-gradient-to-br from-green-400 to-teal-500 rounded-3xl flex items-center justify-center text-white text-4xl">▭</div>
+          </div>
+        </div>
+      `
+        };
+
+        const AIEra = {
+            template: `
+        <div class="absolute inset-0 bg-black">
+          <div class="absolute inset-0 bg-gradient-to-br from-purple-600/30 to-pink-600/30"></div>
+          <div class="relative z-10 flex items-center justify-center h-full">
+            <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-12 max-w-2xl">
+              <div class="text-8xl font-black text-transparent bg-clip-text mb-8"
+                   style="background: linear-gradient(90deg, #ff00ff, #00ffff, #ff00ff, #00ffff);
+                          background-size: 300% 100%;
+                          animation: holographic 3s linear infinite;">
+                AI
+              </div>
+              <div class="text-2xl text-white space-y-2">
+                <p>Glassmorphism</p>
+                <p>Variable Fonts</p>
+                <p>Generative Gradients</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `
+        };
+
+        const Mandarin = {
+            template: `
+        <div class="absolute inset-0 bg-gradient-to-b from-[#f5f5dc] to-[#e8e8d0] flex items-center justify-center">
+          <div class="text-center space-y-12">
+            <div class="text-8xl text-gray-800" style="writing-mode: vertical-rl;">
+              空<br>寂<br>美<br>學
+            </div>
+            <div class="text-4xl text-amber-800">宋朝 • Song Dynasty</div>
+            <div class="text-2xl text-gray-600">Emptiness • Restraint • Minimalism</div>
+          </div>
+        </div>
+      `
+        };
+
+        const SEAIndia = {
+            template: `
+        <div class="absolute inset-0 bg-gradient-to-br from-orange-500 via-pink-500 to-purple-500 overflow-hidden"
+             style="animation: gradientFlow 5s ease infinite; background-size: 400% 400%;">
+          <div class="flex items-center justify-center h-full">
+            <div class="text-center space-y-8">
+              <div class="text-8xl font-black text-red-900" style="text-shadow: 2px 2px 0 #ffd700, 4px 4px 0 #00ced1;">
+                दक्षिण पूर्व
+              </div>
+              <div class="text-5xl text-white space-x-4">
+                <span>ក្រុង</span>
+                <span>•</span>
+                <span>தமிழ்</span>
+                <span>•</span>
+                <span>เมือง</span>
+              </div>
+              <div class="text-3xl text-yellow-200">Pattern Maximalism • Post-Colonial</div>
+            </div>
+          </div>
+        </div>
+      `
+        };
+
+        const Favela = {
+            template: `
+        <div class="absolute inset-0 bg-gradient-to-br from-red-600 via-orange-500 to-yellow-500">
+          <div class="flex items-center justify-center h-full">
+            <div class="text-center space-y-8">
+              <div class="text-9xl font-black text-white transform -rotate-2"
+                   style="text-shadow: 4px 4px 0 black, 8px 8px 0 rgba(0,0,0,0.5); font-family: Impact, sans-serif;">
+                ✊ PODER
+              </div>
+              <div class="text-5xl font-black text-black" style="font-family: Impact, sans-serif;">
+                ★ COMUNIDAD ★
+              </div>
+              <div class="text-2xl text-white">Revolutionary Art • Diego Rivera • Zapatista</div>
+            </div>
+          </div>
+        </div>
+      `
+        };
+
+        const Solarpunk = {
+            template: `
+        <div class="absolute inset-0 bg-gradient-to-br from-green-400 via-teal-400 to-emerald-300">
+          <div class="absolute w-72 h-72 bg-white/20 backdrop-blur-sm" 
+               style="top: 20%; left: 15%; animation: morph 8s ease-in-out infinite;"></div>
+          <div class="absolute w-60 h-60 bg-white/20 backdrop-blur-sm" 
+               style="bottom: 20%; right: 20%; animation: morph 8s ease-in-out infinite 2s;"></div>
+          <div class="relative z-10 flex items-center justify-center h-full">
+            <div class="text-center space-y-8">
+              <div class="text-9xl">☘ ⚘ ❀</div>
+              <div class="text-5xl font-bold text-green-900">Solarpunk</div>
+              <div class="text-2xl text-green-800 space-y-2">
+                <p>Bio-Integration</p>
+                <p>Mycelium Composites</p>
+                <p>Living Architecture</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `
+        };
+
+        const Cyberpunk = {
+            template: `
+        <div class="absolute inset-0 bg-[#0a0a0a] overflow-hidden">
+          <div class="absolute inset-0 opacity-30"
+               style="background-image: linear-gradient(rgba(0,255,255,0.1) 1px, transparent 1px),
+                                       linear-gradient(90deg, rgba(0,255,255,0.1) 1px, transparent 1px);
+                      background-size: 50px 50px;"></div>
+          <div class="flex items-center justify-center h-full relative z-10">
+            <div class="text-center space-y-8">
+              <div class="text-8xl font-mono text-pink-500"
+                   style="text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #00ffff;
+                          animation: flicker 0.15s ease-in-out infinite alternate;">
+                サイバー
+              </div>
+              <div class="text-3xl text-cyan-400">High Tech • Low Life • Neon Dreams</div>
+            </div>
+          </div>
+          <div v-for="i in 20" :key="i" 
+               class="absolute text-green-500 text-2xl font-mono opacity-70"
+               :style="getKatakanaStyle(i)">
+            {{ getRandomKatakana() }}
+          </div>
+        </div>
+      `,
+            methods: {
+                getRandomKatakana() {
+                    const katakana = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+                    return katakana[Math.floor(Math.random() * katakana.length)];
+                },
+                getKatakanaStyle(i) {
+                    return {
+                        left: `${Math.random() * 100}%`,
+                        animation: `fall 10s linear ${Math.random() * 10}s infinite`
+                    };
+                }
+            }
+        };
+
+        const Year3000 = {
+            template: `
+        <div class="absolute inset-0 bg-gradient-radial from-[#000033] to-black">
+          <div v-for="i in 50" :key="i"
+               class="absolute w-1 h-1 bg-white rounded-full"
+               :style="getQuantumStyle(i)"></div>
+          <div class="flex items-center justify-center h-full">
+            <div class="text-center space-y-8">
+              <div class="text-8xl text-white/80 tracking-[2rem] font-mono">? ? ?</div>
+              <div class="text-3xl text-white/60">Unknown Future</div>
+            </div>
+          </div>
+        </div>
+      `,
+            methods: {
+                getQuantumStyle(i) {
+                    return {
+                        left: `${Math.random() * 100}%`,
+                        top: `${Math.random() * 100}%`,
+                        animation: `fadeIn 5s ease-in-out ${Math.random() * 5}s infinite`
+                    };
+                }
+            }
+        };
+
+        createApp({
+            data() {
+                return {
+                    currentIndex: 0,
+                    eras: [
+                        { year: '13.8B BCE', name: 'Big Bang', component: BigBang },
+                        { year: '17,000 BCE', name: 'Lascaux', component: Lascaux },
+                        { year: '3000 BCE', name: 'Egypt', component: Egypt },
+                        { year: '500 CE', name: 'Medieval', component: Medieval },
+                        { year: '1440', name: 'Gutenberg', component: Gutenberg },
+                        { year: '1919', name: 'Bauhaus', component: Bauhaus },
+                        { year: '1957', name: 'Swiss', component: Swiss },
+                        { year: '1967', name: 'Psychedelic', component: Psychedelic },
+                        { year: '1981', name: 'Memphis', component: Memphis },
+                        { year: '1991', name: 'First Web', component: FirstWeb },
+                        { year: '1996', name: 'Tables', component: Tables },
+                        { year: '1999', name: 'Geocities', component: Geocities },
+                        { year: '2003', name: 'CSS Zen', component: CSSZenGarden },
+                        { year: '2005', name: 'Flash', component: FlashEra },
+                        { year: '2006', name: 'Web 2.0', component: Web2 },
+                        { year: '2008', name: 'jQuery', component: jQuery },
+                        { year: '2011', name: 'Responsive', component: Responsive },
+                        { year: '2013', name: 'Flat', component: Flat },
+                        { year: '2014', name: 'Material', component: Material },
+                        { year: '2016', name: 'Neo-Brutal', component: NeoBrutal },
+                        { year: '2019', name: 'Stripe', component: Stripe },
+                        { year: '2022', name: 'Bento', component: Bento },
+                        { year: '2024', name: 'AI Era', component: AIEra },
+                        { year: '2028', name: 'Mandarin', component: Mandarin },
+                        { year: '2035', name: 'SEA+India', component: SEAIndia },
+                        { year: '2045', name: 'Favela', component: Favela },
+                        { year: '2060', name: 'Solarpunk', component: Solarpunk },
+                        { year: '2100', name: 'Cyberpunk', component: Cyberpunk },
+                        { year: '3000', name: 'Future', component: Year3000 }
+                    ]
+                };
+            },
+            computed: {
+                currentEra() {
+                    return this.eras[this.currentIndex];
+                }
+            },
+            methods: {
+                navigate(direction) {
+                    this.currentIndex = (this.currentIndex + direction + this.eras.length) % this.eras.length;
+                }
+            },
+            mounted() {
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') this.navigate(-1);
+                    if (e.key === 'ArrowRight') this.navigate(1);
+                });
+            }
+        }).mount('#app');
+    </script>
+</body>
+
+</html>
