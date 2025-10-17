@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- Sound Samples from: https://codepen.io/amdsouza92/pen/xdooWa -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,11 +30,30 @@
         body {
             margin: 0;
             overflow: hidden;
-            cursor: crosshair;
         }
 
         canvas {
             display: block;
+        }
+
+        .step-btn {
+            transition: all 0.1s;
+        }
+
+        .step-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .step-active {
+            background: #000 !important;
+        }
+
+        .sequencer-panel {
+            transition: transform 0.3s ease;
+        }
+
+        .sequencer-hidden {
+            transform: translateY(100%);
         }
     </style>
 </head>
@@ -75,6 +96,53 @@
         </div>
     </div>
 
+    <!-- Sequencer Panel Toggle -->
+    <button id="seqToggle"
+        class="fixed bottom-4 left-4 z-50 bg-black text-white px-3 py-2 border-2 border-black hover:bg-white hover:text-black transition-colors">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sequencer Panel -->
+    <div id="seqPanel"
+        class="sequencer-panel sequencer-hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-black z-40 p-4">
+        <div class="max-w-6xl mx-auto">
+
+            <!-- Top Controls -->
+            <div class="flex items-center justify-between mb-4">
+                <!-- Transport Controls -->
+                <div class="flex gap-2">
+                    <button id="playBtn" class="bg-black text-white px-4 py-2 hover:bg-gray-800 transition-colors">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button id="stopBtn" class="bg-black text-white px-4 py-2 hover:bg-gray-800 transition-colors">
+                        <i class="fas fa-stop"></i>
+                    </button>
+                </div>
+
+                <!-- BPM Control -->
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-clock"></i>
+                    <input id="bpmSlider" type="range" min="60" max="240" value="120" class="w-32">
+                    <span id="bpmDisplay" class="font-bold min-w-[3ch]">120</span>
+                </div>
+
+                <!-- Selected Island -->
+                <div class="flex items-center gap-2">
+                    <span class="text-xs">
+                        <i class="fas fa-hand-pointer"></i>
+                    </span>
+                    <span id="selectedIsland" class="text-xs">---</span>
+                </div>
+            </div>
+
+            <!-- Step Sequencer Grid -->
+            <div id="stepGrid" class="grid gap-2" style="grid-template-columns: auto repeat(16, 1fr);">
+                <!-- Generated dynamically -->
+            </div>
+
+        </div>
+    </div>
+
     <script>
         // Canvas Setup
         const canvas = document.getElementById('stage');
@@ -95,44 +163,49 @@
             tomHigh: new Audio('https://raw.githubusercontent.com/ArunMichaelDsouza/javascript-30-course/master/src/01-javascript-drum-kit/sounds/tom-high.wav')
         };
 
-        // Preload all samples
         Object.values(samples).forEach(audio => {
             audio.load();
             audio.volume = 0.8;
         });
 
-        // Islands configuration with Font Awesome icons
+        // Islands configuration
         const islands = [
-            { x: 0.15, y: 0.7, r: 120, color: 20, drum: 'kick', icon: 'fa-drum' },
-            { x: 0.65, y: 0.55, r: 85, color: 100, drum: 'snare', icon: 'fa-compact-disc' },
-            { x: 0.25, y: 0.25, r: 55, color: 220, drum: 'hihatClose', icon: 'fa-circle' },
-            { x: 0.35, y: 0.22, r: 50, color: 200, drum: 'hihatOpen', icon: 'fa-circle-dot' },
-            { x: 0.85, y: 0.15, r: 95, color: 180, drum: 'crash', icon: 'fa-asterisk' },
-            { x: 0.72, y: 0.25, r: 70, color: 160, drum: 'ride', icon: 'fa-certificate' },
-            { x: 0.5, y: 0.6, r: 65, color: 60, drum: 'tomLow', icon: 'fa-circle-notch' },
-            { x: 0.45, y: 0.45, r: 62, color: 80, drum: 'tomMid', icon: 'fa-circle-notch' },
-            { x: 0.55, y: 0.35, r: 58, color: 120, drum: 'tomHigh', icon: 'fa-circle-notch' }
+            { x: 0.15, y: 0.7, r: 120, color: 20, drum: 'kick', icon: 'fa-drum', name: '🥁' },
+            { x: 0.65, y: 0.55, r: 85, color: 100, drum: 'snare', icon: 'fa-compact-disc', name: '💿' },
+            { x: 0.25, y: 0.25, r: 55, color: 220, drum: 'hihatClose', icon: 'fa-circle', name: '●' },
+            { x: 0.35, y: 0.22, r: 50, color: 200, drum: 'hihatOpen', icon: 'fa-circle-dot', name: '◉' },
+            { x: 0.85, y: 0.15, r: 95, color: 180, drum: 'crash', icon: 'fa-asterisk', name: '✱' },
+            { x: 0.72, y: 0.25, r: 70, color: 160, drum: 'ride', icon: 'fa-certificate', name: '✦' },
+            { x: 0.5, y: 0.6, r: 65, color: 60, drum: 'tomLow', icon: 'fa-circle-notch', name: '◐' },
+            { x: 0.45, y: 0.45, r: 62, color: 80, drum: 'tomMid', icon: 'fa-circle-notch', name: '◑' },
+            { x: 0.55, y: 0.35, r: 58, color: 120, drum: 'tomHigh', icon: 'fa-circle-notch', name: '◒' }
         ];
 
-        // Convert relative positions to absolute
-        islands.forEach(island => {
+        islands.forEach((island, idx) => {
             island.absX = island.x * w;
             island.absY = island.y * h;
             island.pulse = 0;
+            island.steps = new Array(16).fill(false);
+            island.id = idx;
         });
 
-        // Ripple effects
-        const ripples = [];
+        // Sequencer state
+        let isPlaying = false;
+        let currentStep = 0;
+        let bpm = 120;
+        let stepInterval = null;
+        let selectedIslandId = null;
 
-        // Ocean trail
+        // Ripples & trail
+        const ripples = [];
         const oceanTrail = [];
         const maxTrailPoints = 50;
 
-        // Track mouse state
+        // Mouse state
         let lastPos = null;
         let isOverOcean = true;
 
-        // Check if point is inside any island
+        // Get island at position
         const getIsland = (x, y) => {
             for (let island of islands) {
                 const dx = x - island.absX;
@@ -145,42 +218,135 @@
             return null;
         };
 
-        // Play drum sample
-        const playDrum = (island, velocity) => {
+        // Play drum
+        const playDrum = (island, velocity = 1) => {
             const audio = samples[island.drum];
             if (!audio) return;
 
-            // Clone audio for polyphonic playback
             const clone = audio.cloneNode();
             clone.volume = Math.max(0.3, velocity) * 0.8;
             clone.play().catch(e => console.log('Audio play failed:', e));
 
-            // Visual feedback
             island.pulse = 1;
-            ripples.push({ x: island.absX, y: island.absY, r: 0, maxR: island.r * 2, life: 1 });
+            ripples.push({ x: island.absX, y: island.absY, r: 0, life: 1 });
 
-            // Update display with icon
-            const iconMap = {
-                kick: 'fa-drum',
-                snare: 'fa-compact-disc',
-                hihatClose: 'fa-circle',
-                hihatOpen: 'fa-circle-dot',
-                crash: 'fa-asterisk',
-                ride: 'fa-certificate',
-                tomLow: 'fa-circle-notch',
-                tomMid: 'fa-circle-notch',
-                tomHigh: 'fa-circle-notch'
-            };
-
-            document.getElementById('currentSound').innerHTML = `<i class="fas ${iconMap[island.drum]}"></i>`;
+            document.getElementById('currentSound').innerHTML = `<i class="fas ${island.icon}"></i>`;
             document.getElementById('velocity').innerHTML = `<i class="fas fa-volume-up text-[8px]"></i><span>${Math.round(velocity * 100)}</span>`;
         };
 
-        // Draw everything
+        // Build sequencer UI
+        const buildSequencerUI = () => {
+            const grid = document.getElementById('stepGrid');
+            grid.innerHTML = '';
+
+            islands.forEach((island, islandIdx) => {
+                // Island label
+                const label = document.createElement('div');
+                label.className = 'flex items-center justify-center text-lg cursor-pointer hover:bg-gray-100 p-2 border border-gray-300';
+                label.textContent = island.name;
+                label.onclick = () => selectIsland(islandIdx);
+                grid.appendChild(label);
+
+                // Steps
+                for (let step = 0; step < 16; step++) {
+                    const btn = document.createElement('button');
+                    btn.className = 'step-btn aspect-square border-2 border-black bg-white hover:bg-gray-200';
+                    btn.dataset.island = islandIdx;
+                    btn.dataset.step = step;
+
+                    if (island.steps[step]) {
+                        btn.classList.add('step-active');
+                    }
+
+                    btn.onclick = () => toggleStep(islandIdx, step);
+                    grid.appendChild(btn);
+                }
+            });
+        };
+
+        // Select island
+        const selectIsland = (id) => {
+            selectedIslandId = id;
+            document.getElementById('selectedIsland').textContent = islands[id].name;
+        };
+
+        // Toggle step
+        const toggleStep = (islandId, step) => {
+            islands[islandId].steps[step] = !islands[islandId].steps[step];
+            buildSequencerUI();
+        };
+
+        // Sequencer tick
+        const tick = () => {
+            islands.forEach(island => {
+                if (island.steps[currentStep]) {
+                    playDrum(island, 0.9);
+                }
+            });
+
+            // Update UI
+            updateStepHighlight();
+
+            currentStep = (currentStep + 1) % 16;
+        };
+
+        // Update step highlight
+        const updateStepHighlight = () => {
+            document.querySelectorAll('.step-btn').forEach(btn => {
+                const step = parseInt(btn.dataset.step);
+                if (step === currentStep) {
+                    btn.style.boxShadow = '0 0 0 3px #000';
+                } else {
+                    btn.style.boxShadow = 'none';
+                }
+            });
+        };
+
+        // Transport controls
+        document.getElementById('playBtn').onclick = () => {
+            if (isPlaying) {
+                clearInterval(stepInterval);
+                isPlaying = false;
+                document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i>';
+            } else {
+                const stepTime = (60 / bpm) * 1000 / 4; // 16th notes
+                stepInterval = setInterval(tick, stepTime);
+                isPlaying = true;
+                document.getElementById('playBtn').innerHTML = '<i class="fas fa-pause"></i>';
+            }
+        };
+
+        document.getElementById('stopBtn').onclick = () => {
+            clearInterval(stepInterval);
+            isPlaying = false;
+            currentStep = 0;
+            updateStepHighlight();
+            document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i>';
+        };
+
+        // BPM control
+        document.getElementById('bpmSlider').oninput = (e) => {
+            bpm = parseInt(e.target.value);
+            document.getElementById('bpmDisplay').textContent = bpm;
+
+            if (isPlaying) {
+                clearInterval(stepInterval);
+                const stepTime = (60 / bpm) * 1000 / 4;
+                stepInterval = setInterval(tick, stepTime);
+            }
+        };
+
+        // Sequencer toggle
+        document.getElementById('seqToggle').onclick = () => {
+            const panel = document.getElementById('seqPanel');
+            panel.classList.toggle('sequencer-hidden');
+        };
+
+        // Draw loop
         const draw = () => {
             c.clearRect(0, 0, w, h);
 
-            // Draw ocean trail
+            // Ocean trail
             if (oceanTrail.length > 1) {
                 for (let i = 1; i < oceanTrail.length; i++) {
                     const alpha = i / oceanTrail.length;
@@ -193,16 +359,14 @@
                 }
             }
 
-            // Draw islands
+            // Islands
             islands.forEach(island => {
-                // Main island body
                 const gray = island.color;
                 c.fillStyle = `rgb(${gray}, ${gray}, ${gray})`;
                 c.beginPath();
                 c.arc(island.absX, island.absY, island.r, 0, Math.PI * 2);
                 c.fill();
 
-                // Pulse effect
                 if (island.pulse > 0) {
                     const pulseR = island.r + (island.pulse * 20);
                     c.strokeStyle = `rgba(0, 0, 0, ${island.pulse * 0.5})`;
@@ -214,36 +378,22 @@
                     if (island.pulse < 0) island.pulse = 0;
                 }
 
-                // Border
                 c.strokeStyle = '#000';
-                c.lineWidth = 2;
+                c.lineWidth = selectedIslandId === island.id ? 4 : 2;
                 c.beginPath();
                 c.arc(island.absX, island.absY, island.r, 0, Math.PI * 2);
                 c.stroke();
 
-                // Icon (using text as FA placeholder - in production would use actual icons)
                 if (island.r > 55) {
                     c.fillStyle = gray > 128 ? '#000' : '#fff';
-                    c.font = `bold ${island.r / 4}px "Font Awesome 6 Free"`;
+                    c.font = `${island.r / 3}px Space Mono`;
                     c.textAlign = 'center';
                     c.textBaseline = 'middle';
-
-                    // Draw icon character based on type
-                    const iconChars = {
-                        'fa-drum': '🥁',
-                        'fa-compact-disc': '💿',
-                        'fa-circle': '●',
-                        'fa-circle-dot': '◉',
-                        'fa-asterisk': '✱',
-                        'fa-certificate': '✦',
-                        'fa-circle-notch': '◐'
-                    };
-
-                    c.fillText(iconChars[island.icon] || '○', island.absX, island.absY);
+                    c.fillText(island.name, island.absX, island.absY);
                 }
             });
 
-            // Draw ripples
+            // Ripples
             for (let i = ripples.length - 1; i >= 0; i--) {
                 const ripple = ripples[i];
                 ripple.r += 3;
@@ -267,11 +417,10 @@
         // Mouse handlers
         canvas.addEventListener('mousedown', (e) => {
             const result = getIsland(e.clientX, e.clientY);
-
             if (result) {
                 const velocity = 1 - (result.centerDist * 0.4);
                 playDrum(result.island, velocity);
-                isOverOcean = false;
+                selectIsland(result.island.id);
             }
         });
 
@@ -279,61 +428,28 @@
             const result = getIsland(e.clientX, e.clientY);
 
             if (!result) {
-                if (!isOverOcean) {
-                    isOverOcean = true;
-                }
-
-                // Add to ocean trail
                 oceanTrail.push({ x: e.clientX, y: e.clientY });
-                if (oceanTrail.length > maxTrailPoints) {
-                    oceanTrail.shift();
-                }
-
+                if (oceanTrail.length > maxTrailPoints) oceanTrail.shift();
                 canvas.style.cursor = 'crosshair';
             } else {
-                isOverOcean = false;
                 oceanTrail.length = 0;
                 canvas.style.cursor = 'pointer';
             }
-
-            lastPos = { x: e.clientX, y: e.clientY };
         });
 
         canvas.addEventListener('mouseleave', () => {
             oceanTrail.length = 0;
-            lastPos = null;
-            isOverOcean = true;
         });
 
-        // Touch support
+        // Touch
         canvas.addEventListener('touchstart', (e) => {
             e.preventDefault();
             const touch = e.touches[0];
             const result = getIsland(touch.clientX, touch.clientY);
-
             if (result) {
-                const velocity = 1 - (result.centerDist * 0.4);
-                playDrum(result.island, velocity);
+                playDrum(result.island, 1 - (result.centerDist * 0.4));
+                selectIsland(result.island.id);
             }
-        });
-
-        canvas.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-            const touch = e.touches[0];
-            const result = getIsland(touch.clientX, touch.clientY);
-
-            if (!result) {
-                oceanTrail.push({ x: touch.clientX, y: touch.clientY });
-                if (oceanTrail.length > maxTrailPoints) {
-                    oceanTrail.shift();
-                }
-            } else {
-                oceanTrail.length = 0;
-            }
-        });
-
-        canvas.addEventListener('touchend', () => {
-            oceanTrail.length = 0;
         });
 
         // Keyboard
@@ -342,12 +458,6 @@
                 e.preventDefault();
                 oceanTrail.length = 0;
                 ripples.length = 0;
-
-                // Stop all audio
-                Object.values(samples).forEach(audio => {
-                    audio.pause();
-                    audio.currentTime = 0;
-                });
             }
         });
 
@@ -361,7 +471,8 @@
             });
         });
 
-        // Start
+        // Init
+        buildSequencerUI();
         draw();
     </script>
 </body>

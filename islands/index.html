@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MONOTONE | ISLANDS</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['Space Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tone.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="bg-white">
+    <canvas id="stage"></canvas>
+
+    <!-- Top Left Info -->
+    <div class="fixed top-4 left-4 text-xs z-50 pointer-events-none select-none">
+        <div class="bg-black text-white px-3 py-2 mb-2 flex items-center gap-2">
+            <i class="fas fa-globe"></i>
+            MONO<span class="text-[8px] align-super">TONE</span>
+        </div>
+        <div class="bg-white border border-black px-3 py-2 text-[10px] leading-tight">
+            <div class="mb-2 flex items-center gap-2">
+                <i class="fas fa-mouse-pointer"></i>
+                <i class="fas fa-music text-[6px]"></i>
+            </div>
+            <div class="mb-2 flex items-center gap-2">
+                <i class="fas fa-hand-pointer"></i>
+                <i class="fas fa-water text-[6px]"></i>
+            </div>
+            <div class="flex items-center gap-2">
+                <kbd class="px-1 border border-black text-[8px]">SPC</kbd>
+                <i class="fas fa-volume-xmark text-[8px]"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Right Status -->
+    <div class="fixed bottom-4 right-4 text-xs z-50 pointer-events-none select-none">
+        <div class="bg-black text-white px-3 py-2 text-right text-[10px] min-w-[120px]">
+            <div id="currentSound" class="flex items-center justify-end gap-2">
+                <i class="fas fa-circle-notch"></i>
+            </div>
+            <div id="velocity" class="mt-1 opacity-60 flex items-center justify-end gap-1">
+                <i class="fas fa-volume-up text-[8px]"></i>
+                <span>0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sequencer Toggle -->
+    <button id="seqToggle"
+        class="fixed bottom-4 left-4 z-50 bg-black text-white px-3 py-2 border-2 border-black hover:bg-white hover:text-black transition-colors">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sequencer Panel -->
+    <div id="seqPanel"
+        class="sequencer-panel sequencer-hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-black z-40 p-4 max-h-[60vh] overflow-y-auto">
+        <div class="max-w-6xl mx-auto">
+
+            <!-- Transport Controls -->
+            <div class="flex items-center justify-between mb-4 flex-wrap gap-4">
+                <div class="flex gap-2">
+                    <button id="playBtn" class="bg-black text-white px-4 py-2 hover:bg-gray-800 transition-colors">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button id="stopBtn" class="bg-black text-white px-4 py-2 hover:bg-gray-800 transition-colors">
+                        <i class="fas fa-stop"></i>
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-clock"></i>
+                    <input id="bpmSlider" type="range" min="60" max="240" value="120" class="w-32">
+                    <span id="bpmDisplay" class="font-bold min-w-[3ch]">120</span>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-hand-pointer"></i>
+                    <span id="selectedIsland" class="text-xs">---</span>
+                </div>
+            </div>
+
+            <!-- Step Grid -->
+            <div id="stepGrid" class="grid gap-2" style="grid-template-columns: auto repeat(16, 1fr);"></div>
+
+        </div>
+    </div>
+
+    <!-- Main Script -->
+    <script src="script.js"></script>
+</body>
+
+</html>

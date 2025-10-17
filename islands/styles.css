@@ -1,0 +1,64 @@
+/* MONOTONE Styles - Pure MONO Aesthetic */
+
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap");
+
+* {
+    font-family: "Space Mono", monospace;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+canvas {
+    display: block;
+}
+
+/* Sequencer Panel */
+.sequencer-panel {
+    transition: transform 0.3s ease;
+}
+
+.sequencer-hidden {
+    transform: translateY(100%);
+}
+
+/* Step Buttons */
+.step-btn {
+    transition: all 0.1s;
+    min-height: 32px;
+}
+
+.step-btn:hover {
+    transform: scale(1.1);
+}
+
+.step-active {
+    background: #000 !important;
+}
+
+/* Scrollbar Styling (MONO theme) */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #fff;
+    border-left: 1px solid #000;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #000;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #333;
+}
+
+/* Loading indicator (optional) */
+.loading {
+    opacity: 0.5;
+    pointer-events: none;
+}
