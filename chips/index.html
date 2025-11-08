@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHIP REALITY INTERFACE v1.0</title>
+
+    <!-- Google Fonts - ICEBERG ONLY -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Iceberg&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="font-iceberg bg-black text-white overflow-hidden">
+
+    <!-- Three.js Canvas -->
+    <div id="canvas-container" class="fixed inset-0 z-0"></div>
+
+    <!-- Vue App - UI Overlay -->
+    <div id="app" class="relative z-10 h-screen flex flex-col">
+
+        <!-- TOP BAR - Scene Name & Controls -->
+        <header
+            class="p-4 md:p-6 bg-black bg-opacity-70 backdrop-blur-md border-b border-white border-opacity-10 flex justify-between items-start">
+            <div>
+                <h1 class="text-3xl md:text-5xl lg:text-6xl tracking-wider transition-all duration-300">
+                    {{ currentScene.name }}
+                </h1>
+                <p class="text-xs md:text-sm opacity-50 mt-1 tracking-widest">
+                    {{ currentScene.subtitle }}
+                </p>
+            </div>
+
+            <!-- Sidebar Toggle (Desktop) -->
+            <button @click="toggleSidebar"
+                class="hidden md:block px-4 py-2 border border-white border-opacity-30 hover:bg-white hover:text-black transition-all text-sm">
+                <i :class="sidebarVisible ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" class="mr-2"></i>
+                {{ sidebarVisible ? 'HIDE' : 'SHOW' }} MENU
+            </button>
+        </header>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="flex-1 flex flex-col md:flex-row overflow-hidden relative">
+
+            <!-- LEFT SIDEBAR - Scene Navigation & Controls -->
+            <aside :class="[
+                'sidebar',
+                'md:w-80 lg:w-96',
+                'flex flex-col',
+                'transition-all duration-300 ease-in-out',
+                'md:relative fixed bottom-0 left-0 right-0',
+                'overflow-y-auto',
+                'pointer-events-none', 
+                sidebarVisible ? 'sidebar-visible' : 'sidebar-hidden'
+            ]">
+
+                <!-- Mobile Toggle Button -->
+                <button @click="toggleSidebar"
+                    class="md:hidden w-full py-3 bg-black bg-opacity-80 backdrop-blur-sm border-t border-white border-opacity-20 hover:bg-opacity-90 transition-all text-sm pointer-events-auto">
+                    <i :class="sidebarVisible ? 'fa-solid fa-chevron-down' : 'fa-solid fa-chevron-up'" class="mr-2"></i>
+                    {{ sidebarVisible ? 'HIDE MENU' : 'SHOW MENU' }}
+                </button>
+
+                <!-- Scene Selector -->
+                <div
+                    class="p-4 md:p-6 bg-black bg-opacity-70 backdrop-blur-md mb-3 pointer-events-auto border border-white border-opacity-10">
+                    <h2 class="text-xs tracking-widest opacity-50 mb-3 flex items-center">
+                        <i class="fa-solid fa-layer-group mr-2"></i> SCENES
+                    </h2>
+                    <div class="space-y-2">
+                        <button v-for="(scene, index) in scenes" :key="scene.id" @click="switchScene(index)"
+                            class="w-full text-left px-3 py-2 border border-white transition-all duration-200 text-xs md:text-sm tracking-wide"
+                            :class="{ 
+                                'bg-white text-black': currentSceneIndex === index,
+                                'border-opacity-30 hover:border-opacity-100 hover:bg-white hover:bg-opacity-10': currentSceneIndex !== index 
+                            }">
+                            {{ scene.name }}
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Shadow Play Light Controls (Only visible in Shadow Play mode) -->
+                <div v-if="currentScene.id === 'shadow'"
+                    class="p-4 md:p-6 bg-black bg-opacity-70 backdrop-blur-md mb-3 pointer-events-auto border border-white border-opacity-10">
+                    <h2 class="text-xs tracking-widest opacity-50 mb-3 flex items-center">
+                        <i class="fa-solid fa-lightbulb mr-2"></i> LIGHTBOX CONTROLS
+                    </h2>
+                    <div class="space-y-3">
+                        <div v-for="light in shadowLights" :key="light.name" class="space-y-1">
+                            <div class="flex justify-between items-center">
+                                <label class="text-xs flex items-center">
+                                    <i class="fa-solid fa-bolt mr-2"></i> {{ light.name }}
+                                </label>
+                                <button @click="toggleLight(light.key)"
+                                    class="px-2 py-1 border border-white border-opacity-30 hover:bg-white hover:text-black transition-all text-xs"
+                                    :class="{ 'bg-white text-black': light.enabled }">
+                                    {{ light.enabled ? 'ON' : 'OFF' }}
+                                </button>
+                            </div>
+                            <input v-if="light.enabled" type="range" min="0" max="10" step="0.1"
+                                v-model="light.intensity" @input="updateLightIntensity(light.key, light.intensity)"
+                                class="w-full">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quality Selector -->
+                <div
+                    class="p-4 md:p-6 bg-black bg-opacity-70 backdrop-blur-md mb-3 pointer-events-auto border border-white border-opacity-10">
+                    <h2 class="text-xs tracking-widest opacity-50 mb-3 flex items-center">
+                        <i class="fa-solid fa-sliders mr-2"></i> QUALITY
+                    </h2>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button v-for="level in ['LOW', 'MEDIUM', 'HIGH', 'ULTRA']" :key="level"
+                            @click="setQuality(level)" class="px-3 py-2 border border-white transition-all text-xs"
+                            :class="{ 
+                                'bg-white text-black': quality === level,
+                                'border-opacity-30 hover:border-opacity-100': quality !== level 
+                            }">
+                            {{ level }}
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Interaction Controls -->
+                <div
+                    class="p-4 md:p-6 bg-black bg-opacity-70 backdrop-blur-md mb-3 pointer-events-auto border border-white border-opacity-10">
+                    <h2 class="text-xs tracking-widest opacity-50 mb-3 flex items-center">
+                        <i class="fa-solid fa-hand-pointer mr-2"></i> CONTROLS
+                    </h2>
+                    <div class="space-y-2">
+                        <button @click="toggleAutoRotate"
+                            class="w-full px-3 py-2 border border-white border-opacity-30 hover:bg-white hover:text-black transition-all text-xs flex items-center justify-center">
+                            <i :class="autoRotate ? 'fa-solid fa-pause' : 'fa-solid fa-rotate'" class="mr-2"></i>
+                            {{ autoRotate ? 'STOP ROTATION' : 'AUTO ROTATE' }}
+                        </button>
+                        <button @click="resetChip"
+                            class="w-full px-3 py-2 border border-white border-opacity-30 hover:bg-white hover:text-black transition-all text-xs flex items-center justify-center">
+                            <i class="fa-solid fa-arrows-to-dot mr-2"></i>
+                            RESET POSITION
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Scene Description -->
+                <div
+                    class="p-4 md:p-6 bg-black bg-opacity-70 backdrop-blur-md pointer-events-auto border border-white border-opacity-10">
+                    <p class="text-xs leading-relaxed opacity-70">
+                        {{ currentScene.description }}
+                    </p>
+                </div>
+
+            </aside>
+
+            <!-- RIGHT PANEL - Canvas Area (Interactive Space) -->
+            <div class="flex-1 relative">
+
+                <!-- Interaction Hints (Overlay on Canvas) -->
+                <div
+                    class="absolute bottom-4 right-4 text-right pointer-events-none bg-black bg-opacity-50 backdrop-blur-sm px-3 py-2 border border-white border-opacity-10">
+                    <p class="text-xs opacity-70 mb-1"><i class="fa-solid fa-hand mr-1"></i> DRAG TO ROTATE</p>
+                    <p class="text-xs opacity-70 mb-1"><i class="fa-solid fa-arrows-up-down-left-right mr-1"></i> SCROLL
+                        TO ZOOM</p>
+                    <p class="text-xs opacity-70"><i class="fa-solid fa-keyboard mr-1"></i> H | SPACE | R | 1-9</p>
+                </div>
+
+                <!-- Stats Overlay (Top Right) -->
+                <div
+                    class="absolute top-4 right-4 text-right pointer-events-none bg-black bg-opacity-50 backdrop-blur-sm px-3 py-2 border border-white border-opacity-10">
+                    <p class="text-xs opacity-60 font-mono"><i class="fa-solid fa-gauge mr-1"></i> FPS: {{ fps }}</p>
+                    <p class="text-xs opacity-60 font-mono"><i class="fa-solid fa-sun mr-1"></i> EXP: {{
+                        exposure.toFixed(1) }}</p>
+                    <p class="text-xs opacity-60 font-mono"><i class="fa-solid fa-star mr-1"></i> {{ quality }}</p>
+                </div>
+
+            </div>
+
+        </main>
+
+        <!-- BOTTOM BAR - Credits & Links (Desktop Only) -->
+        <footer
+            class="p-3 md:p-4 bg-black bg-opacity-70 backdrop-blur-md border-t border-white border-opacity-10 text-xs opacity-50 hidden md:block">
+            <div class="flex justify-between items-center">
+                <p><i class="fa-solid fa-microchip mr-1"></i> CHIP REALITY INTERFACE v1.0</p>
+                <div class="space-x-4">
+                    <a href="https://codeuncode.in" target="_blank"
+                        class="hover:opacity-100 transition-opacity underline">
+                        <i class="fa-solid fa-code mr-1"></i> CODE UNCODE
+                    </a>
+                    <a href="https://absurd.industries" target="_blank"
+                        class="hover:opacity-100 transition-opacity underline">
+                        <i class="fa-solid fa-industry mr-1"></i> ABSURD INDUSTRIES
+                    </a>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Three.js Import Map -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://threejs.org/build/three.module.js",
+                "three/addons/": "https://threejs.org/examples/jsm/"
+            }
+        }
+    </script>
+
+    <!-- Vue 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <!-- Scene.js - Three.js Scene Management -->
+    <script type="module" src="scene.js"></script>
+
+    <!-- App.js - Vue App & UI Logic -->
+    <script type="module" src="app.js"></script>
+
+</body>
+
+</html>

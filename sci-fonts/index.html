@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MONO | Font Preview</title>
+    <meta name="title" content="MONO | Font Preview" />
+    <meta name="description"
+        content="A minimalist font previewer for cyber, solarpunk, and sci-fi typefaces. Type once, see everywhere." />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mono.layogtima.com/font-preview.html" />
+    <meta property="og:title" content="MONO | Font Preview" />
+    <meta property="og:description"
+        content="A minimalist font previewer for cyber, solarpunk, and sci-fi typefaces. Type once, see everywhere." />
+    <meta property="og:image" content="https://mono.layogtima.com/images/screenshot.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://mono.layogtima.com/font-preview.html" />
+    <meta property="twitter:title" content="MONO | Font Preview" />
+    <meta property="twitter:description"
+        content="A minimalist font previewer for cyber, solarpunk, and sci-fi typefaces. Type once, see everywhere." />
+    <meta property="twitter:image" content="https://mono.layogtima.com/images/screenshot.png" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="https://mono.layogtima.com/images/favicon/favicon-96x96.png?M24613"
+        sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="https://mono.layogtima.com/images/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="https://mono.layogtima.com/images/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="https://mono.layogtima.com/images/favicon/apple-touch-icon.png?M24613" />
+    <meta name="apple-mobile-web-app-title" content="MONO Font Preview" />
+
+    <!-- Preconnect for Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Google Fonts - Cyber/Solarpunk/Sci-fi Collection -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Michroma&family=Audiowide&family=Exo:wght@300;400;700&family=Rajdhani:wght@400;600;700&family=Oxanium:wght@300;400;700&family=Baumans&family=VT323&family=Syncopate:wght@400;700&family=Teko:wght@400;600;700&family=Space+Mono:wght@400;700&family=Iceland&family=Iceberg&family=Jura:wght@400;600;700&family=Share+Tech+Mono&family=Electrolize&family=Gruppo&family=Major+Mono+Display&display=swap"
+        rel="stylesheet" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        orbitron: ["Orbitron", "sans-serif"],
+                        michroma: ["Michroma", "sans-serif"],
+                        audiowide: ["Audiowide", "sans-serif"],
+                        exo: ["Exo", "sans-serif"],
+                        rajdhani: ["Rajdhani", "sans-serif"],
+                        oxanium: ["Oxanium", "sans-serif"],
+                        baumans: ["Baumans", "sans-serif"],
+                        vt323: ["VT323", "monospace"],
+                        syncopate: ["Syncopate", "sans-serif"],
+                        teko: ["Teko", "sans-serif"],
+                        spacemono: ["Space Mono", "monospace"],
+                        iceland: ["Iceland", "sans-serif"],
+                        iceberg: ["Iceberg", "sans-serif"],
+                        jura: ["Jura", "sans-serif"],
+                        sharetech: ["Share Tech Mono", "monospace"],
+                        electrolize: ["Electrolize", "sans-serif"],
+                        gruppo: ["Gruppo", "sans-serif"],
+                        majormono: ["Major Mono Display", "monospace"],
+                    },
+                },
+            },
+        };
+    </script>
+
+    <!-- Vue 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <style>
+        /* Minimal custom styles - let Tailwind do the heavy lifting */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Space Mono", monospace;
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        *:focus-visible {
+            outline: 2px solid #000;
+            outline-offset: 2px;
+        }
+
+        /* Copy button animation */
+        @keyframes copyPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(0.95);
+            }
+        }
+
+        .copy-pulse {
+            animation: copyPulse 0.3s ease-in-out;
+        }
+
+        /* Hover transition */
+        .font-card {
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        /* Loading state for fonts */
+        .font-loading {
+            font-synthesis: none;
+            font-display: swap;
+        }
+    </style>
+</head>
+
+<body class="bg-white text-black min-h-screen" id="app">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white border-b-2 border-black">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between mb-4">
+                <h1 class="text-2xl md:text-3xl font-bold tracking-tight">
+                    MONO<span class="text-xs align-super">FONT</span>
+                </h1>
+                <a href="index.html"
+                    class="text-xs uppercase tracking-widest hover:underline decoration-2 underline-offset-4"
+                    aria-label="Back to MONO homepage">
+                    ← BACK
+                </a>
+            </div>
+
+            <!-- Live Input -->
+            <label for="preview-input" class="sr-only">Type to preview fonts</label>
+            <input id="preview-input" v-model="previewText" type="text" placeholder="Type to preview all fonts..."
+                class="w-full text-2xl md:text-4xl font-bold border-2 border-black px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black bg-white"
+                aria-describedby="preview-hint" maxlength="100" />
+            <p id="preview-hint" class="text-xs mt-2 text-gray-600">
+                {{ fonts.length }} fonts loaded • Click font name to copy
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Font Cards Grid -->
+        <div class="space-y-1" role="list" aria-label="Font previews">
+            <article v-for="font in fonts" :key="font.name"
+                class="font-card border-2 border-black p-4 md:p-6 hover:bg-black hover:text-white cursor-pointer group"
+                role="listitem" :aria-label="`${font.name} font preview`" tabindex="0" @click="copyFontName(font.name)"
+                @keydown.enter="copyFontName(font.name)" @keydown.space.prevent="copyFontName(font.name)">
+                <div class="flex items-start justify-between gap-4 mb-3">
+                    <div class="flex-1 min-w-0">
+                        <h2 class="text-sm uppercase tracking-widest mb-1 font-bold">
+                            {{ font.name }}
+                        </h2>
+                        <p class="text-xs opacity-70">{{ font.category }}</p>
+                    </div>
+                    <button @click.stop="copyFontName(font.name)"
+                        class="text-xs uppercase tracking-widest px-3 py-1 border border-current opacity-70 group-hover:opacity-100 transition-opacity"
+                        :class="{ 'copy-pulse': copiedFont === font.name }"
+                        :aria-label="`Copy ${font.name} to clipboard`">
+                        {{ copiedFont === font.name ? "COPIED!" : "COPY" }}
+                    </button>
+                </div>
+
+                <!-- Font Preview -->
+                <div :class="[font.class]" class="text-2xl md:text-4xl lg:text-5xl font-bold break-words font-loading"
+                    :style="{ fontFamily: font.family }">
+                    {{ displayText }}
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 px-4 border-t-2 border-black mt-16">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <a href="https://layogtima.com" target="_blank" rel="noopener noreferrer"
+                    class="text-xl font-bold tracking-normal hover:underline">
+                    AMIT
+                </a>
+            </div>
+            <div class="flex items-center gap-2 text-xs text-gray-600">
+                <span class="inline-block transform rotate-180 text-lg">©</span>
+                <span>
+                    Copyleft 2025 -
+                    <a href="https://github.com/layogtima/mono" target="_blank" rel="noopener noreferrer"
+                        class="underline hover:text-black">
+                        Share, Adapt, Build.
+                    </a>
+                </span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Vue App Script -->
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    previewText: "The quick brown fox jumps over the lazy dog",
+                    copiedFont: null,
+                    fonts: [
+                        {
+                            name: "ORBITRON",
+                            family: "'Orbitron', sans-serif",
+                            class: "font-orbitron",
+                            category: "Cyber • Neural",
+                        },
+                        {
+                            name: "MICHROMA",
+                            family: "'Michroma', sans-serif",
+                            class: "font-michroma",
+                            category: "Vision • Future",
+                        },
+                        {
+                            name: "AUDIOWIDE",
+                            family: "'Audiowide', sans-serif",
+                            class: "font-audiowide",
+                            category: "Ethics • Bold",
+                        },
+                        {
+                            name: "EXO",
+                            family: "'Exo', sans-serif",
+                            class: "font-exo",
+                            category: "Deep • Tech",
+                        },
+                        {
+                            name: "RAJDHANI",
+                            family: "'Rajdhani', sans-serif",
+                            class: "font-rajdhani",
+                            category: "Cognitive • Sharp",
+                        },
+                        {
+                            name: "OXANIUM",
+                            family: "'Oxanium', sans-serif",
+                            class: "font-oxanium",
+                            category: "Edge • Gaming",
+                        },
+                        {
+                            name: "BAUMANS",
+                            family: "'Baumans', sans-serif",
+                            class: "font-baumans",
+                            category: "Augmented • Rounded",
+                        },
+                        {
+                            name: "VT323",
+                            family: "'VT323', monospace",
+                            class: "font-vt323",
+                            category: "Digital • Retro",
+                        },
+                        {
+                            name: "SYNCOPATE",
+                            family: "'Syncopate', sans-serif",
+                            class: "font-syncopate",
+                            category: "Mobile • Mechanical",
+                        },
+                        {
+                            name: "TEKO",
+                            family: "'Teko', sans-serif",
+                            class: "font-teko",
+                            category: "Singularity • Compressed",
+                        },
+                        {
+                            name: "SPACE MONO",
+                            family: "'Space Mono', monospace",
+                            class: "font-spacemono",
+                            category: "Human • Code",
+                        },
+                        {
+                            name: "ICELAND",
+                            family: "'Iceland', sans-serif",
+                            class: "font-iceland",
+                            category: "Futurist • Angular",
+                        },
+                        {
+                            name: "ICEBERG",
+                            family: "'Iceberg', sans-serif",
+                            class: "font-iceberg",
+                            category: "Centric • Display",
+                        },
+                        {
+                            name: "JURA",
+                            family: "'Jura', sans-serif",
+                            class: "font-jura",
+                            category: "Crypto • Clean",
+                        },
+                        {
+                            name: "SHARE TECH MONO",
+                            family: "'Share Tech Mono', monospace",
+                            class: "font-sharetech",
+                            category: "Solarpunk • Solar",
+                        },
+                        {
+                            name: "ELECTROLIZE",
+                            family: "'Electrolize', sans-serif",
+                            class: "font-electrolize",
+                            category: "Energy • Electric",
+                        },
+                        {
+                            name: "GRUPPO",
+                            family: "'Gruppo', sans-serif",
+                            class: "font-gruppo",
+                            category: "Organic • Tech",
+                        },
+                        {
+                            name: "MAJOR MONO DISPLAY",
+                            family: "'Major Mono Display', monospace",
+                            class: "font-majormono",
+                            category: "Brutalist • Future",
+                        },
+                    ],
+                };
+            },
+            computed: {
+                displayText() {
+                    return this.previewText || "The quick brown fox jumps over the lazy dog";
+                },
+            },
+            methods: {
+                async copyFontName(fontName) {
+                    try {
+                        await navigator.clipboard.writeText(fontName);
+                        this.copiedFont = fontName;
+                        setTimeout(() => {
+                            this.copiedFont = null;
+                        }, 2000);
+                    } catch (err) {
+                        console.error("Failed to copy:", err);
+                        // Fallback for browsers that don't support clipboard API
+                        this.fallbackCopy(fontName);
+                    }
+                },
+                fallbackCopy(text) {
+                    const textarea = document.createElement("textarea");
+                    textarea.value = text;
+                    textarea.style.position = "fixed";
+                    textarea.style.opacity = "0";
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    try {
+                        document.execCommand("copy");
+                        this.copiedFont = text;
+                        setTimeout(() => {
+                            this.copiedFont = null;
+                        }, 2000);
+                    } catch (err) {
+                        console.error("Fallback copy failed:", err);
+                    }
+                    document.body.removeChild(textarea);
+                },
+            },
+            mounted() {
+                // Check if fonts are loaded
+                if (document.fonts && document.fonts.ready) {
+                    document.fonts.ready.then(() => {
+                        console.log("All fonts loaded successfully");
+                    });
+                }
+            },
+        }).mount("#app");
+    </script>
+</body>
+
+</html>
