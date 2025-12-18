@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>THE RED THREAD | Motion Showcase</title>
+    <meta name="title" content="THE RED THREAD | Motion Showcase" />
+    <meta name="description"
+        content="Motion is the quiet language of good design. A warm showcase of animation craft." />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="THE RED THREAD | Motion Showcase" />
+    <meta property="og:description" content="Motion is the quiet language of good design." />
+
+    <!-- Favicons (MONO standard) -->
+    <link rel="icon" type="image/png" href="https://mono.layogtima.com/images/favicon/favicon-96x96.png"
+        sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="https://mono.layogtima.com/images/favicon/favicon.svg" />
+
+    <!-- Space Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['Space Mono', 'monospace'],
+                    },
+                    colors: {
+                        warm: {
+                            white: '#FAFAF8',
+                            cream: '#F5F5F0',
+                            gray: {
+                                100: '#E5E5E0',
+                                200: '#D4D4CF',
+                                300: '#B8B8B3',
+                                400: '#A3A39E',
+                                500: '#8A8A85',
+                                600: '#6B6B66',
+                                700: '#4A4A46',
+                                800: '#2A2A27',
+                                900: '#1A1A18',
+                            },
+                            red: {
+                                light: '#E8D5D4',
+                                muted: '#D4A5A3',
+                                DEFAULT: '#C73E3A',
+                                dark: '#A33230',
+                            },
+                        },
+                    },
+                    animation: {
+                        'float-slow': 'float 8s ease-in-out infinite',
+                        'float-medium': 'float 6s ease-in-out infinite',
+                        'float-fast': 'float 4s ease-in-out infinite',
+                        'breathe': 'breathe 4s ease-in-out infinite',
+                        'snake': 'snake 12s linear infinite',
+                        'spin-slow': 'spin 20s linear infinite',
+                        'fade-in': 'fadeIn 0.8s ease-out forwards',
+                        'slide-up': 'slideUp 0.6s ease-out forwards',
+                        'bounce-gentle': 'bounceGentle 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-20px) rotate(3deg)' },
+                        },
+                        breathe: {
+                            '0%, 100%': { transform: 'scale(1)', opacity: '0.8' },
+                            '50%': { transform: 'scale(1.08)', opacity: '1' },
+                        },
+                        snake: {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(100vw)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        bounceGentle: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(6px)' },
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="bg-warm-white text-warm-gray-900 min-h-screen font-mono">
+
+    <!-- Vue App Root -->
+    <div id="app">
+
+        <!-- Scroll Progress (The Red Thread) -->
+        <div class="scroll-progress" :style="{ height: scrollProgress + '%' }"></div>
+
+        <!-- Navigation -->
+        <nav
+            class="fixed w-full px-6 py-4 flex justify-between items-center z-50 bg-warm-white/90 backdrop-blur-sm border-b border-warm-gray-100">
+            <a href="https://mono.layogtima.com" class="text-lg font-bold tracking-tight text-warm-gray-800">
+                THE RED <span class="text-warm-red">THREAD</span>
+            </a>
+            <div class="flex gap-6 items-center">
+                <a href="#cards" class="nav-link text-xs">CARDS</a>
+                <a href="#micro" class="nav-link text-xs">MICRO</a>
+                <a href="#physics" class="nav-link text-xs">PHYSICS</a>
+                <a href="#scroll" class="nav-link text-xs">SCROLL</a>
+            </div>
+        </nav>
+
+        <!-- ═══════════════════════════════════════════════════════════════════════════
+         §1: HERO — Floating Primitives + Snake
+         ═══════════════════════════════════════════════════════════════════════════ -->
+        <section id="hero" class="h-screen flex flex-col justify-center items-center relative overflow-hidden">
+
+            <!-- Floating Primitives -->
+            <div class="absolute inset-0 pointer-events-none">
+                <!-- Circles -->
+                <div class="primitive circle-1"></div>
+                <div class="primitive circle-2"></div>
+                <div class="primitive circle-3"></div>
+                <!-- Rounded Squares -->
+                <div class="primitive square-1"></div>
+                <div class="primitive square-2"></div>
+                <!-- Soft Lines -->
+                <div class="primitive line-1"></div>
+                <div class="primitive line-2"></div>
+                <!-- Dots -->
+                <div class="primitive dot-1"></div>
+                <div class="primitive dot-2"></div>
+                <div class="primitive dot-3"></div>
+            </div>
+
+            <!-- The Snake (Red Thread) -->
+            <svg class="snake-container" viewBox="0 0 200 20" preserveAspectRatio="none">
+                <path class="snake-path" d="M 0 10 
+             Q 25 0, 50 10 
+             Q 75 20, 100 10 
+             Q 125 0, 150 10 
+             Q 175 20, 200 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+
+            <!-- Hero Content -->
+            <div class="z-10 px-8 max-w-3xl text-center">
+                <h1
+                    class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight tracking-tight text-warm-gray-800">
+                    <span class="block">The Red Thread</span>
+                </h1>
+
+                <p class="text-lg md:text-xl max-w-lg mx-auto text-warm-gray-500 opacity-0 animate-slide-up"
+                    style="animation-delay: 0.5s; animation-fill-mode: forwards;">
+                    Motion is the quiet language<br>of good design.
+                </p>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0 animate-fade-in"
+                style="animation-delay: 1.5s; animation-fill-mode: forwards;">
+                <span class="text-xs text-warm-gray-400 tracking-widest">SCROLL</span>
+                <div class="w-px h-8 bg-gradient-to-b from-warm-red to-transparent animate-bounce-gentle"></div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════════════════════
+         §2: CARDS — The Meta Deck
+         ═══════════════════════════════════════════════════════════════════════════ -->
+        <section id="cards" class="min-h-screen py-24 px-8 bg-warm-cream">
+            <div class="max-w-6xl mx-auto">
+
+                <div class="mb-16 section-reveal">
+                    <h2 class="text-4xl font-bold mb-4 text-warm-gray-800">
+                        The Meta Deck
+                    </h2>
+                    <p class="text-lg text-warm-gray-500 max-w-xl">
+                        Common patterns, uncommon self-awareness.
+                    </p>
+                </div>
+
+                <!-- Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 section-reveal">
+
+                    <!-- Hero Card -->
+                    <div class="meta-card">
+                        <div class="meta-card-icon">
+                            <i class="fas fa-mountain-sun"></i>
+                        </div>
+                        <h3 class="meta-card-title">Hero Card</h3>
+                        <p class="meta-card-desc">I'm usually the first thing you see. No pressure. Just your entire
+                            first impression riding on me.</p>
+                        <button class="meta-card-btn">Learn More</button>
+                    </div>
+
+                    <!-- Testimonial Card -->
+                    <div class="meta-card">
+                        <div class="meta-card-quote">"</div>
+                        <p class="meta-card-desc italic">Someone said something nice about us. We're 73% sure they
+                            weren't our mom.</p>
+                        <div class="flex items-center gap-3 mt-4">
+                            <div class="w-10 h-10 rounded-full bg-warm-gray-200"></div>
+                            <div>
+                                <div class="text-sm font-bold">A. Person</div>
+                                <div class="text-xs text-warm-gray-400">Verified Human™</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pricing Card -->
+                    <div class="meta-card meta-card-featured">
+                        <div class="text-xs text-warm-red font-bold mb-2">POPULAR</div>
+                        <h3 class="meta-card-title">$99<span class="text-sm font-normal">/mo</span></h3>
+                        <p class="meta-card-desc">The one where we pretend $99 isn't basically $100. Psychology!</p>
+                        <ul class="text-sm text-warm-gray-500 space-y-2 my-4">
+                            <li><i class="fas fa-check text-warm-red mr-2"></i>Feature one</li>
+                            <li><i class="fas fa-check text-warm-red mr-2"></i>Feature two</li>
+                            <li><i class="fas fa-check text-warm-red mr-2"></i>The important one</li>
+                        </ul>
+                        <button class="meta-card-btn-primary">Choose Plan</button>
+                    </div>
+
+                    <!-- Feature Card -->
+                    <div class="meta-card">
+                        <div class="meta-card-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3 class="meta-card-title">Feature Card</h3>
+                        <p class="meta-card-desc">Icon. Title. Description. The holy trinity of "we do a thing."</p>
+                    </div>
+
+                    <!-- CTA Card -->
+                    <div class="meta-card bg-warm-gray-800 text-warm-white">
+                        <h3 class="meta-card-title text-warm-white">Call to Action</h3>
+                        <p class="meta-card-desc text-warm-gray-300">Click me. Please. I have metrics to meet and a
+                            family to feed.</p>
+                        <button class="meta-card-btn-light">Click Here →</button>
+                    </div>
+
+                    <!-- Profile Card -->
+                    <div class="meta-card text-center">
+                        <div class="w-20 h-20 rounded-full bg-warm-gray-200 mx-auto mb-4"></div>
+                        <h3 class="meta-card-title">Human Name</h3>
+                        <p class="text-sm text-warm-gray-400 mb-2">Job Title Person</p>
+                        <p class="meta-card-desc">A face, a name, a title. Humanizing the brand, one stock photo at a
+                            time.</p>
+                    </div>
+
+                    <!-- Stats Card -->
+                    <div class="meta-card">
+                        <div class="text-5xl font-bold text-warm-red mb-2">847%</div>
+                        <h3 class="meta-card-title">Big Number</h3>
+                        <p class="meta-card-desc">Big number go up. Dopamine follow. Context optional.</p>
+                    </div>
+
+                    <!-- Blog Card -->
+                    <div class="meta-card">
+                        <div class="h-32 bg-warm-gray-100 rounded-lg mb-4 flex items-center justify-center">
+                            <i class="fas fa-image text-warm-gray-300 text-2xl"></i>
+                        </div>
+                        <div class="text-xs text-warm-gray-400 mb-2">CATEGORY • 5 MIN READ</div>
+                        <h3 class="meta-card-title">Blog Post Title</h3>
+                        <p class="meta-card-desc">Someone wrote words. These are the first few of them, strategically
+                            cut off...</p>
+                    </div>
+
+                    <!-- Newsletter Card -->
+                    <div class="meta-card">
+                        <div class="meta-card-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3 class="meta-card-title">Newsletter</h3>
+                        <p class="meta-card-desc">Your email, in exchange for... sporadic value and guaranteed inbox
+                            clutter.</p>
+                        <div class="flex gap-2 mt-4">
+                            <input type="email" placeholder="you@email.com" class="meta-input flex-1">
+                            <button class="meta-card-btn-primary">→</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════════════════════
+         §3: MICRO — Interaction Picker
+         ═══════════════════════════════════════════════════════════════════════════ -->
+        <section id="micro" class="min-h-screen py-24 px-8 bg-warm-white">
+            <div class="max-w-6xl mx-auto">
+
+                <div class="mb-16 section-reveal">
+                    <h2 class="text-4xl font-bold mb-4 text-warm-gray-800">
+                        Micro Interactions
+                    </h2>
+                    <p class="text-lg text-warm-gray-500 max-w-xl">
+                        Small moves. Big feelings.
+                    </p>
+                </div>
+
+                <div class="flex gap-8 section-reveal">
+
+                    <!-- Sidebar -->
+                    <div class="w-64 flex-shrink-0">
+                        <div class="sticky top-24 space-y-1">
+                            <button v-for="(interaction, key) in interactions" :key="key"
+                                @click="activeInteraction = key"
+                                :class="['micro-nav-item', { active: activeInteraction === key }]">
+                                <i :class="interaction.icon"></i>
+                                <span>{{ interaction.name }}</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Showcase Area -->
+                    <div
+                        class="flex-1 flex items-center justify-center min-h-[500px] bg-warm-cream rounded-2xl border border-warm-gray-100">
+                        <div class="text-center p-12">
+
+                            <!-- Button Showcase -->
+                            <div v-if="activeInteraction === 'button'" class="micro-showcase">
+                                <button class="showcase-btn">
+                                    Hover & Click Me
+                                </button>
+                                <p class="micro-hint">Sweep on hover, spring on click</p>
+                            </div>
+
+                            <!-- Toggle Showcase -->
+                            <div v-if="activeInteraction === 'toggle'" class="micro-showcase">
+                                <div class="showcase-toggle" :class="{ active: toggleState }"
+                                    @click="toggleState = !toggleState">
+                                    <div class="showcase-toggle-thumb"></div>
+                                </div>
+                                <p class="micro-hint">Spring physics with overshoot</p>
+                            </div>
+
+                            <!-- Checkbox Showcase -->
+                            <div v-if="activeInteraction === 'checkbox'" class="micro-showcase">
+                                <div class="showcase-checkbox" :class="{ active: checkboxState }"
+                                    @click="checkboxState = !checkboxState">
+                                    <svg viewBox="0 0 24 24">
+                                        <path class="check-path" d="M4 12 L10 18 L20 6" />
+                                    </svg>
+                                </div>
+                                <p class="micro-hint">SVG stroke draw animation</p>
+                            </div>
+
+                            <!-- Input Showcase -->
+                            <div v-if="activeInteraction === 'input'" class="micro-showcase">
+                                <div class="showcase-input-wrapper">
+                                    <input type="text" class="showcase-input" placeholder=" " v-model="inputValue">
+                                    <label class="showcase-input-label">Focus me...</label>
+                                </div>
+                                <p class="micro-hint">Floating label + border transition</p>
+                            </div>
+
+                            <!-- Link Showcase -->
+                            <div v-if="activeInteraction === 'link'" class="micro-showcase">
+                                <a href="#" @click.prevent class="showcase-link">
+                                    Hover this link
+                                </a>
+                                <p class="micro-hint">Underline draws from left</p>
+                            </div>
+
+                            <!-- Card Showcase -->
+                            <div v-if="activeInteraction === 'card'" class="micro-showcase">
+                                <div class="showcase-card">
+                                    <div class="text-lg font-bold">Hover Card</div>
+                                    <div class="text-sm text-warm-gray-500">Lift me up</div>
+                                </div>
+                                <p class="micro-hint">Elevation + shadow bloom</p>
+                            </div>
+
+                            <!-- Loading Showcase -->
+                            <div v-if="activeInteraction === 'loading'" class="micro-showcase">
+                                <div class="showcase-loader">
+                                    <div class="loader-dot"></div>
+                                    <div class="loader-dot"></div>
+                                    <div class="loader-dot"></div>
+                                </div>
+                                <p class="micro-hint">Staggered bounce animation</p>
+                            </div>
+
+                            <!-- Notification Showcase -->
+                            <div v-if="activeInteraction === 'notification'" class="micro-showcase">
+                                <button @click="showNotification = true" class="showcase-btn-secondary">
+                                    Trigger Notification
+                                </button>
+                                <div class="showcase-notification" :class="{ show: showNotification }">
+                                    <i class="fas fa-bell text-warm-red"></i>
+                                    <span>Something happened!</span>
+                                    <button @click="showNotification = false" class="ml-auto">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <p class="micro-hint">Slide in + subtle shake</p>
+                            </div>
+
+                            <!-- Like Showcase -->
+                            <div v-if="activeInteraction === 'like'" class="micro-showcase">
+                                <button class="showcase-like" :class="{ liked: likeState }"
+                                    @click="likeState = !likeState">
+                                    <i :class="likeState ? 'fas' : 'far'" class="fa-heart"></i>
+                                </button>
+                                <p class="micro-hint">Pop + color flood</p>
+                            </div>
+
+                            <!-- Accordion Showcase -->
+                            <div v-if="activeInteraction === 'accordion'" class="micro-showcase">
+                                <div class="showcase-accordion">
+                                    <button class="showcase-accordion-header" @click="accordionOpen = !accordionOpen">
+                                        <span>Click to expand</span>
+                                        <i class="fas fa-chevron-down" :class="{ 'rotate-180': accordionOpen }"></i>
+                                    </button>
+                                    <div class="showcase-accordion-content" :class="{ open: accordionOpen }">
+                                        <p>Hidden content revealed with smooth height animation and a gentle fade.</p>
+                                    </div>
+                                </div>
+                                <p class="micro-hint">Height + opacity transition</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════════════════════
+         §4: PHYSICS — The Playground
+         ═══════════════════════════════════════════════════════════════════════════ -->
+        <section id="physics" class="min-h-screen py-24 px-8 bg-warm-cream relative overflow-hidden">
+            <div class="max-w-6xl mx-auto relative z-10">
+
+                <div class="mb-16 section-reveal">
+                    <h2 class="text-4xl font-bold mb-4 text-warm-gray-800">
+                        Physics Playground
+                    </h2>
+                    <p class="text-lg text-warm-gray-500 max-w-xl">
+                        Motion that feels alive. Click anywhere to add chaos.
+                    </p>
+                </div>
+
+                <!-- Physics Canvas Area -->
+                <div id="physics-canvas" class="physics-canvas section-reveal" @click="addPhysicsObject">
+
+                    <!-- Bouncing Balls -->
+                    <div class="physics-ball ball-1" data-physics="bounce"></div>
+                    <div class="physics-ball ball-2" data-physics="bounce"></div>
+                    <div class="physics-ball ball-3" data-physics="bounce"></div>
+
+                    <!-- Pendulum -->
+                    <div class="physics-pendulum">
+                        <div class="pendulum-arm"></div>
+                        <div class="pendulum-bob"></div>
+                    </div>
+
+                    <!-- Orbiting Elements -->
+                    <div class="physics-orbit">
+                        <div class="orbit-center"></div>
+                        <div class="orbit-satellite satellite-1"></div>
+                        <div class="orbit-satellite satellite-2"></div>
+                        <div class="orbit-satellite satellite-3"></div>
+                    </div>
+
+                    <!-- Mouse Follower (Spring) -->
+                    <div id="spring-follower" class="spring-follower"></div>
+
+                </div>
+
+                <!-- Physics Controls -->
+                <div class="flex justify-center gap-4 mt-8 section-reveal">
+                    <button @click="resetPhysics" class="physics-control-btn">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                    <button @click="pausePhysics" class="physics-control-btn">
+                        <i :class="physicsPaused ? 'fas fa-play' : 'fas fa-pause'"></i>
+                        {{ physicsPaused ? 'Play' : 'Pause' }}
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════════════════════
+         §5: SCROLL — Wild Typography
+         ═══════════════════════════════════════════════════════════════════════════ -->
+        <section id="scroll" class="scroll-section bg-warm-white relative">
+
+            <!-- Scroll Progress Line -->
+            <div class="scroll-section-progress">
+                <div class="scroll-section-progress-fill" :style="{ height: sectionScrollProgress + '%' }"></div>
+            </div>
+
+            <div class="scroll-content">
+
+                <!-- Word 1: MOTION - Flies in from distance -->
+                <div class="scroll-word word-1" data-scroll-effect="zoom-in">
+                    <span>MOTION</span>
+                </div>
+
+                <!-- Word 2: IS - Rotates -->
+                <div class="scroll-word word-2" data-scroll-effect="rotate">
+                    <span>IS</span>
+                </div>
+
+                <!-- Word 3: MEANING - Scale up dramatically -->
+                <div class="scroll-word word-3" data-scroll-effect="scale-up">
+                    <span>MEANING</span>
+                </div>
+
+                <!-- Phrase 1 -->
+                <div class="scroll-phrase phrase-1" data-scroll-effect="slide-left">
+                    <span>scroll is a dialogue</span>
+                </div>
+
+                <!-- Phrase 2 -->
+                <div class="scroll-phrase phrase-2" data-scroll-effect="slide-right">
+                    <span>the page responds</span>
+                </div>
+
+                <!-- Phrase 3 -->
+                <div class="scroll-phrase phrase-3" data-scroll-effect="fade-scale">
+                    <span>you move,</span>
+                </div>
+
+                <!-- Phrase 4 -->
+                <div class="scroll-phrase phrase-4" data-scroll-effect="fade-scale">
+                    <span class="text-warm-red">it moves</span>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════════════════════
+         §6: FOOTER — Interactive Playground
+         ═══════════════════════════════════════════════════════════════════════════ -->
+        <footer id="footer"
+            class="min-h-screen bg-warm-gray-900 text-warm-white flex flex-col justify-center items-center relative overflow-hidden"
+            @mousemove="handleFooterMouse">
+
+            <!-- Floating Interactive Elements -->
+            <div class="footer-primitives">
+                <div v-for="(prim, i) in footerPrimitives" :key="i" class="footer-prim" :style="getPrimStyle(prim, i)">
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="text-center relative z-10">
+                <p class="text-warm-gray-400 text-sm mb-8 opacity-0 animate-fade-in"
+                    style="animation-delay: 0.3s; animation-fill-mode: forwards;">
+                    Thanks for scrolling.
+                </p>
+
+                <h2 class="text-4xl md:text-6xl font-bold mb-8 opacity-0 animate-slide-up"
+                    style="animation-delay: 0.5s; animation-fill-mode: forwards;">
+                    Let's make something<br>
+                    <span class="text-warm-red">move</span>.
+                </h2>
+
+                <a href="https://codeuncode.in" target="_blank" class="magnetic-btn opacity-0 animate-fade-in"
+                    style="animation-delay: 0.8s; animation-fill-mode: forwards;" @mousemove="handleMagneticBtn"
+                    @mouseleave="resetMagneticBtn" ref="magneticBtn">
+                    <span>→ CODE UNCODE</span>
+                </a>
+
+                <p class="text-xs text-warm-gray-500 mt-12 opacity-0 animate-fade-in"
+                    style="animation-delay: 1s; animation-fill-mode: forwards;">
+                    Built with <a href="https://mono.layogtima.com"
+                        class="text-warm-gray-400 hover:text-warm-red transition-colors">MONO</a>.<br>
+                    Motion by whatever gets the job done.
+                </p>
+            </div>
+
+            <!-- Edge Glow Effects -->
+            <div class="edge-glow edge-glow-left" :style="{ opacity: edgeGlow.left }"></div>
+            <div class="edge-glow edge-glow-right" :style="{ opacity: edgeGlow.right }"></div>
+            <div class="edge-glow edge-glow-top" :style="{ opacity: edgeGlow.top }"></div>
+            <div class="edge-glow edge-glow-bottom" :style="{ opacity: edgeGlow.bottom }"></div>
+
+        </footer>
+
+    </div>
+
+    <!-- Vue 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+
+    <!-- Anime.js for physics -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+
+    <!-- App Abstractions -->
+    <script src="app.js"></script>
+
+    <!-- Main Script -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>

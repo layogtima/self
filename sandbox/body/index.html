@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIOMONITOR 3000 | Amit Goyal</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // MONO Base Palette
+                        mono: {
+                            black: '#0D0D0D',
+                            panel: '#1A1A1A',
+                            card: '#141414',
+                            border: '#2A2A2A',
+                            muted: '#888888',
+                            text: '#E5E5E5',
+                            white: '#FAFAFA'
+                        },
+                        // Status Colors (Dynamic)
+                        status: {
+                            good: '#4ADE80',
+                            attention: '#FACC15',
+                            concern: '#FB923C',
+                            critical: '#F87171'
+                        }
+                    },
+                    fontFamily: {
+                        karla: ['Karla', 'sans-serif']
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'scanline': 'scanline 8s linear infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        'slide-up': 'slideUp 0.4s ease-out forwards'
+                    },
+                    keyframes: {
+                        scanline: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(100vh)' }
+                        },
+                        glow: {
+                            '0%': { opacity: '0.5' },
+                            '100%': { opacity: '1' }
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="bg-mono-black text-mono-text font-karla min-h-screen overflow-x-hidden">
+
+    <!-- Vue App Mount -->
+    <div id="app">
+
+        <!-- Scanline Effect Overlay -->
+        <div class="scanline-overlay"></div>
+
+        <!-- Main Container -->
+        <div class="max-w-7xl mx-auto px-4 py-6 relative z-10">
+
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <!-- HEADER -->
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <header class="flex items-center justify-between mb-6 pb-4 border-b border-mono-border">
+                <!-- Logo & Title -->
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 border-2 border-status-attention rounded flex items-center justify-center">
+                        <span class="text-status-attention font-bold text-lg">V</span>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold tracking-wide text-mono-white">BIOMONITOR</h1>
+                        <p class="text-xs text-mono-muted tracking-widest">PERSONAL HEALTH DIAGNOSTIC SYSTEM</p>
+                    </div>
+                </div>
+
+                <!-- Patient Info -->
+                <div class="text-right">
+                    <p class="text-sm font-semibold text-mono-white">{{ patient.name }}</p>
+                    <p class="text-xs text-mono-muted">
+                        <span class="text-status-attention">●</span>
+                        SCAN: {{ patient.lastScan }}
+                    </p>
+                </div>
+            </header>
+
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <!-- TAB NAVIGATION -->
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <nav class="flex gap-2 mb-6">
+                <button v-for="tab in tabs" :key="tab.id" @click="activeTab = tab.id" :class="[
+            'px-5 py-2 text-sm font-semibold tracking-wider transition-all duration-200 border',
+            activeTab === tab.id 
+              ? 'bg-status-attention text-mono-black border-status-attention' 
+              : 'bg-mono-panel text-mono-muted border-mono-border hover:border-status-attention hover:text-status-attention'
+          ]">
+                    {{ tab.label }}
+                </button>
+
+                <!-- Health Score Badge -->
+                <div class="ml-auto flex items-center gap-3 px-4 py-2 bg-mono-panel border border-mono-border">
+                    <span class="text-xs text-mono-muted tracking-wider">HEALTH SCORE</span>
+                    <span class="text-2xl font-bold" :class="getHealthScoreColor(patient.healthScore)">
+                        {{ patient.healthScore }}
+                    </span>
+                    <span class="text-xs text-mono-muted">/100</span>
+                </div>
+            </nav>
+
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <!-- STAT TAB - Main Dashboard -->
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <div v-show="activeTab === 'stat'" class="animate-fade-in">
+
+                <!-- 3x3 Grid -->
+                <div class="grid grid-cols-3 gap-4">
+
+                    <!-- ═══════════════════════════════════════════════════════════ -->
+                    <!-- ROW 1 -->
+                    <!-- ═══════════════════════════════════════════════════════════ -->
+
+                    <!-- Cell 1: Body Diagram -->
+                    <div class="panel row-span-2">
+                        <div class="panel-header">
+                            <span class="panel-title">BODY STATUS</span>
+                            <span class="panel-badge">INTERACTIVE</span>
+                        </div>
+                        <div class="panel-content flex items-center justify-center">
+                            <svg viewBox="0 0 200 400" class="w-full max-w-[180px] h-auto body-diagram"
+                                @mouseleave="hoveredRegion = null">
+                                <!-- Body Outline -->
+                                <g class="body-base">
+                                    <!-- Head -->
+                                    <ellipse cx="100" cy="35" rx="28" ry="32" :class="getRegionClass('head')"
+                                        @mouseenter="hoveredRegion = 'head'" @click="selectRegion('head')" />
+
+                                    <!-- Neck -->
+                                    <rect x="88" y="65" width="24" height="20" rx="4" :class="getRegionClass('neck')"
+                                        @mouseenter="hoveredRegion = 'neck'" @click="selectRegion('neck')" />
+
+                                    <!-- Torso -->
+                                    <path
+                                        d="M60 85 Q50 120 55 180 L65 250 Q100 260 135 250 L145 180 Q150 120 140 85 Q120 80 100 78 Q80 80 60 85 Z"
+                                        :class="getRegionClass('chest')" @mouseenter="hoveredRegion = 'chest'"
+                                        @click="selectRegion('chest')" />
+
+                                    <!-- Abdomen Overlay -->
+                                    <ellipse cx="100" cy="200" rx="35" ry="40" :class="getRegionClass('abdomen')"
+                                        @mouseenter="hoveredRegion = 'abdomen'" @click="selectRegion('abdomen')"
+                                        style="opacity: 0.7" />
+
+                                    <!-- Left Arm -->
+                                    <path d="M55 90 Q35 100 25 150 Q20 200 30 240 L45 235 Q50 200 50 150 Q55 110 60 95"
+                                        class="body-limb" />
+
+                                    <!-- Right Arm -->
+                                    <path
+                                        d="M145 90 Q165 100 175 150 Q180 200 170 240 L155 235 Q150 200 150 150 Q145 110 140 95"
+                                        class="body-limb" />
+
+                                    <!-- Left Leg -->
+                                    <path
+                                        d="M70 250 Q65 300 60 350 Q58 380 65 395 L85 395 Q88 380 85 350 Q90 300 95 260"
+                                        class="body-limb" />
+
+                                    <!-- Right Leg -->
+                                    <path
+                                        d="M130 250 Q135 300 140 350 Q142 380 135 395 L115 395 Q112 380 115 350 Q110 300 105 260"
+                                        class="body-limb" />
+                                </g>
+
+                                <!-- Region Labels -->
+                                <g class="region-labels" font-size="8" fill="#888">
+                                    <text x="100" y="35" text-anchor="middle"
+                                        v-if="hoveredRegion === 'head'">HEAD</text>
+                                    <text x="100" y="75" text-anchor="middle"
+                                        v-if="hoveredRegion === 'neck'">THYROID</text>
+                                    <text x="100" y="130" text-anchor="middle"
+                                        v-if="hoveredRegion === 'chest'">CHEST</text>
+                                    <text x="100" y="200" text-anchor="middle"
+                                        v-if="hoveredRegion === 'abdomen'">ABDOMEN</text>
+                                </g>
+                            </svg>
+                        </div>
+
+                        <!-- Region Info Tooltip -->
+                        <div v-if="hoveredRegion" class="mt-2 p-2 bg-mono-black border border-mono-border text-xs">
+                            <p class="font-semibold text-status-attention">{{ getRegionInfo(hoveredRegion).label }}</p>
+                            <p class="text-mono-muted">{{ getRegionInfo(hoveredRegion).summary }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Cell 2: Vital Stats -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">VITAL STATISTICS</span>
+                        </div>
+                        <div class="panel-content space-y-2">
+                            <div v-for="(vital, key) in displayVitals" :key="key" class="stat-row">
+                                <span class="stat-label">{{ vital.label }}</span>
+                                <span class="stat-value" :class="getStatusClass(vital.status)">
+                                    {{ vital.value }}
+                                    <span class="stat-unit">{{ vital.unit }}</span>
+                                </span>
+                                <span class="stat-indicator" :class="getStatusClass(vital.status)">●</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cell 3: System Status -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">SYSTEM STATUS</span>
+                        </div>
+                        <div class="panel-content space-y-2">
+                            <div v-for="(system, key) in systems" :key="key" class="system-row"
+                                @click="selectedSystem = key">
+                                <span class="system-indicator" :class="getStatusClass(system.status)">{{ system.icon
+                                    }}</span>
+                                <span class="system-label">{{ system.label }}</span>
+                                <span class="system-status" :class="getStatusClass(system.status)">
+                                    {{ getStatusLabel(system.status) }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ═══════════════════════════════════════════════════════════ -->
+                    <!-- ROW 2 -->
+                    <!-- ═══════════════════════════════════════════════════════════ -->
+
+                    <!-- Cell 4: Active Conditions (Body Diagram spans here) -->
+
+                    <!-- Cell 5: Deficiencies -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">DEFICIENCIES</span>
+                            <span class="panel-badge badge-concern">{{ deficiencies.length }} ACTIVE</span>
+                        </div>
+                        <div class="panel-content space-y-3">
+                            <div v-for="def in deficiencies" :key="def.id" class="deficiency-card">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-semibold text-sm">{{ def.label }}</span>
+                                    <span class="stat-indicator" :class="getStatusClass(def.status)">●</span>
+                                </div>
+                                <div class="flex justify-between items-baseline mt-1">
+                                    <span class="text-lg font-bold" :class="getStatusClass(def.status)">
+                                        {{ def.value }} <span class="text-xs text-mono-muted">{{ def.unit }}</span>
+                                    </span>
+                                    <span class="text-xs text-mono-muted">REF: {{ def.refRange }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cell 6: Inflammation Markers -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">INFLAMMATION</span>
+                        </div>
+                        <div class="panel-content space-y-2">
+                            <div v-for="marker in inflammation" :key="marker.label" class="stat-row">
+                                <span class="stat-label">{{ marker.label }}</span>
+                                <span class="stat-value" :class="getStatusClass(marker.status)">
+                                    {{ marker.value }}
+                                    <span class="stat-unit">{{ marker.unit }}</span>
+                                </span>
+                                <span class="stat-indicator" :class="getStatusClass(marker.status)">●</span>
+                            </div>
+                            <div
+                                class="mt-3 p-2 bg-mono-black border-l-2 border-status-attention text-xs text-mono-muted">
+                                <p class="font-semibold text-status-attention mb-1">NOTE:</p>
+                                <p>Chronic respiratory inflammation detected. Reduce smoke inhalation to lower markers.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ═══════════════════════════════════════════════════════════ -->
+                    <!-- ROW 3 -->
+                    <!-- ═══════════════════════════════════════════════════════════ -->
+
+                    <!-- Cell 7: Chem Regimen -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">CHEM REGIMEN</span>
+                            <span class="panel-badge">{{ chems.length }} ACTIVE</span>
+                        </div>
+                        <div class="panel-content space-y-2">
+                            <div v-for="chem in chems" :key="chem.id" class="chem-row"
+                                @mouseenter="hoveredChem = chem.id" @mouseleave="hoveredChem = null">
+                                <span class="chem-indicator">◐</span>
+                                <span class="chem-name">{{ chem.name }}</span>
+                                <span class="chem-dose">{{ chem.dose }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Chem Detail Tooltip -->
+                        <div v-if="hoveredChem" class="chem-tooltip">
+                            <p class="font-semibold text-status-attention">{{ getChemInfo(hoveredChem).name }}</p>
+                            <p class="text-mono-muted text-xs mt-1">{{ getChemInfo(hoveredChem).purpose }}</p>
+                            <p class="text-mono-muted text-xs">{{ getChemInfo(hoveredChem).timing }} • {{
+                                getChemInfo(hoveredChem).duration }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Cell 8: Daily Routine -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">DAILY ROUTINE</span>
+                            <span class="panel-badge">PHASE {{ routine.currentPhase }}</span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="space-y-3">
+                                <div v-for="(tasks, period) in currentPhaseTasks" :key="period">
+                                    <p class="text-xs text-mono-muted uppercase tracking-wider mb-1">{{ period }}</p>
+                                    <div class="space-y-1">
+                                        <div v-for="task in tasks" :key="task.task" class="routine-task"
+                                            :class="{'task-high': task.priority === 'high'}">
+                                            <span class="task-icon">{{ task.icon }}</span>
+                                            <span class="task-text">{{ task.task }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cell 9: Upcoming Tests -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">UPCOMING TESTS</span>
+                        </div>
+                        <div class="panel-content space-y-2">
+                            <div v-for="test in upcomingTests" :key="test.test" class="test-row">
+                                <span class="test-indicator" :class="getTestPriorityClass(test.priority)">
+                                    {{ test.priority === 'high' ? '◉' : '○' }}
+                                </span>
+                                <div class="test-info">
+                                    <span class="test-name">{{ test.test }}</span>
+                                    <span class="test-time">{{ test.timeframe }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <!-- CHEM TAB - Detailed Supplements -->
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <div v-show="activeTab === 'chem'" class="animate-fade-in">
+                <div class="grid grid-cols-2 gap-4">
+                    <div v-for="chem in chems" :key="chem.id" class="panel chem-detail-card">
+                        <div class="panel-header">
+                            <span class="panel-title">{{ chem.name }}</span>
+                            <span class="panel-badge">{{ chem.status.toUpperCase() }}</span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <p class="text-xs text-mono-muted">DOSE</p>
+                                    <p class="text-lg font-bold text-status-attention">{{ chem.dose }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-mono-muted">FREQUENCY</p>
+                                    <p class="text-lg font-semibold">{{ chem.frequency }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-mono-muted">TIMING</p>
+                                    <p class="text-sm">{{ chem.timing }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-mono-muted">FORM</p>
+                                    <p class="text-sm">{{ chem.form }}</p>
+                                </div>
+                            </div>
+                            <div class="border-t border-mono-border pt-3">
+                                <p class="text-xs text-mono-muted mb-1">PURPOSE</p>
+                                <p class="text-sm">{{ chem.purpose }}</p>
+                            </div>
+                            <div class="mt-3">
+                                <p class="text-xs text-mono-muted mb-1">DURATION</p>
+                                <p class="text-sm text-status-attention">{{ chem.duration }}</p>
+                            </div>
+                            <div class="mt-3">
+                                <p class="text-xs text-mono-muted mb-1">BRANDS</p>
+                                <p class="text-xs">{{ chem.brands.join(' • ') }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <!-- ROUTINE TAB - Phase Details -->
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <div v-show="activeTab === 'routine'" class="animate-fade-in">
+                <div class="grid grid-cols-3 gap-4">
+                    <div v-for="phase in routine.phases" :key="phase.phase" class="panel"
+                        :class="{'ring-2 ring-status-attention': phase.phase === routine.currentPhase}">
+                        <div class="panel-header">
+                            <span class="panel-title">PHASE {{ phase.phase }}: {{ phase.name }}</span>
+                            <span class="panel-badge"
+                                :class="phase.phase === routine.currentPhase ? 'badge-active' : ''">
+                                {{ phase.duration }}
+                            </span>
+                        </div>
+                        <div class="panel-content space-y-4">
+                            <div>
+                                <p class="text-xs text-status-attention tracking-wider mb-2">☀ MORNING</p>
+                                <div class="space-y-1">
+                                    <div v-for="task in phase.morning" :key="task.task" class="routine-task-detail">
+                                        <span>{{ task.icon }}</span>
+                                        <span>{{ task.task }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-xs text-status-attention tracking-wider mb-2">◐ AFTERNOON</p>
+                                <div class="space-y-1">
+                                    <div v-for="task in phase.afternoon" :key="task.task" class="routine-task-detail">
+                                        <span>{{ task.icon }}</span>
+                                        <span>{{ task.task }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-xs text-status-attention tracking-wider mb-2">☾ EVENING</p>
+                                <div class="space-y-1">
+                                    <div v-for="task in phase.evening" :key="task.task" class="routine-task-detail">
+                                        <span>{{ task.icon }}</span>
+                                        <span>{{ task.task }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <!-- TESTS TAB - Upcoming & History -->
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <div v-show="activeTab === 'tests'" class="animate-fade-in">
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Upcoming Tests -->
+                    <div class="panel col-span-2">
+                        <div class="panel-header">
+                            <span class="panel-title">UPCOMING DIAGNOSTIC TESTS</span>
+                        </div>
+                        <div class="panel-content">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div v-for="test in upcomingTests" :key="test.test" class="test-card"
+                                    :class="getTestCardClass(test.priority)">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <span class="font-semibold">{{ test.test }}</span>
+                                        <span class="text-xs px-2 py-1 rounded"
+                                            :class="getTestBadgeClass(test.priority)">
+                                            {{ test.priority.toUpperCase() }}
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-mono-muted mb-2">{{ test.purpose }}</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-xs text-status-attention">{{ test.timeframe }}</span>
+                                        <span class="text-xs text-mono-muted uppercase">{{ test.status }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <!-- FOOTER -->
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <footer
+                class="mt-8 pt-4 border-t border-mono-border flex justify-between items-center text-xs text-mono-muted">
+                <p>BIOMONITOR 3000 • ABSURD INDUSTRIES × AMARTHA</p>
+                <p>
+                    <span class="text-status-good">●</span> SYSTEM ONLINE •
+                    LAST UPDATE: {{ patient.lastScan }}
+                </p>
+            </footer>
+
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>

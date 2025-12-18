@@ -1,0 +1,627 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   BIOMONITOR 3000 - STYLES
+   MONO-Inspired Health Dashboard
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ───────────────────────────────────────────────────────────────────────────
+   BASE & RESET
+   ─────────────────────────────────────────────────────────────────────────── */
+
+* {
+    box-sizing: border-box;
+}
+
+::selection {
+    background: #facc15;
+    color: #0d0d0d;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2a2a2a;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #facc15;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   SCANLINE OVERLAY (Subtle CRT Effect)
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.scanline-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.03) 0px,
+        rgba(0, 0, 0, 0.03) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+}
+
+/* Optional: Animated scanline bar */
+.scanline-overlay::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to bottom, transparent, rgba(250, 204, 21, 0.03), transparent);
+    animation: scanline 8s linear infinite;
+}
+
+@keyframes scanline {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(100vh);
+    }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   PANELS (Card Components)
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.panel {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.2s ease;
+}
+
+.panel:hover {
+    border-color: #3a3a3a;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #2a2a2a;
+    background: #141414;
+}
+
+.panel-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #e5e5e5;
+}
+
+.panel-badge {
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 0.2rem 0.5rem;
+    background: #2a2a2a;
+    color: #888888;
+}
+
+.panel-badge.badge-concern {
+    background: rgba(251, 146, 60, 0.2);
+    color: #fb923c;
+}
+
+.panel-badge.badge-active {
+    background: rgba(250, 204, 21, 0.2);
+    color: #facc15;
+}
+
+.panel-content {
+    padding: 1rem;
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   STAT ROWS
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.stat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.stat-row:last-child {
+    border-bottom: none;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: #888888;
+    flex: 1;
+}
+
+.stat-value {
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    margin-right: 0.5rem;
+}
+
+.stat-unit {
+    font-size: 0.65rem;
+    font-weight: 400;
+    color: #888888;
+    margin-left: 0.15rem;
+}
+
+.stat-indicator {
+    font-size: 0.5rem;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   STATUS COLORS
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.status-good {
+    color: #4ade80;
+}
+.status-attention {
+    color: #facc15;
+}
+.status-concern {
+    color: #fb923c;
+}
+.status-critical {
+    color: #f87171;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   SYSTEM STATUS ROWS
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.system-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    border-radius: 2px;
+}
+
+.system-row:hover {
+    background: #141414;
+}
+
+.system-indicator {
+    font-size: 0.75rem;
+    width: 1rem;
+    text-align: center;
+}
+
+.system-label {
+    font-size: 0.8rem;
+    flex: 1;
+    color: #e5e5e5;
+}
+
+.system-status {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   DEFICIENCY CARDS
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.deficiency-card {
+    padding: 0.75rem;
+    background: #141414;
+    border-left: 2px solid #fb923c;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   CHEM ROWS
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.chem-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.chem-row:hover {
+    padding-left: 0.5rem;
+    background: #141414;
+}
+
+.chem-indicator {
+    color: #facc15;
+    font-size: 0.7rem;
+}
+
+.chem-name {
+    font-size: 0.75rem;
+    flex: 1;
+    color: #e5e5e5;
+}
+
+.chem-dose {
+    font-size: 0.7rem;
+    color: #888888;
+    font-variant-numeric: tabular-nums;
+}
+
+.chem-tooltip {
+    margin-top: 0.75rem;
+    padding: 0.75rem;
+    background: #0d0d0d;
+    border: 1px solid #2a2a2a;
+    border-left: 2px solid #facc15;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   ROUTINE TASKS
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.routine-task {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.5rem;
+    font-size: 0.7rem;
+    color: #888888;
+    transition: all 0.15s ease;
+}
+
+.routine-task:hover {
+    color: #e5e5e5;
+    background: #141414;
+}
+
+.routine-task.task-high {
+    color: #e5e5e5;
+}
+
+.routine-task.task-high .task-text {
+    font-weight: 500;
+}
+
+.task-icon {
+    font-size: 0.8rem;
+    width: 1.2rem;
+    text-align: center;
+}
+
+.task-text {
+    flex: 1;
+}
+
+.routine-task-detail {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0;
+    font-size: 0.75rem;
+    color: #e5e5e5;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   TEST ROWS
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.test-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.4rem 0;
+}
+
+.test-indicator {
+    font-size: 0.6rem;
+    margin-top: 0.2rem;
+}
+
+.test-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.test-name {
+    font-size: 0.7rem;
+    color: #e5e5e5;
+    line-height: 1.3;
+}
+
+.test-time {
+    font-size: 0.6rem;
+    color: #888888;
+}
+
+.test-card {
+    padding: 1rem;
+    background: #141414;
+    border: 1px solid #2a2a2a;
+    transition: all 0.2s ease;
+}
+
+.test-card:hover {
+    border-color: #3a3a3a;
+}
+
+.test-card.priority-high {
+    border-left: 2px solid #fb923c;
+}
+
+.test-card.priority-medium {
+    border-left: 2px solid #facc15;
+}
+
+.test-card.priority-low {
+    border-left: 2px solid #888888;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   BODY DIAGRAM SVG
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.body-diagram {
+    cursor: pointer;
+}
+
+.body-base ellipse,
+.body-base rect,
+.body-base path {
+    fill: transparent;
+    stroke: #2a2a2a;
+    stroke-width: 1.5;
+    transition: all 0.2s ease;
+}
+
+.body-limb {
+    fill: transparent;
+    stroke: #2a2a2a;
+    stroke-width: 1.5;
+}
+
+/* Region status colors */
+.region-good {
+    fill: rgba(74, 222, 128, 0.1);
+    stroke: #4ade80;
+}
+
+.region-attention {
+    fill: rgba(250, 204, 21, 0.1);
+    stroke: #facc15;
+}
+
+.region-concern {
+    fill: rgba(251, 146, 60, 0.15);
+    stroke: #fb923c;
+}
+
+/* Hover state */
+.body-base ellipse:hover,
+.body-base rect:hover,
+.body-base path:hover {
+    stroke-width: 2;
+    filter: drop-shadow(0 0 4px currentColor);
+}
+
+.region-good:hover {
+    fill: rgba(74, 222, 128, 0.2);
+}
+
+.region-attention:hover {
+    fill: rgba(250, 204, 21, 0.2);
+}
+
+.region-concern:hover {
+    fill: rgba(251, 146, 60, 0.25);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   CHEM DETAIL CARDS
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.chem-detail-card .panel-header {
+    border-left: 2px solid #facc15;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   BADGE VARIANTS
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.badge-high {
+    background: rgba(251, 146, 60, 0.2);
+    color: #fb923c;
+}
+
+.badge-medium {
+    background: rgba(250, 204, 21, 0.2);
+    color: #facc15;
+}
+
+.badge-low {
+    background: rgba(136, 136, 136, 0.2);
+    color: #888888;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   ANIMATIONS
+   ─────────────────────────────────────────────────────────────────────────── */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-slide-up {
+    animation: slideUp 0.4s ease-out forwards;
+}
+
+/* Staggered animation delays for grid items */
+.panel:nth-child(1) {
+    animation-delay: 0.05s;
+}
+.panel:nth-child(2) {
+    animation-delay: 0.1s;
+}
+.panel:nth-child(3) {
+    animation-delay: 0.15s;
+}
+.panel:nth-child(4) {
+    animation-delay: 0.2s;
+}
+.panel:nth-child(5) {
+    animation-delay: 0.25s;
+}
+.panel:nth-child(6) {
+    animation-delay: 0.3s;
+}
+.panel:nth-child(7) {
+    animation-delay: 0.35s;
+}
+.panel:nth-child(8) {
+    animation-delay: 0.4s;
+}
+.panel:nth-child(9) {
+    animation-delay: 0.45s;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   GLOW EFFECTS
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.glow-attention {
+    text-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
+}
+
+.glow-concern {
+    text-shadow: 0 0 10px rgba(251, 146, 60, 0.5);
+}
+
+.glow-good {
+    text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   RESPONSIVE ADJUSTMENTS
+   ─────────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+    .grid-cols-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .panel.row-span-2 {
+        grid-row: span 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .grid-cols-3,
+    .grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    header > div:last-child {
+        text-align: center;
+    }
+
+    nav {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    nav > div:last-child {
+        width: 100%;
+        justify-content: center;
+        margin-top: 0.5rem;
+    }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   UTILITY CLASSES
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.text-tabular {
+    font-variant-numeric: tabular-nums;
+}
+
+.truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   PRINT STYLES (Just in case you want to print your health report!)
+   ─────────────────────────────────────────────────────────────────────────── */
+
+@media print {
+    .scanline-overlay {
+        display: none;
+    }
+
+    body {
+        background: white;
+        color: black;
+    }
+
+    .panel {
+        border: 1px solid #ccc;
+        background: white;
+    }
+}

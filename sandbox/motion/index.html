@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MOTION | Motion.dev Showcase</title>
+    <meta name="title" content="MOTION | Motion.dev Showcase" />
+    <meta name="description"
+        content="A comprehensive showcase of motion.dev animation capabilities - scroll, spring, stagger, timeline, and more." />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mono.layogtima.com/motion" />
+    <meta property="og:title" content="MOTION | Motion.dev Showcase" />
+    <meta property="og:description"
+        content="A comprehensive showcase of motion.dev animation capabilities - scroll, spring, stagger, timeline, and more." />
+    <meta property="og:image" content="https://mono.layogtima.com/images/screenshot.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://mono.layogtima.com/motion" />
+    <meta property="twitter:title" content="MOTION | Motion.dev Showcase" />
+    <meta property="twitter:description"
+        content="A comprehensive showcase of motion.dev animation capabilities - scroll, spring, stagger, timeline, and more." />
+    <meta property="twitter:image" content="https://mono.layogtima.com/images/screenshot.png" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="https://mono.layogtima.com/images/favicon/favicon-96x96.png?M24613"
+        sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="https://mono.layogtima.com/images/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="https://mono.layogtima.com/images/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="https://mono.layogtima.com/images/favicon/apple-touch-icon.png?M24613" />
+    <meta name="apple-mobile-web-app-title" content="Amit" />
+    <link rel="manifest" href="https://mono.layogtima.com/images/favicon/site.webmanifest" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ["Space Mono", "monospace"],
+                    },
+                    animation: {
+                        "text-slide": "text-slide 12s linear infinite",
+                        "pulse-slow": "pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+                    },
+                    keyframes: {
+                        "text-slide": {
+                            "0%, 100%": { transform: "translateX(0%)" },
+                            "50%": { transform: "translateX(-20%)" },
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+        * {
+            font-family: "Space Mono", monospace;
+        }
+
+        .text-shadow {
+            text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        .hover-text-stroke:hover {
+            -webkit-text-stroke: 1px black;
+            -webkit-text-fill-color: white;
+        }
+
+        .text-stroke {
+            -webkit-text-stroke: 1px black;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .noisy-bg {
+            position: relative;
+        }
+
+        .noisy-bg::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            z-index: -1;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+
+<body class="bg-white text-black min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <nav
+        class="fixed w-full px-4 py-3 flex justify-between items-center z-50 bg-black/80 backdrop-blur-sm border-b border-gray-800 text-white">
+        <a href="index.html" class="text-xl font-normal tracking-normal text-white">MOTION.DEV</a>
+        <div class="flex gap-6">
+            <a href="https://motion.dev" target="_blank"
+                class="text-sm hover:underline decoration-1 underline-offset-8">DOCS</a>
+            <a href="https://github.com/motiondivision/motionone" target="_blank"
+                class="text-sm hover:underline decoration-1 underline-offset-8">GITHUB</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section
+        class="h-screen flex flex-col justify-center items-center pt-16 relative overflow-hidden bg-black text-white">
+        <div class="z-10 px-8 max-w-4xl text-center">
+            <h1 id="heading" class="text-6xl md:text-8xl font-bold mb-6 leading-none tracking-tighter">
+                WE MOVIN'
+            </h1>
+        </div>
+    </section>
+
+    <!-- Sizing Showcase -->
+    <section class="py-24 px-8 sizes overflow-hidden">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-5xl font-bold mb-16">
+                <span class="heading inline-block">SIZE</span><span class="text-xs super align-super">MATTERS</span>
+            </h2>
+
+            <!-- Size Exploration -->
+            <div class="py-12 border-t border-b border-gray-300">
+                <div class="space-y-6">
+                    <div class="text-9xl font-bold tracking-tighter origin-top-left">MASSIVE</div>
+                    <div class="text-7xl tracking-tight origin-top-left">LARGE</div>
+                    <div class="text-5xl origin-top-left">MEDIUM</div>
+                    <div class="text-3xl origin-top-left">REGULAR</div>
+                    <div class="text-xl origin-top-left">SMALL</div>
+                    <div class="text-sm origin-top-left">TINY</div>
+                    <div class="text-xs uppercase tracking-widest origin-top-left">Microscopic</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scroll Animations -->
+    <section class="py-24 px-8 bg-black text-white overflow-hidden">
+        <div class="max-w-6xl mx-auto">
+            <!-- Scroll Progress Bar -->
+            <div class="fixed bottom-0 left-0 w-full px-4 py-4 z-1000">
+                <h3 class="text-sm mb-2">
+                    SCROLL PROGRESS
+                </h3>
+                <div class="relative h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div class="scroll-progress h-full bg-white origin-left"></div>
+                </div>
+            </div>
+
+            <!-- Scroll Scale Text -->
+            <div class="mt-0">
+                <div class="scroll-scale text-9xl font-bold tracking-tighter text-center">
+                    GROW
+                </div>
+            </div>
+
+            <!-- Parallax Layers -->
+            <div class="mt-48 relative h-96 flex items-center justify-center">
+                <div class="parallax-back absolute text-[30rem] font-bold text-gray-800 tracking-tighter">
+                    BACK
+                </div>
+                <div class="parallax-mid absolute text-[20rem] font-bold text-gray-600 tracking-tighter">
+                    MIDDLE
+                </div>
+                <div class="parallax-front absolute text-[10rem] font-bold text-white tracking-tighter">
+                    FRONT
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Stagger Animations -->
+    <section class="py-24 px-8 bg-gray-900 text-white">
+        <div class="max-w-6xl mx-auto">
+            <!-- Grid Stagger -->
+            <div class="mb-32">
+                <h3 class="text-2xl mb-8">
+                    GRID CASCADE
+                </h3>
+                <div class="grid grid-cols-4 gap-4 stagger-grid">
+                    <div
+                        class="aspect-square border-2 border-white flex items-center justify-center text-4xl font-bold opacity-0">
+                        A
+                    </div>
+                    <div
+                        class="aspect-square border-2 border-white flex items-center justify-center text-4xl font-bold opacity-0">
+                        B
+                    </div>
+                    <div
+                        class="aspect-square border-2 border-white flex items-center justify-center text-4xl font-bold opacity-0">
+                        C
+                    </div>
+                    <div
+                        class="aspect-square border-2 border-white flex items-center justify-center text-4xl font-bold opacity-0">
+                        D
+                    </div>
+                    <div
+                        class="aspect-square border-2 border-white flex items-center justify-center text-4xl font-bold opacity-0">
+                        E
+                    </div>
+                    <div
+                        class="aspect-square border-2 border-white flex items-center justify-center text-4xl font-bold opacity-0">
+                        F
+                    </div>
+                    <div
+                        class="aspect-square border-2 border-white flex items-center justify-center text-4xl font-bold opacity-0">
+                        G
+                    </div>
+                    <div
+                        class="aspect-square border-2 border-white flex items-center justify-center text-4xl font-bold opacity-0">
+                        H
+                    </div>
+                </div>
+            </div>
+
+            <!-- Word Stagger -->
+            <div class="mb-32">
+                <h3 class="text-2xl mb-8">
+                    WORD<span class="text-xs align-super"> BY WORD</span>
+                </h3>
+                <div class="stagger-words text-7xl font-bold tracking-tight leading-tight">
+                    <span class="inline-block opacity-0">ONE</span>
+                    <span class="inline-block opacity-0">BY</span>
+                    <span class="inline-block opacity-0">ONE</span>
+                    <span class="inline-block opacity-0">THEY</span>
+                    <span class="inline-block opacity-0">APPEAR</span>
+                </div>
+            </div>
+
+            <!-- Letter Stagger -->
+            <div>
+                <h3 class="text-2xl mb-8">
+                    LETTER<span class="text-xs align-super"> BY LETTER</span>
+                </h3>
+                <div class="stagger-letters text-9xl font-bold tracking-tighter flex gap-2">
+                    <span class="inline-block opacity-0">M</span>
+                    <span class="inline-block opacity-0">O</span>
+                    <span class="inline-block opacity-0">T</span>
+                    <span class="inline-block opacity-0">I</span>
+                    <span class="inline-block opacity-0">O</span>
+                    <span class="inline-block opacity-0">N</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Transform Showcase -->
+    <section class="py-24 px-8 bg-black text-white overflow-hidden">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-5xl font-bold mb-16">
+                TRANS<span class="text-xs align-super">FORMS</span>
+            </h2>
+
+            <div class="space-y-32">
+                <!-- 3D Rotate -->
+                <div>
+                    <h3 class="text-2xl mb-8">
+                        3D<span class="text-xs align-super"> ROTATION</span>
+                    </h3>
+                    <div class="transform-3d text-9xl font-bold tracking-tighter text-center"
+                        style="perspective: 1000px;">
+                        DEPTH
+                    </div>
+                </div>
+
+                <!-- Scale Transform -->
+                <div>
+                    <h3 class="text-2xl mb-8">
+                        SCALE<span class="text-xs align-super"> TRANSFORM</span>
+                    </h3>
+                    <div class="transform-scale text-9xl font-bold tracking-tighter text-center">
+                        GROW
+                    </div>
+                </div>
+
+                <!-- Skew Transform -->
+                <div>
+                    <h3 class="text-2xl mb-8">
+                        SKEW<span class="text-xs align-super"> TRANSFORM</span>
+                    </h3>
+                    <div class="transform-skew text-9xl font-bold tracking-tighter text-center">
+                        SLANT
+                    </div>
+                </div>
+
+                <!-- Combined Transforms -->
+                <div>
+                    <h3 class="text-2xl mb-8">
+                        COMBINED<span class="text-xs align-super"> MULTI-AXIS</span>
+                    </h3>
+                    <div class="transform-combined text-8xl font-bold tracking-tighter text-center">
+                        CHAOS
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Typography -->
+    <section id="interactive" class="py-24 px-8 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-5xl font-bold mb-16">
+                INTER<span class="text-xs align-super">ACTIVE</span>
+            </h2>
+
+            <div class="grid grid-cols-1 gap-24">
+                <!-- Hover Scale -->
+                <div class="border-b-4 border-black pb-12">
+                    <h3 class="text-2xl mb-8">
+                        HOVER<span class="text-xs align-super"> SCALE</span>
+                    </h3>
+                    <div class="interactive-hover text-8xl font-bold tracking-tighter cursor-pointer origin-top-left">
+                        GROW
+                    </div>
+                </div>
+
+                <!-- Click Rotate -->
+                <div class="border-b-4 border-black pb-12">
+                    <h3 class="text-2xl mb-8">
+                        CLICK<span class="text-xs align-super"> ROTATE</span>
+                    </h3>
+                    <div class="interactive-click text-8xl font-bold tracking-tighter cursor-pointer">
+                        SPIN
+                    </div>
+                </div>
+
+                <!-- Magnetic Effect -->
+                <div class="border-b-4 border-black pb-12">
+                    <h3 class="text-2xl mb-8">
+                        MAGNETIC<span class="text-xs align-super"> FOLLOW</span>
+                    </h3>
+                    <div
+                        class="interactive-magnetic-container relative h-64 flex items-center justify-center border-2 border-black">
+                        <div class="interactive-magnetic text-6xl font-bold tracking-tighter">
+                            FOLLOW
+                        </div>
+                    </div>
+                    <p class="text-sm mt-4 text-gray-600">Move cursor over the box</p>
+                </div>
+
+                <!-- Letter Grid -->
+                <div>
+                    <h3 class="text-2xl mb-8">
+                        GRID<span class="text-xs align-super"> INTERACTION</span>
+                    </h3>
+                    <div class="interactive-grid grid grid-cols-4 gap-4">
+                        <div
+                            class="interactive-grid-item aspect-square border-2 border-black flex items-center justify-center text-4xl font-bold cursor-pointer">
+                            A
+                        </div>
+                        <div
+                            class="interactive-grid-item aspect-square border-2 border-black flex items-center justify-center text-4xl font-bold cursor-pointer">
+                            B
+                        </div>
+                        <div
+                            class="interactive-grid-item aspect-square border-2 border-black flex items-center justify-center text-4xl font-bold cursor-pointer">
+                            C
+                        </div>
+                        <div
+                            class="interactive-grid-item aspect-square border-2 border-black flex items-center justify-center text-4xl font-bold cursor-pointer">
+                            D
+                        </div>
+                        <div
+                            class="interactive-grid-item aspect-square border-2 border-black flex items-center justify-center text-4xl font-bold cursor-pointer">
+                            E
+                        </div>
+                        <div
+                            class="interactive-grid-item aspect-square border-2 border-black flex items-center justify-center text-4xl font-bold cursor-pointer">
+                            F
+                        </div>
+                        <div
+                            class="interactive-grid-item aspect-square border-2 border-black flex items-center justify-center text-4xl font-bold cursor-pointer">
+                            G
+                        </div>
+                        <div
+                            class="interactive-grid-item aspect-square border-2 border-black flex items-center justify-center text-4xl font-bold cursor-pointer">
+                            H
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance Showcase -->
+    <section class="py-24 px-8 bg-black text-white">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-5xl font-bold mb-16">
+                PERFOR<span class="text-xs align-super">MANCE</span>
+            </h2>
+
+            <!-- Particle Text -->
+            <div class="mb-32">
+                <h3 class="text-2xl mb-8">
+                    PARTICLE<span class="text-xs align-super"> TEXT</span>
+                </h3>
+                <div class="particle-container grid grid-cols-10 gap-1">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Animated Grid -->
+            <div class="mb-32">
+                <h3 class="text-2xl mb-8">
+                    MASS<span class="text-xs align-super"> ANIMATION</span>
+                </h3>
+                <div class="mass-grid grid grid-cols-12 gap-2">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Floating Letters -->
+            <div>
+                <h3 class="text-2xl mb-8">
+                    FLOATING<span class="text-xs align-super"> ELEMENTS</span>
+                </h3>
+                <div class="floating-container relative h-96 border-2 border-white overflow-hidden">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote Section -->
+    <section class="py-24 px-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <blockquote class="text-3xl md:text-5xl font-bold italic mb-8 leading-tight">
+                "Typography is what language looks like."
+            </blockquote>
+            <p class="text-xl text-gray-600">— Ellen Lupton</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 px-8 border-t border-gray-400 dark:border-gray-600">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div>
+                <a href="https://layogtima.com" target="_blank" class="text-xl font-bold tracking-normal">
+                    AMIT
+                </a>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="text-xs text-gray-600 dark:text-gray-400 flex items-center gap-2">
+                    <span class="inline-block transform rotate-180 text-lg mb-2">©</span>
+                    <span>Copyleft 2025 -
+                        <a href="https://github.com/layogtima/mono" target="_blank" class="underline">Share, Adapt,
+                            Build.</a></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>
