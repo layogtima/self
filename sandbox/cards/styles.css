@@ -1,0 +1,62 @@
+* {
+    font-family: "Space Mono", monospace;
+}
+
+body {
+    touch-action: none;
+    overscroll-behavior: none;
+}
+
+.card {
+    transition: transform 0.1s ease-out;
+    will-change: transform;
+}
+
+.card.returning {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card.swiping-out {
+    transition:
+        transform 0.3s ease-out,
+        opacity 0.3s ease-out;
+}
+
+.card-behind {
+    transform: scale(0.95);
+    opacity: 0.5;
+}
+
+.choice-indicator {
+    pointer-events: none;
+    transition: opacity 0.1s ease-out;
+    width: 100%;
+}
+
+.stat-fill {
+    transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Loading/entering animation for new cards */
+@keyframes cardEnter {
+    from {
+        transform: translateY(100vh) scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+.card-enter {
+    animation: cardEnter 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Prevent text selection during drag */
+.select-none {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

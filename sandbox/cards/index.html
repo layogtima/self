@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Are You The Senior Engineer?</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ["Space Mono", "monospace"],
+                    },
+                },
+            },
+        };
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="bg-black text-white min-h-screen flex flex-col overflow-hidden select-none">
+    <div id="app" class="flex-1 flex flex-col">
+
+        <!-- Stats Icons -->
+        <div class="px-8 py-6 flex justify-around items-start border-b border-white/20">
+            <!-- Money -->
+            <div class="flex flex-col items-center gap-2">
+                <i class="fas fa-indian-rupee-sign text-3xl" :class="getStatColor(stats.money)"></i>
+                <div class="h-16 w-2 bg-white/20 relative">
+                    <div class="stat-fill absolute bottom-0 left-0 w-full bg-white transition-all duration-300"
+                        :style="{ height: stats.money + '%' }"></div>
+                </div>
+            </div>
+
+            <!-- Soul -->
+            <div class="flex flex-col items-center gap-2">
+                <i class="fas fa-heart text-3xl" :class="getStatColor(stats.soul)"></i>
+                <div class="h-16 w-2 bg-white/20 relative">
+                    <div class="stat-fill absolute bottom-0 left-0 w-full bg-white transition-all duration-300"
+                        :style="{ height: stats.soul + '%' }"></div>
+                </div>
+            </div>
+
+            <!-- Social Capital -->
+            <div class="flex flex-col items-center gap-2">
+                <i class="fas fa-people-group text-3xl" :class="getStatColor(stats.social)"></i>
+                <div class="h-16 w-2 bg-white/20 relative">
+                    <div class="stat-fill absolute bottom-0 left-0 w-full bg-white transition-all duration-300"
+                        :style="{ height: stats.social + '%' }"></div>
+                </div>
+            </div>
+
+            <!-- Happiness -->
+            <div class="flex flex-col items-center gap-2">
+                <i class="fas fa-face-smile text-3xl" :class="getStatColor(stats.happiness)"></i>
+                <div class="h-16 w-2 bg-white/20 relative">
+                    <div class="stat-fill absolute bottom-0 left-0 w-full bg-white transition-all duration-300"
+                        :style="{ height: stats.happiness + '%' }"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div v-if="gameOver" class="flex-1 flex items-center justify-center p-8">
+            <div class="text-center max-w-md">
+                <h2 class="text-4xl font-bold mb-6">GAME OVER</h2>
+                <p class="text-xl mb-4">{{ gameOverReason }}</p>
+                <p class="text-sm mb-8 text-gray-400">Survived {{ cardsPlayed }} decisions</p>
+                <button @click="restart"
+                    class="bg-white text-black px-8 py-3 text-sm font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors">
+                    Play Again
+                </button>
+            </div>
+        </div>
+
+        <!-- Card Area -->
+        <div v-else class="flex-1 relative flex items-center justify-center overflow-hidden" ref="cardContainer">
+            <!-- Next card (behind) -->
+            <div v-if="nextCard" class="card-behind absolute w-80 h-96 bg-neutral-800 border-4 border-white/10"></div>
+
+            <!-- Current Card -->
+            <div v-if="currentCard" ref="card"
+                class="card absolute w-80 h-96 bg-neutral-900 border-4 border-white cursor-grab active:cursor-grabbing"
+                :style="cardStyle" @mousedown="startDrag" @touchstart="startDrag">
+                <!-- Card Content -->
+                <div class="h-full flex flex-col items-center justify-center p-8 text-center relative">
+                    <p class="text-lg font-bold leading-tight">
+                        {{ currentCard.question }}
+                    </p>
+
+                    <!-- Left Choice Indicator -->
+                    <div class="choice-indicator left-indicator absolute left-0 top-0 h-full flex items-center justify-center bg-red-900/90 text-white px-4"
+                        :style="{ opacity: leftChoiceOpacity }">
+                        <div class="transform -rotate-12">
+                            <div class="text-xs uppercase tracking-widest mb-2">NO</div>
+                            <div class="text-sm font-bold">{{ currentCard.leftChoice }}</div>
+                        </div>
+                    </div>
+
+                    <!-- Right Choice Indicator -->
+                    <div class="choice-indicator right-indicator absolute right-0 top-0 h-full flex items-center justify-center bg-green-900/90 text-white px-4"
+                        :style="{ opacity: rightChoiceOpacity }">
+                        <div class="transform rotate-12">
+                            <div class="text-xs uppercase tracking-widest mb-2">YES</div>
+                            <div class="text-sm font-bold">{{ currentCard.rightChoice }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="px-4 py-4 text-center border-t border-white/20 text-xs uppercase tracking-widest text-gray-500">
+            Drag or swipe cards to decide
+        </div>
+    </div>
+
+    <!-- Vue 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Main Script -->
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
