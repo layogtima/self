@@ -67,7 +67,7 @@
 
 <body class="bg-cream min-h-screen overflow-hidden">
 
-    <div id="app" class="w-full h-screen flex md:items-center justify-center p-4 pt-10 md:pt-0">
+    <div id="app" class="w-full h-screen flex md:items-center justify-center p-4">
 
         <!-- ============================================
          START SCREEN
@@ -75,23 +75,23 @@
         <div v-if="gameState === 'start'" class="max-w-2xl w-full text-center fade-in">
 
             <!-- Game Title -->
-            <h1 class="text-3xl md:text-6xl font-bold text-black mb-4">
+            <h1 class="text-3xl md:text-6xl font-bold text-black mb-4 mt-10">
                 if (choice):
             </h1>
 
             <!-- Tagline -->
-            <p class="text-lg md:text-2xl text-black mb-8">
+            <p class="text-md md:text-2xl text-black mb-6">
                 Where every choice has consequences
             </p>
 
             <!-- Description -->
             <div class="bg-white border-4 border-black p-6 mb-8">
-                <p class="text-lg md:text-xl text-black mb-4">
+                <p class="text-md md:text-xl text-black mb-4">
                     You're an engineer trying to balance money <i class="fa-solid fa-indian-rupee-sign"></i>, soul <i
                         class="fa-solid fa-heart"></i>, social capital <i class="fa-solid fa-people-group"></i> and
                     happiness <i class="fa-solid fa-face-smile"></i>.
                 </p>
-                <p class="text-lg md:text-xl font-bold text-black">
+                <p class="text-md md:text-xl font-bold text-black">
                     Will you thrive or die?
                 </p>
             </div>
@@ -130,7 +130,7 @@
         <div v-if="gameState === 'playing'" class="w-full h-full flex flex-col">
 
             <!-- Stats Bar -->
-            <div class="flex justify-center gap-4 md:gap-8 p-4 bg-cream">
+            <div class="flex justify-center gap-4 md:gap-8 px-4 bg-cream">
                 <div v-for="(value, stat) in stats" :key="stat" class="flex flex-col items-center">
                     <!-- Icon -->
                     <i :class="['fa-solid', statIcons[stat], 'text-2xl mb-2']"
@@ -157,12 +157,12 @@
 
                 <!-- Next card (behind) -->
                 <div v-if="nextCard"
-                    class="absolute card card-behind w-80 h-[500px] bg-white border-4 border-black shadow-lg">
+                    class="hidden absolute card card-behind w-80 h-[500px] bg-white border-4 border-black shadow-lg">
                 </div>
 
                 <!-- Current card -->
                 <div v-if="currentCard" ref="card"
-                    class="card absolute w-80 h-[500px] bg-white border-4 border-black shadow-2xl cursor-grab select-none flex flex-col"
+                    class="scale-[0.85] card absolute w-80 h-[500px] bg-white border-4 border-black shadow-2xl cursor-grab select-none flex flex-col"
                     :style="cardStyle" @mousedown="startDrag" @touchstart="startDrag">
                     <!-- Choice indicators -->
                     <div class="choice-indicator absolute inset-0 flex items-center justify-center text-white text-4xl font-bold pointer-events-none"
@@ -184,7 +184,7 @@
                     <div class="relative z-10 p-6 flex flex-col h-full">
 
                         <!-- Character/Incident Image -->
-                        <div class="flex justify-center mb-4">
+                        <div class="flex justify-center mb-2">
                             <div
                                 class="w-32 h-32 overflow-hidden bg-gray-100 border-2 border-black flex items-center justify-center text-6xl">
                                 <span v-if="!getCardImage()">{{ getCardIcon() }}</span>
