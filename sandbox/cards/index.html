@@ -5,6 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>if (choice): every choice has consequences</title>
+    <meta name="title" content="if (choice): every choice has consequences" />
+    <meta name="description"
+        content="You're an engineer trying to balance money, soul, social capital and happiness. Will you thrive or die?" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://layogtima.com/sandbox/cards/" />
+    <meta property="og:title" content="if (choice): every choice has consequences" />
+    <meta property="og:description"
+        content="You're an engineer trying to balance money, soul, social capital and happiness. Will you thrive or die?" />
+    <meta property="og:image" content="https://layogtima.com/sandbox/cards/images/meta.png" />
+
+    <!-- X (Twitter) -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://layogtima.com/sandbox/cards/" />
+    <meta property="twitter:title" content="if (choice): every choice has consequences" />
+    <meta property="twitter:description"
+        content="You're an engineer trying to balance money, soul, social capital and happiness. Will you thrive or die?" />
+    <meta property="twitter:image" content="https://layogtima.com/sandbox/cards/images/meta.png" />
+
 
     <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
@@ -184,14 +204,14 @@
                         <!-- Character/Incident Image -->
                         <div class="flex justify-center mb-4">
                             <div
-                                class="w-32 h-32 bg-gray-100 border-2 border-black flex items-center justify-center text-6xl">
+                                class="w-32 h-32 overflow-hidden bg-gray-100 border-2 border-black flex items-center justify-center text-6xl">
                                 <span v-if="!getCardImage()">{{ getCardIcon() }}</span>
                                 <img v-else :src="getCardImage()" alt="" class="w-full h-full object-cover pixelated">
                             </div>
                         </div>
 
                         <!-- Character Name / Incident Title -->
-                        <div class="text-center mb-4 text-sm font-bold text-black">
+                        <div class="text-center mb-1 text-sm font-bold text-black">
                             {{ getCardTitle() }}
                         </div>
 
@@ -204,8 +224,8 @@
 
                         <!-- Choice preview (bottom) -->
                         <div class="flex justify-between text-xs mt-4 opacity-50">
-                            <span class="text-red">← {{ currentCard.leftChoice }}</span>
-                            <span class="text-yellow text-right">{{ currentCard.rightChoice }} →</span>
+                            <span class="text-black">{{ currentCard.leftChoice }}</span>
+                            <span class="text-black text-right">{{ currentCard.rightChoice }}</span>
                         </div>
                     </div>
                 </div>

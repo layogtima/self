@@ -319,11 +319,11 @@ createApp({
 
       if (this.currentCard.character) {
         const char = this.currentCard.character;
-        return char.image ? `/images/characters/${char.image}` : "";
+        return char.image ? `images/characters/${char.image}` : "";
       }
 
       if (this.currentCard.incident) {
-        return `/images/incidents/${this.currentCard.incident}.png`;
+        return `images/incidents/${this.currentCard.incident}.png`;
       }
 
       return "";
