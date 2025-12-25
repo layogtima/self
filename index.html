@@ -58,7 +58,7 @@
       theme: {
         extend: {
           fontFamily: {
-            mono: ["Space Mono", "monospace"],
+            mono: ["Ubuntu Sans Mono", "monospace"],
           },
           animation: {
             "text-scroll": "text-scroll 40s ease-in-out infinite",
@@ -176,10 +176,10 @@
     }
   </script>
   <style>
-    @import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+    @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Sans+Mono:ital,wght@0,400..700;1,400..700&display=swap');
 
     * {
-      font-family: "Space Mono", monospace;
+      font-family: "Ubuntu Sans Mono", monospace;
     }
 
     .diagonal-stripes {
@@ -334,8 +334,7 @@
   </style>
 </head>
 
-<body
-  class="bg-white dark:bg-gray-900 text-black dark:text-white min-h-screen flex flex-col transition-colors duration-300">
+<body class="bg-white dark:bg-gray-900 text-black dark:text-white min-h-screen transition-colors duration-300">
   <!-- Accessibility: Skip to content link -->
   <a href="#main-content" class="skip-link">Skip to content</a>
 
@@ -346,10 +345,8 @@
       AMIT<span class="text-xs align-text-top"></span>
     </a>
     <div class="flex items-center gap-4 sm:gap-6">
-      <a href="#featured" class="text-sm hover:underline decoration-4 underline-offset-8 hidden sm:inline-block"
-        aria-label="What I cooked right now and I'd love for you to see">FEATURED</a>
       <a href="#explorations" class="text-sm hover:underline decoration-4 underline-offset-8"
-        aria-label="View explorations, studies, and sandbox">WORK</a>
+        aria-label="View explorations, studies, and sandbox">SANDBOX</a>
       <a href="#collectives" class="text-sm hover:underline decoration-4 underline-offset-8"
         aria-label="View Amit's collectives">COLLECTIVES</a>
       <a href="#skills" class="text-sm hover:underline decoration-4 underline-offset-8"
@@ -397,13 +394,12 @@
       </div>
     </div>
     <div class="z-10 px-8 max-w-4xl">
-      <h1 class="text-6xl md:text-8xl font-bold mb-6 leading-none flex items-baseline">
-        AMIT<span class="text-xs ml-2 leading-relaxed">INTERNET MADMAN</span>
+      <h1 class="text-5xl md:text-8xl font-bold mb-6 leading-none flex items-baseline">
+        AMIT<span class="text-xs md:text-lg ml-2 leading-relaxed">INTERNET MADMAN</span>
       </h1>
-      <p class="text-lg md:text-xl max-w-lg">
+      <p class="text-md md:text-xl max-w-lg">
         I've been on the internet since I was 9. <br /><br />My brain's a delightful
-        buffet of design, engineering, science, and absurdity. <br /><br />
-        I also spin a <em>mean</em> Dapostar!
+        buffet of design, engineering, science, and absurdity. <br />
       </p>
       <div class="mt-12 flex gap-4">
         <a href="#explorations"
@@ -640,7 +636,7 @@
   <section id="explorations" class="py-24 px-8 relative">
     <div class="max-w-6xl mx-auto">
       <h2 class="text-5xl font-bold mb-16">
-        WORK<span class="text-xs align-super"> EXPLORE - STUDY - PLAY</span>
+        SANDBOX<span class="text-xs align-super"> EXPLORE - STUDY - PLAY</span>
       </h2>
 
       <!-- Explorations Grid - Two per row on desktop -->
