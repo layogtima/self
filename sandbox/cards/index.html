@@ -67,7 +67,7 @@
 
 <body class="bg-cream min-h-screen overflow-hidden">
 
-    <div id="app" class="w-full h-screen flex items-center justify-center p-4">
+    <div id="app" class="w-full h-screen flex md:items-center justify-center p-4 pt-10 md:pt-0">
 
         <!-- ============================================
          START SCREEN
@@ -75,21 +75,21 @@
         <div v-if="gameState === 'start'" class="max-w-2xl w-full text-center fade-in">
 
             <!-- Game Title -->
-            <h1 class="text-5xl md:text-6xl font-bold text-black mb-4">
+            <h1 class="text-3xl md:text-6xl font-bold text-black mb-4">
                 if (choice):
             </h1>
 
             <!-- Tagline -->
-            <p class="text-xl md:text-2xl text-black mb-8">
+            <p class="text-lg md:text-2xl text-black mb-8">
                 Where every choice has consequences
             </p>
 
             <!-- Description -->
             <div class="bg-white border-4 border-black p-6 mb-8">
-                <p class="text-lg text-black mb-4">
+                <p class="text-md md:text-lg text-black mb-4">
                     You're an engineer trying to balance money, soul, social capital and happiness.
                 </p>
-                <p class="text-xl font-bold text-black">
+                <p class="text-sm md:text-xl font-bold text-black">
                     Will you thrive or die?
                 </p>
             </div>
@@ -106,7 +106,7 @@
                 </div>
                 <div class="flex items-center gap-2">
                     <i class="fa-solid fa-people-group text-2xl"></i>
-                    <span>Socials</span>
+                    <span>Social</span>
                 </div>
                 <div class="flex items-center gap-2">
                     <i class="fa-solid fa-face-smile text-2xl"></i>
