@@ -1,0 +1,267 @@
+/* ============================================
+   STYLES - if (choice): Game Styling
+   ============================================ */
+
+/* Import Silkscreen font from Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap");
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+* {
+    font-family: "Silkscreen", monospace;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    touch-action: none;
+    overscroll-behavior: none;
+    background-color: #fef3e2;
+}
+
+/* ============================================
+   CARD ANIMATIONS
+   ============================================ */
+
+.card {
+    transition: transform 0.1s ease-out;
+    will-change: transform;
+}
+
+.card.returning {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card.swiping-out {
+    transition:
+        transform 0.3s ease-out,
+        opacity 0.3s ease-out;
+}
+
+.card-behind {
+    transform: scale(0.95);
+    opacity: 0.5;
+}
+
+/* Card enter animation */
+@keyframes cardEnter {
+    from {
+        transform: translateY(100vh) scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+.card-enter {
+    animation: cardEnter 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* ============================================
+   CHOICE INDICATORS
+   ============================================ */
+
+.choice-indicator {
+    pointer-events: none;
+    transition: opacity 0.1s ease-out;
+    width: 100%;
+}
+
+/* ============================================
+   STAT BARS
+   ============================================ */
+
+.stat-fill {
+    transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+   HIGH SCORE CELEBRATION
+   ============================================ */
+
+@keyframes confetti {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+.celebration-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #fab12f;
+    animation: confetti 3s ease-out forwards;
+}
+
+.confetti-piece:nth-child(2n) {
+    background: #fa812f;
+}
+
+.confetti-piece:nth-child(3n) {
+    background: #dd0303;
+}
+
+/* ============================================
+   START SCREEN ANIMATIONS
+   ============================================ */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* ============================================
+   BUTTON STYLES
+   ============================================ */
+
+.btn-primary {
+    background-color: #000;
+    color: #fef3e2;
+    border: 3px solid #000;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #fef3e2;
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 0px #000;
+}
+
+.btn-primary:active {
+    transform: translateY(0px);
+    box-shadow: 2px 2px 0px #000;
+}
+
+.btn-secondary {
+    background-color: #fef3e2;
+    color: #000;
+    border: 3px solid #000;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #fab12f;
+    border-color: #000;
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 0px #000;
+}
+
+.btn-secondary:active {
+    transform: translateY(0px);
+    box-shadow: 2px 2px 0px #000;
+}
+
+/* ============================================
+   INPUT STYLES
+   ============================================ */
+
+.input-name {
+    background-color: #fff;
+    border: 3px solid #000;
+    color: #000;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.input-name:focus {
+    outline: none;
+    border-color: #fab12f;
+    box-shadow: 0 0 0 3px rgba(250, 177, 47, 0.3);
+}
+
+/* ============================================
+   GAME OVER SCREEN
+   ============================================ */
+
+.game-over-screen {
+    animation: fadeIn 0.8s ease-out;
+}
+
+.new-high-score {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* ============================================
+   RESPONSIVE TWEAKS
+   ============================================ */
+
+@media (max-width: 640px) {
+    .card {
+        width: 90vw !important;
+        max-width: 380px;
+    }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.select-none {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.pixelated {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+/* ============================================
+   LOADING STATES
+   ============================================ */
+
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+.loading-shimmer {
+    background: linear-gradient(90deg, #fef3e2 0%, #fab12f 50%, #fef3e2 100%);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+}

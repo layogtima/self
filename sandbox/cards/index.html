@@ -2,139 +2,279 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Are You The Senior Engineer?</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>if (choice): every choice has consequences</title>
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+    <link rel="shortcut icon" href="favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="if (choice)" />
+    <link rel="manifest" href="favicon/site.webmanifest" />
 
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind Config -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        mono: ["Space Mono", "monospace"],
+                    colors: {
+                        cream: '#FEF3E2',
+                        yellow: '#FAB12F',
+                        orange: '#FA812F',
+                        red: '#DD0303'
                     },
-                },
-            },
-        };
+                    fontFamily: {
+                        silkscreen: ['Silkscreen', 'monospace']
+                    }
+                }
+            }
+        }
     </script>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-        rel="stylesheet">
-
     <!-- Custom Styles -->
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/f3a8dc430a.js" crossorigin="anonymous"></script>
+
+    <!-- Vue 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
 
-<body class="bg-black text-white min-h-screen flex flex-col overflow-hidden select-none">
-    <div id="app" class="flex-1 flex flex-col">
+<body class="bg-cream min-h-screen overflow-hidden">
 
-        <!-- Stats Icons -->
-        <div class="px-8 py-6 flex justify-around items-start border-b border-white/20">
-            <!-- Money -->
-            <div class="flex flex-col items-center gap-2">
-                <i class="fas fa-indian-rupee-sign text-3xl" :class="getStatColor(stats.money)"></i>
-                <div class="h-16 w-2 bg-white/20 relative">
-                    <div class="stat-fill absolute bottom-0 left-0 w-full bg-white transition-all duration-300"
-                        :style="{ height: stats.money + '%' }"></div>
+    <div id="app" class="w-full h-screen flex items-center justify-center p-4">
+
+        <!-- ============================================
+         START SCREEN
+         ============================================ -->
+        <div v-if="gameState === 'start'" class="max-w-2xl w-full text-center fade-in">
+
+            <!-- Game Title -->
+            <h1 class="text-5xl md:text-6xl font-bold text-black mb-4">
+                if (choice):
+            </h1>
+
+            <!-- Tagline -->
+            <p class="text-xl md:text-2xl text-black mb-8">
+                Where every choice has consequences
+            </p>
+
+            <!-- Description -->
+            <div class="bg-white border-4 border-black p-6 mb-8">
+                <p class="text-lg text-black mb-4">
+                    You're an engineer trying to balance money, soul, social capital and happiness.
+                </p>
+                <p class="text-xl font-bold text-black">
+                    Will you thrive or die?
+                </p>
+            </div>
+
+            <!-- Stats Legend -->
+            <div class="flex justify-center gap-6 mb-8 text-black flex-wrap">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-indian-rupee-sign text-2xl"></i>
+                    <span>Money</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-heart text-2xl"></i>
+                    <span>Soul</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-people-group text-2xl"></i>
+                    <span>Socials</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-face-smile text-2xl"></i>
+                    <span>Happiness</span>
                 </div>
             </div>
 
-            <!-- Soul -->
-            <div class="flex flex-col items-center gap-2">
-                <i class="fas fa-heart text-3xl" :class="getStatColor(stats.soul)"></i>
-                <div class="h-16 w-2 bg-white/20 relative">
-                    <div class="stat-fill absolute bottom-0 left-0 w-full bg-white transition-all duration-300"
-                        :style="{ height: stats.soul + '%' }"></div>
+            <!-- Name Input -->
+            <div class="mb-8">
+                <div v-if="!isEditingName" class="flex items-center justify-center gap-4">
+                    <span class="text-xl text-black">Name: <strong>{{ playerName }}</strong></span>
+                    <button @click="toggleNameEdit" class="text-black hover:text-yellow transition-colors">
+                        <i class="fa-solid fa-pencil"></i>
+                    </button>
+                </div>
+                <div v-else class="flex items-center justify-center gap-4">
+                    <input v-model="playerName" type="text" class="input-name text-center" placeholder="Enter your name"
+                        maxlength="20" @keyup.enter="toggleNameEdit">
+                    <button @click="toggleNameEdit" class="btn-secondary px-4 py-2">
+                        Save
+                    </button>
                 </div>
             </div>
 
-            <!-- Social Capital -->
-            <div class="flex flex-col items-center gap-2">
-                <i class="fas fa-people-group text-3xl" :class="getStatColor(stats.social)"></i>
-                <div class="h-16 w-2 bg-white/20 relative">
-                    <div class="stat-fill absolute bottom-0 left-0 w-full bg-white transition-all duration-300"
-                        :style="{ height: stats.social + '%' }"></div>
-                </div>
-            </div>
+            <!-- Start Button -->
+            <button @click="startGame" class="btn-primary text-2xl px-12 py-4 mb-6">
+                ▶ START
+            </button>
 
-            <!-- Happiness -->
-            <div class="flex flex-col items-center gap-2">
-                <i class="fas fa-face-smile text-3xl" :class="getStatColor(stats.happiness)"></i>
-                <div class="h-16 w-2 bg-white/20 relative">
-                    <div class="stat-fill absolute bottom-0 left-0 w-full bg-white transition-all duration-300"
-                        :style="{ height: stats.happiness + '%' }"></div>
-                </div>
+            <!-- High Score -->
+            <div v-if="highScore > 0" class="text-black text-lg">
+                High Score: <strong>{{ highScore }}</strong> choices survived
             </div>
         </div>
 
-        <!-- Game Over Screen -->
-        <div v-if="gameOver" class="flex-1 flex items-center justify-center p-8">
-            <div class="text-center max-w-md">
-                <h2 class="text-4xl font-bold mb-6">GAME OVER</h2>
-                <p class="text-xl mb-4">{{ gameOverReason }}</p>
-                <p class="text-sm mb-8 text-gray-400">Survived {{ cardsPlayed }} decisions</p>
-                <button @click="restart"
-                    class="bg-white text-black px-8 py-3 text-sm font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors">
-                    Play Again
-                </button>
-            </div>
-        </div>
+        <!-- ============================================
+         PLAYING SCREEN
+         ============================================ -->
+        <div v-if="gameState === 'playing'" class="w-full h-full flex flex-col">
 
-        <!-- Card Area -->
-        <div v-else class="flex-1 relative flex items-center justify-center overflow-hidden" ref="cardContainer">
-            <!-- Next card (behind) -->
-            <div v-if="nextCard" class="card-behind absolute w-80 h-96 bg-neutral-800 border-4 border-white/10"></div>
+            <!-- Stats Bar -->
+            <div class="flex justify-center gap-4 md:gap-8 p-4 bg-cream">
+                <div v-for="(value, stat) in stats" :key="stat" class="flex flex-col items-center">
+                    <!-- Icon -->
+                    <i :class="['fa-solid', statIcons[stat], 'text-2xl mb-2']"
+                        :style="{ color: getStatColor(value) }"></i>
 
-            <!-- Current Card -->
-            <div v-if="currentCard" ref="card"
-                class="card absolute w-80 h-96 bg-neutral-900 border-4 border-white cursor-grab active:cursor-grabbing"
-                :style="cardStyle" @mousedown="startDrag" @touchstart="startDrag">
-                <!-- Card Content -->
-                <div class="h-full flex flex-col items-center justify-center p-8 text-center relative">
-                    <p class="text-lg font-bold leading-tight">
-                        {{ currentCard.question }}
-                    </p>
-
-                    <!-- Left Choice Indicator -->
-                    <div class="choice-indicator left-indicator absolute left-0 top-0 h-full flex items-center justify-center bg-red-900/90 text-white px-4"
-                        :style="{ opacity: leftChoiceOpacity }">
-                        <div class="transform -rotate-12">
-                            <div class="text-xs uppercase tracking-widest mb-2">NO</div>
-                            <div class="text-sm font-bold">{{ currentCard.leftChoice }}</div>
-                        </div>
+                    <!-- Bar container -->
+                    <div class="w-12 h-32 bg-gray-200 border-2 border-black relative overflow-hidden">
+                        <!-- Fill -->
+                        <div class="stat-fill absolute bottom-0 w-full" :style="{ 
+                height: getStatHeight(value),
+                backgroundColor: getStatColor(value)
+              }"></div>
                     </div>
 
-                    <!-- Right Choice Indicator -->
-                    <div class="choice-indicator right-indicator absolute right-0 top-0 h-full flex items-center justify-center bg-green-900/90 text-white px-4"
-                        :style="{ opacity: rightChoiceOpacity }">
-                        <div class="transform rotate-12">
-                            <div class="text-xs uppercase tracking-widest mb-2">YES</div>
-                            <div class="text-sm font-bold">{{ currentCard.rightChoice }}</div>
+                    <!-- Value -->
+                    <span class="text-sm mt-2 font-bold hidden" :style="{ color: getStatColor(value) }">
+                        {{ value }}
+                    </span>
+                </div>
+            </div>
+
+            <!-- Card Area -->
+            <div class="flex-1 flex items-center justify-center relative p-4">
+
+                <!-- Next card (behind) -->
+                <div v-if="nextCard"
+                    class="absolute card card-behind w-80 h-[500px] bg-white border-4 border-black shadow-lg">
+                </div>
+
+                <!-- Current card -->
+                <div v-if="currentCard" ref="card"
+                    class="card absolute w-80 h-[500px] bg-white border-4 border-black shadow-2xl cursor-grab select-none flex flex-col"
+                    :style="cardStyle" @mousedown="startDrag" @touchstart="startDrag">
+                    <!-- Choice indicators -->
+                    <div class="choice-indicator absolute inset-0 flex items-center justify-center text-white text-4xl font-bold pointer-events-none"
+                        :style="{ 
+              backgroundColor: colors.RED,
+              opacity: leftChoiceOpacity 
+            }">
+                        NO
+                    </div>
+                    <div class="choice-indicator absolute inset-0 flex items-center justify-center text-white text-4xl font-bold pointer-events-none"
+                        :style="{ 
+              backgroundColor: colors.YELLOW,
+              opacity: rightChoiceOpacity 
+            }">
+                        YES
+                    </div>
+
+                    <!-- Card content -->
+                    <div class="relative z-10 p-6 flex flex-col h-full">
+
+                        <!-- Character/Incident Image -->
+                        <div class="flex justify-center mb-4">
+                            <div
+                                class="w-32 h-32 bg-gray-100 border-2 border-black flex items-center justify-center text-6xl">
+                                <span v-if="!getCardImage()">{{ getCardIcon() }}</span>
+                                <img v-else :src="getCardImage()" alt="" class="w-full h-full object-cover pixelated">
+                            </div>
+                        </div>
+
+                        <!-- Character Name / Incident Title -->
+                        <div class="text-center mb-4 text-sm font-bold text-black">
+                            {{ getCardTitle() }}
+                        </div>
+
+                        <!-- Question -->
+                        <div class="flex-1 flex items-center justify-center px-2">
+                            <p class="text-center text-base leading-relaxed text-black">
+                                {{ currentCard.question }}
+                            </p>
+                        </div>
+
+                        <!-- Choice preview (bottom) -->
+                        <div class="flex justify-between text-xs mt-4 opacity-50">
+                            <span class="text-red">← {{ currentCard.leftChoice }}</span>
+                            <span class="text-yellow text-right">{{ currentCard.rightChoice }} →</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Instructions -->
-        <div class="px-4 py-4 text-center border-t border-white/20 text-xs uppercase tracking-widest text-gray-500">
-            Drag or swipe cards to decide
+        <!-- ============================================
+         GAME OVER SCREEN
+         ============================================ -->
+        <div v-if="gameState === 'gameover'" class="max-w-2xl w-full text-center game-over-screen">
+
+            <!-- Stats (final) -->
+            <div class="flex justify-center gap-4 mb-8">
+                <div v-for="(value, stat) in stats" :key="stat" class="flex flex-col items-center">
+                    <i :class="['fa-solid', statIcons[stat], 'text-2xl mb-2']"
+                        :style="{ color: getStatColor(value) }"></i>
+                    <div class="w-12 h-24 bg-gray-200 border-2 border-black relative overflow-hidden">
+                        <div class="stat-fill absolute bottom-0 w-full" :style="{ 
+                height: getStatHeight(value),
+                backgroundColor: getStatColor(value)
+              }"></div>
+                    </div>
+                    <span class="text-sm mt-2 font-bold" :style="{ color: getStatColor(value) }">
+                        {{ value }}
+                    </span>
+                </div>
+            </div>
+
+            <!-- Game Over Message -->
+            <div class="bg-white border-4 border-black p-8 mb-8">
+                <h2 class="text-4xl font-bold text-black mb-4">GAME OVER</h2>
+                <p class="text-xl text-black mb-6">{{ gameOverReason }}</p>
+
+                <!-- High Score -->
+                <div class="text-lg text-black mb-2">
+                    <span v-if="isNewHighScore" class="new-high-score text-black text-2xl font-bold">
+                        🎉 NEW HIGH SCORE! 🎉
+                    </span>
+                    <span v-else>
+                        Survived <strong>{{ choicesMade }}</strong> choices
+                    </span>
+                </div>
+                <div v-if="!isNewHighScore && highScore > 0" class="text-black opacity-75">
+                    High Score: {{ highScore }} choices
+                </div>
+            </div>
+
+            <!-- Play Again Button -->
+            <button @click="restartGame" class="btn-primary text-2xl px-12 py-4">
+                PLAY AGAIN
+            </button>
+        </div>
+
+        <!-- Confetti overlay for new high score -->
+        <div v-if="isNewHighScore && gameState === 'gameover'" class="celebration-overlay">
+            <div v-for="i in 50" :key="i" class="confetti-piece" :style="{ 
+          left: Math.random() * 100 + '%',
+          animationDelay: Math.random() * 0.5 + 's',
+          animationDuration: (2 + Math.random() * 2) + 's'
+        }"></div>
         </div>
     </div>
 
-    <!-- Vue 3 -->
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <!-- Main Script -->
-    <script src="data.js"></script>
-    <script src="script.js"></script>
+    <!-- Load game data first (from existing data.js) -->
+    <script src="js/data.js"></script>
+
+    <!-- Load modules -->
+    <script type="module" src="js/app.js"></script>
+
 </body>
 
 </html>
