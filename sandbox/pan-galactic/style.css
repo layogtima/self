@@ -3,13 +3,13 @@
     /* Color palette in shades of teal */
     --deep-space: #001a1a;
     --muted-teal: #004444;
-    --mid-teal: #00AAAA;
-    --bright-teal: #00FFFF;
-    --highlight-cyan: #80FFFF;
-    --warning-cyan: #00CCCC;
+    --mid-teal: #00aaaa;
+    --bright-teal: #00ffff;
+    --highlight-cyan: #80ffff;
+    --warning-cyan: #00cccc;
 
     /* Font */
-    --font-mono: 'Space Mono', monospace;
+    --font-mono: "Space Mono", monospace;
 }
 
 * {
@@ -18,7 +18,8 @@
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     height: 100%;
     background-color: black;
     color: var(--bright-teal);
@@ -34,7 +35,9 @@ html, body {
     background-color: var(--deep-space);
     padding: 20px;
     border: 2px solid var(--mid-teal);
-    box-shadow: 0 0 20px var(--mid-teal), inset 0 0 10px var(--mid-teal);
+    box-shadow:
+        0 0 20px var(--mid-teal),
+        inset 0 0 10px var(--mid-teal);
     animation: boot-sequence 1s ease-out;
 }
 
@@ -75,7 +78,7 @@ html, body {
 }
 
 .screen.active {
-    display: flex;
+    display: flex !important;
 }
 
 /* Start Screen */
@@ -254,33 +257,40 @@ html, body {
 }
 
 /* Market Tab */
-.market-container, .inventory-container {
+.market-container,
+.inventory-container {
     margin-top: 20px;
     overflow-x: auto;
 }
 
-.market-table, .inventory-table {
+.market-table,
+.inventory-table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.market-table th, .inventory-table th {
+.market-table th,
+.inventory-table th {
     background-color: var(--muted-teal);
     padding: 10px;
     text-align: left;
     border-bottom: 1px solid var(--mid-teal);
 }
 
-.market-table td, .inventory-table td {
+.market-table td,
+.inventory-table td {
     padding: 10px;
     border-bottom: 1px solid var(--muted-teal);
 }
 
-.market-table tr:hover, .inventory-table tr:hover {
+.market-table tr:hover,
+.inventory-table tr:hover {
     background-color: rgba(0, 68, 68, 0.5);
 }
 
-.buy-button, .sell-button, .use-button {
+.buy-button,
+.sell-button,
+.use-button {
     background-color: var(--muted-teal);
     color: var(--bright-teal);
     border: 1px solid var(--mid-teal);
@@ -290,7 +300,9 @@ html, body {
     transition: all 0.2s ease;
 }
 
-.buy-button:hover, .sell-button:hover, .use-button:hover {
+.buy-button:hover,
+.sell-button:hover,
+.use-button:hover {
     background-color: var(--mid-teal);
     color: var(--deep-space);
 }
@@ -595,24 +607,25 @@ html, body {
     .terminal-title {
         font-size: 1.5em;
     }
-    
+
     .tab-navigation {
         flex-wrap: wrap;
     }
-    
+
     .tab {
         flex-grow: 1;
         text-align: center;
     }
-    
-    .market-table, .inventory-table {
+
+    .market-table,
+    .inventory-table {
         font-size: 0.9em;
     }
-    
+
     .travel-options {
         grid-template-columns: 1fr;
     }
-    
+
     .terminal-output {
         height: 100px;
     }
