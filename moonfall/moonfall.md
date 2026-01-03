@@ -2,6 +2,22 @@
 ## by Amit and Amartha
 ### January, 2026
 
+<div class="chapter-menu">
+
+**CHAPTERS**
+
+1. [MOON](#chapter-1)
+2. [DEVIATION](#chapter-2)
+3. [ORBITAL](#chapter-3)
+4. [BELIEF](#chapter-4)
+5. [DEPTH](#chapter-5)
+6. [FALLING](#chapter-6)
+7. [DESCENT](#chapter-7)
+8. [DARK](#chapter-8)
+9. [UNRAVELING](#chapter-9)
+
+</div>
+
 ---
 
 <div style="page-break-after: always;"></div>
@@ -440,7 +456,7 @@ Small corrections. Left, right, left. Like the autopilot is confused.
 
 28,000. 26,700.
 
-The plane has three hundred and eighty-one people on it. I checked the manifest earlier. Two hundred and twelve passengers. Eight crew. One hundred and sixty-one bodies falling through the dark.
+The plane has three hundred and eighty-one people on it. I checked the manifest earlier. Three hundred and seventy-five passengers. Seven crew.
 
 <div class="chat-log">
 

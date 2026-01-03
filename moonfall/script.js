@@ -152,16 +152,19 @@ function getCurrentChapterTitle() {
     if (currentPage === 0) return "MOONFALL"; // Title page
 
     // Create a temp element to parse previous pages to find the last H1
-    // This is a bit expensive but correct. Optimization: Cache chapter map.
-    
-    // Let's create a map of page index -> chapter title
     // Iterate backwards from current page to 0
     for (let i = currentPage; i >= 0; i--) {
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = pages[i];
         const h1 = tempDiv.querySelector('h1');
         if (h1) {
-            return h1.textContent.replace('CHAPTER', 'CH.').replace(':', ' -');
+            // Extract just the chapter name after the colon
+            const text = h1.textContent;
+            const colonIndex = text.indexOf(':');
+            if (colonIndex !== -1) {
+                return text.substring(colonIndex + 1).trim();
+            }
+            return text;
         }
     }
     
@@ -333,6 +336,29 @@ function setupEventListeners() {
         if (e.state && e.state.page) {
             currentPage = e.state.page - 1;
             renderPage();
+        }
+    });
+    
+    // Handle chapter menu clicks
+    document.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A' && e.target.getAttribute('href')?.startsWith('#chapter-')) {
+            e.preventDefault();
+            const chapterNum = parseInt(e.target.getAttribute('href').replace('#chapter-', ''));
+            
+            // Find the page that contains this chapter
+            for (let i = 0; i < pages.length; i++) {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = pages[i];
+                const h1 = tempDiv.querySelector('h1');
+                if (h1) {
+                    const text = h1.textContent;
+                    // Check if this is the chapter we're looking for
+                    if (text.includes(`CHAPTER ${['ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE'][chapterNum - 1]}`)) {
+                        goToPage(i);
+                        break;
+                    }
+                }
+            }
         }
     });
 }
