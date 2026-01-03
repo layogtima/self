@@ -25,7 +25,7 @@
 # CHAPTER ONE: **MOON**
 
 <div class="chapter-meta">
-2:33 AM, 2nd April, 2026
+2:33 AM IST, 2nd April, 2026
 <br>
 Bengaluru, India
 </div>
@@ -57,7 +57,7 @@ It gets bigger.
 # CHAPTER TWO: DEVIATION
 
 <div class="chapter-meta">
-10:11 PM, 2nd April, 2026
+10:41 PM CEST, 1st April, 2026
 <br>
 Noordwijk, Netherlands
 </div>
@@ -123,7 +123,7 @@ A chunk of the moon is just... not there.
 # CHAPTER THREE: ORBITAL
 
 <div class="chapter-meta">
-11:47 PM UTC, 2nd April, 2026
+10:03 PM UTC, 1st April, 2026
 <br>
 International Space Station, Low Earth Orbit
 </div>
@@ -179,7 +179,7 @@ The crater is growing.
 # CHAPTER FOUR: BELIEF
 
 <div class="chapter-meta">
-12:03 AM, 2nd April, 2026
+11:33 PM IRST, 1st April, 2026
 <br>
 Qom, Iran
 </div>
@@ -231,7 +231,7 @@ The moon is smaller than it was five minutes ago.
 # CHAPTER FIVE: DEPTH
 
 <div class="chapter-meta">
-12:47 AM CST, 2nd April, 2026
+5:03 AM CST, 2nd April, 2026
 <br>
 PLAN Submarine 412, South China Sea
 68 meters below surface
@@ -298,7 +298,7 @@ Another lurch. Opposite direction.
 # CHAPTER SIX: FALLING
 
 <div class="chapter-meta">
-1:23 AM BRT, 2nd April, 2026
+5:03 PM BRT, 1st April, 2026
 <br>
 Javari Valley, Brazilian Amazon
 Near the Peruvian border
@@ -345,7 +345,7 @@ When I open my eyes, there's a pillar of fire reaching up to where the stars sho
 # CHAPTER SEVEN: DESCENT
 
 <div class="chapter-meta">
-2:47 AM EDT, 2nd April, 2026
+5:17 PM EDT, 1st April, 2026
 <br>
 Basement apartment, Queens, New York
 FlightRadar24 Discord Server
@@ -469,7 +469,7 @@ The plane has three hundred and eighty-one people on it. I checked the manifest 
 # CHAPTER EIGHT: DARK
 
 <div class="chapter-meta">
-3:15 AM EET, 2nd April, 2026
+12:03 AM EEST, 2nd April, 2026
 <br>
 Spitalul Universitar de Urgență, București, Romania
 </div>
@@ -507,7 +507,7 @@ The old man grabs her wrist. His grip is surprisingly strong.
 # CHAPTER NINE: UNRAVELING
 
 <div class="chapter-meta">
-4:33 AM CAT, 2nd April, 2026
+11:03 PM CAT, 1st April, 2026
 <br>
 Salonga National Park, DRC
 Research Station Alpha-7
