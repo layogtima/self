@@ -7,7 +7,7 @@
 let storyMarkdown = '';
 
 // Fetch the markdown file
-fetch('moonfall.md')
+fetch('moonfall.md?v2')
     .then(response => response.text())
     .then(data => {
         storyMarkdown = data;
