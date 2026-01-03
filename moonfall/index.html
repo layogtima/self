@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary Meta Tags -->
+    <title>Moonfall - A Story by Amit and Amartha</title>
+    <meta name="title" content="Moonfall - A Story by Amit and Amartha">
+    <meta name="description"
+        content="When the moon begins to fall, nine perspectives witness the unraveling of everything. A collaborative apocalyptic fiction by Amit and Amartha, January 2026.">
+    <meta name="author" content="Amit and Amartha">
+    <meta name="keywords"
+        content="moonfall, apocalyptic fiction, collaborative story, science fiction, lunar apocalypse, Amit, Amartha">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://layogtima.com/moonfall/">
+    <meta property="og:title" content="Moonfall - A Story by Amit and Amartha">
+    <meta property="og:description"
+        content="When the moon begins to fall, nine perspectives witness the unraveling of everything. A collaborative apocalyptic fiction by Amit and Amartha, January 2026.">
+    <meta property="og:image" content="https://layogtima.com/moonfall/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="Layogtima">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://layogtima.com/moonfall/">
+    <meta name="twitter:title" content="Moonfall - A Story by Amit and Amartha">
+    <meta name="twitter:description"
+        content="When the moon begins to fall, nine perspectives witness the unraveling of everything. A collaborative apocalyptic fiction by Amit and Amartha, January 2026.">
+    <meta name="twitter:image" content="https://layogtima.com/moonfall/og-image.jpg">
+    <meta name="twitter:creator" content="@layogtima">
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#fafaf9">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Moonfall">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://layogtima.com/moonfall/">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌙</text></svg>">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'reader': ['Crimson Pro', 'Charter', 'Georgia', 'Cambria', 'Times New Roman', 'serif'],
+                        'mono': ['Space Mono', 'monospace'],
+                    },
+                },
+            },
+        };
+    </script>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        "name": "Moonfall",
+        "author": [
+            {
+                "@type": "Person",
+                "name": "Amit"
+            },
+            {
+                "@type": "Person",
+                "name": "Amartha"
+            }
+        ],
+        "datePublished": "2026-01",
+        "description": "When the moon begins to fall, nine perspectives witness the unraveling of everything. A collaborative apocalyptic fiction.",
+        "genre": "Science Fiction",
+        "inLanguage": "en-IN"
+    }
+    </script>
+</head>
+
+<body class="bg-stone-50 noise min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="header-blur sticky top-0 z-50">
+        <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div id="headerTitle" class="font-mono text-xs tracking-widest uppercase header-text">MOONFALL</div>
+            <div class="font-mono text-xs text-stone-400" id="progress">1 / 1</div>
+        </div>
+    </header>
+
+    <!-- Reader Container -->
+    <main class="flex-1 py-8 md:py-16">
+        <div class="max-w-3xl mx-auto px-6 md:px-12">
+            <article id="content" class="reader-content page-fade min-h-[60vh]">
+                <!-- Content loads here via JavaScript -->
+                <div class="flex items-center justify-center min-h-[60vh]">
+                    <p class="text-stone-400 font-mono text-sm">Loading story...</p>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <!-- Navigation -->
+    <nav class="nav-blur sticky bottom-0">
+        <div class="max-w-3xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between gap-4">
+                <!-- Previous Button -->
+                <button id="prevBtn" class="btn-nav" aria-label="Previous page">
+                    ← PREV
+                </button>
+
+                <!-- Page Indicators -->
+                <div id="pageIndicators" class="flex gap-2 items-center" role="navigation" aria-label="Page navigation">
+                    <!-- Dynamically generated by JavaScript -->
+                </div>
+
+                <!-- Next Button -->
+                <button id="nextBtn" class="btn-nav" aria-label="Next page">
+                    NEXT →
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>
