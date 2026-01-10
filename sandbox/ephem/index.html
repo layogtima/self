@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ÆTHERWAVES Design System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'rubik': ['Rubik', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-glow': 'pulse-glow 2s infinite',
+                        'spin-slow': 'spin 2s linear infinite',
+                    },
+                    keyframes: {
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: '0.7', transform: 'scale(1)' },
+                            '50%': { opacity: '1', transform: 'scale(1.1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            background: #000;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Custom animations */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Custom range slider styling */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.4);
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* Custom select styling */
+        select {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            outline: none;
+            appearance: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper::after {
+            content: '▼';
+            font-size: 0.8em;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        /* Glowing effect */
+        .glow {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Grid overlay effect */
+        .grid-overlay {
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-black text-white">
+
+    <!-- Main Container -->
+    <div class="relative min-h-screen w-full overflow-hidden">
+
+        <!-- Background with grid overlay -->
+        <div class="absolute inset-0 grid-overlay opacity-30"></div>
+
+        <!-- THREE.js Canvas would go here -->
+        <div class="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black">
+            <!-- Your THREE.js canvas goes here -->
+        </div>
+
+        <!-- Title Bar - Top Center -->
+        <div class="absolute top-8 w-full z-10">
+            <h1 class="text-center text-5xl tracking-widest opacity-80 font-light">
+                ÆTHERWAVES
+            </h1>
+            <p class="text-center text-sm tracking-wider opacity-50 mt-2">
+                Design System Demo
+            </p>
+        </div>
+
+        <!-- Left Panel - Status & Data -->
+        <div class="absolute left-8 bottom-8 z-10 flex flex-col items-start space-y-6">
+
+            <!-- Large Display Value -->
+            <div class="text-6xl font-light tracking-widest">
+                A440
+            </div>
+
+            <!-- Status Indicators -->
+            <div class="flex items-center space-x-2 opacity-70">
+                <div class="w-2 h-2 rounded-full bg-white animate-pulse-glow"></div>
+                <div class="text-sm tracking-wider">
+                    FREQUENCY: <span class="font-mono">440.00</span> HZ
+                </div>
+            </div>
+
+            <div class="text-sm tracking-wider opacity-70">
+                VOLUME: <span class="font-mono">75</span>%
+            </div>
+
+            <!-- Data Visualization Box -->
+            <div class="w-64 h-24 bg-black/50 border border-white/30 rounded p-4">
+                <div class="flex items-end justify-around h-full">
+                    <div class="w-2 bg-white/70 animate-pulse-glow" style="height: 40%"></div>
+                    <div class="w-2 bg-white/70 animate-pulse-glow" style="height: 70%"></div>
+                    <div class="w-2 bg-white/70 animate-pulse-glow" style="height: 50%"></div>
+                    <div class="w-2 bg-white/70 animate-pulse-glow" style="height: 90%"></div>
+                    <div class="w-2 bg-white/70 animate-pulse-glow" style="height: 60%"></div>
+                    <div class="w-2 bg-white/70 animate-pulse-glow" style="height: 80%"></div>
+                    <div class="w-2 bg-white/70 animate-pulse-glow" style="height: 45%"></div>
+                    <div class="w-2 bg-white/70 animate-pulse-glow" style="height: 75%"></div>
+                </div>
+            </div>
+
+            <!-- Info Panel -->
+            <div class="bg-black/50 backdrop-blur-sm border border-white/20 rounded-lg p-4 max-w-xs">
+                <h3 class="text-xs tracking-widest opacity-70 mb-2">SYSTEM INFO</h3>
+                <pre class="text-xs font-mono opacity-80">
+Status: Active
+Mode: Dual Hand
+FPS: 60
+Latency: 12ms</pre>
+            </div>
+
+        </div>
+
+        <!-- Right Panel - Controls -->
+        <div class="absolute right-8 top-8 z-10 flex flex-col items-end space-y-6">
+
+            <!-- Primary Action Button -->
+            <button
+                class="w-48 py-3 text-center tracking-widest border border-white/30 hover:bg-white hover:text-black transition-all text-sm">
+                INITIATE SYSTEM
+            </button>
+
+            <!-- Dropdown Select -->
+            <div class="w-48">
+                <div class="text-xs tracking-wider opacity-70 mb-2">WAVEFORM</div>
+                <div class="select-wrapper">
+                    <select>
+                        <option>SINE WAVE</option>
+                        <option selected>TRIANGLE WAVE</option>
+                        <option>SAWTOOTH WAVE</option>
+                        <option>SQUARE WAVE</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Range Slider -->
+            <div class="w-48">
+                <div class="text-xs tracking-wider opacity-70 mb-2">REVERB</div>
+                <input type="range" min="0" max="100" value="70">
+                <div class="flex justify-between text-xs opacity-50 mt-1">
+                    <span>0%</span>
+                    <span>100%</span>
+                </div>
+            </div>
+
+            <!-- Another Slider -->
+            <div class="w-48">
+                <div class="text-xs tracking-wider opacity-70 mb-2">FILTER</div>
+                <input type="range" min="20" max="5000" value="3000">
+                <div class="flex justify-between text-xs opacity-50 mt-1">
+                    <span>20Hz</span>
+                    <span>5kHz</span>
+                </div>
+            </div>
+
+            <!-- Checkbox Group -->
+            <div class="w-48">
+                <div class="text-xs tracking-wider opacity-70 mb-2">VISUALIZATION</div>
+                <div class="flex flex-col space-y-2">
+                    <label class="flex items-center cursor-pointer hover:opacity-100 opacity-80 transition-opacity">
+                        <input type="checkbox" class="mr-2 accent-white" checked>
+                        <span class="text-sm">Show Landmarks</span>
+                    </label>
+                    <label class="flex items-center cursor-pointer hover:opacity-100 opacity-80 transition-opacity">
+                        <input type="checkbox" class="mr-2 accent-white">
+                        <span class="text-sm">Show Connectors</span>
+                    </label>
+                    <label class="flex items-center cursor-pointer hover:opacity-100 opacity-80 transition-opacity">
+                        <input type="checkbox" class="mr-2 accent-white" checked>
+                        <span class="text-sm">Show Audio Aura</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Toggle Buttons -->
+            <div class="w-48 flex gap-2">
+                <button class="flex-1 py-2 text-xs border border-white/30 hover:bg-white/20 transition-all">
+                    MODE A
+                </button>
+                <button class="flex-1 py-2 text-xs border border-white/30 bg-white/20">
+                    MODE B
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Bottom Center - Keyboard Shortcuts -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+            <div class="flex gap-4 text-xs opacity-70">
+                <div>
+                    <span class="inline-block bg-white/20 px-2 py-1 rounded mr-1 font-mono">T</span>
+                    Toggle Tracking
+                </div>
+                <div>
+                    <span class="inline-block bg-white/20 px-2 py-1 rounded mr-1 font-mono">D</span>
+                    Debug Panel
+                </div>
+                <div>
+                    <span class="inline-block bg-white/20 px-2 py-1 rounded mr-1 font-mono">ESC</span>
+                    Exit
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Zone Indicators -->
+        <div
+            class="absolute left-[5%] top-[10%] w-[40%] h-[80%] border-2 border-dashed border-cyan-500/30 pointer-events-none">
+        </div>
+        <div
+            class="absolute right-[5%] top-[10%] w-[40%] h-[80%] border-2 border-dashed border-magenta-500/30 pointer-events-none">
+        </div>
+
+        <!-- Floating Coordinate Labels (example) -->
+        <div class="absolute left-[30%] top-[40%] z-10 pointer-events-none animate-float">
+            <div class="px-3 py-2 bg-black/70 backdrop-blur-sm border-l-2 border-cyan-400 rounded text-xs">
+                LEFT HAND: (640, 360)
+            </div>
+        </div>
+
+        <!-- Glowing Aura Effect Example -->
+        <div class="absolute left-1/3 top-1/2 w-32 h-32 rounded-full animate-pulse-glow pointer-events-none"
+            style="background: radial-gradient(circle, hsla(180, 100%, 50%, 0.3) 0%, transparent 70%); filter: blur(20px);">
+        </div>
+
+        <!-- Top Right Corner FPS Counter -->
+        <div class="absolute top-4 right-4 z-10">
+            <div class="px-3 py-1 bg-black/50 rounded text-xs font-mono opacity-70">
+                FPS: 60
+            </div>
+        </div>
+
+        <!-- Card Component Example -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96">
+            <div class="bg-black/50 backdrop-blur-sm border border-white/30 rounded-lg p-6">
+                <h2 class="text-2xl tracking-widest mb-4">COMPONENT CARD</h2>
+                <p class="text-sm opacity-70 mb-4">
+                    This is an example of a floating card component using the ÆTHERWAVES design system.
+                    It features a semi-transparent background with backdrop blur, subtle borders, and
+                    the signature Rubik font with wide letter spacing.
+                </p>
+                <div class="flex gap-2">
+                    <button
+                        class="flex-1 py-2 border border-white/30 hover:bg-white hover:text-black transition-all text-sm">
+                        CANCEL
+                    </button>
+                    <button class="flex-1 py-2 bg-white text-black hover:bg-white/90 transition-all text-sm">
+                        CONFIRM
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Design System Documentation Panel (Toggleable) -->
+    <div class="fixed inset-y-0 right-0 w-96 bg-black/90 backdrop-blur-md border-l border-white/20 overflow-y-auto transform translate-x-full transition-transform duration-300"
+        id="docsPanel">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl tracking-widest">DESIGN TOKENS</h2>
+                <button onclick="toggleDocs()" class="text-2xl hover:opacity-70">&times;</button>
+            </div>
+
+            <div class="space-y-6">
+
+                <section>
+                    <h3 class="text-sm tracking-wider opacity-70 mb-2">TYPOGRAPHY</h3>
+                    <div class="space-y-2 text-xs font-mono">
+                        <div>Font: Rubik (300, 400, 700)</div>
+                        <div>Tracking: tracking-widest (0.1em)</div>
+                        <div>Sizes: text-xs to text-6xl</div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3 class="text-sm tracking-wider opacity-70 mb-2">COLORS</h3>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div
+                            class="h-12 bg-black border border-white/30 rounded flex items-center justify-center text-xs">
+                            Black
+                        </div>
+                        <div
+                            class="h-12 bg-white text-black border border-white/30 rounded flex items-center justify-center text-xs">
+                            White
+                        </div>
+                        <div class="h-12 bg-cyan-500 rounded flex items-center justify-center text-xs">
+                            Cyan
+                        </div>
+                        <div class="h-12 bg-magenta-500 rounded flex items-center justify-center text-xs">
+                            Magenta
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3 class="text-sm tracking-wider opacity-70 mb-2">OPACITY LEVELS</h3>
+                    <div class="space-y-1">
+                        <div class="h-8 bg-white opacity-100 rounded flex items-center px-2 text-xs text-black">100%
+                        </div>
+                        <div class="h-8 bg-white opacity-80 rounded flex items-center px-2 text-xs text-black">80%</div>
+                        <div class="h-8 bg-white opacity-70 rounded flex items-center px-2 text-xs text-black">70%</div>
+                        <div class="h-8 bg-white opacity-50 rounded flex items-center px-2 text-xs text-black">50%</div>
+                        <div class="h-8 bg-white opacity-30 rounded flex items-center px-2 text-xs text-black">30%</div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3 class="text-sm tracking-wider opacity-70 mb-2">SPACING</h3>
+                    <div class="space-y-2 text-xs font-mono">
+                        <div>Panels: 8 units (2rem)</div>
+                        <div>Elements: 6 units (1.5rem)</div>
+                        <div>Components: 4 units (1rem)</div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3 class="text-sm tracking-wider opacity-70 mb-2">BORDERS</h3>
+                    <div class="space-y-2">
+                        <div class="border border-white/30 rounded p-2 text-xs">Solid 30%</div>
+                        <div class="border-2 border-dashed border-white/30 rounded p-2 text-xs">Dashed 30%</div>
+                        <div class="border border-white/20 rounded p-2 text-xs">Solid 20%</div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3 class="text-sm tracking-wider opacity-70 mb-2">EFFECTS</h3>
+                    <div class="space-y-2 text-xs">
+                        <div class="p-2 bg-black/50 rounded">bg-black/50</div>
+                        <div class="p-2 bg-black/50 backdrop-blur-sm rounded">backdrop-blur-sm</div>
+                        <div class="p-2 bg-white/10 rounded glow">box-shadow glow</div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Toggle Docs Button -->
+    <button onclick="toggleDocs()"
+        class="fixed top-1/2 right-0 -translate-y-1/2 bg-white/20 hover:bg-white/30 p-2 rounded-l text-xs tracking-wider transition-all z-50">
+        <span class="inline-block transform -rotate-90 whitespace-nowrap">DESIGN TOKENS</span>
+    </button>
+
+    <script>
+        function toggleDocs() {
+            const panel = document.getElementById('docsPanel');
+            panel.classList.toggle('translate-x-full');
+        }
+    </script>
+
+</body>
+
+</html>

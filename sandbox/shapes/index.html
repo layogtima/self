@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THREE.js Template - Glass UI (Vue.js)</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Google Fonts - Rubik -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Vue 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'rubik': ['Rubik', 'sans-serif'],
+                    },
+                    letterSpacing: {
+                        'widest': '0.2em',
+                    },
+                    backdropBlur: {
+                        'sm': '4px',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Rubik', sans-serif;
+        }
+
+        canvas {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        /* Custom Range Slider */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-track {
+            background: rgba(255, 255, 255, 0.1);
+            height: 4px;
+            border-radius: 2px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            margin-top: -6px;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+
+        input[type="range"]::-moz-range-track {
+            background: rgba(255, 255, 255, 0.1);
+            height: 4px;
+            border-radius: 2px;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Custom Select */
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.7rem center;
+            background-size: 1.2rem;
+            padding-right: 2.5rem;
+        }
+
+        /* Glow Effect */
+        .glow-aura {
+            background: radial-gradient(circle, rgba(30, 168, 252, 0.3) 0%, transparent 70%);
+            filter: blur(20px);
+        }
+
+        /* Glass Panel */
+        .glass-panel {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        /* Animated Bar */
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .animated-bar {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Accordion transitions */
+        .accordion-content {
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+        }
+
+        .accordion-enter {
+            max-height: 0;
+            opacity: 0;
+        }
+
+        .accordion-expanded {
+            max-height: 2000px;
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body class="bg-black text-white font-rubik tracking-widest">
+
+    <div id="app">
+        <!-- THREE.js Canvas -->
+        <canvas></canvas>
+
+        <!-- Floating UI Toggle Button -->
+        <button @click="toggleUI"
+            class="fixed top-4 right-4 z-[200] glass-panel border border-white/30 rounded-full w-12 h-12 flex items-center justify-center hover:bg-white/10 transition-all duration-300"
+            :title="state.uiVisible ? 'Hide UI (H)' : 'Show UI (H)'">
+            <i :class="state.uiVisible ? 'fas fa-eye-slash' : 'fas fa-eye'" class="text-white/80"></i>
+        </button>
+
+        <!-- Top-Left Status Panel -->
+        <div v-show="state.uiVisible" class="fixed top-8 left-8 z-10 max-w-[280px]">
+            <div class="glass-panel border border-white/30 rounded-lg p-4">
+                <div class="flex items-center gap-3 mb-4">
+                    <i class="fas fa-cube text-white/80"></i>
+                    <h2 class="text-sm font-medium text-white/80">SCENE STATUS</h2>
+                </div>
+
+                <!-- Data Visualization -->
+                <div class="space-y-3">
+                    <div>
+                        <div class="flex justify-between text-xs text-white/50 mb-1">
+                            <span>FPS</span>
+                            <span>{{ state.fps }}</span>
+                        </div>
+                        <div class="h-1 bg-white/10 rounded-full overflow-hidden">
+                            <div class="h-full bg-white/70 animated-bar" :style="`width: ${(state.fps / 60) * 100}%`">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs text-white/50 mb-1">
+                            <span>ROTATION</span>
+                            <span>{{ rotationSpeed.toFixed(1) }}</span>
+                        </div>
+                        <div class="h-1 bg-white/10 rounded-full overflow-hidden">
+                            <div class="h-full bg-white/70 animated-bar"
+                                :style="`width: ${(rotationSpeed / 0.5) * 100}%`"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs text-white/50 mb-1">
+                            <span>CAMERA</span>
+                            <span class="text-cyan-400 text-[10px]">{{ state.cameraPos.x.toFixed(2) }}, {{
+                                state.cameraPos.y.toFixed(2) }}, {{
+                                state.cameraPos.z.toFixed(2) }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top-Right Controls Panel (Accordion) -->
+        <div v-show="state.uiVisible"
+            class="fixed top-8 right-8 z-10 w-[340px] max-h-[calc(100vh-100px)] overflow-y-auto">
+            <div class="glass-panel border border-white/30 rounded-lg p-4">
+                <div class="flex items-center gap-3 mb-4">
+                    <i class="fas fa-sliders text-white/80"></i>
+                    <h2 class="text-sm font-medium text-white/80">CONTROLS</h2>
+                </div>
+
+                <!-- Shape Section -->
+                <div class="border-b border-white/10 pb-3 mb-3">
+                    <button @click="toggleSection('shape')"
+                        class="w-full flex items-center justify-between text-xs text-white/70 hover:text-white/90 transition-colors">
+                        <span class="flex items-center gap-2">
+                            <i class="fas fa-shapes text-white/50"></i>
+                            SHAPE
+                        </span>
+                        <i :class="state.accordion.shape ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"
+                            class="text-white/40 text-[10px]"></i>
+                    </button>
+                    <div :class="state.accordion.shape ? 'accordion-expanded' : 'accordion-enter'"
+                        class="accordion-content">
+                        <div class="mt-3">
+                            <select v-model="state.shape"
+                                class="w-full bg-white/5 border border-white/30 rounded px-3 py-2 text-sm text-white/80 focus:outline-none focus:border-white/50">
+                                <option v-for="shape in shapes" :key="shape.value" :value="shape.value">
+                                    {{ shape.label }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lighting Section -->
+                <div class="border-b border-white/10 pb-3 mb-3">
+                    <button @click="toggleSection('lighting')"
+                        class="w-full flex items-center justify-between text-xs text-white/70 hover:text-white/90 transition-colors">
+                        <span class="flex items-center gap-2">
+                            <i class="fas fa-lightbulb text-white/50"></i>
+                            LIGHTING
+                        </span>
+                        <i :class="state.accordion.lighting ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"
+                            class="text-white/40 text-[10px]"></i>
+                    </button>
+                    <div :class="state.accordion.lighting ? 'accordion-expanded' : 'accordion-enter'"
+                        class="accordion-content">
+                        <div class="mt-3 space-y-3">
+                            <div>
+                                <label class="block text-xs text-white/50 mb-2">AMBIENT</label>
+                                <input type="range" min="0" max="2" step="0.01" v-model.number="state.ambientIntensity"
+                                    class="w-full">
+                                <div class="text-xs text-white/30 mt-1 text-right">{{ state.ambientIntensity.toFixed(2)
+                                    }}</div>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-white/50 mb-2">DIRECTIONAL</label>
+                                <input type="range" min="0" max="5" step="0.01" v-model.number="state.lightIntensity"
+                                    class="w-full">
+                                <div class="text-xs text-white/30 mt-1 text-right">{{ state.lightIntensity.toFixed(2) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Material Section -->
+                <div class="border-b border-white/10 pb-3 mb-3">
+                    <button @click="toggleSection('material')"
+                        class="w-full flex items-center justify-between text-xs text-white/70 hover:text-white/90 transition-colors">
+                        <span class="flex items-center gap-2">
+                            <i class="fas fa-palette text-white/50"></i>
+                            MATERIAL
+                        </span>
+                        <i :class="state.accordion.material ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"
+                            class="text-white/40 text-[10px]"></i>
+                    </button>
+                    <div :class="state.accordion.material ? 'accordion-expanded' : 'accordion-enter'"
+                        class="accordion-content">
+                        <div class="mt-3">
+                            <select v-model="state.material"
+                                class="w-full bg-white/5 border border-white/30 rounded px-3 py-2 text-sm text-white/80 focus:outline-none focus:border-white/50">
+                                <option v-for="material in materials" :key="material.value" :value="material.value">
+                                    {{ material.label }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Options Section -->
+                <div class="border-b border-white/10 pb-3 mb-3">
+                    <button @click="toggleSection('options')"
+                        class="w-full flex items-center justify-between text-xs text-white/70 hover:text-white/90 transition-colors">
+                        <span class="flex items-center gap-2">
+                            <i class="fas fa-toggle-on text-white/50"></i>
+                            OPTIONS
+                        </span>
+                        <i :class="state.accordion.options ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"
+                            class="text-white/40 text-[10px]"></i>
+                    </button>
+                    <div :class="state.accordion.options ? 'accordion-expanded' : 'accordion-enter'"
+                        class="accordion-content">
+                        <div class="mt-3 space-y-2">
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" v-model="state.wireframe"
+                                    class="w-4 h-4 bg-transparent border border-white/30 rounded checked:bg-white accent-white">
+                                <span
+                                    class="text-xs text-white/50 group-hover:text-white/70 transition-colors">WIREFRAME</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" v-model="state.lightsVisible"
+                                    class="w-4 h-4 bg-transparent border border-white/30 rounded checked:bg-white accent-white">
+                                <span
+                                    class="text-xs text-white/50 group-hover:text-white/70 transition-colors">LIGHTING</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" v-model="state.autoRotate"
+                                    class="w-4 h-4 bg-transparent border border-white/30 rounded checked:bg-white accent-white">
+                                <span
+                                    class="text-xs text-white/50 group-hover:text-white/70 transition-colors">AUTO-ROTATE</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Post-Processing Section -->
+                <div class="pb-3">
+                    <button @click="toggleSection('postProcessing')"
+                        class="w-full flex items-center justify-between text-xs text-white/70 hover:text-white/90 transition-colors">
+                        <span class="flex items-center gap-2">
+                            <i class="fas fa-wand-magic-sparkles text-white/50"></i>
+                            POST-FX
+                        </span>
+                        <i :class="state.accordion.postProcessing ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"
+                            class="text-white/40 text-[10px]"></i>
+                    </button>
+                    <div :class="state.accordion.postProcessing ? 'accordion-expanded' : 'accordion-enter'"
+                        class="accordion-content">
+                        <div class="mt-3 space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" v-model="state.bloomEnabled"
+                                    class="w-4 h-4 bg-transparent border border-white/30 rounded checked:bg-white accent-white">
+                                <span
+                                    class="text-xs text-white/50 group-hover:text-white/70 transition-colors">BLOOM</span>
+                            </label>
+                            <div v-show="state.bloomEnabled" class="space-y-3 pl-7 border-l border-white/20">
+                                <div>
+                                    <label class="block text-xs text-white/50 mb-2">STRENGTH</label>
+                                    <input type="range" min="0" max="3" step="0.01" v-model.number="state.bloomStrength"
+                                        class="w-full">
+                                    <div class="text-xs text-white/30 mt-1 text-right">{{ state.bloomStrength.toFixed(2)
+                                        }}</div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-white/50 mb-2">RADIUS</label>
+                                    <input type="range" min="0" max="1" step="0.01" v-model.number="state.bloomRadius"
+                                        class="w-full">
+                                    <div class="text-xs text-white/30 mt-1 text-right">{{ state.bloomRadius.toFixed(2)
+                                        }}</div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-white/50 mb-2">THRESHOLD</label>
+                                    <input type="range" min="0" max="1" step="0.01"
+                                        v-model.number="state.bloomThreshold" class="w-full">
+                                    <div class="text-xs text-white/30 mt-1 text-right">{{
+                                        state.bloomThreshold.toFixed(2) }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reset Button -->
+                <button @click="resetCamera"
+                    class="w-full mt-4 border border-white/30 rounded py-2 text-xs text-white/80 hover:bg-white hover:text-black transition-all duration-300">
+                    <i class="fas fa-rotate-right mr-2"></i>RESET CAMERA
+                </button>
+            </div>
+        </div>
+
+        <!-- Bottom-Center Shortcuts Panel -->
+        <div v-show="state.uiVisible" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-10">
+            <div class="glass-panel border border-white/30 rounded-lg px-6 py-3">
+                <div class="flex items-center gap-6 text-xs">
+                    <div class="flex items-center gap-2">
+                        <kbd class="px-2 py-1 bg-white/10 border border-white/20 rounded text-white/50">LMB</kbd>
+                        <span class="text-white/30">ROTATE</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <kbd class="px-2 py-1 bg-white/10 border border-white/20 rounded text-white/50">RMB</kbd>
+                        <span class="text-white/30">PAN</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <kbd class="px-2 py-1 bg-white/10 border border-white/20 rounded text-white/50">WHEEL</kbd>
+                        <span class="text-white/30">ZOOM</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <kbd class="px-2 py-1 bg-white/10 border border-white/20 rounded text-white/50">H</kbd>
+                        <span class="text-white/30">HIDE UI</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coordinate Labels -->
+        <div v-show="state.uiVisible" class="fixed bottom-8 right-8 z-100">
+            <div class="space-y-2">
+                <div class="glass-panel border border-cyan-400/50 rounded px-3 py-1">
+                    <span class="text-xs text-cyan-400">X: {{ state.cameraPos.x.toFixed(2) }}</span>
+                </div>
+                <div class="glass-panel border border-green-400/50 rounded px-3 py-1">
+                    <span class="text-xs text-green-400">Y: {{ state.cameraPos.y.toFixed(2) }}</span>
+                </div>
+                <div class="glass-panel border border-red-400/50 rounded px-3 py-1">
+                    <span class="text-xs text-red-400">Z: {{ state.cameraPos.z.toFixed(2) }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Glow Aura -->
+        <div class="fixed top-8 left-8 w-64 h-32 glow-aura z-[5] pointer-events-none"></div>
+    </div>
+
+    <!-- Import Maps for THREE.js -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <!-- Main Script -->
+    <script type="module" src="./main.js"></script>
+</body>
+
+</html>
