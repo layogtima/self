@@ -256,3 +256,48 @@ input[type="range"]::-moz-range-thumb {
 .dark .tool-menu-card:hover {
   box-shadow: 0 8px 24px rgba(0,0,0,0.2);
 }
+
+/* ── Welcome Page ── */
+.welcome-page { overflow-x: hidden; }
+
+/* Hero jar breathing animation */
+.hero-jar {
+  animation: jar-breathe 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 30px rgba(217, 168, 100, 0.3));
+}
+@keyframes jar-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+/* Scroll-reveal system */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal-on-scroll.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children by their existing transition-delay */
+.reveal-on-scroll[style*="transition-delay"] {
+  transition-delay: inherit;
+}
+
+/* Feature card left-border glow on hover */
+.feature-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+}
+.dark .feature-card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+/* Override mobile body padding when on welcome page */
+.welcome-page ~ * { padding-bottom: 0 !important; }

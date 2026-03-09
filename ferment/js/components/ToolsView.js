@@ -490,7 +490,7 @@ const SettingsModalComponent = {
     }
   },
 
-  emits: ['close', 'update:settings', 'export-data', 'import-data', 'clear-data'],
+  emits: ['close', 'update:settings', 'export-data', 'import-data', 'clear-data', 'show-welcome'],
 
   data() {
     return {
@@ -683,6 +683,22 @@ const SettingsModalComponent = {
                 :class="['flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all', localSettings.defaultView === 'list' ? 'bg-bg-card dark:bg-dark-card shadow-warm text-accent-brine' : 'text-text-secondary']"
               >List</button>
             </div>
+          </div>
+
+          <!-- Divider -->
+          <hr class="border-bg-secondary dark:border-dark-secondary" />
+
+          <!-- Welcome Page -->
+          <div>
+            <button @click="$emit('show-welcome'); $emit('close');"
+              class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-bg-secondary/50 dark:bg-dark-secondary/50 hover:bg-bg-secondary dark:hover:bg-dark-secondary transition-all text-left"
+            >
+              <span class="text-xl">🫙</span>
+              <div>
+                <span class="text-sm font-medium text-text-primary dark:text-dark-text">Show Welcome Page</span>
+                <p class="text-xs text-text-muted">Revisit the introduction to fermentation</p>
+              </div>
+            </button>
           </div>
 
           <!-- Divider -->

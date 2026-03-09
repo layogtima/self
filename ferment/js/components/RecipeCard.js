@@ -133,7 +133,7 @@ const RecipeCardComponent = {
         </div>
 
         <!-- Tier Badge -->
-        <div class="absolute top-3 left-3">
+        <div class="hidden absolute top-3 left-3">
           <span :class="['inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold text-white ', 'bg-tier-' + tier.name]">
             {{ tier.emoji }} {{ tier.label }}
           </span>

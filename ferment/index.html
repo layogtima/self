@@ -100,6 +100,12 @@
       </div>
     </div>
 
+    <!-- Welcome Page (full-screen, replaces entire app shell) -->
+    <template v-else-if="currentRoute === 'welcome'">
+      <welcome-page @enter="enterApp"
+        @open-recipe="(id) => { enterApp(); $nextTick(() => { const r = allRecipes.find(r => r.id === id); if (r) openRecipe(r); }); }" />
+    </template>
+
     <!-- App Shell -->
     <div v-else class="min-h-screen flex flex-col">
       <!-- Unified Top Bar: Logo + Tabs + Actions -->
@@ -263,11 +269,12 @@
     <!-- Settings Modal -->
     <settings-modal v-if="showSettings" :settings="settings" :user-level="userLevel" @close="showSettings = false"
       @update:settings="updateSettings($event)" @export-data="exportData" @import-data="importData($event)"
-      @clear-data="clearData">
+      @clear-data="clearData" @show-welcome="showWelcome">
     </settings-modal>
 
-    <!-- Onboarding -->
-    <onboarding-modal v-if="!settings.onboardingComplete" :settings="settings" @complete="completeOnboarding($event)">
+    <!-- Onboarding (deferred until user leaves welcome page) -->
+    <onboarding-modal v-if="!settings.onboardingComplete && currentRoute !== 'welcome'" :settings="settings"
+      @complete="completeOnboarding($event)">
     </onboarding-modal>
   </div>
 
@@ -293,6 +300,7 @@
   <script src="js/components/TimerManager.js"></script>
   <script src="js/components/BrowseView.js"></script>
   <script src="js/components/ToolsView.js"></script>
+  <script src="js/components/WelcomePage.js"></script>
   <script src="js/app.js"></script>
 
   <!-- Service Worker Registration -->

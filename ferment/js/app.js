@@ -12,7 +12,7 @@ const app = createApp({
 
     const ready = ref(false);
     const currentTab = ref('browse');
-    const currentRoute = ref('home');
+    const currentRoute = ref(stored.settings.hasSeenWelcome ? 'home' : 'welcome');
     const viewMode = ref(stored.settings.defaultView || 'cards');
     const selectedRecipe = ref(null);
     const showSettings = ref(false);
@@ -132,6 +132,17 @@ const app = createApp({
     });
 
     // ── Actions ──
+    function enterApp() {
+      settings.hasSeenWelcome = true;
+      currentRoute.value = 'home';
+      persist();
+    }
+
+    function showWelcome() {
+      currentRoute.value = 'welcome';
+      window.scrollTo({ top: 0 });
+    }
+
     function updateFilters(newFilters) {
       Object.assign(filters, newFilters);
     }
@@ -411,6 +422,8 @@ const app = createApp({
       exportData,
       importData,
       clearData,
+      enterApp,
+      showWelcome,
     };
   }
 });
@@ -429,6 +442,7 @@ app.component('timer-manager', TimerManagerComponent);
 app.component('tools-view', ToolsViewComponent);
 app.component('settings-modal', SettingsModalComponent);
 app.component('onboarding-modal', OnboardingModalComponent);
+app.component('welcome-page', WelcomePageComponent);
 
 // Mount the app
 app.mount('#app');

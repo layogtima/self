@@ -774,6 +774,819 @@ window.__fermentRecipes.push(
     veganAdaptable: true,
     containsAllergens: [],
     sources: [{ title: 'Chutney — Wikipedia', url: 'https://en.wikipedia.org/wiki/Chutney', license: 'CC BY-SA' }]
+  },
+
+  {
+    id: 'tepache-pineapple',
+    slug: 'tepache-pineapple',
+    name: 'Tepache',
+    nameLocal: 'Tepache de Piña',
+    nameRomanized: null,
+    subtitle: 'Mexico’s pre-Columbian pineapple fizzer',
+    category: 'beverage',
+    subcategory: 'fruit-soda',
+    technique: 'wild-ferment',
+    region: 'Latin America',
+    country: 'Mexico',
+    countryCode: 'MX',
+    culturalGroup: 'Nahua / Mexican',
+    difficulty: 1,
+    tier: 'beginner',
+    tierLabel: 'Literally Just Add Salt (or Sugar)',
+    prepTime: '10 min',
+    fermentTimeMin: 1,
+    fermentTimeMax: 3,
+    fermentTimeUnit: 'days',
+    totalTimeHuman: '24–72 hours',
+    blrNote: 'Pineapples are ₹60–80 year-round at any local pushcart. Use Mandya jaggery (Bella) instead of Mexican piloncillo—it’s functionally identical and adds a gorgeous mineral depth.',
+    seasonality: ['all'],
+    ingredients: [
+      { name: 'Pineapple skin & core', nameLocal: 'Ananas sippe', amount: 1, unit: 'large pineapple', unitMetric: '1 unit', category: 'produce', essential: true, substitutions: ['Organic is better to ensure wild yeast'], localAvailability: { IN: { ease: 'easy', where: 'Any fruit stall — keep the scraps after eating the fruit' } } },
+      { name: 'Jaggery', nameLocal: 'Bella / Gur', amount: 1, unit: 'cup', unitMetric: '200g', category: 'sweetener', essential: true, substitutions: ['Brown sugar', 'Piloncillo'], localAvailability: { IN: { ease: 'easy', where: 'Any kirana store' } } },
+      { name: 'Cinnamon stick', nameLocal: 'Dalchini', amount: 1, unit: 'stick', unitMetric: '3g', category: 'spice', essential: false },
+      { name: 'Water', nameLocal: 'Neeru', amount: 2, unit: 'litres', unitMetric: '2L', category: 'liquid', essential: true }
+    ],
+    equipment: [
+      { name: 'Large glass jar or pitcher (3L)', essential: true, notes: 'Do not use metal' },
+      { name: 'Cheesecloth or loose lid', essential: true, notes: 'Must breathe' }
+    ],
+    tldr: 'Pineapple scraps + jaggery + water. Wait 2 days. Drink the sun.',
+    steps: [
+      { step: 1, title: 'Prep the scraps', instruction: 'Wash the pineapple exterior lightly (don’t scrub off the yeast). Remove the skin in large strips and keep the core. Eat the flesh.', duration: '5 min' },
+      { step: 2, title: 'Dissolve & Mix', instruction: 'Dissolve jaggery in 2L water. Add the skins, core, and cinnamon stick to the jar.', duration: '5 min' },
+      { step: 3, title: 'Ferment', instruction: 'Cover with cloth. At BLR’s 25°C, it will bubble aggressively in 24h. Skim the white foam daily.', duration: '1–3 days', checkpoint: 'Smells like fermented honey and pineapple' },
+      { step: 4, title: 'Bottle & Chill', instruction: 'Strain and bottle. Refrigerate immediately. If left out, it becomes pineapple vinegar (also useful!).', duration: '5 min' }
+    ],
+    images: { hero: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgpGYxqxr_39D0OcToh4Wk0vECb2TarHpc4g&s', heroAttribution: 'Photo by ProtoplasmaKid' },
+    video: { url: 'https://www.youtube.com/watch?v=R9reE6iO-p0', title: 'Tepache from Scraps', channel: 'Bon Appétit — It\'s Alive' },
+    culturalContext: {
+      story: 'Tepache dates back to Pre-Columbian Mexico. Originally made with corn (tepatli), it evolved into the pineapple version we know today. In Mexico City, "Tepacherías" serve it cold in plastic bags with a straw.',
+      significance: 'It is the ultimate zero-waste ferment. You pay for the fruit, but the "drink" is made from what usually goes in the bin.',
+      funFact: 'In some parts of Mexico, a pinch of salt and chilli powder is added to the glass before serving.'
+    },
+    thingsToAccountFor: [
+      { title: 'The Explosive Factor', description: 'At 28°C+ in Bengaluru, carbonation builds FAST. If you bottle this, "burp" the bottles twice a day or they will explode.', severity: 'critical' }
+    ],
+    dehydratorIntegration: {
+      applicable: true,
+      method: 'Dehydrate the strained pineapple skins.',
+      result: 'Fermented pineapple "leather" bits—great for infusing into spirits.'
+    },
+    variations: [
+      { name: 'Tepache con Chile', description: 'Add one slit green chilli during fermentation for a spicy kick.', region: 'Mexico' }
+    ],
+    tags: ['beginner', 'zero-waste', 'fizzy', 'mexican', 'summer'],
+    sources: [{ title: 'Tepache — Wikipedia', url: 'https://en.wikipedia.org/wiki/Tepache' }]
+  },
+
+  // ─── 12. PRESERVED LEMONS ──────────────────────────────────────────────────
+  {
+    id: 'preserved-lemons-salt',
+    slug: 'preserved-lemons-salt',
+    name: 'Preserved Lemons',
+    nameLocal: 'L’hamid Markach',
+    subtitle: 'North African salt-cured citrus gold',
+    category: 'condiment',
+    subcategory: 'citrus',
+    technique: 'dry-salt',
+    region: 'North Africa',
+    country: 'Morocco',
+    countryCode: 'MA',
+    culturalGroup: 'Maghrebi',
+    difficulty: 1,
+    tier: 'beginner',
+    tierLabel: 'Literally Just Add Salt',
+    prepTime: '20 min',
+    fermentTimeMin: 30,
+    fermentTimeMax: 90,
+    fermentTimeUnit: 'days',
+    totalTimeHuman: '1–3 months',
+    blrNote: 'Small, thin-skinned Indian nimbus are actually *superior* for this than thick-skinned Western lemons. They cure faster and have less bitter pith.',
+    ingredients: [
+      { name: 'Lemons', nameLocal: 'Nimbu', amount: 10, unit: 'small', unitMetric: '500g', category: 'produce', essential: true, localAvailability: { IN: { ease: 'easy', where: 'Any market' } } },
+      { name: 'Rock Salt', nameLocal: 'Saindhav Namak', amount: 100, unit: 'g', unitMetric: '100g', category: 'salt', essential: true }
+    ],
+    tldr: 'Stuff lemons with salt, smash into a jar. Wait until the skin turns into edible velvet.',
+    steps: [
+      { step: 1, title: 'The X-Cut', instruction: 'Cut lemons into quarters, but only 3/4 of the way down so they stay attached at the base.' },
+      { step: 2, title: 'The Salt Stuff', instruction: 'Pack the inside of each lemon with a generous tablespoon of salt.' },
+      { step: 3, title: 'The Smash', instruction: 'Pack into a sterilized jar. Press down hard with a wooden spoon to release juice. Juice MUST cover the lemons.' },
+      { step: 4, title: 'The Long Wait', instruction: 'Store in a cool, dark spot. Flip the jar every few days for the first week.' }
+    ],
+    images: { hero: 'https://cultured.guru/wp-content/uploads/2022/01/preserved-lemons-6-1.webp' },
+    video: { url: 'https://www.youtube.com/watch?v=3-mYv57LpKE', title: 'How to Preserve Lemons', channel: 'Clean & Delicious' },
+    culturalContext: {
+      story: 'Essential to Moroccan Tagines. In the Maghreb, these lemons aren’t just a condiment; they are the "soul" of the dish, providing a salty, umami-rich citrus hit that fresh lemons cannot replicate.',
+      historicalNote: 'Preservation in salt allowed citrus to be used throughout the year in arid climates.',
+      funFact: 'You only eat the rind! The flesh is usually discarded after cooking because it’s too salty.'
+    },
+    thingsToAccountFor: [
+      { title: 'Exposed rinds', description: 'Any part of the lemon sticking out of the juice will grow mould. Add extra fresh lemon juice if they aren\'t submerged.', severity: 'important' }
+    ],
+    variations: [
+      { name: 'Spiced Preserved Lemons', description: 'Add bay leaves, peppercorns, and a cinnamon stick to the jar.', region: 'Middle East' }
+    ],
+    tags: ['beginner', 'pantry-staple', 'salt-cure', 'moroccan'],
+    sources: [{ title: 'Preserved Lemon — Wikipedia', url: 'https://en.wikipedia.org/wiki/Preserved_lemon' }]
+  },
+
+  // ─── 13. HONEY GARLIC ───────────────────────────────────────────────────────
+  {
+    id: 'honey-garlic-ferment',
+    slug: 'honey-garlic-ferment',
+    name: 'Honey Garlic',
+    subtitle: 'The ultimate liquid gold immunity booster',
+    category: 'condiment',
+    subcategory: 'garlic',
+    technique: 'honey-ferment',
+    difficulty: 1,
+    tier: 'beginner',
+    tierLabel: 'Literally Just Add Honey',
+    prepTime: '15 min',
+    fermentTimeMin: 14,
+    fermentTimeMax: 365,
+    fermentTimeUnit: 'days',
+    totalTimeHuman: '2 weeks to 1 year',
+    blrNote: 'Use Raw Coorg Honey. Many supermarket honeys are pasteurized and won’t ferment correctly. Bengaluru’s mild climate is perfect for keeping the honey fluid during the process.',
+    ingredients: [
+      { name: 'Garlic cloves', nameLocal: 'Bellulli', amount: 2, unit: 'cups', unitMetric: '300g', category: 'produce', essential: true },
+      { name: 'Raw Honey', nameLocal: 'Jenu-thuppa', amount: 500, unit: 'ml', unitMetric: '500ml', category: 'sweetener', essential: true }
+    ],
+    tldr: 'Drown garlic in honey. Flip daily. Forget for a month. Eat the best garlic of your life.',
+    steps: [
+      { step: 1, title: 'Peel & Bruise', instruction: 'Peel the garlic. Lightly crush each clove with the flat of a knife—don’t mash it, just break the surface to release juices.' },
+      { step: 2, title: 'Jar it', instruction: 'Fill a jar halfway with garlic. Pour honey over until covered, leaving 2 inches of headspace (it will bubble and rise).' },
+      { step: 3, title: 'The Daily Flip', instruction: 'For the first week, turn the jar upside down once a day to ensure all garlic stays coated.' },
+      { step: 4, title: 'Burp', instruction: 'Open the lid briefly every day to release CO2.' }
+    ],
+    images: {hero: "https://www.therusticelk.com/wp-content/uploads/2023/01/Fermented-Honey-Garlic-8.jpg"},
+    video: { url: 'https://www.youtube.com/watch?v=uA0LpG_6RTo', title: 'Fermented Honey Garlic', channel: 'It\'s Alive' },
+    culturalContext: {
+      story: 'Often used in folk medicine as a "winter tonic." The garlic loses its harsh bite and becomes sweet and jelly-like, while the honey becomes thin and infused with garlic essence.',
+      significance: 'One of the few ferments that gets better after a full year on the shelf.',
+      funFact: 'Archaeologists have found edible honey in Egyptian tombs; this ferment is basically ancient technology.'
+    },
+    thingsToAccountFor: [
+      { title: 'Botulism Risk (Low but real)', description: 'Honey has a high sugar content, but garlic grows in soil. To be safe, test the pH after 2 weeks; it should be below 4.6. If it’s too thick to ferment, add 1 tsp of apple cider vinegar.', severity: 'info' }
+    ],
+    tags: ['beginner', 'medicine', 'sweet-savory', 'pantry-staple'],
+    sources: [{ title: 'Honey Fermentation', url: 'https://www.seriouseats.com/fermented-honey-garlic-recipe' }]
+  },
+
+  // ─── 14. BEET KVASS ──────────────────────────────────────────────────────────
+  {
+    id: 'beet-kvass-basic',
+    slug: 'beet-kvass-basic',
+    name: 'Beet Kvass',
+    nameLocal: 'Квас из свёклы',
+    subtitle: 'The Slavic "Blood Tonic"',
+    category: 'beverage',
+    subcategory: 'vegetable-tonic',
+    technique: 'brine',
+    region: 'Eastern Europe',
+    country: 'Ukraine/Russia',
+    countryCode: 'UA',
+    culturalGroup: 'Slavic',
+    difficulty: 1,
+    tier: 'beginner',
+    tierLabel: 'Literally Just Add Salt',
+    prepTime: '10 min',
+    fermentTimeMin: 2,
+    fermentTimeMax: 7,
+    fermentTimeUnit: 'days',
+    totalTimeHuman: '3–5 days',
+    blrNote: 'Beets in Bengaluru are vibrant and year-round. Since BLR is warmer than Kyiv, your Kvass will be ready in half the time of traditional recipes.',
+    ingredients: [
+      { name: 'Beets', nameLocal: 'Beetroot', amount: 2, unit: 'large', unitMetric: '400g', category: 'produce', essential: true },
+      { name: 'Salt', nameLocal: 'Saindhav Namak', amount: 1, unit: 'tbsp', unitMetric: '15g', category: 'salt', essential: true },
+      { name: 'Filtered Water', amount: 1, unit: 'litre', unitMetric: '1L', category: 'liquid', essential: true }
+    ],
+    tldr: 'Cubed beets + salt water = a salty, earthy, deep-purple probiotic powerhouse.',
+    steps: [
+      { step: 1, title: 'Cube, don\'t grate', instruction: 'Cube the beets into 1-inch pieces. Do not grate them, or the fermentation will happen too fast and turn into alcohol.' },
+      { step: 2, title: 'Jar it', instruction: 'Put beets and salt in a 1.5L jar. Fill with water.' },
+      { step: 3, title: 'Ferment', instruction: 'Cover and leave on the counter. In BLR, check at 48 hours. It should be deep purple and taste earthy-salty-tangy.' }
+    ],
+    images: { hero: 'https://upload.wikimedia.org/wikipedia/commons/8/88/%D0%A0%D0%B0%D0%B7%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BF%D0%B5%D1%80%D0%BC%D0%B0%D0%BD%D0%B3%D0%B0%D0%BD%D0%B0%D1%82%D0%B0_%D0%BA%D0%B0%D0%BB%D0%B8%D1%8F%2C_%D0%B8%D0%BB%D0%B8_%D0%9A%D0%BE%D1%81%D0%BC%D0%BE%D1%81_%D0%B2_%D1%81%D1%82%D0%B0%D0%BA%D0%B0%D0%BD%D1%87%D0%B8%D0%BA%D0%B5.jpg' },
+    video: { url: 'https://www.youtube.com/watch?v=mD07yvX3UaM', title: 'How to make Beet Kvass', channel: 'Fermentation Adventure' },
+    culturalContext: {
+      story: 'In Ukraine, Beet Kvass is the traditional base for authentic Borscht. It is hailed as a liver cleanser and digestion aid.',
+      historicalNote: 'Historically, Slavic families would keep a "perpetual" jar, adding new beets and water to the dregs of the old batch.',
+      funFact: 'It tastes like "salty beet tea." Not everyone loves it at first, but your gut will demand it once you start.'
+    },
+    tags: ['beginner', 'tonic', 'earthy', 'slavic'],
+    sources: [{ title: 'Kvass — Wikipedia', url: 'https://en.wikipedia.org/wiki/Kvass' }]
+  },
+
+  // ─── 15. KKAKDUGI (RADISH KIMCHI) ─────────────────────────────────────────────
+  {
+    id: 'kkakdugi-radish',
+    slug: 'kkakdugi-radish',
+    name: 'Kkakdugi',
+    nameLocal: '깍두기',
+    subtitle: 'Crunchy cubed radish kimchi',
+    category: 'vegetable',
+    subcategory: 'kimchi',
+    technique: 'dry-salt',
+    region: 'East Asia',
+    country: 'South Korea',
+    countryCode: 'KR',
+    culturalGroup: 'Korean',
+    difficulty: 1,
+    tier: 'beginner',
+    tierLabel: 'Literally Just Add Salt',
+    prepTime: '30 min',
+    fermentTimeMin: 2,
+    fermentTimeMax: 5,
+    fermentTimeUnit: 'days',
+    totalTimeHuman: '2–3 days',
+    blrNote: 'Indian White Radish (Mooli) is a perfect substitute for Korean Mu. It’s a bit more pungent but holds its crunch beautifully in the Bengaluru heat.',
+    ingredients: [
+      { name: 'White Radish', nameLocal: 'Mooli', amount: 1, unit: 'kg', unitMetric: '1kg', category: 'produce', essential: true },
+      { name: 'Salt', amount: 2, unit: 'tbsp', category: 'salt', essential: true },
+      { name: 'Sugar', amount: 1, unit: 'tbsp', category: 'sweetener', essential: true },
+      { name: 'Red Chilli Powder', nameLocal: 'Kashmiri Mirch', amount: 3, unit: 'tbsp', category: 'spice', essential: true }
+    ],
+    tldr: 'Salt radish cubes until they weep, toss with chilli and garlic, pack tight. Maximum crunch.',
+    steps: [
+      { step: 1, title: 'Cube & Sweat', instruction: 'Cube radish into 1-inch squares. Toss with salt and sugar. Let sit for 30–60 mins until a pool of water forms.' },
+      { step: 2, title: 'Season', instruction: 'Do not rinse! Add chilli powder, minced garlic, and ginger. Mix until every cube is red.' },
+      { step: 3, title: 'Pack', instruction: 'Pack into a jar, pressing down to remove air. Ensure the radish liquid covers the cubes.' },
+      { step: 4, title: 'Room Temp', instruction: 'Leave out for 1-2 days until bubbles form, then move to the fridge.' }
+    ],
+    images: { hero: 'https://cinnamonsnail.com/wp-content/uploads/2025/02/vegan_radish_kimchi-07.jpg' },
+    video: { url: 'https://www.youtube.com/watch?v=0_u9G2W9iE0', title: 'Kkakdugi Recipe', channel: 'Maangchi' },
+    culturalContext: {
+      story: 'Kkakdugi is the favorite side dish for "Seolleongtang" (ox bone soup). Its crunch is legendary.',
+      historicalNote: 'Legend says it was created by Princess Sukseon during the Joseon Dynasty.',
+      funFact: 'The name is an onomatopoeia for the sound of the knife cutting the radish.'
+    },
+    tags: ['beginner', 'spicy', 'crunchy', 'korean'],
+    sources: [{ title: 'Kkakdugi — Wikipedia', url: 'https://en.wikipedia.org/wiki/Kkakdugi' }]
+  },
+
+  // ─── 16. GINGER CARROTS ────────────────────────────────────────────────────
+  {
+    id: 'fermented-carrots-ginger',
+    slug: 'fermented-carrots-ginger',
+    name: 'Ginger Carrots',
+    subtitle: 'The gateway snack for kids and skeptics',
+    category: 'vegetable',
+    technique: 'brine',
+    difficulty: 1,
+    tier: 'beginner',
+    tierLabel: 'Literally Just Add Salt',
+    prepTime: '15 min',
+    fermentTimeMin: 4,
+    fermentTimeMax: 10,
+    fermentTimeUnit: 'days',
+    totalTimeHuman: '1 week',
+    blrNote: 'Bengaluru carrots are surprisingly sweet. Use the "red" winter carrots for a deeper flavor if they are in season.',
+    ingredients: [
+      { name: 'Carrots', nameLocal: 'Gajar', amount: 500, unit: 'g', unitMetric: '500g', category: 'produce', essential: true },
+      { name: 'Ginger', nameLocal: 'Shunti', amount: 2, unit: 'inch', category: 'produce', essential: true },
+      { name: '3% Brine', amount: 500, unit: 'ml', category: 'liquid', essential: true }
+    ],
+    tldr: 'Carrot sticks submerged in salt water with ginger. Ends up crunchier than fresh carrots.',
+    steps: [
+      { step: 1, title: 'Slice', instruction: 'Cut carrots into sticks that will fit vertically in your jar.' },
+      { step: 2, title: 'Brine', instruction: 'Mix 15g salt into 500ml water. Pour over carrots and ginger slices.' },
+      { step: 3, title: 'Wait', instruction: 'Ferment for 5–7 days. The brine will get cloudy—that’s the good stuff.' }
+    ],
+    images: {hero: "https://coleycooks.com/wp-content/uploads/2024/05/pickled-carrots-with-ginger.jpg"},
+    video: { url: 'https://www.youtube.com/watch?v=Vl6D1LqE0x8', title: 'Lacto Fermented Carrots', channel: 'Clean & Delicious' },
+    culturalContext: {
+      story: 'A staple of the "Weston A. Price" style diet. It’s the easiest way to get probiotics into a sandwich.',
+      significance: 'Carrots maintain their structural integrity better than almost any other vegetable when fermented.',
+      funFact: 'The ginger prevents the carrots from smelling "swampy," keeping them fresh and bright.'
+    },
+    tags: ['beginner', 'snack', 'probiotic'],
+    sources: [{ title: 'Fermented Carrots', url: 'https://www.culturesforhealth.com/learn/recipe/lacto-fermentation-recipes/lacto-fermented-carrots/' }]
+  },
+
+  // ─── 17. CHILLI MASH ───────────────────────────────────────────────────────
+  {
+    id: 'chilli-mash-base',
+    slug: 'chilli-mash-base',
+    name: 'Chilli Mash',
+    nameLocal: 'Mirchi Paste',
+    subtitle: 'The building block of Sriracha and Sambal',
+    category: 'condiment',
+    subcategory: 'hot-sauce',
+    technique: 'dry-salt',
+    difficulty: 1,
+    tier: 'beginner',
+    tierLabel: 'Literally Just Add Salt',
+    prepTime: '15 min',
+    fermentTimeMin: 7,
+    fermentTimeMax: 30,
+    fermentTimeUnit: 'days',
+    totalTimeHuman: '2–4 weeks',
+    blrNote: 'Go to KR Market and buy a kilo of the bright red "Byadgi" chillies for flavor or the small "Guntur" ones for pure heat.',
+    ingredients: [
+      { name: 'Fresh Chillies', nameLocal: 'Mirch', amount: 500, unit: 'g', unitMetric: '500g', category: 'produce', essential: true },
+      { name: 'Salt', amount: 2, unit: '% by weight', unitMetric: '10g', category: 'salt', essential: true }
+    ],
+    tldr: 'Pulverize chillies with salt. Let them rot into a complex, fruity, spicy paste.',
+    steps: [
+      { step: 1, title: 'Blend', instruction: 'Remove stems. Pulse chillies in a blender with salt until you have a coarse mash.' },
+      { step: 2, title: 'Jar', instruction: 'Pack into a jar. Use a weight if possible, otherwise stir every few days to prevent mould on top.' },
+      { step: 3, title: 'Age', instruction: 'Let it sit for at least a week. The flavor will move from "raw heat" to "fruity complexity."' }
+    ],
+    images: {hero: "https://nourishedkitchen.com/wp-content/uploads/2023/11/fermented-pepper-mash-jar.jpg"},
+    video: { url: 'https://www.youtube.com/watch?v=nsXGPmBxMzU', title: 'Fermented Hot Sauce', channel: 'Joshua Weissman' },
+    culturalContext: {
+      story: 'This is how Tabasco is made—they age their chilli mash in oak barrels for three years.',
+      significance: 'Fermentation breaks down the capsaicin slightly but adds layers of flavor that vinegar-based sauces lack.',
+      funFact: 'The liquid that rises to the top is "Chilli Whey"—use it to marinate chicken.'
+    },
+    tags: ['beginner', 'spicy', 'pantry-staple'],
+    sources: [{ title: 'Fermented Hot Sauce', url: 'https://en.wikipedia.org/wiki/Hot_sauce' }]
+  },
+
+  // ─── 18. FERMENTED GARI ────────────────────────────────────────────────────
+  {
+    id: 'gari-ginger',
+    slug: 'gari-ginger',
+    name: 'Fermented Gari',
+    nameLocal: 'ガリ',
+    subtitle: 'Natural sushi ginger (without the dye)',
+    category: 'condiment',
+    subcategory: 'ginger',
+    technique: 'brine',
+    region: 'East Asia',
+    country: 'Japan',
+    difficulty: 1,
+    tier: 'beginner',
+    tierLabel: 'Literally Just Add Salt',
+    prepTime: '20 min',
+    fermentTimeMin: 5,
+    fermentTimeMax: 14,
+    fermentTimeUnit: 'days',
+    totalTimeHuman: '1 week',
+    blrNote: 'Look for "Young Ginger" (pacha shunti)—it has pinkish tips and is much less fibrous than the old, woody stuff.',
+    ingredients: [
+      { name: 'Young Ginger', nameLocal: 'Shunti', amount: 200, unit: 'g', unitMetric: '200g', category: 'produce', essential: true },
+      { name: '3% Brine', amount: 250, unit: 'ml', category: 'liquid', essential: true }
+    ],
+    tldr: 'Shave ginger paper-thin. Drown in salt water. It turns pink by itself.',
+    steps: [
+      { step: 1, title: 'Shave', instruction: 'Use a mandoline or peeler to get paper-thin slices.' },
+      { step: 2, title: 'Submerge', instruction: 'Pack into a small jar and cover with salt brine.' },
+      { step: 3, title: 'Wait', instruction: 'Ferment for 1 week. The ginger will naturally turn a light pink hue.' }
+    ],
+    images: {hero: "https://i0.wp.com/insaneinthebrine.com/wp-content/uploads/2018/11/IMG_20181030_160535460_PORTRAIT_3.jpg?w=1213&ssl=1"},
+    video: { url: 'https://www.youtube.com/watch?v=R3L0jV3E_iE', title: 'Pickled Ginger', channel: 'Maangchi' },
+    culturalContext: {
+      story: 'Served with sushi to cleanse the palate between different types of fish.',
+      funFact: 'Commercial gari is often dyed pink with E124. Naturally fermented young ginger turns pink because of anthocyanins reacting with acid.',
+      significance: 'Unlike vinegar-pickled ginger, this version is alive and aids the digestion of raw food.'
+    },
+    tags: ['beginner', 'japanese', 'cleanser'],
+    sources: [{ title: 'Gari — Wikipedia', url: 'https://en.wikipedia.org/wiki/Gari_(ginger)' }]
+  },
+
+  // ─── 19. REJUVELAC ──────────────────────────────────────────────────────────
+  {
+    id: 'rejuvelac-grain',
+    slug: 'rejuvelac-grain',
+    name: 'Rejuvelac',
+    subtitle: 'The "Life Water" from sprouted grains',
+    category: 'beverage',
+    subcategory: 'starter',
+    technique: 'wild-ferment',
+    difficulty: 1,
+    tier: 'beginner',
+    tierLabel: 'Literally Just Add Water',
+    prepTime: '5 min (plus sprouting)',
+    fermentTimeMin: 1,
+    fermentTimeMax: 2,
+    fermentTimeUnit: 'days',
+    totalTimeHuman: '3 days total',
+    blrNote: 'Use Wheat berries or Quinoa. Don’t use "polished" grains—they won’t sprout. Any local health food store in Indiranagar will have raw wheat.',
+    ingredients: [
+      { name: 'Wheat Berries', amount: 1, unit: 'cup', unitMetric: '200g', category: 'grain', essential: true },
+      { name: 'Water', amount: 4, unit: 'cups', unitMetric: '1L', category: 'liquid', essential: true }
+    ],
+    tldr: 'Sprout grains, soak them for 2 days. Drink the cloudy, lemony liquid. Great for vegan cheese.',
+    steps: [
+      { step: 1, title: 'Sprout', instruction: 'Soak grains overnight. Drain and leave in a jar until tiny "tails" (sprouts) appear.' },
+      { step: 2, title: 'Soak', instruction: 'Put sprouted grains in a jar with 1L water. Cover with cloth.' },
+      { step: 3, title: 'Ferment', instruction: 'Wait 24–48 hours until the water is cloudy and smells slightly like lemon and yeast.' }
+    ],
+    images: {hero: "https://lirp.cdn-website.com/9dcde1f6/dms3rep/multi/opt/AdobeStock_152830285_Preview-1920w.jpeg"},
+    video: { url: 'https://www.youtube.com/watch?v=L6_o806008E', title: 'Making Rejuvelac', channel: 'Full Help' },
+    culturalContext: {
+      story: 'Popularized by Ann Wigmore, the founder of the raw food movement.',
+      significance: 'It is a potent "starter" for vegan nut cheeses. If you want to make cashew brie, you need this liquid.',
+      funFact: 'It’s essentially "pre-beer." If you added more sugar and hops, you’d be brewing.'
+    },
+    tags: ['beginner', 'enzymatic', 'vegan-staple'],
+    sources: [{ title: 'Rejuvelac — Wikipedia', url: 'https://en.wikipedia.org/wiki/Rejuvelac' }]
+  },
+
+  // ─── 20. MUSTARD CAVIAR ────────────────────────────────────────────────────
+  {
+    id: 'fermented-mustard-seeds',
+    slug: 'fermented-mustard-seeds',
+    name: 'Mustard Caviar',
+    nameLocal: 'Sasive Uppinakayi',
+    subtitle: 'Little probiotic pearls that pop',
+    category: 'condiment',
+    subcategory: 'seeds',
+    technique: 'brine',
+    difficulty: 1,
+    tier: 'beginner',
+    tierLabel: 'Literally Just Add Salt',
+    prepTime: '5 min',
+    fermentTimeMin: 7,
+    fermentTimeMax: 14,
+    fermentTimeUnit: 'days',
+    totalTimeHuman: '10 days',
+    blrNote: 'Indian Yellow Mustard (Rai) is perfect. The black ones are more bitter and take longer to mellow.',
+    ingredients: [
+      { name: 'Yellow Mustard Seeds', nameLocal: 'Saaive / Rai', amount: 100, unit: 'g', unitMetric: '100g', category: 'seeds', essential: true },
+      { name: '3% Brine', amount: 200, unit: 'ml', category: 'liquid', essential: true }
+    ],
+    tldr: 'Seeds + brine. They swell into pearls that lose their bitter bite and become tangy.',
+    steps: [
+      { step: 1, title: 'Mix', instruction: 'Put seeds in a jar. Cover with brine.' },
+      { step: 2, title: 'Absorb', instruction: 'Check after 12 hours. The seeds will have soaked up the water. Add more brine to keep them covered.' },
+      { step: 3, title: 'Age', instruction: 'Wait 10 days. The sharp "wasabi" bite will mellow into a sophisticated tang.' }
+    ],
+    images: { hero: 'https://www.proportionalplate.com/wp-content/uploads/2019/03/Pickled-Mustard-Seeds-1.jpg' },
+    video: { url: 'https://www.youtube.com/watch?v=FofvRjYV20s', title: 'Fermented Mustard', channel: 'It\'s Alive' },
+    culturalContext: {
+      story: 'A "chef secret" for adding texture to plates. It looks like expensive caviar but costs pennies.',
+      significance: 'Unlike store-bought mustard, this is raw and probiotic.',
+      funFact: 'If you blend this after fermenting, you get the best "Dijon" style mustard you\'ve ever tasted.'
+    },
+    tags: ['beginner', 'texture', 'caviar'],
+    sources: [{ title: 'Fermented Mustard', url: 'https://www.insidetherustickitchen.com/fermented-mustard/' }]
+  },
+
+  // ─── 21. SALTED AMLA (INDIAN GOOSEBERRY) ──────────────────────────────────
+  {
+    id: 'salted-amla-brine',
+    slug: 'salted-amla-brine',
+    name: 'Salted Amla',
+    nameLocal: 'Nellikai Uppinakayi',
+    subtitle: 'The Ayurvedic Vitamin C bomb',
+    category: 'vegetable',
+    subcategory: 'berry',
+    technique: 'brine',
+    region: 'South Asia',
+    country: 'India',
+    countryCode: 'IN',
+    culturalGroup: 'South Indian',
+    difficulty: 1,
+    tier: 'beginner',
+    tierLabel: 'Literally Just Add Salt',
+    prepTime: '10 min',
+    fermentTimeMin: 7,
+    fermentTimeMax: 21,
+    fermentTimeUnit: 'days',
+    totalTimeHuman: '2 weeks',
+    blrNote: 'KR Market is flooded with Amla in winter. Buy the ones without bruises.',
+    ingredients: [
+      { name: 'Amla', nameLocal: 'Nellikai', amount: 500, unit: 'g', unitMetric: '500g', category: 'produce', essential: true },
+      { name: 'Salt', amount: 15, unit: 'g', category: 'salt', essential: true },
+      { name: 'Water', amount: 500, unit: 'ml', category: 'liquid', essential: true },
+      { name: 'Green Chillies', amount: 4, unit: 'slit', category: 'spice', essential: false }
+    ],
+    tldr: 'Whole amla + salt water. They turn from bright green to olive and become soft, salty, and sour.',
+    steps: [
+      { step: 1, title: 'Prep', instruction: 'Wash amla. Slit them slightly or prick with a fork so the brine penetrates.' },
+      { step: 2, title: 'Brine', instruction: 'Submerge in a 3% salt brine with green chillies.' },
+      { step: 3, title: 'Wait', instruction: 'Wait 10–14 days. The amla will soften and the water will turn cloudy.' }
+    ],
+    images: { hero: 'https://images.squarespace-cdn.com/content/v1/6161a9f90a1fd561e80364e4/1635837885968-7HUJP7SE6MG67LKC1HLX/athela+amla2_ig.jpg' },
+    culturalContext: {
+      story: 'A standard in every South Indian grandma’s pantry. Eaten with curd rice (mosaranna) when you have a fever or poor appetite.',
+      significance: 'Amla is one of the highest natural sources of Vitamin C, and fermentation makes it more bioavailable.',
+      funFact: 'The brine itself is used as a throat gargle in traditional homes.'
+    },
+    tags: ['beginner', 'ayurvedic', 'south-indian'],
+    sources: [{ title: 'Amla — Wikipedia', url: 'https://en.wikipedia.org/wiki/Phyllanthus_emblica' }]
+  },
+
+  // ─── 22. WATERMELON RIND PICKLES ──────────────────────────────────────────
+  {
+    id: 'watermelon-rind-lacto',
+    slug: 'watermelon-rind-lacto',
+    name: 'Lacto Rind Pickles',
+    subtitle: 'Zero-waste summer crunch',
+    category: 'vegetable',
+    technique: 'brine',
+    difficulty: 1,
+    tier: 'beginner',
+    tierLabel: 'Literally Just Add Salt',
+    prepTime: '20 min',
+    fermentTimeMin: 3,
+    fermentTimeMax: 7,
+    fermentTimeUnit: 'days',
+    totalTimeHuman: '4 days',
+    blrNote: 'In BLR summer, everyone eats watermelon. Save the rinds from your next one.',
+    ingredients: [
+      { name: 'Watermelon Rind', amount: 500, unit: 'g, peeled', category: 'produce', essential: true },
+      { name: '3% Brine', amount: 500, unit: 'ml', category: 'liquid', essential: true },
+      { name: 'Black Peppercorns', amount: 1, unit: 'tsp', category: 'spice', essential: false }
+    ],
+    images: {hero: "https://cultured.guru/wp-content/uploads/2023/07/fermented-watermelon-rind-6.webp"},
+    tldr: 'The white part of the watermelon rind, fermented in brine. Tastes like a cross between a cucumber and a radish.',
+    steps: [
+      { step: 1, title: 'Peel', instruction: 'Peel off the green skin. Keep only the white part. Cut into cubes.' },
+      { step: 2, title: 'Brine', instruction: 'Pack into a jar with peppercorns and cover with brine.' },
+      { step: 3, title: 'Wait', instruction: '3–5 days at BLR room temp. Move to fridge once tangy.' }
+    ],
+    video: { url: 'https://www.youtube.com/watch?v=0_u9G2W9iE0', title: 'Watermelon Rind Kimchi/Pickle', channel: 'Maangchi' },
+    culturalContext: {
+      story: 'A classic "Depression Era" recipe from the American South, originally made with vinegar and sugar, but much better when lacto-fermented.',
+      significance: 'Turns "trash" into a high-probiotic snack.',
+      funFact: 'The rind contains more citrulline (an amino acid) than the red flesh.'
+    },
+    tags: ['beginner', 'zero-waste', 'summer'],
+    sources: [{ title: 'Watermelon Rind', url: 'https://en.wikipedia.org/wiki/Watermelon' }]
+  },
+
+  // ─── 23. LACTO RED ONIONS ─────────────────────────────────────────────────
+  {
+    id: 'lacto-red-onions',
+    slug: 'lacto-red-onions',
+    name: 'Lacto Onions',
+    nameLocal: 'Sirka Pyaaz (Lacto version)',
+    subtitle: 'The electric-pink kebab companion',
+    category: 'condiment',
+    technique: 'brine',
+    difficulty: 1,
+    tier: 'beginner',
+    tierLabel: 'Literally Just Add Salt',
+    prepTime: '10 min',
+    fermentTimeMin: 2,
+    fermentTimeMax: 5,
+    fermentTimeUnit: 'days',
+    totalTimeHuman: '3 days',
+    blrNote: 'Use the small "Sambar Onions" (Ulligadde) for the classic North Indian restaurant look.',
+    ingredients: [
+      { name: 'Red Onions', amount: 300, unit: 'g', category: 'produce', essential: true },
+      { name: '3% Brine', amount: 300, unit: 'ml', category: 'liquid', essential: true },
+      { name: 'Beetroot slice', amount: 1, unit: 'thin slice', category: 'produce', essential: false, notes: 'For color' }
+    ],
+    tldr: 'Onion slices + salt water. They lose their "oniony" breath and become sweet and tangy.',
+    images: { hero: 'https://revolutionfermentation.com/wp-content/uploads/2021/11/red-onion-fermented_800x613.jpeg' },
+    steps: [
+      { step: 1, title: 'Slice', instruction: 'Thinly slice onions or use whole small sambar onions.' },
+      { step: 2, title: 'Pack', instruction: 'Pack into a jar with a slice of beetroot for that neon pink color.' },
+      { step: 3, title: 'Brine & Wait', instruction: 'Add brine. Wait 2–3 days. If they smell like sulfur, that’s normal for the first day, it passes.' }
+    ],
+    culturalContext: {
+      story: 'Found in every "Dhaba" in India, though usually pickled in cheap vinegar. The lacto version is much gentler on the stomach.',
+      funFact: 'Fermentation breaks down the compounds that cause "onion breath."'
+    },
+    tags: ['beginner', 'indian', 'kebab-side'],
+    sources: [{ title: 'Pickled Onion — Wikipedia', url: 'https://en.wikipedia.org/wiki/Pickled_onion' }]
+  },
+
+  // ─── 24. GREEN MANGO BRINE ────────────────────────────────────────────────
+  {
+    id: 'green-mango-brine',
+    slug: 'green-mango-brine',
+    name: 'Mango in Brine',
+    nameLocal: 'Mavinkayi Uppinakayi',
+    subtitle: 'Coastal Karnataka’s monsoon staple',
+    category: 'vegetable',
+    subcategory: 'mango',
+    technique: 'brine',
+    region: 'South Asia',
+    countryCode: 'IN',
+    difficulty: 1,
+    tier: 'beginner',
+    fermentTimeMin: 7,
+    fermentTimeMax: 30,
+    fermentTimeUnit: 'days',
+    blrNote: 'Buy "Appemidi" or "Wild Mangoes" during April–May in Bengaluru.',
+    ingredients: [
+      { name: 'Raw Green Mango', nameLocal: 'Mavinkayi', amount: 1, unit: 'kg', category: 'produce', essential: true },
+      { name: 'Rock Salt', amount: 150, unit: 'g', category: 'salt', essential: true }
+    ],
+    images: { hero: 'https://thumbs.dreamstime.com/b/un-mont%C3%B3n-de-piezas-mango-salado-fresco-en-frasco-vidrio-con-fondo-borroso-188501669.jpg' },
+    tldr: 'Whole green mangoes + excessive salt. They create their own brine and last for years.',
+    steps: [
+      { step: 1, title: 'Dry', instruction: 'Wash and thoroughly dry the mangoes. Moisture is the enemy here.' },
+      { step: 2, title: 'Layer', instruction: 'Layer mangoes and salt in a ceramic jar (Bharani).' },
+      { step: 3, title: 'Shake', instruction: 'Shake the jar every day for 2 weeks. The salt will draw out the mango juice, creating a brine.' }
+    ],
+    culturalContext: {
+      story: 'In the Western Ghats, these are stored for the monsoon when fresh vegetables are scarce.',
+      significance: 'This is the "mother" of all Indian pickles. These brined mangoes are later turned into various spicy achars.'
+    },
+    tags: ['beginner', 'indian', 'long-storage'],
+    sources: [{ title: 'Indian Pickle — Wikipedia', url: 'https://en.wikipedia.org/wiki/Indian_pickle' }]
+  },
+
+  // ─── 25. GOLDEN CAULIFLOWER ───────────────────────────────────────────────
+  {
+    id: 'golden-cauliflower-ferment',
+    slug: 'golden-cauliflower-ferment',
+    name: 'Golden Cauliflower',
+    subtitle: 'Turmeric-stained probiotic florets',
+    category: 'vegetable',
+    technique: 'brine',
+    difficulty: 1,
+    tier: 'beginner',
+    fermentTimeMin: 5,
+    fermentTimeMax: 10,
+    fermentTimeUnit: 'days',
+    blrNote: 'Cauliflower can sometimes be "gassy." Add a pinch of hing (asafoetida) to the brine to help.',
+    ingredients: [
+      { name: 'Cauliflower', amount: 1, unit: 'head', category: 'produce', essential: true },
+      { name: 'Turmeric', nameLocal: 'Arishina', amount: 1, unit: 'tsp', category: 'spice', essential: true },
+      { name: '3% Brine', amount: 500, unit: 'ml', category: 'liquid', essential: true }
+    ],
+    tldr: 'Cauliflower florets + turmeric + brine. Becomes a bright yellow, crunchy, tangy snack.',
+  images: {hero: "https://cdn.shopify.com/s/files/1/2604/4698/files/20260127142114-9.png?v=1769523676&width=600&height=900"},
+    steps: [
+      { step: 1, title: 'Break', instruction: 'Break cauliflower into bite-sized florets.' },
+      { step: 2, title: 'Jar', instruction: 'Pack into a jar. Add turmeric to the brine and pour over.' },
+      { step: 3, title: 'Wait', instruction: '5–7 days. The cauliflower will absorb the yellow color.' }
+    ],
+    culturalContext: {
+      story: 'A variation of "Giardiniera" (Italian pickled vegetables) but with a South Asian spice profile.',
+      funFact: 'Turmeric is also an antimicrobial, which helps keep the ferment "clean."'
+    },
+    tags: ['beginner', 'colorful', 'turmeric'],
+    sources: [{ title: 'Giardiniera', url: 'https://en.wikipedia.org/wiki/Giardiniera' }]
+  },
+
+  // ─── 26. FERMENTED GREEN PEPPERCORNS ──────────────────────────────────────
+  {
+    id: 'green-peppercorns-ferment',
+    slug: 'green-peppercorns-ferment',
+    name: 'Green Peppercorns',
+    nameLocal: 'Hasi Menasu Uppinakayi',
+    subtitle: 'The Coorg "Black Gold" secret',
+    category: 'condiment',
+    technique: 'brine',
+    region: 'South India',
+    countryCode: 'IN',
+    difficulty: 1,
+    tier: 'beginner',
+    fermentTimeMin: 14,
+    fermentTimeMax: 60,
+    fermentTimeUnit: 'days',
+    blrNote: 'Only available in fresh bunches during January–February in BLR. Check the Coorg specialty stores.',
+    ingredients: [
+      { name: 'Fresh Green Peppercorns', amount: 200, unit: 'g', category: 'produce', essential: true },
+      { name: 'Salt', amount: 20, unit: 'g', category: 'salt', essential: true },
+      { name: 'Lemon Juice', amount: 2, unit: 'tbsp', category: 'liquid', essential: true }
+    ],
+    tldr: 'Whole bunches of fresh pepper in salt and lemon. A spicy, popping delicacy.',
+    steps: [
+      { step: 1, title: 'Wash', instruction: 'Wash the peppercorn bunches carefully. Leave them on the stalk.' },
+      { step: 2, title: 'Submerge', instruction: 'Pack into a jar with salt and lemon juice. Add a little water to cover.' },
+      { step: 3, title: 'Mellow', instruction: 'Let sit for 2 weeks. They will turn dark green/brown and the bite will mellow.' }
+    ],
+    images: {hero: "https://www.frontiercoop.com/media/wysiwyg/frontier-coop-recipe-green-peppercorn-brine-159-1440x700.jpg"},
+    culturalContext: {
+      story: 'A prized specialty in Kodagu (Coorg). It is eaten with "Akki Roti" or "Pandhi Curry."',
+      significance: 'One of the rarest ways to eat pepper.'
+    },
+    tags: ['beginner', 'rare', 'spicy', 'coorg'],
+    sources: [{ title: 'Black Pepper — Wikipedia', url: 'https://en.wikipedia.org/wiki/Black_pepper' }]
+  },
+
+  // ─── 27. BURSTING CHERRY TOMATOES ─────────────────────────────────────────
+  {
+    id: 'lacto-cherry-tomatoes',
+    slug: 'lacto-cherry-tomatoes',
+    name: 'Bursting Tomatoes',
+    subtitle: 'Umami-bombs that pop in your mouth',
+    category: 'vegetable',
+    technique: 'brine',
+    difficulty: 1,
+    tier: 'beginner',
+    fermentTimeMin: 3,
+    fermentTimeMax: 5,
+    fermentTimeUnit: 'days',
+    blrNote: 'Use the small "Local" cherry tomatoes. They have thicker skins which hold the carbonation inside better.',
+    ingredients: [
+      { name: 'Cherry Tomatoes', amount: 300, unit: 'g', category: 'produce', essential: true },
+      { name: '3% Brine', amount: 300, unit: 'ml', category: 'liquid', essential: true },
+      { name: 'Garlic', amount: 1, unit: 'clove', category: 'produce', essential: false }
+    ],
+    tldr: 'Whole cherry tomatoes in brine. They carbonate themselves. Like a healthy, savory soda in fruit form.',
+    steps: [
+      { step: 1, title: 'Prick', instruction: 'Prick each tomato once with a toothpick (so they don\'t explode during ferment).' },
+      { step: 2, title: 'Brine', instruction: 'Pack into a jar with garlic and cover with brine.' },
+      { step: 3, title: 'Check', instruction: 'Wait 3 days. When they look slightly "puffy," they are ready.' }
+    ],
+    images: {hero: "https://urbanfarmandkitchen.com/wp-content/uploads/2023/02/pickled-cherry-tomatoes.jpg"},
+    video: { url: 'https://www.youtube.com/watch?v=FofvRjYV20s', title: 'Fermented Tomatoes', channel: 'It\'s Alive' },
+    culturalContext: {
+      story: 'A favorite of modern "molecular" chefs. It’s an easy way to introduce carbonation into a salad.',
+      funFact: 'If you leave them long enough, they turn into a fizzy tomato sauce base.'
+    },
+    tags: ['beginner', 'umami', 'fizzy'],
+    sources: [{ title: 'Fermented Tomatoes', url: 'https://www.seriouseats.com/lacto-fermented-tomato-sauce-recipe' }]
+  },
+
+  // ─── 28. PINK RADISH SLICES ───────────────────────────────────────────────
+  {
+    id: 'pink-radish-circles',
+    slug: 'pink-radish-circles',
+    name: 'Pink Radish Slices',
+    subtitle: 'The quickest taco topping',
+    category: 'vegetable',
+    technique: 'brine',
+    difficulty: 1,
+    tier: 'beginner',
+    fermentTimeMin: 2,
+    fermentTimeMax: 4,
+    fermentTimeUnit: 'days',
+    blrNote: 'Use the small round red radishes (not the long mooli).',
+    ingredients: [
+      { name: 'Red Radish', amount: 10, unit: 'small', category: 'produce', essential: true },
+      { name: '3% Brine', amount: 200, unit: 'ml', category: 'liquid', essential: true }
+    ],
+    images: { hero: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8Or0zrIGHi9fmqYNumEssXn0FXCoOwG-4oQ&s' },
+    tldr: 'Sliced red radishes in brine. They turn the whole jar bright pink in 24 hours.',
+    steps: [
+      { step: 1, title: 'Slice', instruction: 'Slice into thin rounds.' },
+      { step: 2, title: 'Jar', instruction: 'Pack and cover with brine.' },
+      { step: 3, title: 'Wait', instruction: 'Ready in 2 days. They stay very crunchy.' }
+    ],
+    culturalContext: {
+      story: 'Standard in Mexican "Taquerias." The pink color is purely from the skin pigment bleeding into the brine.'
+    },
+    tags: ['beginner', 'quick', 'mexican'],
+    sources: [{ title: 'Radish — Wikipedia', url: 'https://en.wikipedia.org/wiki/Radish' }]
+  },
+
+  // ─── 29. DILLY BEANS ──────────────────────────────────────────────────────
+  {
+    id: 'fermented-green-beans',
+    slug: 'fermented-green-beans',
+    name: 'Dilly Beans',
+    subtitle: 'Fermented French beans with a snap',
+    category: 'vegetable',
+    technique: 'brine',
+    difficulty: 1,
+    tier: 'beginner',
+    fermentTimeMin: 5,
+    fermentTimeMax: 10,
+    fermentTimeUnit: 'days',
+    blrNote: 'Use the thin "French Beans" from any local vendor. Ensure they are "snap" fresh.',
+    ingredients: [
+      { name: 'Green Beans', nameLocal: 'Hurulikayi', amount: 300, unit: 'g', category: 'produce', essential: true },
+      { name: 'Dill Seeds', amount: 1, unit: 'tsp', category: 'spice', essential: true },
+      { name: '3% Brine', amount: 300, unit: 'ml', category: 'liquid', essential: true }
+    ],
+    tldr: 'Vertical beans + dill seeds + salt water. A classic pickle snack.',
+    steps: [
+      { step: 1, title: 'Trim', instruction: 'Trim the ends so they fit vertically in your jar.' },
+      { step: 2, title: 'Pack', instruction: 'Pack them TIGHT. If they aren\'t tight, they will float and mould.' },
+      { step: 3, title: 'Ferment', instruction: '5–7 days. They should be sour but still have a loud "snap" when bitten.' }
+    ],
+    images: {hero: "https://www.allrecipes.com/thmb/pcSKsyKUusASqXNSzIIcPipM7VA=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/60750-dilly-beans-VAT-Beauty-4x3-57c6f50c90a44462a19c1b599ded0561.jpg"},
+    video: { url: 'https://www.youtube.com/watch?v=R9reE6iO-p0', title: 'Pickled Green Beans', channel: 'Food Wishes' },
+    culturalContext: {
+      story: 'A staple of Southern US pantries, usually canned, but the fermented version maintains the crunch much better.'
+    },
+    tags: ['beginner', 'snack', 'crunchy'],
+    sources: [{ title: 'Green Bean — Wikipedia', url: 'https://en.wikipedia.org/wiki/Green_bean' }]
+  },
+
+  // ─── 30. SWEET CORN LACTO ─────────────────────────────────────────────────
+  {
+    id: 'fermented-sweet-corn',
+    slug: 'fermented-sweet-corn',
+    name: 'Lacto Sweet Corn',
+    subtitle: 'Savory, funky, sweet kernels',
+    category: 'vegetable',
+    technique: 'brine',
+    difficulty: 1,
+    tier: 'beginner',
+    fermentTimeMin: 3,
+    fermentTimeMax: 7,
+    fermentTimeUnit: 'days',
+    blrNote: 'Use fresh cobs from the market, not frozen kernels. The wild yeast is on the cob.',
+    ingredients: [
+      { name: 'Sweet Corn Kernels', amount: 2, unit: 'cups', category: 'produce', essential: true },
+      { name: '3% Brine', amount: 300, unit: 'ml', category: 'liquid', essential: true }
+    ],
+    images: {hero: "https://honest-food.net/wp-content/uploads/2018/11/sour-corn.jpg"},
+    tldr: 'Corn kernels in brine. They get a "cheesy," funky depth that is incredible in salads.',
+    steps: [
+      { step: 1, title: 'Cut', instruction: 'Slice the kernels off the cob.' },
+      { step: 2, title: 'Jar', instruction: 'Pack into a jar and cover with brine. Corn floats, so use a weight!' },
+      { step: 3, title: 'Ferment', instruction: '3–5 days. It will smell a bit like corn chips (masa). That\'s good.' }
+    ],
+    culturalContext: {
+      story: 'Inspired by "Chicha," the South American corn ferment, but kept as a solid food rather than a drink.',
+      funFact: 'Fermenting corn makes the Niacin (Vitamin B3) more available to your body.'
+    },
+    tags: ['beginner', 'umami', 'sweet-savory'],
+    sources: [{ title: 'Corn — Wikipedia', url: 'https://en.wikipedia.org/wiki/Maize' }]
   }
 
 ); // end tier 1
