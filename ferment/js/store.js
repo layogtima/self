@@ -11,8 +11,8 @@ const FermentStore = {
     return {
       version: this.CURRENT_VERSION,
       settings: {
-        region: null,
-        city: null,
+        region: 'IN',
+        city: 'Bengaluru',
         hemisphere: 'north',
         units: 'metric',
         theme: 'light',

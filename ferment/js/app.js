@@ -46,10 +46,10 @@ const app = createApp({
 
     // ── Tabs ──
     const tabs = [
-      { id: 'browse', label: 'Browse', icon: '📖' },
-      { id: 'pantry', label: 'My Pantry', icon: '🥬' },
-      { id: 'journal', label: 'Journal', icon: '📓' },
-      { id: 'tools', label: 'Tools', icon: '🧮' },
+      { id: 'browse', label: 'Browse' },
+      { id: 'pantry', label: 'Pantry' },
+      { id: 'journal', label: 'Journal' },
+      { id: 'tools', label: 'Tools' },
     ];
 
     // ── All recipes ──

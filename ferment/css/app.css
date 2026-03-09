@@ -53,14 +53,14 @@
   animation: shimmer 1.5s ease-in-out infinite;
 }
 
-/* Card hover effect */
+/* Card hover effect — no shadows, use border emphasis */
 .recipe-card {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s ease;
 }
 
 .recipe-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 48px rgba(120, 80, 40, 0.16);
+  transform: translateY(-2px);
+  border-color: var(--accent-brine);
 }
 
 /* Focus ring */

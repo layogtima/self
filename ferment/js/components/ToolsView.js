@@ -40,13 +40,13 @@ const ToolsViewComponent = {
   computed: {
     tabs() {
       return [
-        { id: 'brine', label: 'Brine Calculator', emoji: '🧂' },
-        { id: 'scaler', label: 'Batch Scaler', emoji: '📐' },
-        { id: 'timers', label: 'Timers', emoji: '⏱️' },
-        { id: 'converter', label: 'Unit Converter', emoji: '🔄' },
-        { id: 'ph', label: 'pH Reference', emoji: '🧪' },
-        { id: 'glossary', label: 'Glossary', emoji: '📖' },
-        { id: 'calendar', label: 'Seasonal Calendar', emoji: '📅' },
+        { id: 'brine', label: 'Brine Calculator', icon: 'M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z' },
+        { id: 'scaler', label: 'Batch Scaler', icon: 'M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3' },
+        { id: 'timers', label: 'Timers', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+        { id: 'converter', label: 'Unit Converter', icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15' },
+        { id: 'ph', label: 'pH Reference', icon: 'M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z' },
+        { id: 'glossary', label: 'Glossary', icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253' },
+        { id: 'calendar', label: 'Seasonal Calendar', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' },
       ];
     },
 
@@ -92,14 +92,15 @@ const ToolsViewComponent = {
     },
 
     fermentPHRanges() {
+      // Colors match the pH scale rainbow at the midpoint of each range
       return [
-        { name: 'Sauerkraut', min: 3.0, max: 3.5, color: 'bg-accent-culture' },
-        { name: 'Kimchi', min: 3.5, max: 4.2, color: 'bg-accent-ferment' },
-        { name: 'Pickles (brine)', min: 3.0, max: 3.5, color: 'bg-accent-brine' },
-        { name: 'Hot Sauce', min: 3.0, max: 3.8, color: 'bg-accent-ferment' },
-        { name: 'Kombucha', min: 2.5, max: 3.5, color: 'bg-accent-aged' },
-        { name: 'Miso', min: 4.5, max: 5.0, color: 'bg-accent-culture' },
-        { name: 'Yogurt', min: 4.0, max: 4.6, color: 'bg-accent-brine' },
+        { name: 'Kombucha', min: 2.5, max: 3.5, color: null },
+        { name: 'Sauerkraut', min: 3.0, max: 3.5, color: null },
+        { name: 'Pickles (brine)', min: 3.0, max: 3.5, color: null },
+        { name: 'Hot Sauce', min: 3.0, max: 3.8, color: null },
+        { name: 'Kimchi', min: 3.5, max: 4.2, color: null },
+        { name: 'Yogurt', min: 4.0, max: 4.6, color: null },
+        { name: 'Miso', min: 4.5, max: 5.0, color: null },
       ];
     },
 
@@ -178,7 +179,11 @@ const ToolsViewComponent = {
       const totalRange = 14;
       const left = ((range.min - 0) / totalRange) * 100;
       const width = ((range.max - range.min) / totalRange) * 100;
-      return { left: left + '%', width: Math.max(width, 2) + '%' };
+      // Derive color from pH scale at the midpoint
+      const midPH = (range.min + range.max) / 2;
+      const phIndex = Math.max(0, Math.min(13, Math.round(midPH) - 1));
+      const phColor = this.phScale[phIndex] ? this.phScale[phIndex].color : '#FFAA00';
+      return { left: left + '%', width: Math.max(width, 2) + '%', backgroundColor: phColor };
     },
   },
 
@@ -327,7 +332,7 @@ const ToolsViewComponent = {
                   <span class="font-mono text-xs text-text-muted">{{ range.min }} — {{ range.max }}</span>
                 </div>
                 <div class="w-full bg-bg-secondary dark:bg-dark-secondary rounded-full h-3 relative">
-                  <div :class="[range.color, 'h-3 rounded-full absolute transition-all']"
+                  <div class="h-3 rounded-full absolute transition-all"
                     :style="phBarStyle(range)"
                   ></div>
                 </div>
@@ -767,7 +772,7 @@ const OnboardingModalComponent = {
     return {
       step: 0,
       localSettings: {
-        region: this.settings.region || '',
+        region: this.settings.region || 'IN',
         units: this.settings.units || 'metric',
         theme: this.settings.theme || 'light',
       },
@@ -787,6 +792,7 @@ const OnboardingModalComponent = {
     countries() {
       return [
         { code: '', label: 'Skip for now' },
+        { code: 'IN', label: 'India' },
         { code: 'US', label: 'United States' },
         { code: 'CA', label: 'Canada' },
         { code: 'GB', label: 'United Kingdom' },
@@ -797,17 +803,12 @@ const OnboardingModalComponent = {
         { code: 'KR', label: 'South Korea' },
         { code: 'JP', label: 'Japan' },
         { code: 'CN', label: 'China' },
-        { code: 'IN', label: 'India' },
         { code: 'TH', label: 'Thailand' },
         { code: 'TR', label: 'Turkey' },
         { code: 'MX', label: 'Mexico' },
         { code: 'BR', label: 'Brazil' },
         { code: 'AU', label: 'Australia' },
-      ].sort((a, b) => {
-        if (a.code === '') return -1;
-        if (b.code === '') return 1;
-        return a.label.localeCompare(b.label);
-      });
+      ];
     },
 
     features() {

@@ -50,12 +50,18 @@ const RecipeCardComponent = {
       return gradients[this.recipe.category] || gradients.vegetable;
     },
 
-    categoryEmoji() {
-      const emojis = {
-        vegetable: '🥬', sauce: '🫗', paste: '🫙',
-        condiment: '🧂', drink: '🍵', powder: '✨', preserve: '🍯'
+    categoryIcon() {
+      // SVG path data for category icons (inline, no emoji)
+      const icons = {
+        vegetable: 'M12 22c4-4 8-7.5 8-12S16.4 2 12 2 4 5.5 4 10s4 8 8 12z',
+        sauce: 'M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 4a6 6 0 110 12 6 6 0 010-12z',
+        paste: 'M8 2v4M16 2v4M6 6h12a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2z',
+        condiment: 'M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z',
+        drink: 'M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z',
+        powder: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z',
+        preserve: 'M8 2v4M16 2v4M6 6h12a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2z',
       };
-      return emojis[this.recipe.category] || '🫙';
+      return icons[this.recipe.category] || icons.paste;
     },
 
     ingredientCount() {
@@ -90,7 +96,7 @@ const RecipeCardComponent = {
   template: `
     <!-- CARD VIEW -->
     <div v-if="viewMode === 'card'"
-      class="recipe-card group bg-bg-card dark:bg-dark-card rounded-2xl shadow-warm overflow-hidden cursor-pointer border border-bg-secondary/50 dark:border-dark-secondary/50 flex flex-col"
+      class="recipe-card group bg-bg-card dark:bg-dark-card rounded-2xl overflow-hidden cursor-pointer border border-bg-secondary dark:border-dark-secondary flex flex-col"
       @click="$emit('open', recipe)"
       role="article"
       :aria-label="recipe.name"
@@ -104,14 +110,14 @@ const RecipeCardComponent = {
           <div class="absolute inset-0" style="background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.3) 0%, transparent 50%), radial-gradient(circle at 80% 30%, rgba(255,255,255,0.2) 0%, transparent 40%);"></div>
         </div>
 
-        <!-- Large Category Emoji -->
+        <!-- Category Icon -->
         <div class="absolute inset-0 flex items-center justify-center">
-          <span class="text-6xl opacity-60 group-hover:scale-110 transition-transform duration-500">{{ categoryEmoji }}</span>
+          <svg class="w-16 h-16 text-white/50 group-hover:scale-110 transition-transform duration-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" :d="categoryIcon"/></svg>
         </div>
 
         <!-- Tier Badge -->
         <div class="absolute top-3 left-3">
-          <span :class="['inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold text-white shadow-lg', 'bg-tier-' + tier.name]">
+          <span :class="['inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold text-white ', 'bg-tier-' + tier.name]">
             {{ tier.emoji }} {{ tier.label }}
           </span>
         </div>
@@ -215,7 +221,7 @@ const RecipeCardComponent = {
 
     <!-- LIST VIEW -->
     <div v-else-if="viewMode === 'list'"
-      class="group flex items-center gap-4 bg-bg-card dark:bg-dark-card rounded-xl shadow-warm px-4 py-3 cursor-pointer border border-bg-secondary/50 dark:border-dark-secondary/50 hover:shadow-warm-lg hover:-translate-y-0.5 transition-all duration-300"
+      class="group flex items-center gap-4 bg-bg-card dark:bg-dark-card rounded-xl px-4 py-3 cursor-pointer border border-bg-secondary dark:border-dark-secondary hover:border-accent-brine/40 hover:-translate-y-0.5 transition-all duration-200"
       @click="$emit('open', recipe)"
       role="article"
       :aria-label="recipe.name"
@@ -225,9 +231,9 @@ const RecipeCardComponent = {
       <!-- Tier Indicator -->
       <div :class="['w-1.5 h-12 rounded-full flex-shrink-0', 'bg-tier-' + tier.name]"></div>
 
-      <!-- Category Emoji -->
+      <!-- Category Icon -->
       <div :class="['w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br', categoryGradient]">
-        <span class="text-xl">{{ categoryEmoji }}</span>
+        <svg class="w-5 h-5 text-white/80" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" :d="categoryIcon"/></svg>
       </div>
 
       <!-- Name / Origin -->
