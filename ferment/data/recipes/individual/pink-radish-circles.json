@@ -1,0 +1,73 @@
+{
+  "id": "pink-radish-circles",
+  "slug": "pink-radish-circles",
+  "name": "Pink Radish Slices",
+  "subtitle": "The quickest taco topping",
+  "category": "vegetable",
+  "technique": "brine",
+  "difficulty": 1,
+  "tier": "beginner",
+  "fermentTimeMin": 2,
+  "fermentTimeMax": 4,
+  "fermentTimeUnit": "days",
+  "blrNote": "Use the small round red radishes (not the long mooli).",
+  "ingredients": [
+    {
+      "name": "Red Radish",
+      "amount": 10,
+      "unit": "small",
+      "category": "produce",
+      "essential": true
+    },
+    {
+      "name": "3% Brine",
+      "amount": 200,
+      "unit": "ml",
+      "category": "liquid",
+      "essential": true
+    }
+  ],
+  "images": [
+    {
+      "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8Or0zrIGHi9fmqYNumEssXn0FXCoOwG-4oQ&s",
+      "caption": "Pink Radish Slices",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Pink Radish Slices — The quickest taco topping"
+    }
+  ],
+  "tldr": "Sliced red radishes in brine. They turn the whole jar bright pink in 24 hours.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Slice",
+      "instruction": "Slice into thin rounds."
+    },
+    {
+      "step": 2,
+      "title": "Jar",
+      "instruction": "Pack and cover with brine."
+    },
+    {
+      "step": 3,
+      "title": "Wait",
+      "instruction": "Ready in 2 days. They stay very crunchy."
+    }
+  ],
+  "culturalContext": {
+    "story": "Standard in Mexican \"Taquerias.\" The pink color is purely from the skin pigment bleeding into the brine."
+  },
+  "tags": [
+    "beginner",
+    "quick",
+    "mexican"
+  ],
+  "sources": [
+    {
+      "title": "Radish — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Radish"
+    }
+  ],
+  "videos": [],
+  "citations": []
+}

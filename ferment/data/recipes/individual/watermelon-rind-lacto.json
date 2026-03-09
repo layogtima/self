@@ -1,0 +1,92 @@
+{
+  "id": "watermelon-rind-lacto",
+  "slug": "watermelon-rind-lacto",
+  "name": "Lacto Rind Pickles",
+  "subtitle": "Zero-waste summer crunch",
+  "category": "vegetable",
+  "technique": "brine",
+  "difficulty": 1,
+  "tier": "beginner",
+  "tierLabel": "Literally Just Add Salt",
+  "prepTime": "20 min",
+  "fermentTimeMin": 3,
+  "fermentTimeMax": 7,
+  "fermentTimeUnit": "days",
+  "totalTimeHuman": "4 days",
+  "blrNote": "In BLR summer, everyone eats watermelon. Save the rinds from your next one.",
+  "ingredients": [
+    {
+      "name": "Watermelon Rind",
+      "amount": 500,
+      "unit": "g, peeled",
+      "category": "produce",
+      "essential": true
+    },
+    {
+      "name": "3% Brine",
+      "amount": 500,
+      "unit": "ml",
+      "category": "liquid",
+      "essential": true
+    },
+    {
+      "name": "Black Peppercorns",
+      "amount": 1,
+      "unit": "tsp",
+      "category": "spice",
+      "essential": false
+    }
+  ],
+  "images": [
+    {
+      "url": "https://cultured.guru/wp-content/uploads/2023/07/fermented-watermelon-rind-6.webp",
+      "caption": "Lacto Rind Pickles",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Lacto Rind Pickles — Zero-waste summer crunch"
+    }
+  ],
+  "tldr": "The white part of the watermelon rind, fermented in brine. Tastes like a cross between a cucumber and a radish.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Peel",
+      "instruction": "Peel off the green skin. Keep only the white part. Cut into cubes."
+    },
+    {
+      "step": 2,
+      "title": "Brine",
+      "instruction": "Pack into a jar with peppercorns and cover with brine."
+    },
+    {
+      "step": 3,
+      "title": "Wait",
+      "instruction": "3–5 days at BLR room temp. Move to fridge once tangy."
+    }
+  ],
+  "culturalContext": {
+    "story": "A classic \"Depression Era\" recipe from the American South, originally made with vinegar and sugar, but much better when lacto-fermented.",
+    "significance": "Turns \"trash\" into a high-probiotic snack.",
+    "funFact": "The rind contains more citrulline (an amino acid) than the red flesh."
+  },
+  "tags": [
+    "beginner",
+    "zero-waste",
+    "summer"
+  ],
+  "sources": [
+    {
+      "title": "Watermelon Rind",
+      "url": "https://en.wikipedia.org/wiki/Watermelon"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=0_u9G2W9iE0",
+      "title": "Watermelon Rind Kimchi/Pickle",
+      "channel": "Maangchi",
+      "type": "youtube"
+    }
+  ],
+  "citations": []
+}

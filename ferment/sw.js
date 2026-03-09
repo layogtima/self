@@ -3,7 +3,7 @@
  * Offline-first caching strategy
  */
 
-const CACHE_NAME = 'ferment-v1';
+const CACHE_NAME = 'ferment-v2';
 const STATIC_ASSETS = [
   './',
   './index.html',
@@ -18,12 +18,16 @@ const STATIC_ASSETS = [
   './js/components/FilterPanel.js',
   './js/components/RecipeCard.js',
   './js/components/RecipeModal.js',
+  './js/components/RecipePage.js',
+  './js/components/BrowseView.js',
   './js/components/PantryManager.js',
   './js/components/JournalManager.js',
   './js/components/BrineCalculator.js',
   './js/components/BatchScaler.js',
   './js/components/TimerManager.js',
   './js/components/ToolsView.js',
+  './js/components/WelcomePage.js',
+  './data/recipes/manifest.json',
   './manifest.json',
   './assets/icons/favicon.svg',
 ];

@@ -1,0 +1,82 @@
+{
+  "id": "golden-cauliflower-ferment",
+  "slug": "golden-cauliflower-ferment",
+  "name": "Golden Cauliflower",
+  "subtitle": "Turmeric-stained probiotic florets",
+  "category": "vegetable",
+  "technique": "brine",
+  "difficulty": 1,
+  "tier": "beginner",
+  "fermentTimeMin": 5,
+  "fermentTimeMax": 10,
+  "fermentTimeUnit": "days",
+  "blrNote": "Cauliflower can sometimes be \"gassy.\" Add a pinch of hing (asafoetida) to the brine to help.",
+  "ingredients": [
+    {
+      "name": "Cauliflower",
+      "amount": 1,
+      "unit": "head",
+      "category": "produce",
+      "essential": true
+    },
+    {
+      "name": "Turmeric",
+      "nameLocal": "Arishina",
+      "amount": 1,
+      "unit": "tsp",
+      "category": "spice",
+      "essential": true
+    },
+    {
+      "name": "3% Brine",
+      "amount": 500,
+      "unit": "ml",
+      "category": "liquid",
+      "essential": true
+    }
+  ],
+  "tldr": "Cauliflower florets + turmeric + brine. Becomes a bright yellow, crunchy, tangy snack.",
+  "images": [
+    {
+      "url": "https://cdn.shopify.com/s/files/1/2604/4698/files/20260127142114-9.png?v=1769523676&width=600&height=900",
+      "caption": "Golden Cauliflower",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Golden Cauliflower — Turmeric-stained probiotic florets"
+    }
+  ],
+  "steps": [
+    {
+      "step": 1,
+      "title": "Break",
+      "instruction": "Break cauliflower into bite-sized florets."
+    },
+    {
+      "step": 2,
+      "title": "Jar",
+      "instruction": "Pack into a jar. Add turmeric to the brine and pour over."
+    },
+    {
+      "step": 3,
+      "title": "Wait",
+      "instruction": "5–7 days. The cauliflower will absorb the yellow color."
+    }
+  ],
+  "culturalContext": {
+    "story": "A variation of \"Giardiniera\" (Italian pickled vegetables) but with a South Asian spice profile.",
+    "funFact": "Turmeric is also an antimicrobial, which helps keep the ferment \"clean.\""
+  },
+  "tags": [
+    "beginner",
+    "colorful",
+    "turmeric"
+  ],
+  "sources": [
+    {
+      "title": "Giardiniera",
+      "url": "https://en.wikipedia.org/wiki/Giardiniera"
+    }
+  ],
+  "videos": [],
+  "citations": []
+}

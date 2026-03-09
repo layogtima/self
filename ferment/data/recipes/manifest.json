@@ -1,0 +1,154 @@
+{
+  "recipes": [
+    {
+      "id": "sauerkraut-classic",
+      "slug": "sauerkraut-classic",
+      "file": "sauerkraut-classic.json"
+    },
+    {
+      "id": "dahi-homemade",
+      "slug": "dahi-homemade",
+      "file": "dahi-homemade.json"
+    },
+    {
+      "id": "ginger-bug-starter",
+      "slug": "ginger-bug-starter",
+      "file": "ginger-bug-starter.json"
+    },
+    {
+      "id": "curtido-salvadoran",
+      "slug": "curtido-salvadoran",
+      "file": "curtido-salvadoran.json"
+    },
+    {
+      "id": "kanji-rice",
+      "slug": "kanji-rice",
+      "file": "kanji-rice.json"
+    },
+    {
+      "id": "brine-pickles-basic",
+      "slug": "brine-pickles-basic",
+      "file": "brine-pickles-basic.json"
+    },
+    {
+      "id": "switchel-drinking-vinegar",
+      "slug": "switchel-drinking-vinegar",
+      "file": "switchel-drinking-vinegar.json"
+    },
+    {
+      "id": "fermented-salsa",
+      "slug": "fermented-salsa",
+      "file": "fermented-salsa.json"
+    },
+    {
+      "id": "pickled-turnips-lift",
+      "slug": "pickled-turnips-lift",
+      "file": "pickled-turnips-lift.json"
+    },
+    {
+      "id": "fermented-green-chutney",
+      "slug": "fermented-green-chutney",
+      "file": "fermented-green-chutney.json"
+    },
+    {
+      "id": "tepache-pineapple",
+      "slug": "tepache-pineapple",
+      "file": "tepache-pineapple.json"
+    },
+    {
+      "id": "preserved-lemons-salt",
+      "slug": "preserved-lemons-salt",
+      "file": "preserved-lemons-salt.json"
+    },
+    {
+      "id": "honey-garlic-ferment",
+      "slug": "honey-garlic-ferment",
+      "file": "honey-garlic-ferment.json"
+    },
+    {
+      "id": "beet-kvass-basic",
+      "slug": "beet-kvass-basic",
+      "file": "beet-kvass-basic.json"
+    },
+    {
+      "id": "kkakdugi-radish",
+      "slug": "kkakdugi-radish",
+      "file": "kkakdugi-radish.json"
+    },
+    {
+      "id": "fermented-carrots-ginger",
+      "slug": "fermented-carrots-ginger",
+      "file": "fermented-carrots-ginger.json"
+    },
+    {
+      "id": "chilli-mash-base",
+      "slug": "chilli-mash-base",
+      "file": "chilli-mash-base.json"
+    },
+    {
+      "id": "gari-ginger",
+      "slug": "gari-ginger",
+      "file": "gari-ginger.json"
+    },
+    {
+      "id": "rejuvelac-grain",
+      "slug": "rejuvelac-grain",
+      "file": "rejuvelac-grain.json"
+    },
+    {
+      "id": "fermented-mustard-seeds",
+      "slug": "fermented-mustard-seeds",
+      "file": "fermented-mustard-seeds.json"
+    },
+    {
+      "id": "salted-amla-brine",
+      "slug": "salted-amla-brine",
+      "file": "salted-amla-brine.json"
+    },
+    {
+      "id": "watermelon-rind-lacto",
+      "slug": "watermelon-rind-lacto",
+      "file": "watermelon-rind-lacto.json"
+    },
+    {
+      "id": "lacto-red-onions",
+      "slug": "lacto-red-onions",
+      "file": "lacto-red-onions.json"
+    },
+    {
+      "id": "green-mango-brine",
+      "slug": "green-mango-brine",
+      "file": "green-mango-brine.json"
+    },
+    {
+      "id": "golden-cauliflower-ferment",
+      "slug": "golden-cauliflower-ferment",
+      "file": "golden-cauliflower-ferment.json"
+    },
+    {
+      "id": "green-peppercorns-ferment",
+      "slug": "green-peppercorns-ferment",
+      "file": "green-peppercorns-ferment.json"
+    },
+    {
+      "id": "lacto-cherry-tomatoes",
+      "slug": "lacto-cherry-tomatoes",
+      "file": "lacto-cherry-tomatoes.json"
+    },
+    {
+      "id": "pink-radish-circles",
+      "slug": "pink-radish-circles",
+      "file": "pink-radish-circles.json"
+    },
+    {
+      "id": "fermented-green-beans",
+      "slug": "fermented-green-beans",
+      "file": "fermented-green-beans.json"
+    },
+    {
+      "id": "fermented-sweet-corn",
+      "slug": "fermented-sweet-corn",
+      "file": "fermented-sweet-corn.json"
+    }
+  ]
+}

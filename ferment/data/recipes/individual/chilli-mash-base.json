@@ -1,0 +1,90 @@
+{
+  "id": "chilli-mash-base",
+  "slug": "chilli-mash-base",
+  "name": "Chilli Mash",
+  "nameLocal": "Mirchi Paste",
+  "subtitle": "The building block of Sriracha and Sambal",
+  "category": "condiment",
+  "subcategory": "hot-sauce",
+  "technique": "dry-salt",
+  "difficulty": 1,
+  "tier": "beginner",
+  "tierLabel": "Literally Just Add Salt",
+  "prepTime": "15 min",
+  "fermentTimeMin": 7,
+  "fermentTimeMax": 30,
+  "fermentTimeUnit": "days",
+  "totalTimeHuman": "2–4 weeks",
+  "blrNote": "Go to KR Market and buy a kilo of the bright red \"Byadgi\" chillies for flavor or the small \"Guntur\" ones for pure heat.",
+  "ingredients": [
+    {
+      "name": "Fresh Chillies",
+      "nameLocal": "Mirch",
+      "amount": 500,
+      "unit": "g",
+      "unitMetric": "500g",
+      "category": "produce",
+      "essential": true
+    },
+    {
+      "name": "Salt",
+      "amount": 2,
+      "unit": "% by weight",
+      "unitMetric": "10g",
+      "category": "salt",
+      "essential": true
+    }
+  ],
+  "tldr": "Pulverize chillies with salt. Let them rot into a complex, fruity, spicy paste.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Blend",
+      "instruction": "Remove stems. Pulse chillies in a blender with salt until you have a coarse mash."
+    },
+    {
+      "step": 2,
+      "title": "Jar",
+      "instruction": "Pack into a jar. Use a weight if possible, otherwise stir every few days to prevent mould on top."
+    },
+    {
+      "step": 3,
+      "title": "Age",
+      "instruction": "Let it sit for at least a week. The flavor will move from \"raw heat\" to \"fruity complexity.\""
+    }
+  ],
+  "images": [
+    {
+      "url": "https://nourishedkitchen.com/wp-content/uploads/2023/11/fermented-pepper-mash-jar.jpg",
+      "caption": "Chilli Mash",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Chilli Mash — The building block of Sriracha and Sambal"
+    }
+  ],
+  "culturalContext": {
+    "story": "This is how Tabasco is made—they age their chilli mash in oak barrels for three years.",
+    "significance": "Fermentation breaks down the capsaicin slightly but adds layers of flavor that vinegar-based sauces lack.",
+    "funFact": "The liquid that rises to the top is \"Chilli Whey\"—use it to marinate chicken."
+  },
+  "tags": [
+    "beginner",
+    "spicy",
+    "pantry-staple"
+  ],
+  "sources": [
+    {
+      "title": "Fermented Hot Sauce",
+      "url": "https://en.wikipedia.org/wiki/Hot_sauce"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=nsXGPmBxMzU",
+      "title": "Fermented Hot Sauce",
+      "channel": "Joshua Weissman",
+      "type": "youtube"
+    }
+  ],
+  "citations": []
+}

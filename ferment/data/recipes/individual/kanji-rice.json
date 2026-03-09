@@ -1,0 +1,230 @@
+{
+  "id": "kanji-rice",
+  "slug": "kanji-rice",
+  "name": "Kanji",
+  "nameLocal": "ಕಂಜಿ / கஞ்சி",
+  "nameRomanized": "Kanji / Ganji",
+  "subtitle": "Fermented rice water — probiotic drink of the South",
+  "category": "beverage",
+  "subcategory": "fermented-grain",
+  "technique": "wild-ferment",
+  "region": "South Asia",
+  "country": "India",
+  "countryCode": "IN",
+  "culturalGroup": "South Indian / Pan-Asian",
+  "difficulty": 1,
+  "tier": "beginner",
+  "tierLabel": "Literally Just Add Salt",
+  "prepTime": "5 min",
+  "fermentTimeMin": 8,
+  "fermentTimeMax": 24,
+  "fermentTimeUnit": "hours",
+  "totalTimeHuman": "Overnight",
+  "blrNote": "Zero-waste, zero-barrier. If you cook rice, you already have everything you need. At BLR temperatures, overnight fermentation is usually perfect — sour, slightly fizzy, deeply probiotic.",
+  "seasonality": [
+    "all"
+  ],
+  "ingredients": [
+    {
+      "name": "Cooked rice (leftover works perfectly)",
+      "nameLocal": "Akki / Chawal",
+      "amount": 1,
+      "unit": "cup",
+      "unitMetric": "150g",
+      "category": "grain",
+      "essential": true,
+      "substitutions": [
+        "Raw rice (cook very soft)",
+        "Ragi (finger millet) for ambali variant"
+      ],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "You already have this. Every kitchen."
+        }
+      }
+    },
+    {
+      "name": "Water (cooled boiled or filtered)",
+      "nameLocal": null,
+      "amount": 3,
+      "unit": "cups",
+      "unitMetric": "750ml",
+      "category": "liquid",
+      "essential": true,
+      "substitutions": [],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any tap (use filtered)"
+        }
+      }
+    },
+    {
+      "name": "Non-iodised salt (to serve)",
+      "nameLocal": "Rock salt",
+      "amount": 0.5,
+      "unit": "tsp",
+      "unitMetric": "3g",
+      "category": "salt",
+      "essential": false,
+      "substitutions": [],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any kirana"
+        }
+      }
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Clay pot (ideal) or glass jar",
+      "essential": true,
+      "notes": "Clay pots impart minerals and improve flavour; any container works"
+    },
+    {
+      "name": "Cloth cover",
+      "essential": false,
+      "notes": "Loose cover — it needs to breathe"
+    }
+  ],
+  "tldr": "Add water to leftover rice. Leave overnight. Drink in the morning with salt. Your gut will thank you.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Prepare the base",
+      "instruction": "Place cooked rice in a clay pot or glass jar. Add 3 cups of cooled water (room temperature — not cold from the fridge).",
+      "duration": "2 min",
+      "tips": [
+        "More water = thinner, more drinkable kanji. Less water = porridge-style ambali."
+      ],
+      "checkpoint": "Rice submerged in water"
+    },
+    {
+      "step": 2,
+      "title": "Ferment overnight",
+      "instruction": "Cover loosely with a cloth. Leave at room temperature. Bengaluru nights (18–22°C in winter, 24–26°C in summer) are ideal. Ferment for 8–16 hours.",
+      "duration": "8–16 hours",
+      "tips": [
+        "In summer, 8 hours is usually sufficient. In cooler months, go longer.",
+        "Traditional households use the same clay pot daily — the absorbed cultures speed up fermentation over time."
+      ],
+      "checkpoint": "Smells slightly sour and tangy in the morning"
+    },
+    {
+      "step": 3,
+      "title": "Serve",
+      "instruction": "Stir well. Add salt to taste. Serve as a morning drink (strain for liquid-only) or eat as a soft porridge. Traditional accompaniments: pickle, raw onion, papad.",
+      "duration": null,
+      "tips": [
+        "The water is more probiotic than the rice — don't discard it",
+        "Add buttermilk for extra richness (traditional in Tamil Nadu and Karnataka)"
+      ],
+      "checkpoint": "Pleasantly sour, refreshing, slightly effervescent"
+    }
+  ],
+  "images": [
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Kanjee_gajar_view.jpg/1920px-Kanjee_gajar_view.jpg",
+      "caption": "Kanji",
+      "attribution": "Photo by K8 on Unsplash",
+      "type": "hero",
+      "alt": "Kanji — Fermented rice water — probiotic drink of the South"
+    }
+  ],
+  "culturalContext": {
+    "story": "Kanji is one of the oldest fermented foods in South and Southeast Asia. Before modern nutrition science, rural communities understood intuitively that fermented rice water was restorative — given to the sick, the weak, the recovering. It appears in Ayurvedic texts as a digestive and is still the first food offered to patients recovering from illness in many South Indian households.",
+    "historicalNote": "The practice of fermenting rice water appears across South Asia, Southeast Asia, China, Japan (amazake), and Korea (sikhye). The South Indian and Sri Lankan tradition of overnight kanji is among the simplest variants — no cooking required if using leftover rice.",
+    "significance": "Kanji represents the fermentation philosophy at its most elemental: don't discard, transform. Leftover rice + water + time = a living probiotic drink. It's also deeply egalitarian — this is not cuisine that requires money or equipment. It is the everyday ferment of every household.",
+    "relatedTraditions": [
+      "Congee / Juk (East Asian fermented rice porridge)",
+      "Ambali (ragi kanji, Karnataka)",
+      "Pozol (Mexican fermented corn drink)",
+      "Amazake (Japanese sweet rice drink)"
+    ],
+    "funFact": "A 2019 study in Frontiers in Microbiology documented over 200 strains of beneficial bacteria and wild yeasts in traditional South Indian fermented rice water. The diversity rivals commercial probiotic supplements at ₹0 additional cost."
+  },
+  "thingsToAccountFor": [
+    {
+      "title": "Over-fermentation in summer",
+      "description": "At BLR summer temperatures (28–32°C), kanji can become very sour within 8 hours. Taste before the full fermentation period and stop when you like it.",
+      "severity": "info",
+      "appliesTo": [
+        "blr"
+      ]
+    },
+    {
+      "title": "Pink or orange discolouration",
+      "description": "If the kanji turns pink, orange, or develops an off smell, discard. This indicates contamination. Use cleaner equipment and fresh water next time.",
+      "severity": "important",
+      "appliesTo": [
+        "all"
+      ]
+    }
+  ],
+  "dehydratorIntegration": {
+    "applicable": false,
+    "method": null,
+    "result": null,
+    "shelfLife": null,
+    "tips": []
+  },
+  "variations": [
+    {
+      "name": "Ragi Ambali",
+      "description": "Use finger millet (ragi) flour instead of rice. Cook into a thin porridge, ferment overnight. A Karnataka staple — more nutritious, slightly more complex.",
+      "region": "Karnataka, India"
+    },
+    {
+      "name": "Spiced Kanji",
+      "description": "Add curry leaves, green chilli, ginger to the fermented kanji. Heat briefly (don't boil — kills cultures). Or serve raw with the same additions.",
+      "region": "Kerala / Tamil Nadu"
+    },
+    {
+      "name": "Sweet Kanji",
+      "description": "Add jaggery and cardamom instead of salt. Dessert kanji — fermented grain sweetened with unrefined sugar. Served warm.",
+      "region": "Kerala"
+    }
+  ],
+  "relatedRecipes": [
+    "dahi-homemade",
+    "idli-dosa-batter"
+  ],
+  "tags": [
+    "beginner",
+    "zero-waste",
+    "probiotic",
+    "south-indian",
+    "year-round",
+    "vegan",
+    "blr-friendly"
+  ],
+  "dietaryFlags": [
+    "gluten-free",
+    "vegan"
+  ],
+  "veganAdaptable": true,
+  "containsAllergens": [],
+  "sources": [
+    {
+      "title": "Kanji (food) — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Kanji_(food)",
+      "license": "CC BY-SA"
+    },
+    {
+      "title": "Fermented Rice Water Microbial Diversity, Frontiers in Microbiology, 2019",
+      "url": "https://www.frontiersin.org/articles/10.3389/fmicb.2019.02369/full",
+      "license": "Open Access"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=1oXheGE0cO0",
+      "title": "Kanji — Traditional Fermented Rice Water",
+      "channel": "Bong Eats",
+      "type": "youtube"
+    }
+  ],
+  "citations": []
+}

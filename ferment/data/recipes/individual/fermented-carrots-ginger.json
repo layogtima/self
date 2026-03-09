@@ -1,0 +1,95 @@
+{
+  "id": "fermented-carrots-ginger",
+  "slug": "fermented-carrots-ginger",
+  "name": "Ginger Carrots",
+  "subtitle": "The gateway snack for kids and skeptics",
+  "category": "vegetable",
+  "technique": "brine",
+  "difficulty": 1,
+  "tier": "beginner",
+  "tierLabel": "Literally Just Add Salt",
+  "prepTime": "15 min",
+  "fermentTimeMin": 4,
+  "fermentTimeMax": 10,
+  "fermentTimeUnit": "days",
+  "totalTimeHuman": "1 week",
+  "blrNote": "Bengaluru carrots are surprisingly sweet. Use the \"red\" winter carrots for a deeper flavor if they are in season.",
+  "ingredients": [
+    {
+      "name": "Carrots",
+      "nameLocal": "Gajar",
+      "amount": 500,
+      "unit": "g",
+      "unitMetric": "500g",
+      "category": "produce",
+      "essential": true
+    },
+    {
+      "name": "Ginger",
+      "nameLocal": "Shunti",
+      "amount": 2,
+      "unit": "inch",
+      "category": "produce",
+      "essential": true
+    },
+    {
+      "name": "3% Brine",
+      "amount": 500,
+      "unit": "ml",
+      "category": "liquid",
+      "essential": true
+    }
+  ],
+  "tldr": "Carrot sticks submerged in salt water with ginger. Ends up crunchier than fresh carrots.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Slice",
+      "instruction": "Cut carrots into sticks that will fit vertically in your jar."
+    },
+    {
+      "step": 2,
+      "title": "Brine",
+      "instruction": "Mix 15g salt into 500ml water. Pour over carrots and ginger slices."
+    },
+    {
+      "step": 3,
+      "title": "Wait",
+      "instruction": "Ferment for 5–7 days. The brine will get cloudy—that’s the good stuff."
+    }
+  ],
+  "images": [
+    {
+      "url": "https://coleycooks.com/wp-content/uploads/2024/05/pickled-carrots-with-ginger.jpg",
+      "caption": "Ginger Carrots",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Ginger Carrots — The gateway snack for kids and skeptics"
+    }
+  ],
+  "culturalContext": {
+    "story": "A staple of the \"Weston A. Price\" style diet. It’s the easiest way to get probiotics into a sandwich.",
+    "significance": "Carrots maintain their structural integrity better than almost any other vegetable when fermented.",
+    "funFact": "The ginger prevents the carrots from smelling \"swampy,\" keeping them fresh and bright."
+  },
+  "tags": [
+    "beginner",
+    "snack",
+    "probiotic"
+  ],
+  "sources": [
+    {
+      "title": "Fermented Carrots",
+      "url": "https://www.culturesforhealth.com/learn/recipe/lacto-fermentation-recipes/lacto-fermented-carrots/"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=Vl6D1LqE0x8",
+      "title": "Lacto Fermented Carrots",
+      "channel": "Clean & Delicious",
+      "type": "youtube"
+    }
+  ],
+  "citations": []
+}

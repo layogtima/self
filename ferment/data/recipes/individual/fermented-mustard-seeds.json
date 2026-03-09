@@ -1,0 +1,89 @@
+{
+  "id": "fermented-mustard-seeds",
+  "slug": "fermented-mustard-seeds",
+  "name": "Mustard Caviar",
+  "nameLocal": "Sasive Uppinakayi",
+  "subtitle": "Little probiotic pearls that pop",
+  "category": "condiment",
+  "subcategory": "seeds",
+  "technique": "brine",
+  "difficulty": 1,
+  "tier": "beginner",
+  "tierLabel": "Literally Just Add Salt",
+  "prepTime": "5 min",
+  "fermentTimeMin": 7,
+  "fermentTimeMax": 14,
+  "fermentTimeUnit": "days",
+  "totalTimeHuman": "10 days",
+  "blrNote": "Indian Yellow Mustard (Rai) is perfect. The black ones are more bitter and take longer to mellow.",
+  "ingredients": [
+    {
+      "name": "Yellow Mustard Seeds",
+      "nameLocal": "Saaive / Rai",
+      "amount": 100,
+      "unit": "g",
+      "unitMetric": "100g",
+      "category": "seeds",
+      "essential": true
+    },
+    {
+      "name": "3% Brine",
+      "amount": 200,
+      "unit": "ml",
+      "category": "liquid",
+      "essential": true
+    }
+  ],
+  "tldr": "Seeds + brine. They swell into pearls that lose their bitter bite and become tangy.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Mix",
+      "instruction": "Put seeds in a jar. Cover with brine."
+    },
+    {
+      "step": 2,
+      "title": "Absorb",
+      "instruction": "Check after 12 hours. The seeds will have soaked up the water. Add more brine to keep them covered."
+    },
+    {
+      "step": 3,
+      "title": "Age",
+      "instruction": "Wait 10 days. The sharp \"wasabi\" bite will mellow into a sophisticated tang."
+    }
+  ],
+  "images": [
+    {
+      "url": "https://www.proportionalplate.com/wp-content/uploads/2019/03/Pickled-Mustard-Seeds-1.jpg",
+      "caption": "Mustard Caviar",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Mustard Caviar — Little probiotic pearls that pop"
+    }
+  ],
+  "culturalContext": {
+    "story": "A \"chef secret\" for adding texture to plates. It looks like expensive caviar but costs pennies.",
+    "significance": "Unlike store-bought mustard, this is raw and probiotic.",
+    "funFact": "If you blend this after fermenting, you get the best \"Dijon\" style mustard you've ever tasted."
+  },
+  "tags": [
+    "beginner",
+    "texture",
+    "caviar"
+  ],
+  "sources": [
+    {
+      "title": "Fermented Mustard",
+      "url": "https://www.insidetherustickitchen.com/fermented-mustard/"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=FofvRjYV20s",
+      "title": "Fermented Mustard",
+      "channel": "It's Alive",
+      "type": "youtube"
+    }
+  ],
+  "citations": []
+}

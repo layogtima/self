@@ -1,0 +1,332 @@
+{
+  "id": "fermented-salsa",
+  "slug": "fermented-salsa",
+  "name": "Fermented Salsa",
+  "nameLocal": "Salsa Lactofermentada",
+  "nameRomanized": null,
+  "subtitle": "Mexican salsa gone probiotic — tomato, chili, cilantro, alive",
+  "category": "condiment",
+  "subcategory": "salsa",
+  "technique": "dry-salt",
+  "region": "Latin America",
+  "country": "Mexico",
+  "countryCode": "MX",
+  "culturalGroup": "Mexican",
+  "difficulty": 1,
+  "tier": "beginner",
+  "tierLabel": "Literally Just Add Salt",
+  "prepTime": "15 min",
+  "fermentTimeMin": 2,
+  "fermentTimeMax": 3,
+  "fermentTimeUnit": "days",
+  "totalTimeHuman": "2–3 days",
+  "blrNote": "Tomatoes, green chillies, onions, and coriander — all abundant year-round in BLR. This is your existing chutney ingredients, rearranged Mexican-style and fermented. At 25°C, 2 days is usually perfect.",
+  "seasonality": [
+    "all"
+  ],
+  "ingredients": [
+    {
+      "name": "Ripe tomatoes",
+      "nameLocal": "Tamatar / Thakkali",
+      "amount": 4,
+      "unit": "medium, diced",
+      "unitMetric": "400g",
+      "category": "produce",
+      "essential": true,
+      "substitutions": [
+        "Cherry tomatoes (sweeter, more concentrated)"
+      ],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any sabziwala, KR Market — ₹20–40/kg"
+        }
+      }
+    },
+    {
+      "name": "Green chillies",
+      "nameLocal": "Hari mirch / Hasiru menasinakayi",
+      "amount": 2,
+      "unit": "finely chopped",
+      "unitMetric": "10g",
+      "category": "produce",
+      "essential": true,
+      "substitutions": [
+        "Jalapeño (milder)",
+        "Bird's eye chilli (hotter)"
+      ],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any market — Indian green chillies are perfect"
+        }
+      }
+    },
+    {
+      "name": "Onion",
+      "nameLocal": "Pyaz / Eerulli",
+      "amount": 1,
+      "unit": "small, finely diced",
+      "unitMetric": "80g",
+      "category": "produce",
+      "essential": true,
+      "substitutions": [
+        "Shallots",
+        "Spring onion"
+      ],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any market"
+        }
+      }
+    },
+    {
+      "name": "Fresh coriander (cilantro)",
+      "nameLocal": "Dhania / Kottambari soppu",
+      "amount": 1,
+      "unit": "small bunch, chopped",
+      "unitMetric": "30g",
+      "category": "produce",
+      "essential": true,
+      "substitutions": [],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any market — ₹5–10 per bunch"
+        }
+      }
+    },
+    {
+      "name": "Lime juice",
+      "nameLocal": "Nimbu ras",
+      "amount": 1,
+      "unit": "tbsp",
+      "unitMetric": "15ml",
+      "category": "flavouring",
+      "essential": false,
+      "substitutions": [
+        "Lemon juice"
+      ],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any market"
+        }
+      }
+    },
+    {
+      "name": "Non-iodised salt",
+      "nameLocal": "Rock salt",
+      "amount": 1,
+      "unit": "tsp",
+      "unitMetric": "6g",
+      "category": "salt",
+      "essential": true,
+      "substitutions": [],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any kirana"
+        }
+      }
+    },
+    {
+      "name": "Garlic",
+      "nameLocal": "Lahsun / Bellulli",
+      "amount": 2,
+      "unit": "cloves, minced",
+      "unitMetric": "8g",
+      "category": "produce",
+      "essential": false,
+      "substitutions": [],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any market"
+        }
+      }
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Glass jar (500ml–1L)",
+      "essential": true,
+      "notes": "Wide-mouth for easy packing"
+    },
+    {
+      "name": "Mixing bowl",
+      "essential": true,
+      "notes": null
+    }
+  ],
+  "tldr": "Dice tomatoes, chillies, onion, cilantro. Salt. Pack in a jar. 2 days later: probiotic salsa with a deep, complex tang.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Dice and combine",
+      "instruction": "Dice tomatoes, finely chop chillies and onion, mince garlic, and roughly chop coriander. Combine in a bowl.",
+      "duration": "10 min",
+      "tips": [
+        "Smaller dice = more surface area = faster, more even fermentation",
+        "Reserve a sprig of coriander for garnish after fermentation"
+      ],
+      "checkpoint": "Chunky, colourful salsa mix in bowl"
+    },
+    {
+      "step": 2,
+      "title": "Salt and mix",
+      "instruction": "Add salt and optional lime juice. Mix thoroughly. The salt will draw moisture from the tomatoes within minutes.",
+      "duration": "3 min",
+      "tips": [
+        "Taste the salsa before fermenting — it should taste well-seasoned (slightly salty is fine, it mellows)",
+        "The lime juice adds flavour but isn't necessary for fermentation"
+      ],
+      "checkpoint": "Juicy salsa mixture, tomato liquid pooling"
+    },
+    {
+      "step": 3,
+      "title": "Pack the jar",
+      "instruction": "Transfer to a clean glass jar. Press down firmly so the salsa's own liquid rises to cover it. If needed, add a splash of brine (1 tsp salt in ½ cup water) to ensure coverage.",
+      "duration": "3 min",
+      "tips": [
+        "Pack tightly — air pockets invite mould",
+        "Leave 3cm headspace for bubbling"
+      ],
+      "checkpoint": "Salsa submerged under its own liquid"
+    },
+    {
+      "step": 4,
+      "title": "Ferment",
+      "instruction": "Cover loosely. Leave at room temperature for 2–3 days. You'll see bubbles forming — this is active lacto-fermentation. Taste daily.",
+      "duration": "2–3 days",
+      "tips": [
+        "In BLR's warmth, 2 days usually produces a perfect balance of fresh and fermented",
+        "The flavour will deepen — more complex, tangier, slightly effervescent",
+        "If it starts to smell boozy or yeasty, it's gone too long — refrigerate immediately"
+      ],
+      "checkpoint": "Bubbling, tangy salsa with depth beyond fresh"
+    },
+    {
+      "step": 5,
+      "title": "Refrigerate and serve",
+      "instruction": "Once you like the flavour, seal and refrigerate. Add fresh coriander on top. Serve with tortilla chips, on tacos, or — perfectly — with idli, dosa, or rice.",
+      "duration": null,
+      "tips": [
+        "Keeps 2 weeks refrigerated",
+        "The tang gets more pronounced over time — it won't stay \"mild\""
+      ],
+      "checkpoint": "Complex, living salsa ready for any meal"
+    }
+  ],
+  "images": [
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Salsa_ferment.jpg",
+      "caption": "Fermented Salsa",
+      "attribution": "Photo by Farhad Ibrahimzade on Unsplash",
+      "type": "hero",
+      "alt": "Fermented Salsa — Mexican salsa gone probiotic — tomato, chili, cilantro, alive"
+    }
+  ],
+  "culturalContext": {
+    "story": "Salsa has pre-Columbian roots — the Aztecs combined tomatoes, chillies, and squash seeds into sauces long before Europeans arrived. The word \"salsa\" is simply Spanish for \"sauce.\" While most modern salsa is eaten fresh, lacto-fermentation adds depth, complexity, and beneficial bacteria — transforming a condiment into a living food.",
+    "historicalNote": "Tomatoes, chillies, and coriander were all domesticated in the Americas. The global spread of salsa-like condiments happened after the Columbian Exchange. Today, salsa outsells ketchup in the United States.",
+    "significance": "Fermented salsa bridges Mexican and Indian kitchens beautifully. The ingredient overlap — tomatoes, green chillies, coriander, onion — is almost identical to Indian chutney. The only difference is technique: Indian chutneys are ground, Mexican salsas are chunky. Fermenting either adds probiotic value.",
+    "relatedTraditions": [
+      "Pico de gallo (fresh, unfermented)",
+      "Indian tomato chutney (ground, cooked)",
+      "Zhug (Yemeni green chilli sauce)",
+      "Sambal (Southeast Asian chilli paste)"
+    ],
+    "funFact": "Americans consume over 800 million dollars worth of salsa annually. In 1991, salsa overtook ketchup as America's top-selling condiment — a shift food historians call \"the salsa moment.\""
+  },
+  "thingsToAccountFor": [
+    {
+      "title": "Tomato quality matters",
+      "description": "Use ripe, flavourful tomatoes — not the pale, underripe ones. Better tomatoes = better salsa. Desi tomatoes from KR Market often have more flavour than hybrid varieties.",
+      "severity": "info",
+      "appliesTo": [
+        "blr"
+      ]
+    },
+    {
+      "title": "Fast ferment in BLR heat",
+      "description": "At 28–30°C in summer, this can ferment aggressively. Start checking at 36 hours. The line between \"perfectly tangy\" and \"too sour\" is narrow.",
+      "severity": "info",
+      "appliesTo": [
+        "blr"
+      ]
+    },
+    {
+      "title": "Texture softens",
+      "description": "Fermentation breaks down cell walls. If you want some crunch, ferment only 1–2 days. After 3+ days, it becomes more sauce-like.",
+      "severity": "info",
+      "appliesTo": [
+        "all"
+      ]
+    }
+  ],
+  "dehydratorIntegration": {
+    "applicable": true,
+    "method": "Spread fermented salsa thinly on parchment-lined trays. Dehydrate at 45°C for 10–14 hours until brittle.",
+    "result": "Tangy salsa leather or powder — grind into a seasoning for rice, popcorn, or rub for grilled vegetables.",
+    "shelfLife": "3–4 months airtight",
+    "tips": [
+      "Blend smooth before dehydrating for even drying",
+      "Makes an incredible spice powder when ground"
+    ]
+  },
+  "variations": [
+    {
+      "name": "Roasted fermented salsa",
+      "description": "Char tomatoes and chillies over a gas flame before dicing. Adds smoky depth to the fermented tang.",
+      "region": "Mexico"
+    },
+    {
+      "name": "Mango salsa (fermented)",
+      "description": "Replace half the tomato with diced raw mango. Sweet-sour-spicy. Mangoes in season (Apr–Jun) make this outstanding.",
+      "region": "Fusion / India"
+    },
+    {
+      "name": "Salsa verde fermentada",
+      "description": "Use tomatillos instead of tomatoes if available (check Nature's Basket or grow your own). Tangier, greener.",
+      "region": "Mexico"
+    }
+  ],
+  "relatedRecipes": [
+    "fermented-green-chutney",
+    "lacto-hot-sauce"
+  ],
+  "tags": [
+    "beginner",
+    "quick",
+    "condiment",
+    "probiotic",
+    "mexican",
+    "year-round",
+    "vegan",
+    "blr-friendly"
+  ],
+  "dietaryFlags": [
+    "gluten-free",
+    "vegan"
+  ],
+  "veganAdaptable": true,
+  "containsAllergens": [],
+  "sources": [
+    {
+      "title": "Salsa (sauce) — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Salsa_(sauce)",
+      "license": "CC BY-SA"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=nsXGPmBxMzU",
+      "title": "Fermented Salsa — Lacto-Fermented Tomato Salsa",
+      "channel": "Fermented Homestead",
+      "type": "youtube"
+    }
+  ],
+  "citations": []
+}

@@ -286,8 +286,9 @@
   <script src="js/utils/search.js"></script>
   <script src="js/utils/matching.js"></script>
   <script src="js/store.js"></script>
-  <!-- Recipe data (split by tier for easy maintenance) -->
+  <!-- Recipe loader (fetches individual JSON files, falls back to tier*.js) -->
   <script src="js/recipes.js"></script>
+  <!-- Fallback: tier1 recipes loaded via script tag in case JSON fetch fails -->
   <script src="data/recipes/tier1-beginner.js?v2"></script>
   <script src="js/components/SearchBar.js"></script>
   <script src="js/components/FilterPanel.js"></script>

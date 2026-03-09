@@ -1,0 +1,88 @@
+{
+  "id": "lacto-cherry-tomatoes",
+  "slug": "lacto-cherry-tomatoes",
+  "name": "Bursting Tomatoes",
+  "subtitle": "Umami-bombs that pop in your mouth",
+  "category": "vegetable",
+  "technique": "brine",
+  "difficulty": 1,
+  "tier": "beginner",
+  "fermentTimeMin": 3,
+  "fermentTimeMax": 5,
+  "fermentTimeUnit": "days",
+  "blrNote": "Use the small \"Local\" cherry tomatoes. They have thicker skins which hold the carbonation inside better.",
+  "ingredients": [
+    {
+      "name": "Cherry Tomatoes",
+      "amount": 300,
+      "unit": "g",
+      "category": "produce",
+      "essential": true
+    },
+    {
+      "name": "3% Brine",
+      "amount": 300,
+      "unit": "ml",
+      "category": "liquid",
+      "essential": true
+    },
+    {
+      "name": "Garlic",
+      "amount": 1,
+      "unit": "clove",
+      "category": "produce",
+      "essential": false
+    }
+  ],
+  "tldr": "Whole cherry tomatoes in brine. They carbonate themselves. Like a healthy, savory soda in fruit form.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Prick",
+      "instruction": "Prick each tomato once with a toothpick (so they don't explode during ferment)."
+    },
+    {
+      "step": 2,
+      "title": "Brine",
+      "instruction": "Pack into a jar with garlic and cover with brine."
+    },
+    {
+      "step": 3,
+      "title": "Check",
+      "instruction": "Wait 3 days. When they look slightly \"puffy,\" they are ready."
+    }
+  ],
+  "images": [
+    {
+      "url": "https://urbanfarmandkitchen.com/wp-content/uploads/2023/02/pickled-cherry-tomatoes.jpg",
+      "caption": "Bursting Tomatoes",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Bursting Tomatoes — Umami-bombs that pop in your mouth"
+    }
+  ],
+  "culturalContext": {
+    "story": "A favorite of modern \"molecular\" chefs. It’s an easy way to introduce carbonation into a salad.",
+    "funFact": "If you leave them long enough, they turn into a fizzy tomato sauce base."
+  },
+  "tags": [
+    "beginner",
+    "umami",
+    "fizzy"
+  ],
+  "sources": [
+    {
+      "title": "Fermented Tomatoes",
+      "url": "https://www.seriouseats.com/lacto-fermented-tomato-sauce-recipe"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=FofvRjYV20s",
+      "title": "Fermented Tomatoes",
+      "channel": "It's Alive",
+      "type": "youtube"
+    }
+  ],
+  "citations": []
+}

@@ -1,0 +1,85 @@
+{
+  "id": "green-peppercorns-ferment",
+  "slug": "green-peppercorns-ferment",
+  "name": "Green Peppercorns",
+  "nameLocal": "Hasi Menasu Uppinakayi",
+  "subtitle": "The Coorg \"Black Gold\" secret",
+  "category": "condiment",
+  "technique": "brine",
+  "region": "South India",
+  "countryCode": "IN",
+  "difficulty": 1,
+  "tier": "beginner",
+  "fermentTimeMin": 14,
+  "fermentTimeMax": 60,
+  "fermentTimeUnit": "days",
+  "blrNote": "Only available in fresh bunches during January–February in BLR. Check the Coorg specialty stores.",
+  "ingredients": [
+    {
+      "name": "Fresh Green Peppercorns",
+      "amount": 200,
+      "unit": "g",
+      "category": "produce",
+      "essential": true
+    },
+    {
+      "name": "Salt",
+      "amount": 20,
+      "unit": "g",
+      "category": "salt",
+      "essential": true
+    },
+    {
+      "name": "Lemon Juice",
+      "amount": 2,
+      "unit": "tbsp",
+      "category": "liquid",
+      "essential": true
+    }
+  ],
+  "tldr": "Whole bunches of fresh pepper in salt and lemon. A spicy, popping delicacy.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Wash",
+      "instruction": "Wash the peppercorn bunches carefully. Leave them on the stalk."
+    },
+    {
+      "step": 2,
+      "title": "Submerge",
+      "instruction": "Pack into a jar with salt and lemon juice. Add a little water to cover."
+    },
+    {
+      "step": 3,
+      "title": "Mellow",
+      "instruction": "Let sit for 2 weeks. They will turn dark green/brown and the bite will mellow."
+    }
+  ],
+  "images": [
+    {
+      "url": "https://www.frontiercoop.com/media/wysiwyg/frontier-coop-recipe-green-peppercorn-brine-159-1440x700.jpg",
+      "caption": "Green Peppercorns",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Green Peppercorns — The Coorg \"Black Gold\" secret"
+    }
+  ],
+  "culturalContext": {
+    "story": "A prized specialty in Kodagu (Coorg). It is eaten with \"Akki Roti\" or \"Pandhi Curry.\"",
+    "significance": "One of the rarest ways to eat pepper."
+  },
+  "tags": [
+    "beginner",
+    "rare",
+    "spicy",
+    "coorg"
+  ],
+  "sources": [
+    {
+      "title": "Black Pepper — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Black_pepper"
+    }
+  ],
+  "videos": [],
+  "citations": []
+}

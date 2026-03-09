@@ -1,0 +1,297 @@
+{
+  "id": "brine-pickles-basic",
+  "slug": "brine-pickles-basic",
+  "name": "Brine Pickles",
+  "nameLocal": null,
+  "nameRomanized": null,
+  "subtitle": "Any vegetable, saltwater, time — the universal lacto-ferment",
+  "category": "vegetable",
+  "subcategory": "mixed-vegetables",
+  "technique": "brine",
+  "region": "Global",
+  "country": null,
+  "countryCode": null,
+  "culturalGroup": "Eastern European / Global",
+  "difficulty": 1,
+  "tier": "beginner",
+  "tierLabel": "Literally Just Add Salt",
+  "prepTime": "15 min",
+  "fermentTimeMin": 3,
+  "fermentTimeMax": 14,
+  "fermentTimeUnit": "days",
+  "totalTimeHuman": "3–14 days",
+  "blrNote": "KR Market is your playground — cucumbers, carrots, beans, cauliflower, radish, all dirt cheap and year-round. At BLR's 25°C, expect half-sours in 3 days, full sours by day 7. Use rock salt from any kirana store.",
+  "seasonality": [
+    "all"
+  ],
+  "ingredients": [
+    {
+      "name": "Mixed vegetables",
+      "nameLocal": "Sabzi",
+      "amount": 500,
+      "unit": "g",
+      "unitMetric": "500g",
+      "category": "produce",
+      "essential": true,
+      "substitutions": [
+        "Any firm vegetable — cucumber, carrot, beans, cauliflower, radish, turnip"
+      ],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "KR Market, any sabziwala — ₹20–60/kg depending on vegetable"
+        }
+      }
+    },
+    {
+      "name": "Non-iodised salt",
+      "nameLocal": "Saindhav Namak",
+      "amount": 30,
+      "unit": "g (for 3% brine)",
+      "unitMetric": "30g per litre",
+      "category": "salt",
+      "essential": true,
+      "substitutions": [
+        "Sea salt"
+      ],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any kirana store"
+        }
+      }
+    },
+    {
+      "name": "Water (unchlorinated)",
+      "nameLocal": null,
+      "amount": 1,
+      "unit": "litre",
+      "unitMetric": "1L",
+      "category": "liquid",
+      "essential": true,
+      "substitutions": [],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Filtered or boiled-and-cooled tap water"
+        }
+      }
+    },
+    {
+      "name": "Garlic cloves (optional)",
+      "nameLocal": "Lahsun / Bellulli",
+      "amount": 3,
+      "unit": "cloves, peeled",
+      "unitMetric": "10g",
+      "category": "flavouring",
+      "essential": false,
+      "substitutions": [],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any market"
+        }
+      }
+    },
+    {
+      "name": "Dill or mustard seeds (optional)",
+      "nameLocal": "Rai / Sasive",
+      "amount": 1,
+      "unit": "tsp",
+      "unitMetric": "3g",
+      "category": "spice",
+      "essential": false,
+      "substitutions": [
+        "Bay leaf, peppercorns, dried chilli"
+      ],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any kirana — mustard seeds are a South Indian pantry staple"
+        }
+      }
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Glass jar (1L+)",
+      "essential": true,
+      "notes": "Wide-mouth preferred for packing vegetables"
+    },
+    {
+      "name": "Weight to keep vegetables submerged",
+      "essential": true,
+      "notes": "Small zip-lock bag filled with brine, or a clean stone"
+    }
+  ],
+  "tldr": "Dissolve salt in water. Submerge any vegetables. Wait. The simplest fermentation technique in existence.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Make the brine",
+      "instruction": "Dissolve 30g non-iodised salt in 1 litre of unchlorinated water. Stir until fully dissolved. This gives you a 3% brine — the sweet spot for most vegetable ferments.",
+      "duration": "2 min",
+      "tips": [
+        "3% is mild and crisp. Go to 5% for longer storage or softer vegetables like cucumbers.",
+        "Taste the brine — it should taste like pleasant seawater, not aggressively salty"
+      ],
+      "checkpoint": "Clear brine, salt fully dissolved"
+    },
+    {
+      "step": 2,
+      "title": "Prepare vegetables",
+      "instruction": "Wash vegetables. Cut into uniform pieces — spears, coins, or florets. Keep sizes consistent so they ferment evenly. Add optional garlic, mustard seeds, or other aromatics to the jar first.",
+      "duration": "10 min",
+      "tips": [
+        "Cucumbers: cut off blossom end (contains enzymes that soften pickles)",
+        "Carrots and beans: leave whole or halve lengthwise",
+        "Cauliflower: break into small florets"
+      ],
+      "checkpoint": "Uniform vegetable pieces ready to pack"
+    },
+    {
+      "step": 3,
+      "title": "Pack and submerge",
+      "instruction": "Pack vegetables tightly into the jar. Pour brine over until vegetables are fully submerged with 2–3cm of brine above them. Place a weight on top to keep everything under the brine.",
+      "duration": "5 min",
+      "tips": [
+        "Tight packing prevents vegetables from floating above the brine",
+        "Leave 3–4cm headspace above the brine for bubbling"
+      ],
+      "checkpoint": "All vegetables submerged under brine with weight in place"
+    },
+    {
+      "step": 4,
+      "title": "Ferment",
+      "instruction": "Cover loosely (cloth or loose lid — gas needs to escape). Leave at room temperature away from direct sun. In BLR, taste daily from day 3. Half-sour by day 3–4, full sour by day 7–10.",
+      "duration": "3–14 days",
+      "tips": [
+        "Bubbles forming within 24–48 hours means fermentation is active",
+        "Brine will turn cloudy — this is normal and good",
+        "Skim any white film (kahm yeast) from the surface — harmless but tastes yeasty"
+      ],
+      "checkpoint": "Vegetables taste pleasantly sour and tangy"
+    },
+    {
+      "step": 5,
+      "title": "Refrigerate",
+      "instruction": "When vegetables reach your preferred sourness, seal the jar and refrigerate. Cold slows fermentation nearly to a halt.",
+      "duration": null,
+      "tips": [
+        "Keeps 2–3 months in the fridge",
+        "The brine is drinkable and deeply probiotic — don't discard it"
+      ],
+      "checkpoint": "Tangy, crunchy, sour pickles in cold storage"
+    }
+  ],
+  "images": [
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Pickled_cucumber.jpg",
+      "caption": "Brine Pickles",
+      "attribution": "Pickled cucumber in glass jar by Mariuszjbie",
+      "type": "hero",
+      "alt": "Brine Pickles — Any vegetable, saltwater, time — the universal lacto-ferment"
+    }
+  ],
+  "culturalContext": {
+    "story": "Brine pickling is arguably the oldest food preservation technique after drying. Before refrigeration, before canning, before any technology at all — humans discovered that saltwater keeps food from spoiling. Every civilisation with access to salt independently developed some version of brine fermentation.",
+    "historicalNote": "Archaeological evidence of brine-pickled cucumbers dates to 2030 BCE in Mesopotamia. The word \"pickle\" derives from the Dutch \"pekel\" (brine). Cleopatra attributed her beauty to pickles. Roman soldiers carried them on campaigns.",
+    "significance": "Brine pickles are the template for all lacto-fermentation. If you understand this technique — salt + water + submersion + time — you understand the principle behind sauerkraut, kimchi, and most vegetable ferments. This is fermentation at its most elemental.",
+    "relatedTraditions": [
+      "Sauerkraut (German dry-salt)",
+      "Torshi (Persian/Middle Eastern pickles)",
+      "Tsukemono (Japanese salt pickles)",
+      "Indian achaar (oil-based preservation, different technique)"
+    ],
+    "funFact": "New York City's Lower East Side was once the pickle capital of America. In the early 1900s, pickle vendors sold brine-fermented cucumbers from barrels on the street. The famous \"pickle guys\" of Essex Street still operate today."
+  },
+  "thingsToAccountFor": [
+    {
+      "title": "Vegetables floating above brine",
+      "description": "Anything above the brine will mould. Always use a weight. A zip-lock bag filled with brine works perfectly — if it leaks, it's just more brine.",
+      "severity": "important",
+      "appliesTo": [
+        "all"
+      ]
+    },
+    {
+      "title": "Soft or mushy pickles",
+      "description": "Over-fermentation or too-warm conditions can soften vegetables. In BLR summers, check earlier and refrigerate sooner. Adding grape leaves, oak leaves, or a pinch of calcium chloride helps maintain crunch.",
+      "severity": "info",
+      "appliesTo": [
+        "blr"
+      ]
+    },
+    {
+      "title": "Salt concentration matters",
+      "description": "3% is standard. Below 2%, harmful bacteria can outcompete lactobacillus. Above 5%, fermentation slows significantly. Measure by weight, not volume.",
+      "severity": "important",
+      "appliesTo": [
+        "all"
+      ]
+    }
+  ],
+  "dehydratorIntegration": {
+    "applicable": true,
+    "method": "Drain vegetables, slice thinly, dehydrate at 40°C for 8–12 hours.",
+    "result": "Sour vegetable chips — tangy, crunchy, deeply flavoured snack.",
+    "shelfLife": "4–6 months airtight",
+    "tips": [
+      "Carrot and beet pickles dehydrate especially well",
+      "Cucumber pickles become chewy rather than crunchy — still delicious"
+    ]
+  },
+  "variations": [
+    {
+      "name": "Deli-style dill pickles",
+      "description": "Cucumbers in 5% brine with dill, garlic, mustard seeds, and peppercorns. The classic American deli pickle.",
+      "region": "American / Eastern European"
+    },
+    {
+      "name": "Indian-spiced brine pickles",
+      "description": "Add mustard seeds, curry leaves, green chillies, and turmeric to the brine. Familiar spice profile, unfamiliar technique.",
+      "region": "India / Fusion"
+    },
+    {
+      "name": "Quick pickled beans",
+      "description": "French beans in 3% brine with garlic. Ready in 3–4 days. Snappy, sour, addictive.",
+      "region": "Global"
+    }
+  ],
+  "relatedRecipes": [
+    "sauerkraut-classic",
+    "pickled-turnips-lift",
+    "kimchi-baechu"
+  ],
+  "tags": [
+    "beginner",
+    "versatile",
+    "probiotic",
+    "global",
+    "year-round",
+    "vegan",
+    "blr-friendly"
+  ],
+  "dietaryFlags": [
+    "gluten-free",
+    "vegan"
+  ],
+  "veganAdaptable": true,
+  "containsAllergens": [],
+  "sources": [
+    {
+      "title": "Pickling — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Pickling",
+      "license": "CC BY-SA"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=vD6XWXj9l8Q",
+      "title": "Brad Makes Pickles",
+      "channel": "Bon Appétit — It's Alive",
+      "type": "youtube"
+    }
+  ],
+  "citations": []
+}

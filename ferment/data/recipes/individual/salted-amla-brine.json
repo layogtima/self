@@ -1,0 +1,100 @@
+{
+  "id": "salted-amla-brine",
+  "slug": "salted-amla-brine",
+  "name": "Salted Amla",
+  "nameLocal": "Nellikai Uppinakayi",
+  "subtitle": "The Ayurvedic Vitamin C bomb",
+  "category": "vegetable",
+  "subcategory": "berry",
+  "technique": "brine",
+  "region": "South Asia",
+  "country": "India",
+  "countryCode": "IN",
+  "culturalGroup": "South Indian",
+  "difficulty": 1,
+  "tier": "beginner",
+  "tierLabel": "Literally Just Add Salt",
+  "prepTime": "10 min",
+  "fermentTimeMin": 7,
+  "fermentTimeMax": 21,
+  "fermentTimeUnit": "days",
+  "totalTimeHuman": "2 weeks",
+  "blrNote": "KR Market is flooded with Amla in winter. Buy the ones without bruises.",
+  "ingredients": [
+    {
+      "name": "Amla",
+      "nameLocal": "Nellikai",
+      "amount": 500,
+      "unit": "g",
+      "unitMetric": "500g",
+      "category": "produce",
+      "essential": true
+    },
+    {
+      "name": "Salt",
+      "amount": 15,
+      "unit": "g",
+      "category": "salt",
+      "essential": true
+    },
+    {
+      "name": "Water",
+      "amount": 500,
+      "unit": "ml",
+      "category": "liquid",
+      "essential": true
+    },
+    {
+      "name": "Green Chillies",
+      "amount": 4,
+      "unit": "slit",
+      "category": "spice",
+      "essential": false
+    }
+  ],
+  "tldr": "Whole amla + salt water. They turn from bright green to olive and become soft, salty, and sour.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Prep",
+      "instruction": "Wash amla. Slit them slightly or prick with a fork so the brine penetrates."
+    },
+    {
+      "step": 2,
+      "title": "Brine",
+      "instruction": "Submerge in a 3% salt brine with green chillies."
+    },
+    {
+      "step": 3,
+      "title": "Wait",
+      "instruction": "Wait 10–14 days. The amla will soften and the water will turn cloudy."
+    }
+  ],
+  "images": [
+    {
+      "url": "https://images.squarespace-cdn.com/content/v1/6161a9f90a1fd561e80364e4/1635837885968-7HUJP7SE6MG67LKC1HLX/athela+amla2_ig.jpg",
+      "caption": "Salted Amla",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Salted Amla — The Ayurvedic Vitamin C bomb"
+    }
+  ],
+  "culturalContext": {
+    "story": "A standard in every South Indian grandma’s pantry. Eaten with curd rice (mosaranna) when you have a fever or poor appetite.",
+    "significance": "Amla is one of the highest natural sources of Vitamin C, and fermentation makes it more bioavailable.",
+    "funFact": "The brine itself is used as a throat gargle in traditional homes."
+  },
+  "tags": [
+    "beginner",
+    "ayurvedic",
+    "south-indian"
+  ],
+  "sources": [
+    {
+      "title": "Amla — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Phyllanthus_emblica"
+    }
+  ],
+  "videos": [],
+  "citations": []
+}

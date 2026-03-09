@@ -1,0 +1,88 @@
+{
+  "id": "fermented-green-beans",
+  "slug": "fermented-green-beans",
+  "name": "Dilly Beans",
+  "subtitle": "Fermented French beans with a snap",
+  "category": "vegetable",
+  "technique": "brine",
+  "difficulty": 1,
+  "tier": "beginner",
+  "fermentTimeMin": 5,
+  "fermentTimeMax": 10,
+  "fermentTimeUnit": "days",
+  "blrNote": "Use the thin \"French Beans\" from any local vendor. Ensure they are \"snap\" fresh.",
+  "ingredients": [
+    {
+      "name": "Green Beans",
+      "nameLocal": "Hurulikayi",
+      "amount": 300,
+      "unit": "g",
+      "category": "produce",
+      "essential": true
+    },
+    {
+      "name": "Dill Seeds",
+      "amount": 1,
+      "unit": "tsp",
+      "category": "spice",
+      "essential": true
+    },
+    {
+      "name": "3% Brine",
+      "amount": 300,
+      "unit": "ml",
+      "category": "liquid",
+      "essential": true
+    }
+  ],
+  "tldr": "Vertical beans + dill seeds + salt water. A classic pickle snack.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Trim",
+      "instruction": "Trim the ends so they fit vertically in your jar."
+    },
+    {
+      "step": 2,
+      "title": "Pack",
+      "instruction": "Pack them TIGHT. If they aren't tight, they will float and mould."
+    },
+    {
+      "step": 3,
+      "title": "Ferment",
+      "instruction": "5–7 days. They should be sour but still have a loud \"snap\" when bitten."
+    }
+  ],
+  "images": [
+    {
+      "url": "https://www.allrecipes.com/thmb/pcSKsyKUusASqXNSzIIcPipM7VA=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/60750-dilly-beans-VAT-Beauty-4x3-57c6f50c90a44462a19c1b599ded0561.jpg",
+      "caption": "Dilly Beans",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Dilly Beans — Fermented French beans with a snap"
+    }
+  ],
+  "culturalContext": {
+    "story": "A staple of Southern US pantries, usually canned, but the fermented version maintains the crunch much better."
+  },
+  "tags": [
+    "beginner",
+    "snack",
+    "crunchy"
+  ],
+  "sources": [
+    {
+      "title": "Green Bean — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Green_bean"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=R9reE6iO-p0",
+      "title": "Pickled Green Beans",
+      "channel": "Food Wishes",
+      "type": "youtube"
+    }
+  ],
+  "citations": []
+}

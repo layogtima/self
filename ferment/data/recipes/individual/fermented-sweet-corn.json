@@ -1,0 +1,74 @@
+{
+  "id": "fermented-sweet-corn",
+  "slug": "fermented-sweet-corn",
+  "name": "Lacto Sweet Corn",
+  "subtitle": "Savory, funky, sweet kernels",
+  "category": "vegetable",
+  "technique": "brine",
+  "difficulty": 1,
+  "tier": "beginner",
+  "fermentTimeMin": 3,
+  "fermentTimeMax": 7,
+  "fermentTimeUnit": "days",
+  "blrNote": "Use fresh cobs from the market, not frozen kernels. The wild yeast is on the cob.",
+  "ingredients": [
+    {
+      "name": "Sweet Corn Kernels",
+      "amount": 2,
+      "unit": "cups",
+      "category": "produce",
+      "essential": true
+    },
+    {
+      "name": "3% Brine",
+      "amount": 300,
+      "unit": "ml",
+      "category": "liquid",
+      "essential": true
+    }
+  ],
+  "images": [
+    {
+      "url": "https://honest-food.net/wp-content/uploads/2018/11/sour-corn.jpg",
+      "caption": "Lacto Sweet Corn",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Lacto Sweet Corn — Savory, funky, sweet kernels"
+    }
+  ],
+  "tldr": "Corn kernels in brine. They get a \"cheesy,\" funky depth that is incredible in salads.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Cut",
+      "instruction": "Slice the kernels off the cob."
+    },
+    {
+      "step": 2,
+      "title": "Jar",
+      "instruction": "Pack into a jar and cover with brine. Corn floats, so use a weight!"
+    },
+    {
+      "step": 3,
+      "title": "Ferment",
+      "instruction": "3–5 days. It will smell a bit like corn chips (masa). That's good."
+    }
+  ],
+  "culturalContext": {
+    "story": "Inspired by \"Chicha,\" the South American corn ferment, but kept as a solid food rather than a drink.",
+    "funFact": "Fermenting corn makes the Niacin (Vitamin B3) more available to your body."
+  },
+  "tags": [
+    "beginner",
+    "umami",
+    "sweet-savory"
+  ],
+  "sources": [
+    {
+      "title": "Corn — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Maize"
+    }
+  ],
+  "videos": [],
+  "citations": []
+}

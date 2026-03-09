@@ -1,0 +1,79 @@
+{
+  "id": "green-mango-brine",
+  "slug": "green-mango-brine",
+  "name": "Mango in Brine",
+  "nameLocal": "Mavinkayi Uppinakayi",
+  "subtitle": "Coastal Karnataka’s monsoon staple",
+  "category": "vegetable",
+  "subcategory": "mango",
+  "technique": "brine",
+  "region": "South Asia",
+  "countryCode": "IN",
+  "difficulty": 1,
+  "tier": "beginner",
+  "fermentTimeMin": 7,
+  "fermentTimeMax": 30,
+  "fermentTimeUnit": "days",
+  "blrNote": "Buy \"Appemidi\" or \"Wild Mangoes\" during April–May in Bengaluru.",
+  "ingredients": [
+    {
+      "name": "Raw Green Mango",
+      "nameLocal": "Mavinkayi",
+      "amount": 1,
+      "unit": "kg",
+      "category": "produce",
+      "essential": true
+    },
+    {
+      "name": "Rock Salt",
+      "amount": 150,
+      "unit": "g",
+      "category": "salt",
+      "essential": true
+    }
+  ],
+  "images": [
+    {
+      "url": "https://thumbs.dreamstime.com/b/un-mont%C3%B3n-de-piezas-mango-salado-fresco-en-frasco-vidrio-con-fondo-borroso-188501669.jpg",
+      "caption": "Mango in Brine",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Mango in Brine — Coastal Karnataka’s monsoon staple"
+    }
+  ],
+  "tldr": "Whole green mangoes + excessive salt. They create their own brine and last for years.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Dry",
+      "instruction": "Wash and thoroughly dry the mangoes. Moisture is the enemy here."
+    },
+    {
+      "step": 2,
+      "title": "Layer",
+      "instruction": "Layer mangoes and salt in a ceramic jar (Bharani)."
+    },
+    {
+      "step": 3,
+      "title": "Shake",
+      "instruction": "Shake the jar every day for 2 weeks. The salt will draw out the mango juice, creating a brine."
+    }
+  ],
+  "culturalContext": {
+    "story": "In the Western Ghats, these are stored for the monsoon when fresh vegetables are scarce.",
+    "significance": "This is the \"mother\" of all Indian pickles. These brined mangoes are later turned into various spicy achars."
+  },
+  "tags": [
+    "beginner",
+    "indian",
+    "long-storage"
+  ],
+  "sources": [
+    {
+      "title": "Indian Pickle — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Indian_pickle"
+    }
+  ],
+  "videos": [],
+  "citations": []
+}

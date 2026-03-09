@@ -1,0 +1,91 @@
+{
+  "id": "gari-ginger",
+  "slug": "gari-ginger",
+  "name": "Fermented Gari",
+  "nameLocal": "ガリ",
+  "subtitle": "Natural sushi ginger (without the dye)",
+  "category": "condiment",
+  "subcategory": "ginger",
+  "technique": "brine",
+  "region": "East Asia",
+  "country": "Japan",
+  "difficulty": 1,
+  "tier": "beginner",
+  "tierLabel": "Literally Just Add Salt",
+  "prepTime": "20 min",
+  "fermentTimeMin": 5,
+  "fermentTimeMax": 14,
+  "fermentTimeUnit": "days",
+  "totalTimeHuman": "1 week",
+  "blrNote": "Look for \"Young Ginger\" (pacha shunti)—it has pinkish tips and is much less fibrous than the old, woody stuff.",
+  "ingredients": [
+    {
+      "name": "Young Ginger",
+      "nameLocal": "Shunti",
+      "amount": 200,
+      "unit": "g",
+      "unitMetric": "200g",
+      "category": "produce",
+      "essential": true
+    },
+    {
+      "name": "3% Brine",
+      "amount": 250,
+      "unit": "ml",
+      "category": "liquid",
+      "essential": true
+    }
+  ],
+  "tldr": "Shave ginger paper-thin. Drown in salt water. It turns pink by itself.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Shave",
+      "instruction": "Use a mandoline or peeler to get paper-thin slices."
+    },
+    {
+      "step": 2,
+      "title": "Submerge",
+      "instruction": "Pack into a small jar and cover with salt brine."
+    },
+    {
+      "step": 3,
+      "title": "Wait",
+      "instruction": "Ferment for 1 week. The ginger will naturally turn a light pink hue."
+    }
+  ],
+  "images": [
+    {
+      "url": "https://i0.wp.com/insaneinthebrine.com/wp-content/uploads/2018/11/IMG_20181030_160535460_PORTRAIT_3.jpg?w=1213&ssl=1",
+      "caption": "Fermented Gari",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Fermented Gari — Natural sushi ginger (without the dye)"
+    }
+  ],
+  "culturalContext": {
+    "story": "Served with sushi to cleanse the palate between different types of fish.",
+    "funFact": "Commercial gari is often dyed pink with E124. Naturally fermented young ginger turns pink because of anthocyanins reacting with acid.",
+    "significance": "Unlike vinegar-pickled ginger, this version is alive and aids the digestion of raw food."
+  },
+  "tags": [
+    "beginner",
+    "japanese",
+    "cleanser"
+  ],
+  "sources": [
+    {
+      "title": "Gari — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Gari_(ginger)"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=R3L0jV3E_iE",
+      "title": "Pickled Ginger",
+      "channel": "Maangchi",
+      "type": "youtube"
+    }
+  ],
+  "citations": []
+}

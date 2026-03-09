@@ -1,0 +1,260 @@
+{
+  "id": "kkakdugi-radish",
+  "slug": "kkakdugi-radish",
+  "name": "Kkakdugi",
+  "nameLocal": "깍두기",
+  "nameRomanized": "Kkakdugi",
+  "subtitle": "Crunchy cubed radish kimchi",
+  "category": "vegetable",
+  "subcategory": "kimchi",
+  "technique": "dry-salt",
+  "region": "East Asia",
+  "country": "South Korea",
+  "countryCode": "KR",
+  "culturalGroup": "Korean",
+  "difficulty": 1,
+  "tier": "beginner",
+  "tierLabel": "Literally Just Add Salt",
+  "prepTime": "30 min",
+  "fermentTimeMin": 2,
+  "fermentTimeMax": 5,
+  "fermentTimeUnit": "days",
+  "totalTimeHuman": "2–3 days",
+  "blrNote": "Indian White Radish (Mooli) is a perfect substitute for Korean Mu. It's a bit more pungent but holds its crunch beautifully. Kashmiri Mirch gives the right colour without excessive heat.",
+  "seasonality": [
+    "all"
+  ],
+  "ingredients": [
+    {
+      "name": "White Radish",
+      "nameLocal": "Mooli",
+      "amount": 1,
+      "unit": "kg",
+      "unitMetric": "1kg",
+      "category": "produce",
+      "essential": true,
+      "substitutions": [
+        "Korean Mu (if available at Korean grocery)",
+        "Turnips (milder, less crunchy)"
+      ],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any sabziwala — mooli is everywhere"
+        }
+      }
+    },
+    {
+      "name": "Salt",
+      "amount": 2,
+      "unit": "tbsp",
+      "unitMetric": "30g",
+      "category": "salt",
+      "essential": true
+    },
+    {
+      "name": "Sugar",
+      "amount": 1,
+      "unit": "tbsp",
+      "unitMetric": "12g",
+      "category": "sweetener",
+      "essential": true,
+      "notes": "Feeds the bacteria and balances the heat"
+    },
+    {
+      "name": "Red Chilli Powder",
+      "nameLocal": "Kashmiri Mirch",
+      "amount": 3,
+      "unit": "tbsp",
+      "category": "spice",
+      "essential": true,
+      "substitutions": [
+        "Gochugaru (Korean chilli flakes) for authenticity"
+      ],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Every kirana store"
+        }
+      }
+    },
+    {
+      "name": "Garlic",
+      "nameLocal": "Bellulli",
+      "amount": 4,
+      "unit": "cloves, minced",
+      "category": "produce",
+      "essential": true
+    },
+    {
+      "name": "Ginger",
+      "nameLocal": "Shunti",
+      "amount": 1,
+      "unit": "inch, grated",
+      "category": "produce",
+      "essential": true
+    },
+    {
+      "name": "Fish sauce",
+      "amount": 1,
+      "unit": "tbsp",
+      "category": "seasoning",
+      "essential": false,
+      "substitutions": [
+        "Soy sauce for vegetarian version"
+      ],
+      "notes": "Adds umami depth"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Large mixing bowl",
+      "essential": true
+    },
+    {
+      "name": "Glass jar (1L+)",
+      "essential": true,
+      "notes": "Needs space for juices"
+    },
+    {
+      "name": "Disposable gloves",
+      "essential": false,
+      "notes": "The chilli stains and burns skin"
+    }
+  ],
+  "tldr": "Salt radish cubes until they weep, toss with chilli and garlic, pack tight. Maximum crunch.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Cube & Sweat",
+      "instruction": "Cube radish into 1-inch squares. Toss with salt and sugar. Let sit for 30–60 minutes until a pool of water forms at the bottom of the bowl.",
+      "duration": "30–60 min",
+      "tips": [
+        "Don't skip the sweating phase — the drawn-out water becomes the fermentation liquid",
+        "Larger cubes = crunchier result"
+      ],
+      "checkpoint": "Visible pool of liquid at the bottom, cubes are slightly wilted"
+    },
+    {
+      "step": 2,
+      "title": "Season",
+      "instruction": "Do NOT rinse! Add chilli powder, minced garlic, grated ginger, and fish sauce if using. Mix until every single cube is coated red.",
+      "duration": "5 min",
+      "tips": [
+        "Wear gloves — the chilli will burn your fingers for hours",
+        "Taste a cube: it should be salty, spicy, and slightly sweet"
+      ],
+      "checkpoint": "Uniform red coating on every cube"
+    },
+    {
+      "step": 3,
+      "title": "Pack",
+      "instruction": "Pack into a jar, pressing down firmly to remove air pockets. The radish liquid should rise to cover the cubes. Leave 3cm headspace.",
+      "duration": "5 min",
+      "tips": [
+        "Use a clean fist or a wooden spoon to push down",
+        "If there isn't enough liquid, add a splash of 2% brine"
+      ],
+      "checkpoint": "Cubes submerged under their own liquid"
+    },
+    {
+      "step": 4,
+      "title": "Room Temp",
+      "instruction": "Leave out at room temperature for 1–2 days until you see bubbles forming, then move to the fridge. In BLR heat, this can happen in 24 hours.",
+      "duration": "1–2 days",
+      "tips": [
+        "Taste daily — when it's tangy enough for you, refrigerate",
+        "In the fridge, it continues to develop flavour for weeks"
+      ],
+      "checkpoint": "Active bubbling, pleasantly funky-sour aroma"
+    }
+  ],
+  "images": [
+    {
+      "url": "https://cinnamonsnail.com/wp-content/uploads/2025/02/vegan_radish_kimchi-07.jpg",
+      "caption": "Kkakdugi",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Kkakdugi — Crunchy cubed radish kimchi"
+    }
+  ],
+  "culturalContext": {
+    "story": "Kkakdugi is the inseparable companion to Seolleongtang (설렁탕 — ox bone soup). The crunchy, spicy cubes cut through the rich, milky broth perfectly. Every Korean grandmother has her own recipe, and these are often the first kimchi a child learns to make.",
+    "historicalNote": "Legend attributes its creation to Princess Sukseon of the Joseon Dynasty, though fermented radish preparations exist across Korean food history long before that. During kimjang (kimchi-making season), kkakdugi was always made alongside the larger baechu kimchi batches.",
+    "significance": "While baechu (napa cabbage) kimchi gets all the international fame, kkakdugi is the everyday workhorse — faster to make, more forgiving, and crunchy in a way that cabbage simply can't match.",
+    "relatedTraditions": [
+      "Baechu Kimchi (napa cabbage kimchi)",
+      "Dongchimi (water-based radish kimchi)",
+      "Mooli ka achar (Indian radish pickle)"
+    ],
+    "funFact": "The name \"깍두기\" is an onomatopoeia — it mimics the sound of a knife cutting through a crisp radish. Korean food naming is surprisingly musical."
+  },
+  "thingsToAccountFor": [
+    {
+      "title": "Don't rinse after sweating",
+      "description": "The salty liquid drawn from the radish IS your fermentation brine. Rinsing it away means you'll need to add external brine and lose flavour.",
+      "severity": "important",
+      "appliesTo": [
+        "all"
+      ]
+    },
+    {
+      "title": "BLR heat = fast ferment",
+      "description": "At 25°C+, kkakdugi can over-sour in just 2 days. Check daily and refrigerate as soon as it's tangy enough.",
+      "severity": "info",
+      "appliesTo": [
+        "blr"
+      ]
+    }
+  ],
+  "dehydratorIntegration": {
+    "applicable": false
+  },
+  "variations": [
+    {
+      "name": "Vegan Kkakdugi",
+      "description": "Drop the fish sauce, add 1 tbsp soy sauce + 1 tsp miso paste for umami.",
+      "region": "Modern"
+    },
+    {
+      "name": "Apple Kkakdugi",
+      "description": "Add diced Korean pear or apple to the seasoning for natural sweetness.",
+      "region": "Korea"
+    }
+  ],
+  "relatedRecipes": [
+    "kimchi-baechu",
+    "pink-radish-circles"
+  ],
+  "tags": [
+    "beginner",
+    "spicy",
+    "crunchy",
+    "korean",
+    "year-round",
+    "probiotic"
+  ],
+  "dietaryFlags": [
+    "gluten-free"
+  ],
+  "veganAdaptable": true,
+  "containsAllergens": [
+    "fish (if using fish sauce)"
+  ],
+  "sources": [
+    {
+      "title": "Kkakdugi — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Kkakdugi",
+      "license": "CC BY-SA"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=0_u9G2W9iE0",
+      "title": "Kkakdugi Recipe",
+      "channel": "Maangchi",
+      "type": "youtube"
+    }
+  ],
+  "citations": []
+}

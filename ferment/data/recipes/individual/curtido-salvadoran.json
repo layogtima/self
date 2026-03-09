@@ -1,0 +1,287 @@
+{
+  "id": "curtido-salvadoran",
+  "slug": "curtido-salvadoran",
+  "name": "Curtido",
+  "nameLocal": "Curtido",
+  "nameRomanized": null,
+  "subtitle": "El Salvador's lightly fermented cabbage relish",
+  "category": "vegetable",
+  "subcategory": "cabbage",
+  "technique": "dry-salt",
+  "region": "Latin America",
+  "country": "El Salvador",
+  "countryCode": "SV",
+  "culturalGroup": "Salvadoran",
+  "difficulty": 1,
+  "tier": "beginner",
+  "tierLabel": "Literally Just Add Salt",
+  "prepTime": "20 min",
+  "fermentTimeMin": 1,
+  "fermentTimeMax": 3,
+  "fermentTimeUnit": "days",
+  "totalTimeHuman": "1–3 days",
+  "blrNote": "All ingredients available at any BLR market. Quick ferment — ready in 24 hours. Pairs beautifully with rice, chapati, or as a side to any South Indian meal.",
+  "seasonality": [
+    "all"
+  ],
+  "ingredients": [
+    {
+      "name": "Cabbage",
+      "nameLocal": "Kobi",
+      "amount": 500,
+      "unit": "g, shredded",
+      "unitMetric": "500g",
+      "category": "produce",
+      "essential": true,
+      "substitutions": [],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any market"
+        }
+      }
+    },
+    {
+      "name": "Carrot",
+      "nameLocal": "Gajar",
+      "amount": 2,
+      "unit": "medium, julienned",
+      "unitMetric": "200g",
+      "category": "produce",
+      "essential": true,
+      "substitutions": [],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any market"
+        }
+      }
+    },
+    {
+      "name": "White onion",
+      "nameLocal": "Pyaz",
+      "amount": 1,
+      "unit": "small, thinly sliced",
+      "unitMetric": "80g",
+      "category": "produce",
+      "essential": false,
+      "substitutions": [
+        "Red onion"
+      ],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any market"
+        }
+      }
+    },
+    {
+      "name": "Dried oregano",
+      "nameLocal": "Ajwain ke phool",
+      "amount": 1,
+      "unit": "tsp",
+      "unitMetric": "2g",
+      "category": "spice",
+      "essential": true,
+      "substitutions": [
+        "Fresh oregano (2x amount)"
+      ],
+      "localAvailability": {
+        "IN": {
+          "ease": "moderate",
+          "where": "Supermarkets like More, Spar, or Nature's Basket. Or online."
+        }
+      }
+    },
+    {
+      "name": "Non-iodised salt",
+      "nameLocal": "Rock salt",
+      "amount": 1.5,
+      "unit": "tsp",
+      "unitMetric": "8g",
+      "category": "salt",
+      "essential": true,
+      "substitutions": [],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any kirana"
+        }
+      }
+    },
+    {
+      "name": "White vinegar (optional)",
+      "nameLocal": "Sirka",
+      "amount": 2,
+      "unit": "tbsp",
+      "unitMetric": "30ml",
+      "category": "liquid",
+      "essential": false,
+      "substitutions": [
+        "Apple cider vinegar"
+      ],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any kirana or supermarket"
+        }
+      }
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Large mixing bowl",
+      "essential": true,
+      "notes": null
+    },
+    {
+      "name": "Glass jar or container with lid",
+      "essential": true,
+      "notes": "1 litre"
+    }
+  ],
+  "tldr": "Shred cabbage and carrot, salt, massage, add oregano, pack. Ready in 24 hours. Eat with everything.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Shred the vegetables",
+      "instruction": "Finely shred cabbage, julienne carrots, thinly slice onion. Combine in a large bowl.",
+      "duration": "15 min",
+      "tips": [
+        "Uniform thin shreds ferment evenly"
+      ],
+      "checkpoint": "Colourful pile of shredded veg"
+    },
+    {
+      "step": 2,
+      "title": "Salt and massage",
+      "instruction": "Sprinkle salt over the vegetables. Massage for 3–5 minutes until they soften and release liquid.",
+      "duration": "5 min",
+      "tips": [
+        "It doesn't need to release as much liquid as sauerkraut — curtido is lighter"
+      ],
+      "checkpoint": "Vegetables are wilted and moist"
+    },
+    {
+      "step": 3,
+      "title": "Add flavour and pack",
+      "instruction": "Add oregano and optional vinegar. Toss well. Pack tightly into a jar. Press down so liquid (and vinegar if using) covers the veg.",
+      "duration": "3 min",
+      "tips": [
+        "Vinegar speeds the sour flavour but isn't needed if fermenting longer"
+      ],
+      "checkpoint": "Packed jar with liquid visible"
+    },
+    {
+      "step": 4,
+      "title": "Ferment briefly",
+      "instruction": "Cover loosely. Leave at room temperature. In BLR, 24 hours gives a lightly sour, fresh curtido. 48–72 hours for more tang.",
+      "duration": "1–3 days",
+      "tips": [
+        "Traditional Salvadoran curtido is only lightly fermented — it's not as sour as sauerkraut"
+      ],
+      "checkpoint": "Smells fresh-sour, crisp when tasted"
+    },
+    {
+      "step": 5,
+      "title": "Refrigerate and serve",
+      "instruction": "Refrigerate when it reaches your preferred sourness. Keeps 2–3 weeks.",
+      "duration": null,
+      "tips": [],
+      "checkpoint": "Crisp, tangy, vibrant"
+    }
+  ],
+  "images": [
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Curtido_%286292106013%29.jpg/1280px-Curtido_%286292106013%29.jpg",
+      "caption": "Curtido",
+      "attribution": "Photo by Brooke Lark on Unsplash",
+      "type": "hero",
+      "alt": "Curtido — El Salvador's lightly fermented cabbage relish"
+    }
+  ],
+  "culturalContext": {
+    "story": "Curtido is El Salvador's national condiment — an essential partner to pupusas (thick corn cakes stuffed with cheese, beans, or chicharrón). It's lighter and faster than sauerkraut by design: Salvadoran cuisine tends toward fresh, bright flavours rather than deeply soured preservation.",
+    "historicalNote": "Central American fermented vegetables predate Spanish colonisation. Curtido as we know it evolved after European cabbage was introduced in the colonial period, blending indigenous preservation techniques with Old World vegetables.",
+    "significance": "Curtido demonstrates that fermentation doesn't have to be long or intense to be valuable. Short ferments develop flavour and begin beneficial bacterial activity without crossing into strong sourness — ideal for people new to fermented foods.",
+    "relatedTraditions": [
+      "Sauerkraut (German)",
+      "Kimchi (Korean)",
+      "Coleslaw (American — unfermented version)"
+    ],
+    "funFact": "In El Salvador, no pupusa is considered complete without curtido and salsa roja. The combination is so standard that pupuserías serve both as automatically as a restaurant serves bread and butter in France."
+  },
+  "thingsToAccountFor": [
+    {
+      "title": "Very quick in BLR heat",
+      "description": "At 25–30°C, curtido ferments quickly. Taste after 18 hours — you may find it's already at your preferred sourness.",
+      "severity": "info",
+      "appliesTo": [
+        "blr"
+      ]
+    },
+    {
+      "title": "Texture softens over time",
+      "description": "The longer it ferments, the softer the texture. Traditional curtido retains some crunch — don't overferment if you prefer crispness.",
+      "severity": "info",
+      "appliesTo": [
+        "all"
+      ]
+    }
+  ],
+  "dehydratorIntegration": {
+    "applicable": true,
+    "method": "Drain, spread thinly, dehydrate at 40°C for 6–8 hours.",
+    "result": "Tangy vegetable flakes — crumble on rice or use as seasoning.",
+    "shelfLife": "3 months",
+    "tips": [
+      "Better when only lightly fermented before dehydrating"
+    ]
+  },
+  "variations": [
+    {
+      "name": "Spiced curtido",
+      "description": "Add sliced jalapeño or green chilli. A natural fit for Indian palates.",
+      "region": "Fusion"
+    },
+    {
+      "name": "Beet curtido",
+      "description": "Add 1 small grated beetroot. Vivid pink colour, earthy sweetness.",
+      "region": "Modern"
+    }
+  ],
+  "relatedRecipes": [
+    "sauerkraut-classic",
+    "kimchi-baechu"
+  ],
+  "tags": [
+    "beginner",
+    "quick",
+    "latin-american",
+    "vegan",
+    "year-round",
+    "condiment"
+  ],
+  "dietaryFlags": [
+    "gluten-free",
+    "vegan"
+  ],
+  "veganAdaptable": true,
+  "containsAllergens": [],
+  "sources": [
+    {
+      "title": "Curtido — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Curtido",
+      "license": "CC BY-SA"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=jHcKFRsaPZI",
+      "title": "How to Make Curtido — Salvadoran Fermented Slaw",
+      "channel": "Internet Shaquille",
+      "type": "youtube"
+    }
+  ],
+  "citations": []
+}

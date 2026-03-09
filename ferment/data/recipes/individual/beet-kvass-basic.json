@@ -1,0 +1,219 @@
+{
+  "id": "beet-kvass-basic",
+  "slug": "beet-kvass-basic",
+  "name": "Beet Kvass",
+  "nameLocal": "Квас из свёклы",
+  "subtitle": "The Slavic \"Blood Tonic\"",
+  "category": "beverage",
+  "subcategory": "vegetable-tonic",
+  "technique": "brine",
+  "region": "Eastern Europe",
+  "country": "Ukraine/Russia",
+  "countryCode": "UA",
+  "culturalGroup": "Slavic",
+  "difficulty": 1,
+  "tier": "beginner",
+  "tierLabel": "Literally Just Add Salt",
+  "prepTime": "10 min",
+  "fermentTimeMin": 2,
+  "fermentTimeMax": 7,
+  "fermentTimeUnit": "days",
+  "totalTimeHuman": "3–5 days",
+  "blrNote": "Beets in Bengaluru are vibrant and year-round. Since BLR is warmer than Kyiv, your Kvass will be ready in half the time of traditional recipes. Use Mandya organic beets for the deepest colour.",
+  "seasonality": [
+    "all"
+  ],
+  "ingredients": [
+    {
+      "name": "Beets",
+      "nameLocal": "Beetroot",
+      "amount": 2,
+      "unit": "large",
+      "unitMetric": "400g",
+      "category": "produce",
+      "essential": true,
+      "substitutions": [
+        "Golden beets for a milder, sweeter version"
+      ],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any sabziwala — year-round in BLR"
+        }
+      }
+    },
+    {
+      "name": "Salt",
+      "nameLocal": "Saindhav Namak",
+      "amount": 1,
+      "unit": "tbsp",
+      "unitMetric": "15g",
+      "category": "salt",
+      "essential": true
+    },
+    {
+      "name": "Filtered Water",
+      "amount": 1,
+      "unit": "litre",
+      "unitMetric": "1L",
+      "category": "liquid",
+      "essential": true
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Glass jar (1.5L)",
+      "essential": true,
+      "notes": "Wide-mouth preferred"
+    },
+    {
+      "name": "Cloth cover",
+      "essential": true,
+      "notes": "Muslin or coffee filter with rubber band"
+    }
+  ],
+  "tldr": "Cubed beets + salt water = a salty, earthy, deep-purple probiotic powerhouse.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Cube, don't grate",
+      "instruction": "Cube the beets into 1-inch pieces. Do NOT grate them — grating releases too much sugar too fast, causing alcohol fermentation instead of lactic acid.",
+      "duration": "5 min",
+      "tips": [
+        "Leave the skin on for more wild bacteria",
+        "Wear gloves unless you want pink hands for 48 hours"
+      ],
+      "checkpoint": "Even 1-inch cubes, skin on"
+    },
+    {
+      "step": 2,
+      "title": "Jar it",
+      "instruction": "Put beets and salt in a 1.5L jar. Fill with filtered water, leaving 2cm headspace.",
+      "duration": "3 min",
+      "tips": [
+        "Tap water is fine if you let it sit for 24h first to off-gas chlorine",
+        "Some add a splash of sauerkraut brine as a starter — optional but speeds things up"
+      ],
+      "checkpoint": "Beets submerged, water is already turning pink"
+    },
+    {
+      "step": 3,
+      "title": "Ferment",
+      "instruction": "Cover with cloth and rubber band. Leave on the counter at room temp. In BLR, check at 48 hours — taste daily. It should be deep purple, earthy, salty, and slightly tangy.",
+      "duration": "2–5 days",
+      "tips": [
+        "Ready when it tastes \"earthy-salty-tangy\" and has a slight fizz",
+        "Don't ferment beyond 7 days or it becomes too sour and boozy"
+      ],
+      "checkpoint": "Deep purple, pleasantly earthy, slight effervescence"
+    },
+    {
+      "step": 4,
+      "title": "Strain & Store",
+      "instruction": "Strain into bottles and refrigerate. The beets can be used for a weaker second batch — add fresh salt and water.",
+      "duration": "2 min",
+      "tips": [
+        "Second batch is milder but still probiotic",
+        "Keeps 2 weeks in the fridge"
+      ]
+    }
+  ],
+  "images": [
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/8/88/%D0%A0%D0%B0%D0%B7%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BF%D0%B5%D1%80%D0%BC%D0%B0%D0%BD%D0%B3%D0%B0%D0%BD%D0%B0%D1%82%D0%B0_%D0%BA%D0%B0%D0%BB%D0%B8%D1%8F%2C_%D0%B8%D0%BB%D0%B8_%D0%9A%D0%BE%D1%81%D0%BC%D0%BE%D1%81_%D0%B2_%D1%81%D1%82%D0%B0%D0%BA%D0%B0%D0%BD%D1%87%D0%B8%D0%BA%D0%B5.jpg",
+      "caption": "Beet Kvass",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Beet Kvass — The Slavic \"Blood Tonic\""
+    }
+  ],
+  "culturalContext": {
+    "story": "In Ukraine, Beet Kvass is the traditional base for authentic Borscht — the fermented beet liquid gives the soup its signature tangy depth that vinegar or lemon juice can never replicate.",
+    "historicalNote": "Slavic families historically kept a \"perpetual\" jar of kvass, adding new beets and water to the dregs of the old batch. Some claim their kvass cultures were decades old, passed between generations.",
+    "significance": "It is one of the simplest \"tonic\" ferments — drunk each morning as a liver cleanser and blood builder in Eastern European folk medicine.",
+    "relatedTraditions": [
+      "Bread Kvass (Russian grain-based fermented drink)",
+      "Borscht (fermented beet soup)",
+      "Kanji (Indian beetroot & carrot ferment)"
+    ],
+    "funFact": "It tastes like \"salty beet tea.\" Not everyone loves it at first, but your gut will demand it once you start. The deep purple colour also stains everything it touches — treat it like wine."
+  },
+  "thingsToAccountFor": [
+    {
+      "title": "Don't grate!",
+      "description": "Grating beets releases sugar too fast, which feeds alcohol-producing yeasts instead of Lactobacillus. Cube only.",
+      "severity": "important",
+      "appliesTo": [
+        "all"
+      ]
+    },
+    {
+      "title": "Staining",
+      "description": "Beet kvass stains EVERYTHING. Work on surfaces you don't mind turning pink. Wear old clothes.",
+      "severity": "info",
+      "appliesTo": [
+        "all"
+      ]
+    }
+  ],
+  "dehydratorIntegration": {
+    "applicable": true,
+    "method": "Strain the spent beet cubes, slice thin, dehydrate at 45°C for 8–10 hours.",
+    "result": "Crunchy fermented beet chips — intensely earthy with a sour tang.",
+    "shelfLife": "3+ months airtight",
+    "tips": [
+      "Sprinkle with flakey salt before dehydrating for \"beet crisps\""
+    ]
+  },
+  "variations": [
+    {
+      "name": "Spiced Beet Kvass",
+      "description": "Add a cinnamon stick and 3 cloves. Warming, chai-like.",
+      "region": "Fusion"
+    },
+    {
+      "name": "Ginger Beet Kvass",
+      "description": "Add 2 inches of sliced ginger. Brighter, less earthy.",
+      "region": "Modern"
+    },
+    {
+      "name": "Kanji-style",
+      "description": "Add ground mustard seeds and black carrots for an Indian version.",
+      "region": "North India"
+    }
+  ],
+  "relatedRecipes": [
+    "sauerkraut-classic",
+    "fermented-carrots-ginger"
+  ],
+  "tags": [
+    "beginner",
+    "tonic",
+    "earthy",
+    "slavic",
+    "year-round",
+    "vegan"
+  ],
+  "dietaryFlags": [
+    "gluten-free",
+    "vegan"
+  ],
+  "veganAdaptable": true,
+  "containsAllergens": [],
+  "sources": [
+    {
+      "title": "Kvass — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Kvass",
+      "license": "CC BY-SA"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=mD07yvX3UaM",
+      "title": "How to make Beet Kvass",
+      "channel": "Fermentation Adventure",
+      "type": "youtube"
+    }
+  ],
+  "citations": []
+}

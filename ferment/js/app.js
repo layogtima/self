@@ -52,9 +52,11 @@ const app = createApp({
       { id: 'tools', label: 'Tools' },
     ];
 
-    // ── All recipes ──
+    // ── All recipes (loaded async from individual JSON files) ──
+    const recipesLoaded = ref(false);
     const allRecipes = computed(() => {
-      return FermentRecipes.getAll();
+      // Re-evaluate when recipesLoaded changes
+      return recipesLoaded.value ? FermentRecipes.getAll() : FermentRecipes.getAll();
     });
 
     // ── Search index ──
@@ -377,10 +379,12 @@ const app = createApp({
     }
 
     // ── Lifecycle ──
-    onMounted(() => {
+    onMounted(async () => {
       applyTheme();
-      // Simulate brief loading for smooth startup
-      setTimeout(() => { ready.value = true; }, 300);
+      // Load recipes from individual JSON files (with fallback)
+      await FermentRecipes.load();
+      recipesLoaded.value = true;
+      ready.value = true;
     });
 
     // Auto-persist on tab change

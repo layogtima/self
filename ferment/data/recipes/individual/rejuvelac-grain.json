@@ -1,0 +1,88 @@
+{
+  "id": "rejuvelac-grain",
+  "slug": "rejuvelac-grain",
+  "name": "Rejuvelac",
+  "subtitle": "The \"Life Water\" from sprouted grains",
+  "category": "beverage",
+  "subcategory": "starter",
+  "technique": "wild-ferment",
+  "difficulty": 1,
+  "tier": "beginner",
+  "tierLabel": "Literally Just Add Water",
+  "prepTime": "5 min (plus sprouting)",
+  "fermentTimeMin": 1,
+  "fermentTimeMax": 2,
+  "fermentTimeUnit": "days",
+  "totalTimeHuman": "3 days total",
+  "blrNote": "Use Wheat berries or Quinoa. Don’t use \"polished\" grains—they won’t sprout. Any local health food store in Indiranagar will have raw wheat.",
+  "ingredients": [
+    {
+      "name": "Wheat Berries",
+      "amount": 1,
+      "unit": "cup",
+      "unitMetric": "200g",
+      "category": "grain",
+      "essential": true
+    },
+    {
+      "name": "Water",
+      "amount": 4,
+      "unit": "cups",
+      "unitMetric": "1L",
+      "category": "liquid",
+      "essential": true
+    }
+  ],
+  "tldr": "Sprout grains, soak them for 2 days. Drink the cloudy, lemony liquid. Great for vegan cheese.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Sprout",
+      "instruction": "Soak grains overnight. Drain and leave in a jar until tiny \"tails\" (sprouts) appear."
+    },
+    {
+      "step": 2,
+      "title": "Soak",
+      "instruction": "Put sprouted grains in a jar with 1L water. Cover with cloth."
+    },
+    {
+      "step": 3,
+      "title": "Ferment",
+      "instruction": "Wait 24–48 hours until the water is cloudy and smells slightly like lemon and yeast."
+    }
+  ],
+  "images": [
+    {
+      "url": "https://lirp.cdn-website.com/9dcde1f6/dms3rep/multi/opt/AdobeStock_152830285_Preview-1920w.jpeg",
+      "caption": "Rejuvelac",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Rejuvelac — The \"Life Water\" from sprouted grains"
+    }
+  ],
+  "culturalContext": {
+    "story": "Popularized by Ann Wigmore, the founder of the raw food movement.",
+    "significance": "It is a potent \"starter\" for vegan nut cheeses. If you want to make cashew brie, you need this liquid.",
+    "funFact": "It’s essentially \"pre-beer.\" If you added more sugar and hops, you’d be brewing."
+  },
+  "tags": [
+    "beginner",
+    "enzymatic",
+    "vegan-staple"
+  ],
+  "sources": [
+    {
+      "title": "Rejuvelac — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Rejuvelac"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=L6_o806008E",
+      "title": "Making Rejuvelac",
+      "channel": "Full Help",
+      "type": "youtube"
+    }
+  ],
+  "citations": []
+}

@@ -1,0 +1,242 @@
+{
+  "id": "ginger-bug-starter",
+  "slug": "ginger-bug-starter",
+  "name": "Ginger Bug",
+  "nameLocal": null,
+  "nameRomanized": null,
+  "subtitle": "Wild-fermented ginger starter for natural sodas",
+  "category": "starter",
+  "subcategory": "wild-culture",
+  "technique": "wild-ferment",
+  "region": "Global",
+  "country": null,
+  "countryCode": null,
+  "culturalGroup": "Traditional / Folk",
+  "difficulty": 1,
+  "tier": "beginner",
+  "tierLabel": "Literally Just Add Salt",
+  "prepTime": "5 min/day",
+  "fermentTimeMin": 3,
+  "fermentTimeMax": 7,
+  "fermentTimeUnit": "days",
+  "totalTimeHuman": "3–7 days to activate",
+  "blrNote": "Bengaluru is exceptional for ginger bugs — fresh ginger from KR Market or any sabziwala is cheap and loaded with wild yeasts. At BLR temps, expect a healthy bug in 3–4 days. Use it to carbonate homemade sodas — lemon soda, kokum soda, sugarcane soda.",
+  "seasonality": [
+    "all"
+  ],
+  "ingredients": [
+    {
+      "name": "Fresh ginger (unpeeled)",
+      "nameLocal": "Adrak / Shunti",
+      "amount": 3,
+      "unit": "tbsp grated (daily)",
+      "unitMetric": "~45g/day",
+      "category": "produce",
+      "essential": true,
+      "substitutions": [],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any sabziwala or KR Market — ₹20–40 per 100g"
+        }
+      }
+    },
+    {
+      "name": "Sugar",
+      "nameLocal": "Cheeni",
+      "amount": 3,
+      "unit": "tbsp (daily)",
+      "unitMetric": "~45g/day",
+      "category": "sweetener",
+      "essential": true,
+      "substitutions": [
+        "Jaggery (adds complexity)",
+        "Coconut sugar"
+      ],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any kirana store"
+        }
+      }
+    },
+    {
+      "name": "Unchlorinated water",
+      "nameLocal": null,
+      "amount": 2,
+      "unit": "cups (for jar)",
+      "unitMetric": "500ml",
+      "category": "liquid",
+      "essential": true,
+      "substitutions": [],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Use filtered or boiled-and-cooled water. Tap water chlorine can inhibit wild yeasts."
+        }
+      }
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Glass jar (500ml+)",
+      "essential": true,
+      "notes": "Wide mouth preferred"
+    },
+    {
+      "name": "Cloth or loose lid",
+      "essential": true,
+      "notes": "Needs to breathe — don't seal airtight"
+    }
+  ],
+  "tldr": "Grated ginger + sugar + water. Feed daily. It starts bubbling. Now you have a wild yeast starter you can use to naturally carbonate any sweet liquid.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Start the jar",
+      "instruction": "In a clean jar, combine 500ml unchlorinated water, 2 tbsp grated unpeeled ginger, and 2 tbsp sugar. Stir well. Cover with a cloth. Leave at room temperature.",
+      "duration": "5 min",
+      "tips": [
+        "Unpeeled ginger has more wild yeast on the skin",
+        "Dechlorinate tap water by leaving it uncovered overnight"
+      ],
+      "checkpoint": "Jar is cloudy with ginger bits"
+    },
+    {
+      "step": 2,
+      "title": "Feed daily",
+      "instruction": "Every day for 3–7 days, add 1 tbsp fresh grated ginger and 1 tbsp sugar. Stir vigorously and re-cover.",
+      "duration": "2 min/day",
+      "tips": [
+        "Vigorous stirring incorporates oxygen and helps wild yeast populate faster"
+      ],
+      "checkpoint": "Bubbles start appearing after day 2–3 in BLR"
+    },
+    {
+      "step": 3,
+      "title": "Watch for activity",
+      "instruction": "Your bug is ready when it's actively bubbling, smells yeasty-gingery, and fizzes when stirred. In Bengaluru, typically 3–4 days. Taste — it should be slightly fizzy, tangy-sweet.",
+      "duration": null,
+      "tips": [
+        "Don't refrigerate until active — cold slows wild yeast capture"
+      ],
+      "checkpoint": "Consistent bubbling within minutes of stirring, fizzy taste"
+    },
+    {
+      "step": 4,
+      "title": "Maintain or use",
+      "instruction": "Use ¼ cup of bug to ferment 1 litre of sweet liquid (ginger ale, lemon soda, etc.) for 2–3 days. Replenish what you used with water + ginger + sugar. Keep feeding to maintain indefinitely.",
+      "duration": "Ongoing",
+      "tips": [
+        "Refrigerate and feed once a week if not using often",
+        "Bring back to room temp and feed daily for 2 days before using from the fridge"
+      ],
+      "checkpoint": "Bug is a perpetual fermentation engine"
+    }
+  ],
+  "images": [
+    {
+      "url": "https://www.occasionallyeggs.com/wp-content/uploads/2025/01/Ginger-bug.jpg",
+      "caption": "Ginger Bug",
+      "attribution": "Photo by Mockup Graphics on Unsplash",
+      "type": "hero",
+      "alt": "Ginger Bug — Wild-fermented ginger starter for natural sodas"
+    }
+  ],
+  "culturalContext": {
+    "story": "Before commercial yeast and carbonation, people around the world maintained wild ferment starters to make fizzy drinks. The ginger bug is the simplest version — a living community of wild yeasts and bacteria captured from ginger's skin, sustained by sugar, used to naturally carbonate homemade sodas.",
+    "historicalNote": "Traditional ginger beer (not the commercial version) was made this way in 18th and 19th century Britain. The \"ginger beer plant\" was a symbiotic community of yeast and bacteria kept alive for years and traded between households.",
+    "significance": "The ginger bug is a gateway to natural carbonation. Once you have a healthy bug, you can turn any sweet liquid — fruit juice, herbal tea, kokum water, sugarcane juice — into a naturally fizzy probiotic drink. It's the South Asian equivalent of maintaining a sourdough starter.",
+    "relatedTraditions": [
+      "Ginger beer plant (British)",
+      "Tepache (Mexican)",
+      "Kanji (Indian)"
+    ],
+    "funFact": "The \"ginger beer plant\" was so prized in Victorian England that people traded it like a pet, giving portions to friends and family. Its actual microbial composition — a specific yeast (Saccharomyces florentinus) and bacteria (Lactobacillus) — was only identified in the 1980s."
+  },
+  "thingsToAccountFor": [
+    {
+      "title": "Won't start if water is chlorinated",
+      "description": "Tap water chlorine kills wild yeast. Boil and cool, or leave overnight uncovered to dechlorinate before using.",
+      "severity": "important",
+      "appliesTo": [
+        "all"
+      ]
+    },
+    {
+      "title": "Mould vs. yeast foam",
+      "description": "White bubbles and foam = good yeast activity. Fuzzy coloured growth = mould. If you see mould, discard and start again.",
+      "severity": "important",
+      "appliesTo": [
+        "all"
+      ]
+    },
+    {
+      "title": "Very fast in BLR heat",
+      "description": "At 28–30°C in summer, your bug can become very active within 48 hours. Taste before using — if very sour, it's over-fermented. Use less and top up sugar.",
+      "severity": "info",
+      "appliesTo": [
+        "blr"
+      ]
+    }
+  ],
+  "dehydratorIntegration": {
+    "applicable": false,
+    "method": null,
+    "result": null,
+    "shelfLife": null,
+    "tips": []
+  },
+  "variations": [
+    {
+      "name": "Turmeric Bug",
+      "description": "Substitute half the ginger with fresh turmeric root. Same method. Adds anti-inflammatory compounds and a golden colour to sodas.",
+      "region": "Fusion / South India"
+    },
+    {
+      "name": "Kokum Ginger Soda",
+      "description": "Use ¼ cup active bug to ferment 1L kokum extract + jaggery syrup for 2 days. Naturally fizzy, deeply Konkan.",
+      "region": "Maharashtra / Karnataka coast"
+    },
+    {
+      "name": "Lemon Ginger Ale",
+      "description": "Dissolve 100g sugar in 1L water, add ginger bug and fresh lime juice. Bottle and leave 2–3 days. Classic natural soda.",
+      "region": "Global"
+    }
+  ],
+  "relatedRecipes": [
+    "tepache-pineapple",
+    "kanji-rice"
+  ],
+  "tags": [
+    "beginner",
+    "starter",
+    "soda",
+    "wild-ferment",
+    "year-round",
+    "vegan",
+    "blr-friendly"
+  ],
+  "dietaryFlags": [
+    "gluten-free",
+    "vegan"
+  ],
+  "veganAdaptable": true,
+  "containsAllergens": [],
+  "sources": [
+    {
+      "title": "Ginger beer plant — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Ginger_beer_plant",
+      "license": "CC BY-SA"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=AN_lCyc7D64",
+      "title": "3 Ingredient Homemade Fermented Ginger Beer",
+      "channel": "Joshua Weissman",
+      "type": "youtube"
+    }
+  ],
+  "citations": []
+}

@@ -1,0 +1,281 @@
+{
+  "id": "switchel-drinking-vinegar",
+  "slug": "switchel-drinking-vinegar",
+  "name": "Switchel",
+  "nameLocal": null,
+  "nameRomanized": null,
+  "subtitle": "The original energy drink — ginger, vinegar, and sweetness",
+  "category": "beverage",
+  "subcategory": "drinking-vinegar",
+  "technique": "mixed-ferment",
+  "region": "North America",
+  "country": "United States",
+  "countryCode": "US",
+  "culturalGroup": "American Colonial",
+  "difficulty": 1,
+  "tier": "beginner",
+  "tierLabel": "Literally Just Add Salt",
+  "prepTime": "10 min",
+  "fermentTimeMin": 1,
+  "fermentTimeMax": 3,
+  "fermentTimeUnit": "days",
+  "totalTimeHuman": "1–3 days (or drink immediately)",
+  "blrNote": "Perfect for BLR's warm weather. Apple cider vinegar (Bragg's or local brands) is at Nature's Basket, Namdhari's, or any supermarket. Use jaggery instead of maple syrup — it's cheaper, local, and adds a gorgeous caramel depth. Fresh ginger from any sabziwala.",
+  "seasonality": [
+    "all"
+  ],
+  "ingredients": [
+    {
+      "name": "Fresh ginger",
+      "nameLocal": "Adrak / Shunti",
+      "amount": 50,
+      "unit": "g, grated or sliced",
+      "unitMetric": "50g",
+      "category": "produce",
+      "essential": true,
+      "substitutions": [],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any sabziwala or KR Market"
+        }
+      }
+    },
+    {
+      "name": "Apple cider vinegar (with mother)",
+      "nameLocal": null,
+      "amount": 3,
+      "unit": "tbsp",
+      "unitMetric": "45ml",
+      "category": "vinegar",
+      "essential": true,
+      "substitutions": [
+        "Any raw, unpasteurised vinegar"
+      ],
+      "localAvailability": {
+        "IN": {
+          "ease": "moderate",
+          "where": "Nature's Basket, Namdhari's, Amazon India — Bragg's or local brands like WOW"
+        }
+      }
+    },
+    {
+      "name": "Jaggery (or honey)",
+      "nameLocal": "Bella / Gur",
+      "amount": 3,
+      "unit": "tbsp",
+      "unitMetric": "45g",
+      "category": "sweetener",
+      "essential": true,
+      "substitutions": [
+        "Honey (raw, unprocessed)",
+        "Maple syrup (imported, expensive)"
+      ],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any kirana store — jaggery is ₹40–80/kg"
+        }
+      }
+    },
+    {
+      "name": "Water",
+      "nameLocal": null,
+      "amount": 1,
+      "unit": "litre",
+      "unitMetric": "1L",
+      "category": "liquid",
+      "essential": true,
+      "substitutions": [],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Filtered water"
+        }
+      }
+    },
+    {
+      "name": "Lime juice (optional)",
+      "nameLocal": "Nimbu ras",
+      "amount": 1,
+      "unit": "tbsp",
+      "unitMetric": "15ml",
+      "category": "flavouring",
+      "essential": false,
+      "substitutions": [
+        "Lemon juice"
+      ],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any market"
+        }
+      }
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Glass jar or bottle (1L+)",
+      "essential": true,
+      "notes": null
+    },
+    {
+      "name": "Strainer",
+      "essential": false,
+      "notes": "For removing ginger bits before serving"
+    }
+  ],
+  "tldr": "Ginger + vinegar + jaggery + water. Stir, infuse, drink. An 18th-century sports drink that actually works.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Combine ingredients",
+      "instruction": "Grate or thinly slice the ginger. In a jar, combine ginger, apple cider vinegar, and jaggery (or honey). Add a splash of warm water and stir until jaggery dissolves.",
+      "duration": "5 min",
+      "tips": [
+        "Grating the ginger releases more flavour faster than slicing",
+        "If using jaggery, crumble it fine for faster dissolving"
+      ],
+      "checkpoint": "Jaggery dissolved, gingery-vinegary liquid"
+    },
+    {
+      "step": 2,
+      "title": "Add water and mix",
+      "instruction": "Add the remaining water (room temperature or cold). Stir well. Taste and adjust — more jaggery for sweetness, more vinegar for tang, more ginger for heat.",
+      "duration": "2 min",
+      "tips": [
+        "The balance should be: refreshing, slightly sweet, tangy, with a ginger kick",
+        "Start conservative with vinegar — you can always add more"
+      ],
+      "checkpoint": "Balanced, drinkable, tangy-sweet liquid"
+    },
+    {
+      "step": 3,
+      "title": "Infuse or ferment (optional)",
+      "instruction": "You can drink immediately, but for best flavour, refrigerate for 24 hours to let ginger infuse. For a lightly fermented version, leave at room temperature for 1–3 days (the ACV mother will create slight carbonation).",
+      "duration": "0–3 days",
+      "tips": [
+        "Room temperature fermentation at BLR temps develops fizz within 24 hours if the ACV has a live mother",
+        "If fermenting, burp the jar daily to release gas"
+      ],
+      "checkpoint": "Either a fresh gingery drink or a lightly fizzy, tangy tonic"
+    },
+    {
+      "step": 4,
+      "title": "Strain and serve",
+      "instruction": "Strain out the ginger bits. Serve cold over ice. Add lime juice if desired. Dilute further if too concentrated.",
+      "duration": "2 min",
+      "tips": [
+        "Excellent as a post-exercise rehydration drink",
+        "Mix with soda water for a sparkling switchel"
+      ],
+      "checkpoint": "Clear, golden, refreshing drink"
+    }
+  ],
+  "images": [
+    {
+      "url": "https://www.crosbys.com/wp-content/uploads/2016/07/Switchel-Recipe-with-Cider-Vinegar-Molasses-5.jpg",
+      "caption": "Switchel",
+      "attribution": "Photo by Vero Manrique on Unsplash",
+      "type": "hero",
+      "alt": "Switchel — The original energy drink — ginger, vinegar, and sweetness"
+    }
+  ],
+  "culturalContext": {
+    "story": "Switchel was the Gatorade of 18th and 19th century America. Farmers making hay in the blazing summer heat drank switchel by the gallon to stay hydrated, replace electrolytes, and keep cool. It was so associated with harvest time that it earned the nickname \"haymaker's punch.\"",
+    "historicalNote": "The drink likely originated in the Caribbean, where ginger, vinegar, and molasses were all readily available. It migrated to colonial America and became a staple of farm life. Some historians trace the concept further back to Roman posca (vinegar water given to soldiers).",
+    "significance": "Switchel is a reminder that humans have been making functional beverages for centuries. The combination of ginger (anti-inflammatory, digestive), vinegar (probiotic if raw, mineral absorption), and natural sweetener (quick energy) is genuinely effective — not just tradition for tradition's sake.",
+    "relatedTraditions": [
+      "Shrub (fruit drinking vinegar, Colonial American)",
+      "Posca (Roman soldier's vinegar drink)",
+      "Nimbu pani (Indian lemon water)",
+      "Jal jeera (Indian spiced drink)"
+    ],
+    "funFact": "During the American Revolution, switchel was provided to troops as a standard ration. Benjamin Franklin reportedly drank it daily. The drink is experiencing a hipster revival in Brooklyn — at 10x the price of making it at home."
+  },
+  "thingsToAccountFor": [
+    {
+      "title": "ACV quality matters",
+      "description": "Use raw, unfiltered apple cider vinegar \"with the mother\" for any probiotic benefit. Clear, pasteurised vinegar adds sourness but no live cultures.",
+      "severity": "important",
+      "appliesTo": [
+        "all"
+      ]
+    },
+    {
+      "title": "Too acidic on empty stomach",
+      "description": "Switchel is acidic. If you have acid reflux or a sensitive stomach, dilute more and don't drink on an empty stomach.",
+      "severity": "info",
+      "appliesTo": [
+        "all"
+      ]
+    },
+    {
+      "title": "BLR jaggery substitution",
+      "description": "Jaggery works beautifully in place of molasses or maple syrup. Use dark jaggery (unrefined) for a deeper, more complex flavour.",
+      "severity": "info",
+      "appliesTo": [
+        "blr"
+      ]
+    }
+  ],
+  "dehydratorIntegration": {
+    "applicable": false,
+    "method": null,
+    "result": null,
+    "shelfLife": null,
+    "tips": []
+  },
+  "variations": [
+    {
+      "name": "Turmeric switchel",
+      "description": "Add 1 tsp ground turmeric or 1 tbsp grated fresh turmeric. Anti-inflammatory powerhouse. BLR pantry natural.",
+      "region": "Fusion / India"
+    },
+    {
+      "name": "Kokum switchel",
+      "description": "Replace ACV with kokum concentrate + a splash of lime. A Konkan-coastal twist on the colonial recipe.",
+      "region": "India / Fusion"
+    },
+    {
+      "name": "Sparkling switchel",
+      "description": "Make concentrated, then dilute with cold soda water just before serving. Refreshing and fizzy.",
+      "region": "Modern"
+    }
+  ],
+  "relatedRecipes": [
+    "ginger-bug-starter",
+    "tepache-pineapple"
+  ],
+  "tags": [
+    "beginner",
+    "beverage",
+    "quick",
+    "probiotic-adjacent",
+    "year-round",
+    "vegan",
+    "blr-friendly"
+  ],
+  "dietaryFlags": [
+    "gluten-free",
+    "vegan"
+  ],
+  "veganAdaptable": true,
+  "containsAllergens": [],
+  "sources": [
+    {
+      "title": "Switchel — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Switchel",
+      "license": "CC BY-SA"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=uOB_IOQNKHY",
+      "title": "Switchel — The 18th Century Energy Drink",
+      "channel": "Townsends",
+      "type": "youtube"
+    }
+  ],
+  "citations": []
+}

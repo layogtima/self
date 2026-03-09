@@ -1,0 +1,86 @@
+{
+  "id": "lacto-red-onions",
+  "slug": "lacto-red-onions",
+  "name": "Lacto Onions",
+  "nameLocal": "Sirka Pyaaz (Lacto version)",
+  "subtitle": "The electric-pink kebab companion",
+  "category": "condiment",
+  "technique": "brine",
+  "difficulty": 1,
+  "tier": "beginner",
+  "tierLabel": "Literally Just Add Salt",
+  "prepTime": "10 min",
+  "fermentTimeMin": 2,
+  "fermentTimeMax": 5,
+  "fermentTimeUnit": "days",
+  "totalTimeHuman": "3 days",
+  "blrNote": "Use the small \"Sambar Onions\" (Ulligadde) for the classic North Indian restaurant look.",
+  "ingredients": [
+    {
+      "name": "Red Onions",
+      "amount": 300,
+      "unit": "g",
+      "category": "produce",
+      "essential": true
+    },
+    {
+      "name": "3% Brine",
+      "amount": 300,
+      "unit": "ml",
+      "category": "liquid",
+      "essential": true
+    },
+    {
+      "name": "Beetroot slice",
+      "amount": 1,
+      "unit": "thin slice",
+      "category": "produce",
+      "essential": false,
+      "notes": "For color"
+    }
+  ],
+  "tldr": "Onion slices + salt water. They lose their \"oniony\" breath and become sweet and tangy.",
+  "images": [
+    {
+      "url": "https://revolutionfermentation.com/wp-content/uploads/2021/11/red-onion-fermented_800x613.jpeg",
+      "caption": "Lacto Onions",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Lacto Onions — The electric-pink kebab companion"
+    }
+  ],
+  "steps": [
+    {
+      "step": 1,
+      "title": "Slice",
+      "instruction": "Thinly slice onions or use whole small sambar onions."
+    },
+    {
+      "step": 2,
+      "title": "Pack",
+      "instruction": "Pack into a jar with a slice of beetroot for that neon pink color."
+    },
+    {
+      "step": 3,
+      "title": "Brine & Wait",
+      "instruction": "Add brine. Wait 2–3 days. If they smell like sulfur, that’s normal for the first day, it passes."
+    }
+  ],
+  "culturalContext": {
+    "story": "Found in every \"Dhaba\" in India, though usually pickled in cheap vinegar. The lacto version is much gentler on the stomach.",
+    "funFact": "Fermentation breaks down the compounds that cause \"onion breath.\""
+  },
+  "tags": [
+    "beginner",
+    "indian",
+    "kebab-side"
+  ],
+  "sources": [
+    {
+      "title": "Pickled Onion — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Pickled_onion"
+    }
+  ],
+  "videos": [],
+  "citations": []
+}
