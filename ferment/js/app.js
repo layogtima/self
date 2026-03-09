@@ -484,6 +484,11 @@ app.component('onboarding-modal', OnboardingModalComponent);
 app.component('welcome-page', WelcomePageComponent);
 app.component('wiki-view', WikiViewComponent);
 app.component('wiki-article', WikiArticleComponent);
+app.component('text-editor', TextEditorComponent);
+app.component('list-editor', ListEditorComponent);
+app.component('media-picker', MediaPickerComponent);
+app.component('tag-editor', TagEditorComponent);
+app.component('citation-editor', CitationEditorComponent);
 
 // Mount the app
 app.mount('#app');

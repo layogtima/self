@@ -350,3 +350,90 @@ input[type="range"]::-moz-range-thumb {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* ── Inline Edit Mode ── */
+.wiki-block-controls {
+  position: relative;
+  z-index: 5;
+}
+
+/* Edit mode indicator dot pulse */
+@keyframes edit-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Drag handle for list editors */
+.drag-handle {
+  cursor: grab;
+  touch-action: none;
+}
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+/* Editor text inputs & textareas common styling */
+.editor-input {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  width: 100%;
+  transition: border-color 0.2s ease;
+}
+.editor-input:focus {
+  outline: none;
+  border-color: var(--accent-brine);
+}
+.dark .editor-input {
+  background: #2E2620;
+  color: #F2ECE3;
+}
+
+/* Media picker drop zone */
+.media-drop-zone {
+  border: 2px dashed var(--text-muted);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.media-drop-zone.drag-over {
+  border-color: var(--accent-brine);
+  background: rgba(196, 163, 90, 0.05);
+}
+
+/* Tag pill in tag editor */
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  transition: background 0.15s ease;
+}
+.tag-pill:hover {
+  background: var(--accent-brine);
+  color: white;
+}
+
+/* Citation editor accordion */
+.citation-form {
+  border: 1px solid var(--bg-secondary);
+  border-radius: 8px;
+  padding: 0.75rem;
+  transition: border-color 0.2s ease;
+}
+.citation-form:focus-within {
+  border-color: var(--accent-brine);
+}
+.dark .citation-form {
+  border-color: #2E2620;
+}

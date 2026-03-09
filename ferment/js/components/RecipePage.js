@@ -25,6 +25,9 @@ const RecipePageComponent = {
       localNotes: '',
       localRating: 0,
       localTimesMade: 0,
+      // Inline editing
+      editMode: false,
+      editingField: null,
     };
   },
 
@@ -147,6 +150,41 @@ const RecipePageComponent = {
     stepKey(step, i) { return step.step || step.id || i; },
     stepTitle(step) { return step.title || ''; },
     stepText(step) { return typeof step === 'string' ? step : step.instruction || step.text || step.description || ''; },
+
+    // ── Inline Editing ──
+    toggleEditMode() {
+      this.editMode = !this.editMode;
+      this.editingField = null;
+    },
+    editField(field) {
+      if (this.editMode) this.editingField = field;
+    },
+    getEditedValue(field, original) {
+      return FermentEdits.getValue('recipe', this.recipe.id, field, original);
+    },
+    saveEdit(field, value) {
+      FermentEdits.set('recipe', this.recipe.id, field, value);
+      this.editingField = null;
+    },
+    resetEdit(field) {
+      FermentEdits.resetField('recipe', this.recipe.id, field);
+      this.editingField = null;
+    },
+    isFieldEdited(field) {
+      return FermentEdits.isEdited('recipe', this.recipe.id, field);
+    },
+    hasAnyEdits() {
+      return FermentEdits.hasEdits('recipe', this.recipe.id);
+    },
+    resetAllEdits() {
+      if (confirm('Reset all edits for this recipe? Original data will be restored.')) {
+        FermentEdits.resetAll('recipe', this.recipe.id);
+        this.editingField = null;
+      }
+    },
+    editCount() {
+      return FermentEdits.editCount('recipe', this.recipe.id);
+    },
   },
 
   template: `
@@ -158,7 +196,21 @@ const RecipePageComponent = {
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
           Back to recipes
         </button>
-        <!-- Heart / Bookmark hidden until persistence is wired up -->
+        <div class="flex items-center gap-2">
+          <span v-if="hasAnyEdits() && !editMode" class="text-xs text-accent-brine">{{ editCount() }} edits</span>
+          <button v-if="editMode && hasAnyEdits()" @click="resetAllEdits"
+            class="text-xs text-accent-ferment hover:text-accent-ferment/80 px-2 py-1 rounded transition-colors">
+            Reset all
+          </button>
+          <button @click="toggleEditMode"
+            :class="['inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-medium transition-all',
+              editMode ? 'bg-accent-brine/20 text-accent-aged dark:text-accent-brine border border-accent-brine/30' : 'text-text-secondary dark:text-dark-text-secondary hover:bg-bg-secondary dark:hover:bg-dark-secondary']">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+            </svg>
+            {{ editMode ? 'Done editing' : 'Edit' }}
+          </button>
+        </div>
       </div>
 
       <!-- Hero -->
@@ -172,10 +224,24 @@ const RecipePageComponent = {
               <span :class="['inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold mb-3', 'bg-tier-' + tier.name]">
                 {{ tier.emoji }} {{ tier.label }} &middot; {{ tier.tagline }}
               </span>
-              <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl leading-tight">{{ recipe.name }}</h1>
+              <!-- Editable name -->
+              <h1 v-if="editMode && editingField === 'name'" class="mb-2">
+                <text-editor :model-value="getEditedValue('name', recipe.name)" @update:model-value="saveEdit('name', $event)" @done="editingField = null" placeholder="Recipe name"></text-editor>
+              </h1>
+              <h1 v-else class="font-serif text-3xl sm:text-4xl lg:text-5xl leading-tight" :class="{'cursor-pointer hover:opacity-80': editMode}" @click="editField('name')">
+                {{ getEditedValue('name', recipe.name) }}
+                <span v-if="isFieldEdited('name')" class="inline-block w-2 h-2 bg-accent-brine rounded-full ml-1 align-middle"></span>
+              </h1>
               <p v-if="recipe.nameLocal" class="text-xl opacity-80 font-mono mt-2">{{ recipe.nameLocal }}</p>
               <p v-if="recipe.nameRomanized && recipe.nameRomanized !== recipe.name" class="text-sm opacity-70 italic mt-1">{{ recipe.nameRomanized }}</p>
-              <p v-if="recipe.subtitle" class="text-base opacity-80 mt-2">{{ recipe.subtitle }}</p>
+              <!-- Editable subtitle -->
+              <p v-if="editMode && editingField === 'subtitle'" class="mt-2">
+                <text-editor :model-value="getEditedValue('subtitle', recipe.subtitle)" @update:model-value="saveEdit('subtitle', $event)" @done="editingField = null" placeholder="Subtitle"></text-editor>
+              </p>
+              <p v-else-if="recipe.subtitle" class="text-base opacity-80 mt-2" :class="{'cursor-pointer hover:opacity-80': editMode}" @click="editField('subtitle')">
+                {{ getEditedValue('subtitle', recipe.subtitle) }}
+                <span v-if="isFieldEdited('subtitle')" class="inline-block w-2 h-2 bg-accent-brine rounded-full ml-1 align-middle"></span>
+              </p>
               <p class="text-sm opacity-80 mt-3">
                 <span v-if="recipe.country">{{ recipe.country }}</span>
                 <span v-if="recipe.country && recipe.region"> &middot; </span>
@@ -184,6 +250,28 @@ const RecipePageComponent = {
               </p>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Image/Video Editor (edit mode only) -->
+      <div v-if="editMode" class="mt-4 space-y-4">
+        <div class="bg-bg-card dark:bg-dark-card border border-accent-brine/20 rounded-xl p-4">
+          <h3 class="text-sm font-medium text-text-primary dark:text-dark-text mb-3 flex items-center gap-2">
+            📸 Images
+            <span v-if="isFieldEdited('images')" class="w-2 h-2 bg-accent-brine rounded-full"></span>
+          </h3>
+          <media-picker :model-value="getEditedValue('images', recipe.images)" media-type="image"
+            @update:model-value="saveEdit('images', $event)"></media-picker>
+          <button v-if="isFieldEdited('images')" @click="resetEdit('images')" class="text-xs text-accent-ferment mt-2">Reset images</button>
+        </div>
+        <div class="bg-bg-card dark:bg-dark-card border border-accent-brine/20 rounded-xl p-4">
+          <h3 class="text-sm font-medium text-text-primary dark:text-dark-text mb-3 flex items-center gap-2">
+            🎥 Videos
+            <span v-if="isFieldEdited('videos')" class="w-2 h-2 bg-accent-brine rounded-full"></span>
+          </h3>
+          <media-picker :model-value="getEditedValue('videos', recipe.videos || [])" media-type="video"
+            @update:model-value="saveEdit('videos', $event)"></media-picker>
+          <button v-if="isFieldEdited('videos')" @click="resetEdit('videos')" class="text-xs text-accent-ferment mt-2">Reset videos</button>
         </div>
       </div>
 
@@ -204,9 +292,18 @@ const RecipePageComponent = {
 
           <!-- Story Section -->
           <section v-if="culturalContext.story || culturalContext.historicalNote || culturalContext.historical || culturalContext.significance">
-            <div v-if="culturalContext.story">
+            <div v-if="culturalContext.story || editMode">
               <h2 class="section-heading">The Story</h2>
-              <p class="text-text-secondary dark:text-dark-text-secondary leading-relaxed whitespace-pre-line">{{ culturalContext.story }}</p>
+              <div v-if="editMode && editingField === 'story'">
+                <text-editor :model-value="getEditedValue('culturalContext.story', culturalContext.story)" :multiline="true"
+                  @update:model-value="saveEdit('culturalContext.story', $event)" @done="editingField = null" placeholder="The story behind this recipe..."></text-editor>
+              </div>
+              <p v-else class="text-text-secondary dark:text-dark-text-secondary leading-relaxed whitespace-pre-line"
+                :class="{'cursor-pointer hover:bg-accent-brine/5 rounded-lg -mx-2 px-2 -my-1 py-1 transition-colors': editMode}"
+                @click="editField('story')">
+                {{ getEditedValue('culturalContext.story', culturalContext.story) }}
+                <span v-if="isFieldEdited('culturalContext.story')" class="inline-block w-2 h-2 bg-accent-brine rounded-full ml-1 align-middle"></span>
+              </p>
             </div>
 
             <div v-if="recipe.video && recipe.video.url" class="mt-6">
@@ -253,37 +350,46 @@ const RecipePageComponent = {
           </div>
 
           <!-- Instructions -->
-          <section v-if="stepsData.length > 0">
+          <section v-if="stepsData.length > 0 || editMode">
             <div class="flex items-center justify-between mb-4">
-              <h2 class="section-heading !mb-0">Instructions</h2>
-              <span v-if="stepsProgress > 0" class="text-xs text-accent-culture font-medium bg-accent-culture/10 px-2.5 py-1 rounded-full">{{ stepsProgress }}% done</span>
+              <h2 class="section-heading !mb-0">
+                Instructions
+                <span v-if="isFieldEdited('steps')" class="inline-block w-2 h-2 bg-accent-brine rounded-full ml-1 align-middle"></span>
+              </h2>
+              <span v-if="!editMode && stepsProgress > 0" class="text-xs text-accent-culture font-medium bg-accent-culture/10 px-2.5 py-1 rounded-full">{{ stepsProgress }}% done</span>
             </div>
-            <div v-if="stepsProgress > 0" class="w-full bg-bg-secondary dark:bg-dark-secondary rounded-full h-1.5 mb-5">
-              <div class="bg-accent-culture rounded-full h-1.5 transition-all duration-500 progress-bar" :style="{ width: stepsProgress + '%' }"></div>
-            </div>
-            <ol class="space-y-3">
-              <li v-for="(step, idx) in stepsData" :key="stepKey(step, idx)"
-                :class="['flex gap-3 p-4 rounded-xl transition-all duration-200', completedSteps[stepKey(step, idx)] ? 'bg-accent-culture/5 dark:bg-accent-culture/10' : 'hover:bg-bg-secondary/50 dark:hover:bg-dark-secondary/50']">
-                <button @click="toggleStep(stepKey(step, idx))"
-                  :class="['flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-200 mt-0.5',
-                    completedSteps[stepKey(step, idx)] ? 'bg-accent-culture text-white' : 'bg-bg-secondary dark:bg-dark-secondary text-text-secondary hover:border-accent-culture/50 border-2 border-transparent']">
-                  <span v-if="completedSteps[stepKey(step, idx)]">✓</span>
-                  <span v-else>{{ step.step || idx + 1 }}</span>
-                </button>
-                <div class="flex-1 min-w-0">
-                  <h4 v-if="stepTitle(step)" class="font-medium text-sm text-text-primary dark:text-dark-text" :class="{ 'line-through text-text-muted': completedSteps[stepKey(step, idx)] }">{{ stepTitle(step) }}</h4>
-                  <p class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed mt-0.5" :class="{ 'line-through opacity-60': completedSteps[stepKey(step, idx)] }">{{ stepText(step) }}</p>
-                  <p v-if="step.duration" class="text-xs text-text-muted mt-1.5">⏱ {{ step.duration }}</p>
-                  <div v-if="step.tips && step.tips.length" class="mt-2 space-y-1">
-                    <p v-for="(tip, ti) in step.tips" :key="ti" class="text-xs text-accent-brine bg-accent-brine/8 px-3 py-1.5 rounded-lg">{{ tip }}</p>
+            <!-- Edit mode: ListEditor for steps -->
+            <list-editor v-if="editMode" :model-value="getEditedValue('steps', recipe.steps || [])" item-type="step"
+              @update:model-value="saveEdit('steps', $event)"></list-editor>
+            <template v-else>
+              <button v-if="isFieldEdited('steps')" @click="resetEdit('steps')" class="text-xs text-accent-ferment mb-2">Reset steps</button>
+              <div v-if="stepsProgress > 0" class="w-full bg-bg-secondary dark:bg-dark-secondary rounded-full h-1.5 mb-5">
+                <div class="bg-accent-culture rounded-full h-1.5 transition-all duration-500 progress-bar" :style="{ width: stepsProgress + '%' }"></div>
+              </div>
+              <ol class="space-y-3">
+                <li v-for="(step, idx) in stepsData" :key="stepKey(step, idx)"
+                  :class="['flex gap-3 p-4 rounded-xl transition-all duration-200', completedSteps[stepKey(step, idx)] ? 'bg-accent-culture/5 dark:bg-accent-culture/10' : 'hover:bg-bg-secondary/50 dark:hover:bg-dark-secondary/50']">
+                  <button @click="toggleStep(stepKey(step, idx))"
+                    :class="['flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-200 mt-0.5',
+                      completedSteps[stepKey(step, idx)] ? 'bg-accent-culture text-white' : 'bg-bg-secondary dark:bg-dark-secondary text-text-secondary hover:border-accent-culture/50 border-2 border-transparent']">
+                    <span v-if="completedSteps[stepKey(step, idx)]">✓</span>
+                    <span v-else>{{ step.step || idx + 1 }}</span>
+                  </button>
+                  <div class="flex-1 min-w-0">
+                    <h4 v-if="stepTitle(step)" class="font-medium text-sm text-text-primary dark:text-dark-text" :class="{ 'line-through text-text-muted': completedSteps[stepKey(step, idx)] }">{{ stepTitle(step) }}</h4>
+                    <p class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed mt-0.5" :class="{ 'line-through opacity-60': completedSteps[stepKey(step, idx)] }">{{ stepText(step) }}</p>
+                    <p v-if="step.duration" class="text-xs text-text-muted mt-1.5">⏱ {{ step.duration }}</p>
+                    <div v-if="step.tips && step.tips.length" class="mt-2 space-y-1">
+                      <p v-for="(tip, ti) in step.tips" :key="ti" class="text-xs text-accent-brine bg-accent-brine/8 px-3 py-1.5 rounded-lg">{{ tip }}</p>
+                    </div>
+                    <div v-else-if="step.tip" class="mt-2">
+                      <p class="text-xs text-accent-brine bg-accent-brine/8 px-3 py-1.5 rounded-lg">{{ step.tip }}</p>
+                    </div>
+                    <p v-if="step.checkpoint" class="text-xs text-accent-culture bg-accent-culture/8 px-3 py-1.5 rounded-lg mt-2">{{ step.checkpoint }}</p>
                   </div>
-                  <div v-else-if="step.tip" class="mt-2">
-                    <p class="text-xs text-accent-brine bg-accent-brine/8 px-3 py-1.5 rounded-lg">{{ step.tip }}</p>
-                  </div>
-                  <p v-if="step.checkpoint" class="text-xs text-accent-culture bg-accent-culture/8 px-3 py-1.5 rounded-lg mt-2">{{ step.checkpoint }}</p>
-                </div>
-              </li>
-            </ol>
+                </li>
+              </ol>
+            </template>
           </section>
 
           <!-- Variations -->
@@ -340,11 +446,39 @@ const RecipePageComponent = {
           </section>
 
           <!-- Tags & Dietary -->
-          <div class="flex flex-wrap gap-2 pb-4">
-            <span v-for="flag in (recipe.dietaryFlags || [])" :key="'df-'+flag"
-              class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-accent-culture/10 text-accent-culture capitalize">{{ flag }}</span>
-            <span v-for="tag in (recipe.tags || [])" :key="'t-'+tag"
-              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs bg-bg-secondary dark:bg-dark-secondary text-text-muted">#{{ tag }}</span>
+          <div class="pb-4">
+            <div v-if="editMode" class="space-y-4">
+              <div>
+                <h3 class="text-sm font-medium text-text-primary dark:text-dark-text mb-2 flex items-center gap-2">
+                  Tags <span v-if="isFieldEdited('tags')" class="w-2 h-2 bg-accent-brine rounded-full"></span>
+                </h3>
+                <tag-editor :model-value="getEditedValue('tags', recipe.tags || [])" :suggestions="['fermented','quick','traditional','spicy','probiotic','vegan','beginner','seasonal']"
+                  @update:model-value="saveEdit('tags', $event)"></tag-editor>
+                <button v-if="isFieldEdited('tags')" @click="resetEdit('tags')" class="text-xs text-accent-ferment mt-1">Reset tags</button>
+              </div>
+              <div>
+                <h3 class="text-sm font-medium text-text-primary dark:text-dark-text mb-2 flex items-center gap-2">
+                  Dietary Flags <span v-if="isFieldEdited('dietaryFlags')" class="w-2 h-2 bg-accent-brine rounded-full"></span>
+                </h3>
+                <tag-editor :model-value="getEditedValue('dietaryFlags', recipe.dietaryFlags || [])" :suggestions="['vegan','vegetarian','gluten-free','dairy-free','raw','low-sodium']"
+                  @update:model-value="saveEdit('dietaryFlags', $event)"></tag-editor>
+                <button v-if="isFieldEdited('dietaryFlags')" @click="resetEdit('dietaryFlags')" class="text-xs text-accent-ferment mt-1">Reset dietary flags</button>
+              </div>
+              <div>
+                <h3 class="text-sm font-medium text-text-primary dark:text-dark-text mb-2 flex items-center gap-2">
+                  Citations <span v-if="isFieldEdited('citations')" class="w-2 h-2 bg-accent-brine rounded-full"></span>
+                </h3>
+                <citation-editor :model-value="getEditedValue('citations', recipe.citations || [])"
+                  @update:model-value="saveEdit('citations', $event)"></citation-editor>
+                <button v-if="isFieldEdited('citations')" @click="resetEdit('citations')" class="text-xs text-accent-ferment mt-1">Reset citations</button>
+              </div>
+            </div>
+            <div v-else class="flex flex-wrap gap-2">
+              <span v-for="flag in (recipe.dietaryFlags || [])" :key="'df-'+flag"
+                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-accent-culture/10 text-accent-culture capitalize">{{ flag }}</span>
+              <span v-for="tag in (recipe.tags || [])" :key="'t-'+tag"
+                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs bg-bg-secondary dark:bg-dark-secondary text-text-muted">#{{ tag }}</span>
+            </div>
           </div>
         </div>
 
@@ -359,9 +493,12 @@ const RecipePageComponent = {
             </div>
 
             <!-- Ingredients -->
-            <div class="bg-bg-card dark:bg-dark-card rounded-2xl border border-bg-secondary dark:border-dark-secondary p-5">
+            <div class="bg-bg-card dark:bg-dark-card rounded-2xl border border-bg-secondary dark:border-dark-secondary p-5" :class="{'border-accent-brine/20': editMode}">
               <div class="flex items-center justify-between mb-3">
-                <h3 class="font-serif text-lg text-text-primary dark:text-dark-text">Ingredients</h3>
+                <h3 class="font-serif text-lg text-text-primary dark:text-dark-text">
+                  Ingredients
+                  <span v-if="isFieldEdited('ingredients')" class="inline-block w-2 h-2 bg-accent-brine rounded-full ml-1 align-middle"></span>
+                </h3>
                 <div class="inline-flex items-center gap-0.5 bg-bg-secondary dark:bg-dark-secondary rounded-xl p-0.5">
                   <button v-for="m in [0.5, 1, 2, 4]" :key="m" @click="batchMultiplier = m"
                     :class="['px-2 py-1 rounded-lg text-xs font-mono font-medium transition-all', batchMultiplier === m ? 'bg-accent-brine text-white' : 'text-text-secondary hover:text-text-primary dark:hover:text-dark-text']">
@@ -369,41 +506,55 @@ const RecipePageComponent = {
                   </button>
                 </div>
               </div>
-              <ul class="space-y-1">
-                <li v-for="(ing, i) in scaledIngredients" :key="i"
-                  :class="['flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-colors', ingredientStatus(ing) === 'have' ? 'bg-accent-culture/8 dark:bg-accent-culture/15' : 'hover:bg-bg-secondary/50 dark:hover:bg-dark-secondary/50']">
-                  <span v-if="hasPantry" class="flex-shrink-0 w-5 text-center text-sm">
-                    <span v-if="ingredientStatus(ing) === 'have'" title="In pantry">✅</span>
-                    <span v-else-if="ingredientStatus(ing) === 'substitute'" title="Substitute available">🔄</span>
-                    <span v-else title="Not in pantry">❌</span>
-                  </span>
-                  <span v-if="ing.scaledAmount != null" class="font-mono text-xs text-accent-aged dark:text-accent-brine w-14 text-right flex-shrink-0 font-medium">{{ ing.scaledAmount }} {{ ing.unit || '' }}</span>
-                  <span v-else class="w-14 flex-shrink-0"></span>
-                  <div class="flex-1 min-w-0">
-                    <span class="font-medium text-text-primary dark:text-dark-text">{{ ing.name }}</span>
-                    <span v-if="ing.nameLocal" class="text-text-muted text-xs ml-1">({{ ing.nameLocal }})</span>
-                    <span v-if="ing.notes" class="text-text-muted text-xs ml-1 italic">– {{ ing.notes }}</span>
-                    <span v-if="ing.essential === false" class="text-xs text-text-muted italic ml-1">(optional)</span>
-                  </div>
-                  <button v-if="hasPantry && ingredientStatus(ing) !== 'have'"
-                    @click="$emit('add-to-pantry', { name: ing.name, category: ing.category, quantity: ing.scaledAmount, unit: ing.unit })"
-                    class="flex-shrink-0 p-1 rounded hover:bg-accent-brine/20 text-text-muted hover:text-accent-brine transition-colors" title="Add to pantry">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                  </button>
-                </li>
-              </ul>
+              <!-- Edit mode: ListEditor for ingredients -->
+              <list-editor v-if="editMode" :model-value="getEditedValue('ingredients', recipe.ingredients || [])" item-type="ingredient"
+                @update:model-value="saveEdit('ingredients', $event)"></list-editor>
+              <template v-else>
+                <button v-if="isFieldEdited('ingredients')" @click="resetEdit('ingredients')" class="text-xs text-accent-ferment mb-2">Reset ingredients</button>
+                <ul class="space-y-1">
+                  <li v-for="(ing, i) in scaledIngredients" :key="i"
+                    :class="['flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-colors', ingredientStatus(ing) === 'have' ? 'bg-accent-culture/8 dark:bg-accent-culture/15' : 'hover:bg-bg-secondary/50 dark:hover:bg-dark-secondary/50']">
+                    <span v-if="hasPantry" class="flex-shrink-0 w-5 text-center text-sm">
+                      <span v-if="ingredientStatus(ing) === 'have'" title="In pantry">✅</span>
+                      <span v-else-if="ingredientStatus(ing) === 'substitute'" title="Substitute available">🔄</span>
+                      <span v-else title="Not in pantry">❌</span>
+                    </span>
+                    <span v-if="ing.scaledAmount != null" class="font-mono text-xs text-accent-aged dark:text-accent-brine w-14 text-right flex-shrink-0 font-medium">{{ ing.scaledAmount }} {{ ing.unit || '' }}</span>
+                    <span v-else class="w-14 flex-shrink-0"></span>
+                    <div class="flex-1 min-w-0">
+                      <span class="font-medium text-text-primary dark:text-dark-text">{{ ing.name }}</span>
+                      <span v-if="ing.nameLocal" class="text-text-muted text-xs ml-1">({{ ing.nameLocal }})</span>
+                      <span v-if="ing.notes" class="text-text-muted text-xs ml-1 italic">– {{ ing.notes }}</span>
+                      <span v-if="ing.essential === false" class="text-xs text-text-muted italic ml-1">(optional)</span>
+                    </div>
+                    <button v-if="hasPantry && ingredientStatus(ing) !== 'have'"
+                      @click="$emit('add-to-pantry', { name: ing.name, category: ing.category, quantity: ing.scaledAmount, unit: ing.unit })"
+                      class="flex-shrink-0 p-1 rounded hover:bg-accent-brine/20 text-text-muted hover:text-accent-brine transition-colors" title="Add to pantry">
+                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                    </button>
+                  </li>
+                </ul>
+              </template>
             </div>
 
             <!-- Equipment -->
-            <div v-if="recipe.equipment && recipe.equipment.length" class="bg-bg-card dark:bg-dark-card rounded-2xl border border-bg-secondary dark:border-dark-secondary p-5">
-              <h3 class="font-serif text-lg mb-3 text-text-primary dark:text-dark-text">Equipment</h3>
-              <div class="flex flex-wrap gap-2">
-                <span v-for="eq in recipe.equipment" :key="typeof eq === 'string' ? eq : eq.name"
-                  class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm bg-bg-secondary dark:bg-dark-secondary text-text-secondary dark:text-dark-text-secondary">
-                  {{ typeof eq === 'string' ? eq : eq.name }}
-                  <span v-if="typeof eq === 'object' && !eq.essential" class="text-text-muted text-xs">(optional)</span>
-                </span>
-              </div>
+            <div v-if="(recipe.equipment && recipe.equipment.length) || editMode" class="bg-bg-card dark:bg-dark-card rounded-2xl border border-bg-secondary dark:border-dark-secondary p-5" :class="{'border-accent-brine/20': editMode}">
+              <h3 class="font-serif text-lg mb-3 text-text-primary dark:text-dark-text">
+                Equipment
+                <span v-if="isFieldEdited('equipment')" class="inline-block w-2 h-2 bg-accent-brine rounded-full ml-1 align-middle"></span>
+              </h3>
+              <list-editor v-if="editMode" :model-value="getEditedValue('equipment', recipe.equipment || [])" item-type="equipment"
+                @update:model-value="saveEdit('equipment', $event)"></list-editor>
+              <template v-else>
+                <button v-if="isFieldEdited('equipment')" @click="resetEdit('equipment')" class="text-xs text-accent-ferment mb-2">Reset equipment</button>
+                <div class="flex flex-wrap gap-2">
+                  <span v-for="eq in recipe.equipment" :key="typeof eq === 'string' ? eq : eq.name"
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm bg-bg-secondary dark:bg-dark-secondary text-text-secondary dark:text-dark-text-secondary">
+                    {{ typeof eq === 'string' ? eq : eq.name }}
+                    <span v-if="typeof eq === 'object' && !eq.essential" class="text-text-muted text-xs">(optional)</span>
+                  </span>
+                </div>
+              </template>
             </div>
 
             <!-- Things to Account For -->
