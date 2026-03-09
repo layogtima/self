@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="FERMENT — A cultural guide to lactic acid fermentation from around the world. Browse recipes, track batches, and master the ancient art of fermentation.">
+  <meta name="description"
+    content="FERMENT — A cultural guide to lactic acid fermentation from around the world. Browse recipes, track batches, and master the ancient art of fermentation.">
   <meta name="theme-color" content="#C4A35A">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -17,7 +19,9 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -83,7 +87,9 @@
   <!-- Custom Styles -->
   <link rel="stylesheet" href="css/app.css">
 </head>
-<body class="bg-bg-primary text-text-primary font-sans antialiased min-h-screen dark:bg-dark-primary dark:text-dark-text">
+
+<body
+  class="bg-bg-primary text-text-primary font-sans antialiased min-h-screen dark:bg-dark-primary dark:text-dark-text">
   <div id="app">
     <!-- Loading State -->
     <div v-if="!ready" class="fixed inset-0 bg-bg-primary flex items-center justify-center z-50">
@@ -97,12 +103,14 @@
     <!-- App Shell -->
     <div v-else class="min-h-screen flex flex-col">
       <!-- Unified Top Bar: Logo + Tabs + Actions -->
-      <header class="sticky top-0 z-40 bg-bg-primary/95 backdrop-blur-sm border-b border-bg-secondary dark:bg-dark-primary/95 dark:border-dark-secondary">
+      <header
+        class="sticky top-0 z-40 bg-bg-primary/95 backdrop-blur-sm border-b border-bg-secondary dark:bg-dark-primary/95 dark:border-dark-secondary">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex items-center h-12 gap-4">
             <!-- Logo -->
-            <div class="flex items-center gap-2 cursor-pointer flex-shrink-0" @click="currentTab = 'browse'; currentRoute = 'home'">
-              <svg class="w-5 h-5 text-accent-brine" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v4M16 2v4M6 6h12a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2z"/><path d="M8 12h2m4 0h2M8 16h8" stroke-linecap="round"/></svg>
+            <div class="flex items-center gap-2 cursor-pointer flex-shrink-0"
+              @click="currentTab = 'browse'; currentRoute = 'home'">
+              🫙
               <h1 class="font-serif text-lg tracking-tight hidden sm:block">FERMENT</h1>
             </div>
 
@@ -111,27 +119,40 @@
 
             <!-- Nav Tabs (inline) -->
             <nav class="flex gap-1 overflow-x-auto scrollbar-hide flex-1">
-              <button v-for="tab in tabs" :key="tab.id"
-                @click="currentTab = tab.id"
-                :class="[
+              <button v-for="tab in tabs" :key="tab.id" @click="currentTab = tab.id" :class="[
                   'px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-200',
                   currentTab === tab.id
                     ? 'bg-accent-brine/10 text-accent-aged dark:text-accent-brine border border-accent-brine/20'
                     : 'text-text-secondary hover:bg-bg-secondary dark:hover:bg-dark-secondary border border-transparent'
-                ]"
-                :aria-current="currentTab === tab.id ? 'page' : undefined">
+                ]" :aria-current="currentTab === tab.id ? 'page' : undefined">
                 {{ tab.label }}
               </button>
             </nav>
 
             <!-- Actions -->
             <div class="flex items-center gap-1 flex-shrink-0">
-              <button @click="toggleTheme" class="p-1.5 rounded-lg hover:bg-bg-secondary transition-colors dark:hover:bg-dark-secondary" :aria-label="settings.theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'">
-                <svg v-if="settings.theme !== 'dark'" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-                <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+              <button @click="toggleTheme"
+                class="p-1.5 rounded-lg hover:bg-bg-secondary transition-colors dark:hover:bg-dark-secondary"
+                :aria-label="settings.theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'">
+                <svg v-if="settings.theme !== 'dark'" class="w-4 h-4" fill="none" stroke="currentColor"
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+                <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
               </button>
-              <button @click="showSettings = true" class="p-1.5 rounded-lg hover:bg-bg-secondary transition-colors dark:hover:bg-dark-secondary" aria-label="Settings">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              <button @click="showSettings = true"
+                class="p-1.5 rounded-lg hover:bg-bg-secondary transition-colors dark:hover:bg-dark-secondary"
+                aria-label="Settings">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
               </button>
             </div>
           </div>
@@ -142,52 +163,31 @@
       <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full">
         <!-- Browse Tab -->
         <div v-show="currentTab === 'browse'">
-          <browse-view
-            :recipes="filteredRecipes"
-            :all-recipes="allRecipes"
-            :filters="filters"
-            :view-mode="viewMode"
-            :pantry="pantry"
-            :favorites="favorites"
-            :bookmarks="bookmarks"
-            :user-level="userLevel"
-            :settings="settings"
-            @update:view-mode="viewMode = $event"
-            @update:filters="updateFilters($event)"
-            @open-recipe="openRecipe($event)"
-            @toggle-favorite="toggleFavorite($event)"
-            @toggle-bookmark="toggleBookmark($event)"
-            @start-batch="startBatch($event)">
+          <browse-view :recipes="filteredRecipes" :all-recipes="allRecipes" :filters="filters" :view-mode="viewMode"
+            :pantry="pantry" :favorites="favorites" :bookmarks="bookmarks" :user-level="userLevel" :settings="settings"
+            @update:view-mode="viewMode = $event" @update:filters="updateFilters($event)"
+            @open-recipe="openRecipe($event)" @toggle-favorite="toggleFavorite($event)"
+            @toggle-bookmark="toggleBookmark($event)" @start-batch="startBatch($event)">
           </browse-view>
         </div>
 
         <!-- Pantry Tab -->
         <div v-show="currentTab === 'pantry'">
-          <pantry-manager
-            :pantry="pantry"
-            :recipes="allRecipes"
-            @update:pantry="updatePantry($event)"
+          <pantry-manager :pantry="pantry" :recipes="allRecipes" @update:pantry="updatePantry($event)"
             @browse-matching="browseMatchingRecipes">
           </pantry-manager>
         </div>
 
         <!-- Journal Tab -->
         <div v-show="currentTab === 'journal'">
-          <journal-manager
-            :batches="journal.batches"
-            :recipes="allRecipes"
-            :stats="journal.stats"
-            :user-level="userLevel"
-            @update:batches="updateBatches($event)"
-            @open-recipe="openRecipe($event)">
+          <journal-manager :batches="journal.batches" :recipes="allRecipes" :stats="journal.stats"
+            :user-level="userLevel" @update:batches="updateBatches($event)" @open-recipe="openRecipe($event)">
           </journal-manager>
         </div>
 
         <!-- Tools Tab -->
         <div v-show="currentTab === 'tools'">
-          <tools-view
-            :settings="settings"
-            :recipes="allRecipes">
+          <tools-view :settings="settings" :recipes="allRecipes">
           </tools-view>
         </div>
       </main>
@@ -196,10 +196,12 @@
       <footer class="border-t border-bg-secondary py-6 mt-8 dark:border-dark-secondary">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p class="text-text-muted text-sm">
-            🫙 FERMENT v1.0 — <em class="font-serif">"May your cultures be strong, your brine be clear, and your jars never explode."</em>
+            🫙 FERMENT v1.0 — <em class="font-serif">"May your cultures be strong, your brine be clear, and your jars
+              never explode."</em>
           </p>
           <p class="text-text-muted text-xs mt-2">
-            <span v-if="userLevel.level > 0" class="inline-flex items-center gap-1 bg-bg-secondary rounded-full px-3 py-1 dark:bg-dark-secondary">
+            <span v-if="userLevel.level > 0"
+              class="inline-flex items-center gap-1 bg-bg-secondary rounded-full px-3 py-1 dark:bg-dark-secondary">
               Level {{ userLevel.level }}: {{ userLevel.title }}
             </span>
           </p>
@@ -208,39 +210,20 @@
     </div>
 
     <!-- Recipe Modal -->
-    <recipe-modal
-      v-if="selectedRecipe"
-      :recipe="selectedRecipe"
-      :pantry="pantry"
-      :recipe-notes="recipeNotes"
-      :favorites="favorites"
-      :bookmarks="bookmarks"
-      :settings="settings"
-      @close="selectedRecipe = null"
-      @toggle-favorite="toggleFavorite($event)"
-      @toggle-bookmark="toggleBookmark($event)"
-      @update-notes="updateRecipeNotes($event)"
-      @start-batch="startBatch($event)"
-      @add-to-pantry="addToPantry($event)">
+    <recipe-modal v-if="selectedRecipe" :recipe="selectedRecipe" :pantry="pantry" :recipe-notes="recipeNotes"
+      :favorites="favorites" :bookmarks="bookmarks" :settings="settings" @close="selectedRecipe = null"
+      @toggle-favorite="toggleFavorite($event)" @toggle-bookmark="toggleBookmark($event)"
+      @update-notes="updateRecipeNotes($event)" @start-batch="startBatch($event)" @add-to-pantry="addToPantry($event)">
     </recipe-modal>
 
     <!-- Settings Modal -->
-    <settings-modal
-      v-if="showSettings"
-      :settings="settings"
-      :user-level="userLevel"
-      @close="showSettings = false"
-      @update:settings="updateSettings($event)"
-      @export-data="exportData"
-      @import-data="importData($event)"
+    <settings-modal v-if="showSettings" :settings="settings" :user-level="userLevel" @close="showSettings = false"
+      @update:settings="updateSettings($event)" @export-data="exportData" @import-data="importData($event)"
       @clear-data="clearData">
     </settings-modal>
 
     <!-- Onboarding -->
-    <onboarding-modal
-      v-if="!settings.onboardingComplete"
-      :settings="settings"
-      @complete="completeOnboarding($event)">
+    <onboarding-modal v-if="!settings.onboardingComplete" :settings="settings" @complete="completeOnboarding($event)">
     </onboarding-modal>
   </div>
 
@@ -254,7 +237,7 @@
   <script src="js/store.js"></script>
   <!-- Recipe data (split by tier for easy maintenance) -->
   <script src="js/recipes.js"></script>
-  <script src="data/recipes/tier1-beginner.js"></script>
+  <script src="data/recipes/tier1-beginner.js?v2"></script>
   <script src="js/components/SearchBar.js"></script>
   <script src="js/components/FilterPanel.js"></script>
   <script src="js/components/RecipeCard.js"></script>
@@ -279,4 +262,5 @@
     }
   </script>
 </body>
+
 </html>

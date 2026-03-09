@@ -275,13 +275,11 @@ const RecipeModalComponent = {
 
         <!-- Hero Section with gradient background -->
         <div :class="['relative bg-gradient-to-br text-white overflow-hidden', categoryGradient]">
-          <!-- Pattern overlay -->
-          <div class="absolute inset-0 opacity-15" style="background-image: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.3) 0%, transparent 50%), radial-gradient(circle at 70% 20%, rgba(255,255,255,0.2) 0%, transparent 40%);"></div>
-
+       
           <!-- Hero image if available -->
-          <img v-if="recipe.images && recipe.images.hero" :src="recipe.images.hero" :alt="recipe.name" class="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-50" loading="lazy" />
+          <img v-if="recipe.images && recipe.images.hero" :src="recipe.images.hero" :alt="recipe.name" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+  
           <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-
           <!-- Top bar: Close / Favorite / Bookmark -->
           <div class="relative flex items-center justify-between px-4 pt-4 pb-2">
             <button

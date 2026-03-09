@@ -48,7 +48,7 @@ window.__fermentRecipes.push(
       { step: 4, title: 'Ferment', instruction: 'Cover loosely with a cloth secured with a rubber band. Keep at room temperature away from direct sun. Taste daily from day 7. Ready when it\'s pleasantly sour (typically 14 days at BLR temps).', duration: '14–28 days', tips: ['In Bengaluru\'s warmth, check from day 7 — it moves faster than European recipes suggest', 'Skim any white film (kahm yeast) — harmless, just aesthetics'], checkpoint: 'Tastes tangy-sour with no off smells' },
       { step: 5, title: 'Refrigerate', instruction: 'Once happy with the sourness, seal the jar and refrigerate. Fermentation slows dramatically but continues.', duration: null, tips: ['Keeps for 3+ months in the fridge'], checkpoint: 'Jar is cold and sealed' }
     ],
-    images: { hero: 'https://images.unsplash.com/photo-1612257999756-196703081a0e?auto=format&fit=crop&w=800&q=80', heroAttribution: 'Photo by Anshu A on Unsplash' },
+    images: { hero: 'https://upload.wikimedia.org/wikipedia/commons/f/f6/Cavolo_salato.jpg', heroAttribution: 'Photo by Anshu A on Unsplash' },
     video: { url: 'https://www.youtube.com/watch?v=snxb_PSe3Ps', title: 'Brad Makes Sauerkraut', channel: 'Bon Appétit — It\'s Alive' },
     culturalContext: {
       story: 'Sauerkraut predates refrigeration by centuries. For Central Europeans, it was the survival vegetable — made in autumn, eaten through winter, and credited with keeping sailors alive on long voyages. Every family had their own technique, their own timing, their own idea of how sour is "right."',
@@ -123,7 +123,7 @@ window.__fermentRecipes.push(
       { step: 4, title: 'Set overnight', instruction: 'Cover loosely. Leave undisturbed in a warm spot. In Bengaluru\'s climate, room temperature is sufficient — no need to wrap in towels. Check after 6–8 hours.', duration: '6–12 hours', tips: ['Don\'t move or jostle the container while it\'s setting', 'In cooler BLR winter months (Dec–Jan), place near the stove or in a closed cupboard'], checkpoint: 'Dahi has set — tilting the container shows a solid mass' },
       { step: 5, title: 'Refrigerate', instruction: 'Once set, refrigerate. It will firm up further and sourness will develop slowly over the next day.', duration: null, tips: ['Save 2 tbsp from this batch as your next starter'], checkpoint: 'Firm, creamy, pleasantly tangy' }
     ],
-    images: { hero: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=800&q=80', heroAttribution: 'Photo by Sara Cervera on Unsplash' },
+    images: { hero: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Curd_India.jpg/1920px-Curd_India.jpg', heroAttribution: 'Photo by Sara Cervera on Unsplash' },
     video: { url: 'https://www.youtube.com/watch?v=_0hhMPSqY_c', title: 'How to Make Thick Curd / Dahi at Home', channel: 'Hebbar\'s Kitchen' },
     culturalContext: {
       story: 'Dahi has been made in the Indian subcontinent for at least 5000 years. It appears in the Rigveda, in Ayurvedic texts, in every regional cuisine. It is simultaneously medicine, comfort food, religious offering, and daily nutrition. Each household maintains a living culture passed through generations — sometimes decades old.',
@@ -198,7 +198,7 @@ window.__fermentRecipes.push(
       { step: 3, title: 'Watch for activity', instruction: 'Your bug is ready when it\'s actively bubbling, smells yeasty-gingery, and fizzes when stirred. In Bengaluru, typically 3–4 days. Taste — it should be slightly fizzy, tangy-sweet.', duration: null, tips: ['Don\'t refrigerate until active — cold slows wild yeast capture'], checkpoint: 'Consistent bubbling within minutes of stirring, fizzy taste' },
       { step: 4, title: 'Maintain or use', instruction: 'Use ¼ cup of bug to ferment 1 litre of sweet liquid (ginger ale, lemon soda, etc.) for 2–3 days. Replenish what you used with water + ginger + sugar. Keep feeding to maintain indefinitely.', duration: 'Ongoing', tips: ['Refrigerate and feed once a week if not using often', 'Bring back to room temp and feed daily for 2 days before using from the fridge'], checkpoint: 'Bug is a perpetual fermentation engine' }
     ],
-    images: { hero: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=800&q=80', heroAttribution: 'Photo by Mockup Graphics on Unsplash' },
+    images: { hero: 'https://www.occasionallyeggs.com/wp-content/uploads/2025/01/Ginger-bug.jpg', heroAttribution: 'Photo by Mockup Graphics on Unsplash' },
     video: { url: 'https://www.youtube.com/watch?v=AN_lCyc7D64', title: '3 Ingredient Homemade Fermented Ginger Beer', channel: 'Joshua Weissman' },
     culturalContext: {
       story: 'Before commercial yeast and carbonation, people around the world maintained wild ferment starters to make fizzy drinks. The ginger bug is the simplest version — a living community of wild yeasts and bacteria captured from ginger\'s skin, sustained by sugar, used to naturally carbonate homemade sodas.',
@@ -277,7 +277,7 @@ window.__fermentRecipes.push(
       { step: 4, title: 'Ferment briefly', instruction: 'Cover loosely. Leave at room temperature. In BLR, 24 hours gives a lightly sour, fresh curtido. 48–72 hours for more tang.', duration: '1–3 days', tips: ['Traditional Salvadoran curtido is only lightly fermented — it\'s not as sour as sauerkraut'], checkpoint: 'Smells fresh-sour, crisp when tasted' },
       { step: 5, title: 'Refrigerate and serve', instruction: 'Refrigerate when it reaches your preferred sourness. Keeps 2–3 weeks.', duration: null, tips: [], checkpoint: 'Crisp, tangy, vibrant' }
     ],
-    images: { hero: 'https://images.unsplash.com/photo-1625938145744-e380515399bf?auto=format&fit=crop&w=800&q=80', heroAttribution: 'Photo by Brooke Lark on Unsplash' },
+    images: { hero: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Curtido_%286292106013%29.jpg/1280px-Curtido_%286292106013%29.jpg', heroAttribution: 'Photo by Brooke Lark on Unsplash' },
     video: { url: 'https://www.youtube.com/watch?v=jHcKFRsaPZI', title: 'How to Make Curtido — Salvadoran Fermented Slaw', channel: 'Internet Shaquille' },
     culturalContext: {
       story: 'Curtido is El Salvador\'s national condiment — an essential partner to pupusas (thick corn cakes stuffed with cheese, beans, or chicharrón). It\'s lighter and faster than sauerkraut by design: Salvadoran cuisine tends toward fresh, bright flavours rather than deeply soured preservation.',
@@ -349,7 +349,7 @@ window.__fermentRecipes.push(
       { step: 2, title: 'Ferment overnight', instruction: 'Cover loosely with a cloth. Leave at room temperature. Bengaluru nights (18–22°C in winter, 24–26°C in summer) are ideal. Ferment for 8–16 hours.', duration: '8–16 hours', tips: ['In summer, 8 hours is usually sufficient. In cooler months, go longer.', 'Traditional households use the same clay pot daily — the absorbed cultures speed up fermentation over time.'], checkpoint: 'Smells slightly sour and tangy in the morning' },
       { step: 3, title: 'Serve', instruction: 'Stir well. Add salt to taste. Serve as a morning drink (strain for liquid-only) or eat as a soft porridge. Traditional accompaniments: pickle, raw onion, papad.', duration: null, tips: ['The water is more probiotic than the rice — don\'t discard it', 'Add buttermilk for extra richness (traditional in Tamil Nadu and Karnataka)'], checkpoint: 'Pleasantly sour, refreshing, slightly effervescent' }
     ],
-    images: { hero: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80', heroAttribution: 'Photo by K8 on Unsplash' },
+    images: { hero: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Kanjee_gajar_view.jpg/1920px-Kanjee_gajar_view.jpg', heroAttribution: 'Photo by K8 on Unsplash' },
     video: { url: 'https://www.youtube.com/watch?v=1oXheGE0cO0', title: 'Kanji — Traditional Fermented Rice Water', channel: 'Bong Eats' },
     culturalContext: {
       story: 'Kanji is one of the oldest fermented foods in South and Southeast Asia. Before modern nutrition science, rural communities understood intuitively that fermented rice water was restorative — given to the sick, the weak, the recovering. It appears in Ayurvedic texts as a digestive and is still the first food offered to patients recovering from illness in many South Indian households.',
@@ -429,7 +429,7 @@ window.__fermentRecipes.push(
       { step: 4, title: 'Ferment', instruction: 'Cover loosely (cloth or loose lid — gas needs to escape). Leave at room temperature away from direct sun. In BLR, taste daily from day 3. Half-sour by day 3–4, full sour by day 7–10.', duration: '3–14 days', tips: ['Bubbles forming within 24–48 hours means fermentation is active', 'Brine will turn cloudy — this is normal and good', 'Skim any white film (kahm yeast) from the surface — harmless but tastes yeasty'], checkpoint: 'Vegetables taste pleasantly sour and tangy' },
       { step: 5, title: 'Refrigerate', instruction: 'When vegetables reach your preferred sourness, seal the jar and refrigerate. Cold slows fermentation nearly to a halt.', duration: null, tips: ['Keeps 2–3 months in the fridge', 'The brine is drinkable and deeply probiotic — don\'t discard it'], checkpoint: 'Tangy, crunchy, sour pickles in cold storage' }
     ],
-    images: { hero: 'https://images.unsplash.com/photo-1589135233689-3faae72aa11a?auto=format&fit=crop&w=800&q=80', heroAttribution: 'Photo by Monika Grabkowska on Unsplash' },
+    images: { hero: 'https://upload.wikimedia.org/wikipedia/commons/e/ec/Pickled_cucumber.jpg', heroAttribution: 'Pickled cucumber in glass jar by Mariuszjbie' },
     video: { url: 'https://www.youtube.com/watch?v=vD6XWXj9l8Q', title: 'Brad Makes Pickles', channel: 'Bon Appétit — It\'s Alive' },
     culturalContext: {
       story: 'Brine pickling is arguably the oldest food preservation technique after drying. Before refrigeration, before canning, before any technology at all — humans discovered that saltwater keeps food from spoiling. Every civilisation with access to salt independently developed some version of brine fermentation.',
@@ -506,7 +506,7 @@ window.__fermentRecipes.push(
       { step: 3, title: 'Infuse or ferment (optional)', instruction: 'You can drink immediately, but for best flavour, refrigerate for 24 hours to let ginger infuse. For a lightly fermented version, leave at room temperature for 1–3 days (the ACV mother will create slight carbonation).', duration: '0–3 days', tips: ['Room temperature fermentation at BLR temps develops fizz within 24 hours if the ACV has a live mother', 'If fermenting, burp the jar daily to release gas'], checkpoint: 'Either a fresh gingery drink or a lightly fizzy, tangy tonic' },
       { step: 4, title: 'Strain and serve', instruction: 'Strain out the ginger bits. Serve cold over ice. Add lime juice if desired. Dilute further if too concentrated.', duration: '2 min', tips: ['Excellent as a post-exercise rehydration drink', 'Mix with soda water for a sparkling switchel'], checkpoint: 'Clear, golden, refreshing drink' }
     ],
-    images: { hero: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?auto=format&fit=crop&w=800&q=80', heroAttribution: 'Photo by Vero Manrique on Unsplash' },
+    images: { hero: 'https://www.crosbys.com/wp-content/uploads/2016/07/Switchel-Recipe-with-Cider-Vinegar-Molasses-5.jpg', heroAttribution: 'Photo by Vero Manrique on Unsplash' },
     video: { url: 'https://www.youtube.com/watch?v=uOB_IOQNKHY', title: 'Switchel — The 18th Century Energy Drink', channel: 'Townsends' },
     culturalContext: {
       story: 'Switchel was the Gatorade of 18th and 19th century America. Farmers making hay in the blazing summer heat drank switchel by the gallon to stay hydrated, replace electrolytes, and keep cool. It was so associated with harvest time that it earned the nickname "haymaker\'s punch."',
@@ -586,7 +586,7 @@ window.__fermentRecipes.push(
       { step: 4, title: 'Ferment', instruction: 'Cover loosely. Leave at room temperature for 2–3 days. You\'ll see bubbles forming — this is active lacto-fermentation. Taste daily.', duration: '2–3 days', tips: ['In BLR\'s warmth, 2 days usually produces a perfect balance of fresh and fermented', 'The flavour will deepen — more complex, tangier, slightly effervescent', 'If it starts to smell boozy or yeasty, it\'s gone too long — refrigerate immediately'], checkpoint: 'Bubbling, tangy salsa with depth beyond fresh' },
       { step: 5, title: 'Refrigerate and serve', instruction: 'Once you like the flavour, seal and refrigerate. Add fresh coriander on top. Serve with tortilla chips, on tacos, or — perfectly — with idli, dosa, or rice.', duration: null, tips: ['Keeps 2 weeks refrigerated', 'The tang gets more pronounced over time — it won\'t stay "mild"'], checkpoint: 'Complex, living salsa ready for any meal' }
     ],
-    images: { hero: 'https://images.unsplash.com/photo-1560684352-8497838b2810?auto=format&fit=crop&w=800&q=80', heroAttribution: 'Photo by Farhad Ibrahimzade on Unsplash' },
+    images: { hero: 'https://upload.wikimedia.org/wikipedia/commons/b/b6/Salsa_ferment.jpg', heroAttribution: 'Photo by Farhad Ibrahimzade on Unsplash' },
     video: { url: 'https://www.youtube.com/watch?v=nsXGPmBxMzU', title: 'Fermented Salsa — Lacto-Fermented Tomato Salsa', channel: 'Fermented Homestead' },
     culturalContext: {
       story: 'Salsa has pre-Columbian roots — the Aztecs combined tomatoes, chillies, and squash seeds into sauces long before Europeans arrived. The word "salsa" is simply Spanish for "sauce." While most modern salsa is eaten fresh, lacto-fermentation adds depth, complexity, and beneficial bacteria — transforming a condiment into a living food.',
@@ -664,7 +664,7 @@ window.__fermentRecipes.push(
       { step: 4, title: 'Ferment', instruction: 'Cover loosely. Leave at room temperature away from sun. The brine will turn pink within hours as beetroot bleeds. Taste from day 5.', duration: '5–10 days', tips: ['The colour transformation is dramatic — brine goes from clear to vivid pink within 24 hours', 'In BLR, 5–7 days usually produces the right balance of crunch and sourness', 'Bubbles indicate active fermentation — normal and good'], checkpoint: 'Shocking pink brine, turnips are sour-tangy and still slightly crunchy' },
       { step: 5, title: 'Refrigerate', instruction: 'When turnips are tangy and still have some crunch, seal and refrigerate. The pink deepens over time.', duration: null, tips: ['Keeps 2–3 months refrigerated', 'The brine is also delicious — use it in salad dressings or as a probiotic shot'], checkpoint: 'Vibrant pink pickled turnips, ready to serve' }
     ],
-    images: { hero: 'https://images.unsplash.com/photo-1601564921647-b446839fa08e?auto=format&fit=crop&w=800&q=80', heroAttribution: 'Photo by Micah Tindell on Unsplash' },
+    images: { hero: 'https://cosetteskitchen.com/wp-content/uploads/2025/04/lifit_turnips_final_turnipsinbowl.jpg', heroAttribution: 'Photo by Micah Tindell on Unsplash' },
     video: { url: 'https://www.youtube.com/watch?v=9J_K5VEOaS8', title: 'Pickled Turnips — Lebanese Lift', channel: 'Middle Eats' },
     culturalContext: {
       story: 'In Lebanon, Syria, and across the Levant, no shawarma stand, falafel shop, or family table is complete without a jar of bright pink pickled turnips. They\'re called "lift" (لفت) — Arabic for turnip — and their shocking magenta colour (from beetroot) makes them one of the most visually striking ferments in any cuisine.',
@@ -743,8 +743,7 @@ window.__fermentRecipes.push(
       { step: 4, title: 'Ferment', instruction: 'Cover loosely. Leave at room temperature for 2–3 days. The chutney will darken slightly and develop a tangy, complex flavour distinct from fresh chutney. Small bubbles may appear.', duration: '2–3 days', tips: ['Day 2 in BLR is usually the sweet spot — tangy but still fresh-tasting', 'The colour will shift from bright green to a deeper, olive green — normal', 'If it turns brown-black or smells off, discard — this means oxidation or contamination'], checkpoint: 'Slightly darker green, distinctly tangy, complex aroma' },
       { step: 5, title: 'Refrigerate and use', instruction: 'Seal and refrigerate. Use as you would regular green chutney — with dosa, idli, pakora, sandwiches, chaat, or stirred into rice.', duration: null, tips: ['Keeps 2–3 weeks refrigerated (longer than fresh chutney)', 'The tang deepens over days — taste evolves', 'Stir before each use'], checkpoint: 'Living green chutney with probiotic tang' }
     ],
-    images: { hero: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=800&q=80', heroAttribution: 'Photo by Rajesh Kavasseri on Unsplash' },
-    video: { url: 'https://www.youtube.com/watch?v=hDKuSyFRjsw', title: 'Green Chutney Recipe — Coriander Mint Chutney', channel: 'Swasthi\'s Recipes' },
+    images: { hero: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Pudina_Chutney.jpg/1920px-Pudina_Chutney.jpg', title: 'Green Chutney Recipe — Coriander Mint Chutney', channel: 'Swasthi\'s Recipes' },
     culturalContext: {
       story: 'Green chutney — coriander, mint, chilli, ground together — is the universal condiment of the Indian subcontinent. It appears at every chaat stall, alongside every dosa, inside every sandwich in Mumbai. Usually consumed fresh, it has a shelf life of just 2–3 days in the fridge. Fermenting it deliberately extends its life AND adds probiotic benefit — turning something ephemeral into something alive.',
       historicalNote: 'The practice of grinding herbs with salt and fermenting them is ancient across South Asia. Before blenders, stone mortars (sil-batta) were used. The fermentation step was often unintentional — chutneys made in bulk would naturally ferment in warm weather. Many grandmothers\' "special flavour" was, unknowingly, lacto-fermentation.',
