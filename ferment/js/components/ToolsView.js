@@ -651,6 +651,19 @@ const SettingsModalComponent = {
             </button>
           </div>
 
+          <!-- Enable Editing -->
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-sm font-medium text-text-primary dark:text-dark-text">Enable Editing</span>
+              <p class="text-xs text-text-muted dark:text-dark-text-secondary mt-0.5">Edit recipes and wiki articles inline</p>
+            </div>
+            <button @click="localSettings.enableEditing = !localSettings.enableEditing"
+              :class="['w-11 h-6 rounded-full transition-all relative', localSettings.enableEditing ? 'bg-accent-brine' : 'bg-text-muted/30']"
+            >
+              <div :class="['absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-all', localSettings.enableEditing ? 'left-6' : 'left-1']"></div>
+            </button>
+          </div>
+
           <!-- Default View -->
           <div>
             <label class="block text-sm font-medium text-text-secondary dark:text-dark-text-secondary mb-2">Default View</label>

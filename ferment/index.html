@@ -171,7 +171,7 @@
 
         <!-- Wiki Article (full-page view) -->
         <div v-if="currentRoute === 'wiki-article' && selectedWikiArticle">
-          <wiki-article :article="selectedWikiArticle" :all-articles="wikiArticles" :all-recipes="allRecipes"
+          <wiki-article :article="selectedWikiArticle" :all-articles="wikiArticles" :all-recipes="allRecipes" :settings="settings"
             @close="closeWikiArticle" @open-article="openWikiArticle($event)"
             @open-recipe="openRecipeFromWiki($event)">
           </wiki-article>

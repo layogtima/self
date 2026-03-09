@@ -17,6 +17,7 @@ const FermentStore = {
         units: 'metric',
         theme: 'light',
         expertMode: false,
+        enableEditing: false,
         defaultView: 'cards',
         onboardingComplete: false,
       },

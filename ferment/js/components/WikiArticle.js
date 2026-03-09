@@ -11,9 +11,16 @@ const WikiArticleComponent = {
     article: { type: Object, required: true },
     allArticles: { type: Array, default: () => [] },
     allRecipes: { type: Array, default: () => [] },
+    settings: { type: Object, default: () => ({}) },
   },
 
   emits: ['close', 'open-article', 'open-recipe'],
+
+  watch: {
+    'settings.enableEditing'(enabled) {
+      if (!enabled) { this.editMode = false; this.editingSectionIdx = null; this.editingHeaderField = null; }
+    },
+  },
 
   data() {
     return {
@@ -263,7 +270,7 @@ const WikiArticleComponent = {
           </svg>
           Back to Wiki
         </button>
-        <div class="flex items-center gap-2">
+        <div v-if="settings.enableEditing" class="flex items-center gap-2">
           <span v-if="hasAnyEdits() && !editMode" class="text-xs text-accent-brine">{{ editCount() }} edits</span>
           <button v-if="editMode && hasAnyEdits()" @click="resetAllEdits"
             class="text-xs text-accent-ferment hover:text-accent-ferment/80 px-2 py-1 rounded transition-colors">Reset all</button>

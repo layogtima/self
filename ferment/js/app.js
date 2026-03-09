@@ -158,6 +158,7 @@ const app = createApp({
     function openRecipe(recipe) {
       selectedRecipe.value = recipe;
       currentRoute.value = 'recipe';
+      pushHistory({ route: 'recipe', recipeId: recipe.id, recipeSlug: recipe.slug || recipe.id });
       // Track recently viewed
       const idx = recentlyViewed.findIndex(r => r.id === recipe.id);
       if (idx > -1) recentlyViewed.splice(idx, 1);
@@ -173,6 +174,9 @@ const app = createApp({
     function closeRecipe() {
       selectedRecipe.value = null;
       currentRoute.value = 'home';
+      if (!suppressPopState) {
+        pushHistory({ tab: currentTab.value, route: 'home' });
+      }
     }
 
     function toggleFavorite(recipeId) {
@@ -389,6 +393,7 @@ const app = createApp({
       selectedWikiArticle.value = article;
       currentTab.value = 'wiki';
       currentRoute.value = 'wiki-article';
+      pushHistory({ route: 'wiki-article', articleId: article.id, articleSlug: article.slug || article.id });
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -396,15 +401,93 @@ const app = createApp({
       selectedWikiArticle.value = null;
       currentRoute.value = 'home';
       currentTab.value = 'wiki';
+      if (!suppressPopState) {
+        pushHistory({ tab: 'wiki', route: 'home' });
+      }
     }
 
     function openRecipeFromWiki(recipe) {
       openRecipe(recipe);
     }
 
+    // ── Browser History Management ──
+    let suppressPopState = false;
+
+    function pushHistory(state) {
+      if (suppressPopState) return;
+      const url = new URL(window.location);
+      // Build a descriptive hash
+      if (state.route === 'recipe' && state.recipeSlug) {
+        url.hash = '#/recipe/' + state.recipeSlug;
+      } else if (state.route === 'wiki-article' && state.articleSlug) {
+        url.hash = '#/wiki/' + state.articleSlug;
+      } else if (state.tab) {
+        url.hash = state.tab === 'browse' ? '#/' : '#/' + state.tab;
+      } else {
+        url.hash = '#/';
+      }
+      history.pushState(
+        { route: state.route || 'home', tab: state.tab || currentTab.value, recipeId: state.recipeId, articleId: state.articleId },
+        '',
+        url
+      );
+    }
+
+    function handlePopState(e) {
+      suppressPopState = true;
+      const state = e.state;
+      if (!state) {
+        // No state — go to home/browse
+        selectedRecipe.value = null;
+        selectedWikiArticle.value = null;
+        showSettings.value = false;
+        currentRoute.value = 'home';
+        currentTab.value = 'browse';
+        suppressPopState = false;
+        return;
+      }
+
+      // Close settings if open
+      showSettings.value = false;
+
+      if (state.route === 'recipe' && state.recipeId) {
+        const recipe = allRecipes.value.find(r => r.id === state.recipeId);
+        if (recipe) {
+          selectedRecipe.value = recipe;
+          currentRoute.value = 'recipe';
+        } else {
+          currentRoute.value = 'home';
+          currentTab.value = state.tab || 'browse';
+        }
+      } else if (state.route === 'wiki-article' && state.articleId) {
+        const article = wikiArticles.value.find(a => a.id === state.articleId);
+        if (article) {
+          selectedWikiArticle.value = article;
+          currentRoute.value = 'wiki-article';
+          currentTab.value = 'wiki';
+        } else {
+          currentRoute.value = 'home';
+          currentTab.value = 'wiki';
+        }
+      } else {
+        selectedRecipe.value = null;
+        selectedWikiArticle.value = null;
+        currentRoute.value = state.route || 'home';
+        currentTab.value = state.tab || 'browse';
+      }
+      suppressPopState = false;
+    }
+
     // ── Lifecycle ──
     onMounted(async () => {
       applyTheme();
+
+      // Listen for browser back/forward
+      window.addEventListener('popstate', handlePopState);
+
+      // Set initial history state
+      history.replaceState({ route: currentRoute.value, tab: currentTab.value }, '', window.location);
+
       // Load recipes and wiki articles in parallel
       const [recipes, articles] = await Promise.all([
         FermentRecipes.load(),
@@ -416,8 +499,13 @@ const app = createApp({
       ready.value = true;
     });
 
-    // Auto-persist on tab change
-    watch(currentTab, () => persist());
+    // Auto-persist on tab change + push history
+    watch(currentTab, (tab) => {
+      persist();
+      if (!suppressPopState && currentRoute.value === 'home') {
+        pushHistory({ tab, route: 'home' });
+      }
+    });
 
     return {
       ready,

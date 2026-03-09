@@ -111,7 +111,10 @@ const RecipePageComponent = {
           this.batchMultiplier = 1;
         }
       }
-    }
+    },
+    'settings.enableEditing'(enabled) {
+      if (!enabled) { this.editMode = false; this.editingField = null; }
+    },
   },
 
   mounted() {
@@ -196,7 +199,7 @@ const RecipePageComponent = {
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
           Back to recipes
         </button>
-        <div class="flex items-center gap-2">
+        <div v-if="settings.enableEditing" class="flex items-center gap-2">
           <span v-if="hasAnyEdits() && !editMode" class="text-xs text-accent-brine">{{ editCount() }} edits</span>
           <button v-if="editMode && hasAnyEdits()" @click="resetAllEdits"
             class="text-xs text-accent-ferment hover:text-accent-ferment/80 px-2 py-1 rounded transition-colors">
