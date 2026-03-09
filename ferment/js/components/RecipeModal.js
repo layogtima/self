@@ -387,6 +387,21 @@ const RecipeModalComponent = {
                 <p class="text-text-secondary dark:text-dark-text-secondary leading-relaxed whitespace-pre-line">{{ culturalContext.story }}</p>
               </div>
 
+              <!-- Watch Video -->
+              <div v-if="recipe.video && recipe.video.url" class="mt-6">
+                <a :href="recipe.video.url" target="_blank" rel="noopener noreferrer"
+                  class="group flex items-center gap-4 p-4 bg-bg-secondary/50 dark:bg-dark-secondary/50 rounded-xl hover:bg-bg-secondary dark:hover:bg-dark-secondary transition-all">
+                  <div class="flex-shrink-0 w-16 h-16 bg-red-600 rounded-xl flex items-center justify-center group-hover:bg-red-500 transition-colors">
+                    <svg class="w-8 h-8 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p class="font-medium text-sm text-text-primary dark:text-dark-text group-hover:text-accent-brine transition-colors truncate">{{ recipe.video.title }}</p>
+                    <p class="text-xs text-text-muted mt-0.5">{{ recipe.video.channel }} · YouTube</p>
+                  </div>
+                  <svg class="w-4 h-4 text-text-muted flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
+              </div>
+
               <!-- Historical Note as Pull Quote -->
               <div v-if="culturalContext.historicalNote || culturalContext.historical" class="relative mt-6 pl-6 py-4 border-l-4 border-accent-brine bg-bg-secondary/30 dark:bg-dark-secondary/30 rounded-r-xl">
                 <svg class="absolute -left-3.5 top-3 w-7 h-7 text-accent-brine bg-bg-card dark:bg-dark-card rounded-full p-1" fill="currentColor" viewBox="0 0 24 24">

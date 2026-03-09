@@ -103,15 +103,19 @@ const RecipeCardComponent = {
       tabindex="0"
       @keydown.enter="$emit('open', recipe)"
     >
-      <!-- Hero Image Placeholder -->
+      <!-- Hero Image -->
       <div :class="['relative h-44 bg-gradient-to-br overflow-hidden', categoryGradient]">
-        <!-- Category Pattern Overlay -->
-        <div class="absolute inset-0 opacity-20">
+        <!-- Actual image if available -->
+        <img v-if="recipe.images && recipe.images.hero" :src="recipe.images.hero" :alt="recipe.name" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+        <div v-if="recipe.images && recipe.images.hero" class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent"></div>
+
+        <!-- Fallback: Category Pattern Overlay -->
+        <div v-if="!recipe.images || !recipe.images.hero" class="absolute inset-0 opacity-20">
           <div class="absolute inset-0" style="background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.3) 0%, transparent 50%), radial-gradient(circle at 80% 30%, rgba(255,255,255,0.2) 0%, transparent 40%);"></div>
         </div>
 
-        <!-- Category Icon -->
-        <div class="absolute inset-0 flex items-center justify-center">
+        <!-- Fallback: Category Icon -->
+        <div v-if="!recipe.images || !recipe.images.hero" class="absolute inset-0 flex items-center justify-center">
           <svg class="w-16 h-16 text-white/50 group-hover:scale-110 transition-transform duration-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" :d="categoryIcon"/></svg>
         </div>
 
