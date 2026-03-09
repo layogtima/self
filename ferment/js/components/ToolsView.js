@@ -597,9 +597,9 @@ const SettingsModalComponent = {
 
   template: `
     <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm" @click="handleBackdropClick">
-      <div class="bg-bg-card dark:bg-dark-card rounded-2xl shadow-warm-xl w-full max-w-lg max-h-[85vh] overflow-hidden flex flex-col" @click.stop>
+      <div class="bg-bg-card dark:bg-dark-card rounded-2xl shadow-warm-xl w-full max-w-lg max-h-[85vh] overflow-y-auto custom-scrollbar" @click.stop>
         <!-- Header -->
-        <div class="flex items-center justify-between px-6 py-4 border-b border-bg-secondary dark:border-dark-secondary flex-shrink-0">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-bg-secondary dark:border-dark-secondary">
           <div class="flex items-center gap-2">
             <svg class="w-5 h-5 text-accent-brine" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
@@ -613,7 +613,7 @@ const SettingsModalComponent = {
         </div>
 
         <!-- Content -->
-        <div class="flex-1 overflow-y-auto px-6 py-5 space-y-6">
+        <div class="px-6 py-5 space-y-6">
           <!-- Region -->
           <div>
             <label class="block text-sm font-medium text-text-secondary dark:text-dark-text-secondary mb-2">Region</label>

@@ -271,10 +271,7 @@ const RecipeModalComponent = {
       <div class="absolute inset-0 bg-black/50 modal-backdrop" @click="close"></div>
 
       <!-- Modal Container: full-screen on mobile, centered on desktop -->
-      <div class="relative w-full h-full sm:h-auto sm:max-w-3xl sm:mx-4 sm:max-h-[90vh] bg-bg-card dark:bg-dark-card sm:rounded-2xl border border-bg-secondary dark:border-dark-secondary flex flex-col overflow-hidden z-10" @click.stop>
-
-        <!-- Scrollable content wrapper (hero + tabs content all scroll together) -->
-        <div class="flex-1 overflow-y-auto custom-scrollbar">
+      <div class="relative w-full h-full sm:h-auto sm:max-w-3xl sm:mx-4 sm:max-h-[90vh] bg-bg-card dark:bg-dark-card sm:rounded-2xl border border-bg-secondary dark:border-dark-secondary overflow-y-auto custom-scrollbar z-10" @click.stop>
 
         <!-- Hero Section with gradient background -->
         <div :class="['relative bg-gradient-to-br text-white overflow-hidden', categoryGradient]">
@@ -361,7 +358,7 @@ const RecipeModalComponent = {
         </div>
 
         <!-- Tab Navigation -->
-        <div class="flex border-b border-bg-secondary dark:border-dark-secondary px-2 overflow-x-auto scrollbar-hide sticky top-0 bg-bg-card/95 dark:bg-dark-card/95 backdrop-blur-sm z-10">
+        <div class="flex border-b border-bg-secondary dark:border-dark-secondary px-2 overflow-x-auto scrollbar-hide">
           <button
             v-for="tab in tabs"
             :key="tab.id"
@@ -773,10 +770,8 @@ const RecipeModalComponent = {
 
         </div>
 
-        </div><!-- end scrollable wrapper -->
-
         <!-- Bottom Action Bar -->
-        <div class="flex-shrink-0 p-4 bg-bg-card/95 dark:bg-dark-card/95 backdrop-blur-sm border-t border-bg-secondary dark:border-dark-secondary">
+        <div class="p-4">
           <button
             @click="$emit('start-batch', recipe)"
             class="w-full py-3 bg-accent-culture hover:bg-accent-culture/90 text-white rounded-xl font-medium transition-colors flex items-center justify-center gap-2"
