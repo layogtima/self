@@ -845,6 +845,7 @@ window.__fermentRecipes.push(
     slug: 'preserved-lemons-salt',
     name: 'Preserved Lemons',
     nameLocal: 'L’hamid Markach',
+    nameRomanized: null,
     subtitle: 'North African salt-cured citrus gold',
     category: 'condiment',
     subcategory: 'citrus',
@@ -862,32 +863,54 @@ window.__fermentRecipes.push(
     fermentTimeUnit: 'days',
     totalTimeHuman: '1–3 months',
     blrNote: 'Small, thin-skinned Indian nimbus are actually *superior* for this than thick-skinned Western lemons. They cure faster and have less bitter pith.',
+    seasonality: ['all'],
     ingredients: [
-      { name: 'Lemons', nameLocal: 'Nimbu', amount: 10, unit: 'small', unitMetric: '500g', category: 'produce', essential: true, localAvailability: { IN: { ease: 'easy', where: 'Any market' } } },
-      { name: 'Rock Salt', nameLocal: 'Saindhav Namak', amount: 100, unit: 'g', unitMetric: '100g', category: 'salt', essential: true }
+      { name: 'Lemons', nameLocal: 'Nimbu', amount: 10, unit: 'small', unitMetric: '500g', category: 'produce', essential: true, substitutions: ['Indian lime (gondhoraj) for a floral twist'], localAvailability: { IN: { ease: 'easy', where: 'Any sabziwala or supermarket' } } },
+      { name: 'Rock Salt', nameLocal: 'Saindhav Namak', amount: 100, unit: 'g', unitMetric: '100g', category: 'salt', essential: true, substitutions: ['Sea salt, kosher salt — never iodised'], localAvailability: { IN: { ease: 'easy', where: 'Any kirana store' } } },
+      { name: 'Extra lemon juice', amount: 2, unit: 'lemons', category: 'produce', essential: false, notes: 'To top up if lemons aren\'t submerged' }
+    ],
+    equipment: [
+      { name: 'Glass jar (1L)', essential: true, notes: 'Wide-mouth makes packing easier' },
+      { name: 'Wooden spoon', essential: true, notes: 'For smashing lemons down' }
     ],
     tldr: 'Stuff lemons with salt, smash into a jar. Wait until the skin turns into edible velvet.',
     steps: [
-      { step: 1, title: 'The X-Cut', instruction: 'Cut lemons into quarters, but only 3/4 of the way down so they stay attached at the base.' },
-      { step: 2, title: 'The Salt Stuff', instruction: 'Pack the inside of each lemon with a generous tablespoon of salt.' },
-      { step: 3, title: 'The Smash', instruction: 'Pack into a sterilized jar. Press down hard with a wooden spoon to release juice. Juice MUST cover the lemons.' },
-      { step: 4, title: 'The Long Wait', instruction: 'Store in a cool, dark spot. Flip the jar every few days for the first week.' }
+      { step: 1, title: 'The X-Cut', instruction: 'Cut lemons into quarters, but only 3/4 of the way down so they stay attached at the base. Think of it as quartering without separating.', duration: '10 min', tips: ['A sharp knife is essential — dull knives will crush the lemon and waste juice'], checkpoint: 'Lemons open like flowers but still connected at the base' },
+      { step: 2, title: 'The Salt Stuff', instruction: 'Pack the inside of each lemon with a generous tablespoon of salt. Open the cuts and rub salt deep inside. Be liberal.', duration: '5 min', tips: ['More salt = faster cure. You cannot over-salt these.'], checkpoint: 'Each lemon visibly packed with salt crystals' },
+      { step: 3, title: 'The Smash', instruction: 'Pack into a sterilized jar. Press down HARD with a wooden spoon to release juice. Juice MUST cover the lemons. Add extra fresh lemon juice if needed.', duration: '5 min', tips: ['Really crush them — you want every air pocket eliminated', 'Leave 2cm headspace'], checkpoint: 'All lemons submerged under juice' },
+      { step: 4, title: 'The Long Wait', instruction: 'Store in a cool, dark spot. Flip the jar upside down every few days for the first week to redistribute the salt. After 30 days, taste the rind — it should be soft and mellow, not bitter.', duration: '30–90 days', tips: ['Month 1: still sharp. Month 2: perfect. Month 3: transcendent.', 'The jar is shelf-stable once fully cured — no refrigeration needed'], checkpoint: 'Rind is soft enough to mash with a fork' }
     ],
     images: { hero: 'https://cultured.guru/wp-content/uploads/2022/01/preserved-lemons-6-1.webp' },
     video: { url: 'https://www.youtube.com/watch?v=3-mYv57LpKE', title: 'How to Preserve Lemons', channel: 'Clean & Delicious' },
     culturalContext: {
       story: 'Essential to Moroccan Tagines. In the Maghreb, these lemons aren’t just a condiment; they are the "soul" of the dish, providing a salty, umami-rich citrus hit that fresh lemons cannot replicate.',
-      historicalNote: 'Preservation in salt allowed citrus to be used throughout the year in arid climates.',
-      funFact: 'You only eat the rind! The flesh is usually discarded after cooking because it’s too salty.'
+      historicalNote: 'Salt preservation of citrus in North Africa predates refrigeration by over a thousand years. Caravans crossing the Sahara carried preserved lemons as a source of vitamin C and flavour.',
+      significance: 'This is the condiment that separates a home-cooked Moroccan tagine from a restaurant imitation. Once you have a jar of these, your cooking permanently upgrades.',
+      relatedTraditions: ['Nimbu ka achar (Indian salt-cured lemon)', 'Chinese salted preserved plums', 'Japanese shio-zuke'],
+      funFact: 'You only eat the rind! The flesh is usually discarded after cooking because it’s too salty. The rind becomes the star — silky, fragrant, and intensely citrusy without any bitterness.'
     },
     thingsToAccountFor: [
-      { title: 'Exposed rinds', description: 'Any part of the lemon sticking out of the juice will grow mould. Add extra fresh lemon juice if they aren\'t submerged.', severity: 'important' }
+      { title: 'Exposed rinds', description: 'Any part of the lemon sticking out of the juice will grow mould. Add extra fresh lemon juice if they aren\'t submerged.', severity: 'important', appliesTo: ['all'] },
+      { title: 'White film on the brine', description: 'Kahm yeast — harmless but ugly. Skim it off. It does not mean the batch is ruined.', severity: 'info', appliesTo: ['all'] }
     ],
+    dehydratorIntegration: {
+      applicable: true,
+      method: 'Slice cured rinds thin, dehydrate at 45°C for 6–8 hours.',
+      result: 'Crispy lemon salt chips — grind into powder for an incredible finishing salt.',
+      shelfLife: 'Indefinite if kept dry',
+      tips: ['The powder is spectacular on grilled vegetables, pasta, and fish']
+    },
     variations: [
-      { name: 'Spiced Preserved Lemons', description: 'Add bay leaves, peppercorns, and a cinnamon stick to the jar.', region: 'Middle East' }
+      { name: 'Spiced Preserved Lemons', description: 'Add bay leaves, peppercorns, and a cinnamon stick to the jar.', region: 'Middle East' },
+      { name: 'Chilli Preserved Lemons', description: 'Add dried red chillies and cumin seeds for a North Indian twist.', region: 'India' },
+      { name: 'Quick Preserved Lemons', description: 'Dice lemons small and use 3x the salt — ready in 7 days but less nuanced.', region: 'Modern' }
     ],
-    tags: ['beginner', 'pantry-staple', 'salt-cure', 'moroccan'],
-    sources: [{ title: 'Preserved Lemon — Wikipedia', url: 'https://en.wikipedia.org/wiki/Preserved_lemon' }]
+    relatedRecipes: ['green-mango-brine', 'salted-amla-brine'],
+    tags: ['beginner', 'pantry-staple', 'salt-cure', 'moroccan', 'year-round', 'vegan'],
+    dietaryFlags: ['gluten-free', 'vegan'],
+    veganAdaptable: true,
+    containsAllergens: [],
+    sources: [{ title: 'Preserved Lemon — Wikipedia', url: 'https://en.wikipedia.org/wiki/Preserved_lemon', license: 'CC BY-SA' }]
   },
 
   // ─── 13. HONEY GARLIC ───────────────────────────────────────────────────────
@@ -895,10 +918,12 @@ window.__fermentRecipes.push(
     id: 'honey-garlic-ferment',
     slug: 'honey-garlic-ferment',
     name: 'Honey Garlic',
+    nameLocal: 'Jenu Bellulli',
     subtitle: 'The ultimate liquid gold immunity booster',
     category: 'condiment',
     subcategory: 'garlic',
     technique: 'honey-ferment',
+    region: 'Global',
     difficulty: 1,
     tier: 'beginner',
     tierLabel: 'Literally Just Add Honey',
@@ -907,29 +932,53 @@ window.__fermentRecipes.push(
     fermentTimeMax: 365,
     fermentTimeUnit: 'days',
     totalTimeHuman: '2 weeks to 1 year',
-    blrNote: 'Use Raw Coorg Honey. Many supermarket honeys are pasteurized and won’t ferment correctly. Bengaluru’s mild climate is perfect for keeping the honey fluid during the process.',
+    blrNote: 'Use Raw Coorg Honey from Nature\'s Nectar or any Kodagu farm stall. Many supermarket honeys are pasteurized (heated to 70°C) and won\'t ferment. Bengaluru\'s mild 25°C keeps the honey fluid.',
+    seasonality: ['all'],
     ingredients: [
-      { name: 'Garlic cloves', nameLocal: 'Bellulli', amount: 2, unit: 'cups', unitMetric: '300g', category: 'produce', essential: true },
-      { name: 'Raw Honey', nameLocal: 'Jenu-thuppa', amount: 500, unit: 'ml', unitMetric: '500ml', category: 'sweetener', essential: true }
+      { name: 'Garlic cloves', nameLocal: 'Bellulli', amount: 2, unit: 'cups', unitMetric: '300g', category: 'produce', essential: true, substitutions: ['Elephant garlic for milder flavour'], localAvailability: { IN: { ease: 'easy', where: 'Any sabziwala — buy the big "Ooty" garlic for fat cloves' } } },
+      { name: 'Raw Honey', nameLocal: 'Jenu-thuppa', amount: 500, unit: 'ml', unitMetric: '500ml', category: 'sweetener', essential: true, substitutions: ['Must be raw and unfiltered — NO substitute'], localAvailability: { IN: { ease: 'medium', where: 'Coorg farm shops, Nature\'s Basket, or organic stores in Indiranagar/Koramangala' } } }
+    ],
+    equipment: [
+      { name: 'Glass jar (500ml–1L)', essential: true, notes: 'Wide-mouth for easy flipping' },
+      { name: 'pH strips', essential: false, notes: 'For safety check at 2 weeks — should read below 4.6' }
     ],
     tldr: 'Drown garlic in honey. Flip daily. Forget for a month. Eat the best garlic of your life.',
     steps: [
-      { step: 1, title: 'Peel & Bruise', instruction: 'Peel the garlic. Lightly crush each clove with the flat of a knife—don’t mash it, just break the surface to release juices.' },
-      { step: 2, title: 'Jar it', instruction: 'Fill a jar halfway with garlic. Pour honey over until covered, leaving 2 inches of headspace (it will bubble and rise).' },
-      { step: 3, title: 'The Daily Flip', instruction: 'For the first week, turn the jar upside down once a day to ensure all garlic stays coated.' },
-      { step: 4, title: 'Burp', instruction: 'Open the lid briefly every day to release CO2.' }
+      { step: 1, title: 'Peel & Bruise', instruction: 'Peel the garlic. Lightly crush each clove with the flat of a knife—don\'t mash it, just break the surface to release juices. This kick-starts fermentation.', duration: '10 min', tips: ['The moisture from the garlic is what activates fermentation in the honey', 'More garlic = faster ferment (more moisture)'], checkpoint: 'Every clove slightly cracked but intact' },
+      { step: 2, title: 'Jar it', instruction: 'Fill a jar halfway with garlic. Pour honey over until covered, leaving 2 inches of headspace (it will bubble and rise significantly).', duration: '5 min', tips: ['The honey WILL foam and expand — don\'t overfill', 'Put the jar on a plate to catch any overflow'], checkpoint: 'Garlic fully submerged in honey with headspace' },
+      { step: 3, title: 'The Daily Flip', instruction: 'For the first week, turn the jar upside down once a day to ensure all garlic stays coated. The garlic floats initially — flipping prevents dry spots where mould could form.', duration: '1 week of daily flips', tips: ['Set a daily reminder — consistency matters here', 'After about a week, the garlic sinks as it absorbs honey'], checkpoint: 'Bubbles forming when you flip — fermentation is active' },
+      { step: 4, title: 'Burp & Age', instruction: 'Open the lid briefly every day to release CO2 for the first month. After that, burp weekly. The longer you wait, the better it gets. At 1 month it\'s good. At 6 months it\'s incredible. At 1 year, it\'s transcendent.', duration: '2 weeks to forever', tips: ['The honey will thin out to an almost syrupy consistency — this is correct', 'The garlic becomes jelly-like and sweet with zero bite'], checkpoint: 'Month 1: honey is thin and garlic is soft' }
     ],
     images: {hero: "https://www.therusticelk.com/wp-content/uploads/2023/01/Fermented-Honey-Garlic-8.jpg"},
     video: { url: 'https://www.youtube.com/watch?v=uA0LpG_6RTo', title: 'Fermented Honey Garlic', channel: 'It\'s Alive' },
     culturalContext: {
-      story: 'Often used in folk medicine as a "winter tonic." The garlic loses its harsh bite and becomes sweet and jelly-like, while the honey becomes thin and infused with garlic essence.',
-      significance: 'One of the few ferments that gets better after a full year on the shelf.',
-      funFact: 'Archaeologists have found edible honey in Egyptian tombs; this ferment is basically ancient technology.'
+      story: 'Used in folk medicine across cultures as a "winter tonic." The garlic loses its harsh bite and becomes sweet and jelly-like, while the honey becomes thin and infused with garlic essence. In Korea, a similar concept appears as "Maneul-jangajji."',
+      historicalNote: 'Archaeologists have found edible honey in Egyptian tombs over 3,000 years old. Honey\'s antimicrobial properties mean this ferment straddles the line between preservation and controlled transformation.',
+      significance: 'One of the only ferments that genuinely gets better after a full year. Most fermentation is about capturing a "peak" moment — this one just keeps climbing.',
+      relatedTraditions: ['Black garlic (Korean heat-aged garlic)', 'Mead (honey wine)', 'Oxymel (honey + vinegar tonic, ancient Greek)'],
+      funFact: 'The infused honey drizzled over pizza is a restaurant "secret weapon" in Brooklyn and Portland.'
     },
     thingsToAccountFor: [
-      { title: 'Botulism Risk (Low but real)', description: 'Honey has a high sugar content, but garlic grows in soil. To be safe, test the pH after 2 weeks; it should be below 4.6. If it’s too thick to ferment, add 1 tsp of apple cider vinegar.', severity: 'info' }
+      { title: 'Botulism Risk (Low but real)', description: 'Honey is low-water-activity but garlic grows in soil. To be safe, test pH after 2 weeks — it should be below 4.6. If the honey is too thick, add 1 tsp apple cider vinegar to kickstart acidification.', severity: 'important', appliesTo: ['all'] },
+      { title: 'Pasteurized honey won\'t work', description: 'Most commercial honeys are heated, which kills the wild yeasts needed for fermentation. The honey must be raw.', severity: 'critical', appliesTo: ['all'] }
     ],
-    tags: ['beginner', 'medicine', 'sweet-savory', 'pantry-staple'],
+    dehydratorIntegration: {
+      applicable: true,
+      method: 'Remove aged garlic cloves, slice thin, dehydrate at 45°C for 10–12 hours.',
+      result: 'Honey garlic crisps — sweet, savoury, umami-rich chips.',
+      shelfLife: '3+ months airtight',
+      tips: ['Incredible crumbled over salads or into ramen']
+    },
+    variations: [
+      { name: 'Honey Garlic Chilli', description: 'Add 3–4 dried red chillies. The heat infuses into the honey beautifully.', region: 'Fusion' },
+      { name: 'Honey Garlic Ginger', description: 'Add sliced ginger alongside garlic for an immunity triple-threat.', region: 'Fusion' },
+      { name: 'Black Pepper Honey Garlic', description: 'Add whole black peppercorns — the piperine enhances absorption of garlic\'s allicin.', region: 'Ayurvedic-inspired' }
+    ],
+    relatedRecipes: ['tepache-pineapple'],
+    tags: ['beginner', 'medicine', 'sweet-savory', 'pantry-staple', 'year-round', 'immunity'],
+    dietaryFlags: ['gluten-free', 'vegetarian'],
+    veganAdaptable: false,
+    containsAllergens: [],
     sources: [{ title: 'Honey Fermentation', url: 'https://www.seriouseats.com/fermented-honey-garlic-recipe' }]
   },
 
@@ -955,35 +1004,64 @@ window.__fermentRecipes.push(
     fermentTimeMax: 7,
     fermentTimeUnit: 'days',
     totalTimeHuman: '3–5 days',
-    blrNote: 'Beets in Bengaluru are vibrant and year-round. Since BLR is warmer than Kyiv, your Kvass will be ready in half the time of traditional recipes.',
+    blrNote: 'Beets in Bengaluru are vibrant and year-round. Since BLR is warmer than Kyiv, your Kvass will be ready in half the time of traditional recipes. Use Mandya organic beets for the deepest colour.',
+    seasonality: ['all'],
     ingredients: [
-      { name: 'Beets', nameLocal: 'Beetroot', amount: 2, unit: 'large', unitMetric: '400g', category: 'produce', essential: true },
+      { name: 'Beets', nameLocal: 'Beetroot', amount: 2, unit: 'large', unitMetric: '400g', category: 'produce', essential: true, substitutions: ['Golden beets for a milder, sweeter version'], localAvailability: { IN: { ease: 'easy', where: 'Any sabziwala — year-round in BLR' } } },
       { name: 'Salt', nameLocal: 'Saindhav Namak', amount: 1, unit: 'tbsp', unitMetric: '15g', category: 'salt', essential: true },
       { name: 'Filtered Water', amount: 1, unit: 'litre', unitMetric: '1L', category: 'liquid', essential: true }
     ],
+    equipment: [
+      { name: 'Glass jar (1.5L)', essential: true, notes: 'Wide-mouth preferred' },
+      { name: 'Cloth cover', essential: true, notes: 'Muslin or coffee filter with rubber band' }
+    ],
     tldr: 'Cubed beets + salt water = a salty, earthy, deep-purple probiotic powerhouse.',
     steps: [
-      { step: 1, title: 'Cube, don\'t grate', instruction: 'Cube the beets into 1-inch pieces. Do not grate them, or the fermentation will happen too fast and turn into alcohol.' },
-      { step: 2, title: 'Jar it', instruction: 'Put beets and salt in a 1.5L jar. Fill with water.' },
-      { step: 3, title: 'Ferment', instruction: 'Cover and leave on the counter. In BLR, check at 48 hours. It should be deep purple and taste earthy-salty-tangy.' }
+      { step: 1, title: 'Cube, don\'t grate', instruction: 'Cube the beets into 1-inch pieces. Do NOT grate them — grating releases too much sugar too fast, causing alcohol fermentation instead of lactic acid.', duration: '5 min', tips: ['Leave the skin on for more wild bacteria', 'Wear gloves unless you want pink hands for 48 hours'], checkpoint: 'Even 1-inch cubes, skin on' },
+      { step: 2, title: 'Jar it', instruction: 'Put beets and salt in a 1.5L jar. Fill with filtered water, leaving 2cm headspace.', duration: '3 min', tips: ['Tap water is fine if you let it sit for 24h first to off-gas chlorine', 'Some add a splash of sauerkraut brine as a starter — optional but speeds things up'], checkpoint: 'Beets submerged, water is already turning pink' },
+      { step: 3, title: 'Ferment', instruction: 'Cover with cloth and rubber band. Leave on the counter at room temp. In BLR, check at 48 hours — taste daily. It should be deep purple, earthy, salty, and slightly tangy.', duration: '2–5 days', tips: ['Ready when it tastes "earthy-salty-tangy" and has a slight fizz', 'Don\'t ferment beyond 7 days or it becomes too sour and boozy'], checkpoint: 'Deep purple, pleasantly earthy, slight effervescence' },
+      { step: 4, title: 'Strain & Store', instruction: 'Strain into bottles and refrigerate. The beets can be used for a weaker second batch — add fresh salt and water.', duration: '2 min', tips: ['Second batch is milder but still probiotic', 'Keeps 2 weeks in the fridge'] }
     ],
     images: { hero: 'https://upload.wikimedia.org/wikipedia/commons/8/88/%D0%A0%D0%B0%D0%B7%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BF%D0%B5%D1%80%D0%BC%D0%B0%D0%BD%D0%B3%D0%B0%D0%BD%D0%B0%D1%82%D0%B0_%D0%BA%D0%B0%D0%BB%D0%B8%D1%8F%2C_%D0%B8%D0%BB%D0%B8_%D0%9A%D0%BE%D1%81%D0%BC%D0%BE%D1%81_%D0%B2_%D1%81%D1%82%D0%B0%D0%BA%D0%B0%D0%BD%D1%87%D0%B8%D0%BA%D0%B5.jpg' },
     video: { url: 'https://www.youtube.com/watch?v=mD07yvX3UaM', title: 'How to make Beet Kvass', channel: 'Fermentation Adventure' },
     culturalContext: {
-      story: 'In Ukraine, Beet Kvass is the traditional base for authentic Borscht. It is hailed as a liver cleanser and digestion aid.',
-      historicalNote: 'Historically, Slavic families would keep a "perpetual" jar, adding new beets and water to the dregs of the old batch.',
-      funFact: 'It tastes like "salty beet tea." Not everyone loves it at first, but your gut will demand it once you start.'
+      story: 'In Ukraine, Beet Kvass is the traditional base for authentic Borscht — the fermented beet liquid gives the soup its signature tangy depth that vinegar or lemon juice can never replicate.',
+      historicalNote: 'Slavic families historically kept a "perpetual" jar of kvass, adding new beets and water to the dregs of the old batch. Some claim their kvass cultures were decades old, passed between generations.',
+      significance: 'It is one of the simplest "tonic" ferments — drunk each morning as a liver cleanser and blood builder in Eastern European folk medicine.',
+      relatedTraditions: ['Bread Kvass (Russian grain-based fermented drink)', 'Borscht (fermented beet soup)', 'Kanji (Indian beetroot & carrot ferment)'],
+      funFact: 'It tastes like "salty beet tea." Not everyone loves it at first, but your gut will demand it once you start. The deep purple colour also stains everything it touches — treat it like wine.'
     },
-    tags: ['beginner', 'tonic', 'earthy', 'slavic'],
-    sources: [{ title: 'Kvass — Wikipedia', url: 'https://en.wikipedia.org/wiki/Kvass' }]
+    thingsToAccountFor: [
+      { title: 'Don\'t grate!', description: 'Grating beets releases sugar too fast, which feeds alcohol-producing yeasts instead of Lactobacillus. Cube only.', severity: 'important', appliesTo: ['all'] },
+      { title: 'Staining', description: 'Beet kvass stains EVERYTHING. Work on surfaces you don\'t mind turning pink. Wear old clothes.', severity: 'info', appliesTo: ['all'] }
+    ],
+    dehydratorIntegration: {
+      applicable: true,
+      method: 'Strain the spent beet cubes, slice thin, dehydrate at 45°C for 8–10 hours.',
+      result: 'Crunchy fermented beet chips — intensely earthy with a sour tang.',
+      shelfLife: '3+ months airtight',
+      tips: ['Sprinkle with flakey salt before dehydrating for "beet crisps"']
+    },
+    variations: [
+      { name: 'Spiced Beet Kvass', description: 'Add a cinnamon stick and 3 cloves. Warming, chai-like.', region: 'Fusion' },
+      { name: 'Ginger Beet Kvass', description: 'Add 2 inches of sliced ginger. Brighter, less earthy.', region: 'Modern' },
+      { name: 'Kanji-style', description: 'Add ground mustard seeds and black carrots for an Indian version.', region: 'North India' }
+    ],
+    relatedRecipes: ['sauerkraut-classic', 'fermented-carrots-ginger'],
+    tags: ['beginner', 'tonic', 'earthy', 'slavic', 'year-round', 'vegan'],
+    dietaryFlags: ['gluten-free', 'vegan'],
+    veganAdaptable: true,
+    containsAllergens: [],
+    sources: [{ title: 'Kvass — Wikipedia', url: 'https://en.wikipedia.org/wiki/Kvass', license: 'CC BY-SA' }]
   },
 
-  // ─── 15. KKAKDUGI (RADISH KIMCHI) ─────────────────────────────────────────────
+  // ─── 15. KKAKDUGI (RADISH KIMCHI) ───────────────────────────────────────────
   {
     id: 'kkakdugi-radish',
     slug: 'kkakdugi-radish',
     name: 'Kkakdugi',
     nameLocal: '깍두기',
+    nameRomanized: 'Kkakdugi',
     subtitle: 'Crunchy cubed radish kimchi',
     category: 'vegetable',
     subcategory: 'kimchi',
@@ -1000,29 +1078,55 @@ window.__fermentRecipes.push(
     fermentTimeMax: 5,
     fermentTimeUnit: 'days',
     totalTimeHuman: '2–3 days',
-    blrNote: 'Indian White Radish (Mooli) is a perfect substitute for Korean Mu. It’s a bit more pungent but holds its crunch beautifully in the Bengaluru heat.',
+    blrNote: 'Indian White Radish (Mooli) is a perfect substitute for Korean Mu. It\'s a bit more pungent but holds its crunch beautifully. Kashmiri Mirch gives the right colour without excessive heat.',
+    seasonality: ['all'],
     ingredients: [
-      { name: 'White Radish', nameLocal: 'Mooli', amount: 1, unit: 'kg', unitMetric: '1kg', category: 'produce', essential: true },
-      { name: 'Salt', amount: 2, unit: 'tbsp', category: 'salt', essential: true },
-      { name: 'Sugar', amount: 1, unit: 'tbsp', category: 'sweetener', essential: true },
-      { name: 'Red Chilli Powder', nameLocal: 'Kashmiri Mirch', amount: 3, unit: 'tbsp', category: 'spice', essential: true }
+      { name: 'White Radish', nameLocal: 'Mooli', amount: 1, unit: 'kg', unitMetric: '1kg', category: 'produce', essential: true, substitutions: ['Korean Mu (if available at Korean grocery)', 'Turnips (milder, less crunchy)'], localAvailability: { IN: { ease: 'easy', where: 'Any sabziwala — mooli is everywhere' } } },
+      { name: 'Salt', amount: 2, unit: 'tbsp', unitMetric: '30g', category: 'salt', essential: true },
+      { name: 'Sugar', amount: 1, unit: 'tbsp', unitMetric: '12g', category: 'sweetener', essential: true, notes: 'Feeds the bacteria and balances the heat' },
+      { name: 'Red Chilli Powder', nameLocal: 'Kashmiri Mirch', amount: 3, unit: 'tbsp', category: 'spice', essential: true, substitutions: ['Gochugaru (Korean chilli flakes) for authenticity'], localAvailability: { IN: { ease: 'easy', where: 'Every kirana store' } } },
+      { name: 'Garlic', nameLocal: 'Bellulli', amount: 4, unit: 'cloves, minced', category: 'produce', essential: true },
+      { name: 'Ginger', nameLocal: 'Shunti', amount: 1, unit: 'inch, grated', category: 'produce', essential: true },
+      { name: 'Fish sauce', amount: 1, unit: 'tbsp', category: 'seasoning', essential: false, substitutions: ['Soy sauce for vegetarian version'], notes: 'Adds umami depth' }
+    ],
+    equipment: [
+      { name: 'Large mixing bowl', essential: true },
+      { name: 'Glass jar (1L+)', essential: true, notes: 'Needs space for juices' },
+      { name: 'Disposable gloves', essential: false, notes: 'The chilli stains and burns skin' }
     ],
     tldr: 'Salt radish cubes until they weep, toss with chilli and garlic, pack tight. Maximum crunch.',
     steps: [
-      { step: 1, title: 'Cube & Sweat', instruction: 'Cube radish into 1-inch squares. Toss with salt and sugar. Let sit for 30–60 mins until a pool of water forms.' },
-      { step: 2, title: 'Season', instruction: 'Do not rinse! Add chilli powder, minced garlic, and ginger. Mix until every cube is red.' },
-      { step: 3, title: 'Pack', instruction: 'Pack into a jar, pressing down to remove air. Ensure the radish liquid covers the cubes.' },
-      { step: 4, title: 'Room Temp', instruction: 'Leave out for 1-2 days until bubbles form, then move to the fridge.' }
+      { step: 1, title: 'Cube & Sweat', instruction: 'Cube radish into 1-inch squares. Toss with salt and sugar. Let sit for 30–60 minutes until a pool of water forms at the bottom of the bowl.', duration: '30–60 min', tips: ['Don\'t skip the sweating phase — the drawn-out water becomes the fermentation liquid', 'Larger cubes = crunchier result'], checkpoint: 'Visible pool of liquid at the bottom, cubes are slightly wilted' },
+      { step: 2, title: 'Season', instruction: 'Do NOT rinse! Add chilli powder, minced garlic, grated ginger, and fish sauce if using. Mix until every single cube is coated red.', duration: '5 min', tips: ['Wear gloves — the chilli will burn your fingers for hours', 'Taste a cube: it should be salty, spicy, and slightly sweet'], checkpoint: 'Uniform red coating on every cube' },
+      { step: 3, title: 'Pack', instruction: 'Pack into a jar, pressing down firmly to remove air pockets. The radish liquid should rise to cover the cubes. Leave 3cm headspace.', duration: '5 min', tips: ['Use a clean fist or a wooden spoon to push down', 'If there isn\'t enough liquid, add a splash of 2% brine'], checkpoint: 'Cubes submerged under their own liquid' },
+      { step: 4, title: 'Room Temp', instruction: 'Leave out at room temperature for 1–2 days until you see bubbles forming, then move to the fridge. In BLR heat, this can happen in 24 hours.', duration: '1–2 days', tips: ['Taste daily — when it\'s tangy enough for you, refrigerate', 'In the fridge, it continues to develop flavour for weeks'], checkpoint: 'Active bubbling, pleasantly funky-sour aroma' }
     ],
     images: { hero: 'https://cinnamonsnail.com/wp-content/uploads/2025/02/vegan_radish_kimchi-07.jpg' },
     video: { url: 'https://www.youtube.com/watch?v=0_u9G2W9iE0', title: 'Kkakdugi Recipe', channel: 'Maangchi' },
     culturalContext: {
-      story: 'Kkakdugi is the favorite side dish for "Seolleongtang" (ox bone soup). Its crunch is legendary.',
-      historicalNote: 'Legend says it was created by Princess Sukseon during the Joseon Dynasty.',
-      funFact: 'The name is an onomatopoeia for the sound of the knife cutting the radish.'
+      story: 'Kkakdugi is the inseparable companion to Seolleongtang (설렁탕 — ox bone soup). The crunchy, spicy cubes cut through the rich, milky broth perfectly. Every Korean grandmother has her own recipe, and these are often the first kimchi a child learns to make.',
+      historicalNote: 'Legend attributes its creation to Princess Sukseon of the Joseon Dynasty, though fermented radish preparations exist across Korean food history long before that. During kimjang (kimchi-making season), kkakdugi was always made alongside the larger baechu kimchi batches.',
+      significance: 'While baechu (napa cabbage) kimchi gets all the international fame, kkakdugi is the everyday workhorse — faster to make, more forgiving, and crunchy in a way that cabbage simply can\'t match.',
+      relatedTraditions: ['Baechu Kimchi (napa cabbage kimchi)', 'Dongchimi (water-based radish kimchi)', 'Mooli ka achar (Indian radish pickle)'],
+      funFact: 'The name "깍두기" is an onomatopoeia — it mimics the sound of a knife cutting through a crisp radish. Korean food naming is surprisingly musical.'
     },
-    tags: ['beginner', 'spicy', 'crunchy', 'korean'],
-    sources: [{ title: 'Kkakdugi — Wikipedia', url: 'https://en.wikipedia.org/wiki/Kkakdugi' }]
+    thingsToAccountFor: [
+      { title: 'Don\'t rinse after sweating', description: 'The salty liquid drawn from the radish IS your fermentation brine. Rinsing it away means you\'ll need to add external brine and lose flavour.', severity: 'important', appliesTo: ['all'] },
+      { title: 'BLR heat = fast ferment', description: 'At 25°C+, kkakdugi can over-sour in just 2 days. Check daily and refrigerate as soon as it\'s tangy enough.', severity: 'info', appliesTo: ['blr'] }
+    ],
+    dehydratorIntegration: {
+      applicable: false
+    },
+    variations: [
+      { name: 'Vegan Kkakdugi', description: 'Drop the fish sauce, add 1 tbsp soy sauce + 1 tsp miso paste for umami.', region: 'Modern' },
+      { name: 'Apple Kkakdugi', description: 'Add diced Korean pear or apple to the seasoning for natural sweetness.', region: 'Korea' }
+    ],
+    relatedRecipes: ['kimchi-baechu', 'pink-radish-circles'],
+    tags: ['beginner', 'spicy', 'crunchy', 'korean', 'year-round', 'probiotic'],
+    dietaryFlags: ['gluten-free'],
+    veganAdaptable: true,
+    containsAllergens: ['fish (if using fish sauce)'],
+    sources: [{ title: 'Kkakdugi — Wikipedia', url: 'https://en.wikipedia.org/wiki/Kkakdugi', license: 'CC BY-SA' }]
   },
 
   // ─── 16. GINGER CARROTS ────────────────────────────────────────────────────
