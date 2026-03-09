@@ -1,0 +1,193 @@
+/* FERMENT — Custom Styles */
+
+:root {
+  --bg-primary: #FAF7F2;
+  --bg-secondary: #F2ECE3;
+  --bg-card: #FFFFFF;
+  --text-primary: #2C1810;
+  --text-secondary: #6B5344;
+  --text-muted: #A89485;
+  --accent-brine: #C4A35A;
+  --accent-ferment: #D4553A;
+  --accent-culture: #7B8F3A;
+  --accent-aged: #8B6B4A;
+  --tier-beginner: #8EAE68;
+  --tier-seasoned: #C4A35A;
+  --tier-ambitious: #D4813A;
+  --tier-advanced: #D4553A;
+  --tier-master: #6B3A5C;
+  --success: #5C8F4A;
+  --warning: #D4A03A;
+  --danger: #C44A3A;
+  --info: #4A7B8F;
+}
+
+.dark {
+  --bg-primary: #1A1410;
+  --bg-secondary: #241E18;
+  --bg-card: #2E2620;
+  --text-primary: #F2ECE3;
+  --text-secondary: #C4B5A3;
+  --text-muted: #8B7B6B;
+}
+
+/* Scrollbar */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Custom scrollbar for content areas */
+.custom-scrollbar::-webkit-scrollbar { width: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 3px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--text-secondary); }
+
+/* Shimmer loading placeholder */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--bg-primary) 50%, var(--bg-secondary) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Card hover effect */
+.recipe-card {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.recipe-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 48px rgba(120, 80, 40, 0.16);
+}
+
+/* Focus ring */
+*:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px var(--accent-brine);
+  border-radius: 8px;
+}
+
+/* Modal backdrop */
+.modal-backdrop {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Progress bar animation */
+@keyframes progress-fill {
+  from { width: 0; }
+}
+
+.progress-bar {
+  animation: progress-fill 0.8s ease-out;
+}
+
+/* Fade transitions */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+
+/* Slide up transitions */
+.slide-up-enter-active, .slide-up-leave-active {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.slide-up-enter-from, .slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+/* Tier badge colors */
+.tier-beginner { background-color: var(--tier-beginner); }
+.tier-seasoned { background-color: var(--tier-seasoned); }
+.tier-ambitious { background-color: var(--tier-ambitious); }
+.tier-advanced { background-color: var(--tier-advanced); }
+.tier-master { background-color: var(--tier-master); }
+
+/* Range slider custom styling */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: var(--bg-secondary);
+  border-radius: 3px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--accent-brine);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(120, 80, 40, 0.2);
+  transition: transform 0.2s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: var(--accent-brine);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 8px rgba(120, 80, 40, 0.2);
+}
+
+/* Radar chart (for taste tracking) */
+.radar-chart {
+  position: relative;
+}
+
+/* Responsive image aspect ratio */
+.aspect-16-9 {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .recipe-card:hover {
+    transform: none;
+  }
+}
+
+/* Print styles */
+@media print {
+  header, nav, footer, .no-print { display: none !important; }
+  .modal-backdrop { position: static; background: none; }
+  body { background: white; color: black; }
+}
+
+/* Table styles */
+.recipe-table th {
+  cursor: pointer;
+  user-select: none;
+}
+.recipe-table th:hover {
+  background-color: var(--bg-secondary);
+}
+.recipe-table th .sort-indicator {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.recipe-table th:hover .sort-indicator,
+.recipe-table th.sorted .sort-indicator {
+  opacity: 1;
+}
