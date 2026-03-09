@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="jar" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#C4A35A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B6B4A;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Jar body -->
+  <rect x="20" y="30" width="60" height="55" rx="8" fill="url(#jar)" opacity="0.9"/>
+  <!-- Jar lid -->
+  <rect x="15" y="22" width="70" height="12" rx="4" fill="#8B6B4A"/>
+  <!-- Lid top -->
+  <rect x="25" y="18" width="50" height="6" rx="3" fill="#6B5344"/>
+  <!-- Bubbles -->
+  <circle cx="40" cy="55" r="4" fill="white" opacity="0.4"/>
+  <circle cx="55" cy="48" r="3" fill="white" opacity="0.3"/>
+  <circle cx="48" cy="65" r="3.5" fill="white" opacity="0.35"/>
+  <circle cx="60" cy="60" r="2.5" fill="white" opacity="0.25"/>
+  <!-- Rising bubble -->
+  <circle cx="35" cy="42" r="2" fill="white" opacity="0.2"/>
+</svg>
