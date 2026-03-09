@@ -68,9 +68,9 @@
             'xl': '12px',
           },
           boxShadow: {
-            'warm': '0 4px 24px rgba(120, 80, 40, 0.08)',
-            'warm-lg': '0 8px 32px rgba(120, 80, 40, 0.12)',
-            'warm-xl': '0 12px 48px rgba(120, 80, 40, 0.16)',
+            'warm': 'none',
+            'warm-lg': 'none',
+            'warm-xl': 'none',
           },
           transitionTimingFunction: {
             'ferment': 'cubic-bezier(0.4, 0, 0.2, 1)',
@@ -96,46 +96,47 @@
 
     <!-- App Shell -->
     <div v-else class="min-h-screen flex flex-col">
-      <!-- Header -->
+      <!-- Unified Top Bar: Logo + Tabs + Actions -->
       <header class="sticky top-0 z-40 bg-bg-primary/95 backdrop-blur-sm border-b border-bg-secondary dark:bg-dark-primary/95 dark:border-dark-secondary">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex items-center justify-between h-16">
-            <div class="flex items-center gap-3 cursor-pointer" @click="currentTab = 'browse'; currentRoute = 'home'">
-              <span class="text-2xl">🫙</span>
-              <h1 class="font-serif text-2xl tracking-tight">FERMENT</h1>
+          <div class="flex items-center h-12 gap-4">
+            <!-- Logo -->
+            <div class="flex items-center gap-2 cursor-pointer flex-shrink-0" @click="currentTab = 'browse'; currentRoute = 'home'">
+              <svg class="w-5 h-5 text-accent-brine" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v4M16 2v4M6 6h12a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2z"/><path d="M8 12h2m4 0h2M8 16h8" stroke-linecap="round"/></svg>
+              <h1 class="font-serif text-lg tracking-tight hidden sm:block">FERMENT</h1>
             </div>
-            <div class="flex items-center gap-2">
-              <button @click="toggleTheme" class="p-2 rounded-xl hover:bg-bg-secondary transition-all duration-300 dark:hover:bg-dark-secondary" :aria-label="settings.theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'">
-                <svg v-if="settings.theme !== 'dark'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-                <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+
+            <!-- Divider -->
+            <div class="w-px h-6 bg-bg-secondary dark:bg-dark-secondary flex-shrink-0"></div>
+
+            <!-- Nav Tabs (inline) -->
+            <nav class="flex gap-1 overflow-x-auto scrollbar-hide flex-1">
+              <button v-for="tab in tabs" :key="tab.id"
+                @click="currentTab = tab.id"
+                :class="[
+                  'px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-200',
+                  currentTab === tab.id
+                    ? 'bg-accent-brine/10 text-accent-aged dark:text-accent-brine border border-accent-brine/20'
+                    : 'text-text-secondary hover:bg-bg-secondary dark:hover:bg-dark-secondary border border-transparent'
+                ]"
+                :aria-current="currentTab === tab.id ? 'page' : undefined">
+                {{ tab.label }}
               </button>
-              <button @click="showSettings = true" class="p-2 rounded-xl hover:bg-bg-secondary transition-all duration-300 dark:hover:bg-dark-secondary" aria-label="Settings">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </nav>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-1 flex-shrink-0">
+              <button @click="toggleTheme" class="p-1.5 rounded-lg hover:bg-bg-secondary transition-colors dark:hover:bg-dark-secondary" :aria-label="settings.theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'">
+                <svg v-if="settings.theme !== 'dark'" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+              </button>
+              <button @click="showSettings = true" class="p-1.5 rounded-lg hover:bg-bg-secondary transition-colors dark:hover:bg-dark-secondary" aria-label="Settings">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
               </button>
             </div>
           </div>
         </div>
       </header>
-
-      <!-- Navigation Tabs -->
-      <nav class="sticky top-16 z-30 bg-bg-primary/95 backdrop-blur-sm border-b border-bg-secondary dark:bg-dark-primary/95 dark:border-dark-secondary">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex gap-1 overflow-x-auto scrollbar-hide py-2">
-            <button v-for="tab in tabs" :key="tab.id"
-              @click="currentTab = tab.id"
-              :class="[
-                'px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-300',
-                currentTab === tab.id
-                  ? 'bg-accent-brine text-white shadow-warm'
-                  : 'text-text-secondary hover:bg-bg-secondary dark:hover:bg-dark-secondary'
-              ]"
-              :aria-current="currentTab === tab.id ? 'page' : undefined">
-              <span class="mr-1.5">{{ tab.icon }}</span>
-              {{ tab.label }}
-            </button>
-          </div>
-        </div>
-      </nav>
 
       <!-- Main Content -->
       <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full">

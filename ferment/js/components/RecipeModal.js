@@ -54,12 +54,12 @@ const RecipeModalComponent = {
 
     tabs() {
       const t = [
-        { id: 'story', label: 'Story', icon: '📖' },
-        { id: 'recipe', label: 'Recipe', icon: '🧪' },
-        { id: 'notes', label: 'Notes', icon: '📝' },
+        { id: 'story', label: 'Story' },
+        { id: 'recipe', label: 'Recipe' },
+        { id: 'notes', label: 'Notes' },
       ];
       if (this.hasDehydrate) {
-        t.push({ id: 'dehydrate', label: 'Dehydrate', icon: '🌬️' });
+        t.push({ id: 'dehydrate', label: 'Dehydrate' });
       }
       return t;
     },
@@ -246,8 +246,8 @@ const RecipeModalComponent = {
     },
 
     severityIcon(s) {
-      const icons = { info: 'ℹ️', important: '⚠️', warning: '⚠️', critical: '🚨', danger: '☠️', safety: '🛑', tip: '💡' };
-      return icons[s] || 'ℹ️';
+      const icons = { info: 'i', important: '!', warning: '!', critical: '!!', danger: '!!', safety: '!!', tip: '*' };
+      return icons[s] || 'i';
     },
 
     getStepKey(step, index) {
@@ -271,10 +271,13 @@ const RecipeModalComponent = {
       <div class="absolute inset-0 bg-black/50 modal-backdrop" @click="close"></div>
 
       <!-- Modal Container: full-screen on mobile, centered on desktop -->
-      <div class="relative w-full h-full sm:h-auto sm:max-w-3xl sm:mx-4 sm:max-h-[90vh] bg-bg-card dark:bg-dark-card sm:rounded-2xl shadow-warm-xl flex flex-col overflow-hidden z-10" @click.stop>
+      <div class="relative w-full h-full sm:h-auto sm:max-w-3xl sm:mx-4 sm:max-h-[90vh] bg-bg-card dark:bg-dark-card sm:rounded-2xl border border-bg-secondary dark:border-dark-secondary flex flex-col overflow-hidden z-10" @click.stop>
+
+        <!-- Scrollable content wrapper (hero + tabs content all scroll together) -->
+        <div class="flex-1 overflow-y-auto custom-scrollbar">
 
         <!-- Hero Section with gradient background -->
-        <div :class="['relative bg-gradient-to-br text-white overflow-hidden flex-shrink-0', categoryGradient]">
+        <div :class="['relative bg-gradient-to-br text-white overflow-hidden', categoryGradient]">
           <!-- Pattern overlay -->
           <div class="absolute inset-0 opacity-15" style="background-image: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.3) 0%, transparent 50%), radial-gradient(circle at 70% 20%, rgba(255,255,255,0.2) 0%, transparent 40%);"></div>
 
@@ -320,7 +323,7 @@ const RecipeModalComponent = {
             <div class="flex items-start gap-4">
               <span class="text-5xl opacity-80 flex-shrink-0 hidden sm:block">{{ categoryEmoji }}</span>
               <div class="flex-1 min-w-0">
-                <span :class="['inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold mb-2 shadow-lg', 'bg-tier-' + tier.name]">
+                <span :class="['inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold mb-2 ', 'bg-tier-' + tier.name]">
                   {{ tier.emoji }} {{ tier.label }} &middot; {{ tier.tagline }}
                 </span>
                 <h2 class="font-serif text-2xl sm:text-3xl leading-tight">{{ recipe.name }}</h2>
@@ -339,26 +342,26 @@ const RecipeModalComponent = {
         </div>
 
         <!-- Quick Stats Bar -->
-        <div class="flex items-center gap-1 px-4 py-3 bg-bg-secondary/50 dark:bg-dark-secondary/50 overflow-x-auto scrollbar-hide border-b border-bg-secondary dark:border-dark-secondary flex-shrink-0">
-          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-bg-card dark:bg-dark-card text-text-secondary dark:text-dark-text-secondary whitespace-nowrap shadow-sm">
-            ⏱ {{ timeDisplay }}
+        <div class="flex items-center gap-1 px-4 py-3 bg-bg-secondary/50 dark:bg-dark-secondary/50 overflow-x-auto scrollbar-hide border-b border-bg-secondary dark:border-dark-secondary">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-bg-card dark:bg-dark-card text-text-secondary dark:text-dark-text-secondary whitespace-nowrap ">
+            {{ timeDisplay }}
           </span>
-          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-bg-card dark:bg-dark-card text-text-secondary dark:text-dark-text-secondary whitespace-nowrap shadow-sm">
-            🧂 {{ (recipe.ingredients || []).length }} ingr.
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-bg-card dark:bg-dark-card text-text-secondary dark:text-dark-text-secondary whitespace-nowrap ">
+            {{ (recipe.ingredients || []).length }} ingr.
           </span>
-          <span v-if="recipe.technique" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-bg-card dark:bg-dark-card text-text-secondary dark:text-dark-text-secondary whitespace-nowrap shadow-sm capitalize">
-            🔬 {{ recipe.technique }}
+          <span v-if="recipe.technique" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-bg-card dark:bg-dark-card text-text-secondary dark:text-dark-text-secondary whitespace-nowrap  capitalize">
+            {{ recipe.technique }}
           </span>
-          <span v-if="recipe.category" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-bg-card dark:bg-dark-card text-text-secondary dark:text-dark-text-secondary whitespace-nowrap shadow-sm capitalize">
-            🍽 {{ recipe.category }}
+          <span v-if="recipe.category" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-bg-card dark:bg-dark-card text-text-secondary dark:text-dark-text-secondary whitespace-nowrap  capitalize">
+            {{ recipe.category }}
           </span>
-          <span v-if="recipe.seasonality" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-bg-card dark:bg-dark-card text-text-secondary dark:text-dark-text-secondary whitespace-nowrap shadow-sm capitalize">
-            🗓 {{ Array.isArray(recipe.seasonality) ? recipe.seasonality.join(', ') : recipe.seasonality }}
+          <span v-if="recipe.seasonality" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-bg-card dark:bg-dark-card text-text-secondary dark:text-dark-text-secondary whitespace-nowrap  capitalize">
+            {{ Array.isArray(recipe.seasonality) ? recipe.seasonality.join(', ') : recipe.seasonality }}
           </span>
         </div>
 
         <!-- Tab Navigation -->
-        <div class="flex border-b border-bg-secondary dark:border-dark-secondary px-2 overflow-x-auto scrollbar-hide flex-shrink-0">
+        <div class="flex border-b border-bg-secondary dark:border-dark-secondary px-2 overflow-x-auto scrollbar-hide sticky top-0 bg-bg-card/95 dark:bg-dark-card/95 backdrop-blur-sm z-10">
           <button
             v-for="tab in tabs"
             :key="tab.id"
@@ -370,12 +373,11 @@ const RecipeModalComponent = {
                 : 'border-transparent text-text-muted hover:text-text-secondary dark:hover:text-dark-text-secondary'
             ]"
           >
-            {{ tab.icon }} {{ tab.label }}
+            {{ tab.label }}
           </button>
         </div>
 
-        <!-- Tab Content (scrollable) -->
-        <div class="flex-1 overflow-y-auto custom-scrollbar">
+        <!-- Tab Content -->
 
           <!-- ==================== STORY TAB ==================== -->
           <div v-if="activeTab === 'story'" class="p-6 space-y-6">
@@ -402,7 +404,7 @@ const RecipeModalComponent = {
               <!-- Significance -->
               <div v-if="culturalContext.significance" class="mt-6 bg-accent-brine/5 dark:bg-accent-brine/10 rounded-xl p-5">
                 <h4 class="font-serif text-base font-medium text-accent-aged dark:text-accent-brine mb-2 flex items-center gap-2">
-                  🌾 Cultural Significance
+                  Cultural Significance
                 </h4>
                 <p class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed">{{ culturalContext.significance }}</p>
               </div>
@@ -410,7 +412,7 @@ const RecipeModalComponent = {
               <!-- Related Traditions -->
               <div v-if="culturalContext.relatedTraditions && culturalContext.relatedTraditions.length" class="mt-6">
                 <h4 class="font-serif text-base font-medium text-text-primary dark:text-dark-text mb-3 flex items-center gap-2">
-                  🌏 Related Traditions
+                  Related Traditions
                 </h4>
                 <div class="flex flex-wrap gap-2">
                   <span v-for="(t, i) in culturalContext.relatedTraditions" :key="i"
@@ -423,7 +425,7 @@ const RecipeModalComponent = {
               <!-- Fun Fact -->
               <div v-if="culturalContext.funFact" class="mt-6 p-5 bg-accent-ferment/5 dark:bg-accent-ferment/10 rounded-xl border border-accent-ferment/10">
                 <h4 class="font-serif text-base font-medium text-accent-ferment mb-2 flex items-center gap-2">
-                  🤓 Fun Fact
+                  Fun Fact
                 </h4>
                 <p class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed">{{ culturalContext.funFact }}</p>
               </div>
@@ -463,11 +465,11 @@ const RecipeModalComponent = {
 
             <!-- Equipment -->
             <div v-if="recipe.equipment && recipe.equipment.length">
-              <h4 class="font-serif text-lg mb-3 text-text-primary dark:text-dark-text flex items-center gap-2">🔧 Equipment</h4>
+              <h4 class="font-serif text-lg mb-3 text-text-primary dark:text-dark-text flex items-center gap-2">Equipment</h4>
               <div class="flex flex-wrap gap-2">
                 <span v-for="eq in recipe.equipment" :key="typeof eq === 'string' ? eq : eq.name"
                   class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm bg-bg-secondary dark:bg-dark-secondary text-text-secondary dark:text-dark-text-secondary">
-                  <span>{{ (typeof eq === 'object' && eq.essential === false) ? '💡' : '🔧' }}</span>
+                  <span>{{ (typeof eq === 'object' && eq.essential === false) ? '~' : '·' }}</span>
                   {{ typeof eq === 'string' ? eq : eq.name }}
                   <span v-if="typeof eq === 'object' && !eq.essential" class="text-text-muted text-xs">(optional)</span>
                 </span>
@@ -480,7 +482,7 @@ const RecipeModalComponent = {
             <!-- Ingredients -->
             <div>
               <div class="flex items-center justify-between mb-3">
-                <h4 class="font-serif text-lg text-text-primary dark:text-dark-text flex items-center gap-2">🧂 Ingredients</h4>
+                <h4 class="font-serif text-lg text-text-primary dark:text-dark-text flex items-center gap-2">Ingredients</h4>
                 <div class="inline-flex items-center gap-0.5 bg-bg-secondary dark:bg-dark-secondary rounded-xl p-0.5">
                   <button v-for="m in [0.5, 1, 2, 4]" :key="m"
                     @click="batchMultiplier = m"
@@ -547,7 +549,7 @@ const RecipeModalComponent = {
             <!-- Steps / Instructions -->
             <div v-if="stepsData.length > 0">
               <div class="flex items-center justify-between mb-3">
-                <h4 class="font-serif text-lg text-text-primary dark:text-dark-text flex items-center gap-2">📋 Instructions</h4>
+                <h4 class="font-serif text-lg text-text-primary dark:text-dark-text flex items-center gap-2">Instructions</h4>
                 <span v-if="stepsProgress > 0" class="text-xs text-accent-culture font-medium">{{ stepsProgress }}% done</span>
               </div>
 
@@ -592,16 +594,16 @@ const RecipeModalComponent = {
                     <!-- Tips -->
                     <div v-if="step.tips && step.tips.length" class="mt-2 space-y-1">
                       <p v-for="(tip, ti) in step.tips" :key="ti" class="text-xs text-accent-brine bg-accent-brine/8 px-3 py-1.5 rounded-lg">
-                        💡 {{ tip }}
+                        {{ tip }}
                       </p>
                     </div>
                     <div v-else-if="step.tip" class="mt-2">
-                      <p class="text-xs text-accent-brine bg-accent-brine/8 px-3 py-1.5 rounded-lg">💡 {{ step.tip }}</p>
+                      <p class="text-xs text-accent-brine bg-accent-brine/8 px-3 py-1.5 rounded-lg">{{ step.tip }}</p>
                     </div>
 
                     <!-- Checkpoint -->
                     <p v-if="step.checkpoint" class="text-xs text-accent-culture bg-accent-culture/8 px-3 py-1.5 rounded-lg mt-2">
-                      ✅ {{ step.checkpoint }}
+                      {{ step.checkpoint }}
                     </p>
                   </div>
                 </li>
@@ -610,7 +612,7 @@ const RecipeModalComponent = {
 
             <!-- Things to Account For -->
             <div v-if="thingsToAccountFor.length > 0">
-              <h4 class="font-serif text-lg mb-3 text-text-primary dark:text-dark-text flex items-center gap-2">⚠️ Things to Account For</h4>
+              <h4 class="font-serif text-lg mb-3 text-text-primary dark:text-dark-text flex items-center gap-2">Things to Account For</h4>
               <div class="space-y-2">
                 <div v-for="(item, i) in thingsToAccountFor" :key="i"
                   :class="['border-l-4 rounded-r-xl px-4 py-3', severityClass(item.severity || item.type || 'info')]"
@@ -627,7 +629,7 @@ const RecipeModalComponent = {
 
             <!-- Variations -->
             <div v-if="variations.length > 0">
-              <h4 class="font-serif text-lg mb-3 text-text-primary dark:text-dark-text flex items-center gap-2">🎨 Variations & Regional Twists</h4>
+              <h4 class="font-serif text-lg mb-3 text-text-primary dark:text-dark-text flex items-center gap-2">Variations & Regional Twists</h4>
               <div class="grid gap-3">
                 <div v-for="(v, i) in variations" :key="i" class="p-4 bg-bg-secondary/50 dark:bg-dark-secondary/50 rounded-xl">
                   <h5 class="font-medium text-sm text-text-primary dark:text-dark-text">
@@ -641,7 +643,7 @@ const RecipeModalComponent = {
 
             <!-- Related Recipes -->
             <div v-if="relatedRecipes.length > 0">
-              <h4 class="font-serif text-lg mb-3 text-text-primary dark:text-dark-text flex items-center gap-2">🔗 Related Recipes</h4>
+              <h4 class="font-serif text-lg mb-3 text-text-primary dark:text-dark-text flex items-center gap-2">Related Recipes</h4>
               <div class="flex flex-wrap gap-2">
                 <span v-for="(rel, i) in relatedRecipes" :key="i"
                   class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-sm bg-bg-secondary dark:bg-dark-secondary text-text-secondary dark:text-dark-text-secondary hover:bg-accent-brine/10 hover:text-accent-aged dark:hover:text-accent-brine cursor-pointer transition-colors">
@@ -726,7 +728,7 @@ const RecipeModalComponent = {
           <div v-if="activeTab === 'dehydrate' && hasDehydrate" class="p-6 space-y-6">
             <div class="bg-accent-aged/5 dark:bg-accent-aged/15 rounded-xl p-5 border border-accent-aged/10">
               <h4 class="font-serif text-lg text-accent-aged dark:text-accent-brine mb-4 flex items-center gap-2">
-                🌬️ Dehydration Method
+                Dehydration Method
               </h4>
 
               <div class="space-y-4">
@@ -771,13 +773,15 @@ const RecipeModalComponent = {
 
         </div>
 
+        </div><!-- end scrollable wrapper -->
+
         <!-- Bottom Action Bar -->
         <div class="flex-shrink-0 p-4 bg-bg-card/95 dark:bg-dark-card/95 backdrop-blur-sm border-t border-bg-secondary dark:border-dark-secondary">
           <button
             @click="$emit('start-batch', recipe)"
-            class="w-full py-3 bg-accent-culture hover:bg-accent-culture/90 text-white rounded-xl font-medium transition-all duration-300 flex items-center justify-center gap-2 shadow-warm hover:shadow-warm-lg"
+            class="w-full py-3 bg-accent-culture hover:bg-accent-culture/90 text-white rounded-xl font-medium transition-colors flex items-center justify-center gap-2"
           >
-            🫙 Start a Batch
+            Start a Batch
           </button>
         </div>
       </div>
