@@ -22,7 +22,7 @@ const ToolsViewComponent = {
 
   data() {
     return {
-      activeTab: 'brine',
+      activeTab: null,
       // Unit Converter state
       converter: {
         mode: 'weight',
@@ -40,13 +40,13 @@ const ToolsViewComponent = {
   computed: {
     tabs() {
       return [
-        { id: 'brine', label: 'Brine Calculator', icon: 'M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z' },
-        { id: 'scaler', label: 'Batch Scaler', icon: 'M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3' },
-        { id: 'timers', label: 'Timers', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
-        { id: 'converter', label: 'Unit Converter', icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15' },
-        { id: 'ph', label: 'pH Reference', icon: 'M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z' },
-        { id: 'glossary', label: 'Glossary', icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253' },
-        { id: 'calendar', label: 'Seasonal Calendar', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' },
+        { id: 'brine', label: 'Brine Calculator', emoji: '🧂', desc: 'Calculate salt and brine ratios for any ferment', accent: 'accent-brine' },
+        { id: 'scaler', label: 'Batch Scaler', emoji: '⚖️', desc: 'Scale recipes up or down with precision', accent: 'accent-aged' },
+        { id: 'timers', label: 'Timers', emoji: '⏱️', desc: 'Track and manage your active ferments', accent: 'accent-culture' },
+        { id: 'converter', label: 'Unit Converter', emoji: '🔄', desc: 'Convert between weight, volume, and temperature', accent: 'accent-ferment' },
+        { id: 'ph', label: 'pH Reference', emoji: '🧪', desc: 'Target pH ranges for safe fermentation', accent: 'accent-culture' },
+        { id: 'glossary', label: 'Glossary', emoji: '📖', desc: 'Fermentation terms from cultures worldwide', accent: 'accent-aged' },
+        { id: 'calendar', label: 'Seasonal Calendar', emoji: '📅', desc: 'What to ferment and when throughout the year', accent: 'accent-culture' },
       ];
     },
 
@@ -189,26 +189,36 @@ const ToolsViewComponent = {
 
   template: `
     <div class="space-y-6">
-      <div>
-        <h2 class="font-serif text-3xl text-text-primary dark:text-dark-text">Tools</h2>
-        <p class="text-text-muted dark:text-dark-text-secondary mt-1">Calculators, references, and utilities</p>
+
+      <!-- ===== MENU GRID (no tool selected) ===== -->
+      <div v-if="activeTab === null">
+        <div class="mb-6">
+          <h2 class="font-serif text-3xl text-text-primary dark:text-dark-text">Tools</h2>
+          <p class="text-text-muted dark:text-dark-text-secondary mt-1">Calculators, references, and utilities for every ferment</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <button v-for="tab in tabs" :key="tab.id"
+            @click="activeTab = tab.id"
+            class="tool-menu-card group text-left p-5 rounded-2xl border border-bg-secondary dark:border-dark-secondary bg-bg-card dark:bg-dark-card hover:border-accent-brine/40 transition-all duration-300">
+            <div class="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">{{ tab.emoji }}</div>
+            <h3 class="font-serif text-lg text-text-primary dark:text-dark-text mb-1 group-hover:text-accent-aged dark:group-hover:text-accent-brine transition-colors">{{ tab.label }}</h3>
+            <p class="text-sm text-text-muted dark:text-dark-text-secondary leading-relaxed">{{ tab.desc }}</p>
+            <div class="mt-3 flex items-center gap-1 text-xs text-text-muted group-hover:text-accent-brine transition-colors">
+              <span>Open</span>
+              <svg class="w-3.5 h-3.5 transform group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
+          </button>
+        </div>
       </div>
 
-      <!-- Tab Navigation -->
-      <div class="flex gap-1.5 overflow-x-auto scrollbar-hide pb-1">
-        <button v-for="tab in tabs" :key="tab.id"
-          @click="activeTab = tab.id"
-          :class="[
-            'px-3.5 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-300 flex items-center gap-1.5',
-            activeTab === tab.id
-              ? 'bg-accent-brine text-white shadow-warm'
-              : 'text-text-secondary dark:text-dark-text-secondary hover:bg-bg-secondary dark:hover:bg-dark-secondary'
-          ]"
-        >
-          <span>{{ tab.emoji }}</span>
-          <span class="hidden sm:inline">{{ tab.label }}</span>
+      <!-- ===== TOOL PAGE (tool selected) ===== -->
+      <div v-else>
+        <!-- Back to Tools Menu -->
+        <button @click="activeTab = null"
+          class="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-text-secondary dark:text-dark-text-secondary hover:bg-bg-secondary dark:hover:bg-dark-secondary transition-all mb-4">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          Back to Tools
         </button>
-      </div>
 
       <!-- Brine Calculator Tab -->
       <div v-show="activeTab === 'brine'">
@@ -457,6 +467,7 @@ const ToolsViewComponent = {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   `

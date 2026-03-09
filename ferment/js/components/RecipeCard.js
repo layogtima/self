@@ -69,8 +69,21 @@ const RecipeCardComponent = {
     },
 
     timeDisplay() {
+      // Prefer human-readable time string
+      if (this.recipe.totalTimeHuman) return this.recipe.totalTimeHuman;
+      // Build from fermentTime fields
+      if (this.recipe.fermentTimeMin != null) {
+        const u = (this.recipe.fermentTimeUnit || 'days').replace(/s$/, '');
+        const abbr = { hour: 'h', day: 'd', week: 'w', month: 'mo', year: 'y' };
+        const s = abbr[u] || u;
+        if (this.recipe.fermentTimeMax && this.recipe.fermentTimeMax !== this.recipe.fermentTimeMin) {
+          return this.recipe.fermentTimeMin + '–' + this.recipe.fermentTimeMax + s;
+        }
+        return this.recipe.fermentTimeMin + s;
+      }
+      // Legacy fallback
       const t = this.recipe.totalTime || this.recipe.time;
-      if (!t) return '?';
+      if (!t) return '—';
       if (typeof t === 'object') {
         const days = t.min || t.days || 0;
         if (days >= 365) return Math.round(days / 365) + 'y';
@@ -126,7 +139,8 @@ const RecipeCardComponent = {
           </span>
         </div>
 
-        <!-- Favorite / Bookmark -->
+        <!-- Favorite / Bookmark (hidden until persistence is wired up) -->
+        <!--
         <div class="absolute top-3 right-3 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <button
             @click.stop="$emit('toggle-favorite', recipe)"
@@ -147,6 +161,7 @@ const RecipeCardComponent = {
             </svg>
           </button>
         </div>
+        -->
 
         <!-- Pantry Match Indicator -->
         <div v-if="matchPercent !== null" class="absolute bottom-3 right-3">
@@ -207,18 +222,6 @@ const RecipeCardComponent = {
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
             Start Batch
           </button>
-          <button
-            @click.stop="$emit('toggle-bookmark', recipe)"
-            :class="[
-              'inline-flex items-center justify-center px-3 py-2 rounded-xl text-sm font-medium transition-colors duration-200',
-              isBookmarked ? 'bg-accent-brine/20 text-accent-brine' : 'bg-bg-secondary/70 dark:bg-dark-secondary text-text-muted hover:text-text-secondary'
-            ]"
-            :aria-label="isBookmarked ? 'Saved' : 'Save'"
-          >
-            <svg class="w-4 h-4" :fill="isBookmarked ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-            </svg>
-          </button>
         </div>
       </div>
     </div>
@@ -275,7 +278,8 @@ const RecipeCardComponent = {
         </span>
       </div>
 
-      <!-- Favorite indicator -->
+      <!-- Favorite indicator (hidden until persistence is wired up) -->
+      <!--
       <div class="flex-shrink-0 flex items-center gap-1">
         <button
           @click.stop="$emit('toggle-favorite', recipe)"
@@ -287,6 +291,7 @@ const RecipeCardComponent = {
           </svg>
         </button>
       </div>
+      -->
     </div>
 
     <!-- TABLE ROW VIEW -->
@@ -325,26 +330,9 @@ const RecipeCardComponent = {
       <td class="px-4 py-3 text-sm text-text-secondary dark:text-dark-text-secondary capitalize">
         {{ recipe.technique || '-' }}
       </td>
-      <td class="px-4 py-3">
-        <div class="flex items-center gap-1">
-          <button
-            @click.stop="$emit('toggle-favorite', recipe)"
-            :class="['p-1 rounded transition-colors', isFavorite ? 'text-accent-ferment' : 'text-text-muted/30 hover:text-text-muted']"
-          >
-            <svg class="w-3.5 h-3.5" :fill="isFavorite ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-            </svg>
-          </button>
-          <button
-            @click.stop="$emit('toggle-bookmark', recipe)"
-            :class="['p-1 rounded transition-colors', isBookmarked ? 'text-accent-brine' : 'text-text-muted/30 hover:text-text-muted']"
-          >
-            <svg class="w-3.5 h-3.5" :fill="isBookmarked ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-            </svg>
-          </button>
-        </div>
-      </td>
+        <td class="px-4 py-3">
+          <!-- Actions hidden until persistence is wired up -->
+        </td>
     </tr>
   `
 };

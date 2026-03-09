@@ -111,17 +111,18 @@
             <div class="flex items-center gap-2 cursor-pointer flex-shrink-0"
               @click="currentTab = 'browse'; currentRoute = 'home'">
               🫙
-              <h1 class="font-serif text-lg tracking-tight hidden sm:block">FERMENT</h1>
+              <h1 class="font-serif text-lg tracking-tight">FERMENT</h1>
             </div>
 
             <!-- Divider -->
             <div class="w-px h-6 bg-bg-secondary dark:bg-dark-secondary flex-shrink-0"></div>
 
-            <!-- Nav Tabs (inline) -->
-            <nav class="flex gap-1 overflow-x-auto scrollbar-hide flex-1">
-              <button v-for="tab in tabs" :key="tab.id" @click="currentTab = tab.id" :class="[
+            <!-- Nav Tabs (inline, desktop only) -->
+            <nav class="hidden sm:flex gap-1 overflow-x-auto scrollbar-hide flex-1">
+              <button v-for="tab in tabs" :key="tab.id"
+                @click="currentTab = tab.id; currentRoute = 'home'; selectedRecipe = null" :class="[
                   'px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-200',
-                  currentTab === tab.id
+                  currentTab === tab.id && currentRoute !== 'recipe'
                     ? 'bg-accent-brine/10 text-accent-aged dark:text-accent-brine border border-accent-brine/20'
                     : 'text-text-secondary hover:bg-bg-secondary dark:hover:bg-dark-secondary border border-transparent'
                 ]" :aria-current="currentTab === tab.id ? 'page' : undefined">
@@ -130,7 +131,7 @@
             </nav>
 
             <!-- Actions -->
-            <div class="flex items-center gap-1 flex-shrink-0">
+            <div class="flex items-center gap-1 flex-shrink-0 ml-auto">
               <button @click="toggleTheme"
                 class="p-1.5 rounded-lg hover:bg-bg-secondary transition-colors dark:hover:bg-dark-secondary"
                 :aria-label="settings.theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'">
@@ -161,60 +162,103 @@
 
       <!-- Main Content -->
       <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full">
-        <!-- Browse Tab -->
-        <div v-show="currentTab === 'browse'">
-          <browse-view :recipes="filteredRecipes" :all-recipes="allRecipes" :filters="filters" :view-mode="viewMode"
-            :pantry="pantry" :favorites="favorites" :bookmarks="bookmarks" :user-level="userLevel" :settings="settings"
-            @update:view-mode="viewMode = $event" @update:filters="updateFilters($event)"
-            @open-recipe="openRecipe($event)" @toggle-favorite="toggleFavorite($event)"
-            @toggle-bookmark="toggleBookmark($event)" @start-batch="startBatch($event)">
-          </browse-view>
+
+        <!-- Recipe Page (full-page view, replaces modal) -->
+        <div v-if="currentRoute === 'recipe' && selectedRecipe">
+          <recipe-page :recipe="selectedRecipe" :pantry="pantry" :recipe-notes="recipeNotes" :favorites="favorites"
+            :bookmarks="bookmarks" :settings="settings" @close="closeRecipe" @toggle-favorite="toggleFavorite($event)"
+            @toggle-bookmark="toggleBookmark($event)" @update-notes="updateRecipeNotes($event)"
+            @start-batch="startBatch($event)" @add-to-pantry="addToPantry($event)">
+          </recipe-page>
         </div>
 
-        <!-- Pantry Tab -->
-        <div v-show="currentTab === 'pantry'">
-          <pantry-manager :pantry="pantry" :recipes="allRecipes" @update:pantry="updatePantry($event)"
-            @browse-matching="browseMatchingRecipes">
-          </pantry-manager>
-        </div>
+        <!-- Normal Tab Content -->
+        <template v-else>
+          <!-- Browse Tab -->
+          <div v-show="currentTab === 'browse'">
+            <browse-view :recipes="filteredRecipes" :all-recipes="allRecipes" :filters="filters" :view-mode="viewMode"
+              :pantry="pantry" :favorites="favorites" :bookmarks="bookmarks" :user-level="userLevel"
+              :settings="settings" @update:view-mode="viewMode = $event" @update:filters="updateFilters($event)"
+              @open-recipe="openRecipe($event)" @toggle-favorite="toggleFavorite($event)"
+              @toggle-bookmark="toggleBookmark($event)" @start-batch="startBatch($event)">
+            </browse-view>
+          </div>
 
-        <!-- Journal Tab -->
-        <div v-show="currentTab === 'journal'">
-          <journal-manager :batches="journal.batches" :recipes="allRecipes" :stats="journal.stats"
-            :user-level="userLevel" @update:batches="updateBatches($event)" @open-recipe="openRecipe($event)">
-          </journal-manager>
-        </div>
+          <!-- Pantry Tab -->
+          <div v-show="currentTab === 'pantry'">
+            <pantry-manager :pantry="pantry" :recipes="allRecipes" @update:pantry="updatePantry($event)"
+              @browse-matching="browseMatchingRecipes">
+            </pantry-manager>
+          </div>
 
-        <!-- Tools Tab -->
-        <div v-show="currentTab === 'tools'">
-          <tools-view :settings="settings" :recipes="allRecipes">
-          </tools-view>
-        </div>
+          <!-- Journal Tab -->
+          <div v-show="currentTab === 'journal'">
+            <journal-manager :batches="journal.batches" :recipes="allRecipes" :stats="journal.stats"
+              :user-level="userLevel" @update:batches="updateBatches($event)" @open-recipe="openRecipe($event)">
+            </journal-manager>
+          </div>
+
+          <!-- Tools Tab -->
+          <div v-show="currentTab === 'tools'">
+            <tools-view :settings="settings" :recipes="allRecipes">
+            </tools-view>
+          </div>
+        </template>
       </main>
 
       <!-- Footer -->
       <footer class="border-t border-bg-secondary py-6 mt-8 dark:border-dark-secondary">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p class="text-text-muted text-sm">
-            🫙 FERMENT v1.0 — <em class="font-serif">"May your cultures be strong, your brine be clear, and your jars
+            <em class="font-serif">"May your cultures be strong, your brine be clear, and your jars
               never explode."</em>
-          </p>
-          <p class="text-text-muted text-xs mt-2">
-            <span v-if="userLevel.level > 0"
-              class="inline-flex items-center gap-1 bg-bg-secondary rounded-full px-3 py-1 dark:bg-dark-secondary">
-              Level {{ userLevel.level }}: {{ userLevel.title }}
-            </span>
           </p>
         </div>
       </footer>
+
+      <!-- Mobile Bottom Tab Bar -->
+      <nav
+        class="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-bg-primary/95 dark:bg-dark-primary/95 backdrop-blur-sm border-t border-bg-secondary dark:border-dark-secondary safe-area-bottom">
+        <div class="flex items-stretch">
+          <button @click="currentTab = 'browse'; currentRoute = 'home'; selectedRecipe = null" :class="['flex-1 flex flex-col items-center gap-0.5 py-2 pt-2.5 text-xs font-medium transition-colors',
+              currentTab === 'browse' && currentRoute !== 'recipe' ? 'text-accent-brine' : 'text-text-muted']">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+            Browse
+          </button>
+          <button @click="currentTab = 'pantry'; currentRoute = 'home'; selectedRecipe = null" :class="['flex-1 flex flex-col items-center gap-0.5 py-2 pt-2.5 text-xs font-medium transition-colors',
+              currentTab === 'pantry' && currentRoute !== 'recipe' ? 'text-accent-brine' : 'text-text-muted']">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+            </svg>
+            Pantry
+          </button>
+          <button @click="currentTab = 'journal'; currentRoute = 'home'; selectedRecipe = null" :class="['flex-1 flex flex-col items-center gap-0.5 py-2 pt-2.5 text-xs font-medium transition-colors',
+              currentTab === 'journal' && currentRoute !== 'recipe' ? 'text-accent-brine' : 'text-text-muted']">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+            Journal
+          </button>
+          <button @click="currentTab = 'tools'; currentRoute = 'home'; selectedRecipe = null" :class="['flex-1 flex flex-col items-center gap-0.5 py-2 pt-2.5 text-xs font-medium transition-colors',
+              currentTab === 'tools' && currentRoute !== 'recipe' ? 'text-accent-brine' : 'text-text-muted']">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            Tools
+          </button>
+        </div>
+      </nav>
     </div>
 
-    <!-- Recipe Modal -->
-    <recipe-modal v-if="selectedRecipe" :recipe="selectedRecipe" :pantry="pantry" :recipe-notes="recipeNotes"
-      :favorites="favorites" :bookmarks="bookmarks" :settings="settings" @close="selectedRecipe = null"
-      @toggle-favorite="toggleFavorite($event)" @toggle-bookmark="toggleBookmark($event)"
-      @update-notes="updateRecipeNotes($event)" @start-batch="startBatch($event)" @add-to-pantry="addToPantry($event)">
-    </recipe-modal>
+
 
     <!-- Settings Modal -->
     <settings-modal v-if="showSettings" :settings="settings" :user-level="userLevel" @close="showSettings = false"
@@ -241,7 +285,7 @@
   <script src="js/components/SearchBar.js"></script>
   <script src="js/components/FilterPanel.js"></script>
   <script src="js/components/RecipeCard.js"></script>
-  <script src="js/components/RecipeModal.js"></script>
+  <script src="js/components/RecipePage.js"></script>
   <script src="js/components/PantryManager.js"></script>
   <script src="js/components/JournalManager.js"></script>
   <script src="js/components/BrineCalculator.js"></script>

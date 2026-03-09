@@ -138,6 +138,7 @@ const app = createApp({
 
     function openRecipe(recipe) {
       selectedRecipe.value = recipe;
+      currentRoute.value = 'recipe';
       // Track recently viewed
       const idx = recentlyViewed.findIndex(r => r.id === recipe.id);
       if (idx > -1) recentlyViewed.splice(idx, 1);
@@ -148,6 +149,11 @@ const app = createApp({
       userLevel.recipesViewed = (userLevel.recipesViewed || 0) + 1;
       recalcLevel();
       persist();
+    }
+
+    function closeRecipe() {
+      selectedRecipe.value = null;
+      currentRoute.value = 'home';
     }
 
     function toggleFavorite(recipeId) {
@@ -259,7 +265,7 @@ const app = createApp({
       journal.batches.push(newBatch);
       updateBatches([...journal.batches]);
       currentTab.value = 'journal';
-      if (selectedRecipe.value) selectedRecipe.value = null;
+      if (selectedRecipe.value) closeRecipe();
     }
 
     function browseMatchingRecipes() {
@@ -390,6 +396,7 @@ const app = createApp({
       filteredRecipes,
       updateFilters,
       openRecipe,
+      closeRecipe,
       toggleFavorite,
       toggleBookmark,
       updateRecipeNotes,
@@ -413,7 +420,7 @@ app.component('search-bar', SearchBarComponent);
 app.component('filter-panel', FilterPanelComponent);
 app.component('recipe-card', RecipeCardComponent);
 app.component('browse-view', BrowseViewComponent);
-app.component('recipe-modal', RecipeModalComponent);
+app.component('recipe-page', RecipePageComponent);
 app.component('pantry-manager', PantryManagerComponent);
 app.component('journal-manager', JournalManagerComponent);
 app.component('brine-calculator', BrineCalculatorComponent);
