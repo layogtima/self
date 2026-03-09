@@ -301,3 +301,52 @@ input[type="range"]::-moz-range-thumb {
 
 /* Override mobile body padding when on welcome page */
 .welcome-page ~ * { padding-bottom: 0 !important; }
+
+/* ── Wiki Article Styles ── */
+.wiki-article .wiki-content p + p {
+  margin-top: 1rem;
+}
+
+.wiki-cite-ref {
+  font-size: 0.7em;
+  vertical-align: super;
+  line-height: 0;
+  margin-left: 1px;
+}
+
+.wiki-cross-link {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Smooth scroll target highlight for citations */
+.wiki-article :target {
+  background-color: rgba(196, 163, 90, 0.15);
+  border-radius: 6px;
+  padding: 4px 8px;
+  margin: -4px -8px;
+  transition: background-color 2s ease;
+}
+
+/* Table styles in wiki */
+.wiki-article table {
+  font-size: 0.85rem;
+}
+.wiki-article table td,
+.wiki-article table th {
+  vertical-align: top;
+}
+
+/* Line clamp utility */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

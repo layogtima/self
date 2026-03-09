@@ -1,0 +1,181 @@
+{
+  "id": "temperature-and-fermentation",
+  "slug": "temperature-and-fermentation",
+  "title": "Temperature and Fermentation Speed",
+  "subtitle": "How heat and cold shape the pace, flavour, and safety of your ferments",
+  "lastUpdated": "2026-03-09",
+  "infobox": {
+    "title": "Temperature in Fermentation",
+    "image": {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/4/41/Thermometer_CF.svg",
+      "caption": "Temperature is one of the most powerful variables a fermenter can control",
+      "attribution": "Wikimedia Commons, CC BY-SA 3.0"
+    },
+    "facts": [
+      { "label": "Optimal range", "value": "18–25 °C for most vegetable ferments" },
+      { "label": "Bengaluru ambient", "value": "~24–28 °C year-round" },
+      { "label": "Too cold", "value": "Below 10 °C — very slow, may stall" },
+      { "label": "Too hot", "value": "Above 35 °C — too fast, mushy, off-flavours" },
+      { "label": "Refrigerator", "value": "2–5 °C — near-halt for storage" },
+      { "label": "Affects", "value": "Speed, flavour complexity, texture, bacterial succession" }
+    ]
+  },
+  "tableOfContents": true,
+  "sections": [
+    {
+      "id": "intro",
+      "type": "paragraph",
+      "content": "Temperature is the accelerator pedal of fermentation. Every 10 °C increase roughly doubles the rate of bacterial metabolism (a principle known as Q₁₀) [cite:c1]. This means a ferment at 25 °C progresses about twice as fast as one at 15 °C, and four times as fast as one at 5 °C. But speed isn't everything — temperature also profoundly affects which bacteria dominate, how complex the flavours become, and whether the texture holds up or turns to mush."
+    },
+    {
+      "id": "ranges",
+      "type": "heading",
+      "level": 2,
+      "content": "Temperature Ranges and Their Effects"
+    },
+    {
+      "id": "ranges-table",
+      "type": "table",
+      "caption": "How temperature affects lacto-fermentation",
+      "headers": ["Range", "Speed", "Flavour", "Texture", "Notes"],
+      "rows": [
+        ["2–5 °C (fridge)", "Near halt", "Preserved at current state", "Maintained", "Storage temperature. Fermentation continues but extremely slowly. Use to 'pause' a ferment at desired sourness."],
+        ["10–15 °C (cool cellar)", "Very slow", "Complex, nuanced, multi-layered", "Excellent crunch", "Traditional European fermentation temperature. 6–12 week sauerkraut. The connoisseur's choice."],
+        ["15–20 °C (cool room)", "Moderate", "Good complexity with reasonable speed", "Good crunch", "Good balance for most ferments. Typical spring/autumn temperatures in temperate climates."],
+        ["20–25 °C (warm room / BLR)", "Fast", "Clean, bright, pleasantly sour", "Good if not over-fermented", "Bengaluru's sweet spot. Most recipes in this app are calibrated for this range. 2–4 week ferments."],
+        ["25–30 °C (warm)", "Very fast", "Sharp, potentially one-dimensional", "Risk of softening", "Watch closely. Ferments can go from 'just right' to 'too sour' in a day."],
+        ["30–35 °C (hot)", "Extremely fast", "Can develop off-flavours", "Likely mushy", "Not recommended for most vegetable ferments. OK for quick fermented drinks."],
+        ["Above 35 °C", "Harmful", "Off-flavours likely", "Very soft", "Most LAB are stressed. Spoilage organisms may gain advantage. Avoid."]
+      ]
+    },
+    {
+      "id": "bengaluru",
+      "type": "heading",
+      "level": 2,
+      "content": "Bengaluru's Fermentation Advantage"
+    },
+    {
+      "id": "bengaluru-text",
+      "type": "paragraph",
+      "content": "Bengaluru's climate is a fermenter's dream. The city sits at ~920m elevation, giving it average temperatures of 24–28 °C year-round — almost exactly the optimal range for lacto-fermentation [cite:c2]. Unlike coastal cities where summer temperatures can hit 40 °C+ (making fermentation unpredictably fast), or Northern European cities where winters drop below 10 °C (stalling ferments for weeks), Bengaluru's consistent warmth means:"
+    },
+    {
+      "id": "bengaluru-list",
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "**Predictable timing**: Most vegetable ferments complete in 2–3 weeks, year-round.",
+        "**No seasonal adjustment needed**: The same recipe works in January and July (unlike Northern climates where winter ferments take twice as long as summer ones).",
+        "**Fast acidification**: pH drops below 4.6 within 2–3 days, ensuring rapid safety [[article:ph-levels-fermentation]].",
+        "**Good flavour development**: 25 °C is warm enough for efficient fermentation but cool enough for decent flavour complexity."
+      ]
+    },
+    {
+      "id": "bengaluru-callout",
+      "type": "callout",
+      "style": "tip",
+      "title": "The Bengaluru Adjustment",
+      "content": "Most Western fermentation books assume 18–22 °C room temperature and give fermentation times accordingly. At Bengaluru's 25 °C+, reduce the suggested time by 30–40%. If a recipe says '4–6 weeks for sauerkraut [[recipe:sauerkraut-classic]]', expect 2–4 weeks. Start tasting earlier than the recipe suggests."
+    },
+    {
+      "id": "monsoon",
+      "type": "heading",
+      "level": 3,
+      "content": "Monsoon Season Considerations"
+    },
+    {
+      "id": "monsoon-text",
+      "type": "paragraph",
+      "content": "During Bengaluru's monsoon (June–September), humidity rises significantly while temperatures stay similar. High humidity doesn't directly affect submerged ferments, but it increases the risk of surface mould on any exposed portions. During monsoon, be extra vigilant about keeping vegetables submerged, and consider using a weight or airlock [[article:role-of-carbon-dioxide]]. The higher humidity can also make dehydrating fermented foods more difficult."
+    },
+    {
+      "id": "speed-vs-flavour",
+      "type": "heading",
+      "level": 2,
+      "content": "The Speed-Flavour Tradeoff"
+    },
+    {
+      "id": "speed-text",
+      "type": "paragraph",
+      "content": "This is the central tension in fermentation: speed and flavour complexity are often at odds [cite:c1]."
+    },
+    {
+      "id": "speed-explanation",
+      "type": "paragraph",
+      "content": "At higher temperatures, lactic acid bacteria work faster, and the dominant species (homofermentative L. plantarum) produces lactic acid efficiently but with fewer secondary metabolites [[article:lactic-acid-bacteria]]. The result is a clean, sharp sourness — pleasant but somewhat one-dimensional. At lower temperatures, fermentation is slower, allowing more time for heterofermentative species to contribute, for secondary reactions to occur, and for complex esters, aldehydes, and other flavour compounds to accumulate. This is why a German cellar sauerkraut fermented at 12 °C for 8 weeks has layers of flavour that a warm-room 2-week ferment doesn't."
+    },
+    {
+      "id": "speed-callout",
+      "type": "callout",
+      "style": "info",
+      "title": "The Hybrid Approach",
+      "content": "Many experienced fermenters use a two-stage approach: ferment at room temperature (20–25 °C) for the first 3–7 days to establish rapid acidification and safety, then transfer to the refrigerator (2–5 °C) for weeks or months of slow flavour development. This gives you the best of both worlds — fast safety, slow complexity."
+    },
+    {
+      "id": "managing-temp",
+      "type": "heading",
+      "level": 2,
+      "content": "Practical Temperature Management"
+    },
+    {
+      "id": "managing-text",
+      "type": "paragraph",
+      "content": "You don't need specialised equipment to manage fermentation temperature. Here are practical strategies:"
+    },
+    {
+      "id": "managing-list",
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "**Too warm? (above 28 °C)**: Place jars on the kitchen floor (coolest spot), use a water bath (evaporative cooling), or ferment in the fridge after initial 2–3 days of room-temp acidification.",
+        "**Too cool? (below 18 °C)**: Place jars on top of the refrigerator (warm from the compressor), near a warm appliance, or inside a cupboard (insulated from drafts). In Bengaluru, this is rarely an issue.",
+        "**Consistent temperature**: Avoid placing ferments in direct sunlight or near cooking areas where temperature fluctuates. A cupboard or shelf away from heat sources is ideal.",
+        "**Seasonal ferments**: Some ferments benefit from specific temperatures. Miso is traditionally made in winter and aged through summer. Kimjang kimchi is made in late autumn and stored through cold winters [[article:fermentation-traditions-worldwide]]."
+      ]
+    },
+    {
+      "id": "temp-specific-ferments",
+      "type": "heading",
+      "level": 2,
+      "content": "Temperature Requirements by Ferment Type"
+    },
+    {
+      "id": "temp-ferments-table",
+      "type": "table",
+      "caption": "Optimal temperature ranges for specific fermentation types",
+      "headers": ["Ferment Type", "Optimal Range", "Too Cold", "Too Hot", "BLR Suitability"],
+      "rows": [
+        ["Sauerkraut [[recipe:sauerkraut-classic]]", "15–22 °C", "Below 10 °C", "Above 30 °C", "Good — ferments fast, start tasting at day 7"],
+        ["Brine pickles [[recipe:brine-pickles-basic]]", "18–24 °C", "Below 12 °C", "Above 30 °C", "Excellent — perfect pace"],
+        ["Dahi (yogurt) [[recipe:dahi-homemade]]", "40–45 °C (for setting)", "Below 35 °C (won't set)", "Above 50 °C (kills culture)", "Need insulated vessel or oven light"],
+        ["Tepache [[recipe:tepache-pineapple]]", "22–28 °C", "Below 18 °C", "Above 35 °C", "Perfect — BLR is ideal"],
+        ["Honey garlic [[recipe:honey-garlic-ferment]]", "18–25 °C", "Below 15 °C", "Above 30 °C", "Good — flip jar daily"],
+        ["Preserved lemons [[recipe:preserved-lemons-salt]]", "18–28 °C", "Below 10 °C", "Above 35 °C", "Excellent — salt does most of the work"],
+        ["Fermented hot sauce [[recipe:chilli-mash-base]]", "20–26 °C", "Below 15 °C", "Above 32 °C", "Great — active fermentation in 3–5 days"]
+      ]
+    }
+  ],
+  "citations": [
+    {
+      "id": "c1",
+      "text": "Hutkins, Robert W. Microbiology and Technology of Fermented Foods.",
+      "source": "Wiley-Blackwell",
+      "author": "Robert W. Hutkins",
+      "year": 2006,
+      "license": "Book"
+    },
+    {
+      "id": "c2",
+      "text": "India Meteorological Department. \"Climate of Bengaluru.\"",
+      "source": "IMD",
+      "year": 2023,
+      "license": "Public Domain"
+    }
+  ],
+  "seeAlso": {
+    "articles": ["how-lacto-fermentation-works", "ph-levels-fermentation", "salt-and-fermentation", "troubleshooting-ferments"],
+    "recipes": ["sauerkraut-classic", "dahi-homemade", "tepache-pineapple", "brine-pickles-basic"],
+    "tools": []
+  },
+  "tags": ["science", "temperature", "climate", "bengaluru", "speed", "flavour"]
+}

@@ -1,0 +1,12 @@
+{
+  "articles": [
+    { "id": "how-lacto-fermentation-works", "slug": "how-lacto-fermentation-works", "file": "how-lacto-fermentation-works.json" },
+    { "id": "lactic-acid-bacteria", "slug": "lactic-acid-bacteria", "file": "lactic-acid-bacteria.json" },
+    { "id": "role-of-carbon-dioxide", "slug": "role-of-carbon-dioxide", "file": "role-of-carbon-dioxide.json" },
+    { "id": "ph-levels-fermentation", "slug": "ph-levels-fermentation", "file": "ph-levels-fermentation.json" },
+    { "id": "salt-and-fermentation", "slug": "salt-and-fermentation", "file": "salt-and-fermentation.json" },
+    { "id": "temperature-and-fermentation", "slug": "temperature-and-fermentation", "file": "temperature-and-fermentation.json" },
+    { "id": "troubleshooting-ferments", "slug": "troubleshooting-ferments", "file": "troubleshooting-ferments.json" },
+    { "id": "fermentation-traditions-worldwide", "slug": "fermentation-traditions-worldwide", "file": "fermentation-traditions-worldwide.json" }
+  ]
+}

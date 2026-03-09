@@ -44,9 +44,15 @@ const app = createApp({
       searchQuery: '',
     });
 
+    // ── Wiki state ──
+    const wikiArticles = ref([]);
+    const wikiLoaded = ref(false);
+    const selectedWikiArticle = ref(null);
+
     // ── Tabs ──
     const tabs = [
       { id: 'browse', label: 'Browse' },
+      { id: 'wiki', label: 'Wiki' },
       { id: 'pantry', label: 'Pantry' },
       { id: 'journal', label: 'Journal' },
       { id: 'tools', label: 'Tools' },
@@ -378,12 +384,35 @@ const app = createApp({
       FermentStore.save(getState());
     }
 
+    // ── Wiki navigation ──
+    function openWikiArticle(article) {
+      selectedWikiArticle.value = article;
+      currentTab.value = 'wiki';
+      currentRoute.value = 'wiki-article';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function closeWikiArticle() {
+      selectedWikiArticle.value = null;
+      currentRoute.value = 'home';
+      currentTab.value = 'wiki';
+    }
+
+    function openRecipeFromWiki(recipe) {
+      openRecipe(recipe);
+    }
+
     // ── Lifecycle ──
     onMounted(async () => {
       applyTheme();
-      // Load recipes from individual JSON files (with fallback)
-      await FermentRecipes.load();
+      // Load recipes and wiki articles in parallel
+      const [recipes, articles] = await Promise.all([
+        FermentRecipes.load(),
+        FermentWiki.load(),
+      ]);
       recipesLoaded.value = true;
+      wikiArticles.value = FermentWiki.getAll();
+      wikiLoaded.value = true;
       ready.value = true;
     });
 
@@ -428,6 +457,12 @@ const app = createApp({
       clearData,
       enterApp,
       showWelcome,
+      wikiArticles,
+      wikiLoaded,
+      selectedWikiArticle,
+      openWikiArticle,
+      closeWikiArticle,
+      openRecipeFromWiki,
     };
   }
 });
@@ -447,6 +482,8 @@ app.component('tools-view', ToolsViewComponent);
 app.component('settings-modal', SettingsModalComponent);
 app.component('onboarding-modal', OnboardingModalComponent);
 app.component('welcome-page', WelcomePageComponent);
+app.component('wiki-view', WikiViewComponent);
+app.component('wiki-article', WikiArticleComponent);
 
 // Mount the app
 app.mount('#app');

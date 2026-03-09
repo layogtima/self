@@ -1,0 +1,220 @@
+{
+  "id": "troubleshooting-ferments",
+  "slug": "troubleshooting-ferments",
+  "title": "Troubleshooting: Kahm Yeast, Mould, and Off-Smells",
+  "subtitle": "A visual guide to what's normal, what's harmless, and what means you should start over",
+  "lastUpdated": "2026-03-09",
+  "infobox": {
+    "title": "Fermentation Troubleshooting",
+    "image": {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Mold_on_Bread.jpg",
+      "caption": "Fuzzy, coloured mould — one of the few reasons to discard a ferment",
+      "attribution": "Wikimedia Commons, CC BY-SA 3.0"
+    },
+    "facts": [
+      { "label": "Most common issue", "value": "Kahm yeast (harmless)" },
+      { "label": "Most serious issue", "value": "True mould (fuzzy, coloured)" },
+      { "label": "Biggest cause", "value": "Vegetables above brine line" },
+      { "label": "Best prevention", "value": "Keep submerged, use correct salt" },
+      { "label": "Golden rule", "value": "Trust your nose" }
+    ]
+  },
+  "tableOfContents": true,
+  "sections": [
+    {
+      "id": "intro",
+      "type": "paragraph",
+      "content": "The overwhelming majority of lacto-fermentation problems are cosmetic, not dangerous [cite:c1]. Lacto-fermented vegetables have a remarkably safe track record — there are virtually no documented cases of botulism from properly made fermented vegetables [cite:c2]. But that doesn't mean things always look or smell the way you expect, especially for first-time fermenters. This guide helps you distinguish between the normal, the harmless-but-ugly, and the genuinely problematic."
+    },
+    {
+      "id": "golden-rules",
+      "type": "callout",
+      "style": "info",
+      "title": "The Three Golden Rules",
+      "content": "1. If it smells putrid (like rotting meat), discard it.\n2. If it has fuzzy, coloured mould, discard it (or remove the mould and everything within 3cm if it's only on top).\n3. If it smells sour, funky, yeasty, or 'fermented' — even if it looks weird — it's almost certainly fine. Taste a small amount to confirm."
+    },
+    {
+      "id": "kahm-yeast",
+      "type": "heading",
+      "level": 2,
+      "content": "Kahm Yeast: The Most Common \"Problem\""
+    },
+    {
+      "id": "kahm-text",
+      "type": "paragraph",
+      "content": "Kahm yeast is a collective name for several species of film-forming yeasts (Pichia, Candida, Hansenula, and others) that can appear on the surface of ferments. It looks like a thin white or cream-coloured film, sometimes with wrinkles or a velvety texture. It is NOT mould, and it is NOT harmful [cite:c1]."
+    },
+    {
+      "id": "kahm-vs-mould",
+      "type": "table",
+      "caption": "Kahm yeast vs. mould — how to tell them apart",
+      "headers": ["Property", "Kahm Yeast", "True Mould"],
+      "rows": [
+        ["Appearance", "Thin, flat film. White to cream coloured. May wrinkle like skin on hot milk.", "Fuzzy, raised, three-dimensional. Can be white, green, black, blue, pink, or orange."],
+        ["Texture", "Smooth, filmy, can be scooped off as a sheet", "Fuzzy, fibrous, hair-like. Penetrates into food below."],
+        ["Smell", "Yeasty, bready, sometimes slightly off but not unpleasant", "Musty, earthy, or distinctly \"mouldy\". Can be pungent."],
+        ["Location", "Only on the liquid surface", "Can grow on exposed food surfaces, jar walls, or under the brine (rare)"],
+        ["Dangerous?", "No. Cosmetic only. May affect flavour if left for weeks.", "Potentially. Some moulds produce mycotoxins."],
+        ["Action", "Skim off. Continue fermenting. Taste — if it tastes good, it is good.", "Remove mould + 3cm of surrounding food. If extensive, discard entire batch."]
+      ]
+    },
+    {
+      "id": "kahm-prevent",
+      "type": "callout",
+      "style": "tip",
+      "title": "Preventing Kahm Yeast",
+      "content": "Kahm yeast needs oxygen to grow, so the best prevention is minimising surface exposure:\n• Keep vegetables fully submerged under brine\n• Use a weight to hold vegetables down\n• Minimise headspace in jars\n• Use an airlock lid if available [[article:role-of-carbon-dioxide]]\n• Check and skim every few days during active fermentation"
+    },
+    {
+      "id": "true-mould",
+      "type": "heading",
+      "level": 2,
+      "content": "True Mould: When to Worry"
+    },
+    {
+      "id": "mould-text",
+      "type": "paragraph",
+      "content": "True mould is fuzzy and usually coloured — green, black, blue, white (but fuzzy, not flat), pink, or orange. Unlike kahm yeast, mould is three-dimensional and looks like tiny hairs or fuzz. Moulds grow on surfaces exposed to air and don't tolerate acidic, anaerobic conditions. If mould appears, it almost always means part of the food was above the brine line [cite:c3]."
+    },
+    {
+      "id": "mould-action",
+      "type": "list",
+      "ordered": true,
+      "items": [
+        "**Small amount on surface only**: Remove the mould and all food within 3cm of it. If the rest of the ferment is submerged, smells properly sour, and tastes good — it's safe to continue. The acidic brine below is inhospitable to mould.",
+        "**Extensive mould (covers more than 25% of surface)**: Discard the entire batch. The risk of flavour contamination is too high.",
+        "**Mould under the brine**: This is extremely rare and indicates a serious contamination. Discard everything.",
+        "**Black mould**: Always discard. Black moulds (Aspergillus, Stachybotrys) can produce harmful mycotoxins."
+      ]
+    },
+    {
+      "id": "off-smells",
+      "type": "heading",
+      "level": 2,
+      "content": "Off-Smells: Your Nose Is Your Best Tool"
+    },
+    {
+      "id": "smells-table",
+      "type": "table",
+      "caption": "Fermentation smells decoded",
+      "headers": ["Smell", "Normal?", "Cause", "Action"],
+      "rows": [
+        ["Sour / tangy", "Yes, this is the goal", "Lactic acid production", "Enjoy! This is fermentation working correctly."],
+        ["Funky / pungent", "Yes, common", "Complex organic acids, especially in brine-heavy ferments", "Normal. Will mellow with age. Common in kimchi, kanji [[recipe:kanji-rice]]."],
+        ["Yeasty / bready", "Yes, especially early on", "Yeast activity, common in sugar-rich ferments", "Normal. Common in tepache [[recipe:tepache-pineapple]] and ginger bug [[recipe:ginger-bug-starter]]."],
+        ["Sulfurous / eggy", "Sometimes, briefly", "Sulfur compounds from brassicas (cabbage family)", "Normal for sauerkraut and kimchi in first 1–3 days. Should dissipate."],
+        ["Boozy / alcoholic", "Mildly, yes", "Ethanol from heterofermentative bacteria or yeasts", "Normal at low levels. Stronger in sweet ferments (tepache, fruit ferments)."],
+        ["Cheesy / sweaty", "Sometimes", "Butyric acid from some bacteria", "Borderline. If mild and ferment tastes OK, it's fine. If overwhelming, may indicate slow or stalled fermentation."],
+        ["Putrid / rotting meat", "NO — never", "Proteolytic bacteria breaking down proteins", "DISCARD. This indicates spoilage, not fermentation."],
+        ["Nail polish / paint thinner", "NO", "Excessive acetic acid or ethyl acetate", "Indicates acetic acid bacteria contamination (aerobic). Discard or use as cleaning vinegar."]
+      ]
+    },
+    {
+      "id": "texture-problems",
+      "type": "heading",
+      "level": 2,
+      "content": "Texture Problems"
+    },
+    {
+      "id": "texture-table",
+      "type": "table",
+      "caption": "Common texture issues and their causes",
+      "headers": ["Problem", "Likely Cause", "Prevention", "Fixable?"],
+      "rows": [
+        ["Mushy vegetables", "Too little salt, too warm, or over-fermented", "Use 2–2.5% salt. Ferment below 28 °C. Taste daily from day 7. [[article:salt-and-fermentation]]", "No — once mushy, always mushy. Edible but different texture."],
+        ["Slimy brine", "Leuconostoc producing exopolysaccharides (dextran)", "Normal in early stages. Will clear as L. plantarum takes over.", "Yes — wait. Usually resolves by day 5–7."],
+        ["Hollow pickles", "Cucumbers left too long between harvest and fermentation", "Ferment within 24 hours of harvest. Use small, firm cucumbers.", "No — cosmetic only. Still safe and tasty."],
+        ["Pink/red discolouration", "Rhodotorula yeast (on onions/garlic) or natural anthocyanins", "Usually harmless. Common with onions [[recipe:lacto-red-onions]].", "If yeast: skim. If natural pigment: enjoy the colour."],
+        ["Floating vegetables", "CO₂ trapped in vegetable cells", "Use a weight. Burp jars daily during peak gas production [[article:role-of-carbon-dioxide]].", "Yes — push down and re-weight. Vegetables will eventually stay submerged."]
+      ]
+    },
+    {
+      "id": "too-salty",
+      "type": "heading",
+      "level": 2,
+      "content": "Too Salty or Not Sour Enough?"
+    },
+    {
+      "id": "too-salty-text",
+      "type": "paragraph",
+      "content": "These are flavour issues, not safety issues:"
+    },
+    {
+      "id": "flavour-fixes",
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "**Too salty**: Rinse before eating. Or add to cooking (the salt integrates into the dish). Next time, use less salt [[article:salt-and-fermentation]]. Excess salt also slows fermentation, so it may just need more time.",
+        "**Not sour enough**: Give it more time. At Bengaluru temperatures, most ferments need at least 7–10 days to develop noticeable sourness. If after 2 weeks there's no sourness, the salt may be too high, the vegetables may have been very clean (low LAB population), or the temperature may be too low.",
+        "**Too sour**: Refrigerate immediately to halt fermentation. Mix with fresh ingredients to dilute. Use in cooking where the sourness becomes a flavour component. Next time, taste daily and refrigerate when you hit the sourness level you like.",
+        "**Bitter**: Can occur with certain vegetables (endive, radicchio) or if the ferment included too many seeds or stems. Not a safety issue. Bitterness often mellows with longer fermentation."
+      ]
+    },
+    {
+      "id": "when-to-discard",
+      "type": "heading",
+      "level": 2,
+      "content": "The Definitive \"Discard It\" Checklist"
+    },
+    {
+      "id": "discard-callout",
+      "type": "callout",
+      "style": "warning",
+      "title": "Throw It Out If...",
+      "content": "• It smells like rotting meat, garbage, or sewage (putrid)\n• It has extensive fuzzy mould (especially black or green)\n• It smells like nail polish remover or paint thinner\n• The vegetables have turned into complete slime with no structure\n• It makes you gag — trust the instinct your ancestors gave you\n\nWhen in doubt, throw it out. Salt and vegetables are cheap. Your gut health is not."
+    },
+    {
+      "id": "prevention",
+      "type": "heading",
+      "level": 2,
+      "content": "Prevention Checklist"
+    },
+    {
+      "id": "prevention-list",
+      "type": "list",
+      "ordered": true,
+      "items": [
+        "**Use the right salt**: Non-iodised, 2–2.5% for dry-salt, 3–5% for brine [[article:salt-and-fermentation]].",
+        "**Keep vegetables submerged**: This is the single most important thing. Use a weight, a zip-lock bag filled with brine, or a cabbage leaf pressed on top.",
+        "**Leave headspace**: 3–5cm between the brine and the jar rim. Ferments expand during active CO₂ production [[article:role-of-carbon-dioxide]].",
+        "**Use clean jars**: Wash with hot water and soap. Sterilisation isn't necessary (you're encouraging bacteria, after all) but cleanliness matters.",
+        "**Use fresh produce**: Fresher vegetables carry healthier LAB populations. Wilted or damaged produce has higher counts of spoilage organisms.",
+        "**Avoid iodised salt**: It inhibits LAB and can prevent fermentation entirely.",
+        "**Keep out of direct sunlight**: UV light can kill surface bacteria (including the ones you want).",
+        "**Taste frequently**: Your palate is your best quality control. If it tastes good at any point, it IS good."
+      ]
+    }
+  ],
+  "citations": [
+    {
+      "id": "c1",
+      "text": "Katz, Sandor Ellix. The Art of Fermentation.",
+      "source": "Chelsea Green Publishing",
+      "author": "Sandor Ellix Katz",
+      "year": 2012,
+      "license": "Book"
+    },
+    {
+      "id": "c2",
+      "text": "Fred Breidt et al. \"Safety of Fermented Vegetables.\" Food Microbiology: Fundamentals and Frontiers.",
+      "source": "ASM Press",
+      "author": "Fred Breidt, Roger F. McFeeters, Ilenys Pérez-Díaz",
+      "year": 2013,
+      "license": "Academic"
+    },
+    {
+      "id": "c3",
+      "text": "Shockey, Kirsten and Christopher. Fermented Vegetables.",
+      "source": "Storey Publishing",
+      "author": "Kirsten and Christopher Shockey",
+      "year": 2014,
+      "license": "Book"
+    }
+  ],
+  "seeAlso": {
+    "articles": ["how-lacto-fermentation-works", "ph-levels-fermentation", "salt-and-fermentation", "role-of-carbon-dioxide"],
+    "recipes": ["sauerkraut-classic", "brine-pickles-basic", "kanji-rice", "kkakdugi-radish"],
+    "tools": ["ph-reference"]
+  },
+  "tags": ["troubleshooting", "safety", "mould", "kahm-yeast", "smells", "texture"]
+}

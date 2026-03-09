@@ -20,6 +20,8 @@ const ToolsViewComponent = {
     }
   },
 
+  emits: ['open-wiki'],
+
   data() {
     return {
       activeTab: null,
@@ -359,45 +361,22 @@ const ToolsViewComponent = {
         </div>
       </div>
 
-      <!-- Glossary Tab -->
+      <!-- Glossary Tab (now redirects to Wiki) -->
       <div v-show="activeTab === 'glossary'">
         <div class="bg-bg-card dark:bg-dark-card rounded-2xl shadow-warm-lg border border-bg-secondary/50 dark:border-dark-secondary overflow-hidden">
-          <div class="bg-accent-aged/10 dark:bg-accent-aged/5 px-6 py-4 border-b border-accent-aged/20">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <span class="text-2xl">📖</span>
-                <div>
-                  <h3 class="font-serif text-xl text-text-primary dark:text-dark-text">Cultural Glossary</h3>
-                  <p class="text-sm text-text-muted dark:text-dark-text-secondary">Fermentation terms from around the world</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Search -->
-          <div class="px-5 py-3 border-b border-bg-secondary dark:border-dark-secondary">
-            <div class="relative">
-              <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          <div class="px-6 py-12 text-center">
+            <span class="text-4xl mb-4 block">📖</span>
+            <h3 class="font-serif text-xl text-text-primary dark:text-dark-text mb-2">Glossary Has Moved to the Wiki</h3>
+            <p class="text-sm text-text-secondary dark:text-dark-text-secondary mb-6 max-w-md mx-auto">
+              All fermentation terms — from Kimjang to Kahm Yeast — now live in richly detailed wiki articles with citations, images, and cross-links to recipes.
+            </p>
+            <button @click="$emit('open-wiki')"
+              class="inline-flex items-center gap-2 px-5 py-2.5 bg-accent-brine/10 hover:bg-accent-brine/20 text-accent-aged dark:text-accent-brine rounded-xl text-sm font-medium transition-colors border border-accent-brine/20">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
               </svg>
-              <input v-model="glossarySearch" type="text" placeholder="Search terms..."
-                class="w-full pl-10 pr-4 py-2 rounded-xl bg-bg-secondary dark:bg-dark-secondary text-text-primary dark:text-dark-text placeholder-text-muted border border-transparent focus:border-accent-aged focus:outline-none transition-all text-sm"
-              />
-            </div>
-          </div>
-
-          <!-- Terms List -->
-          <div class="divide-y divide-bg-secondary/50 dark:divide-dark-secondary max-h-[60vh] overflow-y-auto">
-            <div v-for="item in filteredGlossary" :key="item.term" class="px-6 py-4">
-              <div class="flex items-center gap-2 mb-1">
-                <h4 class="font-serif text-base text-text-primary dark:text-dark-text">{{ item.term }}</h4>
-                <span class="text-xs font-medium text-text-muted bg-bg-secondary dark:bg-dark-secondary rounded-full px-2 py-0.5">{{ item.origin }}</span>
-              </div>
-              <p class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed">{{ item.def }}</p>
-            </div>
-            <div v-if="filteredGlossary.length === 0" class="px-6 py-8 text-center">
-              <p class="text-text-muted">No matching terms found.</p>
-            </div>
+              Open the Wiki
+            </button>
           </div>
         </div>
       </div>

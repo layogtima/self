@@ -1,0 +1,200 @@
+{
+  "id": "salt-and-fermentation",
+  "slug": "salt-and-fermentation",
+  "title": "Salt and Its Role in Fermentation",
+  "subtitle": "The gatekeeper that decides which bacteria flourish and which perish",
+  "lastUpdated": "2026-03-09",
+  "infobox": {
+    "title": "Salt in Fermentation",
+    "image": {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/7/78/Salt_shaker_on_white_background.jpg",
+      "caption": "Non-iodised salt — the single most important ingredient in lacto-fermentation after the food itself",
+      "attribution": "Wikimedia Commons, CC0"
+    },
+    "facts": [
+      { "label": "Chemical formula", "value": "NaCl (sodium chloride)" },
+      { "label": "Typical concentration", "value": "2–5% by weight" },
+      { "label": "Primary role", "value": "Selective pressure for LAB", "link": "lactic-acid-bacteria" },
+      { "label": "Secondary roles", "value": "Osmosis, texture preservation, flavour" },
+      { "label": "Avoid", "value": "Iodised salt (inhibits fermentation)" },
+      { "label": "Best types", "value": "Rock salt, sea salt, kosher salt" }
+    ]
+  },
+  "tableOfContents": true,
+  "sections": [
+    {
+      "id": "intro",
+      "type": "paragraph",
+      "content": "Salt is not merely a flavouring agent in lacto-fermentation — it is the master controller of the entire process [cite:c1]. At the right concentration (typically 2–5% by weight of the food), salt creates an environment where lactic acid bacteria thrive while most spoilage organisms and pathogens are suppressed. It draws water from vegetable cells by osmosis, creating the brine that submerges food and maintains anaerobic conditions. It preserves the crunch of vegetables by slowing enzyme-driven softening. And yes, it tastes good too."
+    },
+    {
+      "id": "how-salt-works",
+      "type": "heading",
+      "level": 2,
+      "content": "How Salt Controls Fermentation"
+    },
+    {
+      "id": "salt-mechanisms",
+      "type": "paragraph",
+      "content": "Salt influences fermentation through three interconnected mechanisms [cite:c2]:"
+    },
+    {
+      "id": "salt-mechanisms-list",
+      "type": "list",
+      "ordered": true,
+      "items": [
+        "**Selective pressure**: LAB are naturally more salt-tolerant than most competing bacteria. At 2–3% salt, LAB grow normally while many spoilage bacteria (Pseudomonas, Enterobacter, etc.) are severely inhibited or killed. This gives LAB a head start in colonising the food [[article:lactic-acid-bacteria]].",
+        "**Osmotic extraction**: Salt draws water out of plant cells through osmosis. In dry-salt methods (like sauerkraut [[recipe:sauerkraut-classic]]), this creates the brine the food ferments in. The more you massage salted vegetables, the more cell walls break down and liquid is released.",
+        "**Enzyme inhibition**: Salt slows the activity of pectinases — enzymes that break down pectin, the structural compound that keeps vegetables crisp. This is why properly salted fermented pickles stay crunchy while under-salted ones turn mushy."
+      ]
+    },
+    {
+      "id": "how-much",
+      "type": "heading",
+      "level": 2,
+      "content": "How Much Salt to Use"
+    },
+    {
+      "id": "how-much-text",
+      "type": "paragraph",
+      "content": "The amount of salt is typically expressed as a percentage of the food's weight. Getting this right is one of the most important skills in fermentation [cite:c1]."
+    },
+    {
+      "id": "how-much-table",
+      "type": "table",
+      "caption": "Salt concentration guide for different fermentation methods",
+      "headers": ["Method", "Salt %", "Example", "Notes"],
+      "rows": [
+        ["Dry-salt (vegetable weight)", "2.0–2.5%", "Sauerkraut: 20g salt per 1kg cabbage [[recipe:sauerkraut-classic]]", "Salt is massaged directly into shredded/chopped vegetables. The released liquid becomes the brine."],
+        ["Brine soak (water weight)", "3.0–5.0%", "Whole pickles: 30–50g salt per 1L water [[recipe:brine-pickles-basic]]", "Vegetables are submerged in a pre-made brine. Higher salt for whole vegetables (slower penetration)."],
+        ["Heavy brine (preservation)", "5.0–10.0%", "Preserved lemons: 60–100g per 1L [[recipe:preserved-lemons-salt]]", "Very slow fermentation. More about preservation than probiotic benefit."],
+        ["No-salt fermentation", "0%", "Some experimental ferments", "Possible but risky. No selective pressure for LAB. Much higher spoilage risk. Not recommended for beginners."]
+      ]
+    },
+    {
+      "id": "too-much-too-little",
+      "type": "callout",
+      "style": "warning",
+      "title": "The Goldilocks Zone",
+      "content": "Too little salt (below 1.5%): Spoilage bacteria and yeasts may outcompete LAB. Higher risk of mushy textures and off-flavours. Faster but less controlled fermentation.\n\nToo much salt (above 5% for dry-salt): Even LAB are inhibited. Fermentation is extremely slow or may not start at all. The result will be very salty and may need rinsing before eating.\n\nFor beginners: 2% dry-salt or 3.5% brine is nearly foolproof at Bengaluru temperatures."
+    },
+    {
+      "id": "types-of-salt",
+      "type": "heading",
+      "level": 2,
+      "content": "Types of Salt for Fermentation"
+    },
+    {
+      "id": "types-table",
+      "type": "table",
+      "caption": "Salt types and their suitability for fermentation",
+      "headers": ["Salt Type", "Suitable?", "Notes", "Availability in Bengaluru"],
+      "rows": [
+        ["Rock salt (Sendha namak / Saindhav)", "Excellent", "Pure NaCl, no additives. The traditional Indian choice for pickling (achaar).", "Every kirana store. Very cheap."],
+        ["Sea salt (unrefined)", "Excellent", "Contains trace minerals. Slightly more complex flavour. May have slight colour.", "Supermarkets, organic stores."],
+        ["Kosher salt", "Excellent", "Coarse flake, no additives. Dissolves well. Popular in Western fermentation recipes.", "Gourmet stores, online."],
+        ["Pink Himalayan salt", "Good", "Contains iron and trace minerals (the pink colour). Works perfectly fine.", "Widely available. More expensive than rock salt for no fermentation benefit."],
+        ["Table salt (iodised)", "AVOID", "Iodine is an antimicrobial — it can inhibit LAB growth and slow or prevent fermentation. Anti-caking agents can cloud brine.", "Ubiquitous. The one salt to NOT use."],
+        ["Black salt (Kala namak)", "Use sparingly", "Contains sulfur compounds. Strong egg-like flavour. Can overpower ferments.", "Common in Indian stores. Good for specific recipes only."]
+      ]
+    },
+    {
+      "id": "iodine-detail",
+      "type": "heading",
+      "level": 3,
+      "content": "Why Iodised Salt Kills Fermentation"
+    },
+    {
+      "id": "iodine-text",
+      "type": "paragraph",
+      "content": "Iodine (added to table salt as potassium iodate or potassium iodide) is an antimicrobial agent — that's why it's added to salt in the first place, to prevent goiter by ensuring dietary iodine intake. In fermentation, this antimicrobial property works against you: it suppresses the very bacteria you're trying to cultivate [cite:c3]. The effect is dose-dependent — a tiny amount might slow fermentation, while a full dose can prevent it entirely. Additionally, anti-caking agents (like calcium silicate) in table salt can make brine cloudy, though this is purely cosmetic."
+    },
+    {
+      "id": "dry-vs-brine",
+      "type": "heading",
+      "level": 2,
+      "content": "Dry-Salt vs. Brine Method"
+    },
+    {
+      "id": "methods-text",
+      "type": "paragraph",
+      "content": "The two fundamental salting methods in lacto-fermentation serve different purposes and work best with different types of vegetables [cite:c1]:"
+    },
+    {
+      "id": "methods-table",
+      "type": "table",
+      "caption": "Dry-salt vs. brine method comparison",
+      "headers": ["Property", "Dry-Salt", "Brine"],
+      "rows": [
+        ["How it works", "Salt is mixed directly with shredded/chopped vegetables and massaged until liquid is released", "Vegetables are submerged in a pre-made salt water solution"],
+        ["Best for", "Leafy, shredable vegetables: cabbage, carrots, radishes, onions", "Whole or large-cut vegetables: cucumbers, green beans, cauliflower, chillies"],
+        ["Brine source", "The vegetable's own juices, drawn out by salt", "Prepared separately by dissolving salt in water"],
+        ["Typical salt %", "2–2.5% of vegetable weight", "3–5% of water weight"],
+        ["Control", "Less precise — depends on how much water the vegetable releases", "More precise — you control the exact brine concentration"],
+        ["Texture", "Softer, more broken-down. Good for condiments.", "Firmer, more intact. Good for whole pickles."],
+        ["Examples", "Sauerkraut [[recipe:sauerkraut-classic]], curtido [[recipe:curtido-salvadoran]], kimchi", "Dill pickles [[recipe:brine-pickles-basic]], pickled turnips [[recipe:pickled-turnips-lift]], whole chillies"]
+      ]
+    },
+    {
+      "id": "calculating",
+      "type": "heading",
+      "level": 2,
+      "content": "Calculating Salt Amounts"
+    },
+    {
+      "id": "calculating-text",
+      "type": "paragraph",
+      "content": "Use the Brine Calculator tool in this app for precise calculations. Here are the basic formulas:"
+    },
+    {
+      "id": "calculating-callout",
+      "type": "callout",
+      "style": "info",
+      "title": "Quick Salt Math",
+      "content": "Dry-salt: Weight of vegetable × desired % = salt needed\nExample: 1000g cabbage × 0.02 (2%) = 20g salt\n\nBrine: Weight of water × desired % = salt needed\nExample: 1000g (1L) water × 0.035 (3.5%) = 35g salt\n\nRemember: weigh your salt, don't measure by volume. Different salt types have very different densities. 1 tablespoon of fine table salt weighs ~18g, while 1 tablespoon of coarse rock salt weighs ~12g."
+    },
+    {
+      "id": "salt-and-time",
+      "type": "heading",
+      "level": 2,
+      "content": "How Salt Affects Fermentation Speed"
+    },
+    {
+      "id": "salt-time-text",
+      "type": "paragraph",
+      "content": "Higher salt concentrations slow fermentation because even salt-tolerant LAB grow more slowly under higher osmotic pressure. This is sometimes desirable — slower ferments develop more complex flavours. At Bengaluru's warm temperatures [[article:temperature-and-fermentation]], using the higher end of recommended salt ranges (2.5% dry-salt or 4% brine) can help prevent overly rapid fermentation."
+    }
+  ],
+  "citations": [
+    {
+      "id": "c1",
+      "text": "Katz, Sandor Ellix. The Art of Fermentation.",
+      "source": "Chelsea Green Publishing",
+      "author": "Sandor Ellix Katz",
+      "year": 2012,
+      "license": "Book"
+    },
+    {
+      "id": "c2",
+      "text": "Hutkins, Robert W. Microbiology and Technology of Fermented Foods.",
+      "source": "Wiley-Blackwell",
+      "author": "Robert W. Hutkins",
+      "year": 2006,
+      "license": "Book"
+    },
+    {
+      "id": "c3",
+      "text": "Shockey, Kirsten and Christopher. Fermented Vegetables.",
+      "source": "Storey Publishing",
+      "author": "Kirsten and Christopher Shockey",
+      "year": 2014,
+      "license": "Book"
+    }
+  ],
+  "seeAlso": {
+    "articles": ["how-lacto-fermentation-works", "ph-levels-fermentation", "temperature-and-fermentation", "troubleshooting-ferments"],
+    "recipes": ["sauerkraut-classic", "brine-pickles-basic", "preserved-lemons-salt", "curtido-salvadoran", "kkakdugi-radish"],
+    "tools": ["brine-calculator"]
+  },
+  "tags": ["science", "salt", "technique", "brine", "safety"]
+}

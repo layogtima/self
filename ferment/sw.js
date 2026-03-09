@@ -3,7 +3,7 @@
  * Offline-first caching strategy
  */
 
-const CACHE_NAME = 'ferment-v2';
+const CACHE_NAME = 'ferment-v3';
 const STATIC_ASSETS = [
   './',
   './index.html',
@@ -26,8 +26,12 @@ const STATIC_ASSETS = [
   './js/components/BatchScaler.js',
   './js/components/TimerManager.js',
   './js/components/ToolsView.js',
+  './js/components/WikiView.js',
+  './js/components/WikiArticle.js',
   './js/components/WelcomePage.js',
+  './js/wiki.js',
   './data/recipes/manifest.json',
+  './data/wiki/manifest.json',
   './manifest.json',
   './assets/icons/favicon.svg',
 ];
