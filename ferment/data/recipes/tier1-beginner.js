@@ -378,6 +378,393 @@ window.__fermentRecipes.push(
       { title: 'Kanji (food) — Wikipedia', url: 'https://en.wikipedia.org/wiki/Kanji_(food)', license: 'CC BY-SA' },
       { title: 'Fermented Rice Water Microbial Diversity, Frontiers in Microbiology, 2019', url: 'https://www.frontiersin.org/articles/10.3389/fmicb.2019.02369/full', license: 'Open Access' }
     ]
+  },
+
+  // ─── 6. BRINE PICKLES ─────────────────────────────────────────────────────────
+  {
+    id: 'brine-pickles-basic',
+    slug: 'brine-pickles-basic',
+    name: 'Brine Pickles',
+    nameLocal: null,
+    nameRomanized: null,
+    subtitle: 'Any vegetable, saltwater, time — the universal lacto-ferment',
+    category: 'vegetable',
+    subcategory: 'mixed-vegetables',
+    technique: 'brine',
+    region: 'Global',
+    country: null,
+    countryCode: null,
+    culturalGroup: 'Eastern European / Global',
+    difficulty: 1,
+    tier: 'beginner',
+    tierLabel: 'Literally Just Add Salt',
+    prepTime: '15 min',
+    fermentTimeMin: 3,
+    fermentTimeMax: 14,
+    fermentTimeUnit: 'days',
+    totalTimeHuman: '3–14 days',
+    blrNote: 'KR Market is your playground — cucumbers, carrots, beans, cauliflower, radish, all dirt cheap and year-round. At BLR\'s 25°C, expect half-sours in 3 days, full sours by day 7. Use rock salt from any kirana store.',
+    seasonality: ['all'],
+    ingredients: [
+      { name: 'Mixed vegetables', nameLocal: 'Sabzi', amount: 500, unit: 'g', unitMetric: '500g', category: 'produce', essential: true, substitutions: ['Any firm vegetable — cucumber, carrot, beans, cauliflower, radish, turnip'], localAvailability: { IN: { ease: 'easy', where: 'KR Market, any sabziwala — ₹20–60/kg depending on vegetable' } } },
+      { name: 'Non-iodised salt', nameLocal: 'Saindhav Namak', amount: 30, unit: 'g (for 3% brine)', unitMetric: '30g per litre', category: 'salt', essential: true, substitutions: ['Sea salt'], localAvailability: { IN: { ease: 'easy', where: 'Any kirana store' } } },
+      { name: 'Water (unchlorinated)', nameLocal: null, amount: 1, unit: 'litre', unitMetric: '1L', category: 'liquid', essential: true, substitutions: [], localAvailability: { IN: { ease: 'easy', where: 'Filtered or boiled-and-cooled tap water' } } },
+      { name: 'Garlic cloves (optional)', nameLocal: 'Lahsun / Bellulli', amount: 3, unit: 'cloves, peeled', unitMetric: '10g', category: 'flavouring', essential: false, substitutions: [], localAvailability: { IN: { ease: 'easy', where: 'Any market' } } },
+      { name: 'Dill or mustard seeds (optional)', nameLocal: 'Rai / Sasive', amount: 1, unit: 'tsp', unitMetric: '3g', category: 'spice', essential: false, substitutions: ['Bay leaf, peppercorns, dried chilli'], localAvailability: { IN: { ease: 'easy', where: 'Any kirana — mustard seeds are a South Indian pantry staple' } } }
+    ],
+    equipment: [
+      { name: 'Glass jar (1L+)', essential: true, notes: 'Wide-mouth preferred for packing vegetables' },
+      { name: 'Weight to keep vegetables submerged', essential: true, notes: 'Small zip-lock bag filled with brine, or a clean stone' }
+    ],
+    tldr: 'Dissolve salt in water. Submerge any vegetables. Wait. The simplest fermentation technique in existence.',
+    steps: [
+      { step: 1, title: 'Make the brine', instruction: 'Dissolve 30g non-iodised salt in 1 litre of unchlorinated water. Stir until fully dissolved. This gives you a 3% brine — the sweet spot for most vegetable ferments.', duration: '2 min', tips: ['3% is mild and crisp. Go to 5% for longer storage or softer vegetables like cucumbers.', 'Taste the brine — it should taste like pleasant seawater, not aggressively salty'], checkpoint: 'Clear brine, salt fully dissolved' },
+      { step: 2, title: 'Prepare vegetables', instruction: 'Wash vegetables. Cut into uniform pieces — spears, coins, or florets. Keep sizes consistent so they ferment evenly. Add optional garlic, mustard seeds, or other aromatics to the jar first.', duration: '10 min', tips: ['Cucumbers: cut off blossom end (contains enzymes that soften pickles)', 'Carrots and beans: leave whole or halve lengthwise', 'Cauliflower: break into small florets'], checkpoint: 'Uniform vegetable pieces ready to pack' },
+      { step: 3, title: 'Pack and submerge', instruction: 'Pack vegetables tightly into the jar. Pour brine over until vegetables are fully submerged with 2–3cm of brine above them. Place a weight on top to keep everything under the brine.', duration: '5 min', tips: ['Tight packing prevents vegetables from floating above the brine', 'Leave 3–4cm headspace above the brine for bubbling'], checkpoint: 'All vegetables submerged under brine with weight in place' },
+      { step: 4, title: 'Ferment', instruction: 'Cover loosely (cloth or loose lid — gas needs to escape). Leave at room temperature away from direct sun. In BLR, taste daily from day 3. Half-sour by day 3–4, full sour by day 7–10.', duration: '3–14 days', tips: ['Bubbles forming within 24–48 hours means fermentation is active', 'Brine will turn cloudy — this is normal and good', 'Skim any white film (kahm yeast) from the surface — harmless but tastes yeasty'], checkpoint: 'Vegetables taste pleasantly sour and tangy' },
+      { step: 5, title: 'Refrigerate', instruction: 'When vegetables reach your preferred sourness, seal the jar and refrigerate. Cold slows fermentation nearly to a halt.', duration: null, tips: ['Keeps 2–3 months in the fridge', 'The brine is drinkable and deeply probiotic — don\'t discard it'], checkpoint: 'Tangy, crunchy, sour pickles in cold storage' }
+    ],
+    images: { hero: null, heroAttribution: null },
+    culturalContext: {
+      story: 'Brine pickling is arguably the oldest food preservation technique after drying. Before refrigeration, before canning, before any technology at all — humans discovered that saltwater keeps food from spoiling. Every civilisation with access to salt independently developed some version of brine fermentation.',
+      historicalNote: 'Archaeological evidence of brine-pickled cucumbers dates to 2030 BCE in Mesopotamia. The word "pickle" derives from the Dutch "pekel" (brine). Cleopatra attributed her beauty to pickles. Roman soldiers carried them on campaigns.',
+      significance: 'Brine pickles are the template for all lacto-fermentation. If you understand this technique — salt + water + submersion + time — you understand the principle behind sauerkraut, kimchi, and most vegetable ferments. This is fermentation at its most elemental.',
+      relatedTraditions: ['Sauerkraut (German dry-salt)', 'Torshi (Persian/Middle Eastern pickles)', 'Tsukemono (Japanese salt pickles)', 'Indian achaar (oil-based preservation, different technique)'],
+      funFact: 'New York City\'s Lower East Side was once the pickle capital of America. In the early 1900s, pickle vendors sold brine-fermented cucumbers from barrels on the street. The famous "pickle guys" of Essex Street still operate today.'
+    },
+    thingsToAccountFor: [
+      { title: 'Vegetables floating above brine', description: 'Anything above the brine will mould. Always use a weight. A zip-lock bag filled with brine works perfectly — if it leaks, it\'s just more brine.', severity: 'important', appliesTo: ['all'] },
+      { title: 'Soft or mushy pickles', description: 'Over-fermentation or too-warm conditions can soften vegetables. In BLR summers, check earlier and refrigerate sooner. Adding grape leaves, oak leaves, or a pinch of calcium chloride helps maintain crunch.', severity: 'info', appliesTo: ['blr'] },
+      { title: 'Salt concentration matters', description: '3% is standard. Below 2%, harmful bacteria can outcompete lactobacillus. Above 5%, fermentation slows significantly. Measure by weight, not volume.', severity: 'important', appliesTo: ['all'] }
+    ],
+    dehydratorIntegration: {
+      applicable: true,
+      method: 'Drain vegetables, slice thinly, dehydrate at 40°C for 8–12 hours.',
+      result: 'Sour vegetable chips — tangy, crunchy, deeply flavoured snack.',
+      shelfLife: '4–6 months airtight',
+      tips: ['Carrot and beet pickles dehydrate especially well', 'Cucumber pickles become chewy rather than crunchy — still delicious']
+    },
+    variations: [
+      { name: 'Deli-style dill pickles', description: 'Cucumbers in 5% brine with dill, garlic, mustard seeds, and peppercorns. The classic American deli pickle.', region: 'American / Eastern European' },
+      { name: 'Indian-spiced brine pickles', description: 'Add mustard seeds, curry leaves, green chillies, and turmeric to the brine. Familiar spice profile, unfamiliar technique.', region: 'India / Fusion' },
+      { name: 'Quick pickled beans', description: 'French beans in 3% brine with garlic. Ready in 3–4 days. Snappy, sour, addictive.', region: 'Global' }
+    ],
+    relatedRecipes: ['sauerkraut-classic', 'pickled-turnips-lift', 'kimchi-baechu'],
+    tags: ['beginner', 'versatile', 'probiotic', 'global', 'year-round', 'vegan', 'blr-friendly'],
+    dietaryFlags: ['gluten-free', 'vegan'],
+    veganAdaptable: true,
+    containsAllergens: [],
+    sources: [{ title: 'Pickling — Wikipedia', url: 'https://en.wikipedia.org/wiki/Pickling', license: 'CC BY-SA' }]
+  },
+
+  // ─── 7. SWITCHEL ──────────────────────────────────────────────────────────────
+  {
+    id: 'switchel-drinking-vinegar',
+    slug: 'switchel-drinking-vinegar',
+    name: 'Switchel',
+    nameLocal: null,
+    nameRomanized: null,
+    subtitle: 'The original energy drink — ginger, vinegar, and sweetness',
+    category: 'beverage',
+    subcategory: 'drinking-vinegar',
+    technique: 'mixed-ferment',
+    region: 'North America',
+    country: 'United States',
+    countryCode: 'US',
+    culturalGroup: 'American Colonial',
+    difficulty: 1,
+    tier: 'beginner',
+    tierLabel: 'Literally Just Add Salt',
+    prepTime: '10 min',
+    fermentTimeMin: 1,
+    fermentTimeMax: 3,
+    fermentTimeUnit: 'days',
+    totalTimeHuman: '1–3 days (or drink immediately)',
+    blrNote: 'Perfect for BLR\'s warm weather. Apple cider vinegar (Bragg\'s or local brands) is at Nature\'s Basket, Namdhari\'s, or any supermarket. Use jaggery instead of maple syrup — it\'s cheaper, local, and adds a gorgeous caramel depth. Fresh ginger from any sabziwala.',
+    seasonality: ['all'],
+    ingredients: [
+      { name: 'Fresh ginger', nameLocal: 'Adrak / Shunti', amount: 50, unit: 'g, grated or sliced', unitMetric: '50g', category: 'produce', essential: true, substitutions: [], localAvailability: { IN: { ease: 'easy', where: 'Any sabziwala or KR Market' } } },
+      { name: 'Apple cider vinegar (with mother)', nameLocal: null, amount: 3, unit: 'tbsp', unitMetric: '45ml', category: 'vinegar', essential: true, substitutions: ['Any raw, unpasteurised vinegar'], localAvailability: { IN: { ease: 'moderate', where: 'Nature\'s Basket, Namdhari\'s, Amazon India — Bragg\'s or local brands like WOW' } } },
+      { name: 'Jaggery (or honey)', nameLocal: 'Bella / Gur', amount: 3, unit: 'tbsp', unitMetric: '45g', category: 'sweetener', essential: true, substitutions: ['Honey (raw, unprocessed)', 'Maple syrup (imported, expensive)'], localAvailability: { IN: { ease: 'easy', where: 'Any kirana store — jaggery is ₹40–80/kg' } } },
+      { name: 'Water', nameLocal: null, amount: 1, unit: 'litre', unitMetric: '1L', category: 'liquid', essential: true, substitutions: [], localAvailability: { IN: { ease: 'easy', where: 'Filtered water' } } },
+      { name: 'Lime juice (optional)', nameLocal: 'Nimbu ras', amount: 1, unit: 'tbsp', unitMetric: '15ml', category: 'flavouring', essential: false, substitutions: ['Lemon juice'], localAvailability: { IN: { ease: 'easy', where: 'Any market' } } }
+    ],
+    equipment: [
+      { name: 'Glass jar or bottle (1L+)', essential: true, notes: null },
+      { name: 'Strainer', essential: false, notes: 'For removing ginger bits before serving' }
+    ],
+    tldr: 'Ginger + vinegar + jaggery + water. Stir, infuse, drink. An 18th-century sports drink that actually works.',
+    steps: [
+      { step: 1, title: 'Combine ingredients', instruction: 'Grate or thinly slice the ginger. In a jar, combine ginger, apple cider vinegar, and jaggery (or honey). Add a splash of warm water and stir until jaggery dissolves.', duration: '5 min', tips: ['Grating the ginger releases more flavour faster than slicing', 'If using jaggery, crumble it fine for faster dissolving'], checkpoint: 'Jaggery dissolved, gingery-vinegary liquid' },
+      { step: 2, title: 'Add water and mix', instruction: 'Add the remaining water (room temperature or cold). Stir well. Taste and adjust — more jaggery for sweetness, more vinegar for tang, more ginger for heat.', duration: '2 min', tips: ['The balance should be: refreshing, slightly sweet, tangy, with a ginger kick', 'Start conservative with vinegar — you can always add more'], checkpoint: 'Balanced, drinkable, tangy-sweet liquid' },
+      { step: 3, title: 'Infuse or ferment (optional)', instruction: 'You can drink immediately, but for best flavour, refrigerate for 24 hours to let ginger infuse. For a lightly fermented version, leave at room temperature for 1–3 days (the ACV mother will create slight carbonation).', duration: '0–3 days', tips: ['Room temperature fermentation at BLR temps develops fizz within 24 hours if the ACV has a live mother', 'If fermenting, burp the jar daily to release gas'], checkpoint: 'Either a fresh gingery drink or a lightly fizzy, tangy tonic' },
+      { step: 4, title: 'Strain and serve', instruction: 'Strain out the ginger bits. Serve cold over ice. Add lime juice if desired. Dilute further if too concentrated.', duration: '2 min', tips: ['Excellent as a post-exercise rehydration drink', 'Mix with soda water for a sparkling switchel'], checkpoint: 'Clear, golden, refreshing drink' }
+    ],
+    images: { hero: null, heroAttribution: null },
+    culturalContext: {
+      story: 'Switchel was the Gatorade of 18th and 19th century America. Farmers making hay in the blazing summer heat drank switchel by the gallon to stay hydrated, replace electrolytes, and keep cool. It was so associated with harvest time that it earned the nickname "haymaker\'s punch."',
+      historicalNote: 'The drink likely originated in the Caribbean, where ginger, vinegar, and molasses were all readily available. It migrated to colonial America and became a staple of farm life. Some historians trace the concept further back to Roman posca (vinegar water given to soldiers).',
+      significance: 'Switchel is a reminder that humans have been making functional beverages for centuries. The combination of ginger (anti-inflammatory, digestive), vinegar (probiotic if raw, mineral absorption), and natural sweetener (quick energy) is genuinely effective — not just tradition for tradition\'s sake.',
+      relatedTraditions: ['Shrub (fruit drinking vinegar, Colonial American)', 'Posca (Roman soldier\'s vinegar drink)', 'Nimbu pani (Indian lemon water)', 'Jal jeera (Indian spiced drink)'],
+      funFact: 'During the American Revolution, switchel was provided to troops as a standard ration. Benjamin Franklin reportedly drank it daily. The drink is experiencing a hipster revival in Brooklyn — at 10x the price of making it at home.'
+    },
+    thingsToAccountFor: [
+      { title: 'ACV quality matters', description: 'Use raw, unfiltered apple cider vinegar "with the mother" for any probiotic benefit. Clear, pasteurised vinegar adds sourness but no live cultures.', severity: 'important', appliesTo: ['all'] },
+      { title: 'Too acidic on empty stomach', description: 'Switchel is acidic. If you have acid reflux or a sensitive stomach, dilute more and don\'t drink on an empty stomach.', severity: 'info', appliesTo: ['all'] },
+      { title: 'BLR jaggery substitution', description: 'Jaggery works beautifully in place of molasses or maple syrup. Use dark jaggery (unrefined) for a deeper, more complex flavour.', severity: 'info', appliesTo: ['blr'] }
+    ],
+    dehydratorIntegration: {
+      applicable: false,
+      method: null,
+      result: null,
+      shelfLife: null,
+      tips: []
+    },
+    variations: [
+      { name: 'Turmeric switchel', description: 'Add 1 tsp ground turmeric or 1 tbsp grated fresh turmeric. Anti-inflammatory powerhouse. BLR pantry natural.', region: 'Fusion / India' },
+      { name: 'Kokum switchel', description: 'Replace ACV with kokum concentrate + a splash of lime. A Konkan-coastal twist on the colonial recipe.', region: 'India / Fusion' },
+      { name: 'Sparkling switchel', description: 'Make concentrated, then dilute with cold soda water just before serving. Refreshing and fizzy.', region: 'Modern' }
+    ],
+    relatedRecipes: ['ginger-bug-starter', 'tepache-pineapple'],
+    tags: ['beginner', 'beverage', 'quick', 'probiotic-adjacent', 'year-round', 'vegan', 'blr-friendly'],
+    dietaryFlags: ['gluten-free', 'vegan'],
+    veganAdaptable: true,
+    containsAllergens: [],
+    sources: [{ title: 'Switchel — Wikipedia', url: 'https://en.wikipedia.org/wiki/Switchel', license: 'CC BY-SA' }]
+  },
+
+  // ─── 8. FERMENTED SALSA ───────────────────────────────────────────────────────
+  {
+    id: 'fermented-salsa',
+    slug: 'fermented-salsa',
+    name: 'Fermented Salsa',
+    nameLocal: 'Salsa Lactofermentada',
+    nameRomanized: null,
+    subtitle: 'Mexican salsa gone probiotic — tomato, chili, cilantro, alive',
+    category: 'condiment',
+    subcategory: 'salsa',
+    technique: 'dry-salt',
+    region: 'Latin America',
+    country: 'Mexico',
+    countryCode: 'MX',
+    culturalGroup: 'Mexican',
+    difficulty: 1,
+    tier: 'beginner',
+    tierLabel: 'Literally Just Add Salt',
+    prepTime: '15 min',
+    fermentTimeMin: 2,
+    fermentTimeMax: 3,
+    fermentTimeUnit: 'days',
+    totalTimeHuman: '2–3 days',
+    blrNote: 'Tomatoes, green chillies, onions, and coriander — all abundant year-round in BLR. This is your existing chutney ingredients, rearranged Mexican-style and fermented. At 25°C, 2 days is usually perfect.',
+    seasonality: ['all'],
+    ingredients: [
+      { name: 'Ripe tomatoes', nameLocal: 'Tamatar / Thakkali', amount: 4, unit: 'medium, diced', unitMetric: '400g', category: 'produce', essential: true, substitutions: ['Cherry tomatoes (sweeter, more concentrated)'], localAvailability: { IN: { ease: 'easy', where: 'Any sabziwala, KR Market — ₹20–40/kg' } } },
+      { name: 'Green chillies', nameLocal: 'Hari mirch / Hasiru menasinakayi', amount: 2, unit: 'finely chopped', unitMetric: '10g', category: 'produce', essential: true, substitutions: ['Jalapeño (milder)', 'Bird\'s eye chilli (hotter)'], localAvailability: { IN: { ease: 'easy', where: 'Any market — Indian green chillies are perfect' } } },
+      { name: 'Onion', nameLocal: 'Pyaz / Eerulli', amount: 1, unit: 'small, finely diced', unitMetric: '80g', category: 'produce', essential: true, substitutions: ['Shallots', 'Spring onion'], localAvailability: { IN: { ease: 'easy', where: 'Any market' } } },
+      { name: 'Fresh coriander (cilantro)', nameLocal: 'Dhania / Kottambari soppu', amount: 1, unit: 'small bunch, chopped', unitMetric: '30g', category: 'produce', essential: true, substitutions: [], localAvailability: { IN: { ease: 'easy', where: 'Any market — ₹5–10 per bunch' } } },
+      { name: 'Lime juice', nameLocal: 'Nimbu ras', amount: 1, unit: 'tbsp', unitMetric: '15ml', category: 'flavouring', essential: false, substitutions: ['Lemon juice'], localAvailability: { IN: { ease: 'easy', where: 'Any market' } } },
+      { name: 'Non-iodised salt', nameLocal: 'Rock salt', amount: 1, unit: 'tsp', unitMetric: '6g', category: 'salt', essential: true, substitutions: [], localAvailability: { IN: { ease: 'easy', where: 'Any kirana' } } },
+      { name: 'Garlic', nameLocal: 'Lahsun / Bellulli', amount: 2, unit: 'cloves, minced', unitMetric: '8g', category: 'produce', essential: false, substitutions: [], localAvailability: { IN: { ease: 'easy', where: 'Any market' } } }
+    ],
+    equipment: [
+      { name: 'Glass jar (500ml–1L)', essential: true, notes: 'Wide-mouth for easy packing' },
+      { name: 'Mixing bowl', essential: true, notes: null }
+    ],
+    tldr: 'Dice tomatoes, chillies, onion, cilantro. Salt. Pack in a jar. 2 days later: probiotic salsa with a deep, complex tang.',
+    steps: [
+      { step: 1, title: 'Dice and combine', instruction: 'Dice tomatoes, finely chop chillies and onion, mince garlic, and roughly chop coriander. Combine in a bowl.', duration: '10 min', tips: ['Smaller dice = more surface area = faster, more even fermentation', 'Reserve a sprig of coriander for garnish after fermentation'], checkpoint: 'Chunky, colourful salsa mix in bowl' },
+      { step: 2, title: 'Salt and mix', instruction: 'Add salt and optional lime juice. Mix thoroughly. The salt will draw moisture from the tomatoes within minutes.', duration: '3 min', tips: ['Taste the salsa before fermenting — it should taste well-seasoned (slightly salty is fine, it mellows)', 'The lime juice adds flavour but isn\'t necessary for fermentation'], checkpoint: 'Juicy salsa mixture, tomato liquid pooling' },
+      { step: 3, title: 'Pack the jar', instruction: 'Transfer to a clean glass jar. Press down firmly so the salsa\'s own liquid rises to cover it. If needed, add a splash of brine (1 tsp salt in ½ cup water) to ensure coverage.', duration: '3 min', tips: ['Pack tightly — air pockets invite mould', 'Leave 3cm headspace for bubbling'], checkpoint: 'Salsa submerged under its own liquid' },
+      { step: 4, title: 'Ferment', instruction: 'Cover loosely. Leave at room temperature for 2–3 days. You\'ll see bubbles forming — this is active lacto-fermentation. Taste daily.', duration: '2–3 days', tips: ['In BLR\'s warmth, 2 days usually produces a perfect balance of fresh and fermented', 'The flavour will deepen — more complex, tangier, slightly effervescent', 'If it starts to smell boozy or yeasty, it\'s gone too long — refrigerate immediately'], checkpoint: 'Bubbling, tangy salsa with depth beyond fresh' },
+      { step: 5, title: 'Refrigerate and serve', instruction: 'Once you like the flavour, seal and refrigerate. Add fresh coriander on top. Serve with tortilla chips, on tacos, or — perfectly — with idli, dosa, or rice.', duration: null, tips: ['Keeps 2 weeks refrigerated', 'The tang gets more pronounced over time — it won\'t stay "mild"'], checkpoint: 'Complex, living salsa ready for any meal' }
+    ],
+    images: { hero: null, heroAttribution: null },
+    culturalContext: {
+      story: 'Salsa has pre-Columbian roots — the Aztecs combined tomatoes, chillies, and squash seeds into sauces long before Europeans arrived. The word "salsa" is simply Spanish for "sauce." While most modern salsa is eaten fresh, lacto-fermentation adds depth, complexity, and beneficial bacteria — transforming a condiment into a living food.',
+      historicalNote: 'Tomatoes, chillies, and coriander were all domesticated in the Americas. The global spread of salsa-like condiments happened after the Columbian Exchange. Today, salsa outsells ketchup in the United States.',
+      significance: 'Fermented salsa bridges Mexican and Indian kitchens beautifully. The ingredient overlap — tomatoes, green chillies, coriander, onion — is almost identical to Indian chutney. The only difference is technique: Indian chutneys are ground, Mexican salsas are chunky. Fermenting either adds probiotic value.',
+      relatedTraditions: ['Pico de gallo (fresh, unfermented)', 'Indian tomato chutney (ground, cooked)', 'Zhug (Yemeni green chilli sauce)', 'Sambal (Southeast Asian chilli paste)'],
+      funFact: 'Americans consume over 800 million dollars worth of salsa annually. In 1991, salsa overtook ketchup as America\'s top-selling condiment — a shift food historians call "the salsa moment."'
+    },
+    thingsToAccountFor: [
+      { title: 'Tomato quality matters', description: 'Use ripe, flavourful tomatoes — not the pale, underripe ones. Better tomatoes = better salsa. Desi tomatoes from KR Market often have more flavour than hybrid varieties.', severity: 'info', appliesTo: ['blr'] },
+      { title: 'Fast ferment in BLR heat', description: 'At 28–30°C in summer, this can ferment aggressively. Start checking at 36 hours. The line between "perfectly tangy" and "too sour" is narrow.', severity: 'info', appliesTo: ['blr'] },
+      { title: 'Texture softens', description: 'Fermentation breaks down cell walls. If you want some crunch, ferment only 1–2 days. After 3+ days, it becomes more sauce-like.', severity: 'info', appliesTo: ['all'] }
+    ],
+    dehydratorIntegration: {
+      applicable: true,
+      method: 'Spread fermented salsa thinly on parchment-lined trays. Dehydrate at 45°C for 10–14 hours until brittle.',
+      result: 'Tangy salsa leather or powder — grind into a seasoning for rice, popcorn, or rub for grilled vegetables.',
+      shelfLife: '3–4 months airtight',
+      tips: ['Blend smooth before dehydrating for even drying', 'Makes an incredible spice powder when ground']
+    },
+    variations: [
+      { name: 'Roasted fermented salsa', description: 'Char tomatoes and chillies over a gas flame before dicing. Adds smoky depth to the fermented tang.', region: 'Mexico' },
+      { name: 'Mango salsa (fermented)', description: 'Replace half the tomato with diced raw mango. Sweet-sour-spicy. Mangoes in season (Apr–Jun) make this outstanding.', region: 'Fusion / India' },
+      { name: 'Salsa verde fermentada', description: 'Use tomatillos instead of tomatoes if available (check Nature\'s Basket or grow your own). Tangier, greener.', region: 'Mexico' }
+    ],
+    relatedRecipes: ['fermented-green-chutney', 'lacto-hot-sauce'],
+    tags: ['beginner', 'quick', 'condiment', 'probiotic', 'mexican', 'year-round', 'vegan', 'blr-friendly'],
+    dietaryFlags: ['gluten-free', 'vegan'],
+    veganAdaptable: true,
+    containsAllergens: [],
+    sources: [{ title: 'Salsa (sauce) — Wikipedia', url: 'https://en.wikipedia.org/wiki/Salsa_(sauce)', license: 'CC BY-SA' }]
+  },
+
+  // ─── 9. PICKLED TURNIPS (LIFT) ────────────────────────────────────────────────
+  {
+    id: 'pickled-turnips-lift',
+    slug: 'pickled-turnips-lift',
+    name: 'Pickled Turnips (Lift)',
+    nameLocal: 'لفت مخلل',
+    nameRomanized: 'Lift Mkhallal',
+    subtitle: 'Lebanon\'s electric-pink pickled turnips',
+    category: 'vegetable',
+    subcategory: 'root-vegetable',
+    technique: 'brine',
+    region: 'Middle East',
+    country: 'Lebanon',
+    countryCode: 'LB',
+    culturalGroup: 'Levantine',
+    difficulty: 1,
+    tier: 'beginner',
+    tierLabel: 'Literally Just Add Salt',
+    prepTime: '15 min',
+    fermentTimeMin: 5,
+    fermentTimeMax: 10,
+    fermentTimeUnit: 'days',
+    totalTimeHuman: '5–10 days',
+    blrNote: 'Turnips (shalgam) available at KR Market, Hopcoms, and larger sabziwalas — they\'re a winter staple but available most of the year in BLR. Beetroot is always available and cheap. At BLR temperatures, expect a good ferment in 5–7 days.',
+    seasonality: ['all'],
+    ingredients: [
+      { name: 'Turnips', nameLocal: 'Shalgam', amount: 500, unit: 'g, peeled and cut into sticks or wedges', unitMetric: '500g', category: 'produce', essential: true, substitutions: ['Radish (mooli) — different flavour but works with the technique'], localAvailability: { IN: { ease: 'moderate', where: 'KR Market, Hopcoms, Nature\'s Basket — more available in winter months (Nov–Feb)' } } },
+      { name: 'Beetroot', nameLocal: 'Beetroot / Beet', amount: 1, unit: 'small, peeled and sliced', unitMetric: '80g', category: 'produce', essential: true, substitutions: [], localAvailability: { IN: { ease: 'easy', where: 'Any market — ₹20–30/kg' } } },
+      { name: 'Non-iodised salt', nameLocal: 'Rock salt', amount: 30, unit: 'g', unitMetric: '30g', category: 'salt', essential: true, substitutions: [], localAvailability: { IN: { ease: 'easy', where: 'Any kirana' } } },
+      { name: 'Water', nameLocal: null, amount: 1, unit: 'litre', unitMetric: '1L', category: 'liquid', essential: true, substitutions: [], localAvailability: { IN: { ease: 'easy', where: 'Filtered water' } } },
+      { name: 'Garlic cloves (optional)', nameLocal: 'Lahsun', amount: 2, unit: 'cloves, halved', unitMetric: '8g', category: 'flavouring', essential: false, substitutions: [], localAvailability: { IN: { ease: 'easy', where: 'Any market' } } }
+    ],
+    equipment: [
+      { name: 'Glass jar (1L)', essential: true, notes: 'Wide-mouth for packing turnip sticks' },
+      { name: 'Weight to keep vegetables submerged', essential: true, notes: 'Small zip-lock bag with brine, or a plate' }
+    ],
+    tldr: 'Turnip sticks + a slice of beetroot + salt brine = shocking pink pickles that every Lebanese table considers essential.',
+    steps: [
+      { step: 1, title: 'Prepare the brine', instruction: 'Dissolve 30g non-iodised salt in 1 litre of water. Stir until clear.', duration: '2 min', tips: ['This is approximately a 3% brine — the standard for most vegetable ferments'], checkpoint: 'Clear brine, salt dissolved' },
+      { step: 2, title: 'Cut the vegetables', instruction: 'Peel turnips and cut into sticks (about finger-width) or wedges. Peel the beetroot and slice into thin rounds or chunks.', duration: '10 min', tips: ['The beetroot is primarily for colour — you don\'t need much', 'Wear gloves when handling beetroot unless you want pink fingers for a day'], checkpoint: 'Turnip sticks and beetroot slices ready' },
+      { step: 3, title: 'Pack the jar', instruction: 'Place beetroot slices at the bottom and interspersed through the jar. Pack turnip sticks vertically (standing up). Add garlic if using. Pour brine over until everything is submerged.', duration: '5 min', tips: ['Vertical packing keeps turnips submerged more easily', 'Leave 3cm headspace'], checkpoint: 'Jar packed with turnips and beet, submerged in brine' },
+      { step: 4, title: 'Ferment', instruction: 'Cover loosely. Leave at room temperature away from sun. The brine will turn pink within hours as beetroot bleeds. Taste from day 5.', duration: '5–10 days', tips: ['The colour transformation is dramatic — brine goes from clear to vivid pink within 24 hours', 'In BLR, 5–7 days usually produces the right balance of crunch and sourness', 'Bubbles indicate active fermentation — normal and good'], checkpoint: 'Shocking pink brine, turnips are sour-tangy and still slightly crunchy' },
+      { step: 5, title: 'Refrigerate', instruction: 'When turnips are tangy and still have some crunch, seal and refrigerate. The pink deepens over time.', duration: null, tips: ['Keeps 2–3 months refrigerated', 'The brine is also delicious — use it in salad dressings or as a probiotic shot'], checkpoint: 'Vibrant pink pickled turnips, ready to serve' }
+    ],
+    images: { hero: null, heroAttribution: null },
+    culturalContext: {
+      story: 'In Lebanon, Syria, and across the Levant, no shawarma stand, falafel shop, or family table is complete without a jar of bright pink pickled turnips. They\'re called "lift" (لفت) — Arabic for turnip — and their shocking magenta colour (from beetroot) makes them one of the most visually striking ferments in any cuisine.',
+      historicalNote: 'Vegetable pickling in brine has been practiced in the Levant for thousands of years. The region\'s hot, dry climate made preservation essential. Turnips, being a hardy root vegetable that stores well and grows in poor soil, became a natural candidate for fermentation.',
+      significance: 'Lift demonstrates how a single addition — beetroot for colour — can elevate a simple pickle into something iconic. The technique is identical to basic brine pickles, but the result looks and feels completely different. It\'s a masterclass in how presentation transforms food culture.',
+      relatedTraditions: ['Torshi (Persian mixed pickles)', 'Turşu (Turkish pickles)', 'Indian gajar-shalgam achaar (carrot-turnip pickle)', 'Kisela repa (Balkan pickled turnips)'],
+      funFact: 'The pink colour of lift is so associated with Lebanese cuisine that food bloggers call it "Lebanese pink." The colour comes from betalain pigments in beetroot — the same compounds that make beet juice a natural dye used in cosmetics and food colouring.'
+    },
+    thingsToAccountFor: [
+      { title: 'Turnip availability in BLR', description: 'Turnips are most abundant November–February but available sporadically year-round. Ask your sabziwala or check Hopcoms. If unavailable, radish (mooli) works as an alternative.', severity: 'info', appliesTo: ['blr'] },
+      { title: 'Beetroot stains everything', description: 'Beetroot will stain hands, cutting boards, and countertops. Use a glass cutting board or line your workspace with newspaper. Wear old clothes.', severity: 'info', appliesTo: ['all'] },
+      { title: 'Don\'t over-ferment', description: 'Turnips go from crunchy-sour to mushy-sour faster than cucumbers. In BLR heat, check at day 5 and refrigerate when they still have some bite.', severity: 'info', appliesTo: ['blr'] }
+    ],
+    dehydratorIntegration: {
+      applicable: true,
+      method: 'Drain pickled turnips, slice thin, dehydrate at 40°C for 8–10 hours.',
+      result: 'Pink turnip chips — sour, earthy, stunning colour. Conversation-starter snack.',
+      shelfLife: '4 months airtight',
+      tips: ['The colour fades slightly when dehydrated but remains visibly pink', 'Sprinkle with za\'atar before dehydrating for extra flavour']
+    },
+    variations: [
+      { name: 'Spiced lift', description: 'Add a dried red chilli, bay leaf, and a few peppercorns to the brine. Subtle warmth behind the tang.', region: 'Levant' },
+      { name: 'Mooli lift (Indian fusion)', description: 'Use Indian radish (mooli) instead of turnip. Same beet-brine technique. The radish\'s peppery bite adds dimension.', region: 'India / Fusion' },
+      { name: 'Quick-pink pickled onions', description: 'Slice red onions, add a piece of beetroot, cover in the same brine. Ready in 3 days. Incredible on kebabs.', region: 'Modern / Fusion' }
+    ],
+    relatedRecipes: ['brine-pickles-basic', 'sauerkraut-classic'],
+    tags: ['beginner', 'brine', 'probiotic', 'middle-eastern', 'year-round', 'vegan', 'stunning'],
+    dietaryFlags: ['gluten-free', 'vegan'],
+    veganAdaptable: true,
+    containsAllergens: [],
+    sources: [{ title: 'Pickled turnips — Wikipedia', url: 'https://en.wikipedia.org/wiki/Pickled_turnip', license: 'CC BY-SA' }]
+  },
+
+  // ─── 10. FERMENTED GREEN CHUTNEY ──────────────────────────────────────────────
+  {
+    id: 'fermented-green-chutney',
+    slug: 'fermented-green-chutney',
+    name: 'Fermented Green Chutney',
+    nameLocal: 'ಹಸಿರು ಚಟ್ನಿ / हरी चटनी',
+    nameRomanized: 'Hari Chutney',
+    subtitle: 'Your everyday green chutney, upgraded with live cultures',
+    category: 'condiment',
+    subcategory: 'chutney',
+    technique: 'dry-salt',
+    region: 'South Asia',
+    country: 'India',
+    countryCode: 'IN',
+    culturalGroup: 'Pan-Indian',
+    difficulty: 1,
+    tier: 'beginner',
+    tierLabel: 'Literally Just Add Salt',
+    prepTime: '10 min',
+    fermentTimeMin: 2,
+    fermentTimeMax: 3,
+    fermentTimeUnit: 'days',
+    totalTimeHuman: '2–3 days',
+    blrNote: 'Coriander, mint, and green chillies — every BLR kitchen already has these. You make this chutney weekly anyway; now ferment it. Costs ₹15–20 for a batch from any sabziwala. At BLR\'s 25°C, 2 days is perfect.',
+    seasonality: ['all'],
+    ingredients: [
+      { name: 'Fresh coriander (cilantro)', nameLocal: 'Kottambari soppu / Dhania', amount: 2, unit: 'large bunches', unitMetric: '100g', category: 'produce', essential: true, substitutions: [], localAvailability: { IN: { ease: 'easy', where: 'Any sabziwala — ₹5–10 per bunch' } } },
+      { name: 'Fresh mint', nameLocal: 'Pudina', amount: 1, unit: 'bunch', unitMetric: '50g', category: 'produce', essential: true, substitutions: [], localAvailability: { IN: { ease: 'easy', where: 'Any market — often sold alongside coriander' } } },
+      { name: 'Green chillies', nameLocal: 'Hari mirch / Hasiru menasinakayi', amount: 3, unit: 'or to taste', unitMetric: '15g', category: 'produce', essential: true, substitutions: ['Serrano chillies', 'Adjust to taste — 1 for mild, 5+ for fiery'], localAvailability: { IN: { ease: 'easy', where: 'Any market' } } },
+      { name: 'Non-iodised salt', nameLocal: 'Saindhav Namak', amount: 1.5, unit: 'tsp', unitMetric: '9g', category: 'salt', essential: true, substitutions: [], localAvailability: { IN: { ease: 'easy', where: 'Any kirana' } } },
+      { name: 'Garlic (optional)', nameLocal: 'Bellulli / Lahsun', amount: 2, unit: 'cloves', unitMetric: '8g', category: 'produce', essential: false, substitutions: [], localAvailability: { IN: { ease: 'easy', where: 'Any market' } } },
+      { name: 'Lemon juice', nameLocal: 'Nimbu ras', amount: 1, unit: 'tbsp', unitMetric: '15ml', category: 'flavouring', essential: false, substitutions: ['Lime juice'], localAvailability: { IN: { ease: 'easy', where: 'Any market' } } }
+    ],
+    equipment: [
+      { name: 'Mixer grinder / blender', essential: true, notes: 'Every Indian kitchen has one' },
+      { name: 'Glass jar (250–500ml)', essential: true, notes: 'Small jar — this is a condiment, not a main course' }
+    ],
+    tldr: 'Grind coriander, mint, chilli, and salt into a paste. Jar it. Wait 2 days. Your regular green chutney, now alive.',
+    steps: [
+      { step: 1, title: 'Wash and prep', instruction: 'Wash coriander and mint thoroughly. Remove thick stems (thin stems are fine). Roughly chop. Deseed chillies for milder heat, or leave whole for full fire.', duration: '5 min', tips: ['Wash well — these come from open markets and carry soil bacteria (some of which you actually want for fermentation)', 'Dry the greens briefly in a salad spinner or towel — excess water dilutes the chutney'], checkpoint: 'Clean herbs, prepped chillies' },
+      { step: 2, title: 'Grind to paste', instruction: 'Blend coriander, mint, green chillies, salt, and optional garlic in a mixer grinder. Add minimal water — just enough to get the blades moving. You want a thick paste, not a liquid.', duration: '3 min', tips: ['Less water = thicker paste = better fermentation', 'Add lemon juice during grinding for brightness (optional at this stage)'], checkpoint: 'Thick, vibrant green paste' },
+      { step: 3, title: 'Pack the jar', instruction: 'Transfer the paste to a clean glass jar. Press down to remove air pockets. Leave 2cm headspace. Drizzle a thin layer of salt on top (optional, helps prevent surface mould).', duration: '2 min', tips: ['Pack tightly — air is the enemy of good fermentation', 'A thin layer of oil on top also helps seal against air'], checkpoint: 'Jar packed with dense green paste' },
+      { step: 4, title: 'Ferment', instruction: 'Cover loosely. Leave at room temperature for 2–3 days. The chutney will darken slightly and develop a tangy, complex flavour distinct from fresh chutney. Small bubbles may appear.', duration: '2–3 days', tips: ['Day 2 in BLR is usually the sweet spot — tangy but still fresh-tasting', 'The colour will shift from bright green to a deeper, olive green — normal', 'If it turns brown-black or smells off, discard — this means oxidation or contamination'], checkpoint: 'Slightly darker green, distinctly tangy, complex aroma' },
+      { step: 5, title: 'Refrigerate and use', instruction: 'Seal and refrigerate. Use as you would regular green chutney — with dosa, idli, pakora, sandwiches, chaat, or stirred into rice.', duration: null, tips: ['Keeps 2–3 weeks refrigerated (longer than fresh chutney)', 'The tang deepens over days — taste evolves', 'Stir before each use'], checkpoint: 'Living green chutney with probiotic tang' }
+    ],
+    images: { hero: null, heroAttribution: null },
+    culturalContext: {
+      story: 'Green chutney — coriander, mint, chilli, ground together — is the universal condiment of the Indian subcontinent. It appears at every chaat stall, alongside every dosa, inside every sandwich in Mumbai. Usually consumed fresh, it has a shelf life of just 2–3 days in the fridge. Fermenting it deliberately extends its life AND adds probiotic benefit — turning something ephemeral into something alive.',
+      historicalNote: 'The practice of grinding herbs with salt and fermenting them is ancient across South Asia. Before blenders, stone mortars (sil-batta) were used. The fermentation step was often unintentional — chutneys made in bulk would naturally ferment in warm weather. Many grandmothers\' "special flavour" was, unknowingly, lacto-fermentation.',
+      significance: 'This recipe is about reframing something you already make. Every Bangalorean household has green chutney in their routine. Adding a 2-day fermentation step requires no new skills, no new ingredients, no new equipment — just patience. It\'s the lowest-barrier entry point to fermentation for anyone in India.',
+      relatedTraditions: ['Zhug (Yemeni green chilli paste)', 'Chimichurri (Argentine herb sauce — unfermented)', 'Pesto (Italian basil paste — unfermented)', 'Sambal hijau (Malay green chilli paste)'],
+      funFact: 'In a 2018 food science study, lacto-fermented herb pastes showed 10x higher bioavailability of iron and zinc compared to fresh versions. The fermentation breaks down phytic acid — the same compound that makes spinach iron "less available" than it appears on paper.'
+    },
+    thingsToAccountFor: [
+      { title: 'Colour change is normal', description: 'Fermented green chutney will darken from bright green to olive-khaki. This is chlorophyll breaking down in the acidic environment. It\'s cosmetic, not harmful. Taste, don\'t judge by colour alone.', severity: 'info', appliesTo: ['all'] },
+      { title: 'Minimal water is key', description: 'Too much water in the paste invites contamination and weakens the ferment. The paste should be thick enough to hold its shape on a spoon.', severity: 'important', appliesTo: ['all'] },
+      { title: 'BLR summer speed', description: 'In April–May, when BLR hits 30°C+, this can over-ferment in 36 hours. Start checking early and refrigerate when tangy.', severity: 'info', appliesTo: ['blr'] }
+    ],
+    dehydratorIntegration: {
+      applicable: true,
+      method: 'Spread fermented chutney thinly on parchment. Dehydrate at 40°C for 8–10 hours. Crumble or powder.',
+      result: 'Fermented green chutney powder — tangy, herby, probiotic-adjacent seasoning for rice, raita, popcorn.',
+      shelfLife: '3–4 months airtight in a cool, dry place',
+      tips: ['Spread as thin as possible for even drying', 'Grind to powder and mix with salt for an incredible chutney salt']
+    },
+    variations: [
+      { name: 'Curry leaf fermented chutney', description: 'Add a handful of fresh curry leaves (karibevu) to the blend. Deepens the South Indian character.', region: 'South India' },
+      { name: 'Coconut green chutney (fermented)', description: 'Add 2 tbsp fresh grated coconut to the blend. Richer, more Karnataka-style. Ferments similarly.', region: 'Karnataka / Kerala' },
+      { name: 'Spicy fermented chutney', description: 'Double the green chillies. Add raw mango (when in season) for extra sour punch. Not for the faint-hearted.', region: 'India' }
+    ],
+    relatedRecipes: ['fermented-salsa', 'lacto-hot-sauce'],
+    tags: ['beginner', 'quick', 'condiment', 'probiotic', 'indian', 'year-round', 'vegan', 'blr-friendly', 'pantry-staple'],
+    dietaryFlags: ['gluten-free', 'vegan'],
+    veganAdaptable: true,
+    containsAllergens: [],
+    sources: [{ title: 'Chutney — Wikipedia', url: 'https://en.wikipedia.org/wiki/Chutney', license: 'CC BY-SA' }]
   }
 
 ); // end tier 1
