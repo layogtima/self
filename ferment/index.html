@@ -189,17 +189,26 @@
         <!-- Wiki Article (full-page view) -->
         <div v-else-if="currentRoute === 'wiki-article' && selectedWikiArticle">
           <wiki-article :article="selectedWikiArticle" :all-articles="wikiArticles" :all-recipes="allRecipes" :settings="settings"
+            :contextual-nav-active-tab="contextualNavActive"
             @close="closeWikiArticle" @open-article="openWikiArticle($event)"
-            @open-recipe="openRecipeFromWiki($event)">
+            @open-recipe="openRecipeFromWiki($event)"
+            @set-nav="setContextualNav($event.tabs, $event.active)"
+            @update-nav-active="contextualNavActive = $event"
+            @clear-nav="clearContextualNav()">
           </wiki-article>
         </div>
 
         <!-- Recipe Page (full-page view, replaces modal) -->
         <div v-else-if="currentRoute === 'recipe' && selectedRecipe">
           <recipe-page :recipe="selectedRecipe" :pantry="pantry" :recipe-notes="recipeNotes" :favorites="favorites"
-            :bookmarks="bookmarks" :settings="settings" @close="closeRecipe" @toggle-favorite="toggleFavorite($event)"
+            :bookmarks="bookmarks" :settings="settings"
+            :contextual-nav-active-tab="contextualNavActive"
+            @close="closeRecipe" @toggle-favorite="toggleFavorite($event)"
             @toggle-bookmark="toggleBookmark($event)" @update-notes="updateRecipeNotes($event)"
-            @start-batch="startBatch($event)" @add-to-pantry="addToPantry($event)">
+            @start-batch="startBatch($event)" @add-to-pantry="addToPantry($event)"
+            @set-nav="setContextualNav($event.tabs, $event.active)"
+            @update-nav-active="contextualNavActive = $event"
+            @clear-nav="clearContextualNav()">
           </recipe-page>
         </div>
 
@@ -257,6 +266,21 @@
           </p>
         </div>
       </footer>
+
+      <!-- Contextual Secondary Nav (screen-specific, fixed above main nav) -->
+      <nav v-if="contextualNavTabs.length > 0"
+        class="sm:hidden fixed bottom-14 left-0 right-0 z-30 bg-bg-primary/98 dark:bg-dark-primary/98 backdrop-blur-sm border-t border-bg-secondary dark:border-dark-secondary">
+        <div class="flex overflow-x-auto scrollbar-hide">
+          <button v-for="tab in contextualNavTabs" :key="tab.id"
+            @click="contextualNavActive = tab.id"
+            :class="['flex-1 py-2 px-3 text-xs font-medium text-center transition-all duration-200 border-b-2 whitespace-nowrap min-w-0',
+              contextualNavActive === tab.id
+                ? 'border-accent-brine text-accent-aged dark:text-accent-brine'
+                : 'border-transparent text-text-muted hover:text-text-secondary']">
+            {{ tab.label }}
+          </button>
+        </div>
+      </nav>
 
       <!-- Mobile Bottom Tab Bar -->
       <nav

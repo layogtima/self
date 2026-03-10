@@ -18,6 +18,20 @@ const app = createApp({
     const showSettings = ref(false);
     const searchQuery = ref('');
 
+    // ── Contextual (secondary) nav — screen-specific tabs above mobile nav ──
+    const contextualNavTabs = ref([]);
+    const contextualNavActive = ref('');
+
+    function setContextualNav(tabs, active) {
+      contextualNavTabs.value = tabs || [];
+      contextualNavActive.value = active || (tabs && tabs.length ? tabs[0].id : '');
+    }
+
+    function clearContextualNav() {
+      contextualNavTabs.value = [];
+      contextualNavActive.value = '';
+    }
+
     // ── Core state ──
     const settings = reactive({ ...stored.settings });
     const pantry = reactive(stored.pantry || []);
@@ -705,6 +719,10 @@ const app = createApp({
       openRecipeFromWiki,
       openChangelog,
       closeChangelog,
+      contextualNavTabs,
+      contextualNavActive,
+      setContextualNav,
+      clearContextualNav,
     };
   }
 });

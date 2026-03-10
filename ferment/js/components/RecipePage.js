@@ -13,9 +13,10 @@ const RecipePageComponent = {
     favorites: { type: Array, default: () => [] },
     bookmarks: { type: Array, default: () => [] },
     settings: { type: Object, default: () => ({}) },
+    contextualNavActiveTab: { type: String, default: '' },
   },
 
-  emits: ['close', 'toggle-favorite', 'toggle-bookmark', 'update-notes', 'start-batch', 'add-to-pantry'],
+  emits: ['close', 'toggle-favorite', 'toggle-bookmark', 'update-notes', 'start-batch', 'add-to-pantry', 'set-nav', 'update-nav-active', 'clear-nav'],
 
   data() {
     return {
@@ -28,6 +29,8 @@ const RecipePageComponent = {
       // Inline editing
       editMode: false,
       editingField: null,
+      // Internal flag to prevent watch loop when syncing tab from parent
+      _navFromProp: false,
     };
   },
 
@@ -124,21 +127,41 @@ const RecipePageComponent = {
           this.completedSteps = {};
           this.mobileTab = 'story';
           this.batchMultiplier = 1;
+          this.$nextTick(() => this._registerNav());
         }
       }
     },
     'settings.enableEditing'(enabled) {
       if (!enabled) { this.editMode = false; this.editingField = null; }
     },
+    mobileTab(newTab) {
+      if (!this._navFromProp) {
+        this.$emit('update-nav-active', newTab);
+      }
+    },
+    contextualNavActiveTab(newTab) {
+      if (newTab && newTab !== this.mobileTab && this.mobileTabs.some(t => t.id === newTab)) {
+        this._navFromProp = true;
+        this.mobileTab = newTab;
+        this._navFromProp = false;
+      }
+    },
   },
 
   mounted() {
     document.addEventListener('keydown', this.onKey);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    this._registerNav();
   },
-  beforeUnmount() { document.removeEventListener('keydown', this.onKey); },
+  beforeUnmount() {
+    document.removeEventListener('keydown', this.onKey);
+    this.$emit('clear-nav');
+  },
 
   methods: {
+    _registerNav() {
+      this.$emit('set-nav', { tabs: this.mobileTabs, active: this.mobileTab });
+    },
     onKey(e) { if (e.key === 'Escape') this.$emit('close'); },
     fmtDays(d) {
       if (typeof d !== 'number') return String(d);
@@ -632,15 +655,9 @@ const RecipePageComponent = {
       </div>
 
       <!-- ========== MOBILE: Tabbed vertical layout (<lg) ========== -->
-      <div class="lg:hidden">
-        <!-- Mobile Tab Navigation -->
-        <div class="flex border-b border-bg-secondary dark:border-dark-secondary overflow-x-auto scrollbar-hide -mx-4 px-4 mb-4">
-          <button v-for="tab in mobileTabs" :key="tab.id" @click="mobileTab = tab.id"
-            :class="['flex-1 py-3 px-3 text-sm font-medium text-center transition-all duration-200 border-b-2 -mb-px whitespace-nowrap',
-              mobileTab === tab.id ? 'border-accent-brine text-accent-aged dark:text-accent-brine' : 'border-transparent text-text-muted hover:text-text-secondary']">
-            {{ tab.label }}
-          </button>
-        </div>
+      <!-- The tab navigation is rendered globally as a contextual secondary nav above the main mobile nav -->
+      <div class="lg:hidden pb-10">
+        <!-- spacer for contextual nav bar above mobile nav -->
 
         <!-- MOBILE: Story Tab -->
         <div v-if="mobileTab === 'story'" class="space-y-6">

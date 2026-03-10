@@ -12,13 +12,27 @@ const WikiArticleComponent = {
     allArticles: { type: Array, default: () => [] },
     allRecipes: { type: Array, default: () => [] },
     settings: { type: Object, default: () => ({}) },
+    contextualNavActiveTab: { type: String, default: '' },
   },
 
-  emits: ['close', 'open-article', 'open-recipe'],
+  emits: ['close', 'open-article', 'open-recipe', 'set-nav', 'update-nav-active', 'clear-nav'],
 
   watch: {
     'settings.enableEditing'(enabled) {
       if (!enabled) { this.editMode = false; this.editingSectionIdx = null; this.editingHeaderField = null; }
+    },
+    article() {
+      this.$nextTick(() => this._registerNav());
+    },
+    contextualNavActiveTab(newTab) {
+      if (newTab === 'references') {
+        const el = document.getElementById('wiki-references');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        this.$emit('update-nav-active', newTab);
+      } else if (newTab === 'read') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        this.$emit('update-nav-active', newTab);
+      }
     },
   },
 
@@ -63,7 +77,22 @@ const WikiArticleComponent = {
     },
   },
 
+  mounted() {
+    this._registerNav();
+  },
+
+  beforeUnmount() {
+    this.$emit('clear-nav');
+  },
+
   methods: {
+    _registerNav() {
+      const hasCitations = (this.article.citations || []).length > 0;
+      const tabs = [{ id: 'read', label: 'Article' }];
+      if (hasCitations) tabs.push({ id: 'references', label: 'References' });
+      this.$emit('set-nav', { tabs, active: 'read' });
+    },
+
     renderText(text) {
       if (!text) return '';
       let html = this.escapeHtml(text);
@@ -530,7 +559,7 @@ const WikiArticleComponent = {
           </div>
 
           <!-- Bibliography -->
-          <div v-if="(article.citations && article.citations.length > 0) || editMode" class="mt-12 pt-8 border-t border-bg-secondary dark:border-dark-secondary">
+          <div id="wiki-references" v-if="(article.citations && article.citations.length > 0) || editMode" class="mt-12 pt-8 border-t border-bg-secondary dark:border-dark-secondary">
             <h2 class="font-serif text-2xl text-text-primary dark:text-dark-text mb-4">
               References
               <span v-if="isFieldEdited('citations')" class="inline-block w-2 h-2 bg-accent-brine rounded-full ml-1 align-middle"></span>
