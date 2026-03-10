@@ -95,6 +95,11 @@ const RecipePageComponent = {
     variations() { return this.recipe.variations || []; },
     relatedRecipes() { return this.recipe.relatedRecipes || this.recipe.related || []; },
     culturalContext() { return this.recipe.culturalContext || {}; },
+
+    shelfLife() {
+      const d = this.recipe.dehydratorIntegration || this.recipe.dehydrate || {};
+      return d.shelfLife || '';
+    },
   },
 
   watch: {
@@ -285,6 +290,7 @@ const RecipePageComponent = {
         <span v-if="recipe.technique" class="stat-pill capitalize">{{ recipe.technique }}</span>
         <span v-if="recipe.category" class="stat-pill capitalize">{{ recipe.category }}</span>
         <span v-if="recipe.seasonality" class="stat-pill capitalize">{{ Array.isArray(recipe.seasonality) ? recipe.seasonality.join(', ') : recipe.seasonality }}</span>
+        <span v-if="shelfLife" class="stat-pill">Keeps {{ shelfLife }}</span>
       </div>
 
       <!-- ========== DESKTOP: Two-column layout (lg+) ========== -->

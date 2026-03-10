@@ -178,7 +178,8 @@
   "dehydratorIntegration": {
     "applicable": true,
     "method": "Dehydrate the strained pineapple skins.",
-    "result": "Fermented pineapple \"leather\" bits—great for infusing into spirits."
+    "result": "Fermented pineapple \"leather\" bits—great for infusing into spirits.",
+    "shelfLife": "1 week refrigerated"
   },
   "variations": [
     {
