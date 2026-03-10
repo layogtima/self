@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="The Ferment Alchemist — An interactive fermentation game. Master the ancient art of fermentation through cooking, brewing, and mixing.">
+  <meta name="theme-color" content="#C4A35A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Ferment Alchemist">
+
+  <title>The Ferment Alchemist</title>
+
+  <link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            parchment: {
+              50: '#FDF8F0',
+              100: '#F5E6C8',
+              200: '#E8D5A8',
+              300: '#D4BC82',
+              400: '#C4A35A',
+              500: '#A8884A',
+              600: '#8B6B4A',
+              700: '#6B5344',
+              800: '#4A3828',
+              900: '#2C1810',
+            },
+            accent: {
+              brine: '#C4A35A',
+              ferment: '#D4553A',
+              culture: '#7B8F3A',
+              aged: '#8B6B4A',
+            },
+            dark: {
+              primary: '#1A1410',
+              secondary: '#241E18',
+              card: '#2E2620',
+            }
+          },
+          fontFamily: {
+            serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+            sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- Game CSS -->
+  <link rel="stylesheet" href="css/game.css?v=20260310">
+
+  <!-- Inline critical styles for loading state (before Tailwind loads) -->
+  <style>
+    body { margin: 0; font-family: 'DM Sans', system-ui, sans-serif; }
+    .game-loading {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; min-height: 100dvh;
+      background: #F5E6C8; color: #6B5344;
+      font-size: 1.125rem; text-align: center;
+    }
+    .dark .game-loading { background: #1A1410; color: #C4B5A3; }
+    .loading-pulse { animation: pulse 1.5s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+  </style>
+</head>
+
+<body>
+  <div id="game-app">
+    <!-- Loading state (shown before Vue mounts) -->
+    <div class="game-loading">
+      <div class="loading-pulse">
+        <div style="font-family: 'Instrument Serif', Georgia, serif; font-size: 2rem; margin-bottom: 0.5rem;">The Ferment Alchemist</div>
+        <div>Preparing your workshop...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vue 3 CDN -->
+  <script src="https://unpkg.com/vue@3.3.4/dist/vue.global.prod.js"></script>
+
+  <!-- Game Data -->
+  <script src="data/ingredients.js?v=20260310"></script>
+  <script src="data/techniques.js?v=20260310"></script>
+  <script src="data/vessels.js?v=20260310"></script>
+  <script src="data/orders.js?v=20260310"></script>
+  <script src="data/levels.js?v=20260310"></script>
+  <script src="data/scoring.js?v=20260310"></script>
+  <script src="data/cultures.js?v=20260310"></script>
+
+  <!-- Game Core -->
+  <script src="js/game-store.js?v=20260310"></script>
+  <script src="js/game-data.js?v=20260310"></script>
+  <script src="js/recipe-bridge.js?v=20260310"></script>
+  <script src="js/game-engine.js?v=20260310"></script>
+
+  <!-- Game Components -->
+  <script src="js/components/HelpOverlay.js?v=20260310"></script>
+  <script src="js/components/SettingsPanel.js?v=20260310"></script>
+  <script src="js/components/StartScreen.js?v=20260310"></script>
+  <script src="js/components/ModeSelect.js?v=20260310"></script>
+  <script src="js/components/OrderCard.js?v=20260310"></script>
+  <script src="js/components/IngredientPicker.js?v=20260310"></script>
+  <script src="js/components/TechniquePicker.js?v=20260310"></script>
+  <script src="js/components/VesselPicker.js?v=20260310"></script>
+  <script src="js/components/FermentationMonitor.js?v=20260310"></script>
+  <script src="js/components/ResultsScreen.js?v=20260310"></script>
+  <script src="js/components/ProgressionScreen.js?v=20260310"></script>
+  <script src="js/components/GameScreen.js?v=20260310"></script>
+  <script src="js/components/SandboxWorkbench.js?v=20260310"></script>
+  <script src="js/components/LlmMode.js?v=20260310"></script>
+
+  <!-- Game App Init -->
+  <script src="js/game-app.js?v=20260310"></script>
+</body>
+
+</html>

@@ -53,6 +53,7 @@ const ToolsViewComponent = {
         { id: 'converter', label: 'Unit Converter', emoji: '🔄', desc: 'Convert between weight, volume, and temperature', accent: 'accent-ferment' },
         { id: 'ph', label: 'pH Reference', emoji: '🧪', desc: 'Target pH ranges for safe fermentation', accent: 'accent-culture' },
         { id: 'calendar', label: 'Seasonal Calendar', emoji: '📅', desc: 'What to ferment and when throughout the year', accent: 'accent-culture' },
+        { id: 'game', label: 'The Ferment Alchemist', emoji: '🧪', desc: 'Test your fermentation knowledge in an interactive game', accent: 'accent-brine', isExternal: true },
       ];
     },
 
@@ -132,6 +133,10 @@ const ToolsViewComponent = {
 
   methods: {
     switchTool(id) {
+      if (id === 'game') {
+        window.location.href = 'games/';
+        return;
+      }
       this.toolError = null;
       this.activeTab = id;
     },

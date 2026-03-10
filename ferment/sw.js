@@ -3,7 +3,7 @@
  * Offline-first caching strategy
  */
 
-const CACHE_NAME = 'ferment-v7';
+const CACHE_NAME = 'ferment-v8';
 const STATIC_ASSETS = [
   './',
   './index.html',
@@ -42,6 +42,35 @@ const STATIC_ASSETS = [
   './manifest.json',
   './assets/icons/favicon.svg',
   './assets/images/shelf-of-fermented-foods.jpeg',
+  // Games module
+  './games/index.html',
+  './games/css/game.css',
+  './games/js/game-app.js',
+  './games/js/game-store.js',
+  './games/js/game-data.js',
+  './games/js/game-engine.js',
+  './games/js/recipe-bridge.js',
+  './games/data/ingredients.js',
+  './games/data/techniques.js',
+  './games/data/vessels.js',
+  './games/data/orders.js',
+  './games/data/levels.js',
+  './games/data/scoring.js',
+  './games/data/cultures.js',
+  './games/js/components/StartScreen.js',
+  './games/js/components/ModeSelect.js',
+  './games/js/components/GameScreen.js',
+  './games/js/components/OrderCard.js',
+  './games/js/components/IngredientPicker.js',
+  './games/js/components/TechniquePicker.js',
+  './games/js/components/VesselPicker.js',
+  './games/js/components/FermentationMonitor.js',
+  './games/js/components/ResultsScreen.js',
+  './games/js/components/ProgressionScreen.js',
+  './games/js/components/SandboxWorkbench.js',
+  './games/js/components/LlmMode.js',
+  './games/js/components/SettingsPanel.js',
+  './games/js/components/HelpOverlay.js',
 ];
 
 const CDN_ASSETS = [
