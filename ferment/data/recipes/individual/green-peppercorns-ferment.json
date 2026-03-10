@@ -146,5 +146,8 @@
       "type": "youtube"
     }
   ],
+  "dehydratorIntegration": {
+    "shelfLife": "6+ months in brine"
+  },
   "citations": []
 }

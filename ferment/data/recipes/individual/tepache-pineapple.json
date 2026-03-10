@@ -102,7 +102,8 @@
       "duration": "5 min",
       "tips": [
         "Do not scrub the skin with soap — the white dusty layer on the outside contains the wild yeasts that drive fermentation",
-        "Organic or unsprayed pineapple is ideal; if using conventional, a light rinse is enough"
+        "Organic or unsprayed pineapple is ideal; if using conventional, a light rinse is enough",
+        "Organic pineapple carries a richer population of wild yeast on its skin, which leads to a more vigorous and flavourful ferment"
       ]
     },
     {
@@ -112,7 +113,8 @@
       "duration": "5 min",
       "tips": [
         "Dissolve jaggery in warm water first, then let it cool before adding pineapple — hot water kills the wild yeasts on the skin",
-        "Mandya bella (jaggery) works identically to Mexican piloncillo and adds a rich mineral sweetness"
+        "Mandya bella (jaggery) works identically to Mexican piloncillo and adds a rich mineral sweetness",
+        "Make sure the water has cooled to below 35°C before combining — anything hotter will kill the wild yeasts on the pineapple skin and stall fermentation"
       ]
     },
     {
@@ -134,7 +136,8 @@
       "duration": "5 min",
       "tips": [
         "Use flip-top bottles and burp them twice daily for the first 2 days in the fridge — carbonation continues building",
-        "Serve over ice with a pinch of chilli powder and a squeeze of lime for the authentic Mexican street style"
+        "Serve over ice with a pinch of chilli powder and a squeeze of lime for the authentic Mexican street style",
+        "Leave at least 3cm of headroom in each bottle — carbonation continues building in the fridge and overfilled bottles can burst"
       ]
     }
   ],
@@ -178,7 +181,8 @@
   "dehydratorIntegration": {
     "applicable": true,
     "method": "Dehydrate the strained pineapple skins.",
-    "result": "Fermented pineapple \"leather\" bits—great for infusing into spirits."
+    "result": "Fermented pineapple \"leather\" bits—great for infusing into spirits.",
+    "shelfLife": "1 week refrigerated"
   },
   "variations": [
     {

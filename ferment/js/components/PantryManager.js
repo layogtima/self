@@ -23,10 +23,22 @@ const PantryManagerComponent = {
     return {
       searchQuery: '',
       showAddForm: false,
+      showAddDetails: false,
+      showEquipmentSuggestions: false,
       editingItemId: null,
       collapsedCategories: {},
       newItem: this.emptyItem(),
       editItem: null,
+      equipmentSuggestions: [
+        { name: 'Mason Jar (1L)', unit: 'pcs', description: 'Wide-mouth glass jar for most ferments' },
+        { name: 'Airlock Lid', unit: 'pcs', description: 'One-way valve lid for CO\u2082 release' },
+        { name: 'Glass Fermentation Weight', unit: 'pcs', description: 'Keeps vegetables submerged below brine' },
+        { name: 'Fine Sea Salt', unit: 'g', description: 'Non-iodized, no anti-caking agents' },
+        { name: 'Digital Kitchen Scale', unit: 'pcs', description: 'For precise salt-to-vegetable ratios' },
+        { name: 'pH Test Strips', unit: 'pcs', description: 'Check acidity for safe fermentation' },
+        { name: 'Mandoline Slicer', unit: 'pcs', description: 'Uniform cuts for even fermentation' },
+        { name: 'Fermentation Crock (2L)', unit: 'pcs', description: 'Traditional water-sealed ceramic vessel' },
+      ],
     };
   },
 
@@ -109,7 +121,27 @@ const PantryManagerComponent = {
         unit: 'g',
         expiryDate: '',
         notes: '',
+        imageUrl: '',
+        productLink: '',
+        description: '',
       };
+    },
+
+    quickAddEquipment(suggestion) {
+      const item = {
+        id: FermentFormat.uid(),
+        name: suggestion.name,
+        category: 'equipment',
+        quantity: 1,
+        unit: suggestion.unit || 'pcs',
+        expiryDate: '',
+        notes: '',
+        imageUrl: '',
+        productLink: '',
+        description: suggestion.description || '',
+        addedAt: new Date().toISOString(),
+      };
+      this.$emit('update:pantry', [...this.pantry, item]);
     },
 
     categoryInfo(catId) {
@@ -315,6 +347,43 @@ const PantryManagerComponent = {
               />
             </div>
           </div>
+
+          <!-- More Details (collapsible) -->
+          <button @click="showAddDetails = !showAddDetails" type="button"
+            class="inline-flex items-center gap-1.5 text-xs font-medium text-text-muted hover:text-accent-culture transition-colors">
+            <svg :class="['w-3.5 h-3.5 transition-transform', showAddDetails ? 'rotate-180' : '']" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            More details (image, product link, description)
+          </button>
+          <div v-show="showAddDetails" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-text-secondary dark:text-dark-text-secondary mb-1">Image URL</label>
+              <input v-model="newItem.imageUrl" type="url" placeholder="https://..."
+                class="w-full px-3 py-2 rounded-xl bg-bg-secondary dark:bg-dark-secondary text-text-primary dark:text-dark-text placeholder-text-muted border border-transparent focus:border-accent-culture focus:ring-1 focus:ring-accent-culture focus:outline-none transition-all text-sm" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-text-secondary dark:text-dark-text-secondary mb-1">Product Link</label>
+              <input v-model="newItem.productLink" type="url" placeholder="https://..."
+                class="w-full px-3 py-2 rounded-xl bg-bg-secondary dark:bg-dark-secondary text-text-primary dark:text-dark-text placeholder-text-muted border border-transparent focus:border-accent-culture focus:ring-1 focus:ring-accent-culture focus:outline-none transition-all text-sm" />
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-sm font-medium text-text-secondary dark:text-dark-text-secondary mb-1">Description</label>
+              <textarea v-model="newItem.description" rows="2" placeholder="Short description of the item..."
+                class="w-full px-3 py-2 rounded-xl bg-bg-secondary dark:bg-dark-secondary text-text-primary dark:text-dark-text placeholder-text-muted border border-transparent focus:border-accent-culture focus:ring-1 focus:ring-accent-culture focus:outline-none transition-all text-sm resize-none"></textarea>
+            </div>
+          </div>
+
+          <!-- Equipment Suggestions -->
+          <div v-if="newItem.category === 'equipment'">
+            <p class="text-xs font-medium text-text-muted mb-2">Quick add equipment:</p>
+            <div class="flex flex-wrap gap-2">
+              <button v-for="s in equipmentSuggestions" :key="s.name" @click="quickAddEquipment(s)" type="button"
+                class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium bg-bg-secondary dark:bg-dark-secondary text-text-secondary hover:bg-accent-culture/10 hover:text-accent-culture border border-transparent hover:border-accent-culture/20 transition-all">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                {{ s.name }}
+              </button>
+            </div>
+          </div>
+
           <div class="flex gap-3 justify-end pt-2">
             <button @click="showAddForm = false" class="px-4 py-2 rounded-xl text-text-secondary dark:text-dark-text-secondary hover:bg-bg-secondary dark:hover:bg-dark-secondary transition-all">
               Cancel
@@ -466,10 +535,20 @@ const PantryManagerComponent = {
               <!-- View Mode -->
               <div v-if="editingItemId !== item.id" class="flex items-center justify-between gap-3">
                 <div class="flex items-center gap-3 flex-1 min-w-0">
-                  <span class="text-text-primary dark:text-dark-text font-medium truncate">{{ item.name }}</span>
-                  <span v-if="item.quantity" class="text-sm font-mono text-text-secondary dark:text-dark-text-secondary whitespace-nowrap">
-                    {{ item.quantity }} {{ item.unit }}
-                  </span>
+                  <img v-if="item.imageUrl" :src="item.imageUrl" :alt="item.name" class="w-8 h-8 rounded-lg object-cover flex-shrink-0" loading="lazy" />
+                  <div class="min-w-0">
+                    <div class="flex items-center gap-2">
+                      <span class="text-text-primary dark:text-dark-text font-medium truncate">{{ item.name }}</span>
+                      <a v-if="item.productLink" :href="item.productLink" target="_blank" rel="noopener" @click.stop
+                        class="text-accent-culture hover:text-accent-brine transition-colors flex-shrink-0" title="Product link">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                      </a>
+                      <span v-if="item.quantity" class="text-sm font-mono text-text-secondary dark:text-dark-text-secondary whitespace-nowrap">
+                        {{ item.quantity }} {{ item.unit }}
+                      </span>
+                    </div>
+                    <p v-if="item.description" class="text-xs text-text-muted dark:text-dark-text-secondary truncate">{{ item.description }}</p>
+                  </div>
                 </div>
                 <div class="flex items-center gap-2 flex-shrink-0">
                   <span v-if="item.expiryDate" :class="[
@@ -518,6 +597,17 @@ const PantryManagerComponent = {
                     <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.emoji }} {{ cat.label }}</option>
                   </select>
                 </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <input v-model="editItem.imageUrl" type="url" placeholder="Image URL"
+                    class="px-3 py-2 rounded-xl bg-bg-secondary dark:bg-dark-secondary text-text-primary dark:text-dark-text placeholder-text-muted border border-accent-culture/30 focus:border-accent-culture focus:outline-none transition-all text-sm"
+                  />
+                  <input v-model="editItem.productLink" type="url" placeholder="Product link"
+                    class="px-3 py-2 rounded-xl bg-bg-secondary dark:bg-dark-secondary text-text-primary dark:text-dark-text placeholder-text-muted border border-accent-culture/30 focus:border-accent-culture focus:outline-none transition-all text-sm"
+                  />
+                </div>
+                <textarea v-model="editItem.description" rows="2" placeholder="Description"
+                  class="w-full px-3 py-2 rounded-xl bg-bg-secondary dark:bg-dark-secondary text-text-primary dark:text-dark-text placeholder-text-muted border border-accent-culture/30 focus:border-accent-culture focus:outline-none transition-all text-sm resize-none"
+                ></textarea>
                 <div class="flex gap-2 justify-end">
                   <button @click="cancelEdit" class="px-3 py-1.5 rounded-lg text-sm text-text-secondary hover:bg-bg-secondary dark:hover:bg-dark-secondary transition-all">Cancel</button>
                   <button @click="saveEdit" class="px-4 py-1.5 rounded-lg text-sm font-medium bg-accent-culture text-white hover:bg-accent-culture/90 transition-all">Save</button>

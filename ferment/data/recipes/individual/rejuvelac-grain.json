@@ -51,7 +51,8 @@
       "instruction": "Put sprouted grains in a jar with 1L water. Cover with cloth.",
       "tips": [
         "Use a breathable cloth (cheesecloth or muslin) secured with a rubber band—not a solid lid. The ferment needs airflow.",
-        "Use room-temperature filtered water, not cold water from the fridge, to allow fermentation to start promptly."
+        "Use room-temperature filtered water, not cold water from the fridge, to allow fermentation to start promptly.",
+        "Avoid tap water with chlorine — it suppresses the beneficial bacteria. Use filtered, boiled-and-cooled, or spring water for the best results."
       ]
     },
     {
@@ -134,5 +135,8 @@
       "type": "youtube"
     }
   ],
+  "dehydratorIntegration": {
+    "shelfLife": "1 week refrigerated"
+  },
   "citations": []
 }

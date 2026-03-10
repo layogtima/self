@@ -135,5 +135,8 @@
       "type": "youtube"
     }
   ],
+  "dehydratorIntegration": {
+    "shelfLife": "2–4 weeks refrigerated"
+  },
   "citations": []
 }

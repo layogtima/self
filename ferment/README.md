@@ -2,7 +2,7 @@
 
 **A cultural guide to lactic acid fermentation from around the world.**
 
-Browse 30 recipes, read wiki articles, track batches, manage your pantry, and master the ancient art of fermentation — all in a single-page, offline-capable web app.
+Browse 30 recipes, read 23 wiki articles, track batches, manage your pantry and equipment, and master the ancient art of fermentation — all in a single-page, offline-capable web app.
 
 ---
 
@@ -20,11 +20,11 @@ Browse 30 recipes, read wiki articles, track batches, manage your pantry, and ma
 
 ```
 ferment/
-├── index.html                  # App shell, Tailwind config, Vue mount
+├── index.html                  # App shell, Tailwind config, Vue mount, OG meta tags
 ├── css/
 │   └── app.css                 # Custom styles (vars, animations, wiki, editors)
 ├── js/
-│   ├── app.js                  # Vue 3 app init, state, routing, history management
+│   ├── app.js                  # Vue 3 app init, state, routing, history, OG meta
 │   ├── store.js                # localStorage persistence + import/export
 │   ├── recipes.js              # Recipe loader (JSON manifest + fallback)
 │   ├── wiki.js                 # Wiki article loader (JSON manifest)
@@ -35,18 +35,19 @@ ferment/
 │   └── components/
 │       ├── SearchBar.js        # Search input component
 │       ├── FilterPanel.js      # Multi-facet filter UI
-│       ├── RecipeCard.js       # Card / list row for a recipe
+│       ├── RecipeCard.js       # Card / list / table row for a recipe
 │       ├── RecipePage.js       # Full-page recipe view with inline editing
 │       ├── BrowseView.js       # Recipe browsing grid + filters + sort
-│       ├── WikiView.js         # Wiki article list, search, tag filter
+│       ├── WikiView.js         # Wiki article list, search, collapsible tag filter
 │       ├── WikiArticle.js      # Rich wiki article renderer + inline editing
-│       ├── PantryManager.js    # Pantry inventory CRUD
+│       ├── PantryManager.js    # Pantry + equipment inventory CRUD
 │       ├── JournalManager.js   # Batch tracking / journal entries
 │       ├── BrineCalculator.js  # Salt / brine ratio calculator
 │       ├── BatchScaler.js      # Scale any recipe up/down
 │       ├── TimerManager.js     # Timer management
-│       ├── ToolsView.js        # Tools menu grid (calculator, converter, pH, etc.)
-│       ├── SettingsModal.js    # App settings (region, units, theme, editing)
+│       ├── ToolsView.js        # Tools menu (calculator, converter, pH, calendar)
+│       ├── SettingsModal.js    # App settings + changelog
+│       ├── ChangelogView.js   # Public changelog component
 │       ├── OnboardingModal.js  # First-run onboarding wizard
 │       ├── WelcomePage.js      # Welcome / intro page
 │       ├── InlineEditor.js     # Edit framework + FermentEdits store
@@ -62,7 +63,7 @@ ferment/
 │   │   ├── tier1-beginner.js   # Fallback recipe data
 │   │   └── individual/         # 30 individual recipe JSON files
 │   └── wiki/
-│       ├── manifest.json       # Wiki article index
+│       ├── manifest.json       # Wiki article index (23 articles)
 │       └── *.json              # Individual wiki article files
 ├── assets/
 │   └── icons/                  # Favicon, PWA icons
@@ -70,26 +71,53 @@ ferment/
 └── sw.js                       # Service worker (cache-first)
 ```
 
+## Features
+
+### Recipes
+- **30 recipes** from cultures worldwide with rich metadata
+- Card, list, and table view modes with hero images
+- Shelf life display on cards and recipe detail pages
+- Difficulty tiers, fermentation time, ingredient counts
+- Step-by-step instructions with 3 tips per step
+- Cultural context, variations, and dehydrator integration
+
+### Wiki
+- **23 articles** covering fermentation science, safety, equipment, and techniques
+- Rich content: tables, callouts, images, citations, cross-links
+- Collapsible tag filter for easy browsing
+- Quick glossary search across all articles
+
+### Pantry & Equipment
+- Full inventory management with categories (produce, spices, salt, cultures, equipment)
+- Equipment items with product links, images, and descriptions
+- Quick-add equipment suggestions (jars, airlocks, weights, scales)
+- Recipe matching: see what you can make with what you have
+
+### Sharing & Meta
+- URL-based sharing via hash routing (`#/recipe/slug`, `#/wiki/slug`)
+- Dynamic Open Graph and Twitter Card meta tags
+- SVG-based OG images for wiki articles
+- Recipe hero images as OG images
+
+### Tools
+- Brine Calculator, Batch Scaler, Timers, Unit Converter, pH Reference, Seasonal Calendar
+
 ## Architecture
 
 ### Routing & History
 
 No router library. State-driven routing using reactive refs:
 
-- **`currentRoute`**: `'home'` | `'recipe'` | `'wiki-article'` | `'welcome'` — controls the current view
-- **`currentTab`**: `'browse'` | `'wiki'` | `'pantry'` | `'journal'` | `'tools'` — active tab within home view
+- **`currentRoute`**: `'home'` | `'recipe'` | `'wiki-article'` | `'welcome'`
+- **`currentTab`**: `'browse'` | `'wiki'` | `'pantry'` | `'journal'` | `'tools'`
 
-Browser history is managed with `history.pushState()` / `popstate`. Tab changes, recipe opens, and wiki article navigation all push descriptive hash URLs (`#/recipe/slug`, `#/wiki/slug`, `#/pantry`, etc.), so the browser back/forward buttons navigate naturally.
-
-### Components
-
-All components are registered globally via `app.component()`. They use Vue 3 Options API with `template` string literals (no SFC/.vue files, no build step).
+Browser history managed with `history.pushState()` / `popstate`. Hash URLs (`#/recipe/slug`, `#/wiki/slug`) are restored on page load for sharing. Back button uses `history.back()` for clean navigation.
 
 ### Data Flow
 
 ```
-index.html (template)
-  └─ app.js (setup, state, actions)
+index.html (template + OG meta tags)
+  └─ app.js (setup, state, actions, meta updates)
        ├─ FermentStore (localStorage read/write)
        ├─ FermentRecipes (recipe loader — JSON manifest)
        ├─ FermentWiki (wiki loader — JSON manifest)
@@ -100,44 +128,9 @@ index.html (template)
 
 State mutations flow **down** via props, events flow **up** via `$emit`. The root `app.js` owns all state and persists to localStorage on every meaningful change.
 
-### Recipe System
-
-30 recipes stored as individual JSON files in `data/recipes/individual/`. The loader (`recipes.js`) fetches a manifest and loads each file in parallel, with a fallback to `tier1-beginner.js` for offline/legacy support.
-
-**Recipe Page** — Two layout modes:
-- **Desktop (lg+)**: Two-column — left has story/instructions/variations/notes; right has sticky sidebar with ingredients, equipment, safety notes
-- **Mobile (<lg)**: Single column with horizontal tab navigation
-
-### Wiki System
-
-Wiki articles are stored as JSON files in `data/wiki/`. Each article supports rich content blocks: paragraphs, headings, tables, callouts (info/warning/tip), ordered/unordered lists, images, galleries, videos, and an infobox sidebar. Content supports inline citations (`[cite:c1]`), cross-links to other articles (`[[article:slug]]`), and recipe links (`[[recipe:slug]]`).
-
 ### Inline Editing
 
-Recipes and wiki articles support inline editing when enabled in Settings. Edits are stored as localStorage overlays (via `FermentEdits`), merged at render time with the original JSON data. Each edited field shows a visual indicator and can be individually reset to the original.
-
-**Editing is disabled by default** and must be toggled on in Settings > Enable Editing.
-
-### Settings
-
-Settings are managed via `SettingsModal.js` and persisted in localStorage:
-- Region, Units (metric/imperial), Theme (light/dark/auto)
-- Expert Mode, Enable Editing, Default View (cards/list)
-- Data management: export/import JSON backups, clear all data
-
-### Tools
-
-Brine Calculator, Batch Scaler, Timers, Unit Converter, pH Reference, Glossary (redirects to Wiki), Seasonal Calendar.
-
-## Design Tokens
-
-Colors and fonts defined in Tailwind config (`index.html`) and CSS custom properties (`app.css`). Light/dark mode via `.dark` class on `<html>`.
-
-Key color groups:
-- `bg-*` — backgrounds (primary, secondary, card)
-- `text-*` — typography (primary, secondary, muted)
-- `accent-*` — brine (gold), ferment (red), culture (green), aged (brown)
-- `tier-*` — difficulty levels
+Recipes and wiki articles support inline editing when enabled in Settings. Edits are stored as localStorage overlays (via `FermentEdits`), merged at render time with the original JSON data. **Disabled by default** — toggle in Settings > Enable Editing.
 
 ## Running Locally
 

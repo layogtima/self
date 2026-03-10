@@ -1,0 +1,205 @@
+{
+  "id": "mold-vs-kahm-when-to-worry",
+  "slug": "mold-vs-kahm-when-to-worry",
+  "title": "Mold vs Kahm Yeast: When to Worry",
+  "subtitle": "A visual guide to identifying what's growing on your ferment — and when to keep or toss it",
+  "lastUpdated": "2026-03-10",
+  "tableOfContents": true,
+  "sections": [
+    {
+      "id": "intro",
+      "type": "paragraph",
+      "content": "You open your jar of [[recipe:brine-pickles-basic]] and see something growing on the surface. Panic sets in. But before you dump your ferment down the drain, take a breath — what you're looking at is almost certainly harmless kahm yeast, not dangerous mold. Learning to tell the difference is one of the most important skills a home fermenter can develop [[article:fermentation-and-food-safety]]. This guide will help you identify exactly what's growing on your ferment and make a confident decision about whether to keep it or toss it."
+    },
+    {
+      "id": "what-is-kahm",
+      "type": "heading",
+      "level": 2,
+      "content": "What Is Kahm Yeast?"
+    },
+    {
+      "id": "what-is-kahm-text",
+      "type": "paragraph",
+      "content": "Kahm yeast is a collective term for several species of aerobic yeasts — commonly Pichia, Candida, and Hansenula — that form a thin, white, wrinkled film on the surface of ferments exposed to air [cite:c1]. It is not a mold, and it is not dangerous. Kahm yeast is an opportunistic surface organism that thrives in acidic, salty environments when oxygen is available. It feeds on lactic acid and other byproducts of fermentation, which means it can actually reduce the acidity of the brine surface over time if left unchecked — a good reason to remove it, even though it's harmless [cite:c2]."
+    },
+    {
+      "id": "kahm-characteristics",
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "**Appearance**: Thin, flat, white to off-white film with a wrinkled or crinkled texture — often described as looking like crepe paper or a thin skin on the brine surface",
+        "**Texture**: Smooth and filmy, not fuzzy or raised. Lies flat on the liquid surface",
+        "**Color**: White to cream. Never blue, green, black, or pink",
+        "**Smell**: May have a mild yeasty or bread-like odor. Not foul or putrid",
+        "**Location**: Always on the surface of the brine, at the air-liquid interface"
+      ]
+    },
+    {
+      "id": "what-is-mold",
+      "type": "heading",
+      "level": 2,
+      "content": "What Is Mold?"
+    },
+    {
+      "id": "what-is-mold-text",
+      "type": "paragraph",
+      "content": "Molds are multicellular fungi that grow in branching, thread-like structures called hyphae. In fermentation, the most common mold genera encountered are Penicillium (blue-green), Aspergillus (black, yellow-green), and Cladosporium (dark green to black) [cite:c3]. Unlike kahm yeast, some molds can produce mycotoxins — toxic secondary metabolites that may diffuse into surrounding food and liquid. This is why mold requires more careful assessment than kahm yeast [[article:fermentation-and-food-safety]]."
+    },
+    {
+      "id": "mold-characteristics",
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "**Appearance**: Fuzzy, fluffy, or powdery. Often raised above the surface with visible three-dimensional structure",
+        "**Texture**: Distinctly fuzzy — like velvet, cotton, or dust. Never smooth or filmy",
+        "**Color**: White (early stage), blue, green, black, pink, or orange. Color is often the clearest distinguishing feature",
+        "**Smell**: May produce musty, earthy, or unpleasant odors",
+        "**Location**: Can grow on surfaces above the brine line — on exposed vegetables, jar walls, or weights"
+      ]
+    },
+    {
+      "id": "visual-guide",
+      "type": "heading",
+      "level": 2,
+      "content": "Visual Identification Guide"
+    },
+    {
+      "id": "visual-guide-table",
+      "type": "table",
+      "caption": "Quick identification: kahm yeast vs. mold",
+      "headers": ["Feature", "Kahm Yeast", "Mold"],
+      "rows": [
+        ["Surface texture", "Flat, wrinkled film (like crepe paper)", "Fuzzy, fluffy, or powdery (three-dimensional)"],
+        ["Color", "White to cream only", "White, blue, green, black, pink, orange"],
+        ["Growth location", "On brine surface only", "On brine surface, exposed vegetables, jar walls"],
+        ["Fuzziness", "Never fuzzy", "Almost always fuzzy or hairy"],
+        ["Smell", "Mildly yeasty or neutral", "Musty, earthy, or unpleasant"],
+        ["Speed of appearance", "Often appears after 1–2 weeks", "Can appear within days if conditions favor it"],
+        ["Dangerous?", "No — cosmetic and flavor issue only", "Potentially — some molds produce mycotoxins"]
+      ]
+    },
+    {
+      "id": "when-to-keep",
+      "type": "heading",
+      "level": 2,
+      "content": "When to Keep Your Ferment"
+    },
+    {
+      "id": "when-to-keep-text",
+      "type": "paragraph",
+      "content": "In the vast majority of cases, surface growth does not mean your ferment is ruined. The submerged portion of a properly acidified ferment (pH below 4.6) remains safe regardless of what grows on the surface, because mold and yeast cannot grow in the anaerobic, acidic environment below the brine line [cite:c2]. You can confidently keep your ferment in these situations:"
+    },
+    {
+      "id": "when-to-keep-list",
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "**Kahm yeast film**: Skim it off with a clean spoon. The ferment beneath is perfectly safe. Flavor may be slightly affected if kahm was present for a long time.",
+        "**Small spot of white mold on the very surface**: Remove the mold plus 2–3 cm of surrounding material. The submerged ferment is fine.",
+        "**Cloudy brine**: This is not a problem at all — it indicates healthy LAB activity and is a sign of successful fermentation.",
+        "**Brine overflow or vigorous bubbling**: Normal signs of active fermentation, not contamination [[article:troubleshooting-ferments]]."
+      ]
+    },
+    {
+      "id": "when-to-discard",
+      "type": "heading",
+      "level": 2,
+      "content": "When to Discard"
+    },
+    {
+      "id": "when-to-discard-text",
+      "type": "paragraph",
+      "content": "While discarding is rarely necessary, there are genuine situations where a ferment should be thrown out [cite:c3]:"
+    },
+    {
+      "id": "when-to-discard-list",
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "**Pink, red, or orange fuzzy mold**: These colors may indicate Fusarium or other mycotoxin-producing species. Discard the entire batch.",
+        "**Black mold with visible spore structures**: Likely Aspergillus niger or Stachybotrys. Discard everything.",
+        "**Mold growing throughout the jar** — not just on the surface but on submerged vegetables: This suggests the ferment failed to acidify properly. Discard.",
+        "**Putrid, rotting, or fecal smell**: Indicates fermentation failed and putrefactive bacteria dominated. Discard immediately.",
+        "**pH above 4.6 after 7+ days**: The ferment did not acidify safely. Do not consume [[article:fermentation-and-food-safety]]."
+      ]
+    },
+    {
+      "id": "discard-callout",
+      "type": "callout",
+      "style": "warning",
+      "title": "When in Doubt",
+      "content": "If you cannot confidently identify the growth as kahm yeast, and it has color (blue, green, black, pink) or fuzziness, err on the side of caution and discard. A jar of vegetables is not worth the risk of mycotoxin exposure. You can always start a new batch."
+    },
+    {
+      "id": "prevention",
+      "type": "heading",
+      "level": 2,
+      "content": "Prevention Tips"
+    },
+    {
+      "id": "prevention-text",
+      "type": "paragraph",
+      "content": "The best strategy is to prevent surface growth from appearing in the first place. Both kahm yeast and mold require oxygen to grow, so minimizing air exposure is the single most effective prevention measure [cite:c1]."
+    },
+    {
+      "id": "prevention-list",
+      "type": "list",
+      "ordered": true,
+      "items": [
+        "**Keep vegetables fully submerged** below the brine line at all times. Use fermentation weights, a zip-lock bag filled with brine, or a cabbage leaf pressed over the surface.",
+        "**Use an airlock lid** — these allow CO₂ to escape without letting oxygen in, dramatically reducing surface growth.",
+        "**Maintain proper salt concentration** (2–5% by weight). Adequate salt favors LAB over yeasts and molds [[article:salt-and-fermentation]].",
+        "**Ferment at cooler temperatures** (18–22°C / 64–72°F). Warmer temperatures accelerate yeast growth.",
+        "**Minimize jar openings** during active fermentation. Each opening introduces fresh oxygen to the surface.",
+        "**Keep the jar rim clean** — wipe away splashes of brine and vegetable matter that can serve as a foothold for mold above the brine line."
+      ]
+    },
+    {
+      "id": "prevention-callout",
+      "type": "callout",
+      "style": "tip",
+      "title": "Kahm Yeast Is Not Failure",
+      "content": "Even experienced fermenters get kahm yeast occasionally. It does not mean you did something wrong — it simply means a bit of oxygen reached the surface. Skim it, improve your submersion technique, and carry on. Many of the world's great fermented foods have been made in open crocks where kahm yeast was a regular visitor, simply skimmed away without concern."
+    }
+  ],
+  "citations": [
+    {
+      "id": "c1",
+      "text": "Katz, Sandor Ellix. The Art of Fermentation: An In-Depth Exploration of Essential Concepts and Processes from Around the World.",
+      "source": "Chelsea Green Publishing",
+      "author": "Sandor Ellix Katz",
+      "year": 2012,
+      "license": "Book"
+    },
+    {
+      "id": "c2",
+      "text": "Hutkins, Robert W. Microbiology and Technology of Fermented Foods. 2nd edition.",
+      "source": "Wiley-Blackwell",
+      "author": "Robert W. Hutkins",
+      "year": 2019,
+      "license": "Book"
+    },
+    {
+      "id": "c3",
+      "text": "Pitt, John I., and Hocking, Ailsa D. Fungi and Food Spoilage. 3rd edition.",
+      "source": "Springer",
+      "author": "John I. Pitt and Ailsa D. Hocking",
+      "year": 2009,
+      "license": "Book"
+    },
+    {
+      "id": "c4",
+      "text": "Nummer, Brian A. \"Fermenting Food for Safety.\" National Center for Home Food Preservation.",
+      "source": "National Center for Home Food Preservation, University of Georgia",
+      "author": "Brian A. Nummer",
+      "year": 2002,
+      "url": "https://nchfp.uga.edu/publications/nchfp/factsheets/food_pres_safety.html",
+      "license": "Public Domain"
+    }
+  ],
+  "seeAlso": {
+    "articles": ["troubleshooting-ferments", "fermentation-and-food-safety", "salt-and-fermentation", "ph-levels-fermentation"],
+    "recipes": ["brine-pickles-basic", "sauerkraut-classic"]
+  },
+  "tags": ["troubleshooting", "safety", "mold", "kahm-yeast", "identification"]
+}
