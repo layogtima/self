@@ -1,21 +1,51 @@
 /**
  * FERMENT — ChangelogView Component
- * Public changelog showing features, enhancements, and fixes by date
+ * Public changelog with Antigravity-style release hierarchy:
+ * version card → expandable Features / Improvements / Fixes sections
  */
 
 const ChangelogViewComponent = {
   name: 'changelog-view',
 
+  props: {
+    standalone: { type: Boolean, default: false },
+  },
+
+  emits: ['close'],
+
   data() {
     return {
+      expanded: { 0: { feature: true, enhancement: true, fix: true } },
+
       entries: [
         {
+          version: '1.2.0',
+          date: '2026-03-10',
+          title: 'UI Refactor & Navigation',
+          summary: 'Changelog redesign, fixed navigation, recipe masthead icons, contextual nav system, and pantry stability fixes.',
+          items: [
+            { type: 'feature', text: 'Changelog is now a standalone screen accessible from the footer', link: '#/changelog' },
+            { type: 'feature', text: 'Changelog route (#/changelog) works as a shareable URL', link: '#/changelog' },
+            { type: 'feature', text: 'Antigravity-style release hierarchy with expandable Features, Improvements, Fixes', link: '#/changelog' },
+            { type: 'feature', text: 'Recipe secondary nav (Story / Recipe / Notes / Dehydrate) fixed above main nav bar', link: null },
+            { type: 'feature', text: 'Screen-specific contextual nav framework for recipe and wiki article pages', link: null },
+            { type: 'enhancement', text: 'Category icon now visible in recipe masthead on all screen sizes', link: null },
+            { type: 'enhancement', text: 'Recipe detail quick stats now show SVG icons consistent with card view', link: null },
+            { type: 'enhancement', text: 'Summary stat icon spacing increased for readability', link: null },
+            { type: 'enhancement', text: 'Contributing section added to README for humans and AI agents', link: null },
+            { type: 'fix', text: 'Pantry auto-add equipment no longer crashes recipe matching', link: '#/pantry' },
+            { type: 'fix', text: 'Substitution matching handles both string and object formats safely', link: null },
+            { type: 'fix', text: 'Module-level error isolation prevents a single pantry error from taking down Browse or Pantry views', link: null },
+          ]
+        },
+        {
+          version: '1.1.2',
           date: '2026-03-10',
           title: 'Equipment, Shelf Life & Content Expansion',
+          summary: 'Equipment management with product links, shelf life on cards, 5 new wiki articles.',
           items: [
             { type: 'feature', text: 'Shelf life displayed on recipe cards and detail pages', link: '#/browse' },
             { type: 'feature', text: 'Equipment management in Pantry with product links, images, and descriptions', link: '#/pantry' },
-            { type: 'feature', text: 'Public changelog in Settings', link: null },
             { type: 'feature', text: '5 new wiki articles: health benefits, mold identification, equipment guide, batch scaling, storage', link: '#/wiki' },
             { type: 'enhancement', text: 'Category emoji icons in recipe page quick stats', link: null },
             { type: 'enhancement', text: 'Remaining 7 recipes enriched to 3 tips per step', link: '#/browse' },
@@ -25,8 +55,10 @@ const ChangelogViewComponent = {
           ]
         },
         {
+          version: '1.1.1',
           date: '2026-03-10',
           title: 'OG Meta, URL Sharing & UI Polish',
+          summary: 'Rich link previews, shareable URLs, dynamic OG images for wiki articles.',
           items: [
             { type: 'feature', text: 'Open Graph and Twitter Card meta tags for rich link previews', link: null },
             { type: 'feature', text: 'URL-based sharing — recipes and wiki articles load from hash URLs', link: null },
@@ -43,8 +75,10 @@ const ChangelogViewComponent = {
           ]
         },
         {
+          version: '1.1.0',
           date: '2026-03-09',
           title: 'Wiki System & Recipe Enrichment',
+          summary: '10 new wiki articles, all 30 recipes enriched, browser history, inline editing.',
           items: [
             { type: 'feature', text: '10 new wiki articles with rich citations and cross-links', link: '#/wiki' },
             { type: 'feature', text: '30 recipes enriched with tips, variations, and cultural context', link: '#/browse' },
@@ -54,8 +88,10 @@ const ChangelogViewComponent = {
           ]
         },
         {
+          version: '1.0.0',
           date: '2026-03-09',
           title: 'Foundation',
+          summary: 'Initial launch: 30 recipes, 8 wiki articles, pantry matching, batch journal, tools, PWA.',
           items: [
             { type: 'feature', text: '8 Wikipedia-quality wiki articles with citations', link: '#/wiki' },
             { type: 'feature', text: '30 recipes split into individual JSON files', link: '#/browse' },
@@ -72,41 +108,126 @@ const ChangelogViewComponent = {
   },
 
   methods: {
-    typeBadge(type) {
-      const badges = {
-        feature: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
-        enhancement: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
-        fix: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300',
-      };
-      return badges[type] || badges.feature;
+    sectionItems(entry, type) {
+      return entry.items.filter(i => i.type === type);
     },
 
-    typeLabel(type) {
-      return { feature: 'New', enhancement: 'Improved', fix: 'Fixed' }[type] || type;
+    isExpanded(entryIdx, section) {
+      return !!(this.expanded[entryIdx] && this.expanded[entryIdx][section]);
+    },
+
+    toggleSection(entryIdx, section) {
+      if (!this.expanded[entryIdx]) {
+        this.expanded = { ...this.expanded, [entryIdx]: {} };
+      }
+      const current = !!(this.expanded[entryIdx] && this.expanded[entryIdx][section]);
+      this.expanded = {
+        ...this.expanded,
+        [entryIdx]: { ...this.expanded[entryIdx], [section]: !current },
+      };
     },
 
     formatDate(dateStr) {
       const d = new Date(dateStr + 'T00:00:00');
-      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
     },
   },
 
   template: `
-    <div class="max-h-96 overflow-y-auto space-y-6 mt-3 pr-1">
-      <div v-for="(entry, idx) in entries" :key="idx" class="space-y-2">
-        <!-- Date Header -->
-        <div class="flex items-center gap-2">
-          <span class="text-xs font-mono text-text-muted">{{ formatDate(entry.date) }}</span>
-          <span class="text-xs font-medium text-text-secondary dark:text-dark-text-secondary">{{ entry.title }}</span>
-        </div>
+    <div :class="standalone ? 'max-w-2xl mx-auto' : 'max-h-96 overflow-y-auto pr-1'">
 
-        <!-- Items -->
-        <div class="space-y-1.5 pl-2 border-l-2 border-bg-secondary dark:border-dark-secondary">
-          <div v-for="(item, i) in entry.items" :key="i" class="flex items-start gap-2 pl-3 py-0.5">
-            <span :class="['inline-flex items-center px-1.5 py-0 rounded text-[10px] font-semibold leading-4 flex-shrink-0 mt-0.5', typeBadge(item.type)]">
-              {{ typeLabel(item.type) }}
-            </span>
-            <span class="text-xs text-text-secondary dark:text-dark-text-secondary leading-relaxed">{{ item.text }}</span>
+      <!-- Standalone header -->
+      <div v-if="standalone" class="mb-8">
+        <button @click="$emit('close')"
+          class="inline-flex items-center gap-2 text-sm text-text-muted hover:text-text-primary dark:hover:text-dark-text transition-colors mb-6">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          Back
+        </button>
+        <h1 class="font-serif text-3xl text-text-primary dark:text-dark-text">What's New</h1>
+        <p class="text-text-muted text-sm mt-2">Every release, every change. Most recent first.</p>
+      </div>
+
+      <!-- Release cards -->
+      <div class="space-y-5">
+        <div v-for="(entry, idx) in entries" :key="idx"
+          class="bg-bg-card dark:bg-dark-card rounded-2xl overflow-hidden border border-bg-secondary dark:border-dark-secondary shadow-warm">
+
+          <!-- Card header: version + date + title + summary -->
+          <div class="px-5 pt-5 pb-4">
+            <div class="flex items-baseline gap-3 mb-2">
+              <span class="font-mono text-xs font-semibold text-text-muted dark:text-dark-text-secondary tracking-wider">v{{ entry.version }}</span>
+              <span class="font-mono text-xs text-text-muted dark:text-dark-text-secondary">{{ formatDate(entry.date) }}</span>
+            </div>
+            <h2 class="font-serif text-xl text-text-primary dark:text-dark-text leading-tight">{{ entry.title }}</h2>
+            <p class="text-sm text-text-secondary dark:text-dark-text-secondary mt-1.5 leading-relaxed">{{ entry.summary }}</p>
+          </div>
+
+          <!-- Divider -->
+          <div class="border-t border-bg-secondary dark:border-dark-secondary"></div>
+
+          <!-- Expandable sections -->
+          <div class="divide-y divide-bg-secondary dark:divide-dark-secondary">
+
+            <!-- Features -->
+            <div v-if="sectionItems(entry, 'feature').length > 0">
+              <button @click="toggleSection(idx, 'feature')"
+                class="w-full flex items-center justify-between px-5 py-3 hover:bg-bg-secondary/40 dark:hover:bg-dark-secondary/40 transition-colors text-left">
+                <div class="flex items-center gap-3">
+                  <span class="w-2 h-2 rounded-full bg-green-500 flex-shrink-0"></span>
+                  <span class="text-sm font-medium text-text-primary dark:text-dark-text">Features</span>
+                  <span class="inline-flex items-center px-2 py-0 rounded-full text-[11px] font-semibold leading-5 bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300">{{ sectionItems(entry, 'feature').length }}</span>
+                </div>
+                <svg :class="['w-4 h-4 text-text-muted transition-transform duration-200', isExpanded(idx, 'feature') ? 'rotate-180' : '']" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </button>
+              <ul v-if="isExpanded(idx, 'feature')" class="px-5 pb-4 pt-1 space-y-2">
+                <li v-for="(item, i) in sectionItems(entry, 'feature')" :key="i"
+                  class="border-l-2 border-green-400/50 pl-3 py-0.5">
+                  <a v-if="item.link" :href="item.link" class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed hover:text-accent-brine transition-colors">{{ item.text }}</a>
+                  <span v-else class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed">{{ item.text }}</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Improvements -->
+            <div v-if="sectionItems(entry, 'enhancement').length > 0">
+              <button @click="toggleSection(idx, 'enhancement')"
+                class="w-full flex items-center justify-between px-5 py-3 hover:bg-bg-secondary/40 dark:hover:bg-dark-secondary/40 transition-colors text-left">
+                <div class="flex items-center gap-3">
+                  <span class="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0"></span>
+                  <span class="text-sm font-medium text-text-primary dark:text-dark-text">Improvements</span>
+                  <span class="inline-flex items-center px-2 py-0 rounded-full text-[11px] font-semibold leading-5 bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300">{{ sectionItems(entry, 'enhancement').length }}</span>
+                </div>
+                <svg :class="['w-4 h-4 text-text-muted transition-transform duration-200', isExpanded(idx, 'enhancement') ? 'rotate-180' : '']" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </button>
+              <ul v-if="isExpanded(idx, 'enhancement')" class="px-5 pb-4 pt-1 space-y-2">
+                <li v-for="(item, i) in sectionItems(entry, 'enhancement')" :key="i"
+                  class="border-l-2 border-blue-400/50 pl-3 py-0.5">
+                  <a v-if="item.link" :href="item.link" class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed hover:text-accent-brine transition-colors">{{ item.text }}</a>
+                  <span v-else class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed">{{ item.text }}</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Fixes -->
+            <div v-if="sectionItems(entry, 'fix').length > 0">
+              <button @click="toggleSection(idx, 'fix')"
+                class="w-full flex items-center justify-between px-5 py-3 hover:bg-bg-secondary/40 dark:hover:bg-dark-secondary/40 transition-colors text-left">
+                <div class="flex items-center gap-3">
+                  <span class="w-2 h-2 rounded-full bg-amber-500 flex-shrink-0"></span>
+                  <span class="text-sm font-medium text-text-primary dark:text-dark-text">Fixes</span>
+                  <span class="inline-flex items-center px-2 py-0 rounded-full text-[11px] font-semibold leading-5 bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300">{{ sectionItems(entry, 'fix').length }}</span>
+                </div>
+                <svg :class="['w-4 h-4 text-text-muted transition-transform duration-200', isExpanded(idx, 'fix') ? 'rotate-180' : '']" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </button>
+              <ul v-if="isExpanded(idx, 'fix')" class="px-5 pb-4 pt-1 space-y-2">
+                <li v-for="(item, i) in sectionItems(entry, 'fix')" :key="i"
+                  class="border-l-2 border-amber-400/50 pl-3 py-0.5">
+                  <a v-if="item.link" :href="item.link" class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed hover:text-accent-brine transition-colors">{{ item.text }}</a>
+                  <span v-else class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed">{{ item.text }}</span>
+                </li>
+              </ul>
+            </div>
+
           </div>
         </div>
       </div>

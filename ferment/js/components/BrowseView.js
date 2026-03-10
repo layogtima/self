@@ -112,7 +112,12 @@ const BrowseViewComponent = {
       const matches = {};
       for (const r of this.recipes) {
         if (typeof FermentMatching !== 'undefined') {
-          matches[r.id] = FermentMatching.matchRecipe(r, this.pantry);
+          try {
+            matches[r.id] = FermentMatching.matchRecipe(r, this.pantry);
+          } catch (e) {
+            console.warn('[FERMENT] Pantry match error for', r.id, e);
+            matches[r.id] = null;
+          }
         }
       }
       return matches;

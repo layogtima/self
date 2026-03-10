@@ -46,8 +46,8 @@ ferment/
 │       ├── BatchScaler.js      # Scale any recipe up/down
 │       ├── TimerManager.js     # Timer management
 │       ├── ToolsView.js        # Tools menu (calculator, converter, pH, calendar)
-│       ├── SettingsModal.js    # App settings + changelog
-│       ├── ChangelogView.js   # Public changelog component
+│       ├── SettingsModal.js    # App settings (links to standalone changelog page)
+│       ├── ChangelogView.js   # Standalone changelog with Antigravity-style release cards
 │       ├── OnboardingModal.js  # First-run onboarding wizard
 │       ├── WelcomePage.js      # Welcome / intro page
 │       ├── InlineEditor.js     # Edit framework + FermentEdits store
@@ -108,10 +108,10 @@ ferment/
 
 No router library. State-driven routing using reactive refs:
 
-- **`currentRoute`**: `'home'` | `'recipe'` | `'wiki-article'` | `'welcome'`
+- **`currentRoute`**: `'home'` | `'recipe'` | `'wiki-article'` | `'welcome'` | `'changelog'`
 - **`currentTab`**: `'browse'` | `'wiki'` | `'pantry'` | `'journal'` | `'tools'`
 
-Browser history managed with `history.pushState()` / `popstate`. Hash URLs (`#/recipe/slug`, `#/wiki/slug`) are restored on page load for sharing. Back button uses `history.back()` for clean navigation.
+Browser history managed with `history.pushState()` / `popstate`. Hash URLs (`#/recipe/slug`, `#/wiki/slug`, `#/changelog`) are restored on page load for sharing. Back button uses `history.back()` for clean navigation.
 
 ### Data Flow
 
@@ -155,6 +155,51 @@ Open `http://localhost:8000` in your browser.
 1. Create a JSON file in `data/wiki/` with sections, citations, and cross-links
 2. Add the entry to `data/wiki/manifest.json`
 3. Update `sw.js` cache list
+
+---
+
+## Contributing
+
+The README and `ChangelogView.js` are the **source of truth** for this project's roadmap and history. Every meaningful contribution — whether from a human or an AI agent — must keep both up to date.
+
+### For Humans
+
+1. **Fork** the repository and create a branch: `git checkout -b feat/your-feature`
+2. Make your changes following the existing patterns (Vue 3 CDN component style, Tailwind classes, no build step)
+3. **Update the changelog** — add a new entry or items to the latest entry in `js/components/ChangelogView.js`:
+   - `feature` — new capability
+   - `enhancement` — improvement to existing feature
+   - `fix` — bug fix
+4. **Update this README** if you changed the architecture, routing, or project structure
+5. Open a pull request with a clear title and description
+
+**PR checklist:**
+- [ ] Describe what changed and why (not just what the code does)
+- [ ] Add changelog entry to `ChangelogView.js`
+- [ ] Update README.md if architecture or routing changed
+- [ ] Screenshots or screen recording for visual changes
+- [ ] No build step required — test by serving with `python3 -m http.server 8000`
+
+### For AI Agents (Claude, etc.)
+
+When implementing changes in this codebase, follow these requirements before every push:
+
+1. **Update `ChangelogView.js`**: Add items under the latest `version` entry (or create a new entry). Use the correct type: `feature`, `enhancement`, or `fix`. Add a `link` to the relevant app route if applicable.
+
+2. **Update `README.md`**:
+   - If `currentRoute` values changed → update the Architecture > Routing section
+   - If new components were added → update the Project Structure section
+   - If new features were added → update the Features section
+
+3. **Commit message format**: Use conventional commits (`feat:`, `fix:`, `docs:`, `refactor:`) with a short imperative summary, followed by a bulleted list of what changed and why.
+
+4. **One commit per logical task** — the user can review, roll back, or cherry-pick individual changes cleanly.
+
+5. **Do not break the no-build-step contract** — all JS must be valid in-browser ES6, loaded via `<script>` tags. No imports, no bundler syntax.
+
+### Goal
+
+This project uses **documentation-driven development**: the README describes what FERMENT is, the changelog documents what changed and when. Contributors — human or machine — maintain this contract so the project stays readable and navigable over time. 🌟
 
 ---
 

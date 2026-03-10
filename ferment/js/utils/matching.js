@@ -13,23 +13,27 @@ const FermentMatching = {
       return { matched: [], missing: [], substitutable: [], score: 1, canMake: true };
     }
 
-    const pantryNames = new Set(pantry.map(p => p.name.toLowerCase().trim()));
+    const pantryNames = new Set(
+      pantry.filter(p => p && p.name).map(p => p.name.toLowerCase().trim())
+    );
     const matched = [];
     const missing = [];
     const substitutable = [];
 
     for (const ing of recipe.ingredients) {
-      if (!ing.essential) continue; // Skip optional ingredients
+      if (!ing || !ing.essential) continue; // Skip optional or malformed ingredients
 
-      const ingName = ing.name.toLowerCase().trim();
+      const ingName = ing.name ? ing.name.toLowerCase().trim() : '';
+      if (!ingName) continue;
 
       if (pantryNames.has(ingName)) {
         matched.push(ing);
       } else {
-        // Check substitutions
-        const hasSub = (ing.substitutions || []).some(sub =>
-          pantryNames.has(sub.name.toLowerCase().trim())
-        );
+        // Check substitutions — sub can be a string or an object with a name property
+        const hasSub = (ing.substitutions || []).some(sub => {
+          const subName = typeof sub === 'string' ? sub : (sub && sub.name);
+          return subName && pantryNames.has(subName.toLowerCase().trim());
+        });
         if (hasSub) {
           substitutable.push(ing);
         } else {
