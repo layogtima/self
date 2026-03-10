@@ -281,14 +281,21 @@ const app = createApp({
         status: 'fermenting',
         startDate: new Date().toISOString().slice(0, 10),
         targetEndDate: (() => {
-          const d = new Date();
-          const days = recipe.fermentTimeUnit === 'months'
-            ? recipe.fermentTimeMax * 30
-            : recipe.fermentTimeUnit === 'weeks'
-              ? recipe.fermentTimeMax * 7
-              : recipe.fermentTimeMax;
-          d.setDate(d.getDate() + days);
-          return d.toISOString().slice(0, 10);
+          try {
+            const d = new Date();
+            const maxVal = recipe.fermentTimeMax || recipe.fermentTimeMin || 14;
+            const days = recipe.fermentTimeUnit === 'months'
+              ? maxVal * 30
+              : recipe.fermentTimeUnit === 'weeks'
+                ? maxVal * 7
+                : maxVal;
+            d.setDate(d.getDate() + (Number.isFinite(days) ? days : 14));
+            return d.toISOString().slice(0, 10);
+          } catch (e) {
+            const d = new Date();
+            d.setDate(d.getDate() + 14);
+            return d.toISOString().slice(0, 10);
+          }
         })(),
         actualEndDate: null,
         batchSize: '1x',
