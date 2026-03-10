@@ -6,8 +6,15 @@
 const BrineCalculatorComponent = {
   name: 'brine-calculator',
 
+  errorCaptured(err, _vm, info) {
+    console.warn('[FERMENT] BrineCalculator error in', info, err);
+    this.calcError = (err && err.message) || 'An error occurred.';
+    return false;
+  },
+
   data() {
     return {
+      calcError: null,
       saltPercent: 3,
       vegWeight: 500,
       weightUnit: 'g',
@@ -88,6 +95,12 @@ const BrineCalculatorComponent = {
 
   template: `
     <div class="space-y-6">
+      <div v-if="calcError" class="bg-accent-ferment/10 border border-accent-ferment/30 rounded-xl p-4">
+        <p class="text-sm text-accent-ferment font-medium">Something went wrong.</p>
+        <p class="text-xs text-text-muted mt-1">{{ calcError }}</p>
+        <button @click="calcError = null" class="mt-2 text-xs text-accent-ferment underline">Dismiss</button>
+      </div>
+      <template v-if="!calcError">
       <!-- Calculator Card -->
       <div class="bg-bg-card dark:bg-dark-card rounded-2xl shadow-warm-lg border border-bg-secondary/50 dark:border-dark-secondary overflow-hidden">
         <!-- Header -->
@@ -242,6 +255,7 @@ const BrineCalculatorComponent = {
           </button>
         </div>
       </div>
+      </template>
     </div>
   `
 };

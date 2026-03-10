@@ -3,7 +3,7 @@
  * Offline-first caching strategy
  */
 
-const CACHE_NAME = 'ferment-v6';
+const CACHE_NAME = 'ferment-v7';
 const STATIC_ASSETS = [
   './',
   './index.html',

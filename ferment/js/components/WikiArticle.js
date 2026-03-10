@@ -36,8 +36,15 @@ const WikiArticleComponent = {
     },
   },
 
+  errorCaptured(err, _vm, info) {
+    console.warn('[FERMENT] WikiArticle error in', info, err);
+    this.articleError = (err && err.message) || 'An error occurred.';
+    return false;
+  },
+
   data() {
     return {
+      articleError: null,
       showMobileToc: false,
       activeSectionId: null,
       // Inline editing
@@ -290,6 +297,12 @@ const WikiArticleComponent = {
 
   template: `
     <div class="wiki-article" @click="handleClick">
+      <div v-if="articleError" class="bg-accent-ferment/10 border border-accent-ferment/30 rounded-xl p-4">
+        <p class="text-sm text-accent-ferment font-medium">Something went wrong.</p>
+        <p class="text-xs text-text-muted mt-1">{{ articleError }}</p>
+        <button @click="articleError = null" class="mt-2 text-xs text-accent-ferment underline">Dismiss</button>
+      </div>
+      <template v-if="!articleError">
       <!-- Top Bar -->
       <div class="flex items-center justify-between mb-4">
         <button @click="$emit('close')"
@@ -656,6 +669,7 @@ const WikiArticleComponent = {
           </div>
         </aside>
       </div>
+      </template>
     </div>
   `
 };

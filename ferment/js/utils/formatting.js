@@ -78,28 +78,37 @@ const FermentFormat = {
   // Date formatting
   formatDate(dateStr) {
     if (!dateStr) return '';
-    const d = new Date(dateStr);
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    try {
+      const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return '';
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    } catch { return ''; }
   },
 
   formatDateShort(dateStr) {
     if (!dateStr) return '';
-    const d = new Date(dateStr);
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    try {
+      const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return '';
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    } catch { return ''; }
   },
 
   formatRelativeDate(dateStr) {
     if (!dateStr) return '';
-    const now = new Date();
-    const d = new Date(dateStr);
-    const diffMs = now - d;
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    try {
+      const now = new Date();
+      const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return '';
+      const diffMs = now - d;
+      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
-    if (diffDays === 0) return 'Today';
-    if (diffDays === 1) return 'Yesterday';
-    if (diffDays < 7) return diffDays + ' days ago';
-    if (diffDays < 30) return Math.floor(diffDays / 7) + 'w ago';
-    return this.formatDateShort(dateStr);
+      if (diffDays === 0) return 'Today';
+      if (diffDays === 1) return 'Yesterday';
+      if (diffDays < 7) return diffDays + ' days ago';
+      if (diffDays < 30) return Math.floor(diffDays / 7) + 'w ago';
+      return this.formatDateShort(dateStr);
+    } catch { return ''; }
   },
 
   daysBetween(start, end) {
@@ -107,6 +116,7 @@ const FermentFormat = {
     const s = new Date(start);
     if (isNaN(s.getTime())) return 0;
     const e = end ? new Date(end) : new Date();
+    if (isNaN(e.getTime())) return 0;
     return Math.floor((e - s) / (1000 * 60 * 60 * 24));
   },
 
@@ -125,6 +135,7 @@ const FermentFormat = {
   // Scale ingredient amounts
   scaleAmount(amount, multiplier) {
     if (amount == null || isNaN(amount)) return '';
+    if (multiplier == null || isNaN(multiplier) || !isFinite(multiplier)) return amount;
     const scaled = amount * multiplier;
     // Round nicely
     if (scaled < 0.1) return scaled.toFixed(2);
