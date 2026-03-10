@@ -237,7 +237,7 @@ const RecipePageComponent = {
         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
         <div class="relative px-6 sm:px-10 py-10 sm:py-14">
           <div class="flex items-start gap-5">
-            <span class="text-5xl sm:text-6xl opacity-80 flex-shrink-0 hidden sm:block drop-shadow-lg">{{ categoryEmoji }}</span>
+            <span class="text-4xl sm:text-6xl opacity-80 flex-shrink-0 drop-shadow-lg">{{ categoryEmoji }}</span>
             <div class="flex-1 min-w-0">
               <span :class="['inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold mb-3', 'bg-tier-' + tier.name]">
                 {{ tier.emoji }} {{ tier.label }} &middot; {{ tier.tagline }}
@@ -295,12 +295,24 @@ const RecipePageComponent = {
 
       <!-- Quick Stats -->
       <div class="flex items-center gap-2 py-4 overflow-x-auto scrollbar-hide">
-        <span class="stat-pill">{{ timeDisplay }}</span>
-        <span class="stat-pill">{{ (recipe.ingredients || []).length }} ingredients</span>
-        <span v-if="recipe.technique" class="stat-pill capitalize">{{ recipe.technique }}</span>
-        <span v-if="recipe.category" class="stat-pill capitalize">{{ categoryEmoji }} {{ recipe.category }}</span>
-        <span v-if="recipe.seasonality" class="stat-pill capitalize">{{ Array.isArray(recipe.seasonality) ? recipe.seasonality.join(', ') : recipe.seasonality }}</span>
-        <span v-if="shelfLife" class="stat-pill">Keeps {{ shelfLife }}</span>
+        <span class="stat-pill inline-flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          {{ timeDisplay }}
+        </span>
+        <span class="stat-pill inline-flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+          {{ (recipe.ingredients || []).length }} ingredients
+        </span>
+        <span v-if="recipe.technique" class="stat-pill capitalize inline-flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+          {{ recipe.technique }}
+        </span>
+        <span v-if="recipe.category" class="stat-pill capitalize inline-flex items-center gap-1.5">{{ categoryEmoji }} {{ recipe.category }}</span>
+        <span v-if="recipe.seasonality" class="stat-pill capitalize inline-flex items-center gap-1.5">{{ Array.isArray(recipe.seasonality) ? recipe.seasonality.join(', ') : recipe.seasonality }}</span>
+        <span v-if="shelfLife" class="stat-pill inline-flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+          Keeps {{ shelfLife }}
+        </span>
       </div>
 
       <!-- ========== DESKTOP: Two-column layout (lg+) ========== -->
