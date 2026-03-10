@@ -180,7 +180,7 @@ const app = createApp({
       currentRoute.value = 'home';
       updateMeta();
       if (!suppressPopState) {
-        pushHistory({ tab: currentTab.value, route: 'home' });
+        history.back();
       }
     }
 
@@ -409,7 +409,7 @@ const app = createApp({
       currentTab.value = 'wiki';
       updateMeta();
       if (!suppressPopState) {
-        pushHistory({ tab: 'wiki', route: 'home' });
+        history.back();
       }
     }
 
