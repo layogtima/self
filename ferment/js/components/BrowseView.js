@@ -47,8 +47,15 @@ const BrowseViewComponent = {
 
   emits: ['update:view-mode', 'update:filters', 'open-recipe', 'toggle-favorite', 'toggle-bookmark', 'start-batch'],
 
+  errorCaptured(err, _vm, info) {
+    console.warn('[FERMENT] Browse error in', info, err);
+    this.browseError = (err && err.message) || 'An error occurred while browsing.';
+    return false;
+  },
+
   data() {
     return {
+      browseError: null,
       searchQuery: '',
       localViewMode: this.viewMode || 'cards',
       showFilters: false,
@@ -230,6 +237,12 @@ const BrowseViewComponent = {
 
   template: `
     <div class="space-y-4">
+      <div v-if="browseError" class="bg-accent-ferment/10 border border-accent-ferment/30 rounded-xl p-4">
+        <p class="text-sm text-accent-ferment font-medium">Something went wrong while browsing.</p>
+        <p class="text-xs text-text-muted mt-1">{{ browseError }}</p>
+        <button @click="browseError = null" class="mt-2 text-xs text-accent-ferment underline">Dismiss</button>
+      </div>
+      <template v-if="!browseError">
       <!-- Search Bar -->
       <search-bar
         :query="searchQuery"
@@ -469,6 +482,7 @@ const BrowseViewComponent = {
           </button>
         </div>
       </div>
+      </template>
     </div>
   `
 };

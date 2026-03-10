@@ -31,7 +31,11 @@ const BrineCalculatorComponent = {
     },
 
     saltHuman() {
-      return FermentFormat.saltToHuman(this.saltNeeded);
+      try { return FermentFormat.saltToHuman(this.saltNeeded); } catch (e) { return ''; }
+    },
+
+    saltInWaterHuman() {
+      try { return FermentFormat.saltToHuman(this.saltInWater); } catch (e) { return ''; }
     },
 
     waterNeeded() {
@@ -179,7 +183,7 @@ const BrineCalculatorComponent = {
                 <span class="text-sm text-text-secondary dark:text-dark-text-secondary">Salt in water</span>
                 <div class="text-right">
                   <span class="font-mono text-xl font-medium text-accent-brine">{{ saltInWater.toFixed(1) }}g</span>
-                  <span class="block text-xs text-text-muted font-mono">{{ FermentFormat.saltToHuman(saltInWater) }}</span>
+                  <span class="block text-xs text-text-muted font-mono">{{ saltInWaterHuman }}</span>
                 </div>
               </div>
             </template>

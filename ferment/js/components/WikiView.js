@@ -13,8 +13,15 @@ const WikiViewComponent = {
 
   emits: ['open-article', 'open-recipe'],
 
+  errorCaptured(err, _vm, info) {
+    console.warn('[FERMENT] Wiki error in', info, err);
+    this.wikiError = (err && err.message) || 'An error occurred in the wiki.';
+    return false;
+  },
+
   data() {
     return {
+      wikiError: null,
       searchQuery: '',
       selectedTag: null,
       showTags: false,
@@ -140,6 +147,12 @@ const WikiViewComponent = {
 
   template: `
     <div class="space-y-6">
+      <div v-if="wikiError" class="bg-accent-ferment/10 border border-accent-ferment/30 rounded-xl p-4">
+        <p class="text-sm text-accent-ferment font-medium">Something went wrong in the wiki.</p>
+        <p class="text-xs text-text-muted mt-1">{{ wikiError }}</p>
+        <button @click="wikiError = null" class="mt-2 text-xs text-accent-ferment underline">Dismiss</button>
+      </div>
+      <template v-if="!wikiError">
       <!-- Header -->
       <div class="text-center max-w-2xl mx-auto">
         <h2 class="font-serif text-3xl sm:text-4xl text-text-primary dark:text-dark-text mb-2">Fermentation Wiki</h2>
@@ -249,6 +262,7 @@ const WikiViewComponent = {
       <div v-if="filteredArticles.length === 0" class="text-center py-12">
         <p class="text-text-muted text-sm">No articles match your search.</p>
       </div>
+      </template>
     </div>
   `
 };

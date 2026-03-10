@@ -13,6 +13,11 @@ const BatchScalerComponent = {
     }
   },
 
+  errorCaptured(err, _vm, info) {
+    console.warn('[FERMENT] Scaler error in', info, err);
+    return false; // Let ToolsView handle display
+  },
+
   data() {
     return {
       selectedRecipeId: '',

@@ -758,5 +758,10 @@ app.component('tag-editor', TagEditorComponent);
 app.component('citation-editor', CitationEditorComponent);
 app.component('changelog-view', ChangelogViewComponent);
 
+// Expose FermentFormat to all Vue templates
+// (const declarations don't become window properties, so Vue's template
+// compiler can't find them via _ctx without this explicit registration)
+app.config.globalProperties.FermentFormat = FermentFormat;
+
 // Mount the app
 app.mount('#app');

@@ -6,6 +6,11 @@
 const TimerManagerComponent = {
   name: 'timer-manager',
 
+  errorCaptured(err, _vm, info) {
+    console.warn('[FERMENT] Timer error in', info, err);
+    return false; // Let ToolsView handle display
+  },
+
   data() {
     return {
       timers: [],
@@ -106,6 +111,14 @@ const TimerManagerComponent = {
         timer.completedAt = new Date().toISOString();
         this.saveTimers();
       }
+    },
+
+    fmtDate(dateStr) {
+      try { return FermentFormat.formatDate(dateStr); } catch (e) { return ''; }
+    },
+
+    fmtDateShort(dateStr) {
+      try { return FermentFormat.formatDateShort(dateStr); } catch (e) { return ''; }
     },
 
     saveTimers() {
@@ -228,7 +241,7 @@ const TimerManagerComponent = {
                     <span v-if="isReminderDue(timer)" class="text-xs font-medium text-accent-brine bg-accent-brine/15 px-2 py-0.5 rounded-full animate-pulse">Check!</span>
                   </div>
                   <p class="text-xs text-text-muted dark:text-dark-text-secondary mt-0.5">
-                    Ends: {{ FermentFormat.formatDate(timer.endDate) }}
+                    Ends: {{ fmtDate(timer.endDate) }}
                     <span v-if="timer.notes"> · {{ timer.notes }}</span>
                   </p>
                 </div>
@@ -274,7 +287,7 @@ const TimerManagerComponent = {
           <div v-for="timer in completedTimers" :key="timer.id" class="px-5 py-3 flex items-center justify-between">
             <div>
               <span class="text-sm text-text-primary dark:text-dark-text">✅ {{ timer.name }}</span>
-              <p class="text-xs text-text-muted">{{ FermentFormat.formatDateShort(timer.endDate) }}</p>
+              <p class="text-xs text-text-muted">{{ fmtDateShort(timer.endDate) }}</p>
             </div>
             <button @click="deleteTimer(timer.id)" class="p-1.5 rounded-lg text-text-muted hover:text-accent-ferment hover:bg-accent-ferment/10 transition-all">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
