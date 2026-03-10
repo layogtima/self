@@ -32,8 +32,15 @@ const JournalManagerComponent = {
 
   emits: ['update:batches', 'open-recipe'],
 
+  errorCaptured(err, _vm, info) {
+    console.warn('[FERMENT] Journal error in', info, err);
+    this.journalError = (err && err.message) || 'An error occurred in the journal.';
+    return false;
+  },
+
   data() {
     return {
+      journalError: null,
       showNewBatchForm: false,
       showLogForm: null,
       showCompleteForm: null,
@@ -260,10 +267,26 @@ const JournalManagerComponent = {
     ratingStars(n) {
       return '★'.repeat(n) + '☆'.repeat(5 - n);
     },
+
+    fmtDateShort(dateStr) {
+      try { return FermentFormat.formatDateShort(dateStr); } catch (e) { return ''; }
+    },
+
+    fmtRelativeDate(dateStr) {
+      try { return FermentFormat.formatRelativeDate(dateStr); } catch (e) { return ''; }
+    },
   },
 
   template: `
     <div class="space-y-6">
+      <!-- Error state -->
+      <div v-if="journalError" class="bg-accent-ferment/10 border border-accent-ferment/30 rounded-xl p-4">
+        <p class="text-sm text-accent-ferment font-medium">Something went wrong in the journal.</p>
+        <p class="text-xs text-text-muted mt-1">{{ journalError }}</p>
+        <button @click="journalError = null" class="mt-2 text-xs text-accent-ferment underline">Dismiss</button>
+      </div>
+      <template v-if="!journalError">
+
       <!-- Header -->
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -392,7 +415,7 @@ const JournalManagerComponent = {
                   </span>
                 </div>
                 <p class="text-sm text-text-muted dark:text-dark-text-secondary mt-1">
-                  {{ batchDayLabel(batch) }} · Started {{ FermentFormat.formatDateShort(batch.startDate) }}
+                  {{ batchDayLabel(batch) }} · Started {{ fmtDateShort(batch.startDate) }}
                   <span v-if="batch.batchSize !== 1"> · {{ batch.batchSize }}x batch</span>
                 </p>
               </div>
@@ -423,7 +446,7 @@ const JournalManagerComponent = {
             <!-- Last Check -->
             <div v-if="lastCheck(batch)" class="bg-bg-secondary/50 dark:bg-dark-secondary/50 rounded-xl px-4 py-3">
               <div class="flex items-center gap-2 mb-1">
-                <span class="text-xs font-medium text-text-muted dark:text-dark-text-secondary">Last check: {{ FermentFormat.formatRelativeDate(lastCheck(batch).timestamp) }}</span>
+                <span class="text-xs font-medium text-text-muted dark:text-dark-text-secondary">Last check: {{ fmtRelativeDate(lastCheck(batch).timestamp) }}</span>
                 <span>{{ bubbleEmoji(lastCheck(batch).bubbleActivity) }}</span>
               </div>
               <p v-if="lastCheck(batch).note" class="text-sm text-text-primary dark:text-dark-text">{{ lastCheck(batch).note }}</p>
@@ -568,7 +591,7 @@ const JournalManagerComponent = {
                 <span v-if="batch.rating" class="text-accent-brine text-sm">{{ ratingStars(batch.rating) }}</span>
               </div>
               <p class="text-xs text-text-muted dark:text-dark-text-secondary mt-1">
-                {{ FermentFormat.formatDateShort(batch.startDate) }} — {{ FermentFormat.formatDateShort(batch.completedAt) }}
+                {{ fmtDateShort(batch.startDate) }} — {{ fmtDateShort(batch.completedAt) }}
                 <span v-if="batch.logs"> · {{ batch.logs.length }} check{{ batch.logs.length === 1 ? '' : 's' }}</span>
               </p>
               <p v-if="batch.outcomeNotes" class="text-sm text-text-secondary dark:text-dark-text-secondary mt-1">{{ batch.outcomeNotes }}</p>
@@ -579,6 +602,7 @@ const JournalManagerComponent = {
           </div>
         </div>
       </div>
+      </template>
     </div>
   `
 };

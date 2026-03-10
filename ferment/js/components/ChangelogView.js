@@ -19,6 +19,24 @@ const ChangelogViewComponent = {
 
       entries: [
         {
+          version: '1.3.0',
+          date: '2026-03-10',
+          title: 'Stability, Cache Burst & UI Polish',
+          summary: 'Critical crash fixes, JS cache busting, tool sandboxing, nav icons, and recipe masthead cleanup.',
+          items: [
+            { type: 'feature', text: 'Cache busting: all JS files now include version query strings (?v=20260310) — no more stale code on deployment', link: null },
+            { type: 'feature', text: 'Tool sandboxing: each tool is isolated so a crash in one does not take down the entire Tools tab', link: '#/tools' },
+            { type: 'enhancement', text: 'Secondary nav tabs now show small icons (📖 Story, 🧾 Recipe, 📝 Notes, ☀️ Dehydrate, 📄 Article, 📚 Sources)', link: null },
+            { type: 'enhancement', text: 'Secondary nav uses solid background color instead of glass/blur effect', link: null },
+            { type: 'enhancement', text: 'Secondary nav tabs have visible dividers between buttons for easier tapping', link: null },
+            { type: 'enhancement', text: 'Primary mobile nav buttons now have subtle border demarcation between tabs', link: null },
+            { type: 'enhancement', text: 'Tier badge (Beginner / Seasoned / ...) is now a subtle label instead of a prominent pill in the recipe masthead', link: null },
+            { type: 'fix', text: 'Start Batch no longer crashes when recipe has no fermentTimeMax — falls back to 14 days', link: '#/journal' },
+            { type: 'fix', text: 'Category emoji removed from recipe masthead hero (was showing random jar icon)', link: null },
+            { type: 'fix', text: 'Service Worker cache updated to v6 to force refresh of cached assets', link: null },
+          ]
+        },
+        {
           version: '1.2.0',
           date: '2026-03-10',
           title: 'UI Refactor & Navigation',

@@ -49,11 +49,11 @@ const RecipePageComponent = {
 
     mobileTabs() {
       const t = [
-        { id: 'story', label: 'Story' },
-        { id: 'recipe', label: 'Recipe' },
-        { id: 'notes', label: 'Notes' },
+        { id: 'story', label: 'Story', icon: '📖' },
+        { id: 'recipe', label: 'Recipe', icon: '🧾' },
+        { id: 'notes', label: 'Notes', icon: '📝' },
       ];
-      if (this.hasDehydrate) t.push({ id: 'dehydrate', label: 'Dehydrate' });
+      if (this.hasDehydrate) t.push({ id: 'dehydrate', label: 'Dehydrate', icon: '☀️' });
       return t;
     },
 
@@ -260,11 +260,8 @@ const RecipePageComponent = {
         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
         <div class="relative px-6 sm:px-10 py-10 sm:py-14">
           <div class="flex items-start gap-5">
-            <span class="text-4xl sm:text-6xl opacity-80 flex-shrink-0 drop-shadow-lg">{{ categoryEmoji }}</span>
             <div class="flex-1 min-w-0">
-              <span :class="['inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold mb-3', 'bg-tier-' + tier.name]">
-                {{ tier.emoji }} {{ tier.label }} &middot; {{ tier.tagline }}
-              </span>
+              <span class="inline-block text-xs text-white/60 mb-3">{{ tier.emoji }} {{ tier.label }}</span>
               <!-- Editable name -->
               <h1 v-if="editMode && editingField === 'name'" class="mb-2">
                 <text-editor :model-value="getEditedValue('name', recipe.name)" @update:model-value="saveEdit('name', $event)" @done="editingField = null" placeholder="Recipe name"></text-editor>

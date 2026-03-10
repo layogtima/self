@@ -62,6 +62,7 @@ const FermentFormat = {
   },
 
   saltToHuman(grams) {
+    if (grams == null || isNaN(grams)) return '';
     if (grams < 5) return grams.toFixed(1) + ' g (~' + (grams / 5).toFixed(1) + ' tsp)';
     if (grams < 15) return grams.toFixed(1) + ' g (~' + (grams / 5).toFixed(0) + ' tsp)';
     return grams.toFixed(1) + ' g (~' + Math.floor(grams / 15) + ' tbsp' +
@@ -102,7 +103,9 @@ const FermentFormat = {
   },
 
   daysBetween(start, end) {
+    if (!start) return 0;
     const s = new Date(start);
+    if (isNaN(s.getTime())) return 0;
     const e = end ? new Date(end) : new Date();
     return Math.floor((e - s) / (1000 * 60 * 60 * 24));
   },
@@ -121,6 +124,7 @@ const FermentFormat = {
 
   // Scale ingredient amounts
   scaleAmount(amount, multiplier) {
+    if (amount == null || isNaN(amount)) return '';
     const scaled = amount * multiplier;
     // Round nicely
     if (scaled < 0.1) return scaled.toFixed(2);

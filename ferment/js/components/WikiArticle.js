@@ -88,8 +88,8 @@ const WikiArticleComponent = {
   methods: {
     _registerNav() {
       const hasCitations = (this.article.citations || []).length > 0;
-      const tabs = [{ id: 'read', label: 'Article' }];
-      if (hasCitations) tabs.push({ id: 'references', label: 'References' });
+      const tabs = [{ id: 'read', label: 'Article', icon: '📄' }];
+      if (hasCitations) tabs.push({ id: 'references', label: 'Sources', icon: '📚' });
       this.$emit('set-nav', { tabs, active: 'read' });
     },
 

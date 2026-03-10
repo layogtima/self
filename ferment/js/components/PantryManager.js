@@ -19,8 +19,15 @@ const PantryManagerComponent = {
 
   emits: ['update:pantry', 'browse-matching'],
 
+  errorCaptured(err, _vm, info) {
+    console.warn('[FERMENT] Pantry error in', info, err);
+    this.pantryError = (err && err.message) || 'An error occurred in the pantry.';
+    return false;
+  },
+
   data() {
     return {
+      pantryError: null,
       searchQuery: '',
       showAddForm: false,
       showAddDetails: false,
@@ -246,6 +253,12 @@ const PantryManagerComponent = {
 
   template: `
     <div class="space-y-6">
+      <div v-if="pantryError" class="bg-accent-ferment/10 border border-accent-ferment/30 rounded-xl p-4">
+        <p class="text-sm text-accent-ferment font-medium">Something went wrong in the pantry.</p>
+        <p class="text-xs text-text-muted mt-1">{{ pantryError }}</p>
+        <button @click="pantryError = null" class="mt-2 text-xs text-accent-ferment underline">Dismiss</button>
+      </div>
+      <template v-if="!pantryError">
       <!-- Header -->
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -624,6 +637,7 @@ const PantryManagerComponent = {
           </div>
         </div>
       </div>
+      </template>
     </div>
   `
 };

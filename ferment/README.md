@@ -71,6 +71,12 @@ ferment/
 └── sw.js                       # Service worker (cache-first)
 ```
 
+## Deployment
+
+### Cache Busting
+
+All local JS files include a `?v=YYYYMMDD` query string (e.g. `?v=20260310`). On each deployment, bump this version string across all `<script src="...?v=...">` tags in `index.html` and update the `CACHE_NAME` in `sw.js` to force browsers and the service worker to reload fresh assets.
+
 ## Features
 
 ### Recipes

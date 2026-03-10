@@ -22,9 +22,16 @@ const ToolsViewComponent = {
 
   emits: ['open-wiki'],
 
+  errorCaptured(err, _vm, info) {
+    console.warn('[FERMENT] Tool error in', info, err);
+    this.toolError = (err && err.message) || 'An error occurred in this tool.';
+    return false; // prevent propagation
+  },
+
   data() {
     return {
       activeTab: null,
+      toolError: null,
       // Unit Converter state
       converter: {
         mode: 'weight',
@@ -124,6 +131,10 @@ const ToolsViewComponent = {
   },
 
   methods: {
+    switchTool(id) {
+      this.toolError = null;
+      this.activeTab = id;
+    },
     switchConverterMode(mode) {
       this.converter.mode = mode;
       const units = this.converterModes.find(m => m.id === mode).units;
@@ -161,7 +172,7 @@ const ToolsViewComponent = {
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <button v-for="tab in tabs" :key="tab.id"
-            @click="activeTab = tab.id"
+            @click="switchTool(tab.id)"
             class="tool-menu-card group text-left p-5 rounded-2xl border border-bg-secondary dark:border-dark-secondary bg-bg-card dark:bg-dark-card hover:border-accent-brine/40 transition-all duration-300">
             <div class="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">{{ tab.emoji }}</div>
             <h3 class="font-serif text-lg text-text-primary dark:text-dark-text mb-1 group-hover:text-accent-aged dark:group-hover:text-accent-brine transition-colors">{{ tab.label }}</h3>
@@ -177,24 +188,32 @@ const ToolsViewComponent = {
       <!-- ===== TOOL PAGE (tool selected) ===== -->
       <div v-else>
         <!-- Back to Tools Menu -->
-        <button @click="activeTab = null"
+        <button @click="activeTab = null; toolError = null"
           class="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium text-text-secondary dark:text-dark-text-secondary hover:bg-bg-secondary dark:hover:bg-dark-secondary transition-all mb-4">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
           Back to Tools
         </button>
 
+      <!-- Tool Error Display -->
+      <div v-if="toolError" class="bg-accent-ferment/10 border border-accent-ferment/30 rounded-xl p-4 mb-4">
+        <p class="text-sm text-accent-ferment font-medium">This tool encountered an error and has been isolated.</p>
+        <p class="text-xs text-text-muted mt-1">{{ toolError }}</p>
+        <button @click="toolError = null; activeTab = null" class="mt-2 text-xs text-accent-ferment underline">Back to tools</button>
+      </div>
+      <template v-else>
+
       <!-- Brine Calculator Tab -->
-      <div v-show="activeTab === 'brine'">
+      <div v-if="activeTab === 'brine'">
         <brine-calculator></brine-calculator>
       </div>
 
       <!-- Batch Scaler Tab -->
-      <div v-show="activeTab === 'scaler'">
+      <div v-if="activeTab === 'scaler'">
         <batch-scaler :recipes="recipes"></batch-scaler>
       </div>
 
       <!-- Timers Tab -->
-      <div v-show="activeTab === 'timers'">
+      <div v-if="activeTab === 'timers'">
         <timer-manager></timer-manager>
       </div>
 
@@ -388,6 +407,7 @@ const ToolsViewComponent = {
           </div>
         </div>
       </div>
+      </template>
       </div>
     </div>
   `

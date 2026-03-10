@@ -269,14 +269,15 @@
 
       <!-- Contextual Secondary Nav (screen-specific, fixed above main nav) -->
       <nav v-if="contextualNavTabs.length > 0"
-        class="sm:hidden fixed bottom-14 left-0 right-0 z-30 bg-bg-primary/98 dark:bg-dark-primary/98 backdrop-blur-sm border-t border-bg-secondary dark:border-dark-secondary">
-        <div class="flex overflow-x-auto scrollbar-hide">
+        class="sm:hidden fixed bottom-14 left-0 right-0 z-30 bg-bg-primary dark:bg-dark-primary border-t border-bg-secondary dark:border-dark-secondary">
+        <div class="flex divide-x divide-bg-secondary dark:divide-dark-secondary">
           <button v-for="tab in contextualNavTabs" :key="tab.id"
             @click="contextualNavActive = tab.id"
-            :class="['flex-1 py-2 px-3 text-xs font-medium text-center transition-all duration-200 border-b-2 whitespace-nowrap min-w-0',
+            :class="['flex-1 flex items-center justify-center gap-1.5 py-2 px-3 text-xs font-medium transition-all duration-200 border-b-2 whitespace-nowrap min-w-0',
               contextualNavActive === tab.id
-                ? 'border-accent-brine text-accent-aged dark:text-accent-brine'
-                : 'border-transparent text-text-muted hover:text-text-secondary']">
+                ? 'border-accent-brine text-accent-aged dark:text-accent-brine bg-accent-brine/5'
+                : 'border-transparent text-text-muted hover:text-text-secondary hover:bg-bg-secondary/50 dark:hover:bg-dark-secondary/30']">
+            <span v-if="tab.icon" class="text-[11px] leading-none">{{ tab.icon }}</span>
             {{ tab.label }}
           </button>
         </div>
@@ -285,7 +286,7 @@
       <!-- Mobile Bottom Tab Bar -->
       <nav
         class="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-bg-primary/95 dark:bg-dark-primary/95 backdrop-blur-sm border-t border-bg-secondary dark:border-dark-secondary safe-area-bottom">
-        <div class="flex items-stretch">
+        <div class="flex items-stretch divide-x divide-bg-secondary/60 dark:divide-dark-secondary/60">
           <button @click="currentTab = 'browse'; currentRoute = 'home'; selectedRecipe = null" :class="['flex-1 flex flex-col items-center gap-0.5 py-2 pt-2.5 text-xs font-medium transition-colors',
               currentTab === 'browse' && currentRoute !== 'recipe' ? 'text-accent-brine' : 'text-text-muted']">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -350,41 +351,41 @@
   <!-- Vue.js -->
   <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
 
-  <!-- App Scripts -->
-  <script src="js/utils/formatting.js"></script>
-  <script src="js/utils/search.js"></script>
-  <script src="js/utils/matching.js"></script>
-  <script src="js/store.js"></script>
+  <!-- App Scripts (v=20260310 — bump this string on every deployment to bust browser cache) -->
+  <script src="js/utils/formatting.js?v=20260310"></script>
+  <script src="js/utils/search.js?v=20260310"></script>
+  <script src="js/utils/matching.js?v=20260310"></script>
+  <script src="js/store.js?v=20260310"></script>
   <!-- Recipe loader (fetches individual JSON files, falls back to tier*.js) -->
-  <script src="js/recipes.js"></script>
+  <script src="js/recipes.js?v=20260310"></script>
   <!-- Fallback: tier1 recipes loaded via script tag in case JSON fetch fails -->
-  <script src="data/recipes/tier1-beginner.js?v2"></script>
+  <script src="data/recipes/tier1-beginner.js?v=20260310"></script>
   <!-- Wiki loader -->
-  <script src="js/wiki.js"></script>
-  <script src="js/components/SearchBar.js"></script>
-  <script src="js/components/FilterPanel.js"></script>
-  <script src="js/components/RecipeCard.js"></script>
-  <script src="js/components/RecipePage.js"></script>
-  <script src="js/components/PantryManager.js"></script>
-  <script src="js/components/JournalManager.js"></script>
-  <script src="js/components/BrineCalculator.js"></script>
-  <script src="js/components/BatchScaler.js"></script>
-  <script src="js/components/TimerManager.js"></script>
-  <script src="js/components/BrowseView.js"></script>
-  <script src="js/components/ToolsView.js"></script>
-  <script src="js/components/SettingsModal.js"></script>
-  <script src="js/components/OnboardingModal.js"></script>
-  <script src="js/components/WikiView.js"></script>
-  <script src="js/components/WikiArticle.js"></script>
-  <script src="js/components/WelcomePage.js"></script>
-  <script src="js/components/ChangelogView.js"></script>
-  <script src="js/components/InlineEditor.js"></script>
-  <script src="js/components/editors/TextEditor.js"></script>
-  <script src="js/components/editors/ListEditor.js"></script>
-  <script src="js/components/editors/MediaPicker.js"></script>
-  <script src="js/components/editors/TagEditor.js"></script>
-  <script src="js/components/editors/CitationEditor.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/wiki.js?v=20260310"></script>
+  <script src="js/components/SearchBar.js?v=20260310"></script>
+  <script src="js/components/FilterPanel.js?v=20260310"></script>
+  <script src="js/components/RecipeCard.js?v=20260310"></script>
+  <script src="js/components/RecipePage.js?v=20260310"></script>
+  <script src="js/components/PantryManager.js?v=20260310"></script>
+  <script src="js/components/JournalManager.js?v=20260310"></script>
+  <script src="js/components/BrineCalculator.js?v=20260310"></script>
+  <script src="js/components/BatchScaler.js?v=20260310"></script>
+  <script src="js/components/TimerManager.js?v=20260310"></script>
+  <script src="js/components/BrowseView.js?v=20260310"></script>
+  <script src="js/components/ToolsView.js?v=20260310"></script>
+  <script src="js/components/SettingsModal.js?v=20260310"></script>
+  <script src="js/components/OnboardingModal.js?v=20260310"></script>
+  <script src="js/components/WikiView.js?v=20260310"></script>
+  <script src="js/components/WikiArticle.js?v=20260310"></script>
+  <script src="js/components/WelcomePage.js?v=20260310"></script>
+  <script src="js/components/ChangelogView.js?v=20260310"></script>
+  <script src="js/components/InlineEditor.js?v=20260310"></script>
+  <script src="js/components/editors/TextEditor.js?v=20260310"></script>
+  <script src="js/components/editors/ListEditor.js?v=20260310"></script>
+  <script src="js/components/editors/MediaPicker.js?v=20260310"></script>
+  <script src="js/components/editors/TagEditor.js?v=20260310"></script>
+  <script src="js/components/editors/CitationEditor.js?v=20260310"></script>
+  <script src="js/app.js?v=20260310"></script>
 
   <!-- Service Worker Registration -->
   <script>
