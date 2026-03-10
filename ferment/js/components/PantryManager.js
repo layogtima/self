@@ -99,9 +99,13 @@ const PantryManagerComponent = {
       let exact = 0;
       let close = 0;
       for (const recipe of this.recipes) {
-        const match = FermentMatching.matchRecipe(recipe, this.pantry);
-        if (match.canMake) exact++;
-        else if (match.missingCount <= 2) close++;
+        try {
+          const match = FermentMatching.matchRecipe(recipe, this.pantry);
+          if (match.canMake) exact++;
+          else if (match.missingCount <= 2) close++;
+        } catch (e) {
+          console.warn('[FERMENT] Match summary error for', recipe.id, e);
+        }
       }
       return { exact, close };
     },
