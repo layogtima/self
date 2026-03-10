@@ -14,14 +14,17 @@
   <!-- Open Graph -->
   <meta property="og:type" content="website" id="og-type">
   <meta property="og:title" content="FERMENT — Your Fermentation Companion" id="og-title">
-  <meta property="og:description" content="A cultural guide to lactic acid fermentation from around the world. Browse recipes, track batches, and master the ancient art of fermentation." id="og-description">
-  <meta property="og:image" content="" id="og-image">
+  <meta property="og:description"
+    content="A cultural guide to lactic acid fermentation from around the world. Browse recipes, track batches, and master the ancient art of fermentation."
+    id="og-description">
+  <meta property="og:image" content="" id="og-image" content="http://ferment.layogtima.com/images/meta.jpg">
   <meta property="og:site_name" content="FERMENT">
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" id="twitter-card">
   <meta name="twitter:title" content="FERMENT — Your Fermentation Companion" id="twitter-title">
-  <meta name="twitter:description" content="A cultural guide to lactic acid fermentation from around the world." id="twitter-description">
-  <meta name="twitter:image" content="" id="twitter-image">
+  <meta name="twitter:description" content="A cultural guide to lactic acid fermentation from around the world."
+    id="twitter-description">
+  <meta name="twitter:image" id="twitter-image" content="http://ferment.layogtima.com/images/meta.jpg">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
@@ -114,7 +117,7 @@
 
     <!-- Welcome Page (full-screen, replaces entire app shell) -->
     <template v-else-if="currentRoute === 'welcome'">
-      <welcome-page @enter="enterApp"
+      <welcome-page @enter="enterApp" @navigate="(tab) => { enterApp(); $nextTick(() => { currentTab = tab; }); }"
         @open-recipe="(id) => { enterApp(); $nextTick(() => { const r = allRecipes.find(r => r.id === id); if (r) openRecipe(r); }); }" />
     </template>
 
@@ -188,12 +191,10 @@
 
         <!-- Wiki Article (full-page view) -->
         <div v-else-if="currentRoute === 'wiki-article' && selectedWikiArticle">
-          <wiki-article :article="selectedWikiArticle" :all-articles="wikiArticles" :all-recipes="allRecipes" :settings="settings"
-            :contextual-nav-active-tab="contextualNavActive"
-            @close="closeWikiArticle" @open-article="openWikiArticle($event)"
-            @open-recipe="openRecipeFromWiki($event)"
-            @set-nav="setContextualNav($event.tabs, $event.active)"
-            @update-nav-active="contextualNavActive = $event"
+          <wiki-article :article="selectedWikiArticle" :all-articles="wikiArticles" :all-recipes="allRecipes"
+            :settings="settings" :contextual-nav-active-tab="contextualNavActive" @close="closeWikiArticle"
+            @open-article="openWikiArticle($event)" @open-recipe="openRecipeFromWiki($event)"
+            @set-nav="setContextualNav($event.tabs, $event.active)" @update-nav-active="contextualNavActive = $event"
             @clear-nav="clearContextualNav()">
           </wiki-article>
         </div>
@@ -201,14 +202,11 @@
         <!-- Recipe Page (full-page view, replaces modal) -->
         <div v-else-if="currentRoute === 'recipe' && selectedRecipe">
           <recipe-page :recipe="selectedRecipe" :pantry="pantry" :recipe-notes="recipeNotes" :favorites="favorites"
-            :bookmarks="bookmarks" :settings="settings"
-            :contextual-nav-active-tab="contextualNavActive"
-            @close="closeRecipe" @toggle-favorite="toggleFavorite($event)"
-            @toggle-bookmark="toggleBookmark($event)" @update-notes="updateRecipeNotes($event)"
-            @start-batch="startBatch($event)" @add-to-pantry="addToPantry($event)"
-            @set-nav="setContextualNav($event.tabs, $event.active)"
-            @update-nav-active="contextualNavActive = $event"
-            @clear-nav="clearContextualNav()">
+            :bookmarks="bookmarks" :settings="settings" :contextual-nav-active-tab="contextualNavActive"
+            @close="closeRecipe" @toggle-favorite="toggleFavorite($event)" @toggle-bookmark="toggleBookmark($event)"
+            @update-notes="updateRecipeNotes($event)" @start-batch="startBatch($event)"
+            @add-to-pantry="addToPantry($event)" @set-nav="setContextualNav($event.tabs, $event.active)"
+            @update-nav-active="contextualNavActive = $event" @clear-nav="clearContextualNav()">
           </recipe-page>
         </div>
 
@@ -226,8 +224,8 @@
 
           <!-- Wiki Tab -->
           <div v-show="currentTab === 'wiki'">
-            <wiki-view :articles="wikiArticles" :recipes="allRecipes"
-              @open-article="openWikiArticle($event)" @open-recipe="openRecipe($event)">
+            <wiki-view :articles="wikiArticles" :recipes="allRecipes" @open-article="openWikiArticle($event)"
+              @open-recipe="openRecipe($event)">
             </wiki-view>
           </div>
 
@@ -247,8 +245,7 @@
 
           <!-- Tools Tab -->
           <div v-show="currentTab === 'tools'">
-            <tools-view :settings="settings" :recipes="allRecipes"
-              @open-wiki="currentTab = 'wiki'">
+            <tools-view :settings="settings" :recipes="allRecipes" @open-wiki="currentTab = 'wiki'">
             </tools-view>
           </div>
         </template>
@@ -262,7 +259,8 @@
               never explode."</em>
           </p>
           <p class="text-xs text-text-muted">
-            <button @click="openChangelog()" class="hover:text-accent-brine transition-colors underline-offset-2 hover:underline">What's New ↗</button>
+            <button @click="openChangelog()"
+              class="hover:text-accent-brine transition-colors underline-offset-2 hover:underline">What's New ↗</button>
           </p>
         </div>
       </footer>
@@ -271,8 +269,7 @@
       <nav v-if="contextualNavTabs.length > 0"
         class="sm:hidden fixed bottom-14 left-0 right-0 z-30 bg-bg-primary dark:bg-dark-primary border-t border-bg-secondary dark:border-dark-secondary">
         <div class="flex divide-x divide-bg-secondary dark:divide-dark-secondary">
-          <button v-for="tab in contextualNavTabs" :key="tab.id"
-            @click="contextualNavActive = tab.id"
+          <button v-for="tab in contextualNavTabs" :key="tab.id" @click="contextualNavActive = tab.id"
             :class="['flex-1 flex items-center justify-center gap-1.5 py-2 px-3 text-xs font-medium transition-all duration-200 border-b-2 whitespace-nowrap min-w-0',
               contextualNavActive === tab.id
                 ? 'border-accent-brine text-accent-aged dark:text-accent-brine bg-accent-brine/5'
@@ -295,7 +292,8 @@
             </svg>
             Browse
           </button>
-          <button @click="currentTab = 'wiki'; currentRoute = 'home'; selectedRecipe = null; selectedWikiArticle = null" :class="['flex-1 flex flex-col items-center gap-0.5 py-2 pt-2.5 text-xs font-medium transition-colors',
+          <button @click="currentTab = 'wiki'; currentRoute = 'home'; selectedRecipe = null; selectedWikiArticle = null"
+            :class="['flex-1 flex flex-col items-center gap-0.5 py-2 pt-2.5 text-xs font-medium transition-colors',
               currentTab === 'wiki' && currentRoute !== 'recipe' && currentRoute !== 'wiki-article' ? 'text-accent-brine' : 'text-text-muted']">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -338,8 +336,7 @@
     <!-- Settings Modal -->
     <settings-modal v-if="showSettings" :settings="settings" :user-level="userLevel" @close="showSettings = false"
       @update:settings="updateSettings($event)" @export-data="exportData" @import-data="importData($event)"
-      @clear-data="clearData" @show-welcome="showWelcome"
-      @show-changelog="showSettings = false; openChangelog()">
+      @clear-data="clearData" @show-welcome="showWelcome" @show-changelog="showSettings = false; openChangelog()">
     </settings-modal>
 
     <!-- Onboarding (deferred until user leaves welcome page) -->
