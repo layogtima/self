@@ -450,4 +450,4 @@ const ToolsViewComponent = {
       </div>
     </div>
   `
-;
+};
