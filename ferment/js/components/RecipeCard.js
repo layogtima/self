@@ -100,6 +100,16 @@ const RecipeCardComponent = {
       return t;
     },
 
+    heroImage() {
+      const imgs = this.recipe.images;
+      if (!imgs) return null;
+      if (Array.isArray(imgs)) {
+        const hero = imgs.find(i => i.type === 'hero');
+        return hero ? hero.url : null;
+      }
+      return imgs.hero || null;
+    },
+
     matchPercent() {
       if (!this.pantryMatch) return null;
       return Math.round(this.pantryMatch.score * 100);
@@ -119,16 +129,16 @@ const RecipeCardComponent = {
       <!-- Hero Image -->
       <div :class="['relative h-44 bg-gradient-to-br overflow-hidden', categoryGradient]">
         <!-- Actual image if available -->
-        <img v-if="recipe.images && recipe.images.hero" :src="recipe.images.hero" :alt="recipe.name" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
-        <div v-if="recipe.images && recipe.images.hero" class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent"></div>
+        <img v-if="heroImage" :src="heroImage" :alt="recipe.name" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+        <div v-if="heroImage" class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent"></div>
 
         <!-- Fallback: Category Pattern Overlay -->
-        <div v-if="!recipe.images || !recipe.images.hero" class="absolute inset-0 opacity-20">
+        <div v-if="!heroImage" class="absolute inset-0 opacity-20">
           <div class="absolute inset-0" style="background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.3) 0%, transparent 50%), radial-gradient(circle at 80% 30%, rgba(255,255,255,0.2) 0%, transparent 40%);"></div>
         </div>
 
         <!-- Fallback: Category Icon -->
-        <div v-if="!recipe.images || !recipe.images.hero" class="absolute inset-0 flex items-center justify-center">
+        <div v-if="!heroImage" class="absolute inset-0 flex items-center justify-center">
           <svg class="w-16 h-16 text-white/50 group-hover:scale-110 transition-transform duration-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" :d="categoryIcon"/></svg>
         </div>
 
@@ -238,9 +248,10 @@ const RecipeCardComponent = {
       <!-- Tier Indicator -->
       <div :class="['w-1.5 h-12 rounded-full flex-shrink-0', 'bg-tier-' + tier.name]"></div>
 
-      <!-- Category Icon -->
-      <div :class="['w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br', categoryGradient]">
-        <svg class="w-5 h-5 text-white/80" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" :d="categoryIcon"/></svg>
+      <!-- Recipe Image or Category Icon -->
+      <div :class="['w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden bg-gradient-to-br', categoryGradient]">
+        <img v-if="heroImage" :src="heroImage" :alt="recipe.name" class="w-full h-full object-cover" loading="lazy" />
+        <svg v-else class="w-5 h-5 text-white/80" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" :d="categoryIcon"/></svg>
       </div>
 
       <!-- Name / Origin -->

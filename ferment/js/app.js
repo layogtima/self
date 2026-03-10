@@ -108,11 +108,14 @@ const app = createApp({
       // Max ferment days
       if (filters.maxDays !== null && filters.maxDays > 0) {
         recipes = recipes.filter(r => {
-          const minDays = r.fermentTimeUnit === 'months'
-            ? r.fermentTimeMin * 30
-            : r.fermentTimeUnit === 'weeks'
-              ? r.fermentTimeMin * 7
-              : r.fermentTimeMin;
+          const unit = (r.fermentTimeUnit || 'days').replace(/s$/, '');
+          const min = r.fermentTimeMin;
+          if (min == null) return true;
+          const minDays = unit === 'hour' ? min / 24
+            : unit === 'week' ? min * 7
+            : unit === 'month' ? min * 30
+            : unit === 'year' ? min * 365
+            : min;
           return minDays <= filters.maxDays;
         });
       }

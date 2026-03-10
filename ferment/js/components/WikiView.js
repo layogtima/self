@@ -17,6 +17,7 @@ const WikiViewComponent = {
     return {
       searchQuery: '',
       selectedTag: null,
+      showTags: false,
       showGlossary: false,
       glossaryQuery: '',
     };
@@ -113,6 +114,16 @@ const WikiViewComponent = {
         'temperature-and-fermentation': '🌡️',
         'troubleshooting-ferments': '🔍',
         'fermentation-traditions-worldwide': '🌍',
+        'aromatics-spices-herbs-in-fermentation': '🌿',
+        'fermentation-tools-through-history': '🏺',
+        'water-quality-and-fermentation': '💧',
+        'fermented-foods-around-your-kitchen': '🍽️',
+        'best-vegetables-fruits-to-ferment': '🥬',
+        'dehydrating-and-fermenting': '☀️',
+        'fermentation-and-food-safety': '🛡️',
+        'fermentation-flavour-chart': '🎨',
+        'second-ferments-and-flavouring': '🍋',
+        'what-to-do-with-leftover-brine': '🫗',
       };
       return icons[article.id] || '📖';
     },
@@ -168,18 +179,27 @@ const WikiViewComponent = {
         </div>
       </div>
 
-      <!-- Tag Filter -->
-      <div class="flex flex-wrap gap-2 justify-center">
-        <button @click="selectedTag = null"
-          :class="['px-3 py-1 rounded-full text-xs font-medium transition-colors',
-            !selectedTag ? 'bg-accent-brine/20 text-accent-aged dark:text-accent-brine border border-accent-brine/30' : 'bg-bg-secondary dark:bg-dark-secondary text-text-secondary hover:text-text-primary border border-transparent']">
-          All
+      <!-- Tag Filter (collapsible) -->
+      <div class="text-center">
+        <button @click="showTags = !showTags"
+          :class="['inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-medium transition-colors border',
+            showTags || selectedTag ? 'bg-accent-brine/10 border-accent-brine/30 text-accent-aged dark:text-accent-brine' : 'border-bg-secondary dark:border-dark-secondary text-text-secondary hover:text-text-primary hover:bg-bg-secondary dark:hover:bg-dark-secondary']">
+          <span>Tags</span>
+          <span v-if="selectedTag" class="capitalize">&middot; {{ selectedTag }}</span>
+          <svg :class="['w-3.5 h-3.5 transition-transform duration-200', showTags ? 'rotate-180' : '']" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </button>
-        <button v-for="tag in allTags" :key="tag" @click="selectedTag = selectedTag === tag ? null : tag"
-          :class="['px-3 py-1 rounded-full text-xs font-medium transition-colors capitalize',
-            selectedTag === tag ? 'bg-accent-brine/20 text-accent-aged dark:text-accent-brine border border-accent-brine/30' : 'bg-bg-secondary dark:bg-dark-secondary text-text-secondary hover:text-text-primary border border-transparent']">
-          {{ tag }}
-        </button>
+        <div v-show="showTags" class="flex flex-wrap gap-2 justify-center mt-3">
+          <button @click="selectedTag = null"
+            :class="['px-3 py-1 rounded-full text-xs font-medium transition-colors',
+              !selectedTag ? 'bg-accent-brine/20 text-accent-aged dark:text-accent-brine border border-accent-brine/30' : 'bg-bg-secondary dark:bg-dark-secondary text-text-secondary hover:text-text-primary border border-transparent']">
+            All
+          </button>
+          <button v-for="tag in allTags" :key="tag" @click="selectedTag = selectedTag === tag ? null : tag"
+            :class="['px-3 py-1 rounded-full text-xs font-medium transition-colors capitalize',
+              selectedTag === tag ? 'bg-accent-brine/20 text-accent-aged dark:text-accent-brine border border-accent-brine/30' : 'bg-bg-secondary dark:bg-dark-secondary text-text-secondary hover:text-text-primary border border-transparent']">
+            {{ tag }}
+          </button>
+        </div>
       </div>
 
       <!-- Article Cards -->
