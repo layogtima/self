@@ -417,6 +417,21 @@ const app = createApp({
       openRecipe(recipe);
     }
 
+    // ── Changelog navigation ──
+    function openChangelog() {
+      currentRoute.value = 'changelog';
+      pushHistory({ route: 'changelog' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function closeChangelog() {
+      currentRoute.value = 'home';
+      updateMeta();
+      if (!suppressPopState) {
+        history.back();
+      }
+    }
+
     // ── Meta tag management for OG/sharing ──
     const defaultMeta = {
       title: 'FERMENT — Your Fermentation Companion',
@@ -518,6 +533,8 @@ const app = createApp({
         url.hash = '#/recipe/' + state.recipeSlug;
       } else if (state.route === 'wiki-article' && state.articleSlug) {
         url.hash = '#/wiki/' + state.articleSlug;
+      } else if (state.route === 'changelog') {
+        url.hash = '#/changelog';
       } else if (state.tab) {
         url.hash = state.tab === 'browse' ? '#/' : '#/' + state.tab;
       } else {
@@ -570,6 +587,8 @@ const app = createApp({
           currentTab.value = 'wiki';
           updateMeta();
         }
+      } else if (state.route === 'changelog') {
+        currentRoute.value = 'changelog';
       } else {
         selectedRecipe.value = null;
         selectedWikiArticle.value = null;
@@ -619,6 +638,8 @@ const app = createApp({
             currentRoute.value = 'wiki-article';
             updateWikiMeta(article);
           }
+        } else if (tabMatch && tabMatch[1] === 'changelog') {
+          currentRoute.value = 'changelog';
         } else if (tabMatch && ['browse', 'wiki', 'pantry', 'journal', 'tools'].includes(tabMatch[1])) {
           currentTab.value = tabMatch[1];
         }
@@ -682,6 +703,8 @@ const app = createApp({
       openWikiArticle,
       closeWikiArticle,
       openRecipeFromWiki,
+      openChangelog,
+      closeChangelog,
     };
   }
 });

@@ -17,13 +17,12 @@ const SettingsModalComponent = {
     }
   },
 
-  emits: ['close', 'update:settings', 'export-data', 'import-data', 'clear-data', 'show-welcome'],
+  emits: ['close', 'update:settings', 'export-data', 'import-data', 'clear-data', 'show-welcome', 'show-changelog'],
 
   data() {
     return {
       localSettings: { ...this.settings },
       showClearConfirm: false,
-      showChangelog: false,
       storageSize: 0,
     };
   },
@@ -244,7 +243,7 @@ const SettingsModalComponent = {
 
           <!-- What's New -->
           <div>
-            <button @click="showChangelog = !showChangelog"
+            <button @click="$emit('show-changelog')"
               class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-bg-secondary/50 dark:bg-dark-secondary/50 hover:bg-bg-secondary dark:hover:bg-dark-secondary transition-all text-left"
             >
               <span class="text-xl">📋</span>
@@ -252,9 +251,8 @@ const SettingsModalComponent = {
                 <span class="text-sm font-medium text-text-primary dark:text-dark-text">What's New</span>
                 <p class="text-xs text-text-muted">Recent features, improvements & fixes</p>
               </div>
-              <svg :class="['w-4 h-4 text-text-muted transition-transform', showChangelog ? 'rotate-180' : '']" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              <svg class="w-4 h-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </button>
-            <changelog-view v-if="showChangelog" />
           </div>
 
           <!-- Divider -->

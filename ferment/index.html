@@ -181,8 +181,13 @@
       <!-- Main Content -->
       <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full">
 
+        <!-- Changelog (full-page view) -->
+        <div v-if="currentRoute === 'changelog'" class="min-h-screen pb-24 sm:pb-8">
+          <changelog-view :standalone="true" @close="closeChangelog()"></changelog-view>
+        </div>
+
         <!-- Wiki Article (full-page view) -->
-        <div v-if="currentRoute === 'wiki-article' && selectedWikiArticle">
+        <div v-else-if="currentRoute === 'wiki-article' && selectedWikiArticle">
           <wiki-article :article="selectedWikiArticle" :all-articles="wikiArticles" :all-recipes="allRecipes" :settings="settings"
             @close="closeWikiArticle" @open-article="openWikiArticle($event)"
             @open-recipe="openRecipeFromWiki($event)">
@@ -242,10 +247,13 @@
 
       <!-- Footer -->
       <footer class="border-t border-bg-secondary py-6 mt-8 dark:border-dark-secondary">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-2">
           <p class="text-text-muted text-sm">
             <em class="font-serif">"May your cultures be strong, your brine be clear, and your jars
               never explode."</em>
+          </p>
+          <p class="text-xs text-text-muted">
+            <button @click="openChangelog()" class="hover:text-accent-brine transition-colors underline-offset-2 hover:underline">What's New ↗</button>
           </p>
         </div>
       </footer>
@@ -305,7 +313,8 @@
     <!-- Settings Modal -->
     <settings-modal v-if="showSettings" :settings="settings" :user-level="userLevel" @close="showSettings = false"
       @update:settings="updateSettings($event)" @export-data="exportData" @import-data="importData($event)"
-      @clear-data="clearData" @show-welcome="showWelcome">
+      @clear-data="clearData" @show-welcome="showWelcome"
+      @show-changelog="showSettings = false; openChangelog()">
     </settings-modal>
 
     <!-- Onboarding (deferred until user leaves welcome page) -->

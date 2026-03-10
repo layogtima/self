@@ -108,10 +108,10 @@ ferment/
 
 No router library. State-driven routing using reactive refs:
 
-- **`currentRoute`**: `'home'` | `'recipe'` | `'wiki-article'` | `'welcome'`
+- **`currentRoute`**: `'home'` | `'recipe'` | `'wiki-article'` | `'welcome'` | `'changelog'`
 - **`currentTab`**: `'browse'` | `'wiki'` | `'pantry'` | `'journal'` | `'tools'`
 
-Browser history managed with `history.pushState()` / `popstate`. Hash URLs (`#/recipe/slug`, `#/wiki/slug`) are restored on page load for sharing. Back button uses `history.back()` for clean navigation.
+Browser history managed with `history.pushState()` / `popstate`. Hash URLs (`#/recipe/slug`, `#/wiki/slug`, `#/changelog`) are restored on page load for sharing. Back button uses `history.back()` for clean navigation.
 
 ### Data Flow
 

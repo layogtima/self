@@ -6,16 +6,38 @@
 const ChangelogViewComponent = {
   name: 'changelog-view',
 
+  props: {
+    standalone: { type: Boolean, default: false },
+  },
+
+  emits: ['close'],
+
   data() {
     return {
       entries: [
+        {
+          date: '2026-03-10',
+          title: 'UI Refactor & Navigation',
+          items: [
+            { type: 'feature', text: 'Changelog moved to footer as a dedicated full-page screen', link: '#/changelog' },
+            { type: 'feature', text: 'Changelog is now a standalone navigable route (#/changelog)', link: '#/changelog' },
+            { type: 'feature', text: 'Antigravity-style changelog hierarchy: Features, Improvements, Fixes per release', link: '#/changelog' },
+            { type: 'feature', text: 'Fixed recipe secondary nav (Story/Recipe/Notes/Dehydrate) above main nav, always accessible', link: null },
+            { type: 'feature', text: 'Screen-specific contextual nav framework for recipe and wiki article pages', link: null },
+            { type: 'fix', text: 'Pantry auto-add equipment no longer crashes recipe matching or pantry views', link: '#/pantry' },
+            { type: 'fix', text: 'Substitution matching now handles string and object formats safely', link: null },
+            { type: 'enhancement', text: 'Category icon now visible on mobile in recipe masthead', link: null },
+            { type: 'enhancement', text: 'Summary stat icons added to recipe detail page with consistent icon+text format', link: null },
+            { type: 'enhancement', text: 'Summary stat icons spacing improved on recipe cards', link: null },
+            { type: 'enhancement', text: 'Contributing section added to README for humans and AI agents', link: null },
+          ]
+        },
         {
           date: '2026-03-10',
           title: 'Equipment, Shelf Life & Content Expansion',
           items: [
             { type: 'feature', text: 'Shelf life displayed on recipe cards and detail pages', link: '#/browse' },
             { type: 'feature', text: 'Equipment management in Pantry with product links, images, and descriptions', link: '#/pantry' },
-            { type: 'feature', text: 'Public changelog in Settings', link: null },
             { type: 'feature', text: '5 new wiki articles: health benefits, mold identification, equipment guide, batch scaling, storage', link: '#/wiki' },
             { type: 'enhancement', text: 'Category emoji icons in recipe page quick stats', link: null },
             { type: 'enhancement', text: 'Remaining 7 recipes enriched to 3 tips per step', link: '#/browse' },
@@ -92,21 +114,35 @@ const ChangelogViewComponent = {
   },
 
   template: `
-    <div class="max-h-96 overflow-y-auto space-y-6 mt-3 pr-1">
-      <div v-for="(entry, idx) in entries" :key="idx" class="space-y-2">
-        <!-- Date Header -->
-        <div class="flex items-center gap-2">
-          <span class="text-xs font-mono text-text-muted">{{ formatDate(entry.date) }}</span>
-          <span class="text-xs font-medium text-text-secondary dark:text-dark-text-secondary">{{ entry.title }}</span>
-        </div>
+    <div :class="standalone ? 'max-w-2xl mx-auto' : 'max-h-96 overflow-y-auto pr-1'">
+      <!-- Standalone back button -->
+      <div v-if="standalone" class="mb-6">
+        <button @click="$emit('close')"
+          class="inline-flex items-center gap-2 text-sm text-text-muted hover:text-text-primary dark:hover:text-dark-text transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          Back
+        </button>
+        <h1 class="font-serif text-3xl mt-4 text-text-primary dark:text-dark-text">What's New</h1>
+        <p class="text-text-muted text-sm mt-1">Features, improvements, and fixes — most recent first.</p>
+      </div>
 
-        <!-- Items -->
-        <div class="space-y-1.5 pl-2 border-l-2 border-bg-secondary dark:border-dark-secondary">
-          <div v-for="(item, i) in entry.items" :key="i" class="flex items-start gap-2 pl-3 py-0.5">
-            <span :class="['inline-flex items-center px-1.5 py-0 rounded text-[10px] font-semibold leading-4 flex-shrink-0 mt-0.5', typeBadge(item.type)]">
-              {{ typeLabel(item.type) }}
-            </span>
-            <span class="text-xs text-text-secondary dark:text-dark-text-secondary leading-relaxed">{{ item.text }}</span>
+      <div class="space-y-6">
+        <div v-for="(entry, idx) in entries" :key="idx" class="space-y-2">
+          <!-- Date Header -->
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-mono text-text-muted">{{ formatDate(entry.date) }}</span>
+            <span class="text-xs font-medium text-text-secondary dark:text-dark-text-secondary">{{ entry.title }}</span>
+          </div>
+
+          <!-- Items -->
+          <div class="space-y-1.5 pl-2 border-l-2 border-bg-secondary dark:border-dark-secondary">
+            <div v-for="(item, i) in entry.items" :key="i" class="flex items-start gap-2 pl-3 py-0.5">
+              <span :class="['inline-flex items-center px-1.5 py-0 rounded text-[10px] font-semibold leading-4 flex-shrink-0 mt-0.5', typeBadge(item.type)]">
+                {{ typeLabel(item.type) }}
+              </span>
+              <a v-if="item.link" :href="item.link" class="text-xs text-text-secondary dark:text-dark-text-secondary leading-relaxed hover:text-accent-brine transition-colors">{{ item.text }}</a>
+              <span v-else class="text-xs text-text-secondary dark:text-dark-text-secondary leading-relaxed">{{ item.text }}</span>
+            </div>
           </div>
         </div>
       </div>
