@@ -17,6 +17,11 @@
     { "id": "fermentation-and-food-safety", "slug": "fermentation-and-food-safety", "file": "fermentation-and-food-safety.json" },
     { "id": "fermentation-flavour-chart", "slug": "fermentation-flavour-chart", "file": "fermentation-flavour-chart.json" },
     { "id": "second-ferments-and-flavouring", "slug": "second-ferments-and-flavouring", "file": "second-ferments-and-flavouring.json" },
-    { "id": "what-to-do-with-leftover-brine", "slug": "what-to-do-with-leftover-brine", "file": "what-to-do-with-leftover-brine.json" }
+    { "id": "what-to-do-with-leftover-brine", "slug": "what-to-do-with-leftover-brine", "file": "what-to-do-with-leftover-brine.json" },
+    { "id": "health-benefits-of-fermented-foods", "slug": "health-benefits-of-fermented-foods", "file": "health-benefits-of-fermented-foods.json" },
+    { "id": "mold-vs-kahm-when-to-worry", "slug": "mold-vs-kahm-when-to-worry", "file": "mold-vs-kahm-when-to-worry.json" },
+    { "id": "modern-fermentation-equipment", "slug": "modern-fermentation-equipment", "file": "modern-fermentation-equipment.json" },
+    { "id": "scaling-fermentation-batches", "slug": "scaling-fermentation-batches", "file": "scaling-fermentation-batches.json" },
+    { "id": "storing-and-preserving-ferments", "slug": "storing-and-preserving-ferments", "file": "storing-and-preserving-ferments.json" }
   ]
 }

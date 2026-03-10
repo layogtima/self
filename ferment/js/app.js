@@ -486,6 +486,9 @@ const app = createApp({
         'best-vegetables-fruits-to-ferment': '🥬', 'dehydrating-and-fermenting': '☀️',
         'fermentation-and-food-safety': '🛡️', 'fermentation-flavour-chart': '🎨',
         'second-ferments-and-flavouring': '🍋', 'what-to-do-with-leftover-brine': '🫗',
+        'health-benefits-of-fermented-foods': '💪', 'mold-vs-kahm-when-to-worry': '🔬',
+        'modern-fermentation-equipment': '⚙️', 'scaling-fermentation-batches': '📐',
+        'storing-and-preserving-ferments': '❄️',
       };
       return icons[id] || '📖';
     }
@@ -705,6 +708,7 @@ app.component('list-editor', ListEditorComponent);
 app.component('media-picker', MediaPickerComponent);
 app.component('tag-editor', TagEditorComponent);
 app.component('citation-editor', CitationEditorComponent);
+app.component('changelog-view', ChangelogViewComponent);
 
 // Mount the app
 app.mount('#app');
