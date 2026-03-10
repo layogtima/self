@@ -1,168 +1,203 @@
 {
   "id": "modern-fermentation-equipment",
   "slug": "modern-fermentation-equipment",
-  "title": "Modern Fermentation Equipment Guide",
-  "subtitle": "From mason jars to ceramic crocks — everything you need to start fermenting at home",
+  "title": "Modern Fermentation Equipment",
+  "subtitle": "A practical guide to jars, airlocks, crocks, weights, and essential tools for home fermentation",
   "lastUpdated": "2026-03-10",
   "tableOfContents": true,
   "sections": [
     {
       "id": "intro",
       "type": "paragraph",
-      "content": "One of the great things about fermentation is that you can start with equipment you already own. A glass jar, some salt, and fresh vegetables are genuinely all you need [cite:c1]. That said, purpose-built fermentation equipment can make the process more convenient, more consistent, and more enjoyable — especially as you scale up or tackle more ambitious projects. This guide covers everything from the bare essentials to advanced setups, helping you decide what's worth investing in at each stage of your fermentation journey [[article:fermentation-tools-through-history]]."
+      "content": "You do not need a laboratory to ferment food at home — but having the right equipment makes the process more reliable, more consistent, and far less stressful. The good news is that most fermentation gear is inexpensive, reusable, and widely available. Whether you are making your first jar of [[recipe:sauerkraut-classic]] or scaling up to supply a farmers' market, understanding your equipment options will help you choose wisely and avoid common pitfalls [cite:c1]. This guide covers everything from basic mason jars to digital instruments, so you can build a setup that matches your ambitions [[article:fermentation-tools-through-history]]."
     },
     {
-      "id": "starter-kit",
+      "id": "mason-jars-vs-crocks",
       "type": "heading",
       "level": 2,
-      "content": "Essential Starter Kit"
+      "content": "Mason Jars vs. Fermentation Crocks"
     },
     {
-      "id": "starter-kit-text",
+      "id": "mason-jars-vs-crocks-text",
       "type": "paragraph",
-      "content": "You can begin fermenting today with items from your kitchen. Here is the absolute minimum you need for a basic vegetable ferment like [[recipe:sauerkraut-classic]]:"
+      "content": "The two most popular fermentation vessels are glass mason jars and ceramic fermentation crocks, and each has distinct advantages. Wide-mouth mason jars (quart or half-gallon size) are the workhorse of home fermentation: they are transparent, affordable, widely available, and easy to clean. Their transparency lets you monitor bubble activity and brine levels without opening the lid, and they fit neatly in a refrigerator once fermentation is complete [cite:c2]. Ceramic fermentation crocks, by contrast, are the traditional choice in German and Eastern European sauerkraut-making. They are opaque, which protects light-sensitive ferments, and their thick walls provide natural temperature insulation — a real advantage if your kitchen has significant temperature swings [[article:temperature-and-fermentation]]."
     },
     {
-      "id": "starter-kit-list",
+      "id": "mason-jars-vs-crocks-list",
       "type": "list",
       "ordered": false,
       "items": [
-        "**A glass jar** (mason jar, bail-top jar, or any wide-mouth glass container) — 1 litre / 1 quart is a good starting size",
-        "**Non-iodized salt** — sea salt, kosher salt, or pickling salt [[article:salt-and-fermentation]]",
-        "**A knife and cutting board** — for preparing vegetables",
-        "**A kitchen scale** (strongly recommended) — for accurate salt measurements by weight",
-        "**Something to keep vegetables submerged** — a smaller jar filled with water, a zip-lock bag of brine, or even a clean rock"
+        "**Wide-mouth mason jars** — Best for small batches (1–4 litres), beginners, and ferments you want to observe visually. Available in half-pint, pint, quart, and half-gallon sizes. Use wide-mouth for easy packing and cleaning.",
+        "**Water-seal crocks** — Feature a moat around the rim that you fill with water, creating a natural airlock. Excellent for large batches of sauerkraut, kimchi, and pickles (5–20 litres). The gold standard for serious fermenters.",
+        "**Open crocks** — Traditional but require more vigilance against mold and kahm yeast [[article:mold-vs-kahm-when-to-worry]]. Best suited for experienced fermenters who check their vessels daily.",
+        "**Bail-top (Fido-style) jars** — The rubber gasket allows CO₂ to escape while limiting oxygen ingress. A simple, attractive, and effective semi-airlock system without additional accessories.",
+        "**Food-grade plastic buckets** — A budget option for very large batches. Ensure they are marked food-safe (HDPE, recycling code 2) and never use buckets that previously held non-food products."
       ]
     },
     {
-      "id": "starter-callout",
+      "id": "airlock-lids",
+      "type": "heading",
+      "level": 2,
+      "content": "Airlock Lids and Their Benefits"
+    },
+    {
+      "id": "airlock-lids-text",
+      "type": "paragraph",
+      "content": "An airlock lid is a simple device that allows carbon dioxide to escape from your fermentation vessel without letting outside air — and the oxygen, wild yeast, and mold spores it carries — back in [[article:role-of-carbon-dioxide]]. This creates a one-way valve that maintains the anaerobic environment lactic acid bacteria thrive in [cite:c3]. Airlock lids dramatically reduce the risk of kahm yeast and surface mold, and they eliminate the need to \"burp\" your jars daily. For ferments lasting two weeks or longer, an airlock is a worthwhile investment that pays for itself in reduced spoilage and peace of mind."
+    },
+    {
+      "id": "airlock-lids-list",
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "**Three-piece airlocks** — The classic homebrewing design, inserted into a grommet in the jar lid. Inexpensive, reliable, and easy to see when gas is actively escaping.",
+        "**Silicone one-way valve lids** — Purpose-built for wide-mouth mason jars. Compact, dishwasher-safe, and less likely to spill than water-filled airlocks. The most popular choice for beginners.",
+        "**Water-seal crock moats** — The built-in airlock system on traditional ceramic crocks. Fill the moat with water and the inverted lid sits inside it, forming a seal. No additional purchases needed.",
+        "**Loose-fitting lids** — A low-tech option: simply rest a lid on the jar without tightening. Allows gas to escape but offers minimal protection against contamination. Acceptable for fast, vigorous ferments only."
+      ]
+    },
+    {
+      "id": "airlock-callout",
       "type": "callout",
       "style": "tip",
-      "title": "Don't Let Equipment Be a Barrier",
-      "content": "Humans have been fermenting for over 10,000 years without any specialized equipment. A glass jar and salt are enough to make sauerkraut, pickles, kimchi, and dozens of other ferments. Buy specialized gear only when you know you enjoy the hobby and want more convenience."
+      "title": "When Airlocks Matter Most",
+      "content": "Airlock lids are most valuable for slow, long-duration ferments (2+ weeks) and for ferments with headspace above the brine. For quick 3–5 day ferments like [[recipe:pickles-quick-garlic-dill]] where CO₂ production is vigorous, a loosely covered jar works fine — but an airlock still gives you peace of mind and lets you leave the jar unattended."
     },
     {
-      "id": "jars-vessels",
+      "id": "glass-weights",
       "type": "heading",
       "level": 2,
-      "content": "Jars and Vessels"
+      "content": "Glass Weights and Keeping Vegetables Submerged"
     },
     {
-      "id": "jars-vessels-text",
+      "id": "glass-weights-text",
       "type": "paragraph",
-      "content": "The vessel you ferment in affects convenience, airflow management, and batch size. Glass is the most popular material for home fermenters because it is non-reactive, transparent (so you can monitor progress), easy to clean, and widely available [cite:c2]. Ceramic crocks are traditional and excellent for larger batches. Avoid metal containers (the acid will corrode them) and most plastics (which can leach chemicals and absorb odors)."
+      "content": "The single most important principle in vegetable fermentation is keeping everything below the brine surface [[article:salt-and-fermentation]]. Any vegetable matter exposed to air becomes a landing pad for mold and undesirable microorganisms, and even a small floating piece of cabbage can seed a colony of kahm yeast within days [cite:c2]. Glass fermentation weights are purpose-made to sit inside the mouth of a jar and push the vegetables down into the brine. They are non-reactive, easy to sterilise, heavy enough to stay in place, and available in sizes to match standard mason jar openings."
     },
     {
-      "id": "jars-vessels-list",
+      "id": "glass-weights-list",
       "type": "list",
       "ordered": false,
       "items": [
-        "**Mason jars (Ball, Kerr)** — Inexpensive, widely available, and work perfectly for small batches. Wide-mouth versions are easier to pack and clean.",
-        "**Bail-top (Fido-style) jars** — The rubber gasket allows CO₂ to escape while limiting oxygen ingress. A simple and effective semi-airlock system.",
-        "**Ceramic fermentation crocks** — Traditional vessels with water-seal gutters that act as built-in airlocks. Ideal for large batches (5–10 litres). Heavier and more expensive, but beautiful and functional.",
-        "**Food-grade plastic buckets** — Useful for very large batches. Ensure they are food-grade HDPE (recycling code 2). Not ideal for long-term storage due to oxygen permeability."
+        "**Glass weights for mason jars** — Available in sizes to fit regular-mouth and wide-mouth jars. Affordable, long-lasting, and the single most recommended accessory for beginners.",
+        "**Ceramic crock weights** — Semi-circular paired stones that sit inside the crock. Heavy and effective for large batches. Often sold as part of a crock set.",
+        "**Zip-lock bag filled with brine** — A free DIY option. Fill a food-grade bag with 2–3% salt brine (not plain water, in case it leaks and dilutes your ferment) and lay it on top of your vegetables. Conforms to any vessel shape.",
+        "**Small jar or ramekin** — A smaller jar filled with water, placed inside the mouth of the fermentation jar. Simple, effective, and uses what you already own.",
+        "**Cabbage leaf cap** — A traditional technique: place a large outer cabbage leaf on top of shredded vegetables to hold them under the brine. Simple and effective, especially for sauerkraut and kimchi."
       ]
     },
     {
-      "id": "airlocks",
+      "id": "digital-scales",
       "type": "heading",
       "level": 2,
-      "content": "Airlock Systems"
+      "content": "Digital Scales for Precision"
     },
     {
-      "id": "airlocks-text",
+      "id": "digital-scales-text",
       "type": "paragraph",
-      "content": "Airlocks allow carbon dioxide produced during fermentation to escape while preventing oxygen from entering the jar. They are not strictly necessary — people fermented successfully without them for millennia — but they reduce surface mold and kahm yeast and eliminate the need to \"burp\" jars manually [cite:c1]."
+      "content": "If you invest in only one piece of fermentation equipment beyond a jar, make it a digital kitchen scale. Fermentation is fundamentally about ratios — particularly the ratio of salt to vegetables — and measuring by weight is far more accurate than measuring by volume [cite:c4]. A tablespoon of fine sea salt weighs roughly twice as much as a tablespoon of coarse kosher salt, so volume measurements can easily lead to over- or under-salting, with dramatic consequences for texture, speed, and safety [[article:salt-and-fermentation]]. A scale that reads to 1-gram precision costs under $15 and will transform your consistency overnight."
     },
     {
-      "id": "airlocks-list",
+      "id": "digital-scales-callout",
+      "type": "callout",
+      "style": "info",
+      "title": "The 2% Rule",
+      "content": "Most lacto-fermented vegetables use a salt concentration of 2–3% by weight of the total vegetable mass. To calculate: weigh your prepared vegetables in grams, multiply by 0.02 (for 2%) or 0.03 (for 3%), and add that many grams of salt. A digital scale makes this effortless and repeatable every time. For precision with small batches (under 500 g), consider a scale accurate to 0.1 g."
+    },
+    {
+      "id": "ph-meters",
+      "type": "heading",
+      "level": 2,
+      "content": "pH Meters and Test Strips"
+    },
+    {
+      "id": "ph-meters-text",
+      "type": "paragraph",
+      "content": "Monitoring pH is one of the most reliable ways to track fermentation progress and verify food safety [[article:ph-levels-fermentation]]. As lactic acid bacteria convert sugars to lactic acid, the pH of your ferment drops steadily from around 6.0–7.0 (fresh vegetables) to 3.0–4.0 (fully fermented). A pH of 4.6 or below is the widely accepted threshold for safe preservation, as it inhibits the growth of Clostridium botulinum and most pathogenic bacteria [cite:c5]. If you plan to sell fermented products at a market, pH testing is not optional — it is a regulatory and food safety requirement in most jurisdictions [[article:fermentation-and-food-safety]]."
+    },
+    {
+      "id": "ph-meters-list",
       "type": "list",
       "ordered": false,
       "items": [
-        "**Silicone airlock lids** — Fit directly onto mason jars. Simple one-way valves that require no water. Very popular with beginners.",
-        "**Three-piece plastic airlocks** — Traditional brewing airlocks fitted into jar lids via grommets. Filled with water to create a one-way valve. Inexpensive and reliable.",
-        "**Water-seal crocks** — The gutter around the crock rim is filled with water, and the lid sits in this gutter. CO₂ bubbles out through the water while oxygen cannot enter. The gold standard for large-batch fermentation.",
-        "**Loose-fitting lids** — Simply resting a lid on the jar (without tightening) allows gas exchange. Less effective than true airlocks but better than sealed lids."
+        "**Digital pH meters** — Provide precise readings to 0.01 pH. Require calibration with buffer solutions (pH 4.0 and 7.0) and proper electrode care, but offer the best accuracy. Home models run $15–50.",
+        "**pH test strips** — Inexpensive paper strips that change colour to indicate pH range. Less precise (usually ±0.5 pH units) but perfectly adequate for confirming a ferment has reached safe acidity. Around $5–10 for 100 strips.",
+        "**Taste and texture** — Experienced fermenters develop a reliable palate for gauging acidity. However, for ferments you plan to sell or share, objective measurement is essential for liability and food safety compliance."
       ]
     },
     {
-      "id": "weights",
+      "id": "mandoline-slicers",
       "type": "heading",
       "level": 2,
-      "content": "Weights and Followers"
+      "content": "Mandoline Slicers and Prep Tools"
     },
     {
-      "id": "weights-text",
+      "id": "mandoline-slicers-text",
       "type": "paragraph",
-      "content": "Keeping vegetables submerged below the brine line is the single most important step for preventing mold and ensuring even fermentation. Fermentation weights (also called followers) sit on top of the vegetables and push them down into the brine [cite:c2]."
+      "content": "Consistent vegetable preparation is more than an aesthetic concern — it directly affects fermentation speed and evenness. Thinly and uniformly sliced cabbage ferments faster and more evenly than thick, irregular chunks, because salt can penetrate uniformly and bacteria can access more surface area [cite:c1]. A mandoline slicer is the fastest and most consistent way to shred cabbage for sauerkraut or slice cucumbers for pickles. Look for one with an adjustable blade thickness and always use the hand guard — mandoline injuries are among the most common kitchen accidents."
     },
     {
-      "id": "weights-list",
+      "id": "mandoline-slicers-list",
       "type": "list",
       "ordered": false,
       "items": [
-        "**Glass fermentation weights** — Purpose-made glass discs sized to fit inside mason jars or crocks. Heavy, non-reactive, easy to clean. The most popular option.",
-        "**Ceramic weights** — Often included with fermentation crocks. Semi-circular stones that nest together inside the crock.",
-        "**Zip-lock bag of brine** — A food-safe zip-lock bag filled with 2–3% salt brine, placed on top of the vegetables. Conforms to the jar shape and creates a seal. Use brine (not plain water) so that if the bag leaks, it doesn't dilute your ferment.",
-        "**Small jar or ramekin** — A smaller jar filled with water and placed inside the mouth of the fermentation jar. Simple and effective.",
-        "**Cabbage leaf** — A large outer cabbage leaf pressed over the surface of the vegetables. Traditional and free."
+        "**Mandoline slicer** — Ideal for sauerkraut, coleslaw-style kimchi, and thinly sliced pickles. Japanese-style mandolines offer excellent precision at modest cost.",
+        "**Vegetable tamper or pounder** — A wooden or plastic tool for packing shredded vegetables tightly into jars, expelling air pockets and encouraging brine release. A flat-bottomed muddler or rolling pin can substitute in a pinch.",
+        "**Large mixing bowls** — Stainless steel or glass bowls for salting and massaging vegetables before packing. Avoid reactive metals like aluminium or copper, which can interact with acids.",
+        "**Sharp chef's knife** — For precision cuts on garlic, ginger, chillies, and other aromatics [[article:aromatics-spices-herbs-in-fermentation]]."
       ]
     },
     {
-      "id": "measuring",
+      "id": "fermentation-kits",
       "type": "heading",
       "level": 2,
-      "content": "Measuring Tools"
+      "content": "Fermentation Kits: Are They Worth It?"
     },
     {
-      "id": "measuring-text",
+      "id": "fermentation-kits-text",
       "type": "paragraph",
-      "content": "Accurate measurement is the difference between consistent results and guesswork. Two measuring tools stand out as particularly valuable for fermenters:"
+      "content": "Fermentation starter kits bundle several of the items described above — typically a jar, an airlock lid, a glass weight, and sometimes a recipe booklet — into a single purchase. They are a convenient option for beginners who want everything in one box, and they often cost less than buying components separately [cite:c6]. However, they are not strictly necessary. If you already own mason jars and a kitchen scale, you can start fermenting today with nothing more than salt, vegetables, and a zip-lock bag as a weight. Kits make excellent gifts for the fermentation-curious."
     },
     {
-      "id": "measuring-list",
+      "id": "fermentation-kits-callout",
+      "type": "callout",
+      "style": "info",
+      "title": "Minimum Viable Setup",
+      "content": "To start fermenting immediately, you need: one wide-mouth mason jar, non-iodised salt, a digital kitchen scale, fresh vegetables, and something to keep vegetables submerged (a zip-lock bag filled with brine works perfectly). Total cost beyond groceries: under $15. Everything else is a convenience upgrade you can add as your interest grows."
+    },
+    {
+      "id": "temperature-control",
+      "type": "heading",
+      "level": 2,
+      "content": "Temperature Control"
+    },
+    {
+      "id": "temperature-control-text",
+      "type": "paragraph",
+      "content": "Temperature is one of the most influential variables in fermentation — it affects the speed of bacterial activity, the balance of flavour compounds produced, and the risk of spoilage [[article:temperature-and-fermentation]]. Most lacto-ferments do best between 18–24°C (65–75°F). Below that range, fermentation slows dramatically; above it, off-flavours, excessive softening, and increased risk of undesirable microbial growth can develop [cite:c4]. If your home runs warmer or cooler than this range, a few simple tools can help you maintain control."
+    },
+    {
+      "id": "temperature-control-list",
       "type": "list",
       "ordered": false,
       "items": [
-        "**Kitchen scale** — Essential for measuring salt by weight, which is far more accurate than measuring by volume. A basic digital scale accurate to 1 gram is sufficient and costs under $15. Weigh your vegetables, calculate the salt percentage, and weigh the salt [[article:salt-and-fermentation]].",
-        "**pH strips or pH meter** — Useful for confirming that your ferment has reached a safe pH (below 4.6). pH strips (about $5–10 for 100 strips) are adequate for most home use. A digital pH meter ($15–50) offers more precision but requires calibration and electrode care [cite:c3].",
-        "**Thermometer** — Helpful for monitoring fermentation temperature, especially in warm climates or during summer months. Fermentation is faster at higher temperatures and slower at lower ones.",
-        "**Measuring spoons and cups** — For brine recipes that specify volume measurements. Less accurate than weight-based measurement but acceptable for simple brines."
+        "**Adhesive thermometer strips** — Stick to the outside of a jar to give a constant temperature reading. Inexpensive (under $2) and surprisingly accurate for monitoring ambient conditions.",
+        "**Digital probe thermometers** — Insert into the ferment or attach to the vessel for precise readings. Some models offer Bluetooth connectivity for remote monitoring.",
+        "**Fermentation chamber** — A small cooler or insulated box with a temperature controller and a low-wattage heat source (e.g., a seedling heat mat). Allows you to maintain a precise, stable temperature regardless of ambient conditions. Popular among advanced fermenters.",
+        "**Evaporative cooling** — In warm climates, wrapping a jar in a damp towel can lower the temperature by several degrees through evaporation. Re-wet the towel as needed.",
+        "**Basement or root cellar** — Naturally cool, dark, and temperature-stable environments that are ideal for slow, flavour-developing ferments [[article:fermentation-traditions-worldwide]]."
       ]
     },
     {
-      "id": "advanced",
+      "id": "budget-comparison",
       "type": "heading",
       "level": 2,
-      "content": "Advanced Equipment"
+      "content": "Budget vs. Premium: What to Buy First"
     },
     {
-      "id": "advanced-text",
-      "type": "paragraph",
-      "content": "Once you've been fermenting for a while and want to expand your capabilities, these tools open up new possibilities:"
-    },
-    {
-      "id": "advanced-list",
-      "type": "list",
-      "ordered": false,
-      "items": [
-        "**Mandoline or food processor** — For consistent, thin slicing of cabbage and other vegetables. Uniform cuts ferment more evenly.",
-        "**Vegetable tamper / pounder** — A wooden or plastic tool for packing vegetables tightly into jars and extracting brine from salted vegetables.",
-        "**Fermentation crock with water seal** — For serious, large-batch fermentation. Available in sizes from 5 to 30+ litres.",
-        "**Temperature-controlled chamber** — A mini-fridge with a temperature controller allows you to ferment at precise temperatures year-round. Particularly useful for long, slow ferments.",
-        "**Vacuum sealer** — Useful for packaging finished ferments for long-term storage or gifting."
-      ]
-    },
-    {
-      "id": "budget-table",
-      "type": "heading",
-      "level": 2,
-      "content": "Budget vs. Premium Options"
-    },
-    {
-      "id": "budget-table-content",
+      "id": "budget-comparison-table",
       "type": "table",
-      "caption": "Equipment comparison: budget vs. premium",
+      "caption": "Equipment comparison: budget vs. premium options",
       "headers": ["Equipment", "Budget Option", "Cost", "Premium Option", "Cost"],
       "rows": [
         ["Fermentation vessel", "Mason jar (wide-mouth quart)", "$3–5", "Ceramic water-seal crock (5L)", "$60–120"],
@@ -180,13 +215,13 @@
       "type": "callout",
       "style": "info",
       "title": "Best Value Upgrades",
-      "content": "If you're going to spend money on just two upgrades, make them a digital kitchen scale (for accurate salt measurement) and glass fermentation weights (for reliable submersion). These two items — totaling about $20–25 — will improve your results more than any other equipment investment."
+      "content": "If you are going to spend money on just two upgrades, make them a digital kitchen scale (for accurate salt measurement) and glass fermentation weights (for reliable submersion). These two items — totaling about $20–25 — will improve your results more than any other equipment investment. Add an airlock lid as your third purchase."
     }
   ],
   "citations": [
     {
       "id": "c1",
-      "text": "Katz, Sandor Ellix. The Art of Fermentation: An In-Depth Exploration of Essential Concepts and Processes from Around the World.",
+      "text": "Katz, Sandor Ellix. The Art of Fermentation: An In-Depth Exploration of Essential Concepts and Processes from Around the World. Chelsea Green Publishing, 2012.",
       "source": "Chelsea Green Publishing",
       "author": "Sandor Ellix Katz",
       "year": 2012,
@@ -194,7 +229,7 @@
     },
     {
       "id": "c2",
-      "text": "Shockey, Kirsten K., and Shockey, Christopher. Fermented Vegetables: Creative Recipes for Fermenting 64 Vegetables & Herbs.",
+      "text": "Shockey, Kirsten K., and Shockey, Christopher. Fermented Vegetables: Creative Recipes for Fermenting 64 Vegetables & Herbs. Storey Publishing, 2014.",
       "source": "Storey Publishing",
       "author": "Kirsten K. Shockey and Christopher Shockey",
       "year": 2014,
@@ -202,16 +237,40 @@
     },
     {
       "id": "c3",
-      "text": "FDA. \"Acidified Foods — Guidance for Industry.\" U.S. Food and Drug Administration.",
-      "source": "U.S. Food and Drug Administration",
-      "year": 2015,
-      "url": "https://www.fda.gov/regulatory-information/search-fda-guidance-documents/guidance-industry-acidified-foods",
-      "license": "Public Domain"
+      "text": "Chang, Heather and Adams, Martin. \"The role of anaerobic conditions in lacto-fermentation of vegetables.\" Journal of Food Science, 72(7), M283–M289, 2007.",
+      "source": "Journal of Food Science",
+      "author": "Heather Chang and Martin Adams",
+      "year": 2007,
+      "license": "Journal Article"
+    },
+    {
+      "id": "c4",
+      "text": "Nummer, Brian A. \"Fermenting food at home: a guide to safe practices.\" National Center for Home Food Preservation, University of Georgia, 2013.",
+      "source": "National Center for Home Food Preservation",
+      "author": "Brian A. Nummer",
+      "year": 2013,
+      "license": "Extension Publication"
+    },
+    {
+      "id": "c5",
+      "text": "U.S. Food and Drug Administration. \"Acidified & Low-Acid Canned Foods Guidance.\" FDA.gov, 2018.",
+      "source": "U.S. FDA",
+      "author": "U.S. Food and Drug Administration",
+      "year": 2018,
+      "license": "Government Publication"
+    },
+    {
+      "id": "c6",
+      "text": "Lewin, Alex. Real Food Fermentation: Preserving Whole Fresh Food with Live Cultures. Quarry Books, 2012.",
+      "source": "Quarry Books",
+      "author": "Alex Lewin",
+      "year": 2012,
+      "license": "Book"
     }
   ],
   "seeAlso": {
-    "articles": ["fermentation-tools-through-history", "salt-and-fermentation", "troubleshooting-ferments"],
-    "recipes": ["sauerkraut-classic", "brine-pickles-basic"]
+    "articles": ["fermentation-tools-through-history", "salt-and-fermentation", "temperature-and-fermentation", "troubleshooting-ferments", "mold-vs-kahm-when-to-worry"],
+    "recipes": ["sauerkraut-classic", "pickles-quick-garlic-dill", "kimchi-traditional-napa"]
   },
-  "tags": ["equipment", "tools", "beginner", "jars", "airlocks", "weights"]
+  "tags": ["equipment", "beginner", "troubleshooting"]
 }
