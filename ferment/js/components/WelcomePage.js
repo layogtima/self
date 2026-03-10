@@ -7,7 +7,7 @@
 const WelcomePageComponent = {
   name: 'welcome-page',
 
-  emits: ['enter', 'open-recipe'],
+  emits: ['enter', 'open-recipe', 'navigate'],
 
   data() {
     return {
@@ -39,6 +39,7 @@ const WelcomePageComponent = {
 
   methods: {
     enter() { this.$emit('enter'); },
+    goTo(tab) { this.$emit('navigate', tab); },
     openStarter(id) { this.$emit('open-recipe', id); },
     scrollNext() {
       const el = this.$el.querySelector('#welcome-science');
@@ -50,12 +51,15 @@ const WelcomePageComponent = {
     <div class="welcome-page">
 
       <!-- ═══════════════ 1. HERO ═══════════════ -->
-      <section class="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden bg-gradient-to-b from-stone-900 via-amber-950 to-stone-950">
-        <div class="absolute inset-0 opacity-[0.04]" style="background-image: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.4) 0%, transparent 50%), radial-gradient(circle at 70% 60%, rgba(255,255,255,0.3) 0%, transparent 40%);"></div>
+      <section class="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
+        <div class="absolute inset-0">
+          <img src="assets/images/shelf-of-fermented-foods.jpeg" alt="" class="w-full h-full object-cover" loading="eager" />
+          <div class="absolute inset-0 bg-gradient-to-b from-stone-900/80 via-stone-900/70 to-stone-950/95"></div>
+        </div>
         <div class="relative z-10 max-w-2xl mx-auto">
           <div class="text-7xl sm:text-8xl mb-8 hero-jar">🫙</div>
           <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl tracking-wider text-amber-100 mb-6" style="letter-spacing: 0.25em;">F E R M E N T</h1>
-          <p class="font-serif text-xl sm:text-2xl text-amber-200/80 italic leading-relaxed mb-4">A cultural guide to the oldest<br>biotechnology on Earth.</p>
+          <p class="font-serif text-2xl sm:text-4xl text-amber-200/80 italic leading-relaxed mb-4">A cultural guide to the oldest<br>biotechnology on Earth.</p>
           <p class="text-amber-300/60 text-sm tracking-[0.3em] uppercase mt-6 mb-12">Salt · Time · Bacteria · Magic</p>
           <div class="flex flex-col sm:flex-row items-center gap-4">
             <button @click="scrollNext" class="px-8 py-3 bg-amber-200/10 hover:bg-amber-200/20 text-amber-100 border border-amber-200/20 rounded-xl text-sm font-medium transition-all duration-300 backdrop-blur-sm">
@@ -164,43 +168,59 @@ const WelcomePageComponent = {
             <h2 class="font-serif text-3xl sm:text-4xl text-text-primary dark:text-dark-text leading-tight">Your fermentation companion</h2>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="reveal-on-scroll feature-card p-6 sm:p-8 rounded-2xl bg-bg-card dark:bg-dark-card border-l-4 border-accent-brine">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <button @click="goTo('browse')" class="reveal-on-scroll feature-card text-left p-6 sm:p-8 rounded-2xl bg-bg-card dark:bg-dark-card border-l-4 border-accent-brine hover:border-accent-brine/80 cursor-pointer group">
               <div class="flex items-center gap-3 mb-4">
-                <span class="text-3xl">📦</span>
-                <h3 class="font-serif text-xl text-text-primary dark:text-dark-text">Browse</h3>
+                <span class="text-3xl group-hover:scale-110 transition-transform">📦</span>
+                <h3 class="font-serif text-xl text-text-primary dark:text-dark-text group-hover:text-accent-aged dark:group-hover:text-accent-brine transition-colors">30 Recipes</h3>
               </div>
-              <p class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed">Recipes from 30+ countries, each with cultural context, step-by-step instructions, and the story behind the ferment. From German sauerkraut to Indian dahi to Salvadoran curtido.</p>
+              <p class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed">From 20+ countries, each with cultural context, step-by-step instructions, and the story behind the ferment.</p>
               <div class="flex items-center gap-2 mt-4">
-                <span class="text-xs px-2 py-0.5 rounded-full bg-tier-beginner text-white">🌱 Beginner</span>
-                <span class="text-xs text-text-muted">→</span>
-                <span class="text-xs px-2 py-0.5 rounded-full bg-tier-master text-white">🔬 Master</span>
+                <span class="text-xs px-2 py-0.5 rounded-full bg-tier-beginner text-white">Beginner</span>
+                <span class="text-xs text-text-muted">to</span>
+                <span class="text-xs px-2 py-0.5 rounded-full bg-tier-master text-white">Master</span>
               </div>
-            </div>
+            </button>
 
-            <div class="reveal-on-scroll feature-card p-6 sm:p-8 rounded-2xl bg-bg-card dark:bg-dark-card border-l-4 border-accent-culture">
+            <button @click="goTo('wiki')" class="reveal-on-scroll feature-card text-left p-6 sm:p-8 rounded-2xl bg-bg-card dark:bg-dark-card border-l-4 border-accent-culture/80 hover:border-accent-culture cursor-pointer group" style="transition-delay: 50ms">
               <div class="flex items-center gap-3 mb-4">
-                <span class="text-3xl">🫙</span>
-                <h3 class="font-serif text-xl text-text-primary dark:text-dark-text">Pantry</h3>
+                <span class="text-3xl group-hover:scale-110 transition-transform">📚</span>
+                <h3 class="font-serif text-xl text-text-primary dark:text-dark-text group-hover:text-accent-aged dark:group-hover:text-accent-brine transition-colors">Wiki</h3>
               </div>
-              <p class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed">Track what's in your kitchen. FERMENT matches your ingredients to recipes you can make <em>right now</em>. No more "I don't have the right stuff."</p>
-            </div>
+              <p class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed">23 articles on fermentation science, safety, equipment, and techniques — with citations, cross-links, and glossary.</p>
+            </button>
 
-            <div class="reveal-on-scroll feature-card p-6 sm:p-8 rounded-2xl bg-bg-card dark:bg-dark-card border-l-4 border-accent-ferment">
+            <button @click="goTo('pantry')" class="reveal-on-scroll feature-card text-left p-6 sm:p-8 rounded-2xl bg-bg-card dark:bg-dark-card border-l-4 border-accent-culture hover:border-accent-culture/80 cursor-pointer group" style="transition-delay: 100ms">
               <div class="flex items-center gap-3 mb-4">
-                <span class="text-3xl">📖</span>
-                <h3 class="font-serif text-xl text-text-primary dark:text-dark-text">Journal</h3>
+                <span class="text-3xl group-hover:scale-110 transition-transform">🫙</span>
+                <h3 class="font-serif text-xl text-text-primary dark:text-dark-text group-hover:text-accent-aged dark:group-hover:text-accent-brine transition-colors">Pantry</h3>
               </div>
-              <p class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed">Log your batches. Track fermentation progress. Rate results. Build your personal history — what worked, what didn't, what exploded.</p>
-            </div>
+              <p class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed">Track ingredients and equipment. FERMENT matches your pantry to recipes you can make <em>right now</em>.</p>
+            </button>
 
-            <div class="reveal-on-scroll feature-card p-6 sm:p-8 rounded-2xl bg-bg-card dark:bg-dark-card border-l-4 border-accent-aged">
+            <button @click="goTo('journal')" class="reveal-on-scroll feature-card text-left p-6 sm:p-8 rounded-2xl bg-bg-card dark:bg-dark-card border-l-4 border-accent-ferment hover:border-accent-ferment/80 cursor-pointer group" style="transition-delay: 150ms">
               <div class="flex items-center gap-3 mb-4">
-                <span class="text-3xl">🔧</span>
-                <h3 class="font-serif text-xl text-text-primary dark:text-dark-text">Tools</h3>
+                <span class="text-3xl group-hover:scale-110 transition-transform">📖</span>
+                <h3 class="font-serif text-xl text-text-primary dark:text-dark-text group-hover:text-accent-aged dark:group-hover:text-accent-brine transition-colors">Journal</h3>
               </div>
-              <p class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed">Brine calculator. Batch scaler. Unit converter. pH reference. Seasonal calendar. A glossary of fermentation terms from cultures worldwide.</p>
-            </div>
+              <p class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed">Log batches, track fermentation progress, rate results. Build your personal history of what worked and what exploded.</p>
+            </button>
+
+            <button @click="goTo('tools')" class="reveal-on-scroll feature-card text-left p-6 sm:p-8 rounded-2xl bg-bg-card dark:bg-dark-card border-l-4 border-accent-aged hover:border-accent-aged/80 cursor-pointer group" style="transition-delay: 200ms">
+              <div class="flex items-center gap-3 mb-4">
+                <span class="text-3xl group-hover:scale-110 transition-transform">🔧</span>
+                <h3 class="font-serif text-xl text-text-primary dark:text-dark-text group-hover:text-accent-aged dark:group-hover:text-accent-brine transition-colors">Tools</h3>
+              </div>
+              <p class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed">Brine calculator, batch scaler, unit converter, pH reference, seasonal calendar, and fermentation glossary.</p>
+            </button>
+
+            <button @click="goTo('tools')" class="reveal-on-scroll feature-card text-left p-6 sm:p-8 rounded-2xl bg-bg-card dark:bg-dark-card border-l-4 border-amber-600/50 hover:border-amber-600 cursor-pointer group" style="transition-delay: 250ms">
+              <div class="flex items-center gap-3 mb-4">
+                <span class="text-3xl group-hover:scale-110 transition-transform">⏱️</span>
+                <h3 class="font-serif text-xl text-text-primary dark:text-dark-text group-hover:text-accent-aged dark:group-hover:text-accent-brine transition-colors">Timers</h3>
+              </div>
+              <p class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed">Set fermentation timers with alerts. Never forget a batch again — from overnight yogurt to 6-week miso.</p>
+            </button>
           </div>
         </div>
       </section>
@@ -255,18 +275,33 @@ const WelcomePageComponent = {
       </section>
 
       <!-- ═══════════════ 7. FOOTER CTA ═══════════════ -->
-      <section class="py-20 sm:py-28 px-6 bg-gradient-to-b from-stone-900 via-amber-950 to-stone-950 text-center">
-        <div class="max-w-2xl mx-auto reveal-on-scroll">
-          <div class="text-5xl mb-8">🫙</div>
+      <section class="relative py-20 sm:py-28 px-6 text-center overflow-hidden" style="background: linear-gradient(to bottom, #1c1410, #1a1208, #1c1410);">
+        <!-- Fermentation bubbles animation -->
+        <div class="ferment-bubbles" aria-hidden="true">
+          <div class="bubble" style="--x: 10%; --size: 8px; --delay: 0s; --duration: 4s;"></div>
+          <div class="bubble" style="--x: 25%; --size: 5px; --delay: 0.8s; --duration: 5s;"></div>
+          <div class="bubble" style="--x: 40%; --size: 10px; --delay: 1.5s; --duration: 3.5s;"></div>
+          <div class="bubble" style="--x: 55%; --size: 6px; --delay: 0.3s; --duration: 4.5s;"></div>
+          <div class="bubble" style="--x: 65%; --size: 12px; --delay: 2s; --duration: 3.8s;"></div>
+          <div class="bubble" style="--x: 75%; --size: 7px; --delay: 1s; --duration: 4.2s;"></div>
+          <div class="bubble" style="--x: 85%; --size: 4px; --delay: 2.5s; --duration: 5.5s;"></div>
+          <div class="bubble" style="--x: 18%; --size: 6px; --delay: 3s; --duration: 3.2s;"></div>
+          <div class="bubble" style="--x: 50%; --size: 9px; --delay: 1.8s; --duration: 4.8s;"></div>
+          <div class="bubble" style="--x: 92%; --size: 5px; --delay: 0.5s; --duration: 5.2s;"></div>
+        </div>
+        <!-- Brine surface shimmer -->
+        <div class="absolute top-0 left-0 right-0 h-px opacity-30" style="background: linear-gradient(90deg, transparent, rgba(196,163,90,0.6), transparent);"></div>
+        <div class="relative z-10 max-w-2xl mx-auto reveal-on-scroll">
           <blockquote class="font-serif text-xl sm:text-2xl text-amber-200/80 italic leading-relaxed mb-10">
             "May your cultures be strong,<br>
             your brine be clear,<br>
             and your jars never explode."
           </blockquote>
           <button @click="enter"
-            class="px-10 py-4 bg-amber-200/10 hover:bg-amber-200/20 text-amber-100 border border-amber-200/20 rounded-xl text-base font-medium transition-all duration-300 backdrop-blur-sm">
+            class="px-10 py-4 bg-amber-200/10 hover:bg-amber-200/20 text-amber-100 border border-amber-200/20 rounded-xl text-base font-medium transition-all duration-300 backdrop-blur-sm hover:scale-105">
             Start Fermenting →
           </button>
+          <p class="text-amber-300/30 text-xs mt-8 tracking-widest uppercase">Salt · Time · Bacteria · Magic</p>
         </div>
       </section>
 

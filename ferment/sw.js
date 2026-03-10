@@ -41,6 +41,7 @@ const STATIC_ASSETS = [
   './data/wiki/manifest.json',
   './manifest.json',
   './assets/icons/favicon.svg',
+  './assets/images/shelf-of-fermented-foods.jpeg',
 ];
 
 const CDN_ASSETS = [
