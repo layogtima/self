@@ -97,7 +97,9 @@
       "instruction": "Place cooked rice in a clay pot or glass jar. Add 3 cups of cooled water (room temperature — not cold from the fridge).",
       "duration": "2 min",
       "tips": [
-        "More water = thinner, more drinkable kanji. Less water = porridge-style ambali."
+        "More water = thinner, more drinkable kanji. Less water = porridge-style ambali.",
+        "Use day-old rice rather than freshly cooked — it has more resistant starch, which feeds the bacteria better.",
+        "A clay pot absorbs cultures over time, so your tenth batch will ferment noticeably faster than your first."
       ],
       "checkpoint": "Rice submerged in water"
     },
@@ -108,7 +110,8 @@
       "duration": "8–16 hours",
       "tips": [
         "In summer, 8 hours is usually sufficient. In cooler months, go longer.",
-        "Traditional households use the same clay pot daily — the absorbed cultures speed up fermentation over time."
+        "Traditional households use the same clay pot daily — the absorbed cultures speed up fermentation over time.",
+        "If you want a fizzier result, cover with a tight lid instead of cloth — the trapped CO2 gives it a light carbonation."
       ],
       "checkpoint": "Smells slightly sour and tangy in the morning"
     },
@@ -119,7 +122,8 @@
       "duration": null,
       "tips": [
         "The water is more probiotic than the rice — don't discard it",
-        "Add buttermilk for extra richness (traditional in Tamil Nadu and Karnataka)"
+        "Add buttermilk for extra richness (traditional in Tamil Nadu and Karnataka)",
+        "A pinch of cumin powder and finely chopped curry leaves stirred in at serving time makes this taste like a proper South Indian breakfast."
       ],
       "checkpoint": "Pleasantly sour, refreshing, slightly effervescent"
     }

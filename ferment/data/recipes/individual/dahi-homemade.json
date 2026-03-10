@@ -83,7 +83,9 @@
       "instruction": "Bring milk to a full boil, stirring occasionally. This kills competing bacteria and partially denatures proteins for a thicker set.",
       "duration": "10 min",
       "tips": [
-        "Don't skip boiling — it's what makes Indian dahi different from Western yogurt"
+        "Don't skip boiling — it's what makes Indian dahi different from Western yogurt",
+        "Stir constantly near the bottom to prevent a skin from forming and milk from scorching",
+        "Let the milk foam up and settle 2–3 times for an even thicker, creamier set"
       ],
       "checkpoint": "Milk has come to a rolling boil"
     },
@@ -94,7 +96,8 @@
       "duration": "30–40 min",
       "tips": [
         "Too hot kills the culture. Too cold and it won't set.",
-        "In BLR, this usually takes 35–40 min at room temp"
+        "In BLR, this usually takes 35–40 min at room temp",
+        "Transfer to a wide steel vessel to cool faster — a narrow pot traps heat and takes much longer"
       ],
       "checkpoint": "Milk feels comfortably warm on your wrist"
     },
@@ -104,7 +107,9 @@
       "instruction": "Put your 2 tbsp of dahi into the setting vessel. Add a small amount of warm milk and whisk smooth, then pour in the rest of the milk. Stir gently.",
       "duration": "2 min",
       "tips": [
-        "Mix starter smooth first to avoid lumps in the final dahi"
+        "Mix starter smooth first to avoid lumps in the final dahi",
+        "A thick, sour starter from a neighbour's kitchen will give better results than watery store-bought curd",
+        "Use a ceramic or earthen pot (handi) for setting — the porous surface retains warmth and improves texture"
       ],
       "checkpoint": "Starter is evenly distributed"
     },
@@ -115,7 +120,8 @@
       "duration": "6–12 hours",
       "tips": [
         "Don't move or jostle the container while it's setting",
-        "In cooler BLR winter months (Dec–Jan), place near the stove or in a closed cupboard"
+        "In cooler BLR winter months (Dec–Jan), place near the stove or in a closed cupboard",
+        "Wrapping the vessel in a thick towel or placing it inside the oven (turned off) holds warmth all night"
       ],
       "checkpoint": "Dahi has set — tilting the container shows a solid mass"
     },
@@ -125,7 +131,9 @@
       "instruction": "Once set, refrigerate. It will firm up further and sourness will develop slowly over the next day.",
       "duration": null,
       "tips": [
-        "Save 2 tbsp from this batch as your next starter"
+        "Save 2 tbsp from this batch as your next starter",
+        "Refrigerate within an hour of setting — leaving it out longer makes it noticeably more sour",
+        "If you want thick Greek-style dahi, hang it in muslin for 2 hours and collect the whey for chapati dough"
       ],
       "checkpoint": "Firm, creamy, pleasantly tangy"
     }

@@ -98,7 +98,8 @@
       "duration": "5 min",
       "tips": [
         "Unpeeled ginger has more wild yeast on the skin",
-        "Dechlorinate tap water by leaving it uncovered overnight"
+        "Dechlorinate tap water by leaving it uncovered overnight",
+        "Buy organic ginger if possible — conventionally grown ginger is sometimes irradiated, which kills the wild yeast you need"
       ],
       "checkpoint": "Jar is cloudy with ginger bits"
     },
@@ -108,7 +109,9 @@
       "instruction": "Every day for 3–7 days, add 1 tbsp fresh grated ginger and 1 tbsp sugar. Stir vigorously and re-cover.",
       "duration": "2 min/day",
       "tips": [
-        "Vigorous stirring incorporates oxygen and helps wild yeast populate faster"
+        "Vigorous stirring incorporates oxygen and helps wild yeast populate faster",
+        "Feed at the same time each day — consistency keeps the microbial population growing steadily",
+        "If you miss a day, double the next feeding to compensate — the bug is forgiving"
       ],
       "checkpoint": "Bubbles start appearing after day 2–3 in BLR"
     },
@@ -118,7 +121,9 @@
       "instruction": "Your bug is ready when it's actively bubbling, smells yeasty-gingery, and fizzes when stirred. In Bengaluru, typically 3–4 days. Taste — it should be slightly fizzy, tangy-sweet.",
       "duration": null,
       "tips": [
-        "Don't refrigerate until active — cold slows wild yeast capture"
+        "Don't refrigerate until active — cold slows wild yeast capture",
+        "Hold the jar up to light — you should see a steady stream of tiny bubbles rising like champagne",
+        "If nothing happens after 7 days, the ginger was likely irradiated — start over with a different source"
       ],
       "checkpoint": "Consistent bubbling within minutes of stirring, fizzy taste"
     },
@@ -129,7 +134,8 @@
       "duration": "Ongoing",
       "tips": [
         "Refrigerate and feed once a week if not using often",
-        "Bring back to room temp and feed daily for 2 days before using from the fridge"
+        "Bring back to room temp and feed daily for 2 days before using from the fridge",
+        "Strain out old ginger pieces monthly and replace with fresh — spent ginger slows the culture down"
       ],
       "checkpoint": "Bug is a perpetual fermentation engine"
     }

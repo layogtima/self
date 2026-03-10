@@ -80,7 +80,9 @@
       "instruction": "Quarter the cabbage. Remove the outer leaves (keep them). Shred finely — 3–4mm strips. A sharp knife works; a mandoline is faster.",
       "duration": "10 min",
       "tips": [
-        "Thinner shreds ferment faster and more evenly"
+        "Thinner shreds ferment faster and more evenly",
+        "Save the core — it makes a handy tamper for packing the jar",
+        "A sharp knife works better than a dull mandoline; ragged cuts bruise the cabbage and release bitter juices"
       ],
       "checkpoint": "Pile of thin cabbage strips"
     },
@@ -91,7 +93,8 @@
       "duration": "10 min",
       "tips": [
         "Don't rush this — the brine you create is the fermentation environment",
-        "At BLR temperatures it releases liquid quickly"
+        "At BLR temperatures it releases liquid quickly",
+        "If the cabbage feels dry after 10 minutes of massaging, let it rest covered for 30 minutes — the salt will continue drawing out liquid"
       ],
       "checkpoint": "Cabbage is limp and swimming in its own brine"
     },
@@ -101,7 +104,9 @@
       "instruction": "Pack the cabbage tightly into your jar, pressing down so brine rises above the cabbage. Use a reserved outer leaf folded on top to keep shreds submerged. Weigh down.",
       "duration": "5 min",
       "tips": [
-        "Leave 3–4cm headspace — it will bubble"
+        "Leave 3–4cm headspace — it will bubble",
+        "Place the jar on a plate or tray — brine often overflows during the first few days of active fermentation",
+        "A zip-lock bag filled with brine makes the best weight: it conforms to the jar shape and won't contaminate if it leaks"
       ],
       "checkpoint": "Cabbage fully submerged under brine"
     },
@@ -112,7 +117,8 @@
       "duration": "14–28 days",
       "tips": [
         "In Bengaluru's warmth, check from day 7 — it moves faster than European recipes suggest",
-        "Skim any white film (kahm yeast) — harmless, just aesthetics"
+        "Skim any white film (kahm yeast) — harmless, just aesthetics",
+        "Push the weight back down every day or two — rising CO2 lifts the cabbage above the brine"
       ],
       "checkpoint": "Tastes tangy-sour with no off smells"
     },
@@ -122,7 +128,9 @@
       "instruction": "Once happy with the sourness, seal the jar and refrigerate. Fermentation slows dramatically but continues.",
       "duration": null,
       "tips": [
-        "Keeps for 3+ months in the fridge"
+        "Keeps for 3+ months in the fridge",
+        "Always use a clean fork — double-dipping introduces contaminants that shorten shelf life",
+        "The flavour improves over the first few weeks in the fridge as the lactic acid mellows and rounds out"
       ],
       "checkpoint": "Jar is cold and sealed"
     }

@@ -128,7 +128,9 @@
       "instruction": "Dissolve 30g non-iodised salt in 1 litre of water. Stir until clear.",
       "duration": "2 min",
       "tips": [
-        "This is approximately a 3% brine — the standard for most vegetable ferments"
+        "This is approximately a 3% brine — the standard for most vegetable ferments",
+        "Use filtered or boiled-and-cooled water — chlorine in tap water can inhibit fermentation.",
+        "Warm water dissolves salt faster, but let it cool to room temperature before pouring over vegetables."
       ],
       "checkpoint": "Clear brine, salt dissolved"
     },
@@ -139,7 +141,8 @@
       "duration": "10 min",
       "tips": [
         "The beetroot is primarily for colour — you don't need much",
-        "Wear gloves when handling beetroot unless you want pink fingers for a day"
+        "Wear gloves when handling beetroot unless you want pink fingers for a day",
+        "Cut turnip sticks roughly the same thickness so they ferment at the same rate — thin pieces will go mushy while thick ones are still crunchy."
       ],
       "checkpoint": "Turnip sticks and beetroot slices ready"
     },
@@ -150,7 +153,8 @@
       "duration": "5 min",
       "tips": [
         "Vertical packing keeps turnips submerged more easily",
-        "Leave 3cm headspace"
+        "Leave 3cm headspace",
+        "Tuck beetroot slices between the turnip layers rather than just at the bottom — the colour distributes more evenly throughout the jar."
       ],
       "checkpoint": "Jar packed with turnips and beet, submerged in brine"
     },
@@ -173,7 +177,8 @@
       "duration": null,
       "tips": [
         "Keeps 2–3 months refrigerated",
-        "The brine is also delicious — use it in salad dressings or as a probiotic shot"
+        "The brine is also delicious — use it in salad dressings or as a probiotic shot",
+        "Serve alongside falafel, shawarma, or grilled meats — the sour crunch cuts through rich and fatty foods perfectly."
       ],
       "checkpoint": "Vibrant pink pickled turnips, ready to serve"
     }
