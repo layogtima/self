@@ -53,22 +53,44 @@
     {
       "step": 1,
       "title": "Slice",
-      "instruction": "Thinly slice onions or use whole small sambar onions."
+      "instruction": "Thinly slice onions or use whole small sambar onions.",
+      "tips": [
+        "Uniform thickness ensures even fermentation — aim for 3-4mm rings",
+        "A mandoline makes quick work of this, but a sharp knife is fine",
+        "Keep the root end intact while slicing to hold the onion together"
+      ]
     },
     {
       "step": 2,
       "title": "Pack",
-      "instruction": "Pack into a jar with a slice of beetroot for that neon pink color."
+      "instruction": "Pack into a jar with a slice of beetroot for that neon pink color.",
+      "tips": [
+        "One thin beetroot slice is enough — too much and it overpowers the onion flavour",
+        "Pack tightly so onions stay submerged once brine is added",
+        "Use a wide-mouth jar for easy packing and retrieval"
+      ]
     },
     {
       "step": 3,
       "title": "Brine & Wait",
-      "instruction": "Add brine. Wait 2–3 days. If they smell like sulfur, that’s normal for the first day, it passes."
+      "instruction": "Add brine. Wait 2–3 days. If they smell like sulfur, that’s normal for the first day, it passes.",
+      "tips": [
+        "Use a weight or small ziplock bag filled with brine to keep onions submerged",
+        "The sulfur smell on day 1 is caused by allyl sulfide compounds breaking down — it dissipates completely",
+        "Taste daily after day 2 — when they lose their raw bite and taste tangy-sweet, they are ready"
+      ]
     }
   ],
   "culturalContext": {
-    "story": "Found in every \"Dhaba\" in India, though usually pickled in cheap vinegar. The lacto version is much gentler on the stomach.",
-    "funFact": "Fermentation breaks down the compounds that cause \"onion breath.\""
+    "story": "Found in every \"Dhaba\" (roadside truck stop) across North India, lacto onions are the unsung hero of the Indian meal. Usually pickled in cheap synthetic vinegar, the traditional lacto-fermented version predates vinegar pickling by centuries. The lacto version is gentler on the stomach, richer in probiotics, and produces a more complex sweet-sour flavour that vinegar simply cannot replicate. In Punjab and Rajasthan, no kebab platter is complete without a bowl of these pink rings alongside green chutney and lemon wedges.",
+    "historicalNote": "Onion pickling in brine is documented in Indian culinary texts going back several centuries. British colonial officers noted the ubiquity of pickled onions at Indian roadside stops, drawing parallels to British pub pickled onions — though the techniques and results are quite different.",
+    "significance": "This is the gateway ferment for millions of Indians who already eat 'pickled onions' but don't realise they could be making a living, probiotic version at home with just salt and water.",
+    "relatedTraditions": [
+      "British pub pickled onions (malt vinegar)",
+      "Japanese rakkyo (pickled shallots)",
+      "Korean yangpa jangajji (soy-pickled onions)"
+    ],
+    "funFact": "Fermentation breaks down the compounds that cause \"onion breath.\" Specifically, lacto-bacteria convert allyl methyl sulfide into odourless byproducts."
   },
   "tags": [
     "beginner",
@@ -81,6 +103,59 @@
       "url": "https://en.wikipedia.org/wiki/Pickled_onion"
     }
   ],
-  "videos": [],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=vD6XWXj9l8Q",
+      "title": "Easy Lacto-Fermented Onions",
+      "channel": "Joshua Weissman",
+      "type": "youtube"
+    }
+  ],
+  "variations": [
+    {
+      "name": "Spiced Lacto Onions",
+      "description": "Add 1 tsp mustard seeds, 4-5 black peppercorns, and a bay leaf to the brine. Gives a more complex, aromatic pickle that pairs well with biryani.",
+      "region": "North India"
+    },
+    {
+      "name": "Turmeric Lacto Onions",
+      "description": "Replace beetroot with 1/2 tsp turmeric for a golden colour. Add a slit green chilli for heat. Popular as a side with dal-rice meals.",
+      "region": "South India"
+    },
+    {
+      "name": "Shallot Lacto Pickle",
+      "description": "Use whole peeled shallots (sambar onions) instead of sliced red onions. They take 5-7 days but develop an incredible crunchy-tangy bite. The classic dhaba style.",
+      "region": "Punjab / Rajasthan"
+    }
+  ],
+  "thingsToAccountFor": [
+    {
+      "title": "Sulfur smell on day 1",
+      "description": "Onions release sulfur compounds during the first 24 hours of fermentation. This is completely normal and will dissipate by day 2. Do not discard the batch because of this smell.",
+      "severity": "info"
+    },
+    {
+      "title": "Keep onions submerged",
+      "description": "Onion rings float easily. Use a fermentation weight, a small plate, or a brine-filled ziplock bag to keep everything below the liquid line. Exposed onions will develop surface mould.",
+      "severity": "warning"
+    },
+    {
+      "title": "Brine ratio matters",
+      "description": "Stick to 3% salt brine (30g salt per 1L water). Too little salt and the ferment may spoil; too much and the beneficial bacteria are inhibited.",
+      "severity": "tip"
+    }
+  ],
+  "dehydratorIntegration": {
+    "applicable": true,
+    "method": "Drain fermented onions and spread in a single layer on dehydrator trays. Dehydrate at 45°C for 8-12 hours until completely crisp.",
+    "temp": "45°C",
+    "time": "8-12 hours",
+    "result": "Fermented onion crisps — tangy, crunchy flakes perfect for topping salads, dal, and rice bowls. Can be ground into a probiotic-adjacent onion powder.",
+    "shelfLife": "3-4 months in an airtight container",
+    "tips": [
+      "Pat onions dry before dehydrating to speed up the process",
+      "Grind the crisps into powder for an incredible seasoning salt"
+    ]
+  },
   "citations": []
 }

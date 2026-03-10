@@ -301,6 +301,13 @@
       "license": "CC BY-SA"
     }
   ],
-  "videos": [],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=GAfMsGO6MQE",
+      "title": "Fermented Green Chutney — Probiotic Coriander Mint Chutney",
+      "channel": "Arvind Veggie Cuisine",
+      "type": "youtube"
+    }
+  ],
   "citations": []
 }

@@ -42,17 +42,32 @@
     {
       "step": 1,
       "title": "Wash",
-      "instruction": "Wash the peppercorn bunches carefully. Leave them on the stalk."
+      "instruction": "Wash the peppercorn bunches carefully. Leave them on the stalk.",
+      "tips": [
+        "Handle gently — the peppercorns pop off the stalk easily when fresh, and loose ones are harder to keep submerged.",
+        "Discard any peppercorns that have started turning black or yellow; you want only firm, bright green ones.",
+        "A quick rinse in cold water is enough — do not soak, as this can start to extract flavor prematurely."
+      ]
     },
     {
       "step": 2,
       "title": "Submerge",
-      "instruction": "Pack into a jar with salt and lemon juice. Add a little water to cover."
+      "instruction": "Pack into a jar with salt and lemon juice. Add a little water to cover.",
+      "tips": [
+        "Use fresh lemon juice only — bottled juice contains preservatives that can inhibit the natural fermentation.",
+        "The stalks help keep bunches together and make it easier to pull out a serving at a time.",
+        "Pack tightly so the stalks wedge against each other and stay submerged naturally — this reduces the need for weights."
+      ]
     },
     {
       "step": 3,
       "title": "Mellow",
-      "instruction": "Let sit for 2 weeks. They will turn dark green/brown and the bite will mellow."
+      "instruction": "Let sit for 2 weeks. They will turn dark green/brown and the bite will mellow.",
+      "tips": [
+        "The color change from bright green to olive/brown is normal — it indicates the fermentation is working.",
+        "Taste a single peppercorn at day 10 — the raw 'bite' should have softened into a warm, rounded heat.",
+        "These improve significantly with age; after 2 months, the flavor becomes deep and complex. Patience pays off here."
+      ]
     }
   ],
   "images": [
@@ -65,8 +80,11 @@
     }
   ],
   "culturalContext": {
-    "story": "A prized specialty in Kodagu (Coorg). It is eaten with \"Akki Roti\" or \"Pandhi Curry.\"",
-    "significance": "One of the rarest ways to eat pepper."
+    "story": "A prized specialty in Kodagu (Coorg), the misty hill district of Karnataka where pepper has been cultivated for over a thousand years. Fresh green peppercorns are available only during the brief January-February harvest season, and Kodava families ferment them immediately to preserve that fleeting freshness. They are eaten with 'Akki Roti' (rice flatbread) or alongside the famous 'Pandhi Curry' (Coorgi pork curry), where the fermented pepper's mellow heat complements the rich, vinegar-based gravy.",
+    "historicalNote": "Kodagu was one of the original sources of black pepper traded on the ancient Spice Route. Arab and Roman traders called pepper 'Black Gold' and it was so valuable it was used as currency. While the world knows dried black pepper, the fresh green form preserved in brine remains a closely guarded local delicacy.",
+    "significance": "One of the rarest ways to eat pepper. While the world dries and grinds billions of tons of peppercorns annually, eating them fresh and fermented on the stalk is a privilege reserved almost exclusively for those living in pepper-growing regions.",
+    "funFact": "In ancient Rome, Alaric the Visigoth demanded 3,000 pounds of pepper as part of the ransom for the city in 408 AD — making pepper literally worth its weight in gold.",
+    "relatedTraditions": ["Cambodian Kampot pepper in brine", "Vietnamese fresh pepper with grilled meats", "Thai green peppercorn stir-fry"]
   },
   "tags": [
     "beginner",
@@ -74,12 +92,59 @@
     "spicy",
     "coorg"
   ],
+  "variations": [
+    {
+      "name": "Cambodian Kampot Style",
+      "description": "Use Kampot green peppercorns and replace lemon juice with rice vinegar. Add a small piece of galangal to the jar. The result is milder and more floral than the Coorg version.",
+      "region": "Cambodia"
+    },
+    {
+      "name": "Green Pepper and Garlic Ferment",
+      "description": "Add 4-5 peeled garlic cloves and a small green chili to the jar. The garlic mellows and absorbs pepper flavor, becoming a delicious bonus condiment.",
+      "region": "South India"
+    },
+    {
+      "name": "Vinegar-Preserved Peppercorns",
+      "description": "Replace the lemon juice and water with white wine vinegar for a French-style preparation. These are less funky but excellent crushed into cream sauces for steak au poivre.",
+      "region": "France"
+    }
+  ],
+  "thingsToAccountFor": [
+    {
+      "title": "Extremely Seasonal Ingredient",
+      "description": "Fresh green peppercorns are only available for a few weeks per year (January-February in South India). You cannot substitute dried green peppercorns — they lack the moisture and fresh enzymes needed for fermentation. Plan ahead and buy in bulk when available.",
+      "severity": "info"
+    },
+    {
+      "title": "Peppercorns Must Stay Submerged",
+      "description": "Exposed peppercorns will oxidize and turn black quickly. If the brine level drops, top up with a light salt-lemon solution. The stalks help anchor bunches down but check daily in the first week.",
+      "severity": "warning"
+    },
+    {
+      "title": "Start Small if Unfamiliar",
+      "description": "Fermented green peppercorns have an intense, unique flavor that is not for everyone. Start with a small batch (100g) before committing to a large jar, especially if you have never tasted them before.",
+      "severity": "tip"
+    }
+  ],
   "sources": [
     {
       "title": "Black Pepper — Wikipedia",
       "url": "https://en.wikipedia.org/wiki/Black_pepper"
     }
   ],
-  "videos": [],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=JkBnSMaFMmw",
+      "title": "Preserving Fresh Green Peppercorns - Fermentation and Brining",
+      "channel": "Kirsten Shockey",
+      "type": "youtube"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=YGwMPmGM3CY",
+      "title": "Coorg Pepper - From Vine to Pickle",
+      "channel": "Village Cooking",
+      "type": "youtube"
+    }
+  ],
   "citations": []
 }

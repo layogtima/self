@@ -41,34 +41,107 @@
     {
       "step": 1,
       "title": "Cut",
-      "instruction": "Slice the kernels off the cob."
+      "instruction": "Slice the kernels off the cob.",
+      "tips": [
+        "Stand the cob upright in a large bowl and slice downward — the bowl catches flying kernels.",
+        "After cutting kernels, scrape the cob with the back of the knife to extract the starchy 'milk' — it feeds fermentation.",
+        "Use the freshest corn possible; sugars convert to lactic acid faster when the corn hasn't been stored long."
+      ]
     },
     {
       "step": 2,
       "title": "Jar",
-      "instruction": "Pack into a jar and cover with brine. Corn floats, so use a weight!"
+      "instruction": "Pack into a jar and cover with brine. Corn floats, so use a weight!",
+      "tips": [
+        "A zip-lock bag filled with brine makes an excellent weight that also seals out air.",
+        "Leave at least 1 inch of headspace — corn ferments vigorously and can overflow.",
+        "If using a narrow-mouth jar, a cabbage leaf trimmed to fit works perfectly as a natural weight holder."
+      ]
     },
     {
       "step": 3,
       "title": "Ferment",
-      "instruction": "3–5 days. It will smell a bit like corn chips (masa). That's good."
+      "instruction": "3–5 days. It will smell a bit like corn chips (masa). That's good.",
+      "tips": [
+        "Taste daily starting day 3 — corn ferments fast in warm climates and can become too sour quickly.",
+        "The brine will turn cloudy and slightly yellow; this is normal and indicates active fermentation.",
+        "Once it reaches your preferred sourness, move to the fridge where it will keep for 2-3 months."
+      ]
     }
   ],
   "culturalContext": {
-    "story": "Inspired by \"Chicha,\" the South American corn ferment, but kept as a solid food rather than a drink.",
-    "funFact": "Fermenting corn makes the Niacin (Vitamin B3) more available to your body."
+    "story": "Inspired by 'Chicha,' the ancient South American corn ferment with roots stretching back over 5,000 years to the Inca Empire. While Chicha is traditionally chewed and fermented into a ceremonial drink, this recipe keeps the corn as a solid food, preserving the funky, cheesy depth that lacto-fermentation brings to fresh sweet corn kernels.",
+    "historicalNote": "Nixtamalization — treating corn with alkaline solutions — was developed by Mesoamerican peoples thousands of years ago to unlock nutrients. Lacto-fermentation achieves a similar nutritional benefit through microbial action, making B vitamins and minerals more bioavailable without the lye treatment.",
+    "significance": "Corn fermentation represents one of humanity's oldest food preservation techniques, practiced independently across the Americas, Africa, and Asia. It bridges indigenous knowledge with modern probiotic science.",
+    "funFact": "Fermenting corn makes the Niacin (Vitamin B3) more available to your body — the same reason tortillas made from nixtamalized corn prevented pellagra in Mesoamerican populations.",
+    "relatedTraditions": ["Chicha (South American corn beer)", "Ogi (Nigerian fermented corn porridge)", "Pozol (Mexican fermented corn dough drink)"]
   },
   "tags": [
     "beginner",
     "umami",
     "sweet-savory"
   ],
+  "variations": [
+    {
+      "name": "Elote-Style Fermented Corn",
+      "description": "Add chili flakes, a squeeze of lime juice, and a pinch of cumin to the brine. After fermenting, serve with cotija cheese and mayo for a fermented take on Mexican street corn.",
+      "region": "Mexico"
+    },
+    {
+      "name": "Smoky Chipotle Corn",
+      "description": "Add 1-2 dried chipotle peppers to the jar before fermenting. The smoke flavor infuses the kernels over the fermentation period, creating a deeply savory condiment for grain bowls.",
+      "region": "American Southwest"
+    },
+    {
+      "name": "Corn and Pepper Relish",
+      "description": "Add diced bell peppers, a sliced jalapeño, and a clove of garlic to the jar. Ferment together for a ready-made relish that works on hot dogs, burgers, or tacos."
+    }
+  ],
+  "thingsToAccountFor": [
+    {
+      "title": "Corn Floats Aggressively",
+      "description": "Corn kernels are less dense than brine and will float to the surface, exposing them to air and risking mold. Always use a weight or a brine-filled zip-lock bag to keep every kernel submerged.",
+      "severity": "warning"
+    },
+    {
+      "title": "Vigorous Fermentation",
+      "description": "Corn sugars ferment rapidly, producing a lot of CO2 in the first 48 hours. Burp your jar at least twice daily or use an airlock lid to prevent pressure buildup and potential overflow.",
+      "severity": "warning"
+    },
+    {
+      "title": "Frozen Corn Won't Work Well",
+      "description": "Frozen corn has been blanched, killing the natural lactobacillus on the surface. If you must use frozen, add a tablespoon of raw sauerkraut brine as a starter culture.",
+      "severity": "info"
+    }
+  ],
+  "dehydratorIntegration": {
+    "applicable": true,
+    "method": "Drain the fermented corn thoroughly and spread in a single layer on dehydrator trays lined with mesh sheets. Dehydrate until kernels are completely hard and brittle.",
+    "temp": "125°F / 52°C",
+    "time": "8-12 hours",
+    "result": "Crunchy, tangy corn bits — like fermented corn nuts. Excellent as a salad topper, snack, or ground into a funky corn powder for seasoning.",
+    "shelfLife": "6-12 months in an airtight container",
+    "tips": ["Toss with a light coating of oil and chili powder before dehydrating for a spicy snack version.", "Dehydrated fermented corn can be ground in a spice grinder to make a probiotic-rich seasoning powder."]
+  },
   "sources": [
     {
       "title": "Corn — Wikipedia",
       "url": "https://en.wikipedia.org/wiki/Maize"
     }
   ],
-  "videos": [],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=GN7wS8K0aiE",
+      "title": "It's Alive with Brad - Fermented Corn",
+      "channel": "Bon Appetit",
+      "type": "youtube"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=ViGdjc09RqU",
+      "title": "How to Ferment Corn - Lacto Fermentation",
+      "channel": "Pro Home Cooks",
+      "type": "youtube"
+    }
+  ],
   "citations": []
 }

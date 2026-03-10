@@ -40,17 +40,32 @@
     {
       "step": 1,
       "title": "Trim",
-      "instruction": "Trim the ends so they fit vertically in your jar."
+      "instruction": "Trim the ends so they fit vertically in your jar.",
+      "tips": [
+        "Measure the beans against the jar BEFORE trimming — cut them about 1 cm shorter than the jar's interior height to allow space for brine on top.",
+        "Only trim the stem end; leave the pointy tail end intact for a nicer presentation.",
+        "Choose beans that snap cleanly when bent — if they bend without breaking, they are too old and will turn mushy during fermentation."
+      ]
     },
     {
       "step": 2,
       "title": "Pack",
-      "instruction": "Pack them TIGHT. If they aren't tight, they will float and mould."
+      "instruction": "Pack them TIGHT. If they aren't tight, they will float and mould.",
+      "tips": [
+        "Stand the beans vertically and wedge them in so tightly they hold themselves in place — think of it like packing a bouquet into a vase.",
+        "Add the dill seeds, a few garlic cloves, and any other aromatics to the bottom of the jar BEFORE packing in the beans.",
+        "Wide-mouth mason jars work best — narrow mouths make it nearly impossible to pack beans tightly enough."
+      ]
     },
     {
       "step": 3,
       "title": "Ferment",
-      "instruction": "5–7 days. They should be sour but still have a loud \"snap\" when bitten."
+      "instruction": "5–7 days. They should be sour but still have a loud \"snap\" when bitten.",
+      "tips": [
+        "Pull a bean from the middle of the jar to test — the outer beans ferment faster than the ones packed in the center.",
+        "If the beans start losing their snap and becoming bendy, fermentation has gone too far. Move to the fridge immediately.",
+        "The brine should be pleasantly sour and slightly cloudy. Clear brine after 5 days may mean the salt concentration is too high and is slowing fermentation."
+      ]
     }
   ],
   "images": [
@@ -63,13 +78,60 @@
     }
   ],
   "culturalContext": {
-    "story": "A staple of Southern US pantries, usually canned, but the fermented version maintains the crunch much better."
+    "story": "A beloved staple of Southern US pantries and Appalachian food traditions, dilly beans have been preserved for generations in rural American kitchens. While most modern recipes call for vinegar canning, the original method was lacto-fermentation, which maintains the signature 'snap' crunch far better than heat-processed canning. They gained mainstream popularity as a Bloody Mary garnish in cocktail culture, replacing the traditional celery stick.",
+    "historicalNote": "Green bean fermentation traces back to European settlers in Appalachia who adapted Old World sauerkraut techniques to New World vegetables. Before refrigeration, fermented beans were a critical source of vitamins during long winters. The addition of dill is a Scandinavian influence brought by immigrants to the American Midwest.",
+    "significance": "Dilly beans represent the American home-canning and preservation tradition at its most accessible. They are a gateway ferment — simple enough for absolute beginners yet impressive enough to gift in mason jars at holidays.",
+    "funFact": "Dilly beans have become the unofficial garnish of the craft Bloody Mary movement. Some bartenders ferment their own beans specifically for cocktails, claiming the probiotic brine is the ultimate hangover cure.",
+    "relatedTraditions": ["French Haricots Verts in vinegar", "Korean Jangajji (soy-pickled vegetables)", "Chinese Suan Dou Jiao (fermented long beans)"]
   },
   "tags": [
     "beginner",
     "snack",
     "crunchy"
   ],
+  "variations": [
+    {
+      "name": "Spicy Cajun Dilly Beans",
+      "description": "Add 2-3 dried cayenne peppers, a few cloves of garlic, and a teaspoon of mustard seeds to each jar. The heat builds over fermentation and creates a fiery Southern-style snack.",
+      "region": "American South"
+    },
+    {
+      "name": "Chinese Suan Dou Jiao Style",
+      "description": "Replace dill with Sichuan peppercorns, dried chili flakes, and sliced ginger. Use a 4% brine. These are traditionally chopped and stir-fried with minced pork as a classic Hunan dish.",
+      "region": "Hunan, China"
+    },
+    {
+      "name": "Curry Leaf and Mustard Beans",
+      "description": "Add a sprig of fresh curry leaves, a teaspoon of black mustard seeds, and a dried red chili to the jar. This South Indian twist creates an excellent side for rice and dal.",
+      "region": "South India"
+    }
+  ],
+  "thingsToAccountFor": [
+    {
+      "title": "Bean Freshness is Critical",
+      "description": "Old or limp beans will turn mushy during fermentation. The snap test is essential: bend a bean in half — it should break cleanly with an audible snap. If it bends like rubber, find fresher beans.",
+      "severity": "warning"
+    },
+    {
+      "title": "Tight Packing Prevents Floating",
+      "description": "Green beans are buoyant and will float to the surface if not packed extremely tightly. Beans above the brine line will mold within days. Pack them so tightly they cannot move, and use a weight on top as insurance.",
+      "severity": "warning"
+    },
+    {
+      "title": "Hollowed Beans Can Trap Air",
+      "description": "Some beans develop hollow centers that trap air bubbles, causing them to float even when weighted. Tap the jar firmly on the counter after filling to dislodge trapped air, and top up with brine if the level drops.",
+      "severity": "tip"
+    }
+  ],
+  "dehydratorIntegration": {
+    "applicable": true,
+    "method": "Drain the fermented beans thoroughly and lay them in a single layer on dehydrator trays. They can be left whole or cut into 2-3 cm pieces for faster drying.",
+    "temp": "125°F / 52°C",
+    "time": "10-14 hours",
+    "result": "Crispy, tangy green bean chips with a concentrated dill-sour flavor. Excellent as a healthy snack or crumbled as a savory topping for soups and salads.",
+    "shelfLife": "6-8 months in an airtight container",
+    "tips": ["Cut into shorter pieces before dehydrating for a more chip-like snack texture.", "They will re-crisp in a 200°F oven for 5 minutes if they absorb ambient moisture during storage."]
+  },
   "sources": [
     {
       "title": "Green Bean — Wikipedia",
@@ -81,6 +143,12 @@
       "url": "https://www.youtube.com/watch?v=R9reE6iO-p0",
       "title": "Pickled Green Beans",
       "channel": "Food Wishes",
+      "type": "youtube"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=kOc3KbMRs7k",
+      "title": "Lacto-Fermented Dilly Beans - It's Alive",
+      "channel": "Bon Appetit",
       "type": "youtube"
     }
   ],

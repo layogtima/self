@@ -45,17 +45,31 @@
     {
       "step": 1,
       "title": "Slice",
-      "instruction": "Cut carrots into sticks that will fit vertically in your jar."
+      "instruction": "Cut carrots into sticks that will fit vertically in your jar.",
+      "tips": [
+        "Cut sticks slightly shorter than the jar height so you can place a weight on top to keep them submerged.",
+        "Uniform thickness (about 1cm) ensures even fermentation—thin sticks will go soft while thick ones stay raw."
+      ]
     },
     {
       "step": 2,
       "title": "Brine",
-      "instruction": "Mix 15g salt into 500ml water. Pour over carrots and ginger slices."
+      "instruction": "Mix 15g salt into 500ml water. Pour over carrots and ginger slices.",
+      "tips": [
+        "Use non-chlorinated water—chlorine inhibits the lactobacillus bacteria you want. Filtered or boiled-and-cooled water works best.",
+        "Slice the ginger into thin coins rather than chunks so the flavor distributes evenly.",
+        "Dissolve the salt completely in the water before pouring over the carrots to ensure even salinity."
+      ]
     },
     {
       "step": 3,
       "title": "Wait",
-      "instruction": "Ferment for 5–7 days. The brine will get cloudy—that’s the good stuff."
+      "instruction": "Ferment for 5–7 days. The brine will get cloudy—that's the good stuff.",
+      "tips": [
+        "Taste a stick on day 4. If it is pleasantly tangy and still crunchy, move to the fridge. Warm climates speed things up.",
+        "Cloudiness means active lactobacillus colonies—never throw out cloudy brine thinking it has gone bad.",
+        "Once refrigerated, these will keep for 2–3 months and actually improve in flavor over the first few weeks."
+      ]
     }
   ],
   "images": [
@@ -68,9 +82,57 @@
     }
   ],
   "culturalContext": {
-    "story": "A staple of the \"Weston A. Price\" style diet. It’s the easiest way to get probiotics into a sandwich.",
+    "story": "A staple of the \"Weston A. Price\" style diet, fermented carrots became a cornerstone of the nourishing traditions movement in the early 2000s. Sally Fallon's 'Nourishing Traditions' cookbook popularized this exact recipe, positioning it as the simplest way to introduce live probiotics into a Western diet. The combination of carrots and ginger is found across cultures—from Korean banchan to Indian achaar variations.",
     "significance": "Carrots maintain their structural integrity better than almost any other vegetable when fermented.",
-    "funFact": "The ginger prevents the carrots from smelling \"swampy,\" keeping them fresh and bright."
+    "funFact": "The ginger prevents the carrots from smelling \"swampy,\" keeping them fresh and bright.",
+    "historicalNote": "Root vegetables have been fermented in brine across Northern Europe and Central Asia for centuries as a way to preserve the autumn harvest through long winters without refrigeration.",
+    "relatedTraditions": "In Korea, fermented radish (kkakdugi) follows a nearly identical principle. In India, gajar ka achaar uses oil and spices instead of brine but achieves a similar preservation effect."
+  },
+  "variations": [
+    {
+      "name": "Curried Carrot Sticks",
+      "description": "Add 1 tsp each of turmeric, cumin, and coriander to the brine. The spices bloom during fermentation, creating deeply flavored sticks that pair perfectly with dal and rice.",
+      "region": "India"
+    },
+    {
+      "name": "Honey-Garlic Carrots",
+      "description": "Replace ginger with 4 cloves of sliced garlic and add 1 tbsp raw honey to the brine. The honey provides extra fuel for the bacteria and results in a sweeter, more mellow ferment.",
+      "region": "Eastern Europe"
+    },
+    {
+      "name": "Carrot and Daikon Mix",
+      "description": "Use half carrots and half daikon radish. The daikon ferments faster and adds a peppery bite that contrasts beautifully with the sweet carrots.",
+      "region": "Japan"
+    }
+  ],
+  "thingsToAccountFor": [
+    {
+      "title": "Carrots Must Stay Submerged",
+      "description": "Any carrot piece poking above the brine will develop mold. Use a fermentation weight, a small plate, or a cabbage leaf pressed on top to keep everything under the liquid.",
+      "severity": "warning"
+    },
+    {
+      "title": "Temperature Affects Speed",
+      "description": "At Bengaluru room temperature (28-32°C), fermentation happens faster than recipes written for temperate climates suggest. Start tasting on day 3 rather than day 5. In cooler weather, it may take the full 7-10 days.",
+      "severity": "info"
+    },
+    {
+      "title": "Organic Carrots Ferment Better",
+      "description": "Conventionally grown carrots are sometimes treated with chlorine washes that can inhibit fermentation. If your ferment seems sluggish after 3 days, the carrots may need a boost—add a splash of raw apple cider vinegar or whey.",
+      "severity": "tip"
+    }
+  ],
+  "dehydratorIntegration": {
+    "applicable": true,
+    "method": "Drain the fermented carrot sticks and pat dry. Arrange on dehydrator trays in a single layer without overlapping. Dehydrate until completely dry and leathery or crispy depending on preference.",
+    "temp": "52°C / 125°F",
+    "time": "8–10 hours",
+    "result": "Tangy, ginger-flavored carrot chips with a concentrated sour punch. Excellent as a snack or crumbled over salads.",
+    "shelfLife": "6+ months in an airtight container",
+    "tips": [
+      "Slice carrots thinner (3-4mm) before fermenting if you plan to dehydrate, as they shrink significantly.",
+      "The ginger slices can be dehydrated alongside the carrots and ground into a tangy ginger powder."
+    ]
   },
   "tags": [
     "beginner",

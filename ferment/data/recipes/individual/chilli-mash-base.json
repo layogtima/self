@@ -40,17 +40,32 @@
     {
       "step": 1,
       "title": "Blend",
-      "instruction": "Remove stems. Pulse chillies in a blender with salt until you have a coarse mash."
+      "instruction": "Remove stems. Pulse chillies in a blender with salt until you have a coarse mash.",
+      "tips": [
+        "Wear gloves when handling hot chillies—capsaicin oil stays on your skin for hours and will burn your eyes if you touch them.",
+        "Leave the seeds in for more heat, or remove some for a milder mash.",
+        "A coarse, chunky texture ferments better than a smooth puree because it allows gas to escape."
+      ]
     },
     {
       "step": 2,
       "title": "Jar",
-      "instruction": "Pack into a jar. Use a weight if possible, otherwise stir every few days to prevent mould on top."
+      "instruction": "Pack into a jar. Use a weight if possible, otherwise stir every few days to prevent mould on top.",
+      "tips": [
+        "Leave at least 2 inches of headspace—the mash will expand and bubble vigorously in the first few days.",
+        "A zip-lock bag filled with brine makes an excellent improvised weight that conforms to the jar shape.",
+        "Use a jar with an airlock lid if you have one; otherwise, just leave the lid slightly loose to let CO2 escape."
+      ]
     },
     {
       "step": 3,
       "title": "Age",
-      "instruction": "Let it sit for at least a week. The flavor will move from \"raw heat\" to \"fruity complexity.\""
+      "instruction": "Let it sit for at least a week. The flavor will move from \"raw heat\" to \"fruity complexity.\"",
+      "tips": [
+        "Taste it every few days—the flavor profile shifts dramatically between week one and week four.",
+        "A white film (kahm yeast) on top is harmless; just scrape it off and stir the mash.",
+        "For Sriracha-style sauce, blend smooth after fermenting and add a splash of vinegar and a pinch of sugar."
+      ]
     }
   ],
   "images": [
@@ -63,9 +78,58 @@
     }
   ],
   "culturalContext": {
-    "story": "This is how Tabasco is made—they age their chilli mash in oak barrels for three years.",
+    "story": "This is how Tabasco is made—they age their chilli mash in oak barrels for three years. The McIlhenny family has been doing this on Avery Island, Louisiana since 1868, and the fundamental technique has barely changed. Across Southeast Asia, variations of fermented chilli paste form the backbone of cuisines from Thai nam prik to Indonesian sambal oelek. In Karnataka, a similar concept exists as 'molaga podi' bases.",
     "significance": "Fermentation breaks down the capsaicin slightly but adds layers of flavor that vinegar-based sauces lack.",
-    "funFact": "The liquid that rises to the top is \"Chilli Whey\"—use it to marinate chicken."
+    "funFact": "The liquid that rises to the top is \"Chilli Whey\"—use it to marinate chicken.",
+    "historicalNote": "Chilli peppers arrived in India via Portuguese traders in the 16th century, and within 200 years they had completely transformed Indian cuisine, replacing black pepper as the primary source of heat.",
+    "relatedTraditions": "Korean gochujang follows the same principle but adds glutinous rice and soybeans to create a deeper umami ferment that ages for years in outdoor clay pots called onggi."
+  },
+  "variations": [
+    {
+      "name": "Smoky Chipotle Mash",
+      "description": "Use dried chipotle peppers (smoked jalapenos) rehydrated in warm water. The smoke flavor deepens during fermentation into something rich and barbecue-like.",
+      "region": "Mexico"
+    },
+    {
+      "name": "Garlic Chilli Mash",
+      "description": "Add 1 head of garlic (roughly chopped) per 500g of chillies before blending. The garlic mellows and sweetens during fermentation, creating a more complex base for sauces.",
+      "region": "Southeast Asia"
+    },
+    {
+      "name": "Fruit-Forward Mash",
+      "description": "Add 100g of mango or pineapple to the blend. The fruit sugars feed the bacteria and create a sweeter, tangier hot sauce base with tropical notes.",
+      "region": "Caribbean"
+    }
+  ],
+  "thingsToAccountFor": [
+    {
+      "title": "Capsaicin Burns",
+      "description": "Blending hot chillies releases capsaicin vapor that can irritate your lungs and eyes. Work in a well-ventilated area or near an open window. If you blend a large batch, consider wearing a simple face mask.",
+      "severity": "warning"
+    },
+    {
+      "title": "Jar Pressure Buildup",
+      "description": "Active fermentation produces significant CO2. If using a sealed jar, burp it daily for the first week to prevent pressure buildup. A jar can crack or its lid can pop off violently if pressure is not released.",
+      "severity": "warning"
+    },
+    {
+      "title": "Salt Ratio Is Critical",
+      "description": "Too little salt (under 2%) risks harmful bacterial growth. Too much (over 5%) will slow fermentation to a crawl. Weigh your chillies and calculate salt precisely rather than eyeballing it.",
+      "severity": "info"
+    }
+  ],
+  "dehydratorIntegration": {
+    "applicable": true,
+    "method": "Spread the finished fermented mash thinly on dehydrator trays lined with parchment or silicone sheets. Dehydrate until completely dry and brittle, then grind into a powder.",
+    "temp": "55°C / 130°F",
+    "time": "8–12 hours",
+    "result": "A deeply flavored fermented chilli powder with complex, fruity heat that is far superior to store-bought chilli flakes.",
+    "shelfLife": "12+ months in an airtight container",
+    "tips": [
+      "Spread the mash no thicker than 3mm for even drying.",
+      "Dehydrating at too high a temperature will destroy the probiotics but the flavor will still be excellent.",
+      "Grind the dried mash in short pulses to control the texture—flakes, coarse powder, or fine dust."
+    ]
   },
   "tags": [
     "beginner",

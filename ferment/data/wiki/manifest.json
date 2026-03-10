@@ -7,6 +7,16 @@
     { "id": "salt-and-fermentation", "slug": "salt-and-fermentation", "file": "salt-and-fermentation.json" },
     { "id": "temperature-and-fermentation", "slug": "temperature-and-fermentation", "file": "temperature-and-fermentation.json" },
     { "id": "troubleshooting-ferments", "slug": "troubleshooting-ferments", "file": "troubleshooting-ferments.json" },
-    { "id": "fermentation-traditions-worldwide", "slug": "fermentation-traditions-worldwide", "file": "fermentation-traditions-worldwide.json" }
+    { "id": "fermentation-traditions-worldwide", "slug": "fermentation-traditions-worldwide", "file": "fermentation-traditions-worldwide.json" },
+    { "id": "aromatics-spices-herbs-in-fermentation", "slug": "aromatics-spices-herbs-in-fermentation", "file": "aromatics-spices-herbs-in-fermentation.json" },
+    { "id": "fermentation-tools-through-history", "slug": "fermentation-tools-through-history", "file": "fermentation-tools-through-history.json" },
+    { "id": "water-quality-and-fermentation", "slug": "water-quality-and-fermentation", "file": "water-quality-and-fermentation.json" },
+    { "id": "fermented-foods-around-your-kitchen", "slug": "fermented-foods-around-your-kitchen", "file": "fermented-foods-around-your-kitchen.json" },
+    { "id": "best-vegetables-fruits-to-ferment", "slug": "best-vegetables-fruits-to-ferment", "file": "best-vegetables-fruits-to-ferment.json" },
+    { "id": "dehydrating-and-fermenting", "slug": "dehydrating-and-fermenting", "file": "dehydrating-and-fermenting.json" },
+    { "id": "fermentation-and-food-safety", "slug": "fermentation-and-food-safety", "file": "fermentation-and-food-safety.json" },
+    { "id": "fermentation-flavour-chart", "slug": "fermentation-flavour-chart", "file": "fermentation-flavour-chart.json" },
+    { "id": "second-ferments-and-flavouring", "slug": "second-ferments-and-flavouring", "file": "second-ferments-and-flavouring.json" },
+    { "id": "what-to-do-with-leftover-brine", "slug": "what-to-do-with-leftover-brine", "file": "what-to-do-with-leftover-brine.json" }
   ]
 }

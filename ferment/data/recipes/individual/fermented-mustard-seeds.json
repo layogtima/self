@@ -39,17 +39,31 @@
     {
       "step": 1,
       "title": "Mix",
-      "instruction": "Put seeds in a jar. Cover with brine."
+      "instruction": "Put seeds in a jar. Cover with brine.",
+      "tips": [
+        "Use a jar at least twice the volume of the dry seeds—they will swell to roughly double their size.",
+        "Stir the seeds once after adding brine to release any trapped air bubbles."
+      ]
     },
     {
       "step": 2,
       "title": "Absorb",
-      "instruction": "Check after 12 hours. The seeds will have soaked up the water. Add more brine to keep them covered."
+      "instruction": "Check after 12 hours. The seeds will have soaked up the water. Add more brine to keep them covered.",
+      "tips": [
+        "You may need to top up the brine 2-3 times in the first 24 hours as the seeds absorb aggressively.",
+        "If the seeds sit above the brine surface, they can develop kahm yeast. Keep them submerged at all times.",
+        "Have extra brine prepared ahead of time so you can top up quickly."
+      ]
     },
     {
       "step": 3,
       "title": "Age",
-      "instruction": "Wait 10 days. The sharp \"wasabi\" bite will mellow into a sophisticated tang."
+      "instruction": "Wait 10 days. The sharp \"wasabi\" bite will mellow into a sophisticated tang.",
+      "tips": [
+        "Taste a few seeds on day 7. They should pop when bitten and taste tangy rather than sharp and bitter.",
+        "The ferment is ready when the seeds taste more like whole-grain mustard than raw seeds.",
+        "Once refrigerated, the flavor continues to develop and improve for several weeks."
+      ]
     }
   ],
   "images": [
@@ -62,9 +76,57 @@
     }
   ],
   "culturalContext": {
-    "story": "A \"chef secret\" for adding texture to plates. It looks like expensive caviar but costs pennies.",
+    "story": "A \"chef secret\" for adding texture to plates, fermented mustard seeds have become a staple in fine dining kitchens worldwide. What high-end restaurants charge premium prices for is essentially the same preparation that Indian grandmothers have made for generations as 'rai ka achaar.' The seeds swell into translucent pearls that burst with tangy, mustardy flavor—looking like expensive caviar but costing pennies.",
     "significance": "Unlike store-bought mustard, this is raw and probiotic.",
-    "funFact": "If you blend this after fermenting, you get the best \"Dijon\" style mustard you've ever tasted."
+    "funFact": "If you blend this after fermenting, you get the best \"Dijon\" style mustard you've ever tasted.",
+    "historicalNote": "Mustard has been fermented and used as a condiment since ancient Rome. The word 'mustard' itself comes from the Latin 'mustum ardens' (burning must), referring to the practice of mixing ground mustard seeds with unfermented grape juice.",
+    "relatedTraditions": "In South India, mustard seeds are tempered in hot oil as a foundational spice in 'tadka.' Fermented mustard paste (kasundi) is a beloved Bengali condiment that pairs with virtually every meal."
+  },
+  "variations": [
+    {
+      "name": "Beer Mustard Caviar",
+      "description": "Replace half the brine with a dark stout or porter. The malt sugars feed the fermentation and create a deep, complex flavor that pairs brilliantly with charcuterie.",
+      "region": "Germany"
+    },
+    {
+      "name": "Honey Mustard Pearls",
+      "description": "Add 1 tbsp raw honey to the brine before fermenting. The result is a sweet-tangy pop that works as a garnish for cheese boards and roasted meats.",
+      "region": "France"
+    },
+    {
+      "name": "Black Mustard Caviar",
+      "description": "Use black mustard seeds (rai) instead of yellow. They are more pungent and take 14+ days to mellow, but the result has a wasabi-like heat that is addictive on sushi or grilled fish.",
+      "region": "India"
+    }
+  ],
+  "thingsToAccountFor": [
+    {
+      "title": "Seeds Absorb Massive Amounts of Brine",
+      "description": "Mustard seeds can absorb 2-3 times their weight in liquid. Prepare at least double the brine you think you need and check levels frequently in the first 24 hours. Exposed seeds will mold.",
+      "severity": "warning"
+    },
+    {
+      "title": "Patience With Bitterness",
+      "description": "Raw mustard seeds taste extremely bitter and sharp. This is normal and will mellow with time. Do not discard the batch if it tastes harsh at day 3—the transformation happens between days 7 and 14.",
+      "severity": "info"
+    },
+    {
+      "title": "Storage After Fermentation",
+      "description": "Keep the finished caviar submerged in its brine in the fridge. The seeds will continue to absorb liquid slowly, so check periodically and top up if needed to prevent drying out.",
+      "severity": "tip"
+    }
+  ],
+  "dehydratorIntegration": {
+    "applicable": true,
+    "method": "Drain the fermented mustard seeds thoroughly and spread in a single layer on dehydrator trays lined with fine mesh or parchment. Dehydrate until the seeds are completely dry and rattle when shaken.",
+    "temp": "46°C / 115°F",
+    "time": "6–8 hours",
+    "result": "Crunchy, tangy mustard seed sprinkles that can be used as a finishing spice. They retain a mild fermented tang and pop with concentrated mustard flavor.",
+    "shelfLife": "12+ months in an airtight jar",
+    "tips": [
+      "Use a mesh liner—the seeds are small enough to fall through standard dehydrator tray holes.",
+      "These dehydrated seeds can be ground into a tangy mustard powder for rubs and marinades."
+    ]
   },
   "tags": [
     "beginner",

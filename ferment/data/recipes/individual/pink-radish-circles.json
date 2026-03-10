@@ -41,26 +41,79 @@
     {
       "step": 1,
       "title": "Slice",
-      "instruction": "Slice into thin rounds."
+      "instruction": "Slice into thin rounds.",
+      "tips": [
+        "Use a mandoline for uniform slices — consistent thickness ensures even fermentation throughout the jar.",
+        "Aim for 3-4mm thickness; too thin and they lose crunch, too thick and they take much longer to ferment through.",
+        "Leave the skin on — that's where the pigment and much of the beneficial bacteria live."
+      ]
     },
     {
       "step": 2,
       "title": "Jar",
-      "instruction": "Pack and cover with brine."
+      "instruction": "Pack and cover with brine.",
+      "tips": [
+        "Radish slices pack flat naturally — arrange them in overlapping layers like shingles for the tightest pack.",
+        "Ensure brine covers the top layer by at least 1 cm; radishes above the brine line will not ferment and may mold.",
+        "A small glass weight or a piece of food-safe plastic pressed onto the surface keeps slices submerged perfectly."
+      ]
     },
     {
       "step": 3,
       "title": "Wait",
-      "instruction": "Ready in 2 days. They stay very crunchy."
+      "instruction": "Ready in 2 days. They stay very crunchy.",
+      "tips": [
+        "The brine will turn vivid pink within 12-24 hours — this is the anthocyanin pigment leaching from the skin and is perfectly normal.",
+        "Taste at day 2 for a mild tang; by day 4 they will be noticeably sour. Pull them to the fridge when they hit your sweet spot.",
+        "Save the pink brine! It makes a stunning natural food coloring for cocktails, salad dressings, or cooking rice."
+      ]
     }
   ],
   "culturalContext": {
-    "story": "Standard in Mexican \"Taquerias.\" The pink color is purely from the skin pigment bleeding into the brine."
+    "story": "A standard condiment in Mexican taquerias and street food stalls across Latin America, where jars of vibrant pink pickled radishes sit alongside salsas and lime wedges on every counter. The pink color is purely from the anthocyanin pigment in the radish skin bleeding into the brine — no artificial coloring needed. In Mexico, they are called 'rabanitos en escabeche' and are considered essential alongside tacos al pastor and carnitas.",
+    "historicalNote": "Radishes were one of the first vegetables cultivated in the Americas after Spanish colonization, arriving from Europe in the 16th century. Mexican cooks quickly adopted them into their condiment tradition, and the fermented version predates the now-common quick-pickled vinegar style.",
+    "significance": "Fermented radishes represent the intersection of European root vegetables and Latin American fermentation traditions. Their quick fermentation time (2-4 days) makes them one of the most accessible entry points into lacto-fermentation for beginners worldwide.",
+    "funFact": "In Oaxaca, Mexico, there is an annual 'Noche de Rabanos' (Night of the Radishes) festival on December 23rd, where enormous radishes are carved into elaborate sculptures — though those radishes are for art, not eating.",
+    "relatedTraditions": ["Turnip pickles (Middle Eastern Lift)", "Korean Chicken-mu (pickled radish)", "Japanese Tsukemono (pickled daikon)"]
   },
   "tags": [
     "beginner",
     "quick",
     "mexican"
+  ],
+  "variations": [
+    {
+      "name": "Middle Eastern Turnip-Style (Lift)",
+      "description": "Add a small raw beetroot wedge to the jar for an even deeper magenta color, plus 2-3 garlic cloves. This mimics the Lebanese 'Lift' pickle served with shawarma and falafel.",
+      "region": "Lebanon / Middle East"
+    },
+    {
+      "name": "Spicy Radish with Habanero",
+      "description": "Add thin slices of habanero or serrano pepper and a few black peppercorns to the brine. The heat infuses the radish slices, making them a fiery taco and burger topping.",
+      "region": "Mexico"
+    },
+    {
+      "name": "Asian-Inspired with Ginger and Rice Vinegar",
+      "description": "Add thin slices of fresh ginger and replace half the brine with rice vinegar for a quick Japanese-inspired pickle. Excellent with ramen, rice bowls, or alongside sushi.",
+      "region": "Japan"
+    }
+  ],
+  "thingsToAccountFor": [
+    {
+      "title": "Very Fast Fermentation",
+      "description": "Radishes ferment faster than most vegetables due to their high water content and thin cell walls. In warm climates (above 25°C / 77°F), they can be ready in just 24 hours. Check and taste frequently to avoid over-fermentation.",
+      "severity": "info"
+    },
+    {
+      "title": "Color Fading Over Time",
+      "description": "The vibrant pink color will gradually fade to a pale rose after 2-3 weeks in the fridge. This is purely cosmetic — the flavor and safety are unaffected. For the most Instagram-worthy results, consume within the first week.",
+      "severity": "info"
+    },
+    {
+      "title": "Strong Sulfur Smell is Normal",
+      "description": "Radishes belong to the brassica family and can produce a sulfurous smell during the first day or two of fermentation. This is completely normal and will mellow out. Do not discard the batch because of initial strong odors.",
+      "severity": "tip"
+    }
   ],
   "sources": [
     {
@@ -68,6 +121,19 @@
       "url": "https://en.wikipedia.org/wiki/Radish"
     }
   ],
-  "videos": [],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=vD6XWXj9l8Q",
+      "title": "Quick Fermented Radishes - Easy Lacto-Fermentation",
+      "channel": "Joshua Weissman",
+      "type": "youtube"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=Ys1cxTaEwIo",
+      "title": "Fermented Vegetables for Beginners - Radishes and More",
+      "channel": "Pro Home Cooks",
+      "type": "youtube"
+    }
+  ],
   "citations": []
 }
