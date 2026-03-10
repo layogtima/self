@@ -1,0 +1,245 @@
+{
+  "id": "sauerkraut-classic",
+  "slug": "sauerkraut-classic",
+  "name": "Sauerkraut",
+  "nameLocal": "Sauerkohlraum",
+  "nameRomanized": null,
+  "subtitle": "Germany's tangy winter staple",
+  "category": "vegetable",
+  "subcategory": "cabbage",
+  "technique": "dry-salt",
+  "region": "Europe",
+  "country": "Germany",
+  "countryCode": "DE",
+  "culturalGroup": "German",
+  "difficulty": 1,
+  "tier": "beginner",
+  "tierLabel": "Literally Just Add Salt",
+  "prepTime": "15 min",
+  "fermentTimeMin": 14,
+  "fermentTimeMax": 28,
+  "fermentTimeUnit": "days",
+  "totalTimeHuman": "2–4 weeks",
+  "blrNote": "Cabbage is available year-round at KR Market or any sabziwala. At Bengaluru's 25°C, ferments in ~14 days.",
+  "seasonality": [
+    "all"
+  ],
+  "ingredients": [
+    {
+      "name": "Cabbage",
+      "nameLocal": "Kobi / Patta Gobhi",
+      "amount": 1,
+      "unit": "medium head (~1kg)",
+      "unitMetric": "1kg",
+      "category": "produce",
+      "essential": true,
+      "substitutions": [
+        "Red cabbage (same method, purple colour)"
+      ],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any sabziwala or KR Market"
+        }
+      }
+    },
+    {
+      "name": "Non-iodised salt",
+      "nameLocal": "Saindhav Namak / Rock Salt",
+      "amount": 20,
+      "unit": "g",
+      "unitMetric": "20g",
+      "category": "salt",
+      "essential": true,
+      "substitutions": [],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any kirana store — avoid iodised table salt, it inhibits fermentation"
+        }
+      }
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Large glass jar (1L+)",
+      "essential": true,
+      "notes": "Bisleri jars work well"
+    },
+    {
+      "name": "Weight or small zip-lock bag filled with brine",
+      "essential": true,
+      "notes": "To keep cabbage submerged"
+    }
+  ],
+  "tldr": "Shred cabbage, add salt, massage until it weeps, pack tight, wait. Two ingredients. Maximum bacteria.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Shred",
+      "instruction": "Quarter the cabbage. Remove the outer leaves (keep them). Shred finely — 3–4mm strips. A sharp knife works; a mandoline is faster.",
+      "duration": "10 min",
+      "tips": [
+        "Thinner shreds ferment faster and more evenly",
+        "Save the core — it makes a handy tamper for packing the jar",
+        "A sharp knife works better than a dull mandoline; ragged cuts bruise the cabbage and release bitter juices"
+      ],
+      "checkpoint": "Pile of thin cabbage strips"
+    },
+    {
+      "step": 2,
+      "title": "Salt & massage",
+      "instruction": "Weigh the cabbage. Add 2% of that weight in salt. Massage firmly for 5–10 minutes until the cabbage releases enough liquid to cover itself.",
+      "duration": "10 min",
+      "tips": [
+        "Don't rush this — the brine you create is the fermentation environment",
+        "At BLR temperatures it releases liquid quickly",
+        "If the cabbage feels dry after 10 minutes of massaging, let it rest covered for 30 minutes — the salt will continue drawing out liquid"
+      ],
+      "checkpoint": "Cabbage is limp and swimming in its own brine"
+    },
+    {
+      "step": 3,
+      "title": "Pack the jar",
+      "instruction": "Pack the cabbage tightly into your jar, pressing down so brine rises above the cabbage. Use a reserved outer leaf folded on top to keep shreds submerged. Weigh down.",
+      "duration": "5 min",
+      "tips": [
+        "Leave 3–4cm headspace — it will bubble",
+        "Place the jar on a plate or tray — brine often overflows during the first few days of active fermentation",
+        "A zip-lock bag filled with brine makes the best weight: it conforms to the jar shape and won't contaminate if it leaks"
+      ],
+      "checkpoint": "Cabbage fully submerged under brine"
+    },
+    {
+      "step": 4,
+      "title": "Ferment",
+      "instruction": "Cover loosely with a cloth secured with a rubber band. Keep at room temperature away from direct sun. Taste daily from day 7. Ready when it's pleasantly sour (typically 14 days at BLR temps).",
+      "duration": "14–28 days",
+      "tips": [
+        "In Bengaluru's warmth, check from day 7 — it moves faster than European recipes suggest",
+        "Skim any white film (kahm yeast) — harmless, just aesthetics",
+        "Push the weight back down every day or two — rising CO2 lifts the cabbage above the brine"
+      ],
+      "checkpoint": "Tastes tangy-sour with no off smells"
+    },
+    {
+      "step": 5,
+      "title": "Refrigerate",
+      "instruction": "Once happy with the sourness, seal the jar and refrigerate. Fermentation slows dramatically but continues.",
+      "duration": null,
+      "tips": [
+        "Keeps for 3+ months in the fridge",
+        "Always use a clean fork — double-dipping introduces contaminants that shorten shelf life",
+        "The flavour improves over the first few weeks in the fridge as the lactic acid mellows and rounds out"
+      ],
+      "checkpoint": "Jar is cold and sealed"
+    }
+  ],
+  "images": [
+    {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Cavolo_salato.jpg",
+      "caption": "Sauerkraut",
+      "attribution": "Photo by Anshu A on Unsplash",
+      "type": "hero",
+      "alt": "Sauerkraut — Germany's tangy winter staple"
+    }
+  ],
+  "culturalContext": {
+    "story": "Sauerkraut predates refrigeration by centuries. For Central Europeans, it was the survival vegetable — made in autumn, eaten through winter, and credited with keeping sailors alive on long voyages. Every family had their own technique, their own timing, their own idea of how sour is \"right.\"",
+    "historicalNote": "Fermented cabbage has independent origins across Eurasia — Chinese workers on the Great Wall fermented cabbage in rice wine 2000 years ago. The salt-only European method emerged around the 15th century.",
+    "significance": "Sauerkraut is the gateway ferment for most people in the Western world. Two ingredients, no special equipment, no culture required. If you can make this, you understand the basic principle behind almost everything in fermentation.",
+    "relatedTraditions": [
+      "Kimchi (Korean)",
+      "Suan cai (Chinese pickled cabbage)",
+      "Curtido (Salvadoran)"
+    ],
+    "funFact": "German sailors brought barrels of sauerkraut on voyages as a vitamin C source — long before anyone knew what vitamins were. Captain Cook carried it on his Pacific voyages."
+  },
+  "thingsToAccountFor": [
+    {
+      "title": "White film on surface",
+      "description": "Kahm yeast — looks alarming, is harmless. Skim it off with a spoon. NOT mould (mould is fuzzy and coloured).",
+      "severity": "info",
+      "appliesTo": [
+        "all"
+      ]
+    },
+    {
+      "title": "Iodised salt kills fermentation",
+      "description": "Use rock salt, sea salt, or any non-iodised salt. Iodine is an antimicrobial — it will suppress the bacteria you're trying to grow.",
+      "severity": "important",
+      "appliesTo": [
+        "all"
+      ]
+    },
+    {
+      "title": "BLR humidity in monsoon",
+      "description": "June–September, ambient humidity is high. Fermentation stays reliable but keep jars away from excess moisture. Check more frequently.",
+      "severity": "info",
+      "appliesTo": [
+        "blr"
+      ]
+    }
+  ],
+  "dehydratorIntegration": {
+    "applicable": true,
+    "method": "Drain thoroughly, spread on trays, dehydrate at 40°C for 8–12 hours.",
+    "result": "Crunchy sauerkraut chips — intensely sour, great on dal or as a snack.",
+    "shelfLife": "6+ months airtight",
+    "tips": [
+      "Very sour sauerkraut makes better chips than mild",
+      "The smell while dehydrating is powerful — open the windows"
+    ]
+  },
+  "variations": [
+    {
+      "name": "Caraway sauerkraut",
+      "description": "Add 1 tsp caraway seeds during packing. Earthy, traditional German profile.",
+      "region": "Germany"
+    },
+    {
+      "name": "Ginger-turmeric sauerkraut",
+      "description": "Add 1 tbsp fresh ginger + 1 tsp turmeric. BLR pantry-friendly, anti-inflammatory.",
+      "region": "Fusion"
+    },
+    {
+      "name": "Red cabbage kraut",
+      "description": "Same method, purple cabbage. Vivid colour, slightly sweeter.",
+      "region": "Modern"
+    }
+  ],
+  "relatedRecipes": [
+    "kimchi-baechu",
+    "curtido-salvadoran"
+  ],
+  "tags": [
+    "beginner",
+    "two-ingredient",
+    "probiotic",
+    "european",
+    "year-round",
+    "vegan"
+  ],
+  "dietaryFlags": [
+    "gluten-free",
+    "vegan"
+  ],
+  "veganAdaptable": true,
+  "containsAllergens": [],
+  "sources": [
+    {
+      "title": "Sauerkraut — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Sauerkraut",
+      "license": "CC BY-SA"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=snxb_PSe3Ps",
+      "title": "Brad Makes Sauerkraut",
+      "channel": "Bon Appétit — It's Alive",
+      "type": "youtube"
+    }
+  ],
+  "citations": []
+}

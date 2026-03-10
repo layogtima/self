@@ -301,3 +301,139 @@ input[type="range"]::-moz-range-thumb {
 
 /* Override mobile body padding when on welcome page */
 .welcome-page ~ * { padding-bottom: 0 !important; }
+
+/* ── Wiki Article Styles ── */
+.wiki-article .wiki-content p + p {
+  margin-top: 1rem;
+}
+
+.wiki-cite-ref {
+  font-size: 0.7em;
+  vertical-align: super;
+  line-height: 0;
+  margin-left: 1px;
+}
+
+.wiki-cross-link {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Smooth scroll target highlight for citations */
+.wiki-article :target {
+  background-color: rgba(196, 163, 90, 0.15);
+  border-radius: 6px;
+  padding: 4px 8px;
+  margin: -4px -8px;
+  transition: background-color 2s ease;
+}
+
+/* Table styles in wiki */
+.wiki-article table {
+  font-size: 0.85rem;
+}
+.wiki-article table td,
+.wiki-article table th {
+  vertical-align: top;
+}
+
+/* Line clamp utility */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Inline Edit Mode ── */
+.wiki-block-controls {
+  position: relative;
+  z-index: 5;
+}
+
+/* Edit mode indicator dot pulse */
+@keyframes edit-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Drag handle for list editors */
+.drag-handle {
+  cursor: grab;
+  touch-action: none;
+}
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+/* Editor text inputs & textareas common styling */
+.editor-input {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  width: 100%;
+  transition: border-color 0.2s ease;
+}
+.editor-input:focus {
+  outline: none;
+  border-color: var(--accent-brine);
+}
+.dark .editor-input {
+  background: #2E2620;
+  color: #F2ECE3;
+}
+
+/* Media picker drop zone */
+.media-drop-zone {
+  border: 2px dashed var(--text-muted);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.media-drop-zone.drag-over {
+  border-color: var(--accent-brine);
+  background: rgba(196, 163, 90, 0.05);
+}
+
+/* Tag pill in tag editor */
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  transition: background 0.15s ease;
+}
+.tag-pill:hover {
+  background: var(--accent-brine);
+  color: white;
+}
+
+/* Citation editor accordion */
+.citation-form {
+  border: 1px solid var(--bg-secondary);
+  border-radius: 8px;
+  padding: 0.75rem;
+  transition: border-color 0.2s ease;
+}
+.citation-form:focus-within {
+  border-color: var(--accent-brine);
+}
+.dark .citation-form {
+  border-color: #2E2620;
+}

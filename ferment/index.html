@@ -4,12 +4,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description"
+  <meta name="description" id="meta-description"
     content="FERMENT — A cultural guide to lactic acid fermentation from around the world. Browse recipes, track batches, and master the ancient art of fermentation.">
   <meta name="theme-color" content="#C4A35A">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="FERMENT">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" id="og-type">
+  <meta property="og:title" content="FERMENT — Your Fermentation Companion" id="og-title">
+  <meta property="og:description" content="A cultural guide to lactic acid fermentation from around the world. Browse recipes, track batches, and master the ancient art of fermentation." id="og-description">
+  <meta property="og:image" content="" id="og-image">
+  <meta property="og:site_name" content="FERMENT">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" id="twitter-card">
+  <meta name="twitter:title" content="FERMENT — Your Fermentation Companion" id="twitter-title">
+  <meta name="twitter:description" content="A cultural guide to lactic acid fermentation from around the world." id="twitter-description">
+  <meta name="twitter:image" content="" id="twitter-image">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
@@ -169,8 +181,16 @@
       <!-- Main Content -->
       <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full">
 
+        <!-- Wiki Article (full-page view) -->
+        <div v-if="currentRoute === 'wiki-article' && selectedWikiArticle">
+          <wiki-article :article="selectedWikiArticle" :all-articles="wikiArticles" :all-recipes="allRecipes" :settings="settings"
+            @close="closeWikiArticle" @open-article="openWikiArticle($event)"
+            @open-recipe="openRecipeFromWiki($event)">
+          </wiki-article>
+        </div>
+
         <!-- Recipe Page (full-page view, replaces modal) -->
-        <div v-if="currentRoute === 'recipe' && selectedRecipe">
+        <div v-else-if="currentRoute === 'recipe' && selectedRecipe">
           <recipe-page :recipe="selectedRecipe" :pantry="pantry" :recipe-notes="recipeNotes" :favorites="favorites"
             :bookmarks="bookmarks" :settings="settings" @close="closeRecipe" @toggle-favorite="toggleFavorite($event)"
             @toggle-bookmark="toggleBookmark($event)" @update-notes="updateRecipeNotes($event)"
@@ -190,6 +210,13 @@
             </browse-view>
           </div>
 
+          <!-- Wiki Tab -->
+          <div v-show="currentTab === 'wiki'">
+            <wiki-view :articles="wikiArticles" :recipes="allRecipes"
+              @open-article="openWikiArticle($event)" @open-recipe="openRecipe($event)">
+            </wiki-view>
+          </div>
+
           <!-- Pantry Tab -->
           <div v-show="currentTab === 'pantry'">
             <pantry-manager :pantry="pantry" :recipes="allRecipes" @update:pantry="updatePantry($event)"
@@ -206,7 +233,8 @@
 
           <!-- Tools Tab -->
           <div v-show="currentTab === 'tools'">
-            <tools-view :settings="settings" :recipes="allRecipes">
+            <tools-view :settings="settings" :recipes="allRecipes"
+              @open-wiki="currentTab = 'wiki'">
             </tools-view>
           </div>
         </template>
@@ -233,6 +261,14 @@
                 d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
             </svg>
             Browse
+          </button>
+          <button @click="currentTab = 'wiki'; currentRoute = 'home'; selectedRecipe = null; selectedWikiArticle = null" :class="['flex-1 flex flex-col items-center gap-0.5 py-2 pt-2.5 text-xs font-medium transition-colors',
+              currentTab === 'wiki' && currentRoute !== 'recipe' && currentRoute !== 'wiki-article' ? 'text-accent-brine' : 'text-text-muted']">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+            Wiki
           </button>
           <button @click="currentTab = 'pantry'; currentRoute = 'home'; selectedRecipe = null" :class="['flex-1 flex flex-col items-center gap-0.5 py-2 pt-2.5 text-xs font-medium transition-colors',
               currentTab === 'pantry' && currentRoute !== 'recipe' ? 'text-accent-brine' : 'text-text-muted']">
@@ -286,9 +322,12 @@
   <script src="js/utils/search.js"></script>
   <script src="js/utils/matching.js"></script>
   <script src="js/store.js"></script>
-  <!-- Recipe data (split by tier for easy maintenance) -->
+  <!-- Recipe loader (fetches individual JSON files, falls back to tier*.js) -->
   <script src="js/recipes.js"></script>
+  <!-- Fallback: tier1 recipes loaded via script tag in case JSON fetch fails -->
   <script src="data/recipes/tier1-beginner.js?v2"></script>
+  <!-- Wiki loader -->
+  <script src="js/wiki.js"></script>
   <script src="js/components/SearchBar.js"></script>
   <script src="js/components/FilterPanel.js"></script>
   <script src="js/components/RecipeCard.js"></script>
@@ -300,7 +339,17 @@
   <script src="js/components/TimerManager.js"></script>
   <script src="js/components/BrowseView.js"></script>
   <script src="js/components/ToolsView.js"></script>
+  <script src="js/components/SettingsModal.js"></script>
+  <script src="js/components/OnboardingModal.js"></script>
+  <script src="js/components/WikiView.js"></script>
+  <script src="js/components/WikiArticle.js"></script>
   <script src="js/components/WelcomePage.js"></script>
+  <script src="js/components/InlineEditor.js"></script>
+  <script src="js/components/editors/TextEditor.js"></script>
+  <script src="js/components/editors/ListEditor.js"></script>
+  <script src="js/components/editors/MediaPicker.js"></script>
+  <script src="js/components/editors/TagEditor.js"></script>
+  <script src="js/components/editors/CitationEditor.js"></script>
   <script src="js/app.js"></script>
 
   <!-- Service Worker Registration -->

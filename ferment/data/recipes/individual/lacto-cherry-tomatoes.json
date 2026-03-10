@@ -1,0 +1,152 @@
+{
+  "id": "lacto-cherry-tomatoes",
+  "slug": "lacto-cherry-tomatoes",
+  "name": "Bursting Tomatoes",
+  "subtitle": "Umami-bombs that pop in your mouth",
+  "category": "vegetable",
+  "technique": "brine",
+  "difficulty": 1,
+  "tier": "beginner",
+  "fermentTimeMin": 3,
+  "fermentTimeMax": 5,
+  "fermentTimeUnit": "days",
+  "blrNote": "Use the small \"Local\" cherry tomatoes. They have thicker skins which hold the carbonation inside better.",
+  "ingredients": [
+    {
+      "name": "Cherry Tomatoes",
+      "amount": 300,
+      "unit": "g",
+      "category": "produce",
+      "essential": true
+    },
+    {
+      "name": "3% Brine",
+      "amount": 300,
+      "unit": "ml",
+      "category": "liquid",
+      "essential": true
+    },
+    {
+      "name": "Garlic",
+      "amount": 1,
+      "unit": "clove",
+      "category": "produce",
+      "essential": false
+    }
+  ],
+  "tldr": "Whole cherry tomatoes in brine. They carbonate themselves. Like a healthy, savory soda in fruit form.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Prick",
+      "instruction": "Prick each tomato once with a toothpick (so they don't explode during ferment).",
+      "tips": [
+        "One small prick per tomato is enough. Too many holes and the tomato will collapse and lose its shape during fermentation.",
+        "Prick at the bottom (blossom end) rather than near the stem—the skin is thinner there and heals less, allowing better brine penetration.",
+        "If you want maximum carbonation inside the tomato, skip pricking entirely and burp the jar daily instead to manage pressure."
+      ]
+    },
+    {
+      "step": 2,
+      "title": "Brine",
+      "instruction": "Pack into a jar with garlic and cover with brine.",
+      "tips": [
+        "Pack the tomatoes snugly but do not crush them. They should hold each other down under the brine.",
+        "Add a few fresh basil leaves or a sprig of oregano for an Italian flavor profile.",
+        "The garlic clove will also ferment and become mild, sweet, and spreadable—a bonus ingredient."
+      ]
+    },
+    {
+      "step": 3,
+      "title": "Check",
+      "instruction": "Wait 3 days. When they look slightly \"puffy,\" they are ready.",
+      "tips": [
+        "Gently squeeze a tomato through the jar. When it feels slightly pressurized and taut (not soft and mushy), it is perfectly carbonated inside.",
+        "Move to the fridge immediately when ready. At room temperature, they quickly go from fizzy to mushy within a day.",
+        "Eat within 1-2 weeks of refrigerating—the carbonation fades and the skins weaken over time."
+      ]
+    }
+  ],
+  "images": [
+    {
+      "url": "https://urbanfarmandkitchen.com/wp-content/uploads/2023/02/pickled-cherry-tomatoes.jpg",
+      "caption": "Bursting Tomatoes",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Bursting Tomatoes — Umami-bombs that pop in your mouth"
+    }
+  ],
+  "culturalContext": {
+    "story": "A favorite of modern \"molecular\" chefs, fermented cherry tomatoes have become a darling of the New Nordic and modern fine dining movements. Restaurants like Noma in Copenhagen pioneered using lacto-fermentation to create new textures and flavor dimensions in familiar ingredients. The fizzy, umami-rich burst when you bite into one is unlike any other preparation of tomato. In Russia and Eastern Europe, fermenting whole tomatoes in brine is an ancient household tradition—every babushka has her own recipe.",
+    "funFact": "If you leave them long enough, they turn into a fizzy tomato sauce base.",
+    "significance": "One of the simplest demonstrations of how fermentation creates entirely new textures and flavor experiences from common ingredients.",
+    "historicalNote": "Salted and fermented tomatoes (solyonye pomidory) are a staple of Russian home preserving, traditionally made in large barrels alongside cucumbers and cabbage for the winter months. The technique predates refrigeration by centuries.",
+    "relatedTraditions": "Russian solyonye pomidory (salted tomatoes) and Georgian mkhali both use lacto-fermentation to preserve tomatoes. Italian sun-dried tomatoes packed in oil achieve a similar umami concentration through dehydration rather than fermentation."
+  },
+  "variations": [
+    {
+      "name": "Italian Herb Tomatoes",
+      "description": "Add fresh basil, oregano, and a dried chilli to the brine. The herbs infuse during fermentation, creating tomatoes that taste like a carbonated bruschetta topping.",
+      "region": "Italy"
+    },
+    {
+      "name": "Russian Barrel-Style Tomatoes",
+      "description": "Add dill, horseradish leaf, garlic, and black currant leaves to the brine. This is the traditional Russian preparation that creates a deeply savory, complex pickle.",
+      "region": "Russia"
+    },
+    {
+      "name": "Spicy Bloody Mary Tomatoes",
+      "description": "Add celery salt, horseradish, a dash of Worcestershire, and hot sauce to the brine. After fermenting, blend the tomatoes and brine for an instant probiotic Bloody Mary mix.",
+      "region": "United States"
+    }
+  ],
+  "thingsToAccountFor": [
+    {
+      "title": "Timing Is Everything",
+      "description": "Cherry tomatoes have a very narrow window between perfectly fizzy and overfermented mush. In warm climates like Bengaluru, check daily starting at day 2. Once they feel puffy and taut, refrigerate immediately. Even a few hours too long can turn them to paste.",
+      "severity": "warning"
+    },
+    {
+      "title": "Choose Firm, Unblemished Tomatoes",
+      "description": "Any tomato with a crack, bruise, or soft spot will disintegrate during fermentation and can introduce unwanted molds. Select only firm, uniformly ripe cherry tomatoes with intact skins.",
+      "severity": "info"
+    },
+    {
+      "title": "Pressure Management",
+      "description": "Tomato ferments produce vigorous CO2. If using a sealed jar, burp it at least once daily. An airlock lid is ideal for this recipe since it allows gas to escape without letting air in, maintaining the anaerobic environment the tomatoes need.",
+      "severity": "tip"
+    }
+  ],
+  "dehydratorIntegration": {
+    "applicable": true,
+    "method": "Halve the fermented tomatoes and place cut-side up on dehydrator trays. Dehydrate until leathery or fully dry depending on desired use. The fermentation adds a tangy depth that intensifies dramatically when dried.",
+    "temp": "57°C / 135°F",
+    "time": "10–14 hours",
+    "result": "Intensely flavored fermented sun-dried tomatoes with a concentrated umami-sour punch. Far more complex than regular sun-dried tomatoes.",
+    "shelfLife": "6–12 months stored in airtight containers, or pack in olive oil for softer texture",
+    "tips": [
+      "Place tomatoes cut-side up to prevent juice from dripping through the trays during the first few hours.",
+      "These make an incredible pizza topping, pasta addition, or snack straight from the jar when rehydrated in olive oil."
+    ]
+  },
+  "tags": [
+    "beginner",
+    "umami",
+    "fizzy"
+  ],
+  "sources": [
+    {
+      "title": "Fermented Tomatoes",
+      "url": "https://www.seriouseats.com/lacto-fermented-tomato-sauce-recipe"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=FofvRjYV20s",
+      "title": "Fermented Tomatoes",
+      "channel": "It's Alive",
+      "type": "youtube"
+    }
+  ],
+  "citations": []
+}

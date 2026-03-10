@@ -1,0 +1,138 @@
+{
+  "id": "rejuvelac-grain",
+  "slug": "rejuvelac-grain",
+  "name": "Rejuvelac",
+  "subtitle": "The \"Life Water\" from sprouted grains",
+  "category": "beverage",
+  "subcategory": "starter",
+  "technique": "wild-ferment",
+  "difficulty": 1,
+  "tier": "beginner",
+  "tierLabel": "Literally Just Add Water",
+  "prepTime": "5 min (plus sprouting)",
+  "fermentTimeMin": 1,
+  "fermentTimeMax": 2,
+  "fermentTimeUnit": "days",
+  "totalTimeHuman": "3 days total",
+  "blrNote": "Use Wheat berries or Quinoa. Don't use \"polished\" grains—they won't sprout. Any local health food store in Indiranagar will have raw wheat.",
+  "ingredients": [
+    {
+      "name": "Wheat Berries",
+      "amount": 1,
+      "unit": "cup",
+      "unitMetric": "200g",
+      "category": "grain",
+      "essential": true
+    },
+    {
+      "name": "Water",
+      "amount": 4,
+      "unit": "cups",
+      "unitMetric": "1L",
+      "category": "liquid",
+      "essential": true
+    }
+  ],
+  "tldr": "Sprout grains, soak them for 2 days. Drink the cloudy, lemony liquid. Great for vegan cheese.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Sprout",
+      "instruction": "Soak grains overnight. Drain and leave in a jar until tiny \"tails\" (sprouts) appear.",
+      "tips": [
+        "Rinse the sprouting grains twice a day to prevent mold and off-smells. Just pour water in, swirl, and drain.",
+        "Sprout tails should be about 2-3mm long—just barely visible. Do not let them grow into full sprouts or the flavor becomes grassy.",
+        "If your grains do not sprout within 48 hours, they are likely irradiated or too old. Try a different source."
+      ]
+    },
+    {
+      "step": 2,
+      "title": "Soak",
+      "instruction": "Put sprouted grains in a jar with 1L water. Cover with cloth.",
+      "tips": [
+        "Use a breathable cloth (cheesecloth or muslin) secured with a rubber band—not a solid lid. The ferment needs airflow.",
+        "Use room-temperature filtered water, not cold water from the fridge, to allow fermentation to start promptly."
+      ]
+    },
+    {
+      "step": 3,
+      "title": "Ferment",
+      "instruction": "Wait 24–48 hours until the water is cloudy and smells slightly like lemon and yeast.",
+      "tips": [
+        "Good rejuvelac smells tart and lemony. If it smells rotten, putrid, or like sulfur, discard it and start over—something went wrong during sprouting.",
+        "You can get a second batch from the same grains. Just drain the first batch and add fresh water for another 24 hours. The second batch will be milder.",
+        "In Bengaluru heat, 24 hours is usually sufficient. In cooler climates, it may need the full 48 hours."
+      ]
+    }
+  ],
+  "images": [
+    {
+      "url": "https://lirp.cdn-website.com/9dcde1f6/dms3rep/multi/opt/AdobeStock_152830285_Preview-1920w.jpeg",
+      "caption": "Rejuvelac",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Rejuvelac — The \"Life Water\" from sprouted grains"
+    }
+  ],
+  "culturalContext": {
+    "story": "Popularized by Ann Wigmore, the founder of the raw food movement, rejuvelac was a cornerstone of her Hippocrates Health Institute in Boston during the 1960s and 70s. Wigmore believed it was a cure-all, though modern science values it more practically as a rich source of beneficial Lactobacillus bacteria and enzymes. It became essential in vegan cuisine as the key starter culture for nut-based cheeses, giving them the tangy, complex flavors that plain nuts lack.",
+    "significance": "It is a potent \"starter\" for vegan nut cheeses. If you want to make cashew brie, you need this liquid.",
+    "funFact": "It's essentially \"pre-beer.\" If you added more sugar and hops, you'd be brewing.",
+    "historicalNote": "Grain-water ferments appear in many traditional cultures. Russian kvass, made from fermented bread, is a close cousin. Ancient Egyptian records describe similar sprouted grain beverages used both as drinks and as bread leavening agents.",
+    "relatedTraditions": "Kvass (Russia), boza (Turkey/Balkans), and chicha (South America) are all traditional fermented grain beverages that share the same fundamental process of extracting enzymes and bacteria from sprouted or processed grains."
+  },
+  "variations": [
+    {
+      "name": "Quinoa Rejuvelac",
+      "description": "Use quinoa instead of wheat berries. Quinoa sprouts faster (12-24 hours), ferments faster, and produces a milder, cleaner-tasting rejuvelac. Also gluten-free.",
+      "region": "South America"
+    },
+    {
+      "name": "Rye Berry Rejuvelac",
+      "description": "Rye berries produce a rejuvelac with a deeper, more complex flavor and slightly higher acidity. Excellent for strong-flavored nut cheeses that mimic aged dairy cheese.",
+      "region": "Eastern Europe"
+    },
+    {
+      "name": "Millet Rejuvelac",
+      "description": "Use hulled millet for a gluten-free, very mild rejuvelac that works well as a digestive tonic. The flavor is gentler and less yeasty than wheat-based versions.",
+      "region": "India"
+    }
+  ],
+  "thingsToAccountFor": [
+    {
+      "title": "Smell Is Your Safety Test",
+      "description": "Good rejuvelac smells pleasantly sour, like lemon water or light sourdough. If it smells putrid, slimy, or like rotten eggs, do not consume it. Bad smells indicate contamination from unclean grains or equipment. Discard and sterilize your jars before trying again.",
+      "severity": "warning"
+    },
+    {
+      "title": "Use Immediately or Refrigerate",
+      "description": "Rejuvelac does not keep well at room temperature—it will continue fermenting and become unpleasantly sour within hours. Strain it into a clean jar and refrigerate immediately after it reaches your desired tartness. Use within 3-5 days.",
+      "severity": "info"
+    },
+    {
+      "title": "Grain Quality Matters",
+      "description": "The grains must be raw, whole, and capable of sprouting. Polished, pearled, or irradiated grains will not sprout and cannot produce rejuvelac. Buy from bulk bins at health food stores where turnover is high and grains are fresh.",
+      "severity": "tip"
+    }
+  ],
+  "tags": [
+    "beginner",
+    "enzymatic",
+    "vegan-staple"
+  ],
+  "sources": [
+    {
+      "title": "Rejuvelac — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Rejuvelac"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=L6_o806008E",
+      "title": "Making Rejuvelac",
+      "channel": "Full Help",
+      "type": "youtube"
+    }
+  ],
+  "citations": []
+}

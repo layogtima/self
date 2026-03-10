@@ -1,0 +1,144 @@
+{
+  "id": "green-mango-brine",
+  "slug": "green-mango-brine",
+  "name": "Mango in Brine",
+  "nameLocal": "Mavinkayi Uppinakayi",
+  "subtitle": "Coastal Karnataka’s monsoon staple",
+  "category": "vegetable",
+  "subcategory": "mango",
+  "technique": "brine",
+  "region": "South Asia",
+  "countryCode": "IN",
+  "difficulty": 1,
+  "tier": "beginner",
+  "fermentTimeMin": 7,
+  "fermentTimeMax": 30,
+  "fermentTimeUnit": "days",
+  "blrNote": "Buy \"Appemidi\" or \"Wild Mangoes\" during April–May in Bengaluru.",
+  "ingredients": [
+    {
+      "name": "Raw Green Mango",
+      "nameLocal": "Mavinkayi",
+      "amount": 1,
+      "unit": "kg",
+      "category": "produce",
+      "essential": true
+    },
+    {
+      "name": "Rock Salt",
+      "amount": 150,
+      "unit": "g",
+      "category": "salt",
+      "essential": true
+    }
+  ],
+  "images": [
+    {
+      "url": "https://thumbs.dreamstime.com/b/un-mont%C3%B3n-de-piezas-mango-salado-fresco-en-frasco-vidrio-con-fondo-borroso-188501669.jpg",
+      "caption": "Mango in Brine",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Mango in Brine — Coastal Karnataka’s monsoon staple"
+    }
+  ],
+  "tldr": "Whole green mangoes + excessive salt. They create their own brine and last for years.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Dry",
+      "instruction": "Wash and thoroughly dry the mangoes. Moisture is the enemy here.",
+      "tips": [
+        "Dry the mangoes in the sun for 2-3 hours or pat with a clean cloth — even a few drops of water can introduce mold.",
+        "Choose mangoes that are rock-hard and completely green with no yellow patches; any ripeness will make them mushy.",
+        "The stem end should be trimmed and dried separately — it can harbor moisture."
+      ]
+    },
+    {
+      "step": 2,
+      "title": "Layer",
+      "instruction": "Layer mangoes and salt in a ceramic jar (Bharani).",
+      "tips": [
+        "The traditional 'Bharani' (ceramic pickling jar) is ideal because it stays cool and doesn't react with the salt and acid.",
+        "Always start and end with a thick layer of salt — the top salt layer acts as a protective barrier against mold.",
+        "Glass jars work fine as a substitute, but avoid metal or plastic containers as the salt and acid will react with them."
+      ]
+    },
+    {
+      "step": 3,
+      "title": "Shake",
+      "instruction": "Shake the jar every day for 2 weeks. The salt will draw out the mango juice, creating a brine.",
+      "tips": [
+        "Shaking redistributes the salt and prevents dry pockets where mold could form — do not skip this step.",
+        "By day 3-4, you should see brine forming at the bottom; if not, the mangoes may need more salt.",
+        "After 2 weeks, the mangoes should be fully submerged in their own brine. If not, top up with a saturated salt solution."
+      ]
+    }
+  ],
+  "culturalContext": {
+    "story": "In the Western Ghats of coastal Karnataka, families have been brining green mangoes for centuries as monsoon preparation. When the heavy June rains make roads impassable and fresh vegetables scarce, these salt-preserved mangoes become the backbone of daily meals. Every household has a prized Bharani (ceramic jar) passed down through generations, often seasoned with decades of pickle-making that imparts a unique flavor.",
+    "historicalNote": "Mango pickling in India dates back over 4,000 years, with references found in ancient Ayurvedic texts. The Portuguese encountered Indian mango pickles during their colonization of Goa and carried the concept back to Europe, where it influenced the development of Western-style chutneys and preserves.",
+    "significance": "This is the 'mother' of all Indian pickles. These brined mangoes are later turned into various spicy achars by adding oil, chili, fenugreek, and mustard. A single batch of brined mangoes can become five or six different pickle varieties throughout the year.",
+    "funFact": "In Karnataka, the quality of a bride's pickle-making was traditionally assessed before marriage — a well-brined mango jar was considered a sign of household competence.",
+    "relatedTraditions": ["Avakaya (Andhra mango pickle with mustard)", "Aam ka Achar (North Indian oil-based mango pickle)", "Maangai Oorugai (Tamil Nadu mango pickle)"]
+  },
+  "tags": [
+    "beginner",
+    "indian",
+    "long-storage"
+  ],
+  "variations": [
+    {
+      "name": "Andhra-Style with Mustard and Chili",
+      "description": "After the initial 2-week brine, drain the mangoes and mix with mustard powder, red chili powder, fenugreek, and sesame oil. Re-jar and let it mature for another week. This creates the famous Avakaya pickle.",
+      "region": "Andhra Pradesh, India"
+    },
+    {
+      "name": "Sweet Mango Pickle (Gojju)",
+      "description": "Use slightly less salt and add jaggery (palm sugar) and tamarind to the brine. The result is a sweet-sour-salty condiment that pairs beautifully with curd rice.",
+      "region": "Karnataka, India"
+    },
+    {
+      "name": "Quick Lime-Salt Mango",
+      "description": "Cut the mangoes into wedges instead of keeping them whole. Add lime juice along with the salt. Ready in just 3-5 days instead of weeks, though it won't keep as long.",
+      "region": "Kerala, India"
+    }
+  ],
+  "thingsToAccountFor": [
+    {
+      "title": "Use Only Rock Salt",
+      "description": "Iodized table salt contains anti-caking agents that can cloud the brine and introduce off-flavors. Rock salt (Sendha Namak) or sea salt is traditional and essential for clean fermentation.",
+      "severity": "warning"
+    },
+    {
+      "title": "Mangoes Must Be Completely Dry",
+      "description": "Even small amounts of water on the mango surface can introduce unwanted bacteria and cause the pickle to spoil. Sun-dry or towel-dry thoroughly before layering with salt.",
+      "severity": "warning"
+    },
+    {
+      "title": "Use Clean, Dry Hands or Utensils",
+      "description": "When shaking or checking the jar, never introduce wet spoons or fingers. Any external moisture is the primary cause of spoilage in salt-preserved pickles. Keep a dedicated dry spoon with the jar.",
+      "severity": "tip"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Indian Pickle — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Indian_pickle"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=MpFnIWbIGJg",
+      "title": "Traditional Indian Mango Pickle - Aam ka Achar",
+      "channel": "Your Food Lab",
+      "type": "youtube"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=5kXJgDjR2x0",
+      "title": "Raw Mango Pickle Recipe - South Indian Style",
+      "channel": "Hebbars Kitchen",
+      "type": "youtube"
+    }
+  ],
+  "citations": []
+}

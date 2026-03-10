@@ -1,0 +1,574 @@
+{
+  "id": "best-vegetables-fruits-to-ferment",
+  "slug": "best-vegetables-fruits-to-ferment",
+  "title": "What Ferments Well (And What Doesn't)",
+  "subtitle": "A comprehensive guide to choosing vegetables and fruits for lacto-fermentation — from reliable staples to risky picks",
+  "lastUpdated": "2026-03-09",
+  "infobox": {
+    "title": "Vegetable & Fruit Fermentation Guide",
+    "image": {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/2/20/Kiszona_kapusta.jpg",
+      "caption": "Fermented cabbage — the most reliable vegetable for lacto-fermentation worldwide",
+      "attribution": "Wikimedia Commons, CC BY-SA 3.0"
+    },
+    "facts": [
+      { "label": "Best all-rounder", "value": "Cabbage (green or red)" },
+      { "label": "Easiest brine ferment", "value": "Cucumbers" },
+      { "label": "Most forgiving root", "value": "Daikon radish" },
+      { "label": "Most underrated", "value": "Green beans" },
+      { "label": "Trickiest category", "value": "Leafy greens (wilt easily)" },
+      { "label": "Key success factor", "value": "Firm cell structure + correct salt" }
+    ]
+  },
+  "tableOfContents": true,
+  "sections": [
+    {
+      "id": "intro",
+      "type": "paragraph",
+      "content": "Not all vegetables are created equal when it comes to lacto-fermentation. Some produce — like cabbage, radishes, and cucumbers — seem almost designed for it: they have firm cell walls, the right balance of sugars and water, and they host thriving populations of lactic acid bacteria (LAB) on their surfaces [cite:c1]. Others, like lettuce or ripe avocado, dissolve into unappetising mush within days. Understanding why certain vegetables and fruits ferment well is the key to moving beyond basic sauerkraut and confidently experimenting with whatever is in season. This guide ranks common produce by fermentability, explains the science behind the rankings, and offers practical advice for getting the best results from every category."
+    },
+    {
+      "id": "science-heading",
+      "type": "heading",
+      "level": 2,
+      "content": "Why Some Vegetables Ferment Better Than Others"
+    },
+    {
+      "id": "science-intro",
+      "type": "paragraph",
+      "content": "Three factors determine how well a vegetable handles the fermentation process: cell structure, sugar content, and water activity. Getting familiar with these will help you predict outcomes even with produce you've never fermented before [[article:how-lacto-fermentation-works]]."
+    },
+    {
+      "id": "cell-structure-heading",
+      "type": "heading",
+      "level": 3,
+      "content": "Cell Structure and Pectin"
+    },
+    {
+      "id": "cell-structure-text",
+      "type": "paragraph",
+      "content": "The crunch you love in a good fermented pickle comes from intact plant cell walls. These walls are built primarily from cellulose and pectin [cite:c2]. During fermentation, the acidic environment and enzymatic activity from microorganisms gradually break down pectin — the \"glue\" between cells. Vegetables with thick, rigid cell walls and high cellulose content (like carrots, radishes, and cabbage) hold their structure for weeks or months. Vegetables with thin cell walls and low cellulose (like lettuce, spinach, or ripe tomatoes) collapse quickly as pectin degrades. The firmness of a vegetable when raw is a reliable predictor of how well it will hold up in a ferment."
+    },
+    {
+      "id": "sugar-heading",
+      "type": "heading",
+      "level": 3,
+      "content": "Sugar Content — Fuel for the Bacteria"
+    },
+    {
+      "id": "sugar-text",
+      "type": "paragraph",
+      "content": "Lactic acid bacteria consume sugars (primarily glucose and fructose) and convert them to lactic acid. A vegetable needs enough sugar to fuel several weeks of fermentation and produce sufficient acid to drop the pH below 4.6 — the critical safety threshold [cite:c3]. Most vegetables contain 1–5% sugar by weight, which is plenty. Cabbage averages about 3.5%, carrots around 4.7%, and beets can reach 8% or more. Very low-sugar vegetables (like cucumber at around 1.5%) work fine in a brine ferment because the salt concentration does much of the preservation work [[article:salt-and-fermentation]]. Extremely high-sugar produce (like beets and fruits) will ferment vigorously but tend to produce more alcohol as yeasts compete with LAB for the abundant sugars."
+    },
+    {
+      "id": "water-heading",
+      "type": "heading",
+      "level": 3,
+      "content": "Water Activity"
+    },
+    {
+      "id": "water-text",
+      "type": "paragraph",
+      "content": "Water activity (aw) measures how much free water is available in a food for microbial use. Most fresh vegetables have an aw of 0.97–0.99, which is ideal for LAB. The issue isn't usually too little water, but too much in the wrong form. Vegetables with very high water content and weak cell walls (zucchini, cucumber if overripe, tomatoes) release water as they break down, diluting the brine and potentially lowering salt concentration below safe levels. This is why dry-salting works brilliantly for dense, moderately-juicy vegetables like cabbage, but brine immersion is preferred for high-water vegetables [[article:salt-and-fermentation]]."
+    },
+    {
+      "id": "tier-heading",
+      "type": "heading",
+      "level": 2,
+      "content": "The Fermentability Tier Table"
+    },
+    {
+      "id": "tier-intro",
+      "type": "paragraph",
+      "content": "The following table ranks common vegetables by how reliably they ferment using standard lacto-fermentation techniques. Rankings consider texture retention, flavour development, ease of preparation, and forgiveness of minor errors."
+    },
+    {
+      "id": "tier-table",
+      "type": "table",
+      "caption": "Vegetable fermentability tiers — from foolproof to inadvisable",
+      "headers": ["Tier", "Vegetables", "Why This Tier", "Best Method"],
+      "rows": [
+        [
+          "Excellent",
+          "Cabbage (green, red, napa), cucumbers (kirby/pickling), daikon radish, carrots, green beans, turnips",
+          "Firm cell walls, good sugar content, reliable LAB populations, well-documented traditions spanning centuries",
+          "Cabbage: dry-salt [[recipe:sauerkraut-classic]] [[recipe:kimchi-traditional]]. Cucumbers: 3–5% brine [[recipe:brine-pickles-basic]]. Others: brine or dry-salt depending on cut."
+        ],
+        [
+          "Good",
+          "Cauliflower, beets, onions, garlic, peppers (hot and sweet), radishes (all types), kohlrabi, asparagus, okra",
+          "Good texture retention, interesting flavours, may need specific techniques. Some have very high or very low sugar requiring salt adjustments.",
+          "Cauliflower: brine [[recipe:golden-cauliflower-ferment]]. Beets: brine (watch sugar). Peppers: mash or brine. Garlic/onions: best as supporting ingredients."
+        ],
+        [
+          "Tricky",
+          "Broccoli, Brussels sprouts, celery, corn (kernels), eggplant, fennel, zucchini/courgette, summer squash, mushrooms",
+          "Strong sulphur smells (brassicas), mushy texture (zucchini, eggplant), unusual flavour changes, or very high water content. Possible but need experience and careful technique.",
+          "Broccoli/Brussels sprouts: small florets, shorter ferment. Zucchini: firm slices only, high salt, short ferment. Eggplant: salt-press first to remove excess water."
+        ],
+        [
+          "Avoid",
+          "Lettuce, spinach, ripe tomatoes, avocado, potatoes (raw), artichoke hearts, delicate herbs (basil, cilantro leaves)",
+          "Disintegrate within days. No structural integrity. Potatoes contain solanine concerns. Delicate herbs turn slimy and bitter. Results are consistently unpleasant.",
+          "Don't. Use these fresh instead. If you must, some can be added as minor flavouring (a basil leaf or two) rather than as the primary vegetable."
+        ]
+      ]
+    },
+    {
+      "id": "excellent-callout",
+      "type": "callout",
+      "style": "tip",
+      "title": "Start with the Excellent Tier",
+      "content": "If you're new to fermentation, stick with the \"Excellent\" tier for your first few batches. These vegetables are so reliable that even significant mistakes — too much salt, too warm, forgot about it for three weeks — usually produce something edible. Cabbage and cucumbers are the traditional starting points for good reason: they practically ferment themselves."
+    },
+    {
+      "id": "root-heading",
+      "type": "heading",
+      "level": 2,
+      "content": "Root Vegetables: The Reliable Workhorses"
+    },
+    {
+      "id": "root-text",
+      "type": "paragraph",
+      "content": "Root vegetables — carrots, radishes (including daikon), turnips, beets, parsnips, celeriac, and kohlrabi (technically a swollen stem) — are among the most forgiving ferments. Their dense, cellulose-rich flesh holds its structure beautifully, and they carry generous sugar reserves that fuel robust fermentation [cite:c1]. Most roots can be fermented as sticks, coins, shreds, or even whole (small ones)."
+    },
+    {
+      "id": "root-details",
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "**Carrots** are the gateway root ferment. Sweet, crunchy, and vibrant. Fermented carrot sticks with garlic and dill are a crowd-pleaser and an excellent introduction to brine fermentation. Use a 3% brine and ferment for 7–14 days.",
+        "**Daikon radish** is a staple of Asian fermentation traditions — essential in many styles of kimchi [[recipe:kimchi-traditional]] and the star of kkakdugi (cubed radish kimchi). Its high water content works well with dry-salting. Expect a mildly pungent, savoury result.",
+        "**Turnips** shine in Middle Eastern fermented turnip pickles (torshi lift), where beet slices are added for colour. Firm, peppery, and excellent after 2–3 weeks.",
+        "**Beets** are powerful fermenters — almost too powerful. Their 8%+ sugar content drives aggressive fermentation that can become alcoholic if not managed. Use a higher salt percentage (3–3.5% brine) and monitor closely. Beet kvass is a traditional fermented beet beverage where this vigorous fermentation is a feature, not a bug.",
+        "**Parsnips and celeriac** are less common but work well. Parsnips develop a complex, slightly sweet flavour. Celeriac keeps its crunch and adds a celery-like depth to mixed ferments."
+      ]
+    },
+    {
+      "id": "root-callout",
+      "type": "callout",
+      "style": "info",
+      "title": "The Cut Matters",
+      "content": "Thinner cuts ferment faster but lose crunch sooner. For root vegetables you plan to eat within 2–4 weeks, sticks (7–8mm wide) are ideal. For long-aged ferments (2+ months), go with thicker coins or chunks. Shredding (as with carrots in sauerkraut) creates a softer, more integrated texture — better as an ingredient than a standalone snack."
+    },
+    {
+      "id": "cruciferous-heading",
+      "type": "heading",
+      "level": 2,
+      "content": "Cruciferous Vegetables: The Sulphur Question"
+    },
+    {
+      "id": "cruciferous-text",
+      "type": "paragraph",
+      "content": "The brassica family — cabbage, broccoli, Brussels sprouts, cauliflower, kale, kohlrabi — contains glucosinolates, sulphur-containing compounds that break down during fermentation and produce volatile sulphur gases [cite:c4]. This is why a new batch of sauerkraut can smell like rotten eggs for the first 2–3 days. Don't panic — the sulphur smell dissipates as fermentation progresses and Lactobacillus plantarum becomes the dominant species."
+    },
+    {
+      "id": "cruciferous-details",
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "**Cabbage** (green, red, savoy, napa) is the undisputed king of vegetable fermentation. Its layered leaf structure, 3–4% sugar content, naturally high LAB populations, and excellent texture retention make it almost foolproof [[recipe:sauerkraut-classic]]. Red cabbage produces a stunning magenta ferment. Napa cabbage is the base of most Korean kimchi [[recipe:kimchi-traditional]].",
+        "**Cauliflower** ferments beautifully in brine — the florets hold their shape and develop a tangy, slightly nutty flavour [[recipe:golden-cauliflower-ferment]]. Cut into small, uniform florets for even fermentation. Pairs wonderfully with turmeric, cumin, and garlic.",
+        "**Broccoli** is in the tricky tier because its florets tend to get mushy and the sulphur smell can be intense. If you want to try it, use only the firmest florets, keep the ferment short (5–7 days), and use a higher salt concentration.",
+        "**Brussels sprouts** have the same sulphur intensity issue as broccoli. Halved Brussels sprouts in a brine with caraway seeds can work, but expect a strong flavour that's not for everyone.",
+        "**Kale** sits in an interesting middle ground. Tough, fibrous kale (like curly kale) holds up reasonably well and softens to a pleasant chewiness. Tender kale varieties break down faster. Kale works best as a component in a mixed ferment rather than solo."
+      ]
+    },
+    {
+      "id": "cruciferous-callout",
+      "type": "callout",
+      "style": "tip",
+      "title": "Taming the Sulphur",
+      "content": "The initial sulphur smell from brassica ferments is caused by early heterofermentative bacteria. To minimise it:\n• Ensure adequate salt (2–2.5% for dry-salt, 3–5% for brine) [[article:salt-and-fermentation]]\n• Keep the ferment in a well-ventilated area during the first 3 days\n• Use an airlock to let gas escape without letting air in\n• Be patient — the smell typically resolves by day 4–5 as the pH drops below 4.0 and L. plantarum dominates [[article:how-lacto-fermentation-works]]"
+    },
+    {
+      "id": "leafy-heading",
+      "type": "heading",
+      "level": 2,
+      "content": "Leafy Greens: Handle with Care"
+    },
+    {
+      "id": "leafy-text",
+      "type": "paragraph",
+      "content": "Leafy greens are the most divisive category in vegetable fermentation. Delicate salad greens (lettuce, spinach, arugula) are genuinely poor candidates — they wilt into slimy, unappetising mush within days. But sturdier greens have long fermentation traditions around the world [cite:c1]."
+    },
+    {
+      "id": "leafy-details",
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "**Mustard greens** are excellent fermenters, widely used in Chinese suan cai and South Asian fermented greens. Their thick stems and robust leaves hold up well, and their natural pungency develops into a complex, savoury sourness.",
+        "**Collard greens** can be fermented successfully — they're thick and sturdy enough to retain some texture. Remove the tough central stems and stack the leaves tightly.",
+        "**Swiss chard** has thick stems that ferment like a mild vegetable stick, but the leaves break down relatively quickly. Consider fermenting only the stems.",
+        "**Spinach, lettuce, arugula, and micro-greens** should be avoided entirely for fermentation. They have thin cell walls, very high water content, and minimal structural cellulose. They disintegrate within 48 hours.",
+        "**Grape leaves** are not eaten as a fermented product per se, but are traditionally added to cucumber ferments to provide tannins that help maintain crunch [cite:c5]. A single grape leaf per jar of pickles is a time-tested trick."
+      ]
+    },
+    {
+      "id": "peppers-alliums-heading",
+      "type": "heading",
+      "level": 2,
+      "content": "Peppers, Alliums, and Other Supporting Players"
+    },
+    {
+      "id": "peppers-text",
+      "type": "paragraph",
+      "content": "Some vegetables work brilliantly as primary ferments, while others are best as supporting cast — adding flavour, colour, or complexity to a mixed ferment."
+    },
+    {
+      "id": "peppers-details",
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "**Hot peppers** (jalapeño, serrano, habanero, Thai chillies) ferment well and are the basis for many fermented hot sauces. The capsaicin is not affected by fermentation, so heat level stays roughly the same. Whole peppers in brine keep their shape; mashed peppers (with 2–3% salt) create a fermented pepper mash that can be aged for months.",
+        "**Sweet peppers / bell peppers** have thinner walls and more water than hot peppers, so they soften faster. Best cut into strips and fermented in a brine with firmer vegetables for support.",
+        "**Garlic** is a powerful fermentation ingredient — a few cloves add depth to almost any ferment. Whole cloves in brine turn mellow and spreadable after a month. Be aware that garlic often turns blue or green during fermentation due to a reaction between sulphur compounds and amino acids; this is harmless [cite:c1].",
+        "**Onions** can be fermented (especially red onions, which make a beautiful pink pickle), but they soften quickly due to their high water content and layered structure. Use thick rings and keep the ferment short (5–7 days) [[recipe:lacto-red-onions]].",
+        "**Ginger** ferments exceptionally well and is the foundation of ginger bug starters for natural sodas [[recipe:ginger-bug-starter]]. Its fibrous structure holds up indefinitely, and fermentation rounds off its sharp bite into a warmer, more complex flavour."
+      ]
+    },
+    {
+      "id": "beans-pods-heading",
+      "type": "heading",
+      "level": 2,
+      "content": "Beans, Pods, and the Crunch Factor"
+    },
+    {
+      "id": "beans-text",
+      "type": "paragraph",
+      "content": "Green beans, long beans, and snap peas are among the most underrated fermentation candidates. Their firm, fibrous structure retains a satisfying snap even after weeks of fermentation, and their mild flavour absorbs aromatics beautifully [[recipe:fermented-green-beans]]."
+    },
+    {
+      "id": "beans-details",
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "**Green beans** (French beans, string beans) are the standout here. Pack them vertically in a jar, cover with a 3.5% brine, add garlic and dill, and you'll have one of the best fermented snacks imaginable. They stay crunchy for months in the fridge.",
+        "**Long beans / yard-long beans** work identically to green beans but can be coiled into jars for a dramatic presentation.",
+        "**Snap peas / sugar snaps** ferment well for short periods (5–7 days). Beyond that, they lose their characteristic pop. Best slightly under-fermented for texture.",
+        "**Okra** is a surprise entry in the \"good\" tier. Fermented okra loses much of its slimy reputation — the lactic acid environment changes the mucilaginous compounds. Trim the tops but don't cut into the pods (this prevents excessive slime). Add a grape or oak leaf for extra tannins and crunch."
+      ]
+    },
+    {
+      "id": "fruit-heading",
+      "type": "heading",
+      "level": 2,
+      "content": "Fruit Fermentation: A Different Game"
+    },
+    {
+      "id": "fruit-intro",
+      "type": "paragraph",
+      "content": "Fermenting fruit follows different rules than fermenting vegetables, primarily because of one factor: sugar content. Most fruits contain 8–20% sugar by weight — far more than any vegetable — and this abundance of fermentable sugars changes the microbial dynamics significantly [cite:c6]."
+    },
+    {
+      "id": "fruit-alcohol",
+      "type": "heading",
+      "level": 3,
+      "content": "The Alcohol Conversion Problem"
+    },
+    {
+      "id": "fruit-alcohol-text",
+      "type": "paragraph",
+      "content": "When sugar levels are high, wild yeasts (Saccharomyces and others) compete aggressively with lactic acid bacteria. These yeasts convert sugars to ethanol and CO₂ rather than lactic acid. The result is that most unsalted fruit ferments produce noticeable alcohol — typically 1–3% ABV, sometimes more. This isn't necessarily a problem (tepache, fruit wines, and cider all rely on this), but it means fruit fermentation is fundamentally different from vegetable lacto-fermentation [[recipe:tepache-pineapple]]."
+    },
+    {
+      "id": "fruit-texture",
+      "type": "heading",
+      "level": 3,
+      "content": "Texture Breakdown in Fruits"
+    },
+    {
+      "id": "fruit-texture-text",
+      "type": "paragraph",
+      "content": "Most ripe fruits have softer cell structures than vegetables, and their pectin breaks down rapidly in acidic conditions. This means fermented fruits tend toward sauces, chutneys, and liquids rather than intact pieces. The exceptions are unripe or semi-ripe fruits with higher pectin content and firmer flesh — green mangoes, green papaya, and unripe plums hold up reasonably well."
+    },
+    {
+      "id": "fruit-table",
+      "type": "table",
+      "caption": "Fruit fermentation guide — method, expectation, and result",
+      "headers": ["Fruit", "Sugar Content", "Best Method", "Expected Result", "Notes"],
+      "rows": [
+        ["Green mango", "Low (unripe)", "Salt + spice (dry or brine)", "Tangy, firm pickle. Holds texture well.", "A staple of South and Southeast Asian fermentation traditions. Excellent."],
+        ["Pineapple", "~13%", "Sugar water ferment (tepache)", "Fizzy, mildly alcoholic beverage.", "Classic Mexican fermented drink. Use the rind and core [[recipe:tepache-pineapple]]."],
+        ["Apples", "~10%", "Salt brine or sugar water", "Cider (yeast-driven) or mild lacto pickle if salted.", "Salted apple slices can work for short ferments. Most traditions go the cider/vinegar route."],
+        ["Lemons / limes", "~2.5%", "Packed in salt (preserved lemons)", "Intensely flavoured, soft-rind condiment.", "A cornerstone of North African cuisine. The low sugar and high acidity make this a salt-preservation more than a true LAB ferment."],
+        ["Berries (all)", "8–12%", "Sugar or honey ferment", "Syrupy, boozy, sauce-like.", "Berries disintegrate quickly. Best as flavoured syrups or shrubs. Not suitable for a crunchy fermented product."],
+        ["Green papaya", "Low (unripe)", "Salt brine with aromatics", "Tangy, slightly crunchy relish.", "Common in Southeast Asian cuisines. Use unripe, green fruit only — ripe papaya turns to mush."],
+        ["Stone fruits (plums, peaches)", "9–13%", "Sugar, salt, or alcohol", "Soft, jammy, often alcoholic.", "Japanese umeboshi (salted plums) are a celebrated example. Ripe peaches dissolve; use firm, slightly underripe fruit."],
+        ["Watermelon rind", "~2% (rind)", "Salt brine", "Crunchy, pickle-like.", "A Southern US tradition. The white rind ferments like a vegetable. Remove all green skin and pink flesh."]
+      ]
+    },
+    {
+      "id": "fruit-callout",
+      "type": "callout",
+      "style": "warning",
+      "title": "Fruit Fermentation Produces Alcohol",
+      "content": "Unlike vegetable lacto-fermentation, most fruit ferments will produce measurable alcohol due to high sugar content and yeast activity. If you want to minimise alcohol production:\n• Add salt (2–3%) to favour LAB over yeasts\n• Ferment at cooler temperatures (15–20 °C) to slow yeast activity\n• Keep fermentation time short (3–5 days)\n• Use an airlock to maintain anaerobic conditions, which favour LAB\n\nIf you want to embrace the alcohol, use more sugar, warmer temperatures, and let it ride."
+    },
+    {
+      "id": "seasonal-heading",
+      "type": "heading",
+      "level": 2,
+      "content": "Seasonal Availability and Fermentation"
+    },
+    {
+      "id": "seasonal-text",
+      "type": "paragraph",
+      "content": "Historically, fermentation was inseparable from seasonality — you fermented what was abundant to preserve it for leaner months [cite:c1]. Even with year-round supermarket availability, there are excellent reasons to think seasonally about fermentation."
+    },
+    {
+      "id": "seasonal-reasons",
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "**Freshness**: Produce ferments best when it's freshest. Vegetables from a local market or garden carry higher populations of viable LAB than those that have been in cold storage for weeks. The difference in fermentation speed and flavour is noticeable.",
+        "**Cost**: Seasonal gluts mean lower prices — and a glut is exactly when you want to ferment. When your market has a mountain of cheap cabbage, cucumbers, or radishes, that's the universe telling you to fill some jars.",
+        "**Flavour**: Vegetables in season simply taste better. Peak-season tomatoes (even though they don't ferment well whole) can be made into a fermented salsa. Peak-season peppers make better hot sauce. Seasonality equals flavour.",
+        "**Variety**: Thinking seasonally gives you natural rotation. Spring brings asparagus, radishes, and green garlic. Summer offers cucumbers, beans, peppers, and corn. Autumn delivers cabbage, root vegetables, and apples. Winter is the time to enjoy what you've put up."
+      ]
+    },
+    {
+      "id": "seasonal-table",
+      "type": "table",
+      "caption": "Seasonal fermentation calendar (Northern Hemisphere, temperate to subtropical climates)",
+      "headers": ["Season", "Peak Vegetables for Fermentation", "Notes"],
+      "rows": [
+        ["Spring (Mar–May)", "Radishes, asparagus, spring onions, green garlic, peas, early greens (mustard, chard)", "Radishes are among the fastest fermenters — ready in 5–7 days. Asparagus in brine with lemon zest is a springtime delicacy."],
+        ["Summer (Jun–Aug)", "Cucumbers, green beans, peppers (hot and sweet), corn, zucchini (with care), summer squash, cherry tomatoes (salsa)", "The peak season for brine pickles [[recipe:brine-pickles-basic]]. Cucumbers must be fermented within 24 hours of harvest for best results. Green beans are at their snappiest [[recipe:fermented-green-beans]]."],
+        ["Autumn (Sep–Nov)", "Cabbage, cauliflower, beets, turnips, carrots, apples, late peppers, Brussels sprouts", "Traditional sauerkraut-making season [[recipe:sauerkraut-classic]]. Cooler ambient temperatures mean slower, more complex fermentation. This is when to make your large batches for winter."],
+        ["Winter (Dec–Feb)", "Storage roots (carrots, beets, turnips, parsnips), stored cabbage, citrus (preserved lemons)", "Fresh produce is limited, but root vegetables from cold storage ferment perfectly well. This is also the ideal time for slow, cool-temperature ferments that develop deep, complex flavours."]
+      ]
+    },
+    {
+      "id": "tropical-callout",
+      "type": "callout",
+      "style": "info",
+      "title": "In Tropical and Subtropical Climates",
+      "content": "If you're fermenting in a warm climate (like much of South and Southeast Asia, Central America, or sub-Saharan Africa), seasonal distinctions are different. You may have year-round access to green mangoes, chillies, and tropical vegetables. The main challenge is temperature management — fermentation happens fast in the heat. Use slightly higher salt concentrations (3–5% for brines) and move ferments to the fridge sooner to prevent over-acidification [[article:salt-and-fermentation]]."
+    },
+    {
+      "id": "combinations-heading",
+      "type": "heading",
+      "level": 2,
+      "content": "Combining Vegetables for Best Results"
+    },
+    {
+      "id": "combinations-intro",
+      "type": "paragraph",
+      "content": "Some of the best fermented products are multi-vegetable combinations. Kimchi, for example, typically combines napa cabbage with radish, scallions, garlic, ginger, and chilli [[recipe:kimchi-traditional]]. Mixed ferments aren't just tastier — they can be structurally and microbiologically superior to single-vegetable ferments [cite:c3]."
+    },
+    {
+      "id": "combination-principles",
+      "type": "heading",
+      "level": 3,
+      "content": "Principles of Good Combinations"
+    },
+    {
+      "id": "combination-list",
+      "type": "list",
+      "ordered": true,
+      "items": [
+        "**Mix textures**: Combine a firm base vegetable (cabbage, carrots, radish) with softer accent vegetables (onions, garlic, peppers). The firm base provides structure while the softer ones contribute flavour and brine.",
+        "**Balance sugar sources**: Mixing a high-sugar vegetable (beets, carrots) with a lower-sugar one (cabbage, radish) provides steady fuel for fermentation without the explosive activity that pure beet ferments can produce.",
+        "**Layer aromatic elements**: Garlic, ginger, chillies, dill, caraway, mustard seed, turmeric, and peppercorns all contribute flavour without affecting fermentation dynamics significantly. Add them freely.",
+        "**Consider fermentation rates**: Vegetables ferment at different speeds based on size, sugar content, and cell structure. Cut slower-fermenting vegetables (carrots, thick radish) thinner than faster-fermenting ones (cabbage, onions) so they finish at roughly the same time.",
+        "**Maintain a dominant base**: Keep your base vegetable at 60–80% of the total volume. Too many different vegetables in equal proportions can create a muddled flavour that's less than the sum of its parts.",
+        "**Use the same salt method throughout**: Don't mix dry-salted and brined vegetables in the same jar unless you know what you're doing. The salt concentrations may not equalise evenly."
+      ]
+    },
+    {
+      "id": "combination-ideas",
+      "type": "heading",
+      "level": 3,
+      "content": "Tried-and-True Combinations"
+    },
+    {
+      "id": "combination-ideas-list",
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "**Classic sauerkraut plus**: Shredded green cabbage + caraway seeds + juniper berries. Add shredded apple or carrot for sweetness [[recipe:sauerkraut-classic]].",
+        "**Mexican-inspired curtido**: Shredded cabbage + onion + carrot + oregano + jalapeño or serrano pepper. A Central American staple served with pupusas.",
+        "**Giardiniera**: Cauliflower + carrots + celery + peppers + onion in a seasoned brine. Italian-American classic that showcases the \"good\" tier vegetables beautifully.",
+        "**Garden mix pickles**: Carrot sticks + green beans + cauliflower florets + garlic + dill in a 3.5% brine. A forgiving, crowd-pleasing mixed ferment [[recipe:fermented-green-beans]] [[recipe:golden-cauliflower-ferment]].",
+        "**Root medley**: Carrot + turnip + beet (small amount for colour) + ginger + black peppercorn. Earthy, sweet, and deeply satisfying after 3–4 weeks.",
+        "**Spicy Asian greens**: Mustard greens + radish + ginger + chilli + garlic. A cross between kimchi and Chinese suan cai that works beautifully with rice."
+      ]
+    },
+    {
+      "id": "combination-callout",
+      "type": "callout",
+      "style": "tip",
+      "title": "The 80/20 Rule for Experiments",
+      "content": "When experimenting with a new combination, keep 80% of the ferment as a vegetable you know works well, and 20% as the experimental ingredient. This way, even if the experiment doesn't go as planned, you'll still have a usable ferment. Once you know how an ingredient behaves, you can increase its proportion in future batches."
+    },
+    {
+      "id": "preparation-heading",
+      "type": "heading",
+      "level": 2,
+      "content": "Preparation Methods by Vegetable Type"
+    },
+    {
+      "id": "prep-table",
+      "type": "table",
+      "caption": "Recommended preparation methods for different vegetable categories",
+      "headers": ["Category", "Cut Style", "Salt Method", "Typical Brine %", "Fermentation Time", "Crunch Retention"],
+      "rows": [
+        ["Dense roots (carrots, turnips, parsnips)", "Sticks, coins, or shreds", "Brine (sticks/coins) or dry-salt (shreds)", "3–3.5%", "7–21 days", "Excellent (months)"],
+        ["Cabbage family (cabbage, kohlrabi)", "Shredded or quartered", "Dry-salt preferred", "N/A (2–2.5% by weight)", "14–30 days", "Very good"],
+        ["Cauliflower / broccoli", "Small florets", "Brine", "3.5–5%", "7–14 days", "Good (cauliflower) / Fair (broccoli)"],
+        ["Cucumbers", "Whole, halved, or spears", "Brine", "3.5–5%", "5–14 days", "Good if fresh; degrades after 4–6 weeks"],
+        ["Green beans / asparagus", "Whole, trimmed to jar height", "Brine", "3.5%", "7–14 days", "Excellent"],
+        ["Peppers (hot)", "Whole, halved, or mashed", "Brine (whole) or dry-salt (mash)", "3–5% brine or 2–3% mash", "7–30 days (whole) / 7–90 days (mash)", "Good (whole) / N/A (mash)"],
+        ["Alliums (garlic, onions)", "Whole cloves or thick rings", "Brine", "3–4%", "14–30 days", "Moderate (softens over time)"],
+        ["Leafy greens (sturdy)", "Whole leaves or rough chop", "Dry-salt or light brine", "2–3%", "7–14 days", "Fair — expect wilting"],
+        ["Fruits (firm, unripe)", "Slices, chunks, or whole (small)", "Salt brine or salt pack", "3–5%", "7–21 days", "Variable — depends on ripeness"]
+      ]
+    },
+    {
+      "id": "advanced-heading",
+      "type": "heading",
+      "level": 2,
+      "content": "Advanced Considerations"
+    },
+    {
+      "id": "lab-heading",
+      "type": "heading",
+      "level": 3,
+      "content": "Natural LAB Populations Vary"
+    },
+    {
+      "id": "lab-text",
+      "type": "paragraph",
+      "content": "Not all vegetables carry equal populations of lactic acid bacteria on their surfaces. Vegetables grown in healthy soil with minimal pesticide use typically carry higher and more diverse LAB populations [cite:c3]. Organic and locally-grown produce often ferments faster and more reliably than conventional supermarket produce that has been washed, waxed, or irradiated. If you're using very clean produce and fermentation seems slow to start, try adding a splash of brine from a previous active ferment as a starter — this inoculates the new batch with a healthy LAB population [[article:how-lacto-fermentation-works]]."
+    },
+    {
+      "id": "ph-heading",
+      "type": "heading",
+      "level": 3,
+      "content": "Starting pH and Buffering Capacity"
+    },
+    {
+      "id": "ph-text",
+      "type": "paragraph",
+      "content": "Vegetables with a lower starting pH (like tomatoes at ~4.2) reach the safe zone faster but may not develop the same depth of flavour as higher-pH vegetables (like cabbage at ~6.5) that take a longer, more complex acidification journey. Vegetables with more protein and mineral content (like beets and root vegetables) have higher buffering capacity, meaning they resist pH changes more — this can lead to slower initial acidification but ultimately a more complex flavour profile [[article:ph-levels-fermentation]]."
+    },
+    {
+      "id": "what-not-heading",
+      "type": "heading",
+      "level": 2,
+      "content": "What Definitely Doesn't Work (And Why)"
+    },
+    {
+      "id": "what-not-text",
+      "type": "paragraph",
+      "content": "Some things just aren't meant to be fermented using lacto-fermentation. Understanding why helps reinforce the principles that make other ferments succeed."
+    },
+    {
+      "id": "avoid-list",
+      "type": "list",
+      "ordered": false,
+      "items": [
+        "**Lettuce**: Essentially water held together by the flimsiest cell walls in the vegetable kingdom. Completely disintegrates. No structural cellulose to speak of.",
+        "**Raw potatoes**: Contain solanine (a glycoalkaloid toxin), especially when green. The starch content creates a gummy, unpleasant texture. There are fermented potato traditions (e.g., chuño in the Andes), but these involve freeze-drying and are a completely different process.",
+        "**Ripe avocado**: Fat content of 15–20% creates rancidity issues. No structural integrity. The fats oxidise and create off-flavours. Fermented avocado is a food safety concern.",
+        "**Ripe bananas**: Too soft, too sugary, and will produce a slimy, alcoholic mess rather than anything resembling a fermented vegetable. Green bananas have some potential in specific cultural traditions.",
+        "**Delicate fresh herbs (basil, cilantro, mint)**: Turn black, slimy, and bitter within days. Their aromatic compounds, which are what you want them for, are volatile and largely destroyed by fermentation. Use herbs as flavouring accents (a small amount) rather than the primary ingredient."
+      ]
+    },
+    {
+      "id": "avoid-callout",
+      "type": "callout",
+      "style": "info",
+      "title": "The Rule of Thumb",
+      "content": "Ask yourself: \"Would this vegetable still have texture if I left it in salty water for two weeks?\" If the answer is yes, it will probably ferment well. If you imagine it turning to mush, it probably will. Raw crunch is the best predictor of fermented crunch."
+    },
+    {
+      "id": "summary-heading",
+      "type": "heading",
+      "level": 2,
+      "content": "Summary: Quick-Reference Decision Guide"
+    },
+    {
+      "id": "summary-text",
+      "type": "paragraph",
+      "content": "When you're standing in the market or looking at your garden and wondering \"Can I ferment this?\", run through this quick mental checklist:"
+    },
+    {
+      "id": "summary-list",
+      "type": "list",
+      "ordered": true,
+      "items": [
+        "**Is it firm and crunchy raw?** Good sign. Firm vegetables (carrots, radishes, cabbage, beans, cauliflower) retain texture well through fermentation.",
+        "**Does it have moderate sugar (2–5%)?** Ideal for lacto-fermentation. Very high sugar (beets, fruits) may need higher salt or shorter fermentation to prevent excess alcohol.",
+        "**Is it fresh?** Fresher produce carries more viable LAB and will ferment more reliably. Avoid wilted, damaged, or long-stored vegetables.",
+        "**Do you know its brassica status?** Cabbage-family vegetables produce sulphur smells early on. This is normal and temporary — don't discard a healthy ferment because of day-2 sulphur odour.",
+        "**Are you using the right method?** Dense, juicy vegetables (cabbage) suit dry-salting. Less juicy or whole vegetables (cucumbers, green beans) need brine immersion [[article:salt-and-fermentation]].",
+        "**Is it in season?** Seasonal produce is fresher, cheaper, and more flavourful. Plan your fermentation around what's abundant."
+      ]
+    },
+    {
+      "id": "final-callout",
+      "type": "callout",
+      "style": "tip",
+      "title": "The Best Way to Learn Is to Ferment",
+      "content": "This guide gives you the theory, but there is no substitute for practice. Start with cabbage [[recipe:sauerkraut-classic]], move to cucumbers [[recipe:brine-pickles-basic]], try carrots and green beans [[recipe:fermented-green-beans]], then start experimenting. Keep notes on what you fermented, how you prepared it, what salt percentage you used, and how it turned out. Within a few months, you'll have your own personal tier list that reflects your taste, your climate, and your local produce."
+    }
+  ],
+  "citations": [
+    {
+      "id": "c1",
+      "text": "Katz, Sandor Ellix. The Art of Fermentation: An In-Depth Exploration of Fundamental Fermentation Concepts and Processes from Around the World.",
+      "source": "Chelsea Green Publishing",
+      "author": "Sandor Ellix Katz",
+      "year": 2012,
+      "license": "Book"
+    },
+    {
+      "id": "c2",
+      "text": "Albersheim, P., Darvill, A., Roberts, K., Sederoff, R., Staehelin, A. Plant Cell Walls: From Chemistry to Biology.",
+      "source": "Garland Science",
+      "author": "Peter Albersheim et al.",
+      "year": 2011,
+      "license": "Academic"
+    },
+    {
+      "id": "c3",
+      "text": "Shockey, Kirsten and Christopher. Fermented Vegetables: Creative Recipes for Fermenting 64 Vegetables and Herbs in Krauts, Kimchis, Brined Pickles, Chutneys, Relishes & Pastes.",
+      "source": "Storey Publishing",
+      "author": "Kirsten and Christopher Shockey",
+      "year": 2014,
+      "license": "Book"
+    },
+    {
+      "id": "c4",
+      "text": "Hanschen, F.S., Lamy, E., Onajah, O. Glucosinolate degradation and the formation of biologically active compounds from Brassica vegetables.",
+      "source": "Journal of Food Science and Technology",
+      "author": "Franziska S. Hanschen et al.",
+      "year": 2014,
+      "license": "Academic"
+    },
+    {
+      "id": "c5",
+      "text": "Behravesh, C.B. et al. \"The role of tannins in maintaining texture of fermented cucumbers.\" Review in Journal of Food Protection.",
+      "source": "International Association for Food Protection",
+      "author": "C. Behravesh et al.",
+      "year": 2011,
+      "license": "Academic"
+    },
+    {
+      "id": "c6",
+      "text": "McGee, Harold. On Food and Cooking: The Science and Lore of the Kitchen.",
+      "source": "Scribner",
+      "author": "Harold McGee",
+      "year": 2004,
+      "license": "Book"
+    }
+  ],
+  "seeAlso": {
+    "articles": ["how-lacto-fermentation-works", "salt-and-fermentation", "ph-levels-fermentation", "role-of-carbon-dioxide", "troubleshooting-ferments"],
+    "recipes": ["sauerkraut-classic", "kimchi-traditional", "brine-pickles-basic", "fermented-green-beans", "golden-cauliflower-ferment", "tepache-pineapple", "ginger-bug-starter", "lacto-red-onions"],
+    "tools": ["ph-reference"]
+  },
+  "tags": ["vegetables", "fruits", "fermentability", "selection", "seasonal", "combinations", "cell-structure", "sugar-content", "tier-list"]
+}

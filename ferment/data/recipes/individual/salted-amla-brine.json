@@ -1,0 +1,174 @@
+{
+  "id": "salted-amla-brine",
+  "slug": "salted-amla-brine",
+  "name": "Salted Amla",
+  "nameLocal": "Nellikai Uppinakayi",
+  "subtitle": "The Ayurvedic Vitamin C bomb",
+  "category": "vegetable",
+  "subcategory": "berry",
+  "technique": "brine",
+  "region": "South Asia",
+  "country": "India",
+  "countryCode": "IN",
+  "culturalGroup": "South Indian",
+  "difficulty": 1,
+  "tier": "beginner",
+  "tierLabel": "Literally Just Add Salt",
+  "prepTime": "10 min",
+  "fermentTimeMin": 7,
+  "fermentTimeMax": 21,
+  "fermentTimeUnit": "days",
+  "totalTimeHuman": "2 weeks",
+  "blrNote": "KR Market is flooded with Amla in winter. Buy the ones without bruises.",
+  "ingredients": [
+    {
+      "name": "Amla",
+      "nameLocal": "Nellikai",
+      "amount": 500,
+      "unit": "g",
+      "unitMetric": "500g",
+      "category": "produce",
+      "essential": true
+    },
+    {
+      "name": "Salt",
+      "amount": 15,
+      "unit": "g",
+      "category": "salt",
+      "essential": true
+    },
+    {
+      "name": "Water",
+      "amount": 500,
+      "unit": "ml",
+      "category": "liquid",
+      "essential": true
+    },
+    {
+      "name": "Green Chillies",
+      "amount": 4,
+      "unit": "slit",
+      "category": "spice",
+      "essential": false
+    }
+  ],
+  "tldr": "Whole amla + salt water. They turn from bright green to olive and become soft, salty, and sour.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Prep",
+      "instruction": "Wash amla. Slit them slightly or prick with a fork so the brine penetrates.",
+      "tips": [
+        "Choose firm, unblemished amla — bruised fruit can introduce unwanted bacteria",
+        "Pricking with a fork in 4-5 places per fruit is faster than slitting and works just as well",
+        "If using large amla, cut them in half for faster brine penetration"
+      ]
+    },
+    {
+      "step": 2,
+      "title": "Brine",
+      "instruction": "Submerge in a 3% salt brine with green chillies.",
+      "tips": [
+        "Use non-iodised salt — iodine inhibits the lactobacillus bacteria you need",
+        "Slit the green chillies lengthwise so their heat infuses into the brine",
+        "Amla floats — use a weight or plate to keep them submerged"
+      ]
+    },
+    {
+      "step": 3,
+      "title": "Wait",
+      "instruction": "Wait 10–14 days. The amla will soften and the water will turn cloudy.",
+      "tips": [
+        "Cloudy brine is a sign of active fermentation — do not discard it",
+        "Taste at day 7 — if pleasantly sour and the flesh yields to a bite, it can be refrigerated early",
+        "The brine itself is full of probiotics — save it for drinking or use as a base for rasam"
+      ]
+    }
+  ],
+  "images": [
+    {
+      "url": "https://images.squarespace-cdn.com/content/v1/6161a9f90a1fd561e80364e4/1635837885968-7HUJP7SE6MG67LKC1HLX/athela+amla2_ig.jpg",
+      "caption": "Salted Amla",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Salted Amla — The Ayurvedic Vitamin C bomb"
+    }
+  ],
+  "culturalContext": {
+    "story": "A standard in every South Indian grandma’s pantry, salted amla brine is one of the oldest home remedies in the Indian subcontinent. Eaten with curd rice (mosaranna) when you have a fever or poor appetite, it combines the astringent-sour punch of amla with the gut-friendly bacteria of lacto-fermentation. In Karnataka and Tamil Nadu, large ceramic jars of amla in brine are prepared at the start of winter (amla season, roughly November-January) and consumed through the year as a digestive aid and immunity booster.",
+    "historicalNote": "Amla (Phyllanthus emblica) is one of the three fruits in Triphala, the cornerstone formulation of Ayurvedic medicine dating back over 2,000 years. The practice of preserving amla in salt is referenced in classical Ayurvedic texts as a method of retaining its medicinal properties year-round.",
+    "significance": "Amla is one of the highest natural sources of Vitamin C (up to 600-900mg per 100g), and fermentation makes it more bioavailable by breaking down the fibrous cell walls and reducing anti-nutritional factors like tannins.",
+    "relatedTraditions": [
+      "Amla murabba (North Indian sugar-preserved amla)",
+      "Nellikai thokku (Tamil amla pickle with oil and spices)",
+      "Amla candy (dried salted amla pieces)"
+    ],
+    "funFact": "The brine itself is used as a throat gargle in traditional homes. Some families dilute it with warm water and drink a small glass each morning as a probiotic tonic."
+  },
+  "tags": [
+    "beginner",
+    "ayurvedic",
+    "south-indian"
+  ],
+  "sources": [
+    {
+      "title": "Amla — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Phyllanthus_emblica"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=Ng2zOFADe6s",
+      "title": "Fermented Amla — Indian Gooseberry Pickle",
+      "channel": "Kirsten & Christopher Shockey",
+      "type": "youtube"
+    }
+  ],
+  "variations": [
+    {
+      "name": "Spiced Amla Brine",
+      "description": "Add 1 tsp mustard seeds, 1/2 tsp fenugreek seeds, and a sprig of curry leaves to the brine. Creates a more complex, South Indian pickle flavour profile.",
+      "region": "Karnataka / Tamil Nadu"
+    },
+    {
+      "name": "Amla with Turmeric",
+      "description": "Add 1 tsp turmeric powder to the brine for anti-inflammatory properties and a golden colour. The combination of amla and turmeric is a classic Ayurvedic pairing.",
+      "region": "Pan-Indian"
+    },
+    {
+      "name": "Sweet Fermented Amla",
+      "description": "Replace half the salt with jaggery. Produces a sweet-sour ferment closer to amla murabba but with live cultures. Good for those who find plain salted amla too astringent.",
+      "region": "North India"
+    }
+  ],
+  "thingsToAccountFor": [
+    {
+      "title": "Amla floats",
+      "description": "Amla is buoyant and will bob above the brine. Use a fermentation weight, small plate, or a water-filled ziplock bag to keep all fruit submerged. Exposed fruit will develop mould.",
+      "severity": "warning"
+    },
+    {
+      "title": "Astringency is normal",
+      "description": "Amla is naturally astringent and will pucker your mouth, especially in the first week. This mellows significantly as fermentation progresses and the tannins break down.",
+      "severity": "info"
+    },
+    {
+      "title": "Use non-iodised salt",
+      "description": "Iodised table salt contains additives that can inhibit lactobacillus growth and make the brine cloudy for the wrong reasons. Use sea salt, rock salt, or kosher salt.",
+      "severity": "tip"
+    }
+  ],
+  "dehydratorIntegration": {
+    "applicable": true,
+    "method": "Drain fermented amla, halve and remove the seed. Spread cut-side down on dehydrator trays. Dehydrate at 45°C for 12-16 hours until completely dry and leathery.",
+    "temp": "45°C",
+    "time": "12-16 hours",
+    "result": "Fermented amla candy — sour, salty, chewy pieces that make an excellent digestive snack. Can be further coated in chilli powder and black salt for a traditional Indian sour candy.",
+    "shelfLife": "6 months in an airtight container",
+    "tips": [
+      "Toss dried amla pieces in black salt and red chilli powder for a classic Indian sour candy",
+      "The dried pieces can be powdered and used as a tangy seasoning for chaats and raitas"
+    ]
+  },
+  "citations": []
+}

@@ -1,0 +1,234 @@
+{
+  "id": "preserved-lemons-salt",
+  "slug": "preserved-lemons-salt",
+  "name": "Preserved Lemons",
+  "nameLocal": "L’hamid Markach",
+  "nameRomanized": null,
+  "subtitle": "North African salt-cured citrus gold",
+  "category": "condiment",
+  "subcategory": "citrus",
+  "technique": "dry-salt",
+  "region": "North Africa",
+  "country": "Morocco",
+  "countryCode": "MA",
+  "culturalGroup": "Maghrebi",
+  "difficulty": 1,
+  "tier": "beginner",
+  "tierLabel": "Literally Just Add Salt",
+  "prepTime": "20 min",
+  "fermentTimeMin": 30,
+  "fermentTimeMax": 90,
+  "fermentTimeUnit": "days",
+  "totalTimeHuman": "1–3 months",
+  "blrNote": "Small, thin-skinned Indian nimbus are actually *superior* for this than thick-skinned Western lemons. They cure faster and have less bitter pith.",
+  "seasonality": [
+    "all"
+  ],
+  "ingredients": [
+    {
+      "name": "Lemons",
+      "nameLocal": "Nimbu",
+      "amount": 10,
+      "unit": "small",
+      "unitMetric": "500g",
+      "category": "produce",
+      "essential": true,
+      "substitutions": [
+        "Indian lime (gondhoraj) for a floral twist"
+      ],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any sabziwala or supermarket"
+        }
+      }
+    },
+    {
+      "name": "Rock Salt",
+      "nameLocal": "Saindhav Namak",
+      "amount": 100,
+      "unit": "g",
+      "unitMetric": "100g",
+      "category": "salt",
+      "essential": true,
+      "substitutions": [
+        "Sea salt, kosher salt — never iodised"
+      ],
+      "localAvailability": {
+        "IN": {
+          "ease": "easy",
+          "where": "Any kirana store"
+        }
+      }
+    },
+    {
+      "name": "Extra lemon juice",
+      "amount": 2,
+      "unit": "lemons",
+      "category": "produce",
+      "essential": false,
+      "notes": "To top up if lemons aren't submerged"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "Glass jar (1L)",
+      "essential": true,
+      "notes": "Wide-mouth makes packing easier"
+    },
+    {
+      "name": "Wooden spoon",
+      "essential": true,
+      "notes": "For smashing lemons down"
+    }
+  ],
+  "tldr": "Stuff lemons with salt, smash into a jar. Wait until the skin turns into edible velvet.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "The X-Cut",
+      "instruction": "Cut lemons into quarters, but only 3/4 of the way down so they stay attached at the base. Think of it as quartering without separating.",
+      "duration": "10 min",
+      "tips": [
+        "A sharp knife is essential — dull knives will crush the lemon and waste juice",
+        "Choose lemons with thin, smooth skin — they cure faster and have less bitter pith than thick-skinned varieties.",
+        "Scrub the lemons well before cutting — the rind is what you'll be eating, so clean it thoroughly."
+      ],
+      "checkpoint": "Lemons open like flowers but still connected at the base"
+    },
+    {
+      "step": 2,
+      "title": "The Salt Stuff",
+      "instruction": "Pack the inside of each lemon with a generous tablespoon of salt. Open the cuts and rub salt deep inside. Be liberal.",
+      "duration": "5 min",
+      "tips": [
+        "More salt = faster cure. You cannot over-salt these.",
+        "Use coarse rock salt rather than fine — it packs into the cuts better and dissolves slowly for a more even cure.",
+        "Work over a bowl to catch any juice that escapes during salting — pour it back into the jar later."
+      ],
+      "checkpoint": "Each lemon visibly packed with salt crystals"
+    },
+    {
+      "step": 3,
+      "title": "The Smash",
+      "instruction": "Pack into a sterilized jar. Press down HARD with a wooden spoon to release juice. Juice MUST cover the lemons. Add extra fresh lemon juice if needed.",
+      "duration": "5 min",
+      "tips": [
+        "Really crush them — you want every air pocket eliminated",
+        "Leave 2cm headspace",
+        "Keep 2–3 extra lemons on hand for juicing — if your packed lemons aren't fully submerged, squeeze fresh juice over the top immediately."
+      ],
+      "checkpoint": "All lemons submerged under juice"
+    },
+    {
+      "step": 4,
+      "title": "The Long Wait",
+      "instruction": "Store in a cool, dark spot. Flip the jar upside down every few days for the first week to redistribute the salt. After 30 days, taste the rind — it should be soft and mellow, not bitter.",
+      "duration": "30–90 days",
+      "tips": [
+        "Month 1: still sharp. Month 2: perfect. Month 3: transcendent.",
+        "The jar is shelf-stable once fully cured — no refrigeration needed",
+        "Always use a clean, dry spoon to fish out lemons — introducing water or food particles into the jar can cause mould."
+      ],
+      "checkpoint": "Rind is soft enough to mash with a fork"
+    }
+  ],
+  "images": [
+    {
+      "url": "https://cultured.guru/wp-content/uploads/2022/01/preserved-lemons-6-1.webp",
+      "caption": "Preserved Lemons",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Preserved Lemons — North African salt-cured citrus gold"
+    }
+  ],
+  "culturalContext": {
+    "story": "Essential to Moroccan Tagines. In the Maghreb, these lemons aren’t just a condiment; they are the \"soul\" of the dish, providing a salty, umami-rich citrus hit that fresh lemons cannot replicate.",
+    "historicalNote": "Salt preservation of citrus in North Africa predates refrigeration by over a thousand years. Caravans crossing the Sahara carried preserved lemons as a source of vitamin C and flavour.",
+    "significance": "This is the condiment that separates a home-cooked Moroccan tagine from a restaurant imitation. Once you have a jar of these, your cooking permanently upgrades.",
+    "relatedTraditions": [
+      "Nimbu ka achar (Indian salt-cured lemon)",
+      "Chinese salted preserved plums",
+      "Japanese shio-zuke"
+    ],
+    "funFact": "You only eat the rind! The flesh is usually discarded after cooking because it’s too salty. The rind becomes the star — silky, fragrant, and intensely citrusy without any bitterness."
+  },
+  "thingsToAccountFor": [
+    {
+      "title": "Exposed rinds",
+      "description": "Any part of the lemon sticking out of the juice will grow mould. Add extra fresh lemon juice if they aren't submerged.",
+      "severity": "important",
+      "appliesTo": [
+        "all"
+      ]
+    },
+    {
+      "title": "White film on the brine",
+      "description": "Kahm yeast — harmless but ugly. Skim it off. It does not mean the batch is ruined.",
+      "severity": "info",
+      "appliesTo": [
+        "all"
+      ]
+    }
+  ],
+  "dehydratorIntegration": {
+    "applicable": true,
+    "method": "Slice cured rinds thin, dehydrate at 45°C for 6–8 hours.",
+    "result": "Crispy lemon salt chips — grind into powder for an incredible finishing salt.",
+    "shelfLife": "Indefinite if kept dry",
+    "tips": [
+      "The powder is spectacular on grilled vegetables, pasta, and fish"
+    ]
+  },
+  "variations": [
+    {
+      "name": "Spiced Preserved Lemons",
+      "description": "Add bay leaves, peppercorns, and a cinnamon stick to the jar.",
+      "region": "Middle East"
+    },
+    {
+      "name": "Chilli Preserved Lemons",
+      "description": "Add dried red chillies and cumin seeds for a North Indian twist.",
+      "region": "India"
+    },
+    {
+      "name": "Quick Preserved Lemons",
+      "description": "Dice lemons small and use 3x the salt — ready in 7 days but less nuanced.",
+      "region": "Modern"
+    }
+  ],
+  "relatedRecipes": [
+    "green-mango-brine",
+    "salted-amla-brine"
+  ],
+  "tags": [
+    "beginner",
+    "pantry-staple",
+    "salt-cure",
+    "moroccan",
+    "year-round",
+    "vegan"
+  ],
+  "dietaryFlags": [
+    "gluten-free",
+    "vegan"
+  ],
+  "veganAdaptable": true,
+  "containsAllergens": [],
+  "sources": [
+    {
+      "title": "Preserved Lemon — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Preserved_lemon",
+      "license": "CC BY-SA"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=3-mYv57LpKE",
+      "title": "How to Preserve Lemons",
+      "channel": "Clean & Delicious",
+      "type": "youtube"
+    }
+  ],
+  "citations": []
+}

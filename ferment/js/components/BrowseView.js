@@ -199,6 +199,17 @@ const BrowseViewComponent = {
     },
 
     getTimeDays(recipe) {
+      // Use fermentTimeMin (lower bound) with unit conversion
+      if (recipe.fermentTimeMin != null) {
+        const unit = (recipe.fermentTimeUnit || 'days').replace(/s$/, '');
+        const min = recipe.fermentTimeMin;
+        if (unit === 'hour') return min / 24;
+        if (unit === 'week') return min * 7;
+        if (unit === 'month') return min * 30;
+        if (unit === 'year') return min * 365;
+        return min; // days
+      }
+      // Legacy fallback
       const t = recipe.totalTime || recipe.time;
       if (!t) return 999;
       if (typeof t === 'object') return t.min || t.days || 999;

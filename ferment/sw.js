@@ -3,7 +3,7 @@
  * Offline-first caching strategy
  */
 
-const CACHE_NAME = 'ferment-v1';
+const CACHE_NAME = 'ferment-v5';
 const STATIC_ASSETS = [
   './',
   './index.html',
@@ -17,13 +17,28 @@ const STATIC_ASSETS = [
   './js/components/SearchBar.js',
   './js/components/FilterPanel.js',
   './js/components/RecipeCard.js',
-  './js/components/RecipeModal.js',
+  './js/components/RecipePage.js',
+  './js/components/BrowseView.js',
   './js/components/PantryManager.js',
   './js/components/JournalManager.js',
   './js/components/BrineCalculator.js',
   './js/components/BatchScaler.js',
   './js/components/TimerManager.js',
   './js/components/ToolsView.js',
+  './js/components/SettingsModal.js',
+  './js/components/OnboardingModal.js',
+  './js/components/WikiView.js',
+  './js/components/WikiArticle.js',
+  './js/components/WelcomePage.js',
+  './js/components/InlineEditor.js',
+  './js/components/editors/TextEditor.js',
+  './js/components/editors/ListEditor.js',
+  './js/components/editors/MediaPicker.js',
+  './js/components/editors/TagEditor.js',
+  './js/components/editors/CitationEditor.js',
+  './js/wiki.js',
+  './data/recipes/manifest.json',
+  './data/wiki/manifest.json',
   './manifest.json',
   './assets/icons/favicon.svg',
 ];

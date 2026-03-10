@@ -1,0 +1,141 @@
+{
+  "id": "gari-ginger",
+  "slug": "gari-ginger",
+  "name": "Fermented Gari",
+  "nameLocal": "ガリ",
+  "subtitle": "Natural sushi ginger (without the dye)",
+  "category": "condiment",
+  "subcategory": "ginger",
+  "technique": "brine",
+  "region": "East Asia",
+  "country": "Japan",
+  "difficulty": 1,
+  "tier": "beginner",
+  "tierLabel": "Literally Just Add Salt",
+  "prepTime": "20 min",
+  "fermentTimeMin": 5,
+  "fermentTimeMax": 14,
+  "fermentTimeUnit": "days",
+  "totalTimeHuman": "1 week",
+  "blrNote": "Look for \"Young Ginger\" (pacha shunti)—it has pinkish tips and is much less fibrous than the old, woody stuff.",
+  "ingredients": [
+    {
+      "name": "Young Ginger",
+      "nameLocal": "Shunti",
+      "amount": 200,
+      "unit": "g",
+      "unitMetric": "200g",
+      "category": "produce",
+      "essential": true
+    },
+    {
+      "name": "3% Brine",
+      "amount": 250,
+      "unit": "ml",
+      "category": "liquid",
+      "essential": true
+    }
+  ],
+  "tldr": "Shave ginger paper-thin. Drown in salt water. It turns pink by itself.",
+  "steps": [
+    {
+      "step": 1,
+      "title": "Shave",
+      "instruction": "Use a mandoline or peeler to get paper-thin slices.",
+      "tips": [
+        "A vegetable peeler works better than a knife for getting consistently thin, translucent slices.",
+        "Slice along the grain of the ginger fibers, not against them, to avoid stringy pieces.",
+        "Young ginger has such thin skin that you do not need to peel it—just rinse and slice."
+      ]
+    },
+    {
+      "step": 2,
+      "title": "Submerge",
+      "instruction": "Pack into a small jar and cover with salt brine.",
+      "tips": [
+        "Use a small jar that fits the ginger snugly—too much headspace means too much air exposure.",
+        "Press the ginger down so it is fully submerged; a small glass weight or shot glass works well."
+      ]
+    },
+    {
+      "step": 3,
+      "title": "Wait",
+      "instruction": "Ferment for 1 week. The ginger will naturally turn a light pink hue.",
+      "tips": [
+        "The pink color comes from anthocyanins in young ginger reacting with the lactic acid. If it does not turn pink, your ginger was too mature—it will still taste fine.",
+        "Taste after 5 days. It should be tangy and slightly fizzy. Move to the fridge when the sourness is to your liking.",
+        "The brine itself becomes a fantastic ingredient—use it in salad dressings or cocktails."
+      ]
+    }
+  ],
+  "images": [
+    {
+      "url": "https://i0.wp.com/insaneinthebrine.com/wp-content/uploads/2018/11/IMG_20181030_160535460_PORTRAIT_3.jpg?w=1213&ssl=1",
+      "caption": "Fermented Gari",
+      "attribution": "",
+      "type": "hero",
+      "alt": "Fermented Gari — Natural sushi ginger (without the dye)"
+    }
+  ],
+  "culturalContext": {
+    "story": "Served with sushi to cleanse the palate between different types of fish, gari is one of the most recognizable condiments in Japanese cuisine. The tradition dates back to the Edo period (1603–1868) when ginger was valued not just for flavor but for its antibacterial properties alongside raw fish. Naturally fermented gari was the original form before industrial production shifted to vinegar-based quick pickling with artificial coloring.",
+    "funFact": "Commercial gari is often dyed pink with E124. Naturally fermented young ginger turns pink because of anthocyanins reacting with acid.",
+    "significance": "Unlike vinegar-pickled ginger, this version is alive and aids the digestion of raw food.",
+    "historicalNote": "In traditional Japanese medicine (kampo), ginger is classified as a warming herb that aids digestion and circulation. Pairing it with raw fish was as much a health practice as a culinary one.",
+    "relatedTraditions": "Korean ssam-jang meals always include pickled ginger as a palate cleanser. Chinese red ginger pickle (hong jiang) uses a similar fermentation with the addition of red shiso leaves for extra color and flavor."
+  },
+  "variations": [
+    {
+      "name": "Shiso Gari",
+      "description": "Add 5-6 red shiso (perilla) leaves to the brine. They intensify the pink color and add a distinctive minty-basil flavor traditional in some Japanese preparations.",
+      "region": "Japan"
+    },
+    {
+      "name": "Sweet Gari",
+      "description": "Add 1 tbsp of rice vinegar and 1 tsp of sugar to the brine to more closely approximate the sushi restaurant taste while still getting fermentation benefits.",
+      "region": "Japan"
+    },
+    {
+      "name": "Turmeric Ginger Pickle",
+      "description": "Add 1 tsp turmeric and a squeeze of lime to the brine. The result is a bright yellow-orange ginger pickle that pairs beautifully with South Indian meals.",
+      "region": "India"
+    }
+  ],
+  "thingsToAccountFor": [
+    {
+      "title": "Young vs. Mature Ginger",
+      "description": "Young ginger (with pink-tipped shoots and thin, papery skin) is essential for the best result. Mature ginger is woody, fibrous, and will not turn pink. If young ginger is unavailable, slice mature ginger as thin as possible and blanch briefly in boiling water to soften the fibers.",
+      "severity": "info"
+    },
+    {
+      "title": "Avoid Metal Lids",
+      "description": "The acidic brine will corrode metal lids over time, potentially introducing off-flavors and rust. Use plastic-lined lids, silicone lids, or place a piece of parchment between the jar and the metal lid.",
+      "severity": "warning"
+    },
+    {
+      "title": "Thin Slices Are Non-Negotiable",
+      "description": "Thick slices of ginger will remain tough and unpleasantly fibrous even after weeks of fermentation. If you cannot get paper-thin slices by hand, a mandoline slicer is a worthwhile investment.",
+      "severity": "tip"
+    }
+  ],
+  "tags": [
+    "beginner",
+    "japanese",
+    "cleanser"
+  ],
+  "sources": [
+    {
+      "title": "Gari — Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Gari_(ginger)"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://www.youtube.com/watch?v=R3L0jV3E_iE",
+      "title": "Pickled Ginger",
+      "channel": "Maangchi",
+      "type": "youtube"
+    }
+  ],
+  "citations": []
+}
