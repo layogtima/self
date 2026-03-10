@@ -134,6 +134,28 @@ index.html (template + OG meta tags)
 
 State mutations flow **down** via props, events flow **up** via `$emit`. The root `app.js` owns all state and persists to localStorage on every meaningful change.
 
+### Error Handling
+
+FERMENT uses a **three-layer error boundary** pattern to guarantee the app never white-screens:
+
+| Layer | Mechanism | Scope |
+|-------|-----------|-------|
+| **Component** | `errorCaptured(err, _vm, info)` hook | Catches errors in child components, sets a local error state, renders a dismissible error banner |
+| **Global** | `app.config.errorHandler` | Catch-all for anything that escapes component boundaries |
+| **Async** | `try/catch/finally` in `onMounted` | Ensures `ready.value = true` always fires, even if data loading fails |
+
+**Rules for new components:**
+
+1. Every component that renders dynamic data or has children **must** include an `errorCaptured` hook
+2. Add a corresponding `componentError: null` data property
+3. Show an error banner with a dismiss button when the error is set: `<div v-if="componentError">...</div>`
+4. Wrap the main content in `<template v-if="!componentError">` so a crashed section degrades gracefully
+5. Return `false` from `errorCaptured` to stop propagation
+
+**Reference implementation:** See `BrowseView.js` for the canonical pattern.
+
+**Utility functions** (`FermentFormat`, etc.) must guard against invalid inputs — especially `new Date()` which silently returns Invalid Date rather than throwing. Always check `isNaN(d.getTime())` before calling date methods.
+
 ### Inline Editing
 
 Recipes and wiki articles support inline editing when enabled in Settings. Edits are stored as localStorage overlays (via `FermentEdits`), merged at render time with the original JSON data. **Disabled by default** — toggle in Settings > Enable Editing.
@@ -183,6 +205,8 @@ The README and `ChangelogView.js` are the **source of truth** for this project's
 - [ ] Describe what changed and why (not just what the code does)
 - [ ] Add changelog entry to `ChangelogView.js`
 - [ ] Update README.md if architecture or routing changed
+- [ ] New components include `errorCaptured` hook + error banner (see Error Handling section)
+- [ ] Utility functions guard against invalid inputs (null, NaN, Invalid Date)
 - [ ] Screenshots or screen recording for visual changes
 - [ ] No build step required — test by serving with `python3 -m http.server 8000`
 
@@ -202,6 +226,8 @@ When implementing changes in this codebase, follow these requirements before eve
 4. **One commit per logical task** — the user can review, roll back, or cherry-pick individual changes cleanly.
 
 5. **Do not break the no-build-step contract** — all JS must be valid in-browser ES6, loaded via `<script>` tags. No imports, no bundler syntax.
+
+6. **Crash-proof all new components** — add an `errorCaptured` hook, error data property, and error banner to every component that renders dynamic data or has child components. Follow the pattern in `BrowseView.js`. Guard utility functions against null/NaN/Invalid Date inputs.
 
 ### Goal
 

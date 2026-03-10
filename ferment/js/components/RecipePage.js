@@ -18,8 +18,15 @@ const RecipePageComponent = {
 
   emits: ['close', 'toggle-favorite', 'toggle-bookmark', 'update-notes', 'start-batch', 'add-to-pantry', 'set-nav', 'update-nav-active', 'clear-nav'],
 
+  errorCaptured(err, _vm, info) {
+    console.warn('[FERMENT] RecipePage error in', info, err);
+    this.recipeError = (err && err.message) || 'An error occurred.';
+    return false;
+  },
+
   data() {
     return {
+      recipeError: null,
       mobileTab: 'story',
       batchMultiplier: 1,
       completedSteps: {},
@@ -230,6 +237,12 @@ const RecipePageComponent = {
 
   template: `
     <div class="recipe-page animate-fade-in">
+      <div v-if="recipeError" class="bg-accent-ferment/10 border border-accent-ferment/30 rounded-xl p-4">
+        <p class="text-sm text-accent-ferment font-medium">Something went wrong.</p>
+        <p class="text-xs text-text-muted mt-1">{{ recipeError }}</p>
+        <button @click="recipeError = null" class="mt-2 text-xs text-accent-ferment underline">Dismiss</button>
+      </div>
+      <template v-if="!recipeError">
       <!-- Top Bar -->
       <div class="flex items-center justify-between mb-4">
         <button @click="$emit('close')"
@@ -822,6 +835,7 @@ const RecipePageComponent = {
           </button>
         </div>
       </div>
+      </template>
     </div>
   `
 };

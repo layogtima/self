@@ -32,6 +32,18 @@ const RecipeCardComponent = {
 
   emits: ['open', 'toggle-favorite', 'toggle-bookmark', 'start-batch'],
 
+  errorCaptured(err, _vm, info) {
+    console.warn('[FERMENT] RecipeCard error in', info, err);
+    this.cardError = (err && err.message) || 'An error occurred.';
+    return false;
+  },
+
+  data() {
+    return {
+      cardError: null,
+    };
+  },
+
   computed: {
     tier() {
       return FermentFormat.tierInfo(this.recipe.difficulty || 1);
@@ -122,8 +134,16 @@ const RecipeCardComponent = {
   },
 
   template: `
+    <!-- Error Fallback -->
+    <div v-if="cardError"
+      class="recipe-card bg-bg-card dark:bg-dark-card rounded-2xl overflow-hidden border border-accent-ferment/30 p-4">
+      <p class="text-sm text-accent-ferment font-medium">Something went wrong.</p>
+      <p class="text-xs text-text-muted mt-1">{{ cardError }}</p>
+      <button @click="cardError = null" class="mt-2 text-xs text-accent-ferment underline">Dismiss</button>
+    </div>
+
     <!-- CARD VIEW -->
-    <div v-if="viewMode === 'card'"
+    <div v-else-if="viewMode === 'card'"
       class="recipe-card group bg-bg-card dark:bg-dark-card rounded-2xl overflow-hidden cursor-pointer border border-bg-secondary dark:border-dark-secondary flex flex-col"
       @click="$emit('open', recipe)"
       role="article"

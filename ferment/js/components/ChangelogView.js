@@ -19,6 +19,19 @@ const ChangelogViewComponent = {
 
       entries: [
         {
+          version: '1.4.0',
+          date: '2026-03-10',
+          title: 'Crash-Proofing & Error Boundaries',
+          summary: 'Comprehensive error handling to prevent white-screen crashes and improve app resilience.',
+          items: [
+            { type: 'feature', text: 'Added error boundaries (errorCaptured) to all major components', link: null },
+            { type: 'feature', text: 'Global Vue error handler prevents white-screen crashes', link: null },
+            { type: 'enhancement', text: 'Hardened date/format utilities against invalid inputs', link: null },
+            { type: 'fix', text: 'Fixed app mount resilience — loading screen no longer gets stuck', link: null },
+            { type: 'fix', text: 'Fixed allRecipes computed to return empty array before load', link: null },
+          ]
+        },
+        {
           version: '1.3.0',
           date: '2026-03-10',
           title: 'Stability, Cache Burst & UI Polish',

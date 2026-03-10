@@ -23,8 +23,15 @@ const FilterPanelComponent = {
 
   emits: ['update:filters', 'close'],
 
+  errorCaptured(err, _vm, info) {
+    console.warn('[FERMENT] FilterPanel error in', info, err);
+    this.filterError = (err && err.message) || 'An error occurred.';
+    return false;
+  },
+
   data() {
     return {
+      filterError: null,
       localFilters: {
         difficulty: [],
         categories: [],
@@ -227,6 +234,13 @@ const FilterPanelComponent = {
         </div>
       </div>
 
+      <!-- Error Banner -->
+      <div v-if="filterError" class="mx-5 mt-4 bg-accent-ferment/10 border border-accent-ferment/30 rounded-xl p-4">
+        <p class="text-sm text-accent-ferment font-medium">Something went wrong.</p>
+        <p class="text-xs text-text-muted mt-1">{{ filterError }}</p>
+        <button @click="filterError = null" class="mt-2 text-xs text-accent-ferment underline">Dismiss</button>
+      </div>
+      <template v-if="!filterError">
       <div class="divide-y divide-bg-secondary/50 dark:divide-dark-secondary max-h-[70vh] overflow-y-auto custom-scrollbar">
 
         <!-- What Can I Make? Toggle -->
@@ -459,6 +473,7 @@ const FilterPanelComponent = {
           </div>
         </div>
       </div>
+      </template>
 
       <!-- Footer with result count -->
       <div class="px-5 py-3 border-t border-bg-secondary dark:border-dark-secondary bg-bg-secondary/30 dark:bg-dark-secondary/30">

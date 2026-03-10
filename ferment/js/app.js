@@ -75,8 +75,7 @@ const app = createApp({
     // ── All recipes (loaded async from individual JSON files) ──
     const recipesLoaded = ref(false);
     const allRecipes = computed(() => {
-      // Re-evaluate when recipesLoaded changes
-      return recipesLoaded.value ? FermentRecipes.getAll() : FermentRecipes.getAll();
+      return recipesLoaded.value ? FermentRecipes.getAll() : [];
     });
 
     // ── Search index ──
@@ -622,54 +621,58 @@ const app = createApp({
 
     // ── Lifecycle ──
     onMounted(async () => {
-      applyTheme();
+      try {
+        applyTheme();
 
-      // Listen for browser back/forward
-      window.addEventListener('popstate', handlePopState);
+        // Listen for browser back/forward
+        window.addEventListener('popstate', handlePopState);
 
-      // Load recipes and wiki articles in parallel
-      const [recipes, articles] = await Promise.all([
-        FermentRecipes.load(),
-        FermentWiki.load(),
-      ]);
-      recipesLoaded.value = true;
-      wikiArticles.value = FermentWiki.getAll();
-      wikiLoaded.value = true;
+        // Load recipes and wiki articles in parallel
+        await Promise.all([
+          FermentRecipes.load(),
+          FermentWiki.load(),
+        ]);
+        recipesLoaded.value = true;
+        wikiArticles.value = FermentWiki.getAll();
+        wikiLoaded.value = true;
 
-      // Restore navigation from hash URL (enables sharing)
-      const hash = window.location.hash;
-      if (hash) {
-        const recipeMatch = hash.match(/^#\/recipe\/(.+)$/);
-        const wikiMatch = hash.match(/^#\/wiki\/(.+)$/);
-        const tabMatch = hash.match(/^#\/(\w+)$/);
-        if (recipeMatch) {
-          const slug = recipeMatch[1];
-          const recipe = allRecipes.value.find(r => (r.slug || r.id) === slug);
-          if (recipe) {
-            selectedRecipe.value = recipe;
-            currentRoute.value = 'recipe';
-            updateRecipeMeta(recipe);
+        // Restore navigation from hash URL (enables sharing)
+        const hash = window.location.hash;
+        if (hash) {
+          const recipeMatch = hash.match(/^#\/recipe\/(.+)$/);
+          const wikiMatch = hash.match(/^#\/wiki\/(.+)$/);
+          const tabMatch = hash.match(/^#\/(\w+)$/);
+          if (recipeMatch) {
+            const slug = recipeMatch[1];
+            const recipe = allRecipes.value.find(r => (r.slug || r.id) === slug);
+            if (recipe) {
+              selectedRecipe.value = recipe;
+              currentRoute.value = 'recipe';
+              updateRecipeMeta(recipe);
+            }
+          } else if (wikiMatch) {
+            const slug = wikiMatch[1];
+            const article = wikiArticles.value.find(a => (a.slug || a.id) === slug);
+            if (article) {
+              selectedWikiArticle.value = article;
+              currentTab.value = 'wiki';
+              currentRoute.value = 'wiki-article';
+              updateWikiMeta(article);
+            }
+          } else if (tabMatch && tabMatch[1] === 'changelog') {
+            currentRoute.value = 'changelog';
+          } else if (tabMatch && ['browse', 'wiki', 'pantry', 'journal', 'tools'].includes(tabMatch[1])) {
+            currentTab.value = tabMatch[1];
           }
-        } else if (wikiMatch) {
-          const slug = wikiMatch[1];
-          const article = wikiArticles.value.find(a => (a.slug || a.id) === slug);
-          if (article) {
-            selectedWikiArticle.value = article;
-            currentTab.value = 'wiki';
-            currentRoute.value = 'wiki-article';
-            updateWikiMeta(article);
-          }
-        } else if (tabMatch && tabMatch[1] === 'changelog') {
-          currentRoute.value = 'changelog';
-        } else if (tabMatch && ['browse', 'wiki', 'pantry', 'journal', 'tools'].includes(tabMatch[1])) {
-          currentTab.value = tabMatch[1];
         }
+
+        // Set initial history state
+        history.replaceState({ route: currentRoute.value, tab: currentTab.value, recipeId: selectedRecipe.value?.id, articleId: selectedWikiArticle.value?.id }, '', window.location);
+      } catch (e) {
+        console.error('[FERMENT] Mount failed:', e);
+      } finally {
+        ready.value = true;
       }
-
-      // Set initial history state
-      history.replaceState({ route: currentRoute.value, tab: currentTab.value, recipeId: selectedRecipe.value?.id, articleId: selectedWikiArticle.value?.id }, '', window.location);
-
-      ready.value = true;
     });
 
     // Auto-persist on tab change + push history
@@ -762,6 +765,11 @@ app.component('changelog-view', ChangelogViewComponent);
 // (const declarations don't become window properties, so Vue's template
 // compiler can't find them via _ctx without this explicit registration)
 app.config.globalProperties.FermentFormat = FermentFormat;
+
+// Global error handler — catch-all for unhandled Vue errors
+app.config.errorHandler = (err, _vm, info) => {
+  console.error('[FERMENT] Unhandled error:', info, err);
+};
 
 // Mount the app
 app.mount('#app');

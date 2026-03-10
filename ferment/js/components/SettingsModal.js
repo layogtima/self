@@ -19,8 +19,15 @@ const SettingsModalComponent = {
 
   emits: ['close', 'update:settings', 'export-data', 'import-data', 'clear-data', 'show-welcome', 'show-changelog'],
 
+  errorCaptured(err, _vm, info) {
+    console.warn('[FERMENT] SettingsModal error in', info, err);
+    this.settingsError = (err && err.message) || 'An error occurred.';
+    return false;
+  },
+
   data() {
     return {
+      settingsError: null,
       localSettings: { ...this.settings },
       showClearConfirm: false,
       storageSize: 0,
@@ -150,6 +157,13 @@ const SettingsModalComponent = {
           </button>
         </div>
 
+        <!-- Error Banner -->
+        <div v-if="settingsError" class="mx-6 mt-4 bg-accent-ferment/10 border border-accent-ferment/30 rounded-xl p-4">
+          <p class="text-sm text-accent-ferment font-medium">Something went wrong.</p>
+          <p class="text-xs text-text-muted mt-1">{{ settingsError }}</p>
+          <button @click="settingsError = null" class="mt-2 text-xs text-accent-ferment underline">Dismiss</button>
+        </div>
+        <template v-if="!settingsError">
         <!-- Content -->
         <div class="px-6 py-5 space-y-6">
           <!-- Region -->
@@ -329,6 +343,7 @@ const SettingsModalComponent = {
             </div>
           </div>
         </div>
+        </template>
       </div>
     </div>
   `
