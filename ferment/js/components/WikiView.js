@@ -183,7 +183,7 @@ const WikiViewComponent = {
       <div class="text-center">
         <button @click="showTags = !showTags"
           :class="['inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-medium transition-colors border',
-            showTags || selectedTag ? 'bg-accent-brine/10 border-accent-brine/30 text-accent-aged dark:text-accent-brine' : 'border-bg-secondary dark:border-dark-secondary text-text-secondary hover:text-text-primary hover:bg-bg-secondary dark:hover:bg-dark-secondary']">
+            showTags || selectedTag ? 'bg-accent-brine/10 border-accent-brine/30 text-accent-aged dark:text-accent-brine' : 'border-bg-secondary dark:border-dark-secondary text-text-secondary hover:text-text-primary hover:border-accent-brine/30 hover:bg-accent-brine/5']">
           <span>Tags</span>
           <span v-if="selectedTag" class="capitalize">&middot; {{ selectedTag }}</span>
           <svg :class="['w-3.5 h-3.5 transition-transform duration-200', showTags ? 'rotate-180' : '']" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>

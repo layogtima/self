@@ -1,6 +1,6 @@
 /**
  * FERMENT — ToolsView Component
- * Utility tools hub: brine calculator, batch scaler, timers, unit converter, pH reference, glossary, seasonal calendar
+ * Utility tools hub: brine calculator, batch scaler, timers, unit converter, pH reference, seasonal calendar
  */
 
 // ============================================================
@@ -32,8 +32,6 @@ const ToolsViewComponent = {
         fromUnit: 'g',
         toUnit: 'oz',
       },
-      // Glossary state
-      glossarySearch: '',
       // Calendar state
       calendarMonth: new Date().getMonth(),
     };
@@ -47,7 +45,6 @@ const ToolsViewComponent = {
         { id: 'timers', label: 'Timers', emoji: '⏱️', desc: 'Track and manage your active ferments', accent: 'accent-culture' },
         { id: 'converter', label: 'Unit Converter', emoji: '🔄', desc: 'Convert between weight, volume, and temperature', accent: 'accent-ferment' },
         { id: 'ph', label: 'pH Reference', emoji: '🧪', desc: 'Target pH ranges for safe fermentation', accent: 'accent-culture' },
-        { id: 'glossary', label: 'Glossary', emoji: '📖', desc: 'Fermentation terms from cultures worldwide', accent: 'accent-aged' },
         { id: 'calendar', label: 'Seasonal Calendar', emoji: '📅', desc: 'What to ferment and when throughout the year', accent: 'accent-culture' },
       ];
     },
@@ -104,42 +101,6 @@ const ToolsViewComponent = {
         { name: 'Yogurt', min: 4.0, max: 4.6, color: null },
         { name: 'Miso', min: 4.5, max: 5.0, color: null },
       ];
-    },
-
-    // Glossary
-    glossaryTerms() {
-      return [
-        { term: 'Kimjang', origin: 'Korea', def: 'The traditional communal process of making large quantities of kimchi, typically in late autumn, to last through winter. Recognized by UNESCO as cultural heritage.' },
-        { term: 'Onggi', origin: 'Korea', def: 'Traditional breathable earthenware pots used for fermenting and storing food. The porous clay allows air circulation while keeping contents protected.' },
-        { term: 'Tsukemono', origin: 'Japan', def: 'Japanese preserved vegetables, encompassing a wide range of pickling and fermenting techniques including salt, rice bran (nukazuke), and miso pickling.' },
-        { term: 'Nukazuke', origin: 'Japan', def: 'A type of Japanese pickle made by fermenting vegetables in a rice bran (nuka) bed. The nuka bed is a living culture maintained for years or even generations.' },
-        { term: 'Achaar', origin: 'South Asia', def: 'Pickled preparations common across South Asia, typically using oil, salt, and spices. Techniques and recipes vary widely by region and family tradition.' },
-        { term: 'Tursu', origin: 'Turkey', def: 'Turkish pickled vegetables, commonly made with a salt-vinegar brine. Popular varieties include pickled peppers, cucumbers, and cabbage.' },
-        { term: 'Curtido', origin: 'El Salvador', def: 'A lightly fermented cabbage relish, similar to sauerkraut but with Central American flavors including oregano and red pepper flakes.' },
-        { term: 'Lacto-fermentation', origin: 'Global', def: 'Fermentation driven by lactic acid bacteria (Lactobacillus), which convert sugars to lactic acid. The foundation of most vegetable ferments.' },
-        { term: 'Brine', origin: 'Global', def: 'A solution of salt and water used to submerge vegetables for fermentation. Concentration typically ranges from 2-10% by weight.' },
-        { term: 'Pellicle', origin: 'Global', def: 'A thin film that can form on the surface of fermenting liquids. In kombucha, this is the SCOBY. In vegetable ferments, it may be kahm yeast (harmless but undesirable).' },
-        { term: 'Kahm Yeast', origin: 'Global', def: 'A harmless white film of wild yeast that can form on ferments. Not dangerous but can affect flavor. Remove and ensure vegetables stay submerged.' },
-        { term: 'SCOBY', origin: 'Global', def: 'Symbiotic Culture of Bacteria and Yeast. The cellulose mat used in kombucha brewing. Houses the microorganisms that drive fermentation.' },
-        { term: 'Starter Culture', origin: 'Global', def: 'A preparation used to inoculate a new ferment with beneficial microorganisms. Can be brine from a previous batch, whey, or commercial cultures.' },
-        { term: 'Gochugaru', origin: 'Korea', def: 'Korean red pepper flakes, essential for kimchi. Made from sun-dried red peppers, providing a smoky, slightly sweet heat distinct from other chili flakes.' },
-        { term: 'Jeotgal', origin: 'Korea', def: 'Korean salted and fermented seafood. Commonly used as a flavor component in kimchi, particularly saeujeot (fermented shrimp) and myeolchi-jeot (fermented anchovies).' },
-        { term: 'Doenjang', origin: 'Korea', def: 'Korean fermented soybean paste, similar to but distinct from Japanese miso. Made from meju (fermented soybean blocks) and brine.' },
-        { term: 'Miso', origin: 'Japan', def: 'Japanese fermented soybean paste made with koji (Aspergillus oryzae). Varieties range from light and sweet (shiro) to dark and robust (hatcho).' },
-        { term: 'Koji', origin: 'Japan', def: 'Aspergillus oryzae mold grown on grains (usually rice or barley). The foundation of many East Asian ferments including miso, soy sauce, sake, and mirin.' },
-        { term: 'Shio Koji', origin: 'Japan', def: 'A versatile seasoning made by fermenting koji rice with salt and water. Used as a marinade, tenderizer, and umami booster.' },
-        { term: 'Sauerkraut', origin: 'Germany', def: 'Finely shredded cabbage fermented by lactic acid bacteria. One of the simplest and most ancient fermented foods, requiring only cabbage and salt.' },
-      ];
-    },
-
-    filteredGlossary() {
-      if (!this.glossarySearch.trim()) return this.glossaryTerms;
-      const q = this.glossarySearch.toLowerCase();
-      return this.glossaryTerms.filter(t =>
-        t.term.toLowerCase().includes(q) ||
-        t.origin.toLowerCase().includes(q) ||
-        t.def.toLowerCase().includes(q)
-      );
     },
 
     // Seasonal Calendar
@@ -357,26 +318,6 @@ const ToolsViewComponent = {
                 <strong class="text-accent-ferment">Safety note:</strong> A pH below 4.6 is generally considered safe for long-term storage, as it inhibits the growth of harmful bacteria including Clostridium botulinum.
               </p>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Glossary Tab (now redirects to Wiki) -->
-      <div v-show="activeTab === 'glossary'">
-        <div class="bg-bg-card dark:bg-dark-card rounded-2xl shadow-warm-lg border border-bg-secondary/50 dark:border-dark-secondary overflow-hidden">
-          <div class="px-6 py-12 text-center">
-            <span class="text-4xl mb-4 block">📖</span>
-            <h3 class="font-serif text-xl text-text-primary dark:text-dark-text mb-2">Glossary Has Moved to the Wiki</h3>
-            <p class="text-sm text-text-secondary dark:text-dark-text-secondary mb-6 max-w-md mx-auto">
-              All fermentation terms — from Kimjang to Kahm Yeast — now live in richly detailed wiki articles with citations, images, and cross-links to recipes.
-            </p>
-            <button @click="$emit('open-wiki')"
-              class="inline-flex items-center gap-2 px-5 py-2.5 bg-accent-brine/10 hover:bg-accent-brine/20 text-accent-aged dark:text-accent-brine rounded-xl text-sm font-medium transition-colors border border-accent-brine/20">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-              </svg>
-              Open the Wiki
-            </button>
           </div>
         </div>
       </div>

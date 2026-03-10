@@ -127,7 +127,7 @@ const RecipeCardComponent = {
       @keydown.enter="$emit('open', recipe)"
     >
       <!-- Hero Image -->
-      <div :class="['relative h-44 bg-gradient-to-br overflow-hidden', categoryGradient]">
+      <div :class="['relative h-56 bg-gradient-to-br overflow-hidden', categoryGradient]">
         <!-- Actual image if available -->
         <img v-if="heroImage" :src="heroImage" :alt="recipe.name" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
         <div v-if="heroImage" class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent"></div>
@@ -245,9 +245,6 @@ const RecipeCardComponent = {
       tabindex="0"
       @keydown.enter="$emit('open', recipe)"
     >
-      <!-- Tier Indicator -->
-      <div :class="['w-1.5 h-12 rounded-full flex-shrink-0', 'bg-tier-' + tier.name]"></div>
-
       <!-- Recipe Image or Category Icon -->
       <div :class="['w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden bg-gradient-to-br', categoryGradient]">
         <img v-if="heroImage" :src="heroImage" :alt="recipe.name" class="w-full h-full object-cover" loading="lazy" />
@@ -313,8 +310,11 @@ const RecipeCardComponent = {
       @keydown.enter="$emit('open', recipe)"
     >
       <td class="px-4 py-3">
-        <div class="flex items-center gap-2">
-          <div :class="['w-2 h-2 rounded-full flex-shrink-0', 'bg-tier-' + tier.name]"></div>
+        <div class="flex items-center gap-3">
+          <div :class="['w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden bg-gradient-to-br', categoryGradient]">
+            <img v-if="heroImage" :src="heroImage" :alt="recipe.name" class="w-full h-full object-cover" loading="lazy" />
+            <svg v-else class="w-4 h-4 text-white/80" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" :d="categoryIcon"/></svg>
+          </div>
           <div>
             <span class="font-medium text-sm text-text-primary dark:text-dark-text group-hover:text-accent-aged dark:group-hover:text-accent-brine transition-colors">{{ recipe.name }}</span>
             <span v-if="recipe.nameLocal" class="text-xs text-text-muted ml-1.5 font-mono">{{ recipe.nameLocal }}</span>
