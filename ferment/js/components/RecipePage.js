@@ -100,6 +100,16 @@ const RecipePageComponent = {
       const d = this.recipe.dehydratorIntegration || this.recipe.dehydrate || {};
       return d.shelfLife || '';
     },
+
+    heroImage() {
+      const imgs = this.recipe.images;
+      if (!imgs) return null;
+      if (Array.isArray(imgs)) {
+        const hero = imgs.find(i => i.type === 'hero');
+        return hero ? hero.url : null;
+      }
+      return imgs.hero || null;
+    },
   },
 
   watch: {
@@ -223,7 +233,7 @@ const RecipePageComponent = {
 
       <!-- Hero -->
       <div :class="['relative bg-gradient-to-br text-white overflow-hidden rounded-2xl', categoryGradient]">
-        <img v-if="recipe.images && recipe.images.hero" :src="recipe.images.hero" :alt="recipe.name" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+        <img v-if="heroImage" :src="heroImage" :alt="recipe.name" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
         <div class="relative px-6 sm:px-10 py-10 sm:py-14">
           <div class="flex items-start gap-5">
@@ -288,7 +298,7 @@ const RecipePageComponent = {
         <span class="stat-pill">{{ timeDisplay }}</span>
         <span class="stat-pill">{{ (recipe.ingredients || []).length }} ingredients</span>
         <span v-if="recipe.technique" class="stat-pill capitalize">{{ recipe.technique }}</span>
-        <span v-if="recipe.category" class="stat-pill capitalize">{{ recipe.category }}</span>
+        <span v-if="recipe.category" class="stat-pill capitalize">{{ categoryEmoji }} {{ recipe.category }}</span>
         <span v-if="recipe.seasonality" class="stat-pill capitalize">{{ Array.isArray(recipe.seasonality) ? recipe.seasonality.join(', ') : recipe.seasonality }}</span>
         <span v-if="shelfLife" class="stat-pill">Keeps {{ shelfLife }}</span>
       </div>
