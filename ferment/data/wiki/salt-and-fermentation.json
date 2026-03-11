@@ -8,7 +8,7 @@
     "title": "Salt in Fermentation",
     "image": {
       "url": "https://upload.wikimedia.org/wikipedia/commons/7/78/Salt_shaker_on_white_background.jpg",
-      "caption": "Non-iodised salt — the single most important ingredient in lacto-fermentation after the food itself",
+      "caption": "Non-iodised salt - the single most important ingredient in lacto-fermentation after the food itself",
       "attribution": "Wikimedia Commons, CC0"
     },
     "facts": [
@@ -25,7 +25,7 @@
     {
       "id": "intro",
       "type": "paragraph",
-      "content": "Salt is not merely a flavouring agent in lacto-fermentation — it is the master controller of the entire process [cite:c1]. At the right concentration (typically 2–5% by weight of the food), salt creates an environment where lactic acid bacteria thrive while most spoilage organisms and pathogens are suppressed. It draws water from vegetable cells by osmosis, creating the brine that submerges food and maintains anaerobic conditions. It preserves the crunch of vegetables by slowing enzyme-driven softening. And yes, it tastes good too."
+      "content": "Salt is not merely a flavouring agent in lacto-fermentation - it is the master controller of the entire process [cite:c1]. At the right concentration (typically 2–5% by weight of the food), salt creates an environment where lactic acid bacteria thrive while most spoilage organisms and pathogens are suppressed. It draws water from vegetable cells by osmosis, creating the brine that submerges food and maintains anaerobic conditions. It preserves the crunch of vegetables by slowing enzyme-driven softening. And yes, it tastes good too."
     },
     {
       "id": "how-salt-works",
@@ -45,7 +45,7 @@
       "items": [
         "**Selective pressure**: LAB are naturally more salt-tolerant than most competing bacteria. At 2–3% salt, LAB grow normally while many spoilage bacteria (Pseudomonas, Enterobacter, etc.) are severely inhibited or killed. This gives LAB a head start in colonising the food [[article:lactic-acid-bacteria]].",
         "**Osmotic extraction**: Salt draws water out of plant cells through osmosis. In dry-salt methods (like sauerkraut [[recipe:sauerkraut-classic]]), this creates the brine the food ferments in. The more you massage salted vegetables, the more cell walls break down and liquid is released.",
-        "**Enzyme inhibition**: Salt slows the activity of pectinases — enzymes that break down pectin, the structural compound that keeps vegetables crisp. This is why properly salted fermented pickles stay crunchy while under-salted ones turn mushy."
+        "**Enzyme inhibition**: Salt slows the activity of pectinases - enzymes that break down pectin, the structural compound that keeps vegetables crisp. This is why properly salted fermented pickles stay crunchy while under-salted ones turn mushy."
       ]
     },
     {
@@ -94,7 +94,7 @@
         ["Sea salt (unrefined)", "Excellent", "Contains trace minerals. Slightly more complex flavour. May have slight colour.", "Supermarkets, organic stores."],
         ["Kosher salt", "Excellent", "Coarse flake, no additives. Dissolves well. Popular in Western fermentation recipes.", "Gourmet stores, online."],
         ["Pink Himalayan salt", "Good", "Contains iron and trace minerals (the pink colour). Works perfectly fine.", "Widely available. More expensive than rock salt for no fermentation benefit."],
-        ["Table salt (iodised)", "AVOID", "Iodine is an antimicrobial — it can inhibit LAB growth and slow or prevent fermentation. Anti-caking agents can cloud brine.", "Ubiquitous. The one salt to NOT use."],
+        ["Table salt (iodised)", "AVOID", "Iodine is an antimicrobial - it can inhibit LAB growth and slow or prevent fermentation. Anti-caking agents can cloud brine.", "Ubiquitous. The one salt to NOT use."],
         ["Black salt (Kala namak)", "Use sparingly", "Contains sulfur compounds. Strong egg-like flavour. Can overpower ferments.", "Common in Indian stores. Good for specific recipes only."]
       ]
     },
@@ -107,7 +107,7 @@
     {
       "id": "iodine-text",
       "type": "paragraph",
-      "content": "Iodine (added to table salt as potassium iodate or potassium iodide) is an antimicrobial agent — that's why it's added to salt in the first place, to prevent goiter by ensuring dietary iodine intake. In fermentation, this antimicrobial property works against you: it suppresses the very bacteria you're trying to cultivate [cite:c3]. The effect is dose-dependent — a tiny amount might slow fermentation, while a full dose can prevent it entirely. Additionally, anti-caking agents (like calcium silicate) in table salt can make brine cloudy, though this is purely cosmetic."
+      "content": "Iodine (added to table salt as potassium iodate or potassium iodide) is an antimicrobial agent - that's why it's added to salt in the first place, to prevent goiter by ensuring dietary iodine intake. In fermentation, this antimicrobial property works against you: it suppresses the very bacteria you're trying to cultivate [cite:c3]. The effect is dose-dependent - a tiny amount might slow fermentation, while a full dose can prevent it entirely. Additionally, anti-caking agents (like calcium silicate) in table salt can make brine cloudy, though this is purely cosmetic."
     },
     {
       "id": "dry-vs-brine",
@@ -130,7 +130,7 @@
         ["Best for", "Leafy, shredable vegetables: cabbage, carrots, radishes, onions", "Whole or large-cut vegetables: cucumbers, green beans, cauliflower, chillies"],
         ["Brine source", "The vegetable's own juices, drawn out by salt", "Prepared separately by dissolving salt in water"],
         ["Typical salt %", "2–2.5% of vegetable weight", "3–5% of water weight"],
-        ["Control", "Less precise — depends on how much water the vegetable releases", "More precise — you control the exact brine concentration"],
+        ["Control", "Less precise - depends on how much water the vegetable releases", "More precise - you control the exact brine concentration"],
         ["Texture", "Softer, more broken-down. Good for condiments.", "Firmer, more intact. Good for whole pickles."],
         ["Examples", "Sauerkraut [[recipe:sauerkraut-classic]], curtido [[recipe:curtido-salvadoran]], kimchi", "Dill pickles [[recipe:brine-pickles-basic]], pickled turnips [[recipe:pickled-turnips-lift]], whole chillies"]
       ]
@@ -162,7 +162,7 @@
     {
       "id": "salt-time-text",
       "type": "paragraph",
-      "content": "Higher salt concentrations slow fermentation because even salt-tolerant LAB grow more slowly under higher osmotic pressure. This is sometimes desirable — slower ferments develop more complex flavours. At Bengaluru's warm temperatures [[article:temperature-and-fermentation]], using the higher end of recommended salt ranges (2.5% dry-salt or 4% brine) can help prevent overly rapid fermentation."
+      "content": "Higher salt concentrations slow fermentation because even salt-tolerant LAB grow more slowly under higher osmotic pressure. This is sometimes desirable - slower ferments develop more complex flavours. At Bengaluru's warm temperatures [[article:temperature-and-fermentation]], using the higher end of recommended salt ranges (2.5% dry-salt or 4% brine) can help prevent overly rapid fermentation."
     }
   ],
   "citations": [

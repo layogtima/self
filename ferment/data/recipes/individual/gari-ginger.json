@@ -17,7 +17,7 @@
   "fermentTimeMax": 14,
   "fermentTimeUnit": "days",
   "totalTimeHuman": "1 week",
-  "blrNote": "Look for \"Young Ginger\" (pacha shunti)—it has pinkish tips and is much less fibrous than the old, woody stuff.",
+  "blrNote": "Look for \"Young Ginger\" (pacha shunti)-it has pinkish tips and is much less fibrous than the old, woody stuff.",
   "ingredients": [
     {
       "name": "Young Ginger",
@@ -45,7 +45,7 @@
       "tips": [
         "A vegetable peeler works better than a knife for getting consistently thin, translucent slices.",
         "Slice along the grain of the ginger fibers, not against them, to avoid stringy pieces.",
-        "Young ginger has such thin skin that you do not need to peel it—just rinse and slice."
+        "Young ginger has such thin skin that you do not need to peel it-just rinse and slice."
       ]
     },
     {
@@ -53,9 +53,9 @@
       "title": "Submerge",
       "instruction": "Pack into a small jar and cover with salt brine.",
       "tips": [
-        "Use a small jar that fits the ginger snugly—too much headspace means too much air exposure.",
+        "Use a small jar that fits the ginger snugly-too much headspace means too much air exposure.",
         "Press the ginger down so it is fully submerged; a small glass weight or shot glass works well.",
-        "Check daily that all slices remain below the brine surface — ginger curls as it ferments and pieces can float up, leading to mold on exposed edges."
+        "Check daily that all slices remain below the brine surface - ginger curls as it ferments and pieces can float up, leading to mold on exposed edges."
       ]
     },
     {
@@ -63,9 +63,9 @@
       "title": "Wait",
       "instruction": "Ferment for 1 week. The ginger will naturally turn a light pink hue.",
       "tips": [
-        "The pink color comes from anthocyanins in young ginger reacting with the lactic acid. If it does not turn pink, your ginger was too mature—it will still taste fine.",
+        "The pink color comes from anthocyanins in young ginger reacting with the lactic acid. If it does not turn pink, your ginger was too mature-it will still taste fine.",
         "Taste after 5 days. It should be tangy and slightly fizzy. Move to the fridge when the sourness is to your liking.",
-        "The brine itself becomes a fantastic ingredient—use it in salad dressings or cocktails."
+        "The brine itself becomes a fantastic ingredient-use it in salad dressings or cocktails."
       ]
     }
   ],
@@ -75,7 +75,7 @@
       "caption": "Fermented Gari",
       "attribution": "",
       "type": "hero",
-      "alt": "Fermented Gari — Natural sushi ginger (without the dye)"
+      "alt": "Fermented Gari - Natural sushi ginger (without the dye)"
     }
   ],
   "culturalContext": {
@@ -126,7 +126,7 @@
   ],
   "sources": [
     {
-      "title": "Gari — Wikipedia",
+      "title": "Gari - Wikipedia",
       "url": "https://en.wikipedia.org/wiki/Gari_(ginger)"
     }
   ],

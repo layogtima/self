@@ -1,4 +1,4 @@
-/* FERMENT — Custom Styles */
+/* FERMENT - Custom Styles */
 
 :root {
   --bg-primary: #FAF7F2;
@@ -63,7 +63,7 @@
   animation: shimmer 1.5s ease-in-out infinite;
 }
 
-/* Card hover effect — no shadows, use border emphasis */
+/* Card hover effect - no shadows, use border emphasis */
 .recipe-card {
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s ease;
 }

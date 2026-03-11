@@ -8,7 +8,7 @@
     "title": "Aromatics in Fermentation",
     "image": {
       "url": "https://upload.wikimedia.org/wikipedia/commons/3/39/Garlic_bulb_and_cloves.jpg",
-      "caption": "Garlic — the most debated aromatic in fermentation, prized for flavour yet potent enough to slow bacterial growth",
+      "caption": "Garlic - the most debated aromatic in fermentation, prized for flavour yet potent enough to slow bacterial growth",
       "attribution": "Wikimedia Commons, CC BY-SA 3.0"
     },
     "facts": [
@@ -25,7 +25,7 @@
     {
       "id": "intro",
       "type": "paragraph",
-      "content": "Aromatics — the broad family of spices, herbs, roots, and alliums — are far more than flavour enhancers in fermentation. They carry volatile oils and bioactive compounds that interact with microbial communities in complex ways, sometimes suppressing spoilage organisms while leaving beneficial lactic acid bacteria relatively unharmed [cite:c1]. A clove of garlic tucked into a jar of pickles, a knob of ginger pounded into a brine, a scattering of mustard seeds layered with vegetables — these are not decorative choices. They are functional ingredients that generations of fermenters have relied on to steer flavour, improve safety, and create the world's most distinctive preserved foods [[article:fermentation-traditions-worldwide]]."
+      "content": "Aromatics - the broad family of spices, herbs, roots, and alliums - are far more than flavour enhancers in fermentation. They carry volatile oils and bioactive compounds that interact with microbial communities in complex ways, sometimes suppressing spoilage organisms while leaving beneficial lactic acid bacteria relatively unharmed [cite:c1]. A clove of garlic tucked into a jar of pickles, a knob of ginger pounded into a brine, a scattering of mustard seeds layered with vegetables - these are not decorative choices. They are functional ingredients that generations of fermenters have relied on to steer flavour, improve safety, and create the world's most distinctive preserved foods [[article:fermentation-traditions-worldwide]]."
     },
     {
       "id": "why-add-aromatics",
@@ -36,7 +36,7 @@
     {
       "id": "why-add-aromatics-text",
       "type": "paragraph",
-      "content": "There are four core reasons fermenters reach for aromatics. First, flavour: aromatics introduce volatile compounds — terpenes, aldehydes, phenols — that interact with the lactic acid, carbon dioxide, and transformed sugars of fermentation to produce layered, complex taste profiles [[article:fermentation-flavour-chart]]. Second, antimicrobial selectivity: many spices contain compounds that are more toxic to gram-negative spoilage bacteria than to the gram-positive lactobacilli you want [cite:c2]. Third, texture: certain aromatics (grape leaves, horseradish leaves, oak leaves) contain tannins that help keep vegetables crisp by inhibiting pectinase enzymes. Fourth, tradition: specific spice blends define regional fermentation identities — Korean kimchi without gochugaru, Indian achaar without mustard and methi, or Salvadoran curtido without oregano would be unrecognisable [[recipe:curtido-salvadoran]]."
+      "content": "There are four core reasons fermenters reach for aromatics. First, flavour: aromatics introduce volatile compounds - terpenes, aldehydes, phenols - that interact with the lactic acid, carbon dioxide, and transformed sugars of fermentation to produce layered, complex taste profiles [[article:fermentation-flavour-chart]]. Second, antimicrobial selectivity: many spices contain compounds that are more toxic to gram-negative spoilage bacteria than to the gram-positive lactobacilli you want [cite:c2]. Third, texture: certain aromatics (grape leaves, horseradish leaves, oak leaves) contain tannins that help keep vegetables crisp by inhibiting pectinase enzymes. Fourth, tradition: specific spice blends define regional fermentation identities - Korean kimchi without gochugaru, Indian achaar without mustard and methi, or Salvadoran curtido without oregano would be unrecognisable [[recipe:curtido-salvadoran]]."
     },
     {
       "id": "antimicrobial-heading",
@@ -47,7 +47,7 @@
     {
       "id": "antimicrobial-text",
       "type": "paragraph",
-      "content": "Many of the aromatics used in fermentation have been studied for their antimicrobial effects, and the results are nuanced. Garlic's primary bioactive compound, allicin (diallyl thiosulfinate), is produced when garlic cells are crushed and the enzyme alliinase converts alliin into allicin. Allicin is a broad-spectrum antimicrobial — it disrupts bacterial cell membranes and inhibits key metabolic enzymes [cite:c3]. However, its effect on lactic acid bacteria is dose-dependent: at low to moderate concentrations (a few cloves per litre of brine), LAB populations are only mildly affected, while many spoilage organisms are significantly suppressed. Mustard seed contains sinigrin, which is converted by the enzyme myrosinase into allyl isothiocyanate (AITC) — the compound responsible for mustard's sharp bite. AITC is strongly antimicrobial and has been shown to inhibit moulds and yeasts effectively [cite:c2]. This is why whole mustard seeds appear in pickle recipes across India, Eastern Europe, and Scandinavia [[recipe:fermented-mustard-seeds]]."
+      "content": "Many of the aromatics used in fermentation have been studied for their antimicrobial effects, and the results are nuanced. Garlic's primary bioactive compound, allicin (diallyl thiosulfinate), is produced when garlic cells are crushed and the enzyme alliinase converts alliin into allicin. Allicin is a broad-spectrum antimicrobial - it disrupts bacterial cell membranes and inhibits key metabolic enzymes [cite:c3]. However, its effect on lactic acid bacteria is dose-dependent: at low to moderate concentrations (a few cloves per litre of brine), LAB populations are only mildly affected, while many spoilage organisms are significantly suppressed. Mustard seed contains sinigrin, which is converted by the enzyme myrosinase into allyl isothiocyanate (AITC) - the compound responsible for mustard's sharp bite. AITC is strongly antimicrobial and has been shown to inhibit moulds and yeasts effectively [cite:c2]. This is why whole mustard seeds appear in pickle recipes across India, Eastern Europe, and Scandinavia [[recipe:fermented-mustard-seeds]]."
     },
     {
       "id": "antimicrobial-table",
@@ -74,7 +74,7 @@
     {
       "id": "garlic-question-text",
       "type": "paragraph",
-      "content": "Few topics generate more debate among home fermenters than when to add garlic. Some fermenters insist on adding raw garlic at the start, arguing that allicin's antimicrobial action helps suppress spoilage in the critical first 48 hours. Others worry that garlic will inhibit the very LAB they want to encourage [[article:lactic-acid-bacteria]]. The practical answer is that moderate amounts of garlic — 2 to 4 cloves per litre of brine — have been used successfully in ferments for millennia without problems [cite:c1]. The allicin in garlic degrades relatively quickly in acidic, anaerobic environments, so its inhibitory effect is strongest in the first day or two and diminishes as the ferment acidifies. Honey garlic ferment is a prime example of garlic serving as both the primary ingredient and a fermentation substrate [[recipe:honey-garlic-ferment]]."
+      "content": "Few topics generate more debate among home fermenters than when to add garlic. Some fermenters insist on adding raw garlic at the start, arguing that allicin's antimicrobial action helps suppress spoilage in the critical first 48 hours. Others worry that garlic will inhibit the very LAB they want to encourage [[article:lactic-acid-bacteria]]. The practical answer is that moderate amounts of garlic - 2 to 4 cloves per litre of brine - have been used successfully in ferments for millennia without problems [cite:c1]. The allicin in garlic degrades relatively quickly in acidic, anaerobic environments, so its inhibitory effect is strongest in the first day or two and diminishes as the ferment acidifies. Honey garlic ferment is a prime example of garlic serving as both the primary ingredient and a fermentation substrate [[recipe:honey-garlic-ferment]]."
     },
     {
       "id": "garlic-callout",
@@ -123,7 +123,7 @@
     {
       "id": "regional-traditions-text",
       "type": "paragraph",
-      "content": "Fermentation traditions around the world are defined as much by their spice profiles as by the vegetables they preserve. These aromatic signatures are not arbitrary — they evolved over centuries in response to local climates, available ingredients, and the practical need to manage fermentation in specific temperature ranges [[article:temperature-and-fermentation]]."
+      "content": "Fermentation traditions around the world are defined as much by their spice profiles as by the vegetables they preserve. These aromatic signatures are not arbitrary - they evolved over centuries in response to local climates, available ingredients, and the practical need to manage fermentation in specific temperature ranges [[article:temperature-and-fermentation]]."
     },
     {
       "id": "regional-korea",
@@ -134,7 +134,7 @@
     {
       "id": "regional-korea-text",
       "type": "paragraph",
-      "content": "Korean fermentation — most famously kimchi — relies on a core aromatic trinity: gochugaru (Korean red pepper flakes), garlic, and ginger. Gochugaru provides moderate heat with a slightly sweet, smoky flavour quite different from cayenne or Indian chilli powders. The coarse flake size is important: it distributes evenly through the paste and releases capsaicin gradually during fermentation. Korean fermenters also use jeotgal (salted seafood) and saeujeot (salted shrimp paste) as umami-rich aromatics that contribute both flavour and additional microbial diversity [[recipe:kkakdugi-radish]]."
+      "content": "Korean fermentation - most famously kimchi - relies on a core aromatic trinity: gochugaru (Korean red pepper flakes), garlic, and ginger. Gochugaru provides moderate heat with a slightly sweet, smoky flavour quite different from cayenne or Indian chilli powders. The coarse flake size is important: it distributes evenly through the paste and releases capsaicin gradually during fermentation. Korean fermenters also use jeotgal (salted seafood) and saeujeot (salted shrimp paste) as umami-rich aromatics that contribute both flavour and additional microbial diversity [[recipe:kkakdugi-radish]]."
     },
     {
       "id": "regional-india",
@@ -145,7 +145,7 @@
     {
       "id": "regional-india-text",
       "type": "paragraph",
-      "content": "Indian fermentation traditions — from achaar to kanji — employ a distinctive spice grammar. Mustard seeds (rai) appear in nearly every pickle recipe, contributing both flavour and antimicrobial AITC [[recipe:fermented-mustard-seeds]]. Fenugreek seeds (methi) add a slightly bitter, maple-like depth and contain galactomannan fibres that can thicken brines. Turmeric provides colour, mild antimicrobial action, and an earthy bitterness. Asafoetida (hing), used in tiny quantities, contributes a powerful umami-like savouriness once cooked or fermented. The South Indian tradition of tempering spices (tadka) in hot oil before adding them to ferments is a technique that releases fat-soluble flavour compounds and modifies their antimicrobial activity [[recipe:fermented-green-chutney]]."
+      "content": "Indian fermentation traditions - from achaar to kanji - employ a distinctive spice grammar. Mustard seeds (rai) appear in nearly every pickle recipe, contributing both flavour and antimicrobial AITC [[recipe:fermented-mustard-seeds]]. Fenugreek seeds (methi) add a slightly bitter, maple-like depth and contain galactomannan fibres that can thicken brines. Turmeric provides colour, mild antimicrobial action, and an earthy bitterness. Asafoetida (hing), used in tiny quantities, contributes a powerful umami-like savouriness once cooked or fermented. The South Indian tradition of tempering spices (tadka) in hot oil before adding them to ferments is a technique that releases fat-soluble flavour compounds and modifies their antimicrobial activity [[recipe:fermented-green-chutney]]."
     },
     {
       "id": "regional-mexico",
@@ -156,7 +156,7 @@
     {
       "id": "regional-mexico-text",
       "type": "paragraph",
-      "content": "Mexican and Central American fermentation traditions — curtido, salsa fermentada, tepache — use Mexican oregano (Lippia graveolens, distinct from Mediterranean oregano), cumin, and a vast array of dried and fresh chillies. Curtido, the fermented cabbage relish of El Salvador, gets its character from Mexican oregano and a restrained amount of chilli [[recipe:curtido-salvadoran]]. Tepache, the fermented pineapple drink, uses cinnamon sticks and piloncillo (unrefined cane sugar) as its aromatic backbone [[recipe:tepache-pineapple]]. The emphasis in these traditions is on layered warmth rather than sharp heat."
+      "content": "Mexican and Central American fermentation traditions - curtido, salsa fermentada, tepache - use Mexican oregano (Lippia graveolens, distinct from Mediterranean oregano), cumin, and a vast array of dried and fresh chillies. Curtido, the fermented cabbage relish of El Salvador, gets its character from Mexican oregano and a restrained amount of chilli [[recipe:curtido-salvadoran]]. Tepache, the fermented pineapple drink, uses cinnamon sticks and piloncillo (unrefined cane sugar) as its aromatic backbone [[recipe:tepache-pineapple]]. The emphasis in these traditions is on layered warmth rather than sharp heat."
     },
     {
       "id": "regional-middle-east",
@@ -178,7 +178,7 @@
     {
       "id": "fresh-vs-dried-text",
       "type": "paragraph",
-      "content": "The choice between fresh and dried herbs is not merely about convenience — it affects flavour extraction, antimicrobial potency, and even fermentation dynamics [cite:c4]. Fresh herbs (dill, basil, cilantro, mint) contribute bright, volatile flavours that are most pronounced in short ferments of 3–7 days. Their high water content means they contribute negligible extra liquid to the brine. However, fresh herbs can introduce surface microorganisms — usually harmless, but occasionally including wild yeasts that produce off-flavours. Dried herbs and whole spices have concentrated essential oils and more predictable antimicrobial profiles. They are better suited to longer ferments where volatile compounds have time to slowly infuse. A practical rule: use fresh herbs for quick table ferments you will consume within two weeks; use dried herbs and whole spices for longer-aged ferments."
+      "content": "The choice between fresh and dried herbs is not merely about convenience - it affects flavour extraction, antimicrobial potency, and even fermentation dynamics [cite:c4]. Fresh herbs (dill, basil, cilantro, mint) contribute bright, volatile flavours that are most pronounced in short ferments of 3–7 days. Their high water content means they contribute negligible extra liquid to the brine. However, fresh herbs can introduce surface microorganisms - usually harmless, but occasionally including wild yeasts that produce off-flavours. Dried herbs and whole spices have concentrated essential oils and more predictable antimicrobial profiles. They are better suited to longer ferments where volatile compounds have time to slowly infuse. A practical rule: use fresh herbs for quick table ferments you will consume within two weeks; use dried herbs and whole spices for longer-aged ferments."
     },
     {
       "id": "fresh-vs-dried-table",
@@ -203,7 +203,7 @@
     {
       "id": "when-to-add-text",
       "type": "paragraph",
-      "content": "The timing of spice addition affects both flavour and fermentation dynamics. Most whole spices and dried aromatics should be added at the start of fermentation — they need time to release their essential oils into the brine, and their antimicrobial compounds are most useful in the first 48–72 hours when spoilage risk is highest [[article:how-lacto-fermentation-works]]. Delicate fresh herbs like basil, cilantro, and mint lose their character quickly in an active ferment; consider adding them in the final 1–2 days or even after fermentation is complete. Some fermenters use a two-stage approach: robust aromatics (garlic, ginger, mustard seed, peppercorns) go in at packing, and finishing herbs (dill fronds, fresh chilli slices, scallions) are added when the ferment moves to cold storage."
+      "content": "The timing of spice addition affects both flavour and fermentation dynamics. Most whole spices and dried aromatics should be added at the start of fermentation - they need time to release their essential oils into the brine, and their antimicrobial compounds are most useful in the first 48–72 hours when spoilage risk is highest [[article:how-lacto-fermentation-works]]. Delicate fresh herbs like basil, cilantro, and mint lose their character quickly in an active ferment; consider adding them in the final 1–2 days or even after fermentation is complete. Some fermenters use a two-stage approach: robust aromatics (garlic, ginger, mustard seed, peppercorns) go in at packing, and finishing herbs (dill fronds, fresh chilli slices, scallions) are added when the ferment moves to cold storage."
     },
     {
       "id": "when-to-add-callout",
@@ -242,7 +242,7 @@
     {
       "id": "ginger-text",
       "type": "paragraph",
-      "content": "Ginger occupies a unique position among fermentation aromatics because it is both a potent flavouring and a source of wild microorganisms that can drive fermentation independently [cite:c1]. The ginger bug — a slurry of grated fresh ginger, sugar, and water — is a traditional starter culture that relies on the yeasts and bacteria naturally present on ginger's skin to initiate fermentation [[recipe:ginger-bug-starter]]. Fresh ginger root carries populations of Lactobacillus, Leuconostoc, and wild yeasts (especially Saccharomyces) on its surface, making it one of the few aromatics that actively contributes microbial diversity to a ferment. Ginger's bioactive compounds, gingerols and shogaols, have moderate antimicrobial effects against gram-negative bacteria while being generally friendly to lactic acid bacteria. Pickled ginger (gari) demonstrates ginger's dual role beautifully: it is both the fermentation substrate and its own aromatic [[recipe:gari-ginger]]."
+      "content": "Ginger occupies a unique position among fermentation aromatics because it is both a potent flavouring and a source of wild microorganisms that can drive fermentation independently [cite:c1]. The ginger bug - a slurry of grated fresh ginger, sugar, and water - is a traditional starter culture that relies on the yeasts and bacteria naturally present on ginger's skin to initiate fermentation [[recipe:ginger-bug-starter]]. Fresh ginger root carries populations of Lactobacillus, Leuconostoc, and wild yeasts (especially Saccharomyces) on its surface, making it one of the few aromatics that actively contributes microbial diversity to a ferment. Ginger's bioactive compounds, gingerols and shogaols, have moderate antimicrobial effects against gram-negative bacteria while being generally friendly to lactic acid bacteria. Pickled ginger (gari) demonstrates ginger's dual role beautifully: it is both the fermentation substrate and its own aromatic [[recipe:gari-ginger]]."
     },
     {
       "id": "chilli-heading",
@@ -253,7 +253,7 @@
     {
       "id": "chilli-text",
       "type": "paragraph",
-      "content": "Chillies are among the most widely used aromatics in fermentation worldwide, and their impact extends beyond mere heat. Capsaicin, the compound responsible for the burning sensation, has mild antimicrobial properties, but the flavour contribution of different chilli varieties is the primary reason fermenters choose specific types [cite:c4]. Importantly, the sugars in fresh chillies — typically 2–5% by weight — provide additional fuel for lactic acid bacteria. A chilli mash ferment [[recipe:chilli-mash-base]] relies on both the chilli's own sugars and its flesh as the fermentation substrate."
+      "content": "Chillies are among the most widely used aromatics in fermentation worldwide, and their impact extends beyond mere heat. Capsaicin, the compound responsible for the burning sensation, has mild antimicrobial properties, but the flavour contribution of different chilli varieties is the primary reason fermenters choose specific types [cite:c4]. Importantly, the sugars in fresh chillies - typically 2–5% by weight - provide additional fuel for lactic acid bacteria. A chilli mash ferment [[recipe:chilli-mash-base]] relies on both the chilli's own sugars and its flesh as the fermentation substrate."
     },
     {
       "id": "chilli-table",
@@ -280,7 +280,7 @@
     {
       "id": "troubleshooting-text",
       "type": "paragraph",
-      "content": "Aromatics can occasionally cause unexpected results. If your ferment is progressing unusually slowly, consider whether you have used an excessive amount of garlic, cinnamon, or oregano — all of which can inhibit LAB at high doses [[article:troubleshooting-ferments]]. If a ferment develops yeasty or alcoholic off-flavours, fresh herbs with surface yeasts may be contributing; try switching to dried. If garlic turns blue or green, it is safe — see the note above. If spice flavours are too harsh, the ferment likely needs more time; many spice compounds mellow significantly after 2–4 weeks of fermentation as volatile oils are transformed by bacterial metabolism."
+      "content": "Aromatics can occasionally cause unexpected results. If your ferment is progressing unusually slowly, consider whether you have used an excessive amount of garlic, cinnamon, or oregano - all of which can inhibit LAB at high doses [[article:troubleshooting-ferments]]. If a ferment develops yeasty or alcoholic off-flavours, fresh herbs with surface yeasts may be contributing; try switching to dried. If garlic turns blue or green, it is safe - see the note above. If spice flavours are too harsh, the ferment likely needs more time; many spice compounds mellow significantly after 2–4 weeks of fermentation as volatile oils are transformed by bacterial metabolism."
     },
     {
       "id": "troubleshooting-list",
@@ -290,7 +290,7 @@
         "**Ferment too slow?** Reduce garlic, cinnamon, or oregano quantities. Check that allicin-rich garlic is not exceeding 4 cloves per litre.",
         "**Overly bitter?** Fenugreek and turmeric can cause bitterness at high doses. Use fenugreek sparingly (½ tsp per litre max) and reduce turmeric.",
         "**Yeasty surface film (kahm yeast)?** Fresh herbs can introduce wild yeasts. Skim and consider dried herbs next time [[article:troubleshooting-ferments]].",
-        "**Too much heat?** Capsaicin does not diminish much during fermentation. Start with less chilli than you think you need — you can always add more later.",
+        "**Too much heat?** Capsaicin does not diminish much during fermentation. Start with less chilli than you think you need - you can always add more later.",
         "**Mushy texture?** Certain aromatics (garlic, onion) can soften during long ferments. Add them as whole cloves or large slices rather than minced for better texture retention."
       ]
     },
@@ -303,7 +303,7 @@
     {
       "id": "safety-text",
       "type": "paragraph",
-      "content": "While aromatics generally improve the safety profile of ferments by suppressing spoilage organisms, there are a few cautions. Do not rely on aromatics alone as a preservation strategy — proper salt concentration [[article:salt-and-fermentation]], anaerobic conditions [[article:role-of-carbon-dioxide]], and adequate acidification [[article:ph-levels-fermentation]] remain the pillars of safe fermentation [cite:c2]. Garlic-in-oil preparations (not submerged in brine) can pose a botulism risk if held at room temperature, because the anaerobic, low-acid, low-salt environment is ideal for Clostridium botulinum. Always ensure garlic is fully submerged in adequately salted brine during fermentation. Essential oils of spices are far more concentrated than whole or ground spices and should not be used in fermentation — they can completely sterilise a ferment or produce off-flavours at even tiny doses."
+      "content": "While aromatics generally improve the safety profile of ferments by suppressing spoilage organisms, there are a few cautions. Do not rely on aromatics alone as a preservation strategy - proper salt concentration [[article:salt-and-fermentation]], anaerobic conditions [[article:role-of-carbon-dioxide]], and adequate acidification [[article:ph-levels-fermentation]] remain the pillars of safe fermentation [cite:c2]. Garlic-in-oil preparations (not submerged in brine) can pose a botulism risk if held at room temperature, because the anaerobic, low-acid, low-salt environment is ideal for Clostridium botulinum. Always ensure garlic is fully submerged in adequately salted brine during fermentation. Essential oils of spices are far more concentrated than whole or ground spices and should not be used in fermentation - they can completely sterilise a ferment or produce off-flavours at even tiny doses."
     },
     {
       "id": "experimentation-heading",
@@ -314,7 +314,7 @@
     {
       "id": "experimentation-text",
       "type": "paragraph",
-      "content": "The best way to learn how aromatics interact with fermentation is to experiment systematically. Start a batch of a simple ferment — fermented carrots [[recipe:fermented-carrots-ginger]] or basic brine pickles [[recipe:brine-pickles-basic]] — and divide it into several jars with different spice combinations. Keep salt concentration, vegetable quantity, and temperature identical across jars, varying only the aromatics. Taste each jar at the same intervals (days 3, 5, 7, 14) and take notes. You will quickly develop an intuitive sense for how different aromatics behave during fermentation and which combinations suit your palate [cite:c1]. The [[article:fermentation-flavour-chart]] can help guide your initial experiments."
+      "content": "The best way to learn how aromatics interact with fermentation is to experiment systematically. Start a batch of a simple ferment - fermented carrots [[recipe:fermented-carrots-ginger]] or basic brine pickles [[recipe:brine-pickles-basic]] - and divide it into several jars with different spice combinations. Keep salt concentration, vegetable quantity, and temperature identical across jars, varying only the aromatics. Taste each jar at the same intervals (days 3, 5, 7, 14) and take notes. You will quickly develop an intuitive sense for how different aromatics behave during fermentation and which combinations suit your palate [cite:c1]. The [[article:fermentation-flavour-chart]] can help guide your initial experiments."
     }
   ],
   "citations": [

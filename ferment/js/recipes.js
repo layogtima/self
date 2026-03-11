@@ -1,5 +1,5 @@
 /**
- * FERMENT — Recipe Loader
+ * FERMENT - Recipe Loader
  * Loads individual recipe JSON files from data/recipes/individual/
  * Falls back to window.__fermentRecipes (tier*.js) if fetch fails
  */
@@ -67,7 +67,7 @@ const FermentRecipes = {
           caption: r.name,
           attribution: old.heroAttribution || '',
           type: 'hero',
-          alt: `${r.name} — ${r.subtitle || ''}`
+          alt: `${r.name} - ${r.subtitle || ''}`
         });
       }
     }

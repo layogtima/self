@@ -1,5 +1,5 @@
 /**
- * FERMENT — MediaPicker Component
+ * FERMENT - MediaPicker Component
  * Rich image/video upload: drag & drop, file picker, camera capture (mobile), URL paste
  * Images stored as data URIs in localStorage for localhost persistence
  */

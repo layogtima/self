@@ -4,7 +4,7 @@
   "name": "Kanji",
   "nameLocal": "ಕಂಜಿ / கஞ்சி",
   "nameRomanized": "Kanji / Ganji",
-  "subtitle": "Fermented rice water — probiotic drink of the South",
+  "subtitle": "Fermented rice water - probiotic drink of the South",
   "category": "beverage",
   "subcategory": "fermented-grain",
   "technique": "wild-ferment",
@@ -20,7 +20,7 @@
   "fermentTimeMax": 24,
   "fermentTimeUnit": "hours",
   "totalTimeHuman": "Overnight",
-  "blrNote": "Zero-waste, zero-barrier. If you cook rice, you already have everything you need. At BLR temperatures, overnight fermentation is usually perfect — sour, slightly fizzy, deeply probiotic.",
+  "blrNote": "Zero-waste, zero-barrier. If you cook rice, you already have everything you need. At BLR temperatures, overnight fermentation is usually perfect - sour, slightly fizzy, deeply probiotic.",
   "seasonality": [
     "all"
   ],
@@ -86,7 +86,7 @@
     {
       "name": "Cloth cover",
       "essential": false,
-      "notes": "Loose cover — it needs to breathe"
+      "notes": "Loose cover - it needs to breathe"
     }
   ],
   "tldr": "Add water to leftover rice. Leave overnight. Drink in the morning with salt. Your gut will thank you.",
@@ -94,11 +94,11 @@
     {
       "step": 1,
       "title": "Prepare the base",
-      "instruction": "Place cooked rice in a clay pot or glass jar. Add 3 cups of cooled water (room temperature — not cold from the fridge).",
+      "instruction": "Place cooked rice in a clay pot or glass jar. Add 3 cups of cooled water (room temperature - not cold from the fridge).",
       "duration": "2 min",
       "tips": [
         "More water = thinner, more drinkable kanji. Less water = porridge-style ambali.",
-        "Use day-old rice rather than freshly cooked — it has more resistant starch, which feeds the bacteria better.",
+        "Use day-old rice rather than freshly cooked - it has more resistant starch, which feeds the bacteria better.",
         "A clay pot absorbs cultures over time, so your tenth batch will ferment noticeably faster than your first."
       ],
       "checkpoint": "Rice submerged in water"
@@ -110,8 +110,8 @@
       "duration": "8–16 hours",
       "tips": [
         "In summer, 8 hours is usually sufficient. In cooler months, go longer.",
-        "Traditional households use the same clay pot daily — the absorbed cultures speed up fermentation over time.",
-        "If you want a fizzier result, cover with a tight lid instead of cloth — the trapped CO2 gives it a light carbonation."
+        "Traditional households use the same clay pot daily - the absorbed cultures speed up fermentation over time.",
+        "If you want a fizzier result, cover with a tight lid instead of cloth - the trapped CO2 gives it a light carbonation."
       ],
       "checkpoint": "Smells slightly sour and tangy in the morning"
     },
@@ -121,7 +121,7 @@
       "instruction": "Stir well. Add salt to taste. Serve as a morning drink (strain for liquid-only) or eat as a soft porridge. Traditional accompaniments: pickle, raw onion, papad.",
       "duration": null,
       "tips": [
-        "The water is more probiotic than the rice — don't discard it",
+        "The water is more probiotic than the rice - don't discard it",
         "Add buttermilk for extra richness (traditional in Tamil Nadu and Karnataka)",
         "A pinch of cumin powder and finely chopped curry leaves stirred in at serving time makes this taste like a proper South Indian breakfast."
       ],
@@ -134,13 +134,13 @@
       "caption": "Kanji",
       "attribution": "Photo by K8 on Unsplash",
       "type": "hero",
-      "alt": "Kanji — Fermented rice water — probiotic drink of the South"
+      "alt": "Kanji - Fermented rice water - probiotic drink of the South"
     }
   ],
   "culturalContext": {
-    "story": "Kanji is one of the oldest fermented foods in South and Southeast Asia. Before modern nutrition science, rural communities understood intuitively that fermented rice water was restorative — given to the sick, the weak, the recovering. It appears in Ayurvedic texts as a digestive and is still the first food offered to patients recovering from illness in many South Indian households.",
-    "historicalNote": "The practice of fermenting rice water appears across South Asia, Southeast Asia, China, Japan (amazake), and Korea (sikhye). The South Indian and Sri Lankan tradition of overnight kanji is among the simplest variants — no cooking required if using leftover rice.",
-    "significance": "Kanji represents the fermentation philosophy at its most elemental: don't discard, transform. Leftover rice + water + time = a living probiotic drink. It's also deeply egalitarian — this is not cuisine that requires money or equipment. It is the everyday ferment of every household.",
+    "story": "Kanji is one of the oldest fermented foods in South and Southeast Asia. Before modern nutrition science, rural communities understood intuitively that fermented rice water was restorative - given to the sick, the weak, the recovering. It appears in Ayurvedic texts as a digestive and is still the first food offered to patients recovering from illness in many South Indian households.",
+    "historicalNote": "The practice of fermenting rice water appears across South Asia, Southeast Asia, China, Japan (amazake), and Korea (sikhye). The South Indian and Sri Lankan tradition of overnight kanji is among the simplest variants - no cooking required if using leftover rice.",
+    "significance": "Kanji represents the fermentation philosophy at its most elemental: don't discard, transform. Leftover rice + water + time = a living probiotic drink. It's also deeply egalitarian - this is not cuisine that requires money or equipment. It is the everyday ferment of every household.",
     "relatedTraditions": [
       "Congee / Juk (East Asian fermented rice porridge)",
       "Ambali (ragi kanji, Karnataka)",
@@ -177,17 +177,17 @@
   "variations": [
     {
       "name": "Ragi Ambali",
-      "description": "Use finger millet (ragi) flour instead of rice. Cook into a thin porridge, ferment overnight. A Karnataka staple — more nutritious, slightly more complex.",
+      "description": "Use finger millet (ragi) flour instead of rice. Cook into a thin porridge, ferment overnight. A Karnataka staple - more nutritious, slightly more complex.",
       "region": "Karnataka, India"
     },
     {
       "name": "Spiced Kanji",
-      "description": "Add curry leaves, green chilli, ginger to the fermented kanji. Heat briefly (don't boil — kills cultures). Or serve raw with the same additions.",
+      "description": "Add curry leaves, green chilli, ginger to the fermented kanji. Heat briefly (don't boil - kills cultures). Or serve raw with the same additions.",
       "region": "Kerala / Tamil Nadu"
     },
     {
       "name": "Sweet Kanji",
-      "description": "Add jaggery and cardamom instead of salt. Dessert kanji — fermented grain sweetened with unrefined sugar. Served warm.",
+      "description": "Add jaggery and cardamom instead of salt. Dessert kanji - fermented grain sweetened with unrefined sugar. Served warm.",
       "region": "Kerala"
     }
   ],
@@ -212,7 +212,7 @@
   "containsAllergens": [],
   "sources": [
     {
-      "title": "Kanji (food) — Wikipedia",
+      "title": "Kanji (food) - Wikipedia",
       "url": "https://en.wikipedia.org/wiki/Kanji_(food)",
       "license": "CC BY-SA"
     },
@@ -225,7 +225,7 @@
   "videos": [
     {
       "url": "https://www.youtube.com/watch?v=1oXheGE0cO0",
-      "title": "Kanji — Traditional Fermented Rice Water",
+      "title": "Kanji - Traditional Fermented Rice Water",
       "channel": "Bong Eats",
       "type": "youtube"
     }

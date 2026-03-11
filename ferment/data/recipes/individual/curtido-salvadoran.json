@@ -20,7 +20,7 @@
   "fermentTimeMax": 3,
   "fermentTimeUnit": "days",
   "totalTimeHuman": "1–3 days",
-  "blrNote": "All ingredients available at any BLR market. Quick ferment — ready in 24 hours. Pairs beautifully with rice, chapati, or as a side to any South Indian meal.",
+  "blrNote": "All ingredients available at any BLR market. Quick ferment - ready in 24 hours. Pairs beautifully with rice, chapati, or as a side to any South Indian meal.",
   "seasonality": [
     "all"
   ],
@@ -149,7 +149,7 @@
       "duration": "15 min",
       "tips": [
         "Uniform thin shreds ferment evenly",
-        "A mandoline slicer gets the cabbage paper-thin in seconds — worth the small investment",
+        "A mandoline slicer gets the cabbage paper-thin in seconds - worth the small investment",
         "Save the tough outer cabbage leaves to use as a weight pressing down on the packed jar"
       ],
       "checkpoint": "Colourful pile of shredded veg"
@@ -160,9 +160,9 @@
       "instruction": "Sprinkle salt over the vegetables. Massage for 3–5 minutes until they soften and release liquid.",
       "duration": "5 min",
       "tips": [
-        "It doesn't need to release as much liquid as sauerkraut — curtido is lighter",
-        "Taste the veg after massaging — if it's too salty now, it'll be too salty later, so adjust before packing",
-        "Squeeze handfuls firmly like you're wringing a towel — the cell walls break down faster that way"
+        "It doesn't need to release as much liquid as sauerkraut - curtido is lighter",
+        "Taste the veg after massaging - if it's too salty now, it'll be too salty later, so adjust before packing",
+        "Squeeze handfuls firmly like you're wringing a towel - the cell walls break down faster that way"
       ],
       "checkpoint": "Vegetables are wilted and moist"
     },
@@ -173,7 +173,7 @@
       "duration": "3 min",
       "tips": [
         "Vinegar speeds the sour flavour but isn't needed if fermenting longer",
-        "Crush the dried oregano between your palms before adding — it releases far more aroma",
+        "Crush the dried oregano between your palms before adding - it releases far more aroma",
         "Pack in layers and press down after each handful to eliminate air pockets"
       ],
       "checkpoint": "Packed jar with liquid visible"
@@ -184,8 +184,8 @@
       "instruction": "Cover loosely. Leave at room temperature. In BLR, 24 hours gives a lightly sour, fresh curtido. 48–72 hours for more tang.",
       "duration": "1–3 days",
       "tips": [
-        "Traditional Salvadoran curtido is only lightly fermented — it's not as sour as sauerkraut",
-        "Press the veg below the liquid line each time you check — exposed bits can develop off-flavours",
+        "Traditional Salvadoran curtido is only lightly fermented - it's not as sour as sauerkraut",
+        "Press the veg below the liquid line each time you check - exposed bits can develop off-flavours",
         "If you see tiny bubbles rising through the jar, fermentation is working perfectly"
       ],
       "checkpoint": "Smells fresh-sour, crisp when tasted"
@@ -196,9 +196,9 @@
       "instruction": "Refrigerate when it reaches your preferred sourness. Keeps 2–3 weeks.",
       "duration": null,
       "tips": [
-        "The brine left in the jar is liquid gold — splash it on tacos, rice bowls, or use as a salad dressing base",
+        "The brine left in the jar is liquid gold - splash it on tacos, rice bowls, or use as a salad dressing base",
         "Curtido gets softer each day in the fridge, so eat it within the first week if you love crunch",
-        "Pile it on fried eggs, grilled cheese, or dal rice — it works far beyond pupusas"
+        "Pile it on fried eggs, grilled cheese, or dal rice - it works far beyond pupusas"
       ],
       "checkpoint": "Crisp, tangy, vibrant"
     }
@@ -209,24 +209,24 @@
       "caption": "Curtido",
       "attribution": "Photo by Brooke Lark on Unsplash",
       "type": "hero",
-      "alt": "Curtido — El Salvador's lightly fermented cabbage relish"
+      "alt": "Curtido - El Salvador's lightly fermented cabbage relish"
     }
   ],
   "culturalContext": {
-    "story": "Curtido is El Salvador's national condiment — an essential partner to pupusas (thick corn cakes stuffed with cheese, beans, or chicharrón). It's lighter and faster than sauerkraut by design: Salvadoran cuisine tends toward fresh, bright flavours rather than deeply soured preservation.",
+    "story": "Curtido is El Salvador's national condiment - an essential partner to pupusas (thick corn cakes stuffed with cheese, beans, or chicharrón). It's lighter and faster than sauerkraut by design: Salvadoran cuisine tends toward fresh, bright flavours rather than deeply soured preservation.",
     "historicalNote": "Central American fermented vegetables predate Spanish colonisation. Curtido as we know it evolved after European cabbage was introduced in the colonial period, blending indigenous preservation techniques with Old World vegetables.",
-    "significance": "Curtido demonstrates that fermentation doesn't have to be long or intense to be valuable. Short ferments develop flavour and begin beneficial bacterial activity without crossing into strong sourness — ideal for people new to fermented foods.",
+    "significance": "Curtido demonstrates that fermentation doesn't have to be long or intense to be valuable. Short ferments develop flavour and begin beneficial bacterial activity without crossing into strong sourness - ideal for people new to fermented foods.",
     "relatedTraditions": [
       "Sauerkraut (German)",
       "Kimchi (Korean)",
-      "Coleslaw (American — unfermented version)"
+      "Coleslaw (American - unfermented version)"
     ],
     "funFact": "In El Salvador, no pupusa is considered complete without curtido and salsa roja. The combination is so standard that pupuserías serve both as automatically as a restaurant serves bread and butter in France."
   },
   "thingsToAccountFor": [
     {
       "title": "Very quick in BLR heat",
-      "description": "At 25–30°C, curtido ferments quickly. Taste after 18 hours — you may find it's already at your preferred sourness.",
+      "description": "At 25–30°C, curtido ferments quickly. Taste after 18 hours - you may find it's already at your preferred sourness.",
       "severity": "info",
       "appliesTo": [
         "blr"
@@ -234,7 +234,7 @@
     },
     {
       "title": "Texture softens over time",
-      "description": "The longer it ferments, the softer the texture. Traditional curtido retains some crunch — don't overferment if you prefer crispness.",
+      "description": "The longer it ferments, the softer the texture. Traditional curtido retains some crunch - don't overferment if you prefer crispness.",
       "severity": "info",
       "appliesTo": [
         "all"
@@ -244,7 +244,7 @@
   "dehydratorIntegration": {
     "applicable": true,
     "method": "Drain, spread thinly, dehydrate at 40°C for 6–8 hours.",
-    "result": "Tangy vegetable flakes — crumble on rice or use as seasoning.",
+    "result": "Tangy vegetable flakes - crumble on rice or use as seasoning.",
     "shelfLife": "3 months",
     "tips": [
       "Better when only lightly fermented before dehydrating"
@@ -282,7 +282,7 @@
   "containsAllergens": [],
   "sources": [
     {
-      "title": "Curtido — Wikipedia",
+      "title": "Curtido - Wikipedia",
       "url": "https://en.wikipedia.org/wiki/Curtido",
       "license": "CC BY-SA"
     }
@@ -290,7 +290,7 @@
   "videos": [
     {
       "url": "https://www.youtube.com/watch?v=jHcKFRsaPZI",
-      "title": "How to Make Curtido — Salvadoran Fermented Slaw",
+      "title": "How to Make Curtido - Salvadoran Fermented Slaw",
       "channel": "Internet Shaquille",
       "type": "youtube"
     }

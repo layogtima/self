@@ -4,7 +4,7 @@
   "name": "Switchel",
   "nameLocal": null,
   "nameRomanized": null,
-  "subtitle": "The original energy drink — ginger, vinegar, and sweetness",
+  "subtitle": "The original energy drink - ginger, vinegar, and sweetness",
   "category": "beverage",
   "subcategory": "drinking-vinegar",
   "technique": "mixed-ferment",
@@ -20,7 +20,7 @@
   "fermentTimeMax": 3,
   "fermentTimeUnit": "days",
   "totalTimeHuman": "1–3 days (or drink immediately)",
-  "blrNote": "Perfect for BLR's warm weather. Apple cider vinegar (Bragg's or local brands) is at Nature's Basket, Namdhari's, or any supermarket. Use jaggery instead of maple syrup — it's cheaper, local, and adds a gorgeous caramel depth. Fresh ginger from any sabziwala.",
+  "blrNote": "Perfect for BLR's warm weather. Apple cider vinegar (Bragg's or local brands) is at Nature's Basket, Namdhari's, or any supermarket. Use jaggery instead of maple syrup - it's cheaper, local, and adds a gorgeous caramel depth. Fresh ginger from any sabziwala.",
   "seasonality": [
     "all"
   ],
@@ -55,7 +55,7 @@
       "localAvailability": {
         "IN": {
           "ease": "moderate",
-          "where": "Nature's Basket, Namdhari's, Amazon India — Bragg's or local brands like WOW"
+          "where": "Nature's Basket, Namdhari's, Amazon India - Bragg's or local brands like WOW"
         }
       }
     },
@@ -74,7 +74,7 @@
       "localAvailability": {
         "IN": {
           "ease": "easy",
-          "where": "Any kirana store — jaggery is ₹40–80/kg"
+          "where": "Any kirana store - jaggery is ₹40–80/kg"
         }
       }
     },
@@ -135,19 +135,19 @@
       "tips": [
         "Grating the ginger releases more flavour faster than slicing",
         "If using jaggery, crumble it fine for faster dissolving",
-        "Use warm water (not boiling) to dissolve the jaggery — boiling water will destroy the live cultures in the ACV you add later"
+        "Use warm water (not boiling) to dissolve the jaggery - boiling water will destroy the live cultures in the ACV you add later"
       ],
       "checkpoint": "Jaggery dissolved, gingery-vinegary liquid"
     },
     {
       "step": 2,
       "title": "Add water and mix",
-      "instruction": "Add the remaining water (room temperature or cold). Stir well. Taste and adjust — more jaggery for sweetness, more vinegar for tang, more ginger for heat.",
+      "instruction": "Add the remaining water (room temperature or cold). Stir well. Taste and adjust - more jaggery for sweetness, more vinegar for tang, more ginger for heat.",
       "duration": "2 min",
       "tips": [
         "The balance should be: refreshing, slightly sweet, tangy, with a ginger kick",
-        "Start conservative with vinegar — you can always add more",
-        "Make it slightly sweeter than you want — fermentation will eat some of the sugars and shift the balance toward tart"
+        "Start conservative with vinegar - you can always add more",
+        "Make it slightly sweeter than you want - fermentation will eat some of the sugars and shift the balance toward tart"
       ],
       "checkpoint": "Balanced, drinkable, tangy-sweet liquid"
     },
@@ -159,7 +159,7 @@
       "tips": [
         "Room temperature fermentation at BLR temps develops fizz within 24 hours if the ACV has a live mother",
         "If fermenting, burp the jar daily to release gas",
-        "Taste every 12 hours during fermentation — switchel can turn overly vinegary fast in warm climates"
+        "Taste every 12 hours during fermentation - switchel can turn overly vinegary fast in warm climates"
       ],
       "checkpoint": "Either a fresh gingery drink or a lightly fizzy, tangy tonic"
     },
@@ -171,7 +171,7 @@
       "tips": [
         "Excellent as a post-exercise rehydration drink",
         "Mix with soda water for a sparkling switchel",
-        "Save the strained ginger pulp — stir it into stir-fries, smoothies, or steep it for a second batch of milder switchel"
+        "Save the strained ginger pulp - stir it into stir-fries, smoothies, or steep it for a second batch of milder switchel"
       ],
       "checkpoint": "Clear, golden, refreshing drink"
     }
@@ -182,20 +182,20 @@
       "caption": "Switchel",
       "attribution": "Photo by Vero Manrique on Unsplash",
       "type": "hero",
-      "alt": "Switchel — The original energy drink — ginger, vinegar, and sweetness"
+      "alt": "Switchel - The original energy drink - ginger, vinegar, and sweetness"
     }
   ],
   "culturalContext": {
     "story": "Switchel was the Gatorade of 18th and 19th century America. Farmers making hay in the blazing summer heat drank switchel by the gallon to stay hydrated, replace electrolytes, and keep cool. It was so associated with harvest time that it earned the nickname \"haymaker's punch.\"",
     "historicalNote": "The drink likely originated in the Caribbean, where ginger, vinegar, and molasses were all readily available. It migrated to colonial America and became a staple of farm life. Some historians trace the concept further back to Roman posca (vinegar water given to soldiers).",
-    "significance": "Switchel is a reminder that humans have been making functional beverages for centuries. The combination of ginger (anti-inflammatory, digestive), vinegar (probiotic if raw, mineral absorption), and natural sweetener (quick energy) is genuinely effective — not just tradition for tradition's sake.",
+    "significance": "Switchel is a reminder that humans have been making functional beverages for centuries. The combination of ginger (anti-inflammatory, digestive), vinegar (probiotic if raw, mineral absorption), and natural sweetener (quick energy) is genuinely effective - not just tradition for tradition's sake.",
     "relatedTraditions": [
       "Shrub (fruit drinking vinegar, Colonial American)",
       "Posca (Roman soldier's vinegar drink)",
       "Nimbu pani (Indian lemon water)",
       "Jal jeera (Indian spiced drink)"
     ],
-    "funFact": "During the American Revolution, switchel was provided to troops as a standard ration. Benjamin Franklin reportedly drank it daily. The drink is experiencing a hipster revival in Brooklyn — at 10x the price of making it at home."
+    "funFact": "During the American Revolution, switchel was provided to troops as a standard ration. Benjamin Franklin reportedly drank it daily. The drink is experiencing a hipster revival in Brooklyn - at 10x the price of making it at home."
   },
   "thingsToAccountFor": [
     {
@@ -268,7 +268,7 @@
   "containsAllergens": [],
   "sources": [
     {
-      "title": "Switchel — Wikipedia",
+      "title": "Switchel - Wikipedia",
       "url": "https://en.wikipedia.org/wiki/Switchel",
       "license": "CC BY-SA"
     }
@@ -276,7 +276,7 @@
   "videos": [
     {
       "url": "https://www.youtube.com/watch?v=uOB_IOQNKHY",
-      "title": "Switchel — The 18th Century Energy Drink",
+      "title": "Switchel - The 18th Century Energy Drink",
       "channel": "Townsends",
       "type": "youtube"
     }

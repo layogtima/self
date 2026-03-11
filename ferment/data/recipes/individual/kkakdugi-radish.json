@@ -40,7 +40,7 @@
       "localAvailability": {
         "IN": {
           "ease": "easy",
-          "where": "Any sabziwala — mooli is everywhere"
+          "where": "Any sabziwala - mooli is everywhere"
         }
       }
     },
@@ -130,9 +130,9 @@
       "instruction": "Cube radish into 1-inch squares. Toss with salt and sugar. Let sit for 30–60 minutes until a pool of water forms at the bottom of the bowl.",
       "duration": "30–60 min",
       "tips": [
-        "Don't skip the sweating phase — the drawn-out water becomes the fermentation liquid",
+        "Don't skip the sweating phase - the drawn-out water becomes the fermentation liquid",
         "Larger cubes = crunchier result",
-        "If using Indian mooli instead of Korean mu, peel the skin — mooli skin can turn rubbery during fermentation."
+        "If using Indian mooli instead of Korean mu, peel the skin - mooli skin can turn rubbery during fermentation."
       ],
       "checkpoint": "Visible pool of liquid at the bottom, cubes are slightly wilted"
     },
@@ -142,9 +142,9 @@
       "instruction": "Do NOT rinse! Add chilli powder, minced garlic, grated ginger, and fish sauce if using. Mix until every single cube is coated red.",
       "duration": "5 min",
       "tips": [
-        "Wear gloves — the chilli will burn your fingers for hours",
+        "Wear gloves - the chilli will burn your fingers for hours",
         "Taste a cube: it should be salty, spicy, and slightly sweet",
-        "If using Kashmiri mirch, you may want to add a small pinch of regular red chilli for heat — Kashmiri mirch is mostly colour with mild spice."
+        "If using Kashmiri mirch, you may want to add a small pinch of regular red chilli for heat - Kashmiri mirch is mostly colour with mild spice."
       ],
       "checkpoint": "Uniform red coating on every cube"
     },
@@ -156,7 +156,7 @@
       "tips": [
         "Use a clean fist or a wooden spoon to push down",
         "If there isn't enough liquid, add a splash of 2% brine",
-        "Place a piece of cling wrap directly on the surface before sealing the jar — it reduces air contact and prevents kahm yeast."
+        "Place a piece of cling wrap directly on the surface before sealing the jar - it reduces air contact and prevents kahm yeast."
       ],
       "checkpoint": "Cubes submerged under their own liquid"
     },
@@ -166,9 +166,9 @@
       "instruction": "Leave out at room temperature for 1–2 days until you see bubbles forming, then move to the fridge. In BLR heat, this can happen in 24 hours.",
       "duration": "1–2 days",
       "tips": [
-        "Taste daily — when it's tangy enough for you, refrigerate",
+        "Taste daily - when it's tangy enough for you, refrigerate",
         "In the fridge, it continues to develop flavour for weeks",
-        "Burp the jar once a day during room-temperature fermentation — kkakdugi produces a lot of CO2 and can overflow if sealed tight."
+        "Burp the jar once a day during room-temperature fermentation - kkakdugi produces a lot of CO2 and can overflow if sealed tight."
       ],
       "checkpoint": "Active bubbling, pleasantly funky-sour aroma"
     }
@@ -179,19 +179,19 @@
       "caption": "Kkakdugi",
       "attribution": "",
       "type": "hero",
-      "alt": "Kkakdugi — Crunchy cubed radish kimchi"
+      "alt": "Kkakdugi - Crunchy cubed radish kimchi"
     }
   ],
   "culturalContext": {
-    "story": "Kkakdugi is the inseparable companion to Seolleongtang (설렁탕 — ox bone soup). The crunchy, spicy cubes cut through the rich, milky broth perfectly. Every Korean grandmother has her own recipe, and these are often the first kimchi a child learns to make.",
+    "story": "Kkakdugi is the inseparable companion to Seolleongtang (설렁탕 - ox bone soup). The crunchy, spicy cubes cut through the rich, milky broth perfectly. Every Korean grandmother has her own recipe, and these are often the first kimchi a child learns to make.",
     "historicalNote": "Legend attributes its creation to Princess Sukseon of the Joseon Dynasty, though fermented radish preparations exist across Korean food history long before that. During kimjang (kimchi-making season), kkakdugi was always made alongside the larger baechu kimchi batches.",
-    "significance": "While baechu (napa cabbage) kimchi gets all the international fame, kkakdugi is the everyday workhorse — faster to make, more forgiving, and crunchy in a way that cabbage simply can't match.",
+    "significance": "While baechu (napa cabbage) kimchi gets all the international fame, kkakdugi is the everyday workhorse - faster to make, more forgiving, and crunchy in a way that cabbage simply can't match.",
     "relatedTraditions": [
       "Baechu Kimchi (napa cabbage kimchi)",
       "Dongchimi (water-based radish kimchi)",
       "Mooli ka achar (Indian radish pickle)"
     ],
-    "funFact": "The name \"깍두기\" is an onomatopoeia — it mimics the sound of a knife cutting through a crisp radish. Korean food naming is surprisingly musical."
+    "funFact": "The name \"깍두기\" is an onomatopoeia - it mimics the sound of a knife cutting through a crisp radish. Korean food naming is surprisingly musical."
   },
   "thingsToAccountFor": [
     {
@@ -248,7 +248,7 @@
   ],
   "sources": [
     {
-      "title": "Kkakdugi — Wikipedia",
+      "title": "Kkakdugi - Wikipedia",
       "url": "https://en.wikipedia.org/wiki/Kkakdugi",
       "license": "CC BY-SA"
     }

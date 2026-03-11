@@ -1,5 +1,5 @@
 /**
- * FERMENT — PantryManager Component
+ * FERMENT - PantryManager Component
  * Full pantry inventory management with recipe matching
  */
 

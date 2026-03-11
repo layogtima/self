@@ -28,7 +28,7 @@ function convertRecipe(recipe) {
         caption: recipe.name,
         attribution: recipe.images.heroAttribution || '',
         type: 'hero',
-        alt: `${recipe.name} — ${recipe.subtitle || ''}`
+        alt: `${recipe.name} - ${recipe.subtitle || ''}`
       });
     }
   } else {

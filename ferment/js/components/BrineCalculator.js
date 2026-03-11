@@ -1,5 +1,5 @@
 /**
- * FERMENT — BrineCalculator Component
+ * FERMENT - BrineCalculator Component
  * Salt/brine calculation tool for fermentation
  */
 

@@ -1,5 +1,5 @@
 /**
- * FERMENT — WelcomePage Component
+ * FERMENT - WelcomePage Component
  * Rich editorial scroll experience introducing fermentation and the app.
  * Shown on first visit, accessible via Settings afterward.
  */
@@ -87,7 +87,7 @@ const WelcomePageComponent = {
             <div class="reveal-on-scroll p-6 sm:p-8 rounded-2xl bg-bg-card dark:bg-dark-card border border-bg-secondary dark:border-dark-secondary">
               <div class="text-4xl mb-4">🧪</div>
               <h3 class="font-serif text-xl text-text-primary dark:text-dark-text mb-3">The Chemistry</h3>
-              <p class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed"><strong class="text-text-primary dark:text-dark-text">Lacto-fermentation</strong> is controlled decomposition. Lactobacillus bacteria convert sugars into lactic acid, dropping pH below 4.6 — a level where pathogens cannot survive.</p>
+              <p class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed"><strong class="text-text-primary dark:text-dark-text">Lacto-fermentation</strong> is controlled decomposition. Lactobacillus bacteria convert sugars into lactic acid, dropping pH below 4.6 - a level where pathogens cannot survive.</p>
               <p class="text-xs text-text-muted mt-3">No vinegar. No heat. No additives. Just salt, time, and trillions of invisible workers.</p>
             </div>
 
@@ -120,7 +120,7 @@ const WelcomePageComponent = {
             <div class="reveal-on-scroll flex items-start gap-5 sm:gap-6">
               <span class="text-3xl sm:text-4xl flex-shrink-0 mt-1">🦠</span>
               <div>
-                <p class="text-text-primary dark:text-dark-text leading-relaxed">Your gut contains <strong class="text-accent-brine">~38 trillion</strong> microorganisms — slightly more than your own human cells.</p>
+                <p class="text-text-primary dark:text-dark-text leading-relaxed">Your gut contains <strong class="text-accent-brine">~38 trillion</strong> microorganisms - slightly more than your own human cells.</p>
                 <p class="text-sm text-text-muted mt-1">You are, technically, more bacteria than person.</p>
               </div>
             </div>
@@ -128,7 +128,7 @@ const WelcomePageComponent = {
             <div class="reveal-on-scroll flex items-start gap-5 sm:gap-6">
               <span class="text-3xl sm:text-4xl flex-shrink-0 mt-1">🧠</span>
               <div>
-                <p class="text-text-primary dark:text-dark-text leading-relaxed">The gut produces <strong class="text-accent-brine">~95% of your body's serotonin</strong> — the "happiness hormone."</p>
+                <p class="text-text-primary dark:text-dark-text leading-relaxed">The gut produces <strong class="text-accent-brine">~95% of your body's serotonin</strong> - the "happiness hormone."</p>
                 <p class="text-sm text-text-muted mt-1">The gut-brain axis is a two-way highway. What you feed your gut, you feed your mood.</p>
               </div>
             </div>
@@ -152,7 +152,7 @@ const WelcomePageComponent = {
             <div class="reveal-on-scroll flex items-start gap-5 sm:gap-6">
               <span class="text-3xl sm:text-4xl flex-shrink-0 mt-1">🌱</span>
               <div>
-                <p class="text-text-primary dark:text-dark-text leading-relaxed">Fermentation <strong class="text-accent-brine">increases bioavailability</strong> of nutrients — breaking down antinutrients like phytic acid.</p>
+                <p class="text-text-primary dark:text-dark-text leading-relaxed">Fermentation <strong class="text-accent-brine">increases bioavailability</strong> of nutrients - breaking down antinutrients like phytic acid.</p>
                 <p class="text-sm text-text-muted mt-1">Iron, zinc, and B-vitamins become easier to absorb. The same food, more nutrition.</p>
               </div>
             </div>
@@ -187,7 +187,7 @@ const WelcomePageComponent = {
                 <span class="text-3xl group-hover:scale-110 transition-transform">📚</span>
                 <h3 class="font-serif text-xl text-text-primary dark:text-dark-text group-hover:text-accent-aged dark:group-hover:text-accent-brine transition-colors">Wiki</h3>
               </div>
-              <p class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed">23 articles on fermentation science, safety, equipment, and techniques — with citations, cross-links, and glossary.</p>
+              <p class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed">23 articles on fermentation science, safety, equipment, and techniques - with citations, cross-links, and glossary.</p>
             </button>
 
             <button @click="goTo('pantry')" class="reveal-on-scroll feature-card text-left p-6 sm:p-8 rounded-2xl bg-bg-card dark:bg-dark-card border-l-4 border-accent-culture hover:border-accent-culture/80 cursor-pointer group" style="transition-delay: 100ms">
@@ -219,7 +219,7 @@ const WelcomePageComponent = {
                 <span class="text-3xl group-hover:scale-110 transition-transform">⏱️</span>
                 <h3 class="font-serif text-xl text-text-primary dark:text-dark-text group-hover:text-accent-aged dark:group-hover:text-accent-brine transition-colors">Timers</h3>
               </div>
-              <p class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed">Set fermentation timers with alerts. Never forget a batch again — from overnight yogurt to 6-week miso.</p>
+              <p class="text-sm text-text-secondary dark:text-dark-text-secondary leading-relaxed">Set fermentation timers with alerts. Never forget a batch again - from overnight yogurt to 6-week miso.</p>
             </button>
           </div>
         </div>
@@ -233,7 +233,7 @@ const WelcomePageComponent = {
           <div class="space-y-6 text-base sm:text-lg text-text-secondary dark:text-dark-text-secondary leading-relaxed font-serif">
             <p>Fermentation cannot be rushed, optimised, or disrupted. It operates on bacterial time.</p>
             <p>FERMENT is built on the belief that every culture on Earth independently discovered the same truth: <strong class="text-text-primary dark:text-dark-text">salt + time + patience = transformation.</strong></p>
-            <p>Every recipe comes with its story — where it's from, why it matters, and the humans who've been making it for generations.</p>
+            <p>Every recipe comes with its story - where it's from, why it matters, and the humans who've been making it for generations.</p>
           </div>
         </div>
       </section>

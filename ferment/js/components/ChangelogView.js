@@ -1,5 +1,5 @@
 /**
- * FERMENT — ChangelogView Component
+ * FERMENT - ChangelogView Component
  * Public changelog with Antigravity-style release hierarchy:
  * version card → expandable Features / Improvements / Fixes sections
  */
@@ -27,7 +27,7 @@ const ChangelogViewComponent = {
             { type: 'feature', text: 'Added error boundaries (errorCaptured) to all major components', link: null },
             { type: 'feature', text: 'Global Vue error handler prevents white-screen crashes', link: null },
             { type: 'enhancement', text: 'Hardened date/format utilities against invalid inputs', link: null },
-            { type: 'fix', text: 'Fixed app mount resilience — loading screen no longer gets stuck', link: null },
+            { type: 'fix', text: 'Fixed app mount resilience - loading screen no longer gets stuck', link: null },
             { type: 'fix', text: 'Fixed allRecipes computed to return empty array before load', link: null },
           ]
         },
@@ -37,14 +37,14 @@ const ChangelogViewComponent = {
           title: 'Stability, Cache Burst & UI Polish',
           summary: 'Critical crash fixes, JS cache busting, tool sandboxing, nav icons, and recipe masthead cleanup.',
           items: [
-            { type: 'feature', text: 'Cache busting: all JS files now include version query strings (?v=20260310) — no more stale code on deployment', link: null },
+            { type: 'feature', text: 'Cache busting: all JS files now include version query strings (?v=20260310) - no more stale code on deployment', link: null },
             { type: 'feature', text: 'Tool sandboxing: each tool is isolated so a crash in one does not take down the entire Tools tab', link: '#/tools' },
             { type: 'enhancement', text: 'Secondary nav tabs now show small icons (📖 Story, 🧾 Recipe, 📝 Notes, ☀️ Dehydrate, 📄 Article, 📚 Sources)', link: null },
             { type: 'enhancement', text: 'Secondary nav uses solid background color instead of glass/blur effect', link: null },
             { type: 'enhancement', text: 'Secondary nav tabs have visible dividers between buttons for easier tapping', link: null },
             { type: 'enhancement', text: 'Primary mobile nav buttons now have subtle border demarcation between tabs', link: null },
             { type: 'enhancement', text: 'Tier badge (Beginner / Seasoned / ...) is now a subtle label instead of a prominent pill in the recipe masthead', link: null },
-            { type: 'fix', text: 'Start Batch no longer crashes when recipe has no fermentTimeMax — falls back to 14 days', link: '#/journal' },
+            { type: 'fix', text: 'Start Batch no longer crashes when recipe has no fermentTimeMax - falls back to 14 days', link: '#/journal' },
             { type: 'fix', text: 'Category emoji removed from recipe masthead hero (was showing random jar icon)', link: null },
             { type: 'fix', text: 'Service Worker cache updated to v6 to force refresh of cached assets', link: null },
           ]
@@ -92,14 +92,14 @@ const ChangelogViewComponent = {
           summary: 'Rich link previews, shareable URLs, dynamic OG images for wiki articles.',
           items: [
             { type: 'feature', text: 'Open Graph and Twitter Card meta tags for rich link previews', link: null },
-            { type: 'feature', text: 'URL-based sharing — recipes and wiki articles load from hash URLs', link: null },
+            { type: 'feature', text: 'URL-based sharing - recipes and wiki articles load from hash URLs', link: null },
             { type: 'feature', text: 'Dynamic OG images generated for wiki articles', link: '#/wiki' },
             { type: 'enhancement', text: 'Better emoji icons for all 18 wiki articles', link: '#/wiki' },
             { type: 'enhancement', text: 'Recipe hero images in list view thumbnails', link: '#/browse' },
             { type: 'enhancement', text: 'Recipe hero images in table view thumbnails', link: '#/browse' },
             { type: 'enhancement', text: 'Card view image height increased 30%', link: '#/browse' },
             { type: 'enhancement', text: 'Collapsible tag filter on wiki index page', link: '#/wiki' },
-            { type: 'enhancement', text: 'Glossary tool removed — wiki replaces it', link: '#/tools' },
+            { type: 'enhancement', text: 'Glossary tool removed - wiki replaces it', link: '#/tools' },
             { type: 'fix', text: 'Time/duration sorting uses fermentTimeMin with proper unit conversion', link: '#/browse' },
             { type: 'fix', text: 'ToolsView.js syntax error fixed', link: '#/tools' },
             { type: 'fix', text: 'Tag collapse button hover state now visible', link: '#/wiki' },
@@ -115,7 +115,7 @@ const ChangelogViewComponent = {
             { type: 'feature', text: '30 recipes enriched with tips, variations, and cultural context', link: '#/browse' },
             { type: 'feature', text: 'Browser history management with back/forward support', link: null },
             { type: 'feature', text: 'Inline editing for recipes and wiki articles (Settings toggle)', link: '#/tools' },
-            { type: 'enhancement', text: 'Architecture cleanup — split monolith components, remove dead code', link: null },
+            { type: 'enhancement', text: 'Architecture cleanup - split monolith components, remove dead code', link: null },
           ]
         },
         {

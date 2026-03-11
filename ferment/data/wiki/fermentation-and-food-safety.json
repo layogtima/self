@@ -2,13 +2,13 @@
   "id": "fermentation-and-food-safety",
   "slug": "fermentation-and-food-safety",
   "title": "Fermentation & Food Safety",
-  "subtitle": "Why properly fermented foods are among the safest preserved foods — and how to keep them that way",
+  "subtitle": "Why properly fermented foods are among the safest preserved foods - and how to keep them that way",
   "lastUpdated": "2026-03-09",
   "infobox": {
     "title": "Food Safety in Fermentation",
     "image": {
       "url": "https://upload.wikimedia.org/wikipedia/commons/7/72/Sauerkraut_-_chopping_and_salting_the_cabbage.jpg",
-      "caption": "Properly salted and packed cabbage beginning lacto-fermentation — one of the oldest and safest food preservation methods",
+      "caption": "Properly salted and packed cabbage beginning lacto-fermentation - one of the oldest and safest food preservation methods",
       "attribution": "Wikimedia Commons, CC BY-SA 3.0"
     },
     "facts": [
@@ -26,7 +26,7 @@
     {
       "id": "intro",
       "type": "paragraph",
-      "content": "Fermentation is not just a way to make food taste interesting — it is one of humanity's oldest and most reliable food preservation techniques. Long before refrigeration, canning, or chemical preservatives existed, people across every inhabited continent fermented vegetables, dairy, grains, and proteins to make them last and to make them safe [cite:c1]. The science behind this safety is elegant: beneficial microorganisms — primarily lactic acid bacteria (LAB) — transform sugars into lactic acid, dropping the pH to levels where nearly all dangerous pathogens simply cannot survive [[article:how-lacto-fermentation-works]]. This article is a comprehensive guide to understanding why fermented foods are safe, recognising when something has genuinely gone wrong, and following best practices that maximise both safety and quality."
+      "content": "Fermentation is not just a way to make food taste interesting - it is one of humanity's oldest and most reliable food preservation techniques. Long before refrigeration, canning, or chemical preservatives existed, people across every inhabited continent fermented vegetables, dairy, grains, and proteins to make them last and to make them safe [cite:c1]. The science behind this safety is elegant: beneficial microorganisms - primarily lactic acid bacteria (LAB) - transform sugars into lactic acid, dropping the pH to levels where nearly all dangerous pathogens simply cannot survive [[article:how-lacto-fermentation-works]]. This article is a comprehensive guide to understanding why fermented foods are safe, recognising when something has genuinely gone wrong, and following best practices that maximise both safety and quality."
     },
     {
       "id": "why-safe",
@@ -37,7 +37,7 @@
     {
       "id": "why-safe-text",
       "type": "paragraph",
-      "content": "Fermented foods rely on multiple overlapping safety mechanisms — not just one. This redundancy is what makes them so remarkably safe. Understanding these mechanisms helps explain why lacto-fermented vegetables have an almost flawless safety record, and why the occasional internet panic about 'dangerous homemade ferments' is largely unfounded [cite:c2]."
+      "content": "Fermented foods rely on multiple overlapping safety mechanisms - not just one. This redundancy is what makes them so remarkably safe. Understanding these mechanisms helps explain why lacto-fermented vegetables have an almost flawless safety record, and why the occasional internet panic about 'dangerous homemade ferments' is largely unfounded [cite:c2]."
     },
     {
       "id": "mechanism-ph",
@@ -48,7 +48,7 @@
     {
       "id": "mechanism-ph-text",
       "type": "paragraph",
-      "content": "The most important safety mechanism is the rapid production of lactic acid by LAB, which drives the pH down from a starting point of around 6.0–6.5 (raw vegetables) to 3.0–3.5 within days [[article:ph-levels-fermentation]]. The critical threshold is pH 4.6 — below this value, Clostridium botulinum cannot produce toxin, and most foodborne pathogens (Salmonella, E. coli O157:H7, Listeria monocytogenes) are inhibited or killed [cite:c3]. A well-made sauerkraut or kimchi sits at pH 3.0–3.5, providing a massive safety margin of more than a full pH unit below the danger line. Because pH is logarithmic, this means the acid concentration is 10–30 times higher than the minimum needed for safety."
+      "content": "The most important safety mechanism is the rapid production of lactic acid by LAB, which drives the pH down from a starting point of around 6.0–6.5 (raw vegetables) to 3.0–3.5 within days [[article:ph-levels-fermentation]]. The critical threshold is pH 4.6 - below this value, Clostridium botulinum cannot produce toxin, and most foodborne pathogens (Salmonella, E. coli O157:H7, Listeria monocytogenes) are inhibited or killed [cite:c3]. A well-made sauerkraut or kimchi sits at pH 3.0–3.5, providing a massive safety margin of more than a full pH unit below the danger line. Because pH is logarithmic, this means the acid concentration is 10–30 times higher than the minimum needed for safety."
     },
     {
       "id": "mechanism-ce",
@@ -59,7 +59,7 @@
     {
       "id": "mechanism-ce-text",
       "type": "paragraph",
-      "content": "Lactic acid bacteria are the sprinters of the microbial world. In the salty, anaerobic environment of a vegetable ferment, LAB outcompete virtually all other microorganisms for nutrients and space [[article:lactic-acid-bacteria]]. They multiply rapidly, consuming the available sugars and producing acid that further disadvantages competitors. This principle — competitive exclusion — means that even if a small number of pathogenic bacteria are present on the raw vegetables (which is normal), they are quickly overwhelmed by the sheer numbers and metabolic activity of LAB. The pathogens never get a foothold [cite:c4]."
+      "content": "Lactic acid bacteria are the sprinters of the microbial world. In the salty, anaerobic environment of a vegetable ferment, LAB outcompete virtually all other microorganisms for nutrients and space [[article:lactic-acid-bacteria]]. They multiply rapidly, consuming the available sugars and producing acid that further disadvantages competitors. This principle - competitive exclusion - means that even if a small number of pathogenic bacteria are present on the raw vegetables (which is normal), they are quickly overwhelmed by the sheer numbers and metabolic activity of LAB. The pathogens never get a foothold [cite:c4]."
     },
     {
       "id": "mechanism-antimicrobial",
@@ -77,13 +77,13 @@
       "type": "list",
       "ordered": false,
       "items": [
-        "**Lactic acid** — The primary preservative. Undissociated lactic acid penetrates bacterial cell membranes and disrupts intracellular pH.",
-        "**Acetic acid** — Produced in smaller quantities, especially during heterolactic fermentation. Adds to the overall acid barrier.",
-        "**Bacteriocins** — Small antimicrobial peptides (notably nisin, produced by some Lactococcus strains) that kill closely related bacteria and some Gram-positive pathogens [cite:c6].",
-        "**Hydrogen peroxide (H₂O₂)** — Produced by some LAB strains. Toxic to many bacteria that lack catalase enzymes.",
-        "**Carbon dioxide (CO₂)** — Displaces oxygen and creates an anaerobic headspace that inhibits aerobic spoilage organisms [[article:role-of-carbon-dioxide]].",
-        "**Ethanol** — Produced in small amounts during some fermentations. Contributes to pathogen inhibition.",
-        "**Diacetyl** — Produced during early fermentation. Inhibits some Gram-negative bacteria."
+        "**Lactic acid** - The primary preservative. Undissociated lactic acid penetrates bacterial cell membranes and disrupts intracellular pH.",
+        "**Acetic acid** - Produced in smaller quantities, especially during heterolactic fermentation. Adds to the overall acid barrier.",
+        "**Bacteriocins** - Small antimicrobial peptides (notably nisin, produced by some Lactococcus strains) that kill closely related bacteria and some Gram-positive pathogens [cite:c6].",
+        "**Hydrogen peroxide (H₂O₂)** - Produced by some LAB strains. Toxic to many bacteria that lack catalase enzymes.",
+        "**Carbon dioxide (CO₂)** - Displaces oxygen and creates an anaerobic headspace that inhibits aerobic spoilage organisms [[article:role-of-carbon-dioxide]].",
+        "**Ethanol** - Produced in small amounts during some fermentations. Contributes to pathogen inhibition.",
+        "**Diacetyl** - Produced during early fermentation. Inhibits some Gram-negative bacteria."
       ]
     },
     {
@@ -113,7 +113,7 @@
       "type": "callout",
       "style": "info",
       "title": "The Redundancy Principle",
-      "content": "No single mechanism makes fermented food safe — it's the combination of all five working together. Low pH kills pathogens. Competitive exclusion prevents them from establishing. Antimicrobial compounds attack them from multiple angles. Salt selects for beneficial bacteria. Anaerobic conditions prevent aerobic spoilage. Even if one mechanism were partially compromised (e.g., slightly low salt), the others provide backup. This is why fermented vegetables have such an extraordinary safety record."
+      "content": "No single mechanism makes fermented food safe - it's the combination of all five working together. Low pH kills pathogens. Competitive exclusion prevents them from establishing. Antimicrobial compounds attack them from multiple angles. Salt selects for beneficial bacteria. Anaerobic conditions prevent aerobic spoilage. Even if one mechanism were partially compromised (e.g., slightly low salt), the others provide backup. This is why fermented vegetables have such an extraordinary safety record."
     },
     {
       "id": "botulism-myths",
@@ -124,7 +124,7 @@
     {
       "id": "botulism-intro",
       "type": "paragraph",
-      "content": "Botulism is the spectre that haunts every food preservation discussion, and it is the number one concern raised by people new to fermentation. The fear is understandable — botulinum toxin is extraordinarily potent, and botulism can be fatal. But the fear, when applied specifically to lacto-fermented vegetables, is almost entirely misplaced. Let's separate myth from reality [cite:c2] [cite:c7]."
+      "content": "Botulism is the spectre that haunts every food preservation discussion, and it is the number one concern raised by people new to fermentation. The fear is understandable - botulinum toxin is extraordinarily potent, and botulism can be fatal. But the fear, when applied specifically to lacto-fermented vegetables, is almost entirely misplaced. Let's separate myth from reality [cite:c2] [cite:c7]."
     },
     {
       "id": "botulism-table",
@@ -133,11 +133,11 @@
       "headers": ["Myth", "Reality"],
       "rows": [
         ["\"Homemade fermented vegetables can give you botulism.\"", "There are virtually no documented cases of botulism from properly lacto-fermented vegetables. The CDC's records of botulism cases are dominated by improperly canned (heat-processed) foods, not fermented foods [cite:c7]. Lacto-fermentation's rapid pH drop below 4.6 makes botulism toxin production impossible."],
-        ["\"Anaerobic conditions mean botulism risk.\"", "While C. botulinum is anaerobic, it also requires pH above 4.6. Lacto-fermentation creates anaerobic conditions but simultaneously drops pH well below 4.6 within days. The acid barrier is definitive — C. botulinum cannot produce toxin at pH 3.0–3.5."],
+        ["\"Anaerobic conditions mean botulism risk.\"", "While C. botulinum is anaerobic, it also requires pH above 4.6. Lacto-fermentation creates anaerobic conditions but simultaneously drops pH well below 4.6 within days. The acid barrier is definitive - C. botulinum cannot produce toxin at pH 3.0–3.5."],
         ["\"You need special equipment to ferment safely.\"", "People have been fermenting safely in clay pots, wooden barrels, and simple jars for thousands of years. Airlock systems are convenient but not required for safety. What matters is keeping vegetables submerged and allowing natural LAB to do their work."],
-        ["\"Fermentation is as risky as canning.\"", "Canning and fermentation are fundamentally different processes. Canning relies on heat to kill all microorganisms and then creates a sealed, anaerobic environment — if the heat treatment is inadequate, surviving C. botulinum spores can germinate in the sealed jar. Fermentation relies on live, active LAB to produce acid. The safety mechanism is ongoing and self-reinforcing, not a one-time treatment."],
+        ["\"Fermentation is as risky as canning.\"", "Canning and fermentation are fundamentally different processes. Canning relies on heat to kill all microorganisms and then creates a sealed, anaerobic environment - if the heat treatment is inadequate, surviving C. botulinum spores can germinate in the sealed jar. Fermentation relies on live, active LAB to produce acid. The safety mechanism is ongoing and self-reinforcing, not a one-time treatment."],
         ["\"You must use a pH meter to be safe.\"", "While pH meters provide reassurance, they're not necessary for traditional vegetable ferments made with proper salt concentration. Billions of people have fermented safely without pH meters for millennia. If your ferment tastes increasingly sour, it's acidifying properly [[article:ph-levels-fermentation]]."],
-        ["\"Garlic in oil is the same as garlic in a ferment.\"", "Garlic in oil (without acid) is a genuine botulism risk because oil creates anaerobic conditions without any acid barrier. Garlic in a lacto-ferment (brine with salt) is safe because LAB acidify the brine. These are completely different products. The same logic applies to honey garlic ferments — once the pH drops below 4.6, the botulism risk is eliminated."],
+        ["\"Garlic in oil is the same as garlic in a ferment.\"", "Garlic in oil (without acid) is a genuine botulism risk because oil creates anaerobic conditions without any acid barrier. Garlic in a lacto-ferment (brine with salt) is safe because LAB acidify the brine. These are completely different products. The same logic applies to honey garlic ferments - once the pH drops below 4.6, the botulism risk is eliminated."],
         ["\"If you see bubbles, it might be botulism.\"", "Bubbles in a ferment are CO₂ produced by LAB during normal, healthy fermentation [[article:role-of-carbon-dioxide]]. C. botulinum does not produce visible gas in the same way. Bubbling is a sign that fermentation is proceeding correctly, not a danger signal."]
       ]
     },
@@ -146,7 +146,7 @@
       "type": "callout",
       "style": "warning",
       "title": "When Botulism IS a Real Concern",
-      "content": "Botulism risk is real in these situations — which are NOT lacto-fermentation:\n\n- **Improper home canning** of low-acid foods (green beans, corn, meat) without a pressure canner\n- **Garlic or herbs stored in oil** at room temperature without acidification\n- **Reduced-oxygen packaging** of fresh foods without adequate acid or refrigeration\n- **Fermented fish or meat products** made without sufficient salt or acid (these are fundamentally different from vegetable ferments and require specific expertise)\n\nIf you stick to lacto-fermenting vegetables with 2–5% salt and keep them submerged, botulism is not a realistic concern."
+      "content": "Botulism risk is real in these situations - which are NOT lacto-fermentation:\n\n- **Improper home canning** of low-acid foods (green beans, corn, meat) without a pressure canner\n- **Garlic or herbs stored in oil** at room temperature without acidification\n- **Reduced-oxygen packaging** of fresh foods without adequate acid or refrigeration\n- **Fermented fish or meat products** made without sufficient salt or acid (these are fundamentally different from vegetable ferments and require specific expertise)\n\nIf you stick to lacto-fermenting vegetables with 2–5% salt and keep them submerged, botulism is not a realistic concern."
     },
     {
       "id": "when-to-discard",
@@ -171,9 +171,9 @@
       "caption": "Mould types and recommended actions",
       "headers": ["What You See", "What It Is", "Action"],
       "rows": [
-        ["Flat, white, filmy layer on surface of brine", "Kahm yeast — a harmless surface yeast, not a mould", "Skim it off. The ferment beneath is fine. Improve submersion to prevent recurrence [[article:troubleshooting-ferments]]."],
+        ["Flat, white, filmy layer on surface of brine", "Kahm yeast - a harmless surface yeast, not a mould", "Skim it off. The ferment beneath is fine. Improve submersion to prevent recurrence [[article:troubleshooting-ferments]]."],
         ["White, powdery spots on vegetables above the brine line", "Likely early-stage surface yeast or very early mould", "Push vegetables below brine. If caught early, the ferment is fine. If vegetables have been above brine for days, discard those pieces only."],
-        ["Fuzzy mould — white, blue, green, or black — on surface or on vegetables above brine", "True mould (Penicillium, Aspergillus, Cladosporium, etc.)", "If only on the very top surface: remove mould plus everything within 2–3 cm. The submerged portion is generally safe (mould cannot grow in anaerobic, acidic brine). If mould has penetrated into the jar or appears throughout: discard everything."],
+        ["Fuzzy mould - white, blue, green, or black - on surface or on vegetables above brine", "True mould (Penicillium, Aspergillus, Cladosporium, etc.)", "If only on the very top surface: remove mould plus everything within 2–3 cm. The submerged portion is generally safe (mould cannot grow in anaerobic, acidic brine). If mould has penetrated into the jar or appears throughout: discard everything."],
         ["Pink, red, or orange fuzzy growth", "Potentially Fusarium or other toxin-producing moulds", "Discard the entire batch. Pink and red moulds are more likely to produce mycotoxins that can diffuse into the brine."],
         ["Black mould with visible spore structures", "Likely Aspergillus niger or Stachybotrys", "Discard the entire batch. Do not attempt to salvage."]
       ]
@@ -209,11 +209,11 @@
       "type": "list",
       "ordered": false,
       "items": [
-        "**Soft but still structured** — Normal. Vegetables soften somewhat during fermentation due to pectin breakdown. This is expected and safe.",
-        "**Pleasantly crunchy** — Ideal. Indicates good salt concentration and temperature management [[article:salt-and-fermentation]].",
-        "**Mushy, dissolving, or slimy throughout** — Problematic. May indicate insufficient salt, excessive heat, or pectinolytic enzyme activity. If accompanied by off-smells, discard. If it smells normally sour, it's safe but unpleasant to eat.",
-        "**Slimy brine (ropy, viscous)** — Usually caused by certain LAB strains (Leuconostoc) producing exopolysaccharides. Harmless and often resolves as fermentation continues. Common in early-stage ferments.",
-        "**Hollow, air-pocket-filled vegetables** — Normal in cucumbers (\"floaters\") and some other vegetables. Safe but may affect texture preference."
+        "**Soft but still structured** - Normal. Vegetables soften somewhat during fermentation due to pectin breakdown. This is expected and safe.",
+        "**Pleasantly crunchy** - Ideal. Indicates good salt concentration and temperature management [[article:salt-and-fermentation]].",
+        "**Mushy, dissolving, or slimy throughout** - Problematic. May indicate insufficient salt, excessive heat, or pectinolytic enzyme activity. If accompanied by off-smells, discard. If it smells normally sour, it's safe but unpleasant to eat.",
+        "**Slimy brine (ropy, viscous)** - Usually caused by certain LAB strains (Leuconostoc) producing exopolysaccharides. Harmless and often resolves as fermentation continues. Common in early-stage ferments.",
+        "**Hollow, air-pocket-filled vegetables** - Normal in cucumbers (\"floaters\") and some other vegetables. Safe but may affect texture preference."
       ]
     },
     {
@@ -221,7 +221,7 @@
       "type": "callout",
       "style": "tip",
       "title": "The Universal Rule",
-      "content": "When in doubt, trust your nose. Humans have evolved a remarkably sensitive ability to detect spoiled food. If a ferment smells sour and appetising (even if strongly so), it is almost certainly safe. If it smells genuinely revolting — like something you would instinctively recoil from — that instinct is correct. Discard it. The grey area is very small."
+      "content": "When in doubt, trust your nose. Humans have evolved a remarkably sensitive ability to detect spoiled food. If a ferment smells sour and appetising (even if strongly so), it is almost certainly safe. If it smells genuinely revolting - like something you would instinctively recoil from - that instinct is correct. Discard it. The grey area is very small."
     },
     {
       "id": "ph-thresholds",
@@ -232,7 +232,7 @@
     {
       "id": "ph-thresholds-intro",
       "type": "paragraph",
-      "content": "The universal safety threshold of pH 4.6 applies across all food types — below this level, C. botulinum cannot produce toxin [cite:c3]. However, different fermented foods have different typical pH ranges, and some regulatory bodies set even more conservative thresholds for commercial production. The following table provides practical guidance for home fermenters [[article:ph-levels-fermentation]]."
+      "content": "The universal safety threshold of pH 4.6 applies across all food types - below this level, C. botulinum cannot produce toxin [cite:c3]. However, different fermented foods have different typical pH ranges, and some regulatory bodies set even more conservative thresholds for commercial production. The following table provides practical guidance for home fermenters [[article:ph-levels-fermentation]]."
     },
     {
       "id": "ph-thresholds-table",
@@ -248,9 +248,9 @@
         ["Yogurt / dahi", "4.6", "4.0–4.5", "6–12 hours", "Faster due to high-concentration starter culture and lactose availability."],
         ["Kefir", "4.6", "3.5–4.5", "12–24 hours", "Kefir grains provide diverse, active culture."],
         ["Kombucha", "4.6 (but typically starts below)", "2.5–3.5", "Already acidic from starter tea", "SCOBY starter is acidic. Low pH from the start."],
-        ["Fermented honey garlic", "4.6", "3.5–4.0", "7–21 days", "Slow start — honey is antimicrobial. Must be patient. Flip jar daily for first 2 weeks."],
+        ["Fermented honey garlic", "4.6", "3.5–4.0", "7–21 days", "Slow start - honey is antimicrobial. Must be patient. Flip jar daily for first 2 weeks."],
         ["Preserved lemons", "4.6", "2.0–2.5", "Immediate", "Lemons are already far below safety threshold. Salt adds preservation."],
-        ["Fermented bean paste (doenjang-style)", "4.6", "4.0–4.8", "Weeks to months", "Complex ferment. Commercial products may use koji. pH can be near threshold — experienced fermenters only."],
+        ["Fermented bean paste (doenjang-style)", "4.6", "4.0–4.8", "Weeks to months", "Complex ferment. Commercial products may use koji. pH can be near threshold - experienced fermenters only."],
         ["Water kefir / tibicos", "4.6", "3.0–3.8", "24–48 hours", "Sugar water base. Fast fermentation."]
       ]
     },
@@ -270,7 +270,7 @@
     {
       "id": "sanitation-intro",
       "type": "paragraph",
-      "content": "Fermentation is more forgiving than canning when it comes to sanitation — you're not trying to create a sterile environment, you're creating conditions where beneficial bacteria dominate [cite:c8]. That said, good hygiene reduces the chance of introducing spoilage organisms that could compete with LAB during the critical first few days."
+      "content": "Fermentation is more forgiving than canning when it comes to sanitation - you're not trying to create a sterile environment, you're creating conditions where beneficial bacteria dominate [cite:c8]. That said, good hygiene reduces the chance of introducing spoilage organisms that could compete with LAB during the critical first few days."
     },
     {
       "id": "sanitation-essentials",
@@ -284,11 +284,11 @@
       "ordered": true,
       "items": [
         "**Wash your hands** thoroughly with soap and water before handling vegetables and equipment. This is the single most important sanitation step.",
-        "**Wash jars and equipment** with hot, soapy water and rinse well. You do not need to sterilise jars for lacto-fermentation — unlike canning, the LAB themselves provide the preservation. Dishwasher-clean is perfectly adequate.",
-        "**Wash vegetables** under running water to remove surface dirt, but do not use soap, bleach, or vegetable washes — these can kill the native LAB on vegetable surfaces that you need for fermentation.",
+        "**Wash jars and equipment** with hot, soapy water and rinse well. You do not need to sterilise jars for lacto-fermentation - unlike canning, the LAB themselves provide the preservation. Dishwasher-clean is perfectly adequate.",
+        "**Wash vegetables** under running water to remove surface dirt, but do not use soap, bleach, or vegetable washes - these can kill the native LAB on vegetable surfaces that you need for fermentation.",
         "**Use clean utensils** when packing jars. Avoid wooden spoons that may harbour residual soap or off-flavours from previous cooking. Dedicated fermentation tools are ideal but not required.",
         "**Use clean, non-chlorinated water** for brines. Chlorine in tap water can inhibit LAB. Let tap water sit uncovered for 24 hours to off-gas chlorine, or use filtered water [[article:water-quality-and-fermentation]].",
-        "**Clean your workspace** — the counter, cutting board, and any surfaces that will contact the food."
+        "**Clean your workspace** - the counter, cutting board, and any surfaces that will contact the food."
       ]
     },
     {
@@ -302,11 +302,11 @@
       "type": "list",
       "ordered": false,
       "items": [
-        "**Sterilise jars** — Hot soapy water is sufficient. Boiling or autoclaving jars for lacto-fermentation is unnecessary and may actually reduce beneficial bacteria on jar surfaces.",
-        "**Use antibacterial soap** — Regular soap is fine. Antibacterial agents are residual and may inhibit fermentation.",
-        "**Wear gloves** — Clean bare hands are fine for fermentation. Gloves can actually harbour more bacteria if not changed frequently.",
-        "**Bleach equipment** — Bleach residue can kill LAB. If you do use bleach for deep cleaning, rinse extremely thoroughly.",
-        "**Work in a 'sterile room'** — Fermentation has been done in farmhouses, outdoor markets, and kitchens of every description for millennia. Normal kitchen cleanliness is sufficient."
+        "**Sterilise jars** - Hot soapy water is sufficient. Boiling or autoclaving jars for lacto-fermentation is unnecessary and may actually reduce beneficial bacteria on jar surfaces.",
+        "**Use antibacterial soap** - Regular soap is fine. Antibacterial agents are residual and may inhibit fermentation.",
+        "**Wear gloves** - Clean bare hands are fine for fermentation. Gloves can actually harbour more bacteria if not changed frequently.",
+        "**Bleach equipment** - Bleach residue can kill LAB. If you do use bleach for deep cleaning, rinse extremely thoroughly.",
+        "**Work in a 'sterile room'** - Fermentation has been done in farmhouses, outdoor markets, and kitchens of every description for millennia. Normal kitchen cleanliness is sufficient."
       ]
     },
     {
@@ -339,7 +339,7 @@
       "ordered": true,
       "items": [
         "**Active fermentation (room temperature)**: During the first 3–14 days (depending on the ferment and ambient temperature), LAB are actively producing acid. Keep the ferment at room temperature (18–25 °C is ideal) with a loose lid or airlock to allow CO₂ to escape [[article:role-of-carbon-dioxide]]. This is when the critical pH drop occurs.",
-        "**Cold storage (refrigeration)**: Once the ferment has reached your desired level of sourness, move it to the refrigerator (2–5 °C). Cold temperatures dramatically slow LAB activity, largely halting further acidification and preserving the flavour and texture at the point you prefer. This is not required for safety — room-temperature ferments remain safe — but it preserves quality [[article:temperature-and-fermentation]]."
+        "**Cold storage (refrigeration)**: Once the ferment has reached your desired level of sourness, move it to the refrigerator (2–5 °C). Cold temperatures dramatically slow LAB activity, largely halting further acidification and preserving the flavour and texture at the point you prefer. This is not required for safety - room-temperature ferments remain safe - but it preserves quality [[article:temperature-and-fermentation]]."
       ]
     },
     {
@@ -374,7 +374,7 @@
         "**Keep the jar rim clean.** Wipe away any brine or vegetable matter from the rim and threads after each use. This prevents mould from establishing on exposed residue.",
         "**Don't panic about brine cloudiness.** Cloudy brine is normal and indicates healthy LAB activity. Clear brine turning cloudy is a good sign, not a bad one.",
         "**If brine level drops** (from eating the ferment), top up with a 2–3% salt brine to keep remaining vegetables covered.",
-        "**Glass jars are ideal** for storage. They don't absorb odours, are easy to clean, and let you visually inspect the ferment. Avoid storing long-term in metal containers — the acid will corrode most metals."
+        "**Glass jars are ideal** for storage. They don't absorb odours, are easy to clean, and let you visually inspect the ferment. Avoid storing long-term in metal containers - the acid will corrode most metals."
       ]
     },
     {
@@ -382,7 +382,7 @@
       "type": "callout",
       "style": "tip",
       "title": "Can Fermented Food Go Bad in the Fridge?",
-      "content": "Technically, fermented vegetables at pH 3.0–3.5 are preserved and will not become unsafe in the refrigerator even after very long periods. However, quality degrades over time: textures soften, flavours become more uniformly sour (losing complexity), and colours fade. A sauerkraut that's been in the fridge for two years is safe to eat — but it may not be enjoyable. For best quality, consume within 6–12 months."
+      "content": "Technically, fermented vegetables at pH 3.0–3.5 are preserved and will not become unsafe in the refrigerator even after very long periods. However, quality degrades over time: textures soften, flavours become more uniformly sour (losing complexity), and colours fade. A sauerkraut that's been in the fridge for two years is safe to eat - but it may not be enjoyable. For best quality, consume within 6–12 months."
     },
     {
       "id": "misconceptions",
@@ -404,7 +404,7 @@
     {
       "id": "misconception-1-text",
       "type": "paragraph",
-      "content": "While it's true that lacto-fermented vegetables are not heated, calling them 'raw' is misleading. The vegetables have been profoundly transformed by microbial activity — the chemical environment inside a jar of sauerkraut is radically different from a bag of raw shredded cabbage. The pH is lower than vinegar, the LAB population is in the billions per gram, and antimicrobial compounds are present throughout [cite:c4]. 'Uncooked' is accurate; 'unprocessed' or 'unsafe' is not."
+      "content": "While it's true that lacto-fermented vegetables are not heated, calling them 'raw' is misleading. The vegetables have been profoundly transformed by microbial activity - the chemical environment inside a jar of sauerkraut is radically different from a bag of raw shredded cabbage. The pH is lower than vinegar, the LAB population is in the billions per gram, and antimicrobial compounds are present throughout [cite:c4]. 'Uncooked' is accurate; 'unprocessed' or 'unsafe' is not."
     },
     {
       "id": "misconception-2",
@@ -415,7 +415,7 @@
     {
       "id": "misconception-2-text",
       "type": "paragraph",
-      "content": "Starter cultures can be useful for consistency and speed, but they are not required for safety in vegetable fermentation. Raw vegetables naturally harbour abundant LAB on their surfaces — this is how fermentation has worked for thousands of years without any added cultures [[article:lactic-acid-bacteria]]. Salt concentration and submersion are far more important safety factors than whether you add a starter."
+      "content": "Starter cultures can be useful for consistency and speed, but they are not required for safety in vegetable fermentation. Raw vegetables naturally harbour abundant LAB on their surfaces - this is how fermentation has worked for thousands of years without any added cultures [[article:lactic-acid-bacteria]]. Salt concentration and submersion are far more important safety factors than whether you add a starter."
     },
     {
       "id": "misconception-3",
@@ -426,7 +426,7 @@
     {
       "id": "misconception-3-text",
       "type": "paragraph",
-      "content": "Exactly the opposite. Bubbling — especially vigorous bubbling in the first few days — is a clear sign of active, healthy fermentation. CO₂ is a normal byproduct of heterolactic fermentation (the first phase of vegetable fermentation, dominated by Leuconostoc mesenteroides) [[article:role-of-carbon-dioxide]]. A ferment that doesn't bubble at all during the first few days is more concerning than one that bubbles vigorously."
+      "content": "Exactly the opposite. Bubbling - especially vigorous bubbling in the first few days - is a clear sign of active, healthy fermentation. CO₂ is a normal byproduct of heterolactic fermentation (the first phase of vegetable fermentation, dominated by Leuconostoc mesenteroides) [[article:role-of-carbon-dioxide]]. A ferment that doesn't bubble at all during the first few days is more concerning than one that bubbles vigorously."
     },
     {
       "id": "misconception-4",
@@ -448,7 +448,7 @@
     {
       "id": "misconception-5-text",
       "type": "paragraph",
-      "content": "Pressure buildup from CO₂ production is entirely normal during active fermentation. A popping lid, a hissing release when you open the jar, or even brine leaking from under a loosely fitted lid are all signs of vigorous, healthy fermentation — not failure. This is why many fermenters use airlock lids, or simply place jars on a plate to catch overflow. The ferment is fine [[article:troubleshooting-ferments]]."
+      "content": "Pressure buildup from CO₂ production is entirely normal during active fermentation. A popping lid, a hissing release when you open the jar, or even brine leaking from under a loosely fitted lid are all signs of vigorous, healthy fermentation - not failure. This is why many fermenters use airlock lids, or simply place jars on a plate to catch overflow. The ferment is fine [[article:troubleshooting-ferments]]."
     },
     {
       "id": "misconception-6",
@@ -487,7 +487,7 @@
     {
       "id": "special-garlic-text",
       "type": "paragraph",
-      "content": "Garlic contains allicin, a potent antimicrobial compound that can slow the initial growth of LAB. Honey garlic ferments and garlic-heavy ferments may acidify more slowly than typical vegetable ferments. Patience is important — give these ferments extra time (2–3 weeks) to reach safe pH levels. Flipping jars daily helps distribute the developing brine and ensures even fermentation. Do NOT confuse fermented garlic (in brine or honey with active fermentation) with garlic stored in oil (no fermentation, genuine botulism risk) [cite:c10]."
+      "content": "Garlic contains allicin, a potent antimicrobial compound that can slow the initial growth of LAB. Honey garlic ferments and garlic-heavy ferments may acidify more slowly than typical vegetable ferments. Patience is important - give these ferments extra time (2–3 weeks) to reach safe pH levels. Flipping jars daily helps distribute the developing brine and ensures even fermentation. Do NOT confuse fermented garlic (in brine or honey with active fermentation) with garlic stored in oil (no fermentation, genuine botulism risk) [cite:c10]."
     },
     {
       "id": "special-lowsugar",
@@ -498,7 +498,7 @@
     {
       "id": "special-lowsugar-text",
       "type": "paragraph",
-      "content": "LAB require sugars to produce lactic acid. Vegetables very low in fermentable sugars (such as some leafy greens or very mature root vegetables) may acidify slowly. Adding a small amount of a sugar source — a piece of apple, a tablespoon of whey, or simply mixing with a higher-sugar vegetable like cabbage or carrot — can help ensure reliable acidification [[article:salt-and-fermentation]]."
+      "content": "LAB require sugars to produce lactic acid. Vegetables very low in fermentable sugars (such as some leafy greens or very mature root vegetables) may acidify slowly. Adding a small amount of a sugar source - a piece of apple, a tablespoon of whey, or simply mixing with a higher-sugar vegetable like cabbage or carrot - can help ensure reliable acidification [[article:salt-and-fermentation]]."
     },
     {
       "id": "special-mixed",
@@ -539,7 +539,7 @@
       "type": "callout",
       "style": "info",
       "title": "Perspective",
-      "content": "Fermentation is one of the most thoroughly field-tested food technologies in human history. It has been practiced on every inhabited continent for thousands of years, by billions of people, without pH meters, airlocks, or food science degrees. Modern understanding of microbiology helps explain WHY it works, but the method itself was proven safe through millennia of daily use long before anyone knew what a bacterium was. Trust the process — but also learn the science, because understanding makes you a better and more confident fermenter."
+      "content": "Fermentation is one of the most thoroughly field-tested food technologies in human history. It has been practiced on every inhabited continent for thousands of years, by billions of people, without pH meters, airlocks, or food science degrees. Modern understanding of microbiology helps explain WHY it works, but the method itself was proven safe through millennia of daily use long before anyone knew what a bacterium was. Trust the process - but also learn the science, because understanding makes you a better and more confident fermenter."
     }
   ],
   "citations": [

@@ -48,8 +48,8 @@
       "instruction": "Cut carrots into sticks that will fit vertically in your jar.",
       "tips": [
         "Cut sticks slightly shorter than the jar height so you can place a weight on top to keep them submerged.",
-        "Uniform thickness (about 1cm) ensures even fermentation—thin sticks will go soft while thick ones stay raw.",
-        "Cut all sticks to the same length and width so they ferment at the same rate—mismatched sizes mean some pieces are perfect while others are over- or under-fermented."
+        "Uniform thickness (about 1cm) ensures even fermentation-thin sticks will go soft while thick ones stay raw.",
+        "Cut all sticks to the same length and width so they ferment at the same rate-mismatched sizes mean some pieces are perfect while others are over- or under-fermented."
       ]
     },
     {
@@ -57,7 +57,7 @@
       "title": "Brine",
       "instruction": "Mix 15g salt into 500ml water. Pour over carrots and ginger slices.",
       "tips": [
-        "Use non-chlorinated water—chlorine inhibits the lactobacillus bacteria you want. Filtered or boiled-and-cooled water works best.",
+        "Use non-chlorinated water-chlorine inhibits the lactobacillus bacteria you want. Filtered or boiled-and-cooled water works best.",
         "Slice the ginger into thin coins rather than chunks so the flavor distributes evenly.",
         "Dissolve the salt completely in the water before pouring over the carrots to ensure even salinity."
       ]
@@ -65,10 +65,10 @@
     {
       "step": 3,
       "title": "Wait",
-      "instruction": "Ferment for 5–7 days. The brine will get cloudy—that's the good stuff.",
+      "instruction": "Ferment for 5–7 days. The brine will get cloudy-that's the good stuff.",
       "tips": [
         "Taste a stick on day 4. If it is pleasantly tangy and still crunchy, move to the fridge. Warm climates speed things up.",
-        "Cloudiness means active lactobacillus colonies—never throw out cloudy brine thinking it has gone bad.",
+        "Cloudiness means active lactobacillus colonies-never throw out cloudy brine thinking it has gone bad.",
         "Once refrigerated, these will keep for 2–3 months and actually improve in flavor over the first few weeks."
       ]
     }
@@ -79,11 +79,11 @@
       "caption": "Ginger Carrots",
       "attribution": "",
       "type": "hero",
-      "alt": "Ginger Carrots — The gateway snack for kids and skeptics"
+      "alt": "Ginger Carrots - The gateway snack for kids and skeptics"
     }
   ],
   "culturalContext": {
-    "story": "A staple of the \"Weston A. Price\" style diet, fermented carrots became a cornerstone of the nourishing traditions movement in the early 2000s. Sally Fallon's 'Nourishing Traditions' cookbook popularized this exact recipe, positioning it as the simplest way to introduce live probiotics into a Western diet. The combination of carrots and ginger is found across cultures—from Korean banchan to Indian achaar variations.",
+    "story": "A staple of the \"Weston A. Price\" style diet, fermented carrots became a cornerstone of the nourishing traditions movement in the early 2000s. Sally Fallon's 'Nourishing Traditions' cookbook popularized this exact recipe, positioning it as the simplest way to introduce live probiotics into a Western diet. The combination of carrots and ginger is found across cultures-from Korean banchan to Indian achaar variations.",
     "significance": "Carrots maintain their structural integrity better than almost any other vegetable when fermented.",
     "funFact": "The ginger prevents the carrots from smelling \"swampy,\" keeping them fresh and bright.",
     "historicalNote": "Root vegetables have been fermented in brine across Northern Europe and Central Asia for centuries as a way to preserve the autumn harvest through long winters without refrigeration.",
@@ -119,7 +119,7 @@
     },
     {
       "title": "Organic Carrots Ferment Better",
-      "description": "Conventionally grown carrots are sometimes treated with chlorine washes that can inhibit fermentation. If your ferment seems sluggish after 3 days, the carrots may need a boost—add a splash of raw apple cider vinegar or whey.",
+      "description": "Conventionally grown carrots are sometimes treated with chlorine washes that can inhibit fermentation. If your ferment seems sluggish after 3 days, the carrots may need a boost-add a splash of raw apple cider vinegar or whey.",
       "severity": "tip"
     }
   ],

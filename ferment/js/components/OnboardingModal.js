@@ -1,5 +1,5 @@
 /**
- * FERMENT — OnboardingModal Component
+ * FERMENT - OnboardingModal Component
  * First-run onboarding wizard: region, units, feature tour
  */
 
@@ -120,7 +120,7 @@ const OnboardingModalComponent = {
             <h2 class="font-serif text-3xl text-text-primary dark:text-dark-text">Welcome to FERMENT</h2>
             <p class="text-text-secondary dark:text-dark-text-secondary leading-relaxed">
               Your companion for the ancient, living art of fermentation. From sauerkraut to kimchi, from miso to hot sauce
-              — explore recipes from cultures around the world and start your own fermentation journey.
+              - explore recipes from cultures around the world and start your own fermentation journey.
             </p>
             <p class="text-sm text-text-muted italic font-serif">
               "May your cultures be strong, your brine be clear, and your jars never explode."

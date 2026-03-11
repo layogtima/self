@@ -38,7 +38,7 @@
       "caption": "Mango in Brine",
       "attribution": "",
       "type": "hero",
-      "alt": "Mango in Brine — Coastal Karnataka’s monsoon staple"
+      "alt": "Mango in Brine - Coastal Karnataka’s monsoon staple"
     }
   ],
   "tldr": "Whole green mangoes + excessive salt. They create their own brine and last for years.",
@@ -48,9 +48,9 @@
       "title": "Dry",
       "instruction": "Wash and thoroughly dry the mangoes. Moisture is the enemy here.",
       "tips": [
-        "Dry the mangoes in the sun for 2-3 hours or pat with a clean cloth — even a few drops of water can introduce mold.",
+        "Dry the mangoes in the sun for 2-3 hours or pat with a clean cloth - even a few drops of water can introduce mold.",
         "Choose mangoes that are rock-hard and completely green with no yellow patches; any ripeness will make them mushy.",
-        "The stem end should be trimmed and dried separately — it can harbor moisture."
+        "The stem end should be trimmed and dried separately - it can harbor moisture."
       ]
     },
     {
@@ -59,7 +59,7 @@
       "instruction": "Layer mangoes and salt in a ceramic jar (Bharani).",
       "tips": [
         "The traditional 'Bharani' (ceramic pickling jar) is ideal because it stays cool and doesn't react with the salt and acid.",
-        "Always start and end with a thick layer of salt — the top salt layer acts as a protective barrier against mold.",
+        "Always start and end with a thick layer of salt - the top salt layer acts as a protective barrier against mold.",
         "Glass jars work fine as a substitute, but avoid metal or plastic containers as the salt and acid will react with them."
       ]
     },
@@ -68,7 +68,7 @@
       "title": "Shake",
       "instruction": "Shake the jar every day for 2 weeks. The salt will draw out the mango juice, creating a brine.",
       "tips": [
-        "Shaking redistributes the salt and prevents dry pockets where mold could form — do not skip this step.",
+        "Shaking redistributes the salt and prevents dry pockets where mold could form - do not skip this step.",
         "By day 3-4, you should see brine forming at the bottom; if not, the mangoes may need more salt.",
         "After 2 weeks, the mangoes should be fully submerged in their own brine. If not, top up with a saturated salt solution."
       ]
@@ -78,7 +78,7 @@
     "story": "In the Western Ghats of coastal Karnataka, families have been brining green mangoes for centuries as monsoon preparation. When the heavy June rains make roads impassable and fresh vegetables scarce, these salt-preserved mangoes become the backbone of daily meals. Every household has a prized Bharani (ceramic jar) passed down through generations, often seasoned with decades of pickle-making that imparts a unique flavor.",
     "historicalNote": "Mango pickling in India dates back over 4,000 years, with references found in ancient Ayurvedic texts. The Portuguese encountered Indian mango pickles during their colonization of Goa and carried the concept back to Europe, where it influenced the development of Western-style chutneys and preserves.",
     "significance": "This is the 'mother' of all Indian pickles. These brined mangoes are later turned into various spicy achars by adding oil, chili, fenugreek, and mustard. A single batch of brined mangoes can become five or six different pickle varieties throughout the year.",
-    "funFact": "In Karnataka, the quality of a bride's pickle-making was traditionally assessed before marriage — a well-brined mango jar was considered a sign of household competence.",
+    "funFact": "In Karnataka, the quality of a bride's pickle-making was traditionally assessed before marriage - a well-brined mango jar was considered a sign of household competence.",
     "relatedTraditions": ["Avakaya (Andhra mango pickle with mustard)", "Aam ka Achar (North Indian oil-based mango pickle)", "Maangai Oorugai (Tamil Nadu mango pickle)"]
   },
   "tags": [
@@ -122,7 +122,7 @@
   ],
   "sources": [
     {
-      "title": "Indian Pickle — Wikipedia",
+      "title": "Indian Pickle - Wikipedia",
       "url": "https://en.wikipedia.org/wiki/Indian_pickle"
     }
   ],

@@ -52,7 +52,7 @@
       "category": "salt",
       "essential": true,
       "substitutions": [
-        "Sea salt, kosher salt — never iodised"
+        "Sea salt, kosher salt - never iodised"
       ],
       "localAvailability": {
         "IN": {
@@ -90,9 +90,9 @@
       "instruction": "Cut lemons into quarters, but only 3/4 of the way down so they stay attached at the base. Think of it as quartering without separating.",
       "duration": "10 min",
       "tips": [
-        "A sharp knife is essential — dull knives will crush the lemon and waste juice",
-        "Choose lemons with thin, smooth skin — they cure faster and have less bitter pith than thick-skinned varieties.",
-        "Scrub the lemons well before cutting — the rind is what you'll be eating, so clean it thoroughly."
+        "A sharp knife is essential - dull knives will crush the lemon and waste juice",
+        "Choose lemons with thin, smooth skin - they cure faster and have less bitter pith than thick-skinned varieties.",
+        "Scrub the lemons well before cutting - the rind is what you'll be eating, so clean it thoroughly."
       ],
       "checkpoint": "Lemons open like flowers but still connected at the base"
     },
@@ -103,8 +103,8 @@
       "duration": "5 min",
       "tips": [
         "More salt = faster cure. You cannot over-salt these.",
-        "Use coarse rock salt rather than fine — it packs into the cuts better and dissolves slowly for a more even cure.",
-        "Work over a bowl to catch any juice that escapes during salting — pour it back into the jar later."
+        "Use coarse rock salt rather than fine - it packs into the cuts better and dissolves slowly for a more even cure.",
+        "Work over a bowl to catch any juice that escapes during salting - pour it back into the jar later."
       ],
       "checkpoint": "Each lemon visibly packed with salt crystals"
     },
@@ -114,21 +114,21 @@
       "instruction": "Pack into a sterilized jar. Press down HARD with a wooden spoon to release juice. Juice MUST cover the lemons. Add extra fresh lemon juice if needed.",
       "duration": "5 min",
       "tips": [
-        "Really crush them — you want every air pocket eliminated",
+        "Really crush them - you want every air pocket eliminated",
         "Leave 2cm headspace",
-        "Keep 2–3 extra lemons on hand for juicing — if your packed lemons aren't fully submerged, squeeze fresh juice over the top immediately."
+        "Keep 2–3 extra lemons on hand for juicing - if your packed lemons aren't fully submerged, squeeze fresh juice over the top immediately."
       ],
       "checkpoint": "All lemons submerged under juice"
     },
     {
       "step": 4,
       "title": "The Long Wait",
-      "instruction": "Store in a cool, dark spot. Flip the jar upside down every few days for the first week to redistribute the salt. After 30 days, taste the rind — it should be soft and mellow, not bitter.",
+      "instruction": "Store in a cool, dark spot. Flip the jar upside down every few days for the first week to redistribute the salt. After 30 days, taste the rind - it should be soft and mellow, not bitter.",
       "duration": "30–90 days",
       "tips": [
         "Month 1: still sharp. Month 2: perfect. Month 3: transcendent.",
-        "The jar is shelf-stable once fully cured — no refrigeration needed",
-        "Always use a clean, dry spoon to fish out lemons — introducing water or food particles into the jar can cause mould."
+        "The jar is shelf-stable once fully cured - no refrigeration needed",
+        "Always use a clean, dry spoon to fish out lemons - introducing water or food particles into the jar can cause mould."
       ],
       "checkpoint": "Rind is soft enough to mash with a fork"
     }
@@ -139,7 +139,7 @@
       "caption": "Preserved Lemons",
       "attribution": "",
       "type": "hero",
-      "alt": "Preserved Lemons — North African salt-cured citrus gold"
+      "alt": "Preserved Lemons - North African salt-cured citrus gold"
     }
   ],
   "culturalContext": {
@@ -151,7 +151,7 @@
       "Chinese salted preserved plums",
       "Japanese shio-zuke"
     ],
-    "funFact": "You only eat the rind! The flesh is usually discarded after cooking because it’s too salty. The rind becomes the star — silky, fragrant, and intensely citrusy without any bitterness."
+    "funFact": "You only eat the rind! The flesh is usually discarded after cooking because it’s too salty. The rind becomes the star - silky, fragrant, and intensely citrusy without any bitterness."
   },
   "thingsToAccountFor": [
     {
@@ -164,7 +164,7 @@
     },
     {
       "title": "White film on the brine",
-      "description": "Kahm yeast — harmless but ugly. Skim it off. It does not mean the batch is ruined.",
+      "description": "Kahm yeast - harmless but ugly. Skim it off. It does not mean the batch is ruined.",
       "severity": "info",
       "appliesTo": [
         "all"
@@ -174,7 +174,7 @@
   "dehydratorIntegration": {
     "applicable": true,
     "method": "Slice cured rinds thin, dehydrate at 45°C for 6–8 hours.",
-    "result": "Crispy lemon salt chips — grind into powder for an incredible finishing salt.",
+    "result": "Crispy lemon salt chips - grind into powder for an incredible finishing salt.",
     "shelfLife": "Indefinite if kept dry",
     "tips": [
       "The powder is spectacular on grilled vegetables, pasta, and fish"
@@ -193,7 +193,7 @@
     },
     {
       "name": "Quick Preserved Lemons",
-      "description": "Dice lemons small and use 3x the salt — ready in 7 days but less nuanced.",
+      "description": "Dice lemons small and use 3x the salt - ready in 7 days but less nuanced.",
       "region": "Modern"
     }
   ],
@@ -217,7 +217,7 @@
   "containsAllergens": [],
   "sources": [
     {
-      "title": "Preserved Lemon — Wikipedia",
+      "title": "Preserved Lemon - Wikipedia",
       "url": "https://en.wikipedia.org/wiki/Preserved_lemon",
       "license": "CC BY-SA"
     }

@@ -14,9 +14,9 @@
     "facts": [
       { "label": "Optimal range", "value": "18–25 °C for most vegetable ferments" },
       { "label": "Bengaluru ambient", "value": "~24–28 °C year-round" },
-      { "label": "Too cold", "value": "Below 10 °C — very slow, may stall" },
-      { "label": "Too hot", "value": "Above 35 °C — too fast, mushy, off-flavours" },
-      { "label": "Refrigerator", "value": "2–5 °C — near-halt for storage" },
+      { "label": "Too cold", "value": "Below 10 °C - very slow, may stall" },
+      { "label": "Too hot", "value": "Above 35 °C - too fast, mushy, off-flavours" },
+      { "label": "Refrigerator", "value": "2–5 °C - near-halt for storage" },
       { "label": "Affects", "value": "Speed, flavour complexity, texture, bacterial succession" }
     ]
   },
@@ -25,7 +25,7 @@
     {
       "id": "intro",
       "type": "paragraph",
-      "content": "Temperature is the accelerator pedal of fermentation. Every 10 °C increase roughly doubles the rate of bacterial metabolism (a principle known as Q₁₀) [cite:c1]. This means a ferment at 25 °C progresses about twice as fast as one at 15 °C, and four times as fast as one at 5 °C. But speed isn't everything — temperature also profoundly affects which bacteria dominate, how complex the flavours become, and whether the texture holds up or turns to mush."
+      "content": "Temperature is the accelerator pedal of fermentation. Every 10 °C increase roughly doubles the rate of bacterial metabolism (a principle known as Q₁₀) [cite:c1]. This means a ferment at 25 °C progresses about twice as fast as one at 15 °C, and four times as fast as one at 5 °C. But speed isn't everything - temperature also profoundly affects which bacteria dominate, how complex the flavours become, and whether the texture holds up or turns to mush."
     },
     {
       "id": "ranges",
@@ -57,7 +57,7 @@
     {
       "id": "bengaluru-text",
       "type": "paragraph",
-      "content": "Bengaluru's climate is a fermenter's dream. The city sits at ~920m elevation, giving it average temperatures of 24–28 °C year-round — almost exactly the optimal range for lacto-fermentation [cite:c2]. Unlike coastal cities where summer temperatures can hit 40 °C+ (making fermentation unpredictably fast), or Northern European cities where winters drop below 10 °C (stalling ferments for weeks), Bengaluru's consistent warmth means:"
+      "content": "Bengaluru's climate is a fermenter's dream. The city sits at ~920m elevation, giving it average temperatures of 24–28 °C year-round - almost exactly the optimal range for lacto-fermentation [cite:c2]. Unlike coastal cities where summer temperatures can hit 40 °C+ (making fermentation unpredictably fast), or Northern European cities where winters drop below 10 °C (stalling ferments for weeks), Bengaluru's consistent warmth means:"
     },
     {
       "id": "bengaluru-list",
@@ -102,14 +102,14 @@
     {
       "id": "speed-explanation",
       "type": "paragraph",
-      "content": "At higher temperatures, lactic acid bacteria work faster, and the dominant species (homofermentative L. plantarum) produces lactic acid efficiently but with fewer secondary metabolites [[article:lactic-acid-bacteria]]. The result is a clean, sharp sourness — pleasant but somewhat one-dimensional. At lower temperatures, fermentation is slower, allowing more time for heterofermentative species to contribute, for secondary reactions to occur, and for complex esters, aldehydes, and other flavour compounds to accumulate. This is why a German cellar sauerkraut fermented at 12 °C for 8 weeks has layers of flavour that a warm-room 2-week ferment doesn't."
+      "content": "At higher temperatures, lactic acid bacteria work faster, and the dominant species (homofermentative L. plantarum) produces lactic acid efficiently but with fewer secondary metabolites [[article:lactic-acid-bacteria]]. The result is a clean, sharp sourness - pleasant but somewhat one-dimensional. At lower temperatures, fermentation is slower, allowing more time for heterofermentative species to contribute, for secondary reactions to occur, and for complex esters, aldehydes, and other flavour compounds to accumulate. This is why a German cellar sauerkraut fermented at 12 °C for 8 weeks has layers of flavour that a warm-room 2-week ferment doesn't."
     },
     {
       "id": "speed-callout",
       "type": "callout",
       "style": "info",
       "title": "The Hybrid Approach",
-      "content": "Many experienced fermenters use a two-stage approach: ferment at room temperature (20–25 °C) for the first 3–7 days to establish rapid acidification and safety, then transfer to the refrigerator (2–5 °C) for weeks or months of slow flavour development. This gives you the best of both worlds — fast safety, slow complexity."
+      "content": "Many experienced fermenters use a two-stage approach: ferment at room temperature (20–25 °C) for the first 3–7 days to establish rapid acidification and safety, then transfer to the refrigerator (2–5 °C) for weeks or months of slow flavour development. This gives you the best of both worlds - fast safety, slow complexity."
     },
     {
       "id": "managing-temp",
@@ -145,13 +145,13 @@
       "caption": "Optimal temperature ranges for specific fermentation types",
       "headers": ["Ferment Type", "Optimal Range", "Too Cold", "Too Hot", "BLR Suitability"],
       "rows": [
-        ["Sauerkraut [[recipe:sauerkraut-classic]]", "15–22 °C", "Below 10 °C", "Above 30 °C", "Good — ferments fast, start tasting at day 7"],
-        ["Brine pickles [[recipe:brine-pickles-basic]]", "18–24 °C", "Below 12 °C", "Above 30 °C", "Excellent — perfect pace"],
+        ["Sauerkraut [[recipe:sauerkraut-classic]]", "15–22 °C", "Below 10 °C", "Above 30 °C", "Good - ferments fast, start tasting at day 7"],
+        ["Brine pickles [[recipe:brine-pickles-basic]]", "18–24 °C", "Below 12 °C", "Above 30 °C", "Excellent - perfect pace"],
         ["Dahi (yogurt) [[recipe:dahi-homemade]]", "40–45 °C (for setting)", "Below 35 °C (won't set)", "Above 50 °C (kills culture)", "Need insulated vessel or oven light"],
-        ["Tepache [[recipe:tepache-pineapple]]", "22–28 °C", "Below 18 °C", "Above 35 °C", "Perfect — BLR is ideal"],
-        ["Honey garlic [[recipe:honey-garlic-ferment]]", "18–25 °C", "Below 15 °C", "Above 30 °C", "Good — flip jar daily"],
-        ["Preserved lemons [[recipe:preserved-lemons-salt]]", "18–28 °C", "Below 10 °C", "Above 35 °C", "Excellent — salt does most of the work"],
-        ["Fermented hot sauce [[recipe:chilli-mash-base]]", "20–26 °C", "Below 15 °C", "Above 32 °C", "Great — active fermentation in 3–5 days"]
+        ["Tepache [[recipe:tepache-pineapple]]", "22–28 °C", "Below 18 °C", "Above 35 °C", "Perfect - BLR is ideal"],
+        ["Honey garlic [[recipe:honey-garlic-ferment]]", "18–25 °C", "Below 15 °C", "Above 30 °C", "Good - flip jar daily"],
+        ["Preserved lemons [[recipe:preserved-lemons-salt]]", "18–28 °C", "Below 10 °C", "Above 35 °C", "Excellent - salt does most of the work"],
+        ["Fermented hot sauce [[recipe:chilli-mash-base]]", "20–26 °C", "Below 15 °C", "Above 32 °C", "Great - active fermentation in 3–5 days"]
       ]
     }
   ],

@@ -20,7 +20,7 @@
   "fermentTimeMax": 12,
   "fermentTimeUnit": "hours",
   "totalTimeHuman": "6–12 hours (overnight)",
-  "blrNote": "Bengaluru's warmth is ideal — set it in the evening, have fresh dahi by morning. Use full-fat milk from any dairy or Nandini.",
+  "blrNote": "Bengaluru's warmth is ideal - set it in the evening, have fresh dahi by morning. Use full-fat milk from any dairy or Nandini.",
   "seasonality": [
     "all"
   ],
@@ -72,7 +72,7 @@
     {
       "name": "Wide ceramic or steel container",
       "essential": true,
-      "notes": "For setting the dahi — wide surface = faster setting"
+      "notes": "For setting the dahi - wide surface = faster setting"
     }
   ],
   "tldr": "Heat milk, cool to warm, stir in a spoon of last batch, leave overnight. Wake up to dahi. Repeat forever.",
@@ -83,7 +83,7 @@
       "instruction": "Bring milk to a full boil, stirring occasionally. This kills competing bacteria and partially denatures proteins for a thicker set.",
       "duration": "10 min",
       "tips": [
-        "Don't skip boiling — it's what makes Indian dahi different from Western yogurt",
+        "Don't skip boiling - it's what makes Indian dahi different from Western yogurt",
         "Stir constantly near the bottom to prevent a skin from forming and milk from scorching",
         "Let the milk foam up and settle 2–3 times for an even thicker, creamier set"
       ],
@@ -92,12 +92,12 @@
     {
       "step": 2,
       "title": "Cool to the right temperature",
-      "instruction": "Let milk cool to 40–45°C. The old test: dip your clean finger — it should feel warm but not burn. If you can hold your finger comfortably for 5 seconds, it's right.",
+      "instruction": "Let milk cool to 40–45°C. The old test: dip your clean finger - it should feel warm but not burn. If you can hold your finger comfortably for 5 seconds, it's right.",
       "duration": "30–40 min",
       "tips": [
         "Too hot kills the culture. Too cold and it won't set.",
         "In BLR, this usually takes 35–40 min at room temp",
-        "Transfer to a wide steel vessel to cool faster — a narrow pot traps heat and takes much longer"
+        "Transfer to a wide steel vessel to cool faster - a narrow pot traps heat and takes much longer"
       ],
       "checkpoint": "Milk feels comfortably warm on your wrist"
     },
@@ -109,21 +109,21 @@
       "tips": [
         "Mix starter smooth first to avoid lumps in the final dahi",
         "A thick, sour starter from a neighbour's kitchen will give better results than watery store-bought curd",
-        "Use a ceramic or earthen pot (handi) for setting — the porous surface retains warmth and improves texture"
+        "Use a ceramic or earthen pot (handi) for setting - the porous surface retains warmth and improves texture"
       ],
       "checkpoint": "Starter is evenly distributed"
     },
     {
       "step": 4,
       "title": "Set overnight",
-      "instruction": "Cover loosely. Leave undisturbed in a warm spot. In Bengaluru's climate, room temperature is sufficient — no need to wrap in towels. Check after 6–8 hours.",
+      "instruction": "Cover loosely. Leave undisturbed in a warm spot. In Bengaluru's climate, room temperature is sufficient - no need to wrap in towels. Check after 6–8 hours.",
       "duration": "6–12 hours",
       "tips": [
         "Don't move or jostle the container while it's setting",
         "In cooler BLR winter months (Dec–Jan), place near the stove or in a closed cupboard",
         "Wrapping the vessel in a thick towel or placing it inside the oven (turned off) holds warmth all night"
       ],
-      "checkpoint": "Dahi has set — tilting the container shows a solid mass"
+      "checkpoint": "Dahi has set - tilting the container shows a solid mass"
     },
     {
       "step": 5,
@@ -132,7 +132,7 @@
       "duration": null,
       "tips": [
         "Save 2 tbsp from this batch as your next starter",
-        "Refrigerate within an hour of setting — leaving it out longer makes it noticeably more sour",
+        "Refrigerate within an hour of setting - leaving it out longer makes it noticeably more sour",
         "If you want thick Greek-style dahi, hang it in muslin for 2 hours and collect the whey for chapati dough"
       ],
       "checkpoint": "Firm, creamy, pleasantly tangy"
@@ -144,12 +144,12 @@
       "caption": "Dahi",
       "attribution": "Photo by Sara Cervera on Unsplash",
       "type": "hero",
-      "alt": "Dahi — The original Indian live culture ferment"
+      "alt": "Dahi - The original Indian live culture ferment"
     }
   ],
   "culturalContext": {
-    "story": "Dahi has been made in the Indian subcontinent for at least 5000 years. It appears in the Rigveda, in Ayurvedic texts, in every regional cuisine. It is simultaneously medicine, comfort food, religious offering, and daily nutrition. Each household maintains a living culture passed through generations — sometimes decades old.",
-    "historicalNote": "The practice of setting dahi is considered sacred in many households. The culture is treated as a living thing — it is \"fed\" new milk and ideally never allowed to die out. Some families maintain the same culture for generations.",
+    "story": "Dahi has been made in the Indian subcontinent for at least 5000 years. It appears in the Rigveda, in Ayurvedic texts, in every regional cuisine. It is simultaneously medicine, comfort food, religious offering, and daily nutrition. Each household maintains a living culture passed through generations - sometimes decades old.",
+    "historicalNote": "The practice of setting dahi is considered sacred in many households. The culture is treated as a living thing - it is \"fed\" new milk and ideally never allowed to die out. Some families maintain the same culture for generations.",
     "significance": "In Bengaluru, dahi (mosaru in Kannada) is foundational. Curd rice (mosaranna) is the ultimate comfort meal. Majjige (spiced buttermilk) is the summer survival drink. Raita accompanies almost every meal. Making your own dahi means you understand the live culture principle that underlies all dairy fermentation.",
     "relatedTraditions": [
       "Labneh (strained yogurt, Middle East)",
@@ -177,7 +177,7 @@
     },
     {
       "title": "Watery layer on top",
-      "description": "Whey separation is normal and healthy — it means fermentation worked. Stir it back in or drain it off (whey is nutritious, use in cooking).",
+      "description": "Whey separation is normal and healthy - it means fermentation worked. Stir it back in or drain it off (whey is nutritious, use in cooking).",
       "severity": "info",
       "appliesTo": [
         "all"
@@ -187,7 +187,7 @@
   "dehydratorIntegration": {
     "applicable": true,
     "method": "Spread strained dahi (labneh-style) thinly on parchment. Dehydrate at 45°C for 10–14 hours.",
-    "result": "Yogurt powder — adds probiotics and tang to smoothies, raitas, or dry rubs.",
+    "result": "Yogurt powder - adds probiotics and tang to smoothies, raitas, or dry rubs.",
     "shelfLife": "2–3 months in airtight container",
     "tips": [
       "Strain whey first for faster dehydration",
@@ -233,7 +233,7 @@
   ],
   "sources": [
     {
-      "title": "Dahi — Wikipedia",
+      "title": "Dahi - Wikipedia",
       "url": "https://en.wikipedia.org/wiki/Dahi_(curd)",
       "license": "CC BY-SA"
     }

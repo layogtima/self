@@ -1,5 +1,5 @@
 /**
- * FERMENT — RecipePage Component
+ * FERMENT - RecipePage Component
  * Full-page recipe view with rich desktop (two-column) and mobile (tabbed vertical) layouts
  */
 

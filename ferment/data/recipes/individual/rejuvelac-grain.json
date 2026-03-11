@@ -14,7 +14,7 @@
   "fermentTimeMax": 2,
   "fermentTimeUnit": "days",
   "totalTimeHuman": "3 days total",
-  "blrNote": "Use Wheat berries or Quinoa. Don't use \"polished\" grains—they won't sprout. Any local health food store in Indiranagar will have raw wheat.",
+  "blrNote": "Use Wheat berries or Quinoa. Don't use \"polished\" grains-they won't sprout. Any local health food store in Indiranagar will have raw wheat.",
   "ingredients": [
     {
       "name": "Wheat Berries",
@@ -41,7 +41,7 @@
       "instruction": "Soak grains overnight. Drain and leave in a jar until tiny \"tails\" (sprouts) appear.",
       "tips": [
         "Rinse the sprouting grains twice a day to prevent mold and off-smells. Just pour water in, swirl, and drain.",
-        "Sprout tails should be about 2-3mm long—just barely visible. Do not let them grow into full sprouts or the flavor becomes grassy.",
+        "Sprout tails should be about 2-3mm long-just barely visible. Do not let them grow into full sprouts or the flavor becomes grassy.",
         "If your grains do not sprout within 48 hours, they are likely irradiated or too old. Try a different source."
       ]
     },
@@ -50,9 +50,9 @@
       "title": "Soak",
       "instruction": "Put sprouted grains in a jar with 1L water. Cover with cloth.",
       "tips": [
-        "Use a breathable cloth (cheesecloth or muslin) secured with a rubber band—not a solid lid. The ferment needs airflow.",
+        "Use a breathable cloth (cheesecloth or muslin) secured with a rubber band-not a solid lid. The ferment needs airflow.",
         "Use room-temperature filtered water, not cold water from the fridge, to allow fermentation to start promptly.",
-        "Avoid tap water with chlorine — it suppresses the beneficial bacteria. Use filtered, boiled-and-cooled, or spring water for the best results."
+        "Avoid tap water with chlorine - it suppresses the beneficial bacteria. Use filtered, boiled-and-cooled, or spring water for the best results."
       ]
     },
     {
@@ -60,7 +60,7 @@
       "title": "Ferment",
       "instruction": "Wait 24–48 hours until the water is cloudy and smells slightly like lemon and yeast.",
       "tips": [
-        "Good rejuvelac smells tart and lemony. If it smells rotten, putrid, or like sulfur, discard it and start over—something went wrong during sprouting.",
+        "Good rejuvelac smells tart and lemony. If it smells rotten, putrid, or like sulfur, discard it and start over-something went wrong during sprouting.",
         "You can get a second batch from the same grains. Just drain the first batch and add fresh water for another 24 hours. The second batch will be milder.",
         "In Bengaluru heat, 24 hours is usually sufficient. In cooler climates, it may need the full 48 hours."
       ]
@@ -72,7 +72,7 @@
       "caption": "Rejuvelac",
       "attribution": "",
       "type": "hero",
-      "alt": "Rejuvelac — The \"Life Water\" from sprouted grains"
+      "alt": "Rejuvelac - The \"Life Water\" from sprouted grains"
     }
   ],
   "culturalContext": {
@@ -107,7 +107,7 @@
     },
     {
       "title": "Use Immediately or Refrigerate",
-      "description": "Rejuvelac does not keep well at room temperature—it will continue fermenting and become unpleasantly sour within hours. Strain it into a clean jar and refrigerate immediately after it reaches your desired tartness. Use within 3-5 days.",
+      "description": "Rejuvelac does not keep well at room temperature-it will continue fermenting and become unpleasantly sour within hours. Strain it into a clean jar and refrigerate immediately after it reaches your desired tartness. Use within 3-5 days.",
       "severity": "info"
     },
     {
@@ -123,7 +123,7 @@
   ],
   "sources": [
     {
-      "title": "Rejuvelac — Wikipedia",
+      "title": "Rejuvelac - Wikipedia",
       "url": "https://en.wikipedia.org/wiki/Rejuvelac"
     }
   ],

@@ -20,7 +20,7 @@
     {
       "id": "refrigeration-text",
       "type": "paragraph",
-      "content": "Refrigeration is the simplest and most common storage method for finished ferments. Cold temperatures (2–5°C / 36–41°F) dramatically slow lactic acid bacteria activity, effectively pausing fermentation and preserving your ferment at the flavour stage you prefer [cite:c1]. Fermentation does not stop completely in the fridge — it continues at a glacial pace — which is why refrigerated sauerkraut may become slightly more sour over many months. But the change is slow enough that most ferments remain in their flavour sweet spot for a long time."
+      "content": "Refrigeration is the simplest and most common storage method for finished ferments. Cold temperatures (2–5°C / 36–41°F) dramatically slow lactic acid bacteria activity, effectively pausing fermentation and preserving your ferment at the flavour stage you prefer [cite:c1]. Fermentation does not stop completely in the fridge - it continues at a glacial pace - which is why refrigerated sauerkraut may become slightly more sour over many months. But the change is slow enough that most ferments remain in their flavour sweet spot for a long time."
     },
     {
       "id": "refrigeration-list",
@@ -28,10 +28,10 @@
       "ordered": false,
       "items": [
         "**Transfer to clean jars** if needed, and ensure vegetables remain fully submerged beneath brine. Top up with 2–3% salt brine if the level has dropped.",
-        "**Use a tight-fitting lid** — this reduces oxygen exposure and prevents fridge odours from transferring into your ferment.",
+        "**Use a tight-fitting lid** - this reduces oxygen exposure and prevents fridge odours from transferring into your ferment.",
         "**Use clean utensils every time** you serve from the jar. Never reach in with fingers or dirty spoons, as introducing outside bacteria or food particles can cause surface contamination.",
-        "**Label and date each jar** — you will thank yourself in three months when you have forgotten what is what and when it was made.",
-        "**Expect gradual changes** — texture will soften slightly and sourness will increase over months. This is normal and safe, not spoilage [[article:troubleshooting-ferments]]."
+        "**Label and date each jar** - you will thank yourself in three months when you have forgotten what is what and when it was made.",
+        "**Expect gradual changes** - texture will soften slightly and sourness will increase over months. This is normal and safe, not spoilage [[article:troubleshooting-ferments]]."
       ]
     },
     {
@@ -43,18 +43,18 @@
     {
       "id": "root-cellaring-text",
       "type": "paragraph",
-      "content": "Before refrigeration existed, all fermented foods were stored at ambient or cellar temperature — and many traditional food cultures still rely on cool storage today [[article:fermentation-traditions-worldwide]]. A root cellar, unheated basement, or cool pantry (10–15°C / 50–59°F) provides an excellent middle ground between active fermentation at room temperature and near-dormancy in the fridge [cite:c2]. Fermentation continues slowly at these temperatures, allowing flavours to develop and deepen over weeks and months in ways that rapid refrigeration does not permit. Many fermenters consider cellar-aged sauerkraut and kimchi to have superior depth and complexity."
+      "content": "Before refrigeration existed, all fermented foods were stored at ambient or cellar temperature - and many traditional food cultures still rely on cool storage today [[article:fermentation-traditions-worldwide]]. A root cellar, unheated basement, or cool pantry (10–15°C / 50–59°F) provides an excellent middle ground between active fermentation at room temperature and near-dormancy in the fridge [cite:c2]. Fermentation continues slowly at these temperatures, allowing flavours to develop and deepen over weeks and months in ways that rapid refrigeration does not permit. Many fermenters consider cellar-aged sauerkraut and kimchi to have superior depth and complexity."
     },
     {
       "id": "root-cellaring-list",
       "type": "list",
       "ordered": false,
       "items": [
-        "**Ideal conditions** — 10–15°C (50–59°F), dark, with stable temperature and moderate humidity. Avoid locations with direct sunlight or significant temperature fluctuations.",
-        "**Vessel choice matters** — Ceramic crocks with water-seal lids are ideal for cellar storage, as they block light and maintain an anaerobic environment without electricity [[article:modern-fermentation-equipment]].",
-        "**Check water seals regularly** — If using a water-seal crock, top up the moat water every week or two, as it evaporates over time.",
-        "**Monitor for kahm yeast** — Cool storage slows but does not eliminate surface yeast growth. Check your ferments periodically and skim if needed [[article:mold-vs-kahm-when-to-worry]].",
-        "**Duration** — Ferments stored at cellar temperature typically maintain good quality for 2–6 months depending on type, becoming progressively more sour and softer in texture."
+        "**Ideal conditions** - 10–15°C (50–59°F), dark, with stable temperature and moderate humidity. Avoid locations with direct sunlight or significant temperature fluctuations.",
+        "**Vessel choice matters** - Ceramic crocks with water-seal lids are ideal for cellar storage, as they block light and maintain an anaerobic environment without electricity [[article:modern-fermentation-equipment]].",
+        "**Check water seals regularly** - If using a water-seal crock, top up the moat water every week or two, as it evaporates over time.",
+        "**Monitor for kahm yeast** - Cool storage slows but does not eliminate surface yeast growth. Check your ferments periodically and skim if needed [[article:mold-vs-kahm-when-to-worry]].",
+        "**Duration** - Ferments stored at cellar temperature typically maintain good quality for 2–6 months depending on type, becoming progressively more sour and softer in texture."
       ]
     },
     {
@@ -73,18 +73,18 @@
     {
       "id": "canning-text",
       "type": "paragraph",
-      "content": "Water-bath canning creates shelf-stable fermented foods that can last for years at room temperature without refrigeration. However, the heat processing (typically 85°C / 185°F or higher for 10–15 minutes) kills all live probiotic bacteria, so canned ferments lose their probiotic benefits entirely [cite:c3]. They retain flavour (though heat changes it somewhat), the organic acids produced during fermentation, and most mineral content. Canning is best suited for ferments you plan to use as cooking ingredients — sauerkraut for Reuben sandwiches, fermented salsa for nachos — rather than ferments you eat raw for probiotic value."
+      "content": "Water-bath canning creates shelf-stable fermented foods that can last for years at room temperature without refrigeration. However, the heat processing (typically 85°C / 185°F or higher for 10–15 minutes) kills all live probiotic bacteria, so canned ferments lose their probiotic benefits entirely [cite:c3]. They retain flavour (though heat changes it somewhat), the organic acids produced during fermentation, and most mineral content. Canning is best suited for ferments you plan to use as cooking ingredients - sauerkraut for Reuben sandwiches, fermented salsa for nachos - rather than ferments you eat raw for probiotic value."
     },
     {
       "id": "canning-list",
       "type": "list",
       "ordered": false,
       "items": [
-        "**Water-bath canning only** — Properly acidified ferments (pH below 4.6) are safe for water-bath canning. Pressure canning is not required [[article:ph-levels-fermentation]].",
-        "**Heat changes texture** — Canned sauerkraut and pickles are softer than their raw-fermented counterparts. Crunch is largely lost during heat processing.",
-        "**Follow tested recipes** — Use canning guidelines from trusted sources like the USDA Complete Guide to Home Canning or the National Center for Home Food Preservation [cite:c4].",
-        "**Best candidates for canning** — Sauerkraut, fermented salsa, fermented hot sauce, and relishes. Fermented whole pickles and kimchi lose too much texture to be appealing after canning.",
-        "**When it makes sense** — Canning is most useful when you have a very large harvest, limited refrigerator space, or want to give fermented foods as shelf-stable gifts."
+        "**Water-bath canning only** - Properly acidified ferments (pH below 4.6) are safe for water-bath canning. Pressure canning is not required [[article:ph-levels-fermentation]].",
+        "**Heat changes texture** - Canned sauerkraut and pickles are softer than their raw-fermented counterparts. Crunch is largely lost during heat processing.",
+        "**Follow tested recipes** - Use canning guidelines from trusted sources like the USDA Complete Guide to Home Canning or the National Center for Home Food Preservation [cite:c4].",
+        "**Best candidates for canning** - Sauerkraut, fermented salsa, fermented hot sauce, and relishes. Fermented whole pickles and kimchi lose too much texture to be appealing after canning.",
+        "**When it makes sense** - Canning is most useful when you have a very large harvest, limited refrigerator space, or want to give fermented foods as shelf-stable gifts."
       ]
     },
     {
@@ -96,18 +96,18 @@
     {
       "id": "freezing-text",
       "type": "paragraph",
-      "content": "Freezing is an excellent preservation method that retains more probiotic viability than canning. Many lactic acid bacteria strains survive freezing in a dormant state and become active again upon thawing [cite:c1]. Texture is affected more than flavour — frozen and thawed sauerkraut may be slightly softer — but the change is less dramatic than with canning. Freezing is particularly well suited for fermented hot sauces, pastes, and purees where texture is already smooth."
+      "content": "Freezing is an excellent preservation method that retains more probiotic viability than canning. Many lactic acid bacteria strains survive freezing in a dormant state and become active again upon thawing [cite:c1]. Texture is affected more than flavour - frozen and thawed sauerkraut may be slightly softer - but the change is less dramatic than with canning. Freezing is particularly well suited for fermented hot sauces, pastes, and purees where texture is already smooth."
     },
     {
       "id": "freezing-list",
       "type": "list",
       "ordered": false,
       "items": [
-        "**Use portion-sized containers** — Freeze in quantities you will use in one sitting. Repeated freeze-thaw cycles degrade quality significantly.",
-        "**Leave headspace for expansion** — Brine expands when frozen. Leave at least 2 cm (1 inch) of space in each container to prevent cracking or lid displacement.",
-        "**Thaw in the refrigerator** — Slow thawing preserves texture and prevents rapid bacterial growth. Do not thaw at room temperature.",
-        "**Shelf life** — Frozen ferments maintain good quality for 6–12 months. Safety extends well beyond that, but flavour and texture degrade over time.",
-        "**Not recommended for** — Whole pickles (become mushy), kombucha (loses carbonation), and kefir (texture separates). These are better stored refrigerated [[article:what-to-do-with-leftover-brine]]."
+        "**Use portion-sized containers** - Freeze in quantities you will use in one sitting. Repeated freeze-thaw cycles degrade quality significantly.",
+        "**Leave headspace for expansion** - Brine expands when frozen. Leave at least 2 cm (1 inch) of space in each container to prevent cracking or lid displacement.",
+        "**Thaw in the refrigerator** - Slow thawing preserves texture and prevents rapid bacterial growth. Do not thaw at room temperature.",
+        "**Shelf life** - Frozen ferments maintain good quality for 6–12 months. Safety extends well beyond that, but flavour and texture degrade over time.",
+        "**Not recommended for** - Whole pickles (become mushy), kombucha (loses carbonation), and kefir (texture separates). These are better stored refrigerated [[article:what-to-do-with-leftover-brine]]."
       ]
     },
     {
@@ -119,18 +119,18 @@
     {
       "id": "spoilage-text",
       "type": "paragraph",
-      "content": "Even properly stored ferments can occasionally develop problems, particularly if oxygen exposure occurs or contamination is introduced during serving [cite:c5]. The good news is that spoilage in acidified ferments is almost always obvious to the senses — you will see it, smell it, or both. Genuine food poisoning from properly fermented vegetables is extraordinarily rare, because the low pH environment is hostile to most pathogenic bacteria [[article:fermentation-and-food-safety]]."
+      "content": "Even properly stored ferments can occasionally develop problems, particularly if oxygen exposure occurs or contamination is introduced during serving [cite:c5]. The good news is that spoilage in acidified ferments is almost always obvious to the senses - you will see it, smell it, or both. Genuine food poisoning from properly fermented vegetables is extraordinarily rare, because the low pH environment is hostile to most pathogenic bacteria [[article:fermentation-and-food-safety]]."
     },
     {
       "id": "spoilage-list",
       "type": "list",
       "ordered": false,
       "items": [
-        "**Fuzzy mold** (blue, green, black, or pink) growing on the surface or on vegetables above the brine — skim if only on the surface and the ferment below smells normal; discard if mold has penetrated throughout.",
-        "**Putrid or rotting smell** — distinct from the normal tangy, sour aroma of healthy ferments. Healthy ferments smell sharp and clean; spoiled ferments smell rotten. Trust your nose.",
-        "**Slimy, dissolving texture** combined with off-smells — indicates spoilage bacteria have overwhelmed the lactic acid bacteria.",
-        "**Pink or red discoloration** of the brine (not from beet, radish, or red cabbage ingredients) — may indicate undesirable microbial growth.",
-        "**Extreme bloating of sealed containers** long after refrigeration — some gas production is normal during the transition to cold storage, but continued vigorous pressure buildup after weeks in the fridge is unusual and warrants investigation."
+        "**Fuzzy mold** (blue, green, black, or pink) growing on the surface or on vegetables above the brine - skim if only on the surface and the ferment below smells normal; discard if mold has penetrated throughout.",
+        "**Putrid or rotting smell** - distinct from the normal tangy, sour aroma of healthy ferments. Healthy ferments smell sharp and clean; spoiled ferments smell rotten. Trust your nose.",
+        "**Slimy, dissolving texture** combined with off-smells - indicates spoilage bacteria have overwhelmed the lactic acid bacteria.",
+        "**Pink or red discoloration** of the brine (not from beet, radish, or red cabbage ingredients) - may indicate undesirable microbial growth.",
+        "**Extreme bloating of sealed containers** long after refrigeration - some gas production is normal during the transition to cold storage, but continued vigorous pressure buildup after weeks in the fridge is unusual and warrants investigation."
       ]
     },
     {
@@ -138,7 +138,7 @@
       "type": "callout",
       "style": "tip",
       "title": "Normal vs. Concerning",
-      "content": "Cloudy brine is normal and healthy — it means fermentation is active. Kahm yeast (a flat, white, wrinkled film on the surface) is harmless and can be skimmed off [[article:mold-vs-kahm-when-to-worry]]. White sediment at the bottom of the jar is dead LAB cells and is completely normal. The ferment becoming more sour over time is expected, not a sign of spoilage. When in doubt, trust your senses: genuine spoilage is obvious and unmistakable."
+      "content": "Cloudy brine is normal and healthy - it means fermentation is active. Kahm yeast (a flat, white, wrinkled film on the surface) is harmless and can be skimmed off [[article:mold-vs-kahm-when-to-worry]]. White sediment at the bottom of the jar is dead LAB cells and is completely normal. The ferment becoming more sour over time is expected, not a sign of spoilage. When in doubt, trust your senses: genuine spoilage is obvious and unmistakable."
     },
     {
       "id": "shelf-life",
@@ -165,7 +165,7 @@
     {
       "id": "shelf-life-text",
       "type": "paragraph",
-      "content": "These are conservative estimates for best quality. Safety generally exceeds these timeframes significantly — a properly acidified sauerkraut at pH 3.2 is not going to become unsafe after 12 months in the fridge [cite:c2]. Quality attributes like crunch, flavour complexity, and visual appeal degrade before safety does. Leftover brine from finished ferments has many uses and stores well on its own [[article:what-to-do-with-leftover-brine]]."
+      "content": "These are conservative estimates for best quality. Safety generally exceeds these timeframes significantly - a properly acidified sauerkraut at pH 3.2 is not going to become unsafe after 12 months in the fridge [cite:c2]. Quality attributes like crunch, flavour complexity, and visual appeal degrade before safety does. Leftover brine from finished ferments has many uses and stores well on its own [[article:what-to-do-with-leftover-brine]]."
     },
     {
       "id": "storage-containers",
@@ -176,19 +176,19 @@
     {
       "id": "storage-containers-text",
       "type": "paragraph",
-      "content": "The container you store your finished ferment in matters nearly as much as the vessel you fermented it in. The ideal storage container is non-reactive, airtight, easy to clean, and appropriately sized for the quantity you are storing [cite:c6]. Headspace matters in storage too — less air above the ferment means less opportunity for oxidation and surface contamination."
+      "content": "The container you store your finished ferment in matters nearly as much as the vessel you fermented it in. The ideal storage container is non-reactive, airtight, easy to clean, and appropriately sized for the quantity you are storing [cite:c6]. Headspace matters in storage too - less air above the ferment means less opportunity for oxidation and surface contamination."
     },
     {
       "id": "storage-containers-list",
       "type": "list",
       "ordered": false,
       "items": [
-        "**Glass mason jars with two-piece lids** — The most popular storage container for home fermenters. Non-reactive, transparent (for monitoring), airtight when sealed, and available in many sizes. Use the same jars you fermented in, or transfer to clean jars.",
-        "**Bail-top glass jars** — Attractive, reusable, and create a reliable seal. Excellent for gifting ferments and for display in the refrigerator.",
-        "**Food-grade plastic containers with snap lids** — Lightweight and shatterproof. Acceptable for short-term storage but can absorb colours and odours from ferments over time. Use BPA-free options.",
-        "**Ceramic crocks with lids** — Ideal for cool-storage and cellar situations. Block light completely and provide good insulation. Ensure the lid fits snugly or use a water-seal crock [[article:modern-fermentation-equipment]].",
-        "**Vacuum-sealed bags** — Excellent for freezer storage. Remove as much air as possible before sealing. Not suitable for liquid-heavy ferments.",
-        "**Avoid** — Metal containers (acids corrode them and leach metallic flavours), containers without lids (oxygen exposure), and any container that previously held non-food products or strong chemicals."
+        "**Glass mason jars with two-piece lids** - The most popular storage container for home fermenters. Non-reactive, transparent (for monitoring), airtight when sealed, and available in many sizes. Use the same jars you fermented in, or transfer to clean jars.",
+        "**Bail-top glass jars** - Attractive, reusable, and create a reliable seal. Excellent for gifting ferments and for display in the refrigerator.",
+        "**Food-grade plastic containers with snap lids** - Lightweight and shatterproof. Acceptable for short-term storage but can absorb colours and odours from ferments over time. Use BPA-free options.",
+        "**Ceramic crocks with lids** - Ideal for cool-storage and cellar situations. Block light completely and provide good insulation. Ensure the lid fits snugly or use a water-seal crock [[article:modern-fermentation-equipment]].",
+        "**Vacuum-sealed bags** - Excellent for freezer storage. Remove as much air as possible before sealing. Not suitable for liquid-heavy ferments.",
+        "**Avoid** - Metal containers (acids corrode them and leach metallic flavours), containers without lids (oxygen exposure), and any container that previously held non-food products or strong chemicals."
       ]
     }
   ],

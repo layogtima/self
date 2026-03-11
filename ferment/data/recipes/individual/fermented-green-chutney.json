@@ -20,7 +20,7 @@
   "fermentTimeMax": 3,
   "fermentTimeUnit": "days",
   "totalTimeHuman": "2–3 days",
-  "blrNote": "Coriander, mint, and green chillies — every BLR kitchen already has these. You make this chutney weekly anyway; now ferment it. Costs ₹15–20 for a batch from any sabziwala. At BLR's 25°C, 2 days is perfect.",
+  "blrNote": "Coriander, mint, and green chillies - every BLR kitchen already has these. You make this chutney weekly anyway; now ferment it. Costs ₹15–20 for a batch from any sabziwala. At BLR's 25°C, 2 days is perfect.",
   "seasonality": [
     "all"
   ],
@@ -37,7 +37,7 @@
       "localAvailability": {
         "IN": {
           "ease": "easy",
-          "where": "Any sabziwala — ₹5–10 per bunch"
+          "where": "Any sabziwala - ₹5–10 per bunch"
         }
       }
     },
@@ -53,7 +53,7 @@
       "localAvailability": {
         "IN": {
           "ease": "easy",
-          "where": "Any market — often sold alongside coriander"
+          "where": "Any market - often sold alongside coriander"
         }
       }
     },
@@ -67,7 +67,7 @@
       "essential": true,
       "substitutions": [
         "Serrano chillies",
-        "Adjust to taste — 1 for mild, 5+ for fiery"
+        "Adjust to taste - 1 for mild, 5+ for fiery"
       ],
       "localAvailability": {
         "IN": {
@@ -136,7 +136,7 @@
     {
       "name": "Glass jar (250–500ml)",
       "essential": true,
-      "notes": "Small jar — this is a condiment, not a main course"
+      "notes": "Small jar - this is a condiment, not a main course"
     }
   ],
   "tldr": "Grind coriander, mint, chilli, and salt into a paste. Jar it. Wait 2 days. Your regular green chutney, now alive.",
@@ -147,21 +147,21 @@
       "instruction": "Wash coriander and mint thoroughly. Remove thick stems (thin stems are fine). Roughly chop. Deseed chillies for milder heat, or leave whole for full fire.",
       "duration": "5 min",
       "tips": [
-        "Wash well — these come from open markets and carry soil bacteria (some of which you actually want for fermentation)",
-        "Dry the greens briefly in a salad spinner or towel — excess water dilutes the chutney",
-        "Remove thick woody stems from the coriander and mint — they don't blend smoothly and leave fibrous bits in the chutney"
+        "Wash well - these come from open markets and carry soil bacteria (some of which you actually want for fermentation)",
+        "Dry the greens briefly in a salad spinner or towel - excess water dilutes the chutney",
+        "Remove thick woody stems from the coriander and mint - they don't blend smoothly and leave fibrous bits in the chutney"
       ],
       "checkpoint": "Clean herbs, prepped chillies"
     },
     {
       "step": 2,
       "title": "Grind to paste",
-      "instruction": "Blend coriander, mint, green chillies, salt, and optional garlic in a mixer grinder. Add minimal water — just enough to get the blades moving. You want a thick paste, not a liquid.",
+      "instruction": "Blend coriander, mint, green chillies, salt, and optional garlic in a mixer grinder. Add minimal water - just enough to get the blades moving. You want a thick paste, not a liquid.",
       "duration": "3 min",
       "tips": [
         "Less water = thicker paste = better fermentation",
         "Add lemon juice during grinding for brightness (optional at this stage)",
-        "If the blades stall, add a splash of leftover brine or whey instead of plain water — it kick-starts fermentation and keeps the paste thick"
+        "If the blades stall, add a splash of leftover brine or whey instead of plain water - it kick-starts fermentation and keeps the paste thick"
       ],
       "checkpoint": "Thick, vibrant green paste"
     },
@@ -171,9 +171,9 @@
       "instruction": "Transfer the paste to a clean glass jar. Press down to remove air pockets. Leave 2cm headspace. Drizzle a thin layer of salt on top (optional, helps prevent surface mould).",
       "duration": "2 min",
       "tips": [
-        "Pack tightly — air is the enemy of good fermentation",
+        "Pack tightly - air is the enemy of good fermentation",
         "A thin layer of oil on top also helps seal against air",
-        "Leave at least 2cm of headspace — the paste expands slightly as fermentation produces gas, and overflow means lost chutney and a messy counter"
+        "Leave at least 2cm of headspace - the paste expands slightly as fermentation produces gas, and overflow means lost chutney and a messy counter"
       ],
       "checkpoint": "Jar packed with dense green paste"
     },
@@ -183,20 +183,20 @@
       "instruction": "Cover loosely. Leave at room temperature for 2–3 days. The chutney will darken slightly and develop a tangy, complex flavour distinct from fresh chutney. Small bubbles may appear.",
       "duration": "2–3 days",
       "tips": [
-        "Day 2 in BLR is usually the sweet spot — tangy but still fresh-tasting",
-        "The colour will shift from bright green to a deeper, olive green — normal",
-        "If it turns brown-black or smells off, discard — this means oxidation or contamination"
+        "Day 2 in BLR is usually the sweet spot - tangy but still fresh-tasting",
+        "The colour will shift from bright green to a deeper, olive green - normal",
+        "If it turns brown-black or smells off, discard - this means oxidation or contamination"
       ],
       "checkpoint": "Slightly darker green, distinctly tangy, complex aroma"
     },
     {
       "step": 5,
       "title": "Refrigerate and use",
-      "instruction": "Seal and refrigerate. Use as you would regular green chutney — with dosa, idli, pakora, sandwiches, chaat, or stirred into rice.",
+      "instruction": "Seal and refrigerate. Use as you would regular green chutney - with dosa, idli, pakora, sandwiches, chaat, or stirred into rice.",
       "duration": null,
       "tips": [
         "Keeps 2–3 weeks refrigerated (longer than fresh chutney)",
-        "The tang deepens over days — taste evolves",
+        "The tang deepens over days - taste evolves",
         "Stir before each use"
       ],
       "checkpoint": "Living green chutney with probiotic tang"
@@ -208,20 +208,20 @@
       "caption": "Fermented Green Chutney",
       "attribution": "",
       "type": "hero",
-      "alt": "Fermented Green Chutney — Your everyday green chutney, upgraded with live cultures"
+      "alt": "Fermented Green Chutney - Your everyday green chutney, upgraded with live cultures"
     }
   ],
   "culturalContext": {
-    "story": "Green chutney — coriander, mint, chilli, ground together — is the universal condiment of the Indian subcontinent. It appears at every chaat stall, alongside every dosa, inside every sandwich in Mumbai. Usually consumed fresh, it has a shelf life of just 2–3 days in the fridge. Fermenting it deliberately extends its life AND adds probiotic benefit — turning something ephemeral into something alive.",
-    "historicalNote": "The practice of grinding herbs with salt and fermenting them is ancient across South Asia. Before blenders, stone mortars (sil-batta) were used. The fermentation step was often unintentional — chutneys made in bulk would naturally ferment in warm weather. Many grandmothers' \"special flavour\" was, unknowingly, lacto-fermentation.",
-    "significance": "This recipe is about reframing something you already make. Every Bangalorean household has green chutney in their routine. Adding a 2-day fermentation step requires no new skills, no new ingredients, no new equipment — just patience. It's the lowest-barrier entry point to fermentation for anyone in India.",
+    "story": "Green chutney - coriander, mint, chilli, ground together - is the universal condiment of the Indian subcontinent. It appears at every chaat stall, alongside every dosa, inside every sandwich in Mumbai. Usually consumed fresh, it has a shelf life of just 2–3 days in the fridge. Fermenting it deliberately extends its life AND adds probiotic benefit - turning something ephemeral into something alive.",
+    "historicalNote": "The practice of grinding herbs with salt and fermenting them is ancient across South Asia. Before blenders, stone mortars (sil-batta) were used. The fermentation step was often unintentional - chutneys made in bulk would naturally ferment in warm weather. Many grandmothers' \"special flavour\" was, unknowingly, lacto-fermentation.",
+    "significance": "This recipe is about reframing something you already make. Every Bangalorean household has green chutney in their routine. Adding a 2-day fermentation step requires no new skills, no new ingredients, no new equipment - just patience. It's the lowest-barrier entry point to fermentation for anyone in India.",
     "relatedTraditions": [
       "Zhug (Yemeni green chilli paste)",
-      "Chimichurri (Argentine herb sauce — unfermented)",
-      "Pesto (Italian basil paste — unfermented)",
+      "Chimichurri (Argentine herb sauce - unfermented)",
+      "Pesto (Italian basil paste - unfermented)",
       "Sambal hijau (Malay green chilli paste)"
     ],
-    "funFact": "In a 2018 food science study, lacto-fermented herb pastes showed 10x higher bioavailability of iron and zinc compared to fresh versions. The fermentation breaks down phytic acid — the same compound that makes spinach iron \"less available\" than it appears on paper."
+    "funFact": "In a 2018 food science study, lacto-fermented herb pastes showed 10x higher bioavailability of iron and zinc compared to fresh versions. The fermentation breaks down phytic acid - the same compound that makes spinach iron \"less available\" than it appears on paper."
   },
   "thingsToAccountFor": [
     {
@@ -252,7 +252,7 @@
   "dehydratorIntegration": {
     "applicable": true,
     "method": "Spread fermented chutney thinly on parchment. Dehydrate at 40°C for 8–10 hours. Crumble or powder.",
-    "result": "Fermented green chutney powder — tangy, herby, probiotic-adjacent seasoning for rice, raita, popcorn.",
+    "result": "Fermented green chutney powder - tangy, herby, probiotic-adjacent seasoning for rice, raita, popcorn.",
     "shelfLife": "3–4 months airtight in a cool, dry place",
     "tips": [
       "Spread as thin as possible for even drying",
@@ -299,7 +299,7 @@
   "containsAllergens": [],
   "sources": [
     {
-      "title": "Chutney — Wikipedia",
+      "title": "Chutney - Wikipedia",
       "url": "https://en.wikipedia.org/wiki/Chutney",
       "license": "CC BY-SA"
     }
@@ -307,7 +307,7 @@
   "videos": [
     {
       "url": "https://www.youtube.com/watch?v=GAfMsGO6MQE",
-      "title": "Fermented Green Chutney — Probiotic Coriander Mint Chutney",
+      "title": "Fermented Green Chutney - Probiotic Coriander Mint Chutney",
       "channel": "Arvind Veggie Cuisine",
       "type": "youtube"
     }

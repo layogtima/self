@@ -43,7 +43,7 @@
       "caption": "Lacto Rind Pickles",
       "attribution": "",
       "type": "hero",
-      "alt": "Lacto Rind Pickles — Zero-waste summer crunch"
+      "alt": "Lacto Rind Pickles - Zero-waste summer crunch"
     }
   ],
   "tldr": "The white part of the watermelon rind, fermented in brine. Tastes like a cross between a cucumber and a radish.",
@@ -53,7 +53,7 @@
       "title": "Peel",
       "instruction": "Peel off the green skin. Keep only the white part. Cut into cubes.",
       "tips": [
-        "Leave a thin layer of pink flesh on the rind—it adds subtle sweetness and feeds the bacteria during fermentation.",
+        "Leave a thin layer of pink flesh on the rind-it adds subtle sweetness and feeds the bacteria during fermentation.",
         "Cut cubes to roughly 2cm for the best texture. Too small and they go mushy; too large and fermentation is uneven.",
         "A Y-peeler removes the green outer skin faster and more evenly than a knife."
       ]
@@ -63,9 +63,9 @@
       "title": "Brine",
       "instruction": "Pack into a jar with peppercorns and cover with brine.",
       "tips": [
-        "The rind floats aggressively—use a fermentation weight or a zip-lock bag filled with brine to keep it submerged.",
+        "The rind floats aggressively-use a fermentation weight or a zip-lock bag filled with brine to keep it submerged.",
         "Add aromatics like a bay leaf, dill frond, or mustard seeds alongside the peppercorns for more complexity.",
-        "Cut all rind pieces to a uniform size so they ferment at the same rate — irregular chunks mean some go mushy while others stay under-fermented."
+        "Cut all rind pieces to a uniform size so they ferment at the same rate - irregular chunks mean some go mushy while others stay under-fermented."
       ]
     },
     {
@@ -74,7 +74,7 @@
       "instruction": "3–5 days at BLR room temp. Move to fridge once tangy.",
       "tips": [
         "The rind ferments fast due to its high water content. Start tasting on day 2 in warm weather.",
-        "A slightly translucent appearance means the brine has fully penetrated—this is when the flavor peaks.",
+        "A slightly translucent appearance means the brine has fully penetrated-this is when the flavor peaks.",
         "These pickles last 3-4 weeks in the fridge but are best consumed within 2 weeks for maximum crunch."
       ]
     }
@@ -105,7 +105,7 @@
   ],
   "thingsToAccountFor": [
     {
-      "title": "Rind Floats—Keep It Submerged",
+      "title": "Rind Floats-Keep It Submerged",
       "description": "Watermelon rind is buoyant and will persistently float above the brine. Exposed rind develops mold within 24 hours. Use a proper fermentation weight, a plate with a heavy object, or a brine-filled zip-lock bag as a follower.",
       "severity": "warning"
     },

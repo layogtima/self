@@ -1233,7 +1233,7 @@ createApp({
 
             // Show a special message
             const message = document.createElement('div');
-            message.textContent = "KONAMI CODE ACTIVATED — ABSURD MODE ENGAGED";
+            message.textContent = "KONAMI CODE ACTIVATED - ABSURD MODE ENGAGED";
             message.style.position = 'fixed';
             message.style.top = '50%';
             message.style.left = '50%';

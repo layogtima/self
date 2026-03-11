@@ -1,5 +1,5 @@
 /**
- * FERMENT — TextEditor Component
+ * FERMENT - TextEditor Component
  * Inline text editing: short text (input) and long text (auto-growing textarea)
  */
 

@@ -1,5 +1,5 @@
 /**
- * FERMENT — Service Worker
+ * FERMENT - Service Worker
  * Offline-first caching strategy
  */
 
@@ -50,7 +50,7 @@ const CDN_ASSETS = [
   'https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=JetBrains+Mono:wght@400;500&display=swap',
 ];
 
-// Install — cache app shell
+// Install - cache app shell
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -66,7 +66,7 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Activate — clean old caches
+// Activate - clean old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
@@ -79,7 +79,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch — cache-first for app shell, stale-while-revalidate for others
+// Fetch - cache-first for app shell, stale-while-revalidate for others
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);

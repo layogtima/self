@@ -1,5 +1,5 @@
 /**
- * FERMENT — BatchScaler Component
+ * FERMENT - BatchScaler Component
  * Scale recipe ingredients up or down
  */
 

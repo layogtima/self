@@ -8,7 +8,7 @@
     "title": "Global Fermentation Traditions",
     "image": {
       "url": "https://upload.wikimedia.org/wikipedia/commons/0/0a/Korean_cuisine-Kimchi-Gimjang.jpg",
-      "caption": "Kimjang — the Korean communal kimchi-making tradition, a UNESCO Intangible Cultural Heritage",
+      "caption": "Kimjang - the Korean communal kimchi-making tradition, a UNESCO Intangible Cultural Heritage",
       "attribution": "Wikimedia Commons, CC BY-SA 2.0"
     },
     "facts": [
@@ -24,7 +24,7 @@
     {
       "id": "intro",
       "type": "paragraph",
-      "content": "Fermentation is humanity's oldest biotechnology [cite:c1]. Long before anyone understood bacteria, pH, or metabolic pathways, communities on every continent independently discovered that salt, time, and the right conditions could transform perishable food into something that lasted months or years — and tasted extraordinary in the process. This article surveys the major fermentation traditions of the world, with special attention to the terminology, vessels, and cultural practices that make each tradition unique."
+      "content": "Fermentation is humanity's oldest biotechnology [cite:c1]. Long before anyone understood bacteria, pH, or metabolic pathways, communities on every continent independently discovered that salt, time, and the right conditions could transform perishable food into something that lasted months or years - and tasted extraordinary in the process. This article surveys the major fermentation traditions of the world, with special attention to the terminology, vessels, and cultural practices that make each tradition unique."
     },
     {
       "id": "korea",
@@ -57,7 +57,7 @@
     {
       "id": "onggi-text",
       "type": "paragraph",
-      "content": "Onggi are traditional Korean earthenware pots used for fermenting and storing food. What makes onggi remarkable is their breathability — the porous, unglazed clay allows microscopic amounts of air to circulate, creating an environment that's ideal for slow, controlled fermentation. The clay's mineral composition may also contribute beneficial trace elements. Traditional Korean households kept rows of onggi on a raised platform called a jangdokdae, typically on the sunniest part of the property, where doenjang, gochujang, ganjang (soy sauce), and kimchi aged for months or years."
+      "content": "Onggi are traditional Korean earthenware pots used for fermenting and storing food. What makes onggi remarkable is their breathability - the porous, unglazed clay allows microscopic amounts of air to circulate, creating an environment that's ideal for slow, controlled fermentation. The clay's mineral composition may also contribute beneficial trace elements. Traditional Korean households kept rows of onggi on a raised platform called a jangdokdae, typically on the sunniest part of the property, where doenjang, gochujang, ganjang (soy sauce), and kimchi aged for months or years."
     },
     {
       "id": "gochugaru",
@@ -79,7 +79,7 @@
     {
       "id": "doenjang-text",
       "type": "paragraph",
-      "content": "Korean fermented soybean paste, analogous to but distinct from Japanese miso. Doenjang is traditionally made from meju — blocks of cooked, mashed soybeans that are tied with rice straw and hung to ferment for weeks, developing a complex mould culture. The meju is then broken into brine and fermented for months in onggi. The resulting paste has a deeper, more pungent flavour than most Japanese miso varieties."
+      "content": "Korean fermented soybean paste, analogous to but distinct from Japanese miso. Doenjang is traditionally made from meju - blocks of cooked, mashed soybeans that are tied with rice straw and hung to ferment for weeks, developing a complex mould culture. The meju is then broken into brine and fermented for months in onggi. The resulting paste has a deeper, more pungent flavour than most Japanese miso varieties."
     },
     {
       "id": "jeotgal",
@@ -112,7 +112,7 @@
     {
       "id": "koji-text",
       "type": "paragraph",
-      "content": "Aspergillus oryzae, cultivated on steamed rice, barley, or soybeans. Koji is arguably the most important microorganism in East Asian cuisine — it is the foundation of miso, soy sauce (shoyu), sake, mirin, rice vinegar, and shio koji. The mould produces powerful enzymes (amylases, proteases, lipases) that break down starches into sugars and proteins into amino acids, enabling subsequent fermentation by yeasts and bacteria. In Japan, koji cultivation is such a specialised skill that koji makers (tane-koji-ya) have operated as dedicated businesses for centuries, some for over a thousand years."
+      "content": "Aspergillus oryzae, cultivated on steamed rice, barley, or soybeans. Koji is arguably the most important microorganism in East Asian cuisine - it is the foundation of miso, soy sauce (shoyu), sake, mirin, rice vinegar, and shio koji. The mould produces powerful enzymes (amylases, proteases, lipases) that break down starches into sugars and proteins into amino acids, enabling subsequent fermentation by yeasts and bacteria. In Japan, koji cultivation is such a specialised skill that koji makers (tane-koji-ya) have operated as dedicated businesses for centuries, some for over a thousand years."
     },
     {
       "id": "miso",
@@ -134,7 +134,7 @@
     {
       "id": "tsukemono-text",
       "type": "paragraph",
-      "content": "The umbrella term for all Japanese preserved vegetables. Tsukemono encompasses a vast range of techniques including shiozuke (salt pickling — closest to Western lacto-fermentation), kasuzuke (sake lees pickling), misozuke (miso pickling), and suzuke (vinegar pickling). The most common tsukemono are quick salt pickles served as accompaniments to rice, but some varieties are aged for months."
+      "content": "The umbrella term for all Japanese preserved vegetables. Tsukemono encompasses a vast range of techniques including shiozuke (salt pickling - closest to Western lacto-fermentation), kasuzuke (sake lees pickling), misozuke (miso pickling), and suzuke (vinegar pickling). The most common tsukemono are quick salt pickles served as accompaniments to rice, but some varieties are aged for months."
     },
     {
       "id": "nukazuke",
@@ -145,7 +145,7 @@
     {
       "id": "nukazuke-text",
       "type": "paragraph",
-      "content": "A fascinating fermentation technique unique to Japan, where vegetables are buried in a bed of rice bran (nuka) mixed with salt, water, konbu, and chilli. The nuka bed is a living ecosystem of LAB and yeasts that must be stirred by hand daily to prevent off-flavours. A well-maintained nuka bed can be passed down through generations — some families claim beds that are over 100 years old. The resulting pickles have a complex, umami-rich flavour unlike any other fermentation method."
+      "content": "A fascinating fermentation technique unique to Japan, where vegetables are buried in a bed of rice bran (nuka) mixed with salt, water, konbu, and chilli. The nuka bed is a living ecosystem of LAB and yeasts that must be stirred by hand daily to prevent off-flavours. A well-maintained nuka bed can be passed down through generations - some families claim beds that are over 100 years old. The resulting pickles have a complex, umami-rich flavour unlike any other fermentation method."
     },
     {
       "id": "shio-koji",
@@ -189,7 +189,7 @@
     {
       "id": "dahi-text",
       "type": "paragraph",
-      "content": "Indian yogurt, one of the most widely consumed fermented foods in the world [[recipe:dahi-homemade]]. Unlike commercial Western yogurt which uses specific starter cultures, traditional dahi is made by adding a spoonful of previous dahi to warm milk — a backslopping technique that maintains a complex, evolving microbial community unique to each household. Dahi is central to Indian cuisine: eaten plain, as raita, in lassi and chaas, and as a marinade for meats and vegetables."
+      "content": "Indian yogurt, one of the most widely consumed fermented foods in the world [[recipe:dahi-homemade]]. Unlike commercial Western yogurt which uses specific starter cultures, traditional dahi is made by adding a spoonful of previous dahi to warm milk - a backslopping technique that maintains a complex, evolving microbial community unique to each household. Dahi is central to Indian cuisine: eaten plain, as raita, in lassi and chaas, and as a marinade for meats and vegetables."
     },
     {
       "id": "kanji",
@@ -222,7 +222,7 @@
     {
       "id": "sauerkraut-text",
       "type": "paragraph",
-      "content": "The defining fermented food of Central Europe, sauerkraut is finely shredded cabbage fermented with salt — nothing more [[recipe:sauerkraut-classic]]. The tradition runs deep in Germany, Austria, Poland, Alsace (France), and the Czech Republic, where families historically made it in large wooden barrels or stoneware crocks in autumn, stamping the cabbage with their feet to extract juice. It was the survival vegetable — providing vitamin C through winters when fresh produce was unavailable. German and Eastern European immigrants brought sauerkraut traditions to the Americas, where it became a staple of deli cuisine."
+      "content": "The defining fermented food of Central Europe, sauerkraut is finely shredded cabbage fermented with salt - nothing more [[recipe:sauerkraut-classic]]. The tradition runs deep in Germany, Austria, Poland, Alsace (France), and the Czech Republic, where families historically made it in large wooden barrels or stoneware crocks in autumn, stamping the cabbage with their feet to extract juice. It was the survival vegetable - providing vitamin C through winters when fresh produce was unavailable. German and Eastern European immigrants brought sauerkraut traditions to the Americas, where it became a staple of deli cuisine."
     },
     {
       "id": "central-america",
@@ -256,7 +256,7 @@
     {
       "id": "tursu-text",
       "type": "paragraph",
-      "content": "Turkish pickled vegetables, a vibrant and essential part of Turkish cuisine. Tursu encompasses a wide range of pickled vegetables — peppers, cucumbers, cabbage, green tomatoes, carrots, and garlic — typically preserved in a brine of salt, vinegar, and sometimes citric acid. Turkish families traditionally make tursu in large glass jars visible in markets, and specialised tursu shops (turşucu) sell dozens of varieties. The juice (tursu suyu) is consumed as a beverage, valued as a digestive and hangover remedy."
+      "content": "Turkish pickled vegetables, a vibrant and essential part of Turkish cuisine. Tursu encompasses a wide range of pickled vegetables - peppers, cucumbers, cabbage, green tomatoes, carrots, and garlic - typically preserved in a brine of salt, vinegar, and sometimes citric acid. Turkish families traditionally make tursu in large glass jars visible in markets, and specialised tursu shops (turşucu) sell dozens of varieties. The juice (tursu suyu) is consumed as a beverage, valued as a digestive and hangover remedy."
     },
     {
       "id": "global-terms",
@@ -273,7 +273,7 @@
     {
       "id": "lacto-term-text",
       "type": "paragraph",
-      "content": "Fermentation driven by lactic acid bacteria (Lactobacillus and related genera) [[article:lactic-acid-bacteria]], which convert sugars to lactic acid [[article:how-lacto-fermentation-works]]. The foundation of most vegetable ferments worldwide. The name derives from the Latin lac (milk) because these bacteria were first isolated from soured milk — not because they require lactose."
+      "content": "Fermentation driven by lactic acid bacteria (Lactobacillus and related genera) [[article:lactic-acid-bacteria]], which convert sugars to lactic acid [[article:how-lacto-fermentation-works]]. The foundation of most vegetable ferments worldwide. The name derives from the Latin lac (milk) because these bacteria were first isolated from soured milk - not because they require lactose."
     },
     {
       "id": "brine-term",
@@ -295,7 +295,7 @@
     {
       "id": "pellicle-term-text",
       "type": "paragraph",
-      "content": "A thin film that forms on the surface of some fermenting liquids. In kombucha, the pellicle is the visible part of the SCOBY — a mat of cellulose produced by bacteria. In vegetable ferments, a surface pellicle is usually kahm yeast [[article:troubleshooting-ferments]], which is harmless but may affect flavour if left for extended periods."
+      "content": "A thin film that forms on the surface of some fermenting liquids. In kombucha, the pellicle is the visible part of the SCOBY - a mat of cellulose produced by bacteria. In vegetable ferments, a surface pellicle is usually kahm yeast [[article:troubleshooting-ferments]], which is harmless but may affect flavour if left for extended periods."
     },
     {
       "id": "kahm-term",
@@ -306,7 +306,7 @@
     {
       "id": "kahm-term-text",
       "type": "paragraph",
-      "content": "A collective name for several species of aerobic film-forming yeasts (Pichia, Candida, Hansenula) that can appear as a white, wrinkled film on the surface of ferments [[article:troubleshooting-ferments]]. Kahm yeast is not harmful and is not mould — it's a cosmetic issue. It can be skimmed off and the ferment continues normally. Prevention: keep vegetables submerged and minimise oxygen exposure."
+      "content": "A collective name for several species of aerobic film-forming yeasts (Pichia, Candida, Hansenula) that can appear as a white, wrinkled film on the surface of ferments [[article:troubleshooting-ferments]]. Kahm yeast is not harmful and is not mould - it's a cosmetic issue. It can be skimmed off and the ferment continues normally. Prevention: keep vegetables submerged and minimise oxygen exposure."
     },
     {
       "id": "scoby-term",
@@ -317,7 +317,7 @@
     {
       "id": "scoby-term-text",
       "type": "paragraph",
-      "content": "Symbiotic Culture of Bacteria and Yeast — the living culture used to brew kombucha. The SCOBY appears as a rubbery, pancake-like mat of cellulose that floats on the surface of sweetened tea. It houses a complex community of acetic acid bacteria (Komagataeibacter) and yeasts (Brettanomyces, Zygosaccharomyces) that work together to convert sweet tea into the tangy, slightly effervescent fermented beverage."
+      "content": "Symbiotic Culture of Bacteria and Yeast - the living culture used to brew kombucha. The SCOBY appears as a rubbery, pancake-like mat of cellulose that floats on the surface of sweetened tea. It houses a complex community of acetic acid bacteria (Komagataeibacter) and yeasts (Brettanomyces, Zygosaccharomyces) that work together to convert sweet tea into the tangy, slightly effervescent fermented beverage."
     },
     {
       "id": "starter-term",
@@ -328,7 +328,7 @@
     {
       "id": "starter-term-text",
       "type": "paragraph",
-      "content": "A preparation of beneficial microorganisms used to inoculate a new ferment. Common starter cultures include: a spoonful of previous dahi for new dahi [[recipe:dahi-homemade]], brine from an active ferment ('backslopping'), whey strained from yogurt, or commercially produced freeze-dried cultures. Most vegetable ferments don't require a starter — the LAB are already present on the vegetables [[article:lactic-acid-bacteria]]. Starters are mainly used in dairy ferments and in situations where you want to ensure a specific flavour profile."
+      "content": "A preparation of beneficial microorganisms used to inoculate a new ferment. Common starter cultures include: a spoonful of previous dahi for new dahi [[recipe:dahi-homemade]], brine from an active ferment ('backslopping'), whey strained from yogurt, or commercially produced freeze-dried cultures. Most vegetable ferments don't require a starter - the LAB are already present on the vegetables [[article:lactic-acid-bacteria]]. Starters are mainly used in dairy ferments and in situations where you want to ensure a specific flavour profile."
     }
   ],
   "citations": [

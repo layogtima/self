@@ -1,5 +1,5 @@
 /**
- * FERMENT — Formatting Utilities
+ * FERMENT - Formatting Utilities
  * Unit conversion, date formatting, display helpers
  */
 
@@ -21,7 +21,7 @@ const FermentFormat = {
       tsp: { ml: 4.92892, 'fl oz': 0.166667, cup: 0.0208333, tbsp: 0.333333, l: 0.00492892 },
     },
     temperature: {
-      // Special handling — not simple multiplication
+      // Special handling - not simple multiplication
     }
   },
 

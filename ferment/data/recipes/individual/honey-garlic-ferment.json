@@ -35,7 +35,7 @@
       "localAvailability": {
         "IN": {
           "ease": "easy",
-          "where": "Any sabziwala — buy the big \"Ooty\" garlic for fat cloves"
+          "where": "Any sabziwala - buy the big \"Ooty\" garlic for fat cloves"
         }
       }
     },
@@ -48,7 +48,7 @@
       "category": "sweetener",
       "essential": true,
       "substitutions": [
-        "Must be raw and unfiltered — NO substitute"
+        "Must be raw and unfiltered - NO substitute"
       ],
       "localAvailability": {
         "IN": {
@@ -67,7 +67,7 @@
     {
       "name": "pH strips",
       "essential": false,
-      "notes": "For safety check at 2 weeks — should read below 4.6"
+      "notes": "For safety check at 2 weeks - should read below 4.6"
     }
   ],
   "tldr": "Drown garlic in honey. Flip daily. Forget for a month. Eat the best garlic of your life.",
@@ -75,12 +75,12 @@
     {
       "step": 1,
       "title": "Peel & Bruise",
-      "instruction": "Peel the garlic. Lightly crush each clove with the flat of a knife—don't mash it, just break the surface to release juices. This kick-starts fermentation.",
+      "instruction": "Peel the garlic. Lightly crush each clove with the flat of a knife-don't mash it, just break the surface to release juices. This kick-starts fermentation.",
       "duration": "10 min",
       "tips": [
         "The moisture from the garlic is what activates fermentation in the honey",
         "More garlic = faster ferment (more moisture)",
-        "Use fresh, firm garlic — soft or sprouting cloves introduce off-flavours and can harbour mould"
+        "Use fresh, firm garlic - soft or sprouting cloves introduce off-flavours and can harbour mould"
       ],
       "checkpoint": "Every clove slightly cracked but intact"
     },
@@ -90,7 +90,7 @@
       "instruction": "Fill a jar halfway with garlic. Pour honey over until covered, leaving 2 inches of headspace (it will bubble and rise significantly).",
       "duration": "5 min",
       "tips": [
-        "The honey WILL foam and expand — don't overfill",
+        "The honey WILL foam and expand - don't overfill",
         "Put the jar on a plate to catch any overflow",
         "Warm the honey jar in a bowl of hot water first so it pours easily and coats every clove"
       ],
@@ -99,14 +99,14 @@
     {
       "step": 3,
       "title": "The Daily Flip",
-      "instruction": "For the first week, turn the jar upside down once a day to ensure all garlic stays coated. The garlic floats initially — flipping prevents dry spots where mould could form.",
+      "instruction": "For the first week, turn the jar upside down once a day to ensure all garlic stays coated. The garlic floats initially - flipping prevents dry spots where mould could form.",
       "duration": "1 week of daily flips",
       "tips": [
-        "Set a daily reminder — consistency matters here",
+        "Set a daily reminder - consistency matters here",
         "After about a week, the garlic sinks as it absorbs honey",
-        "Burp the lid slightly when you flip — the CO2 buildup in the first week can pop a sealed jar"
+        "Burp the lid slightly when you flip - the CO2 buildup in the first week can pop a sealed jar"
       ],
-      "checkpoint": "Bubbles forming when you flip — fermentation is active"
+      "checkpoint": "Bubbles forming when you flip - fermentation is active"
     },
     {
       "step": 4,
@@ -114,9 +114,9 @@
       "instruction": "Open the lid briefly every day to release CO2 for the first month. After that, burp weekly. The longer you wait, the better it gets. At 1 month it's good. At 6 months it's incredible. At 1 year, it's transcendent.",
       "duration": "2 weeks to forever",
       "tips": [
-        "The honey will thin out to an almost syrupy consistency — this is correct",
+        "The honey will thin out to an almost syrupy consistency - this is correct",
         "The garlic becomes jelly-like and sweet with zero bite",
-        "Drizzle the infused honey over grilled halloumi or into a hot toddy — it's one of the best condiments you'll ever make"
+        "Drizzle the infused honey over grilled halloumi or into a hot toddy - it's one of the best condiments you'll ever make"
       ],
       "checkpoint": "Month 1: honey is thin and garlic is soft"
     }
@@ -127,13 +127,13 @@
       "caption": "Honey Garlic",
       "attribution": "",
       "type": "hero",
-      "alt": "Honey Garlic — The ultimate liquid gold immunity booster"
+      "alt": "Honey Garlic - The ultimate liquid gold immunity booster"
     }
   ],
   "culturalContext": {
     "story": "Used in folk medicine across cultures as a \"winter tonic.\" The garlic loses its harsh bite and becomes sweet and jelly-like, while the honey becomes thin and infused with garlic essence. In Korea, a similar concept appears as \"Maneul-jangajji.\"",
     "historicalNote": "Archaeologists have found edible honey in Egyptian tombs over 3,000 years old. Honey's antimicrobial properties mean this ferment straddles the line between preservation and controlled transformation.",
-    "significance": "One of the only ferments that genuinely gets better after a full year. Most fermentation is about capturing a \"peak\" moment — this one just keeps climbing.",
+    "significance": "One of the only ferments that genuinely gets better after a full year. Most fermentation is about capturing a \"peak\" moment - this one just keeps climbing.",
     "relatedTraditions": [
       "Black garlic (Korean heat-aged garlic)",
       "Mead (honey wine)",
@@ -144,7 +144,7 @@
   "thingsToAccountFor": [
     {
       "title": "Botulism Risk (Low but real)",
-      "description": "Honey is low-water-activity but garlic grows in soil. To be safe, test pH after 2 weeks — it should be below 4.6. If the honey is too thick, add 1 tsp apple cider vinegar to kickstart acidification.",
+      "description": "Honey is low-water-activity but garlic grows in soil. To be safe, test pH after 2 weeks - it should be below 4.6. If the honey is too thick, add 1 tsp apple cider vinegar to kickstart acidification.",
       "severity": "important",
       "appliesTo": [
         "all"
@@ -162,7 +162,7 @@
   "dehydratorIntegration": {
     "applicable": true,
     "method": "Remove aged garlic cloves, slice thin, dehydrate at 45°C for 10–12 hours.",
-    "result": "Honey garlic crisps — sweet, savoury, umami-rich chips.",
+    "result": "Honey garlic crisps - sweet, savoury, umami-rich chips.",
     "shelfLife": "3+ months airtight",
     "tips": [
       "Incredible crumbled over salads or into ramen"
@@ -181,7 +181,7 @@
     },
     {
       "name": "Black Pepper Honey Garlic",
-      "description": "Add whole black peppercorns — the piperine enhances absorption of garlic's allicin.",
+      "description": "Add whole black peppercorns - the piperine enhances absorption of garlic's allicin.",
       "region": "Ayurvedic-inspired"
     }
   ],

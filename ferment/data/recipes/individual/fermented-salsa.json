@@ -4,7 +4,7 @@
   "name": "Fermented Salsa",
   "nameLocal": "Salsa Lactofermentada",
   "nameRomanized": null,
-  "subtitle": "Mexican salsa gone probiotic — tomato, chili, cilantro, alive",
+  "subtitle": "Mexican salsa gone probiotic - tomato, chili, cilantro, alive",
   "category": "condiment",
   "subcategory": "salsa",
   "technique": "dry-salt",
@@ -20,7 +20,7 @@
   "fermentTimeMax": 3,
   "fermentTimeUnit": "days",
   "totalTimeHuman": "2–3 days",
-  "blrNote": "Tomatoes, green chillies, onions, and coriander — all abundant year-round in BLR. This is your existing chutney ingredients, rearranged Mexican-style and fermented. At 25°C, 2 days is usually perfect.",
+  "blrNote": "Tomatoes, green chillies, onions, and coriander - all abundant year-round in BLR. This is your existing chutney ingredients, rearranged Mexican-style and fermented. At 25°C, 2 days is usually perfect.",
   "seasonality": [
     "all"
   ],
@@ -39,7 +39,7 @@
       "localAvailability": {
         "IN": {
           "ease": "easy",
-          "where": "Any sabziwala, KR Market — ₹20–40/kg"
+          "where": "Any sabziwala, KR Market - ₹20–40/kg"
         }
       }
     },
@@ -58,7 +58,7 @@
       "localAvailability": {
         "IN": {
           "ease": "easy",
-          "where": "Any market — Indian green chillies are perfect"
+          "where": "Any market - Indian green chillies are perfect"
         }
       }
     },
@@ -93,7 +93,7 @@
       "localAvailability": {
         "IN": {
           "ease": "easy",
-          "where": "Any market — ₹5–10 per bunch"
+          "where": "Any market - ₹5–10 per bunch"
         }
       }
     },
@@ -170,7 +170,7 @@
       "tips": [
         "Smaller dice = more surface area = faster, more even fermentation",
         "Reserve a sprig of coriander for garnish after fermentation",
-        "Remove tomato seeds if you prefer a thicker salsa — they add extra liquid during fermentation"
+        "Remove tomato seeds if you prefer a thicker salsa - they add extra liquid during fermentation"
       ],
       "checkpoint": "Chunky, colourful salsa mix in bowl"
     },
@@ -180,9 +180,9 @@
       "instruction": "Add salt and optional lime juice. Mix thoroughly. The salt will draw moisture from the tomatoes within minutes.",
       "duration": "3 min",
       "tips": [
-        "Taste the salsa before fermenting — it should taste well-seasoned (slightly salty is fine, it mellows)",
+        "Taste the salsa before fermenting - it should taste well-seasoned (slightly salty is fine, it mellows)",
         "The lime juice adds flavour but isn't necessary for fermentation",
-        "Let the salted mixture sit for 10 minutes before packing — the salt needs time to pull liquid from the tomatoes"
+        "Let the salted mixture sit for 10 minutes before packing - the salt needs time to pull liquid from the tomatoes"
       ],
       "checkpoint": "Juicy salsa mixture, tomato liquid pooling"
     },
@@ -192,33 +192,33 @@
       "instruction": "Transfer to a clean glass jar. Press down firmly so the salsa's own liquid rises to cover it. If needed, add a splash of brine (1 tsp salt in ½ cup water) to ensure coverage.",
       "duration": "3 min",
       "tips": [
-        "Pack tightly — air pockets invite mould",
+        "Pack tightly - air pockets invite mould",
         "Leave 3cm headspace for bubbling",
-        "Press a piece of cling wrap directly onto the salsa surface before loosely capping — this keeps the top layer oxygen-free and prevents kahm yeast"
+        "Press a piece of cling wrap directly onto the salsa surface before loosely capping - this keeps the top layer oxygen-free and prevents kahm yeast"
       ],
       "checkpoint": "Salsa submerged under its own liquid"
     },
     {
       "step": 4,
       "title": "Ferment",
-      "instruction": "Cover loosely. Leave at room temperature for 2–3 days. You'll see bubbles forming — this is active lacto-fermentation. Taste daily.",
+      "instruction": "Cover loosely. Leave at room temperature for 2–3 days. You'll see bubbles forming - this is active lacto-fermentation. Taste daily.",
       "duration": "2–3 days",
       "tips": [
         "In BLR's warmth, 2 days usually produces a perfect balance of fresh and fermented",
-        "The flavour will deepen — more complex, tangier, slightly effervescent",
-        "If it starts to smell boozy or yeasty, it's gone too long — refrigerate immediately"
+        "The flavour will deepen - more complex, tangier, slightly effervescent",
+        "If it starts to smell boozy or yeasty, it's gone too long - refrigerate immediately"
       ],
       "checkpoint": "Bubbling, tangy salsa with depth beyond fresh"
     },
     {
       "step": 5,
       "title": "Refrigerate and serve",
-      "instruction": "Once you like the flavour, seal and refrigerate. Add fresh coriander on top. Serve with tortilla chips, on tacos, or — perfectly — with idli, dosa, or rice.",
+      "instruction": "Once you like the flavour, seal and refrigerate. Add fresh coriander on top. Serve with tortilla chips, on tacos, or - perfectly - with idli, dosa, or rice.",
       "duration": null,
       "tips": [
         "Keeps 2 weeks refrigerated",
-        "The tang gets more pronounced over time — it won't stay \"mild\"",
-        "Stir in a splash of fresh lime juice after opening — it brightens the flavour back up after fermentation deepens it"
+        "The tang gets more pronounced over time - it won't stay \"mild\"",
+        "Stir in a splash of fresh lime juice after opening - it brightens the flavour back up after fermentation deepens it"
       ],
       "checkpoint": "Complex, living salsa ready for any meal"
     }
@@ -229,25 +229,25 @@
       "caption": "Fermented Salsa",
       "attribution": "Photo by Farhad Ibrahimzade on Unsplash",
       "type": "hero",
-      "alt": "Fermented Salsa — Mexican salsa gone probiotic — tomato, chili, cilantro, alive"
+      "alt": "Fermented Salsa - Mexican salsa gone probiotic - tomato, chili, cilantro, alive"
     }
   ],
   "culturalContext": {
-    "story": "Salsa has pre-Columbian roots — the Aztecs combined tomatoes, chillies, and squash seeds into sauces long before Europeans arrived. The word \"salsa\" is simply Spanish for \"sauce.\" While most modern salsa is eaten fresh, lacto-fermentation adds depth, complexity, and beneficial bacteria — transforming a condiment into a living food.",
+    "story": "Salsa has pre-Columbian roots - the Aztecs combined tomatoes, chillies, and squash seeds into sauces long before Europeans arrived. The word \"salsa\" is simply Spanish for \"sauce.\" While most modern salsa is eaten fresh, lacto-fermentation adds depth, complexity, and beneficial bacteria - transforming a condiment into a living food.",
     "historicalNote": "Tomatoes, chillies, and coriander were all domesticated in the Americas. The global spread of salsa-like condiments happened after the Columbian Exchange. Today, salsa outsells ketchup in the United States.",
-    "significance": "Fermented salsa bridges Mexican and Indian kitchens beautifully. The ingredient overlap — tomatoes, green chillies, coriander, onion — is almost identical to Indian chutney. The only difference is technique: Indian chutneys are ground, Mexican salsas are chunky. Fermenting either adds probiotic value.",
+    "significance": "Fermented salsa bridges Mexican and Indian kitchens beautifully. The ingredient overlap - tomatoes, green chillies, coriander, onion - is almost identical to Indian chutney. The only difference is technique: Indian chutneys are ground, Mexican salsas are chunky. Fermenting either adds probiotic value.",
     "relatedTraditions": [
       "Pico de gallo (fresh, unfermented)",
       "Indian tomato chutney (ground, cooked)",
       "Zhug (Yemeni green chilli sauce)",
       "Sambal (Southeast Asian chilli paste)"
     ],
-    "funFact": "Americans consume over 800 million dollars worth of salsa annually. In 1991, salsa overtook ketchup as America's top-selling condiment — a shift food historians call \"the salsa moment.\""
+    "funFact": "Americans consume over 800 million dollars worth of salsa annually. In 1991, salsa overtook ketchup as America's top-selling condiment - a shift food historians call \"the salsa moment.\""
   },
   "thingsToAccountFor": [
     {
       "title": "Tomato quality matters",
-      "description": "Use ripe, flavourful tomatoes — not the pale, underripe ones. Better tomatoes = better salsa. Desi tomatoes from KR Market often have more flavour than hybrid varieties.",
+      "description": "Use ripe, flavourful tomatoes - not the pale, underripe ones. Better tomatoes = better salsa. Desi tomatoes from KR Market often have more flavour than hybrid varieties.",
       "severity": "info",
       "appliesTo": [
         "blr"
@@ -273,7 +273,7 @@
   "dehydratorIntegration": {
     "applicable": true,
     "method": "Spread fermented salsa thinly on parchment-lined trays. Dehydrate at 45°C for 10–14 hours until brittle.",
-    "result": "Tangy salsa leather or powder — grind into a seasoning for rice, popcorn, or rub for grilled vegetables.",
+    "result": "Tangy salsa leather or powder - grind into a seasoning for rice, popcorn, or rub for grilled vegetables.",
     "shelfLife": "3–4 months airtight",
     "tips": [
       "Blend smooth before dehydrating for even drying",
@@ -319,7 +319,7 @@
   "containsAllergens": [],
   "sources": [
     {
-      "title": "Salsa (sauce) — Wikipedia",
+      "title": "Salsa (sauce) - Wikipedia",
       "url": "https://en.wikipedia.org/wiki/Salsa_(sauce)",
       "license": "CC BY-SA"
     }
@@ -327,7 +327,7 @@
   "videos": [
     {
       "url": "https://www.youtube.com/watch?v=nsXGPmBxMzU",
-      "title": "Fermented Salsa — Lacto-Fermented Tomato Salsa",
+      "title": "Fermented Salsa - Lacto-Fermented Tomato Salsa",
       "channel": "Fermented Homestead",
       "type": "youtube"
     }

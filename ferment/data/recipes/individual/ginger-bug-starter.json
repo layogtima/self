@@ -20,7 +20,7 @@
   "fermentTimeMax": 7,
   "fermentTimeUnit": "days",
   "totalTimeHuman": "3–7 days to activate",
-  "blrNote": "Bengaluru is exceptional for ginger bugs — fresh ginger from KR Market or any sabziwala is cheap and loaded with wild yeasts. At BLR temps, expect a healthy bug in 3–4 days. Use it to carbonate homemade sodas — lemon soda, kokum soda, sugarcane soda.",
+  "blrNote": "Bengaluru is exceptional for ginger bugs - fresh ginger from KR Market or any sabziwala is cheap and loaded with wild yeasts. At BLR temps, expect a healthy bug in 3–4 days. Use it to carbonate homemade sodas - lemon soda, kokum soda, sugarcane soda.",
   "seasonality": [
     "all"
   ],
@@ -37,7 +37,7 @@
       "localAvailability": {
         "IN": {
           "ease": "easy",
-          "where": "Any sabziwala or KR Market — ₹20–40 per 100g"
+          "where": "Any sabziwala or KR Market - ₹20–40 per 100g"
         }
       }
     },
@@ -86,7 +86,7 @@
     {
       "name": "Cloth or loose lid",
       "essential": true,
-      "notes": "Needs to breathe — don't seal airtight"
+      "notes": "Needs to breathe - don't seal airtight"
     }
   ],
   "tldr": "Grated ginger + sugar + water. Feed daily. It starts bubbling. Now you have a wild yeast starter you can use to naturally carbonate any sweet liquid.",
@@ -99,7 +99,7 @@
       "tips": [
         "Unpeeled ginger has more wild yeast on the skin",
         "Dechlorinate tap water by leaving it uncovered overnight",
-        "Buy organic ginger if possible — conventionally grown ginger is sometimes irradiated, which kills the wild yeast you need"
+        "Buy organic ginger if possible - conventionally grown ginger is sometimes irradiated, which kills the wild yeast you need"
       ],
       "checkpoint": "Jar is cloudy with ginger bits"
     },
@@ -110,20 +110,20 @@
       "duration": "2 min/day",
       "tips": [
         "Vigorous stirring incorporates oxygen and helps wild yeast populate faster",
-        "Feed at the same time each day — consistency keeps the microbial population growing steadily",
-        "If you miss a day, double the next feeding to compensate — the bug is forgiving"
+        "Feed at the same time each day - consistency keeps the microbial population growing steadily",
+        "If you miss a day, double the next feeding to compensate - the bug is forgiving"
       ],
       "checkpoint": "Bubbles start appearing after day 2–3 in BLR"
     },
     {
       "step": 3,
       "title": "Watch for activity",
-      "instruction": "Your bug is ready when it's actively bubbling, smells yeasty-gingery, and fizzes when stirred. In Bengaluru, typically 3–4 days. Taste — it should be slightly fizzy, tangy-sweet.",
+      "instruction": "Your bug is ready when it's actively bubbling, smells yeasty-gingery, and fizzes when stirred. In Bengaluru, typically 3–4 days. Taste - it should be slightly fizzy, tangy-sweet.",
       "duration": null,
       "tips": [
-        "Don't refrigerate until active — cold slows wild yeast capture",
-        "Hold the jar up to light — you should see a steady stream of tiny bubbles rising like champagne",
-        "If nothing happens after 7 days, the ginger was likely irradiated — start over with a different source"
+        "Don't refrigerate until active - cold slows wild yeast capture",
+        "Hold the jar up to light - you should see a steady stream of tiny bubbles rising like champagne",
+        "If nothing happens after 7 days, the ginger was likely irradiated - start over with a different source"
       ],
       "checkpoint": "Consistent bubbling within minutes of stirring, fizzy taste"
     },
@@ -135,7 +135,7 @@
       "tips": [
         "Refrigerate and feed once a week if not using often",
         "Bring back to room temp and feed daily for 2 days before using from the fridge",
-        "Strain out old ginger pieces monthly and replace with fresh — spent ginger slows the culture down"
+        "Strain out old ginger pieces monthly and replace with fresh - spent ginger slows the culture down"
       ],
       "checkpoint": "Bug is a perpetual fermentation engine"
     }
@@ -146,19 +146,19 @@
       "caption": "Ginger Bug",
       "attribution": "Photo by Mockup Graphics on Unsplash",
       "type": "hero",
-      "alt": "Ginger Bug — Wild-fermented ginger starter for natural sodas"
+      "alt": "Ginger Bug - Wild-fermented ginger starter for natural sodas"
     }
   ],
   "culturalContext": {
-    "story": "Before commercial yeast and carbonation, people around the world maintained wild ferment starters to make fizzy drinks. The ginger bug is the simplest version — a living community of wild yeasts and bacteria captured from ginger's skin, sustained by sugar, used to naturally carbonate homemade sodas.",
+    "story": "Before commercial yeast and carbonation, people around the world maintained wild ferment starters to make fizzy drinks. The ginger bug is the simplest version - a living community of wild yeasts and bacteria captured from ginger's skin, sustained by sugar, used to naturally carbonate homemade sodas.",
     "historicalNote": "Traditional ginger beer (not the commercial version) was made this way in 18th and 19th century Britain. The \"ginger beer plant\" was a symbiotic community of yeast and bacteria kept alive for years and traded between households.",
-    "significance": "The ginger bug is a gateway to natural carbonation. Once you have a healthy bug, you can turn any sweet liquid — fruit juice, herbal tea, kokum water, sugarcane juice — into a naturally fizzy probiotic drink. It's the South Asian equivalent of maintaining a sourdough starter.",
+    "significance": "The ginger bug is a gateway to natural carbonation. Once you have a healthy bug, you can turn any sweet liquid - fruit juice, herbal tea, kokum water, sugarcane juice - into a naturally fizzy probiotic drink. It's the South Asian equivalent of maintaining a sourdough starter.",
     "relatedTraditions": [
       "Ginger beer plant (British)",
       "Tepache (Mexican)",
       "Kanji (Indian)"
     ],
-    "funFact": "The \"ginger beer plant\" was so prized in Victorian England that people traded it like a pet, giving portions to friends and family. Its actual microbial composition — a specific yeast (Saccharomyces florentinus) and bacteria (Lactobacillus) — was only identified in the 1980s."
+    "funFact": "The \"ginger beer plant\" was so prized in Victorian England that people traded it like a pet, giving portions to friends and family. Its actual microbial composition - a specific yeast (Saccharomyces florentinus) and bacteria (Lactobacillus) - was only identified in the 1980s."
   },
   "thingsToAccountFor": [
     {
@@ -179,7 +179,7 @@
     },
     {
       "title": "Very fast in BLR heat",
-      "description": "At 28–30°C in summer, your bug can become very active within 48 hours. Taste before using — if very sour, it's over-fermented. Use less and top up sugar.",
+      "description": "At 28–30°C in summer, your bug can become very active within 48 hours. Taste before using - if very sour, it's over-fermented. Use less and top up sugar.",
       "severity": "info",
       "appliesTo": [
         "blr"
@@ -231,7 +231,7 @@
   "containsAllergens": [],
   "sources": [
     {
-      "title": "Ginger beer plant — Wikipedia",
+      "title": "Ginger beer plant - Wikipedia",
       "url": "https://en.wikipedia.org/wiki/Ginger_beer_plant",
       "license": "CC BY-SA"
     }
