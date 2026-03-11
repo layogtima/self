@@ -1,5 +1,5 @@
 /**
- * FERMENT — WikiView Component
+ * FERMENT - WikiView Component
  * Main wiki browsing view: article list, search, tag filter, glossary search
  */
 

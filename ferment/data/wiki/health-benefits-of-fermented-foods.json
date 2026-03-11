@@ -2,7 +2,7 @@
   "id": "health-benefits-of-fermented-foods",
   "slug": "health-benefits-of-fermented-foods",
   "title": "Health Benefits of Fermented Foods",
-  "subtitle": "From probiotics to bioavailability — why fermented foods are nutritional powerhouses",
+  "subtitle": "From probiotics to bioavailability - why fermented foods are nutritional powerhouses",
   "lastUpdated": "2026-03-10",
   "tableOfContents": true,
   "sections": [
@@ -20,17 +20,17 @@
     {
       "id": "probiotics-gut-health-text",
       "type": "paragraph",
-      "content": "The most celebrated benefit of fermented foods is their probiotic content — live microorganisms that confer a health benefit when consumed in adequate amounts [cite:c2]. Lacto-fermented vegetables, yogurt, kefir, and other traditionally fermented foods deliver diverse strains of Lactobacillus, Bifidobacterium, and other beneficial bacteria directly to the gastrointestinal tract. These microbes help maintain the integrity of the gut lining, compete with pathogenic bacteria for resources, and produce short-chain fatty acids (SCFAs) like butyrate that nourish the cells of the colon [[article:lactic-acid-bacteria]]."
+      "content": "The most celebrated benefit of fermented foods is their probiotic content - live microorganisms that confer a health benefit when consumed in adequate amounts [cite:c2]. Lacto-fermented vegetables, yogurt, kefir, and other traditionally fermented foods deliver diverse strains of Lactobacillus, Bifidobacterium, and other beneficial bacteria directly to the gastrointestinal tract. These microbes help maintain the integrity of the gut lining, compete with pathogenic bacteria for resources, and produce short-chain fatty acids (SCFAs) like butyrate that nourish the cells of the colon [[article:lactic-acid-bacteria]]."
     },
     {
       "id": "probiotics-gut-health-list",
       "type": "list",
       "ordered": false,
       "items": [
-        "**Microbiome diversity** — Regular consumption of fermented foods has been shown to increase gut microbial diversity, which is associated with better overall health outcomes [cite:c3].",
-        "**Reduced inflammation** — SCFAs produced by probiotic bacteria help regulate the immune response in the gut, reducing chronic low-grade inflammation.",
-        "**Improved digestion** — LAB partially break down complex carbohydrates and proteins during fermentation, making nutrients easier to absorb and reducing bloating and gas for many people.",
-        "**Pathogen resistance** — A well-colonised gut is more resistant to foodborne illness because beneficial bacteria outcompete invaders for space and nutrients."
+        "**Microbiome diversity** - Regular consumption of fermented foods has been shown to increase gut microbial diversity, which is associated with better overall health outcomes [cite:c3].",
+        "**Reduced inflammation** - SCFAs produced by probiotic bacteria help regulate the immune response in the gut, reducing chronic low-grade inflammation.",
+        "**Improved digestion** - LAB partially break down complex carbohydrates and proteins during fermentation, making nutrients easier to absorb and reducing bloating and gas for many people.",
+        "**Pathogen resistance** - A well-colonised gut is more resistant to foodborne illness because beneficial bacteria outcompete invaders for space and nutrients."
       ]
     },
     {
@@ -42,7 +42,7 @@
     {
       "id": "bioavailability-text",
       "type": "paragraph",
-      "content": "Fermentation does not merely preserve nutrients — it actively enhances their bioavailability. Many plant foods contain anti-nutritional factors such as phytic acid, oxalates, and tannins that bind to minerals like iron, zinc, and calcium, preventing their absorption in the human gut. The enzymatic activity of fermentation microorganisms breaks down these compounds, liberating the bound minerals and making them available for absorption [cite:c1]. For example, the phytic acid content of fermented grains can be reduced by 50–80%, dramatically increasing mineral absorption."
+      "content": "Fermentation does not merely preserve nutrients - it actively enhances their bioavailability. Many plant foods contain anti-nutritional factors such as phytic acid, oxalates, and tannins that bind to minerals like iron, zinc, and calcium, preventing their absorption in the human gut. The enzymatic activity of fermentation microorganisms breaks down these compounds, liberating the bound minerals and making them available for absorption [cite:c1]. For example, the phytic acid content of fermented grains can be reduced by 50–80%, dramatically increasing mineral absorption."
     },
     {
       "id": "bioavailability-callout",
@@ -60,16 +60,16 @@
     {
       "id": "immune-function-text",
       "type": "paragraph",
-      "content": "Approximately 70% of the immune system resides in the gut-associated lymphoid tissue (GALT), making the gut microbiome a critical regulator of immune function [cite:c4]. Fermented foods influence immunity through multiple pathways. Probiotic bacteria interact directly with immune cells in the gut wall, modulating the balance between pro-inflammatory and anti-inflammatory responses. They stimulate the production of secretory IgA, a key antibody that protects mucosal surfaces. And the metabolites they produce — including SCFAs, vitamins, and bioactive peptides — have systemic effects that reach well beyond the gut."
+      "content": "Approximately 70% of the immune system resides in the gut-associated lymphoid tissue (GALT), making the gut microbiome a critical regulator of immune function [cite:c4]. Fermented foods influence immunity through multiple pathways. Probiotic bacteria interact directly with immune cells in the gut wall, modulating the balance between pro-inflammatory and anti-inflammatory responses. They stimulate the production of secretory IgA, a key antibody that protects mucosal surfaces. And the metabolites they produce - including SCFAs, vitamins, and bioactive peptides - have systemic effects that reach well beyond the gut."
     },
     {
       "id": "immune-function-list",
       "type": "list",
       "ordered": false,
       "items": [
-        "**Enhanced antibody production** — Regular probiotic consumption has been linked to improved vaccine responses and higher baseline antibody levels.",
-        "**Reduced duration of common illnesses** — Several studies suggest that regular fermented food consumption can shorten the duration and severity of upper respiratory infections [cite:c2].",
-        "**Allergy modulation** — Early evidence suggests that a diverse gut microbiome, supported by fermented food consumption, may help prevent or reduce the severity of certain allergic conditions."
+        "**Enhanced antibody production** - Regular probiotic consumption has been linked to improved vaccine responses and higher baseline antibody levels.",
+        "**Reduced duration of common illnesses** - Several studies suggest that regular fermented food consumption can shorten the duration and severity of upper respiratory infections [cite:c2].",
+        "**Allergy modulation** - Early evidence suggests that a diverse gut microbiome, supported by fermented food consumption, may help prevent or reduce the severity of certain allergic conditions."
       ]
     },
     {
@@ -81,14 +81,14 @@
     {
       "id": "mental-health-text",
       "type": "paragraph",
-      "content": "The gut-brain axis — the bidirectional communication network between the gastrointestinal tract and the central nervous system — has emerged as one of the most exciting areas of modern nutritional research. The gut produces approximately 95% of the body's serotonin and significant quantities of GABA and dopamine, all of which are neurotransmitters that regulate mood, sleep, and cognition [cite:c5]. Fermented foods may influence this axis in several ways: by altering the composition of the gut microbiome, by producing neuroactive metabolites directly, and by reducing systemic inflammation that can affect brain function."
+      "content": "The gut-brain axis - the bidirectional communication network between the gastrointestinal tract and the central nervous system - has emerged as one of the most exciting areas of modern nutritional research. The gut produces approximately 95% of the body's serotonin and significant quantities of GABA and dopamine, all of which are neurotransmitters that regulate mood, sleep, and cognition [cite:c5]. Fermented foods may influence this axis in several ways: by altering the composition of the gut microbiome, by producing neuroactive metabolites directly, and by reducing systemic inflammation that can affect brain function."
     },
     {
       "id": "mental-health-callout",
       "type": "callout",
       "style": "tip",
       "title": "Emerging but Promising",
-      "content": "Research on fermented foods and mental health is still in its early stages. While animal studies and preliminary human trials are encouraging — showing associations between fermented food consumption and reduced symptoms of anxiety and depression — this is not yet a basis for medical advice. Think of fermented foods as one element of a brain-healthy diet, not a treatment for mental health conditions."
+      "content": "Research on fermented foods and mental health is still in its early stages. While animal studies and preliminary human trials are encouraging - showing associations between fermented food consumption and reduced symptoms of anxiety and depression - this is not yet a basis for medical advice. Think of fermented foods as one element of a brain-healthy diet, not a treatment for mental health conditions."
     },
     {
       "id": "supplements-comparison",
@@ -99,7 +99,7 @@
     {
       "id": "supplements-comparison-text",
       "type": "paragraph",
-      "content": "Probiotic supplements are a multi-billion-dollar industry, but there is growing scientific consensus that whole fermented foods offer advantages that capsules cannot replicate [cite:c3]. The question is not whether supplements are worthless — some have demonstrated clinical benefits — but whether fermented foods provide a more complete and effective package."
+      "content": "Probiotic supplements are a multi-billion-dollar industry, but there is growing scientific consensus that whole fermented foods offer advantages that capsules cannot replicate [cite:c3]. The question is not whether supplements are worthless - some have demonstrated clinical benefits - but whether fermented foods provide a more complete and effective package."
     },
     {
       "id": "supplements-table",
@@ -121,7 +121,7 @@
       "type": "callout",
       "style": "info",
       "title": "The Best Approach",
-      "content": "For most healthy adults, regular consumption of a variety of fermented foods — sauerkraut, yogurt, kefir, kimchi, miso, and others — is likely to provide more comprehensive microbiome support than any single probiotic supplement. Supplements may be appropriate for specific clinical situations under medical guidance. The two approaches are not mutually exclusive."
+      "content": "For most healthy adults, regular consumption of a variety of fermented foods - sauerkraut, yogurt, kefir, kimchi, miso, and others - is likely to provide more comprehensive microbiome support than any single probiotic supplement. Supplements may be appropriate for specific clinical situations under medical guidance. The two approaches are not mutually exclusive."
     }
   ],
   "citations": [

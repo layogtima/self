@@ -42,9 +42,9 @@
       "title": "Trim",
       "instruction": "Trim the ends so they fit vertically in your jar.",
       "tips": [
-        "Measure the beans against the jar BEFORE trimming — cut them about 1 cm shorter than the jar's interior height to allow space for brine on top.",
+        "Measure the beans against the jar BEFORE trimming - cut them about 1 cm shorter than the jar's interior height to allow space for brine on top.",
         "Only trim the stem end; leave the pointy tail end intact for a nicer presentation.",
-        "Choose beans that snap cleanly when bent — if they bend without breaking, they are too old and will turn mushy during fermentation."
+        "Choose beans that snap cleanly when bent - if they bend without breaking, they are too old and will turn mushy during fermentation."
       ]
     },
     {
@@ -52,9 +52,9 @@
       "title": "Pack",
       "instruction": "Pack them TIGHT. If they aren't tight, they will float and mould.",
       "tips": [
-        "Stand the beans vertically and wedge them in so tightly they hold themselves in place — think of it like packing a bouquet into a vase.",
+        "Stand the beans vertically and wedge them in so tightly they hold themselves in place - think of it like packing a bouquet into a vase.",
         "Add the dill seeds, a few garlic cloves, and any other aromatics to the bottom of the jar BEFORE packing in the beans.",
-        "Wide-mouth mason jars work best — narrow mouths make it nearly impossible to pack beans tightly enough."
+        "Wide-mouth mason jars work best - narrow mouths make it nearly impossible to pack beans tightly enough."
       ]
     },
     {
@@ -62,7 +62,7 @@
       "title": "Ferment",
       "instruction": "5–7 days. They should be sour but still have a loud \"snap\" when bitten.",
       "tips": [
-        "Pull a bean from the middle of the jar to test — the outer beans ferment faster than the ones packed in the center.",
+        "Pull a bean from the middle of the jar to test - the outer beans ferment faster than the ones packed in the center.",
         "If the beans start losing their snap and becoming bendy, fermentation has gone too far. Move to the fridge immediately.",
         "The brine should be pleasantly sour and slightly cloudy. Clear brine after 5 days may mean the salt concentration is too high and is slowing fermentation."
       ]
@@ -74,13 +74,13 @@
       "caption": "Dilly Beans",
       "attribution": "",
       "type": "hero",
-      "alt": "Dilly Beans — Fermented French beans with a snap"
+      "alt": "Dilly Beans - Fermented French beans with a snap"
     }
   ],
   "culturalContext": {
     "story": "A beloved staple of Southern US pantries and Appalachian food traditions, dilly beans have been preserved for generations in rural American kitchens. While most modern recipes call for vinegar canning, the original method was lacto-fermentation, which maintains the signature 'snap' crunch far better than heat-processed canning. They gained mainstream popularity as a Bloody Mary garnish in cocktail culture, replacing the traditional celery stick.",
     "historicalNote": "Green bean fermentation traces back to European settlers in Appalachia who adapted Old World sauerkraut techniques to New World vegetables. Before refrigeration, fermented beans were a critical source of vitamins during long winters. The addition of dill is a Scandinavian influence brought by immigrants to the American Midwest.",
-    "significance": "Dilly beans represent the American home-canning and preservation tradition at its most accessible. They are a gateway ferment — simple enough for absolute beginners yet impressive enough to gift in mason jars at holidays.",
+    "significance": "Dilly beans represent the American home-canning and preservation tradition at its most accessible. They are a gateway ferment - simple enough for absolute beginners yet impressive enough to gift in mason jars at holidays.",
     "funFact": "Dilly beans have become the unofficial garnish of the craft Bloody Mary movement. Some bartenders ferment their own beans specifically for cocktails, claiming the probiotic brine is the ultimate hangover cure.",
     "relatedTraditions": ["French Haricots Verts in vinegar", "Korean Jangajji (soy-pickled vegetables)", "Chinese Suan Dou Jiao (fermented long beans)"]
   },
@@ -109,7 +109,7 @@
   "thingsToAccountFor": [
     {
       "title": "Bean Freshness is Critical",
-      "description": "Old or limp beans will turn mushy during fermentation. The snap test is essential: bend a bean in half — it should break cleanly with an audible snap. If it bends like rubber, find fresher beans.",
+      "description": "Old or limp beans will turn mushy during fermentation. The snap test is essential: bend a bean in half - it should break cleanly with an audible snap. If it bends like rubber, find fresher beans.",
       "severity": "warning"
     },
     {
@@ -134,7 +134,7 @@
   },
   "sources": [
     {
-      "title": "Green Bean — Wikipedia",
+      "title": "Green Bean - Wikipedia",
       "url": "https://en.wikipedia.org/wiki/Green_bean"
     }
   ],

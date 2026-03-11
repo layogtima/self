@@ -1,5 +1,5 @@
 /**
- * FERMENT — SearchBar Component
+ * FERMENT - SearchBar Component
  * Full-text search input with debounced filtering
  */
 

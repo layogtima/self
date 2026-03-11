@@ -1,5 +1,5 @@
 /**
- * FERMENT — Wiki Loader
+ * FERMENT - Wiki Loader
  * Loads wiki articles from individual JSON files in data/wiki/
  */
 

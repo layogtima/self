@@ -25,7 +25,7 @@
     {
       "id": "intro",
       "type": "paragraph",
-      "content": "A second fermentation — commonly abbreviated as '2F' — is the stage where a fermented beverage is sealed in individual bottles, often with added flavouring ingredients, to develop carbonation and depth of flavour. If the first fermentation (1F) is about creating the base culture — building acidity, growing beneficial microbes, and converting sugars — then the second fermentation is about finishing the drink: making it fizzy, layered, and genuinely delicious. Understanding the mechanics behind 2F will help you produce consistently carbonated, well-flavoured drinks while avoiding the two extremes that frustrate beginners: flat results and exploding bottles [[article:role-of-carbon-dioxide]]."
+      "content": "A second fermentation - commonly abbreviated as '2F' - is the stage where a fermented beverage is sealed in individual bottles, often with added flavouring ingredients, to develop carbonation and depth of flavour. If the first fermentation (1F) is about creating the base culture - building acidity, growing beneficial microbes, and converting sugars - then the second fermentation is about finishing the drink: making it fizzy, layered, and genuinely delicious. Understanding the mechanics behind 2F will help you produce consistently carbonated, well-flavoured drinks while avoiding the two extremes that frustrate beginners: flat results and exploding bottles [[article:role-of-carbon-dioxide]]."
     },
     {
       "id": "what-is-2f",
@@ -36,7 +36,7 @@
     {
       "id": "what-is-2f-text",
       "type": "paragraph",
-      "content": "During the first fermentation, your culture — whether it is a kombucha SCOBY, a water kefir grain colony, a ginger bug [[recipe:ginger-bug-starter]], or a wild yeast population in tepache [[recipe:tepache-pineapple]] — consumes sugars in an open or semi-open vessel. CO₂ produced during this stage escapes freely into the air, which is why your 1F may bubble vigorously but the finished liquid is mostly flat [cite:c1]. The second fermentation changes the environment in one critical way: the vessel is sealed. When microorganisms continue to metabolise residual sugars inside a sealed bottle, the CO₂ they produce has nowhere to go. It dissolves into the liquid under pressure, and when you eventually open the bottle, it comes out of solution as effervescent bubbles — exactly the same principle behind bottle-conditioned beer and méthode champenoise sparkling wine [cite:c2]."
+      "content": "During the first fermentation, your culture - whether it is a kombucha SCOBY, a water kefir grain colony, a ginger bug [[recipe:ginger-bug-starter]], or a wild yeast population in tepache [[recipe:tepache-pineapple]] - consumes sugars in an open or semi-open vessel. CO₂ produced during this stage escapes freely into the air, which is why your 1F may bubble vigorously but the finished liquid is mostly flat [cite:c1]. The second fermentation changes the environment in one critical way: the vessel is sealed. When microorganisms continue to metabolise residual sugars inside a sealed bottle, the CO₂ they produce has nowhere to go. It dissolves into the liquid under pressure, and when you eventually open the bottle, it comes out of solution as effervescent bubbles - exactly the same principle behind bottle-conditioned beer and méthode champenoise sparkling wine [cite:c2]."
     },
     {
       "id": "why-2f",
@@ -71,7 +71,7 @@
       "type": "callout",
       "style": "info",
       "title": "Henry's Law in Your Bottles",
-      "content": "C = kH × P\n\nWhere C is the concentration of dissolved CO₂, kH is Henry's Law constant (temperature-dependent), and P is the partial pressure of CO₂ in the headspace. This is why refrigeration helps: at lower temperatures, kH increases, meaning more CO₂ stays dissolved in the liquid at the same pressure. Your drink tastes fizzier cold than warm — and it is genuinely more carbonated."
+      "content": "C = kH × P\n\nWhere C is the concentration of dissolved CO₂, kH is Henry's Law constant (temperature-dependent), and P is the partial pressure of CO₂ in the headspace. This is why refrigeration helps: at lower temperatures, kH increases, meaning more CO₂ stays dissolved in the liquid at the same pressure. Your drink tastes fizzier cold than warm - and it is genuinely more carbonated."
     },
     {
       "id": "variables-carbonation",
@@ -126,7 +126,7 @@
         ["Pineapple", "Juice or small chunks", "2–3 tbsp (30–45 ml)", "High", "Bright, acidic. Natural pairing for tepache 2F [[recipe:tepache-pineapple]]."],
         ["Passion fruit", "Pulp with seeds", "1–2 tbsp (15–30 ml)", "Medium", "Intensely aromatic. A little goes a long way."],
         ["Apple", "Juice", "3–4 tbsp (45–60 ml)", "Medium", "Subtle, clean. Good base for herb combinations."],
-        ["Citrus (lemon, lime)", "Juice only (no pith)", "1–2 tsp (5–10 ml)", "Low (acidic, low sugar)", "Brightens other flavours. Use sparingly — too much acid can stress cultures."],
+        ["Citrus (lemon, lime)", "Juice only (no pith)", "1–2 tsp (5–10 ml)", "Low (acidic, low sugar)", "Brightens other flavours. Use sparingly - too much acid can stress cultures."],
         ["Beetroot", "Juice", "2–3 tbsp (30–45 ml)", "Medium", "Earthy, sweet. Gorgeous deep red colour [[recipe:beet-kvass-basic]]."]
       ]
     },
@@ -139,7 +139,7 @@
     {
       "id": "herbs-spices-text",
       "type": "paragraph",
-      "content": "Herbs and spices add aromatic complexity without significant additional sugar, meaning they flavour the drink without dramatically altering carbonation levels. Fresh herbs are generally preferred over dried because they release essential oils more gently and predictably during the short 2F window. Whole spices are preferred over ground — ground spices create cloudy, gritty results and are nearly impossible to strain from a carbonated bottle."
+      "content": "Herbs and spices add aromatic complexity without significant additional sugar, meaning they flavour the drink without dramatically altering carbonation levels. Fresh herbs are generally preferred over dried because they release essential oils more gently and predictably during the short 2F window. Whole spices are preferred over ground - ground spices create cloudy, gritty results and are nearly impossible to strain from a carbonated bottle."
     },
     {
       "id": "herbs-spices-list",
@@ -155,7 +155,7 @@
         "**Whole cloves** (1–2 per bottle): Very potent. Use sparingly. Good in autumn-spice blends with cinnamon and ginger.",
         "**Black peppercorns** (3–5 lightly crushed per bottle): Subtle heat and complexity. Pairs well with berry and citrus.",
         "**Lemongrass** (1 stalk, bruised and cut to fit): Citrusy, floral. Lovely in water kefir and kombucha.",
-        "**Chilli flakes or fresh chilli** (a pinch or 1 thin slice): For those who enjoy heat. Start very small — the capsaicin intensifies during fermentation."
+        "**Chilli flakes or fresh chilli** (a pinch or 1 thin slice): For those who enjoy heat. Start very small - the capsaicin intensifies during fermentation."
       ]
     },
     {
@@ -169,7 +169,7 @@
       "type": "callout",
       "style": "tip",
       "title": "Tried-and-Tested 2F Flavour Pairings",
-      "content": "These combinations are reliably excellent across kombucha, water kefir, and ginger bug sodas:\n\n• Mango + chilli flakes — tropical heat\n• Ginger + lemon + turmeric — the golden tonic\n• Apple juice + cinnamon + cardamom — autumn spice\n• Mixed berry + fresh mint — berry mojito\n• Passion fruit + vanilla bean — creamy tropical\n• Pineapple + ginger — a natural evolution of tepache [[recipe:tepache-pineapple]]\n• Beetroot + ginger + black pepper — earthy fire [[recipe:beet-kvass-basic]]\n• Lemongrass + lime + basil — Southeast Asian refresher"
+      "content": "These combinations are reliably excellent across kombucha, water kefir, and ginger bug sodas:\n\n• Mango + chilli flakes - tropical heat\n• Ginger + lemon + turmeric - the golden tonic\n• Apple juice + cinnamon + cardamom - autumn spice\n• Mixed berry + fresh mint - berry mojito\n• Passion fruit + vanilla bean - creamy tropical\n• Pineapple + ginger - a natural evolution of tepache [[recipe:tepache-pineapple]]\n• Beetroot + ginger + black pepper - earthy fire [[recipe:beet-kvass-basic]]\n• Lemongrass + lime + basil - Southeast Asian refresher"
     },
     {
       "id": "other-flavourings",
@@ -187,7 +187,7 @@
       "type": "list",
       "ordered": false,
       "items": [
-        "**Honey** (1–2 tsp per bottle): Adds fermentable sugar and its own floral complexity. Raw honey also introduces wild yeasts, which can boost carbonation. Use cautiously — honey is very fermentable and increases blowout risk.",
+        "**Honey** (1–2 tsp per bottle): Adds fermentable sugar and its own floral complexity. Raw honey also introduces wild yeasts, which can boost carbonation. Use cautiously - honey is very fermentable and increases blowout risk.",
         "**Maple syrup** (1–2 tsp per bottle): Rich, caramel-like sweetness. Works well in autumn spice blends.",
         "**Vanilla bean** (1 cm piece, split lengthwise): Deep, warm sweetness without additional sugar. Reusable for 2–3 batches.",
         "**Dried hibiscus flowers** (2–3 per bottle): Tart, cranberry-like flavour with a stunning magenta colour.",
@@ -204,7 +204,7 @@
     {
       "id": "bottle-safety-text",
       "type": "paragraph",
-      "content": "The single most important safety consideration during second fermentation is pressure management. A sealed bottle containing actively fermenting liquid is a pressurised vessel. Under normal 2F conditions, internal pressure can reach 2–4 volumes of CO₂ (roughly 30–60 psi / 2–4 bar), which is comparable to the pressure inside a car tyre [cite:c4]. If the bottle cannot withstand this pressure, it will fail — violently. Exploding glass bottles can cause serious injury, and at minimum, create a spectacular mess. This is entirely preventable [[article:fermentation-and-food-safety]]."
+      "content": "The single most important safety consideration during second fermentation is pressure management. A sealed bottle containing actively fermenting liquid is a pressurised vessel. Under normal 2F conditions, internal pressure can reach 2–4 volumes of CO₂ (roughly 30–60 psi / 2–4 bar), which is comparable to the pressure inside a car tyre [cite:c4]. If the bottle cannot withstand this pressure, it will fail - violently. Exploding glass bottles can cause serious injury, and at minimum, create a spectacular mess. This is entirely preventable [[article:fermentation-and-food-safety]]."
     },
     {
       "id": "bottle-selection",
@@ -215,7 +215,7 @@
     {
       "id": "bottle-selection-table",
       "type": "table",
-      "caption": "Bottle types for second fermentation — safety comparison",
+      "caption": "Bottle types for second fermentation - safety comparison",
       "headers": ["Bottle Type", "Pressure Rating", "Pros", "Cons", "Recommendation"],
       "rows": [
         ["Swing-top (Grolsch-style) glass", "Designed for carbonated beverages", "Reusable, attractive, excellent seal. The gold standard for home fermenters.", "Heavier, more expensive. Gaskets need periodic replacement.", "Highly recommended"],
@@ -242,7 +242,7 @@
     {
       "id": "burping-2f-text",
       "type": "paragraph",
-      "content": "Burping — briefly opening the bottle to release excess CO₂ — is a safety valve during 2F. However, there is a trade-off: every time you burp, you lose dissolved CO₂ and reduce final carbonation. The approach you choose depends on your priorities:"
+      "content": "Burping - briefly opening the bottle to release excess CO₂ - is a safety valve during 2F. However, there is a trade-off: every time you burp, you lose dissolved CO₂ and reduce final carbonation. The approach you choose depends on your priorities:"
     },
     {
       "id": "burping-strategies",
@@ -250,7 +250,7 @@
       "ordered": false,
       "items": [
         "**Maximum carbonation (higher risk)**: Do not burp at all. Monitor via the plastic bottle trick. Refrigerate promptly when target pressure is reached. This is the approach experienced fermenters use.",
-        "**Moderate carbonation (balanced)**: Burp once daily, quickly. You will still achieve good fizz because CO₂ production is continuous — you are releasing excess, not all of it.",
+        "**Moderate carbonation (balanced)**: Burp once daily, quickly. You will still achieve good fizz because CO₂ production is continuous - you are releasing excess, not all of it.",
         "**Safety-first (lower carbonation)**: Burp twice daily, especially if using high-sugar fruits like mango or grape, or if ambient temperatures exceed 30 °C. Ideal for beginners."
       ]
     },
@@ -274,7 +274,7 @@
     {
       "id": "ratios-intro",
       "type": "paragraph",
-      "content": "The following table provides starting-point ratios for common fermented beverages. These are guidelines — your specific culture's activity level, ambient temperature, and base sweetness will all influence results. Start conservative and adjust in subsequent batches."
+      "content": "The following table provides starting-point ratios for common fermented beverages. These are guidelines - your specific culture's activity level, ambient temperature, and base sweetness will all influence results. Start conservative and adjust in subsequent batches."
     },
     {
       "id": "ratios-table",
@@ -282,10 +282,10 @@
       "caption": "Second fermentation ratios and timing by beverage type",
       "headers": ["Beverage", "Flavouring Ratio (per 500 ml)", "Added Sugar?", "2F Duration (20–25 °C)", "2F Duration (28–35 °C)", "Notes"],
       "rows": [
-        ["Kombucha", "10–20% fruit juice or 2–3 tbsp purée", "Usually not needed — fruit sugar suffices", "2–4 days", "1–2 days", "End 1F when slightly sweeter than desired final taste. Residual sugar feeds 2F."],
+        ["Kombucha", "10–20% fruit juice or 2–3 tbsp purée", "Usually not needed - fruit sugar suffices", "2–4 days", "1–2 days", "End 1F when slightly sweeter than desired final taste. Residual sugar feeds 2F."],
         ["Water kefir", "10–15% fruit juice or 2 tbsp purée", "Optional: 1 tsp sugar if using herbs only", "1–3 days", "12–36 hours", "Water kefir grains are vigorous fermenters. Monitor pressure closely."],
         ["Ginger bug soda", "Flavouring to taste (the bug itself provides yeast)", "1–2 tsp sugar per bottle if base is tart", "2–3 days", "1–2 days", "Ginger bug sodas carbonate reliably [[recipe:ginger-bug-starter]]."],
-        ["Tepache", "Usually none — pineapple provides ample sugar", "Not typically needed", "1–2 days", "12–24 hours", "Tepache carbonates very aggressively. Short 2F recommended [[recipe:tepache-pineapple]]."],
+        ["Tepache", "Usually none - pineapple provides ample sugar", "Not typically needed", "1–2 days", "12–24 hours", "Tepache carbonates very aggressively. Short 2F recommended [[recipe:tepache-pineapple]]."],
         ["Beet kvass", "Optional: ginger slices, citrus juice", "1 tsp sugar or honey if flat after 1F", "2–4 days", "1–2 days", "Kvass has lower sugar content. May need a sugar boost for carbonation [[recipe:beet-kvass-basic]]."],
         ["Jun", "10–15% fruit juice or 2 tbsp purée", "1 tsp honey (traditional)", "2–3 days", "1–2 days", "Jun cultures prefer honey over cane sugar. Ferments faster than kombucha."],
         ["Milk kefir soda (whey-based)", "15–20% fruit juice", "1–2 tsp sugar", "1–2 days", "12–24 hours", "Whey is extremely active. Very short 2F. High blowout risk if over-sugared."]
@@ -310,7 +310,7 @@
       "ordered": true,
       "items": [
         "**Complete your first fermentation.** Your base should taste pleasantly tart with some residual sweetness. If it is bone-dry and very sour, the microbes may not have enough sugar left to carbonate during 2F. In this case, add 1–2 teaspoons of sugar per 500 ml bottle.",
-        "**Sanitise your bottles.** Wash swing-top or PET bottles with hot water and a bottle brush. No soap residue — it can inhibit fermentation and affect flavour.",
+        "**Sanitise your bottles.** Wash swing-top or PET bottles with hot water and a bottle brush. No soap residue - it can inhibit fermentation and affect flavour.",
         "**Add flavourings.** Place fruit, herbs, spices, or other additions directly into each bottle. For purées, use a small funnel to avoid mess.",
         "**Fill bottles.** Pour or ladle your fermented base into each bottle, leaving 2–3 cm of headspace. Too little headspace accelerates pressure build-up; too much delays carbonation.",
         "**Seal bottles.** Ensure swing-top gaskets are seated properly or crown caps are fully crimped. A poor seal means flat results.",
@@ -339,7 +339,7 @@
         "**Osmotic extraction**: The sugar gradient between fruit and the surrounding liquid draws water out of fruit cells and flavour compounds into solution.",
         "**Acid-assisted extraction**: The low pH (typically 2.5–4.0) of fermented bases helps break down cell walls and release pigments, particularly anthocyanins from berries and betalains from beetroot.",
         "**Enzymatic activity**: Residual enzymes from both the fruit and the microbial culture continue to break down complex molecules into simpler, more aromatic compounds [cite:c5].",
-        "**CO₂ agitation**: As bubbles form and rise through the liquid, they create gentle convective mixing that distributes flavour compounds evenly — a natural stirring mechanism.",
+        "**CO₂ agitation**: As bubbles form and rise through the liquid, they create gentle convective mixing that distributes flavour compounds evenly - a natural stirring mechanism.",
         "**Alcohol extraction**: The small amount of ethanol present (typically 0.5–2% in most home ferments) acts as a solvent for essential oils in herbs and spices, similar to how vanilla extract works."
       ]
     },
@@ -352,7 +352,7 @@
     {
       "id": "straining-text",
       "type": "paragraph",
-      "content": "A common question is whether to strain out fruit and flavourings after 2F. There is no single right answer — it depends on your preference and practical considerations:"
+      "content": "A common question is whether to strain out fruit and flavourings after 2F. There is no single right answer - it depends on your preference and practical considerations:"
     },
     {
       "id": "straining-table",
@@ -405,7 +405,7 @@
     {
       "id": "over-carbonation-text",
       "type": "paragraph",
-      "content": "Over-carbonation is the opposite problem — and the more dangerous one. Signs include: bottles hissing aggressively when opened, liquid gushing out of the bottle (a 'gusher'), or in extreme cases, bottles cracking or exploding."
+      "content": "Over-carbonation is the opposite problem - and the more dangerous one. Signs include: bottles hissing aggressively when opened, liquid gushing out of the bottle (a 'gusher'), or in extreme cases, bottles cracking or exploding."
     },
     {
       "id": "over-carbonation-table",
@@ -425,7 +425,7 @@
       "type": "callout",
       "style": "warning",
       "title": "Emergency Procedure for Suspected Over-Pressurised Bottles",
-      "content": "If you suspect a bottle is dangerously over-pressurised (PET bottle rock-hard, glass bottle has been in warm conditions for several days longer than intended): 1) Do NOT open it at room temperature. 2) Place the bottle in the refrigerator for at least 12 hours — cold will slow fermentation and increase CO₂ solubility. 3) Open very slowly in the sink, ideally wrapped in a towel. 4) If a glass bottle shows visible deformation or cracking, do not handle it — cover it with a towel and leave it in a contained space until a more experienced person can assess. This is extremely rare but warrants caution."
+      "content": "If you suspect a bottle is dangerously over-pressurised (PET bottle rock-hard, glass bottle has been in warm conditions for several days longer than intended): 1) Do NOT open it at room temperature. 2) Place the bottle in the refrigerator for at least 12 hours - cold will slow fermentation and increase CO₂ solubility. 3) Open very slowly in the sink, ideally wrapped in a towel. 4) If a glass bottle shows visible deformation or cracking, do not handle it - cover it with a towel and leave it in a contained space until a more experienced person can assess. This is extremely rare but warrants caution."
     },
     {
       "id": "off-flavours",
@@ -438,9 +438,9 @@
       "type": "list",
       "ordered": false,
       "items": [
-        "**Vinegary / too sour**: The 1F went too long before bottling. No amount of fruit will mask an over-fermented base. Shorten 1F next time. As a rescue, add a small amount of sweetener (honey, sugar) to finished bottles before serving — this does not fix the flavour but balances it.",
+        "**Vinegary / too sour**: The 1F went too long before bottling. No amount of fruit will mask an over-fermented base. Shorten 1F next time. As a rescue, add a small amount of sweetener (honey, sugar) to finished bottles before serving - this does not fix the flavour but balances it.",
         "**Yeasty / bready**: Common with very active yeast populations, especially in ginger bugs and water kefir. Usually harmless but unpleasant. Try reducing 2F temperature or shortening 2F duration. Ensure fruit additions are clean and fresh.",
-        "**Sulfurous / eggy**: Some fruits (especially those in the brassica family — yes, people do ferment these) produce sulfur compounds. Also can indicate stressed yeast. Improve yeast nutrition by ensuring adequate minerals in your base. Allow gas to escape by brief burping — sulfur compounds are volatile and dissipate.",
+        "**Sulfurous / eggy**: Some fruits (especially those in the brassica family - yes, people do ferment these) produce sulfur compounds. Also can indicate stressed yeast. Improve yeast nutrition by ensuring adequate minerals in your base. Allow gas to escape by brief burping - sulfur compounds are volatile and dissipate.",
         "**Medicinal / band-aid**: Often caused by wild yeasts producing phenolic compounds, or by chlorinated water used in the base. Use filtered or dechlorinated water. Ensure clean fermentation practices.",
         "**Slimy / ropy texture**: Indicates contamination or specific bacterial strains producing exopolysaccharides. The batch is safe to drink but unpleasant. Discard and review hygiene practices for the next batch [[article:fermentation-and-food-safety]].",
         "**Musty / mouldy**: Fruit additions were past their prime, or bottles were not clean. Discard the affected bottle. Ensure all fruit is fresh and bottles are thoroughly washed."
@@ -455,14 +455,14 @@
     {
       "id": "storage-text",
       "type": "paragraph",
-      "content": "Once your 2F bottles are refrigerated, the fermentation slows dramatically but does not completely stop. Over weeks, carbonation will continue to build — very slowly — and flavours will continue to evolve. Most home-fermented beverages are best consumed within 2–4 weeks of bottling. Beyond that, they remain safe but may become increasingly dry, sour, and vinegary as residual sugars are consumed [cite:c1]. Some beverages, like water kefir and tepache, are best consumed within 1–2 weeks due to their lighter body and more delicate flavour profile."
+      "content": "Once your 2F bottles are refrigerated, the fermentation slows dramatically but does not completely stop. Over weeks, carbonation will continue to build - very slowly - and flavours will continue to evolve. Most home-fermented beverages are best consumed within 2–4 weeks of bottling. Beyond that, they remain safe but may become increasingly dry, sour, and vinegary as residual sugars are consumed [cite:c1]. Some beverages, like water kefir and tepache, are best consumed within 1–2 weeks due to their lighter body and more delicate flavour profile."
     },
     {
       "id": "storage-tips",
       "type": "callout",
       "style": "tip",
       "title": "Storage Best Practices",
-      "content": "• Always store 2F bottles upright in the refrigerator — this minimises the liquid surface area exposed to the headspace gas and reduces the chance of gasket degradation from prolonged acid contact.\n• Label every bottle with the date, flavour, and base beverage. You will forget otherwise.\n• If storing longer than 2 weeks, burp bottles in the fridge weekly — even cold fermentation produces trace CO₂ over time.\n• Fruit sediment will settle at the bottom. Decide before opening whether you want to gently swirl to mix or pour off the clear liquid."
+      "content": "• Always store 2F bottles upright in the refrigerator - this minimises the liquid surface area exposed to the headspace gas and reduces the chance of gasket degradation from prolonged acid contact.\n• Label every bottle with the date, flavour, and base beverage. You will forget otherwise.\n• If storing longer than 2 weeks, burp bottles in the fridge weekly - even cold fermentation produces trace CO₂ over time.\n• Fruit sediment will settle at the bottom. Decide before opening whether you want to gently swirl to mix or pour off the clear liquid."
     },
     {
       "id": "advanced-techniques",
@@ -479,7 +479,7 @@
     {
       "id": "backsweetening-text",
       "type": "paragraph",
-      "content": "If your 2F produces a well-carbonated drink that is too sour, you can back-sweeten at the time of serving by adding a small amount of simple syrup, honey, or fruit juice to the glass. Do not add sweetener to a sealed bottle that will remain at room temperature — this will restart fermentation and risk over-pressurisation. If you want to back-sweeten an entire bottle, add the sweetener and immediately refrigerate."
+      "content": "If your 2F produces a well-carbonated drink that is too sour, you can back-sweeten at the time of serving by adding a small amount of simple syrup, honey, or fruit juice to the glass. Do not add sweetener to a sealed bottle that will remain at room temperature - this will restart fermentation and risk over-pressurisation. If you want to back-sweeten an entire bottle, add the sweetener and immediately refrigerate."
     },
     {
       "id": "dry-hopping",
@@ -490,7 +490,7 @@
     {
       "id": "dry-hopping-text",
       "type": "paragraph",
-      "content": "Borrowing from craft beer, some fermenters add a small amount of whole hops to their 2F for a bitter, floral note. This works particularly well with kombucha. Use 1–3 hop pellets per 500 ml bottle. Note that hops are antimicrobial and can inhibit some lactic acid bacteria — this is a feature if you want to slow down souring, but may reduce carbonation in LAB-dominant cultures [cite:c6]."
+      "content": "Borrowing from craft beer, some fermenters add a small amount of whole hops to their 2F for a bitter, floral note. This works particularly well with kombucha. Use 1–3 hop pellets per 500 ml bottle. Note that hops are antimicrobial and can inhibit some lactic acid bacteria - this is a feature if you want to slow down souring, but may reduce carbonation in LAB-dominant cultures [cite:c6]."
     },
     {
       "id": "continuous-carbonation",
@@ -501,7 +501,7 @@
     {
       "id": "continuous-carbonation-text",
       "type": "paragraph",
-      "content": "Some home fermenters eventually invest in CO₂ tanks and regulators to force-carbonate their beverages, bypassing the 2F process entirely. This offers precise carbonation control and eliminates blowout risk entirely, but it also removes the secondary flavour development that occurs during bottle conditioning. The two approaches are not mutually exclusive — you can force-carbonate a base, then add a small amount of fruit syrup at serving time. However, for most home fermenters, natural 2F remains the simpler, cheaper, and more rewarding method [[article:role-of-carbon-dioxide]]."
+      "content": "Some home fermenters eventually invest in CO₂ tanks and regulators to force-carbonate their beverages, bypassing the 2F process entirely. This offers precise carbonation control and eliminates blowout risk entirely, but it also removes the secondary flavour development that occurs during bottle conditioning. The two approaches are not mutually exclusive - you can force-carbonate a base, then add a small amount of fruit syrup at serving time. However, for most home fermenters, natural 2F remains the simpler, cheaper, and more rewarding method [[article:role-of-carbon-dioxide]]."
     },
     {
       "id": "summary",
@@ -512,7 +512,7 @@
     {
       "id": "summary-text",
       "type": "paragraph",
-      "content": "Second fermentation is where fermented beverages go from interesting to irresistible. The core principles are simple: provide enough sugar for your microbes to produce CO₂ in a sealed bottle, add flavourings that complement your base, manage pressure responsibly, and refrigerate at the right moment. Start with conservative ratios, use pressure-rated bottles, and keep notes on each batch. Within a few rounds of experimentation, you will develop an intuition for your specific cultures, climate, and flavour preferences that no guide can fully replace. The best second ferment is the one you enjoy drinking — and the safest one is the one you monitored carefully [[article:fermentation-and-food-safety]]."
+      "content": "Second fermentation is where fermented beverages go from interesting to irresistible. The core principles are simple: provide enough sugar for your microbes to produce CO₂ in a sealed bottle, add flavourings that complement your base, manage pressure responsibly, and refrigerate at the right moment. Start with conservative ratios, use pressure-rated bottles, and keep notes on each batch. Within a few rounds of experimentation, you will develop an intuition for your specific cultures, climate, and flavour preferences that no guide can fully replace. The best second ferment is the one you enjoy drinking - and the safest one is the one you monitored carefully [[article:fermentation-and-food-safety]]."
     }
   ],
   "citations": [

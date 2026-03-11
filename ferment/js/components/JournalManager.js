@@ -1,5 +1,5 @@
 /**
- * FERMENT — JournalManager Component
+ * FERMENT - JournalManager Component
  * Fermentation journal: batch tracking, progress, logging, stats
  */
 
@@ -591,7 +591,7 @@ const JournalManagerComponent = {
                 <span v-if="batch.rating" class="text-accent-brine text-sm">{{ ratingStars(batch.rating) }}</span>
               </div>
               <p class="text-xs text-text-muted dark:text-dark-text-secondary mt-1">
-                {{ fmtDateShort(batch.startDate) }} — {{ fmtDateShort(batch.completedAt) }}
+                {{ fmtDateShort(batch.startDate) }} - {{ fmtDateShort(batch.completedAt) }}
                 <span v-if="batch.logs"> · {{ batch.logs.length }} check{{ batch.logs.length === 1 ? '' : 's' }}</span>
               </p>
               <p v-if="batch.outcomeNotes" class="text-sm text-text-secondary dark:text-dark-text-secondary mt-1">{{ batch.outcomeNotes }}</p>

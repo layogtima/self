@@ -1,5 +1,5 @@
 /**
- * FERMENT — CitationEditor Component
+ * FERMENT - CitationEditor Component
  * Structured citation form with add/remove and preview
  */
 

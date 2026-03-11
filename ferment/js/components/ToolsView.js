@@ -1,5 +1,5 @@
 /**
- * FERMENT — ToolsView Component
+ * FERMENT - ToolsView Component
  * Utility tools hub: brine calculator, batch scaler, timers, unit converter, pH reference, seasonal calendar
  */
 
@@ -267,7 +267,7 @@ const ToolsViewComponent = {
                 <label class="block text-xs text-text-muted mb-1">To</label>
                 <div class="flex gap-2">
                   <div class="flex-1 px-4 py-3 rounded-xl bg-accent-ferment/10 dark:bg-accent-ferment/5 font-mono text-lg text-accent-ferment min-h-[52px] flex items-center">
-                    {{ convertedValue || '—' }}
+                    {{ convertedValue || '-' }}
                   </div>
                   <select v-model="converter.toUnit"
                     class="px-3 py-3 rounded-xl bg-bg-secondary dark:bg-dark-secondary text-text-primary dark:text-dark-text border border-transparent focus:border-accent-ferment focus:outline-none font-mono"
@@ -321,7 +321,7 @@ const ToolsViewComponent = {
               <div v-for="range in fermentPHRanges" :key="range.name" class="space-y-1">
                 <div class="flex items-center justify-between">
                   <span class="text-sm text-text-primary dark:text-dark-text">{{ range.name }}</span>
-                  <span class="font-mono text-xs text-text-muted">{{ range.min }} — {{ range.max }}</span>
+                  <span class="font-mono text-xs text-text-muted">{{ range.min }} - {{ range.max }}</span>
                 </div>
                 <div class="w-full bg-bg-secondary dark:bg-dark-secondary rounded-full h-3 relative">
                   <div class="h-3 rounded-full absolute transition-all"

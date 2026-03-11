@@ -20,7 +20,7 @@
   "fermentTimeMax": 10,
   "fermentTimeUnit": "days",
   "totalTimeHuman": "5–10 days",
-  "blrNote": "Turnips (shalgam) available at KR Market, Hopcoms, and larger sabziwalas — they're a winter staple but available most of the year in BLR. Beetroot is always available and cheap. At BLR temperatures, expect a good ferment in 5–7 days.",
+  "blrNote": "Turnips (shalgam) available at KR Market, Hopcoms, and larger sabziwalas - they're a winter staple but available most of the year in BLR. Beetroot is always available and cheap. At BLR temperatures, expect a good ferment in 5–7 days.",
   "seasonality": [
     "all"
   ],
@@ -34,12 +34,12 @@
       "category": "produce",
       "essential": true,
       "substitutions": [
-        "Radish (mooli) — different flavour but works with the technique"
+        "Radish (mooli) - different flavour but works with the technique"
       ],
       "localAvailability": {
         "IN": {
           "ease": "moderate",
-          "where": "KR Market, Hopcoms, Nature's Basket — more available in winter months (Nov–Feb)"
+          "where": "KR Market, Hopcoms, Nature's Basket - more available in winter months (Nov–Feb)"
         }
       }
     },
@@ -55,7 +55,7 @@
       "localAvailability": {
         "IN": {
           "ease": "easy",
-          "where": "Any market — ₹20–30/kg"
+          "where": "Any market - ₹20–30/kg"
         }
       }
     },
@@ -128,8 +128,8 @@
       "instruction": "Dissolve 30g non-iodised salt in 1 litre of water. Stir until clear.",
       "duration": "2 min",
       "tips": [
-        "This is approximately a 3% brine — the standard for most vegetable ferments",
-        "Use filtered or boiled-and-cooled water — chlorine in tap water can inhibit fermentation.",
+        "This is approximately a 3% brine - the standard for most vegetable ferments",
+        "Use filtered or boiled-and-cooled water - chlorine in tap water can inhibit fermentation.",
         "Warm water dissolves salt faster, but let it cool to room temperature before pouring over vegetables."
       ],
       "checkpoint": "Clear brine, salt dissolved"
@@ -140,9 +140,9 @@
       "instruction": "Peel turnips and cut into sticks (about finger-width) or wedges. Peel the beetroot and slice into thin rounds or chunks.",
       "duration": "10 min",
       "tips": [
-        "The beetroot is primarily for colour — you don't need much",
+        "The beetroot is primarily for colour - you don't need much",
         "Wear gloves when handling beetroot unless you want pink fingers for a day",
-        "Cut turnip sticks roughly the same thickness so they ferment at the same rate — thin pieces will go mushy while thick ones are still crunchy."
+        "Cut turnip sticks roughly the same thickness so they ferment at the same rate - thin pieces will go mushy while thick ones are still crunchy."
       ],
       "checkpoint": "Turnip sticks and beetroot slices ready"
     },
@@ -154,7 +154,7 @@
       "tips": [
         "Vertical packing keeps turnips submerged more easily",
         "Leave 3cm headspace",
-        "Tuck beetroot slices between the turnip layers rather than just at the bottom — the colour distributes more evenly throughout the jar."
+        "Tuck beetroot slices between the turnip layers rather than just at the bottom - the colour distributes more evenly throughout the jar."
       ],
       "checkpoint": "Jar packed with turnips and beet, submerged in brine"
     },
@@ -164,9 +164,9 @@
       "instruction": "Cover loosely. Leave at room temperature away from sun. The brine will turn pink within hours as beetroot bleeds. Taste from day 5.",
       "duration": "5–10 days",
       "tips": [
-        "The colour transformation is dramatic — brine goes from clear to vivid pink within 24 hours",
+        "The colour transformation is dramatic - brine goes from clear to vivid pink within 24 hours",
         "In BLR, 5–7 days usually produces the right balance of crunch and sourness",
-        "Bubbles indicate active fermentation — normal and good"
+        "Bubbles indicate active fermentation - normal and good"
       ],
       "checkpoint": "Shocking pink brine, turnips are sour-tangy and still slightly crunchy"
     },
@@ -177,8 +177,8 @@
       "duration": null,
       "tips": [
         "Keeps 2–3 months refrigerated",
-        "The brine is also delicious — use it in salad dressings or as a probiotic shot",
-        "Serve alongside falafel, shawarma, or grilled meats — the sour crunch cuts through rich and fatty foods perfectly."
+        "The brine is also delicious - use it in salad dressings or as a probiotic shot",
+        "Serve alongside falafel, shawarma, or grilled meats - the sour crunch cuts through rich and fatty foods perfectly."
       ],
       "checkpoint": "Vibrant pink pickled turnips, ready to serve"
     }
@@ -189,20 +189,20 @@
       "caption": "Pickled Turnips (Lift)",
       "attribution": "Photo by Micah Tindell on Unsplash",
       "type": "hero",
-      "alt": "Pickled Turnips (Lift) — Lebanon's electric-pink pickled turnips"
+      "alt": "Pickled Turnips (Lift) - Lebanon's electric-pink pickled turnips"
     }
   ],
   "culturalContext": {
-    "story": "In Lebanon, Syria, and across the Levant, no shawarma stand, falafel shop, or family table is complete without a jar of bright pink pickled turnips. They're called \"lift\" (لفت) — Arabic for turnip — and their shocking magenta colour (from beetroot) makes them one of the most visually striking ferments in any cuisine.",
+    "story": "In Lebanon, Syria, and across the Levant, no shawarma stand, falafel shop, or family table is complete without a jar of bright pink pickled turnips. They're called \"lift\" (لفت) - Arabic for turnip - and their shocking magenta colour (from beetroot) makes them one of the most visually striking ferments in any cuisine.",
     "historicalNote": "Vegetable pickling in brine has been practiced in the Levant for thousands of years. The region's hot, dry climate made preservation essential. Turnips, being a hardy root vegetable that stores well and grows in poor soil, became a natural candidate for fermentation.",
-    "significance": "Lift demonstrates how a single addition — beetroot for colour — can elevate a simple pickle into something iconic. The technique is identical to basic brine pickles, but the result looks and feels completely different. It's a masterclass in how presentation transforms food culture.",
+    "significance": "Lift demonstrates how a single addition - beetroot for colour - can elevate a simple pickle into something iconic. The technique is identical to basic brine pickles, but the result looks and feels completely different. It's a masterclass in how presentation transforms food culture.",
     "relatedTraditions": [
       "Torshi (Persian mixed pickles)",
       "Turşu (Turkish pickles)",
       "Indian gajar-shalgam achaar (carrot-turnip pickle)",
       "Kisela repa (Balkan pickled turnips)"
     ],
-    "funFact": "The pink colour of lift is so associated with Lebanese cuisine that food bloggers call it \"Lebanese pink.\" The colour comes from betalain pigments in beetroot — the same compounds that make beet juice a natural dye used in cosmetics and food colouring."
+    "funFact": "The pink colour of lift is so associated with Lebanese cuisine that food bloggers call it \"Lebanese pink.\" The colour comes from betalain pigments in beetroot - the same compounds that make beet juice a natural dye used in cosmetics and food colouring."
   },
   "thingsToAccountFor": [
     {
@@ -233,7 +233,7 @@
   "dehydratorIntegration": {
     "applicable": true,
     "method": "Drain pickled turnips, slice thin, dehydrate at 40°C for 8–10 hours.",
-    "result": "Pink turnip chips — sour, earthy, stunning colour. Conversation-starter snack.",
+    "result": "Pink turnip chips - sour, earthy, stunning colour. Conversation-starter snack.",
     "shelfLife": "4 months airtight",
     "tips": [
       "The colour fades slightly when dehydrated but remains visibly pink",
@@ -278,7 +278,7 @@
   "containsAllergens": [],
   "sources": [
     {
-      "title": "Pickled turnips — Wikipedia",
+      "title": "Pickled turnips - Wikipedia",
       "url": "https://en.wikipedia.org/wiki/Pickled_turnip",
       "license": "CC BY-SA"
     }
@@ -286,7 +286,7 @@
   "videos": [
     {
       "url": "https://www.youtube.com/watch?v=9J_K5VEOaS8",
-      "title": "Pickled Turnips — Lebanese Lift",
+      "title": "Pickled Turnips - Lebanese Lift",
       "channel": "Middle Eats",
       "type": "youtube"
     }

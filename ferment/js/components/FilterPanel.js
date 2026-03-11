@@ -1,5 +1,5 @@
 /**
- * FERMENT — FilterPanel Component
+ * FERMENT - FilterPanel Component
  * Multi-faceted recipe filtering with collapsible sections
  */
 

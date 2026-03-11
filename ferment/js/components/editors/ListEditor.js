@@ -1,5 +1,5 @@
 /**
- * FERMENT — ListEditor Component
+ * FERMENT - ListEditor Component
  * Reorderable list editor for ingredients, steps, equipment
  * Supports drag-to-reorder, add, remove, and inline field editing
  */

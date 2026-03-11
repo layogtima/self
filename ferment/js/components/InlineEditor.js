@@ -1,5 +1,5 @@
 /**
- * FERMENT — InlineEditor Framework
+ * FERMENT - InlineEditor Framework
  * Provides edit mode state management, field wrappers, and localStorage persistence.
  *
  * Architecture:

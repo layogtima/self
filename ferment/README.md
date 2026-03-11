@@ -2,7 +2,7 @@
 
 **A cultural guide to lactic acid fermentation from around the world.**
 
-Browse 30 recipes, read 23 wiki articles, track batches, manage your pantry and equipment, and master the ancient art of fermentation — all in a single-page, offline-capable web app.
+Browse 30 recipes, read 23 wiki articles, track batches, manage your pantry and equipment, and master the ancient art of fermentation - all in a single-page, offline-capable web app.
 
 ---
 
@@ -10,7 +10,7 @@ Browse 30 recipes, read 23 wiki articles, track batches, manage your pantry and 
 
 | Layer | Choice | Notes |
 |-------|--------|-------|
-| **Framework** | Vue 3 (CDN) | `vue.global.prod.js` — no build step |
+| **Framework** | Vue 3 (CDN) | `vue.global.prod.js` - no build step |
 | **CSS** | Tailwind CSS (CDN) | Config inline in `<script>` block in `index.html` |
 | **Fonts** | Instrument Serif, DM Sans, JetBrains Mono | Google Fonts |
 | **Storage** | localStorage | Persisted via `FermentStore` helper |
@@ -29,9 +29,9 @@ ferment/
 │   ├── recipes.js              # Recipe loader (JSON manifest + fallback)
 │   ├── wiki.js                 # Wiki article loader (JSON manifest)
 │   ├── utils/
-│   │   ├── formatting.js       # FermentFormat — units, scaling, conversion
-│   │   ├── search.js           # FermentSearch — full-text fuzzy search
-│   │   └── matching.js         # FermentMatching — pantry-to-recipe matching
+│   │   ├── formatting.js       # FermentFormat - units, scaling, conversion
+│   │   ├── search.js           # FermentSearch - full-text fuzzy search
+│   │   └── matching.js         # FermentMatching - pantry-to-recipe matching
 │   └── components/
 │       ├── SearchBar.js        # Search input component
 │       ├── FilterPanel.js      # Multi-facet filter UI
@@ -125,8 +125,8 @@ Browser history managed with `history.pushState()` / `popstate`. Hash URLs (`#/r
 index.html (template + OG meta tags)
   └─ app.js (setup, state, actions, meta updates)
        ├─ FermentStore (localStorage read/write)
-       ├─ FermentRecipes (recipe loader — JSON manifest)
-       ├─ FermentWiki (wiki loader — JSON manifest)
+       ├─ FermentRecipes (recipe loader - JSON manifest)
+       ├─ FermentWiki (wiki loader - JSON manifest)
        ├─ FermentSearch (search index)
        ├─ FermentMatching (pantry matching)
        └─ FermentEdits (inline edit overlay store)
@@ -154,15 +154,15 @@ FERMENT uses a **three-layer error boundary** pattern to guarantee the app never
 
 **Reference implementation:** See `BrowseView.js` for the canonical pattern.
 
-**Utility functions** (`FermentFormat`, etc.) must guard against invalid inputs — especially `new Date()` which silently returns Invalid Date rather than throwing. Always check `isNaN(d.getTime())` before calling date methods.
+**Utility functions** (`FermentFormat`, etc.) must guard against invalid inputs - especially `new Date()` which silently returns Invalid Date rather than throwing. Always check `isNaN(d.getTime())` before calling date methods.
 
 ### Inline Editing
 
-Recipes and wiki articles support inline editing when enabled in Settings. Edits are stored as localStorage overlays (via `FermentEdits`), merged at render time with the original JSON data. **Disabled by default** — toggle in Settings > Enable Editing.
+Recipes and wiki articles support inline editing when enabled in Settings. Edits are stored as localStorage overlays (via `FermentEdits`), merged at render time with the original JSON data. **Disabled by default** - toggle in Settings > Enable Editing.
 
 ## Running Locally
 
-Static files — serve with any HTTP server:
+Static files - serve with any HTTP server:
 
 ```bash
 python3 -m http.server 8000
@@ -188,16 +188,16 @@ Open `http://localhost:8000` in your browser.
 
 ## Contributing
 
-The README and `ChangelogView.js` are the **source of truth** for this project's roadmap and history. Every meaningful contribution — whether from a human or an AI agent — must keep both up to date.
+The README and `ChangelogView.js` are the **source of truth** for this project's roadmap and history. Every meaningful contribution - whether from a human or an AI agent - must keep both up to date.
 
 ### For Humans
 
 1. **Fork** the repository and create a branch: `git checkout -b feat/your-feature`
 2. Make your changes following the existing patterns (Vue 3 CDN component style, Tailwind classes, no build step)
-3. **Update the changelog** — add a new entry or items to the latest entry in `js/components/ChangelogView.js`:
-   - `feature` — new capability
-   - `enhancement` — improvement to existing feature
-   - `fix` — bug fix
+3. **Update the changelog** - add a new entry or items to the latest entry in `js/components/ChangelogView.js`:
+   - `feature` - new capability
+   - `enhancement` - improvement to existing feature
+   - `fix` - bug fix
 4. **Update this README** if you changed the architecture, routing, or project structure
 5. Open a pull request with a clear title and description
 
@@ -208,7 +208,7 @@ The README and `ChangelogView.js` are the **source of truth** for this project's
 - [ ] New components include `errorCaptured` hook + error banner (see Error Handling section)
 - [ ] Utility functions guard against invalid inputs (null, NaN, Invalid Date)
 - [ ] Screenshots or screen recording for visual changes
-- [ ] No build step required — test by serving with `python3 -m http.server 8000`
+- [ ] No build step required - test by serving with `python3 -m http.server 8000`
 
 ### For AI Agents (Claude, etc.)
 
@@ -223,15 +223,15 @@ When implementing changes in this codebase, follow these requirements before eve
 
 3. **Commit message format**: Use conventional commits (`feat:`, `fix:`, `docs:`, `refactor:`) with a short imperative summary, followed by a bulleted list of what changed and why.
 
-4. **One commit per logical task** — the user can review, roll back, or cherry-pick individual changes cleanly.
+4. **One commit per logical task** - the user can review, roll back, or cherry-pick individual changes cleanly.
 
-5. **Do not break the no-build-step contract** — all JS must be valid in-browser ES6, loaded via `<script>` tags. No imports, no bundler syntax.
+5. **Do not break the no-build-step contract** - all JS must be valid in-browser ES6, loaded via `<script>` tags. No imports, no bundler syntax.
 
-6. **Crash-proof all new components** — add an `errorCaptured` hook, error data property, and error banner to every component that renders dynamic data or has child components. Follow the pattern in `BrowseView.js`. Guard utility functions against null/NaN/Invalid Date inputs.
+6. **Crash-proof all new components** - add an `errorCaptured` hook, error data property, and error banner to every component that renders dynamic data or has child components. Follow the pattern in `BrowseView.js`. Guard utility functions against null/NaN/Invalid Date inputs.
 
 ### Goal
 
-This project uses **documentation-driven development**: the README describes what FERMENT is, the changelog documents what changed and when. Contributors — human or machine — maintain this contract so the project stays readable and navigable over time. 🌟
+This project uses **documentation-driven development**: the README describes what FERMENT is, the changelog documents what changed and when. Contributors - human or machine - maintain this contract so the project stays readable and navigable over time. 🌟
 
 ---
 

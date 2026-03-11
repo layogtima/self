@@ -9,7 +9,7 @@
     {
       "id": "intro",
       "type": "paragraph",
-      "content": "You have made a perfect quart of [[recipe:sauerkraut-classic]] and now you want to fill a 10-litre crock — or you have half a cabbage and want to make a small jar. Scaling fermentation recipes is straightforward once you understand the core principle: it is all about ratios, not fixed quantities [cite:c1]. Unlike baking, where doubling a recipe can introduce unexpected complications with leavening and structure, fermentation scales remarkably well. The chemistry is the same whether you are working with 500 grams or 50 kilograms, as long as you keep your salt percentages consistent and account for a few practical differences in timing and vessel management [[article:salt-and-fermentation]]."
+      "content": "You have made a perfect quart of [[recipe:sauerkraut-classic]] and now you want to fill a 10-litre crock - or you have half a cabbage and want to make a small jar. Scaling fermentation recipes is straightforward once you understand the core principle: it is all about ratios, not fixed quantities [cite:c1]. Unlike baking, where doubling a recipe can introduce unexpected complications with leavening and structure, fermentation scales remarkably well. The chemistry is the same whether you are working with 500 grams or 50 kilograms, as long as you keep your salt percentages consistent and account for a few practical differences in timing and vessel management [[article:salt-and-fermentation]]."
     },
     {
       "id": "linear-vs-nonlinear",
@@ -20,17 +20,17 @@
     {
       "id": "linear-vs-nonlinear-text",
       "type": "paragraph",
-      "content": "The good news for fermenters is that most variables scale linearly. If you double the vegetables, you double the salt, and the fundamental fermentation chemistry remains identical [cite:c2]. Salt concentration, brine percentage, and ingredient ratios all scale in direct proportion — multiply every ingredient by the same factor and the biochemistry stays the same. However, a few factors behave non-linearly and deserve attention."
+      "content": "The good news for fermenters is that most variables scale linearly. If you double the vegetables, you double the salt, and the fundamental fermentation chemistry remains identical [cite:c2]. Salt concentration, brine percentage, and ingredient ratios all scale in direct proportion - multiply every ingredient by the same factor and the biochemistry stays the same. However, a few factors behave non-linearly and deserve attention."
     },
     {
       "id": "linear-vs-nonlinear-list",
       "type": "list",
       "ordered": false,
       "items": [
-        "**Linear (scale proportionally)** — Salt weight, vegetable weight, brine volume, spice and aromatic quantities, vinegar or starter culture additions. These all multiply by your scaling factor.",
-        "**Non-linear (adjust with judgment)** — Fermentation time, temperature management, headspace requirements, and mixing effort. A 10-litre batch does not take exactly 10 times as long as a 1-litre batch — in fact, it often ferments faster due to greater thermal mass [cite:c3].",
-        "**Surface-area effects** — In large, wide vessels, the surface-area-to-volume ratio decreases. This means less oxygen exposure relative to the total volume, which can be beneficial for anaerobic fermentation but also means that any surface contamination affects a smaller proportion of the batch.",
-        "**Vessel geometry** — Tall, narrow vessels have different brine pressure at the bottom compared to wide, shallow ones. Deeper vessels exert more hydrostatic pressure, which can slightly affect texture in very large batches."
+        "**Linear (scale proportionally)** - Salt weight, vegetable weight, brine volume, spice and aromatic quantities, vinegar or starter culture additions. These all multiply by your scaling factor.",
+        "**Non-linear (adjust with judgment)** - Fermentation time, temperature management, headspace requirements, and mixing effort. A 10-litre batch does not take exactly 10 times as long as a 1-litre batch - in fact, it often ferments faster due to greater thermal mass [cite:c3].",
+        "**Surface-area effects** - In large, wide vessels, the surface-area-to-volume ratio decreases. This means less oxygen exposure relative to the total volume, which can be beneficial for anaerobic fermentation but also means that any surface contamination affects a smaller proportion of the batch.",
+        "**Vessel geometry** - Tall, narrow vessels have different brine pressure at the bottom compared to wide, shallow ones. Deeper vessels exert more hydrostatic pressure, which can slightly affect texture in very large batches."
       ]
     },
     {
@@ -42,14 +42,14 @@
     {
       "id": "salt-ratio-math-text",
       "type": "paragraph",
-      "content": "The foundation of consistent scaling is calculating salt as a percentage of the total vegetable weight. This method is universally reliable regardless of the type of salt you use, the size of your batch, or the measuring tools available — as long as you have a kitchen scale [[article:modern-fermentation-equipment]]. The formula is simple: Salt needed (grams) = Vegetable weight (grams) x Salt percentage / 100 [cite:c1]. For dry-salted ferments like sauerkraut and kimchi, 2–3% is the standard range. For brine-submerged ferments like whole pickles, calculate the salt as a percentage of the water weight, typically 3.5–5%."
+      "content": "The foundation of consistent scaling is calculating salt as a percentage of the total vegetable weight. This method is universally reliable regardless of the type of salt you use, the size of your batch, or the measuring tools available - as long as you have a kitchen scale [[article:modern-fermentation-equipment]]. The formula is simple: Salt needed (grams) = Vegetable weight (grams) x Salt percentage / 100 [cite:c1]. For dry-salted ferments like sauerkraut and kimchi, 2–3% is the standard range. For brine-submerged ferments like whole pickles, calculate the salt as a percentage of the water weight, typically 3.5–5%."
     },
     {
       "id": "salt-ratio-callout",
       "type": "callout",
       "style": "warning",
       "title": "Never Scale Salt by Volume",
-      "content": "Different salts have dramatically different densities. A tablespoon of fine table salt weighs roughly 18 grams, while a tablespoon of coarse kosher salt weighs only 9–15 grams depending on the brand. Scaling a recipe from 1 tablespoon to 4 tablespoons of salt could result in anywhere from 36 g to 72 g — a 100% variance that will completely change your ferment. Always weigh salt in grams [[article:salt-and-fermentation]]."
+      "content": "Different salts have dramatically different densities. A tablespoon of fine table salt weighs roughly 18 grams, while a tablespoon of coarse kosher salt weighs only 9–15 grams depending on the brand. Scaling a recipe from 1 tablespoon to 4 tablespoons of salt could result in anywhere from 36 g to 72 g - a 100% variance that will completely change your ferment. Always weigh salt in grams [[article:salt-and-fermentation]]."
     },
     {
       "id": "salt-ratio-table",
@@ -83,11 +83,11 @@
       "type": "list",
       "ordered": false,
       "items": [
-        "**Small batches (250 g–1 kg)** — Half-pint to quart mason jars. Easy to manage, quick to fill, and fit in any refrigerator.",
-        "**Medium batches (1–5 kg)** — Half-gallon mason jars or small fermentation crocks. A good size for weekly household consumption of sauerkraut or kimchi.",
-        "**Large batches (5–15 kg)** — Ceramic fermentation crocks with water seals, or food-grade buckets. Require proper weights and more careful temperature management [[article:modern-fermentation-equipment]].",
-        "**Production scale (15+ kg)** — Food-grade drums, custom stainless steel vessels, or commercial fermentation tanks. At this scale, temperature control systems and pH monitoring become essential rather than optional [cite:c4].",
-        "**Always leave headspace** — Pack vegetables to no more than 85% of the vessel height. Place a weight on top, then leave at least 2–3 cm between the brine surface and the vessel rim to accommodate expansion."
+        "**Small batches (250 g–1 kg)** - Half-pint to quart mason jars. Easy to manage, quick to fill, and fit in any refrigerator.",
+        "**Medium batches (1–5 kg)** - Half-gallon mason jars or small fermentation crocks. A good size for weekly household consumption of sauerkraut or kimchi.",
+        "**Large batches (5–15 kg)** - Ceramic fermentation crocks with water seals, or food-grade buckets. Require proper weights and more careful temperature management [[article:modern-fermentation-equipment]].",
+        "**Production scale (15+ kg)** - Food-grade drums, custom stainless steel vessels, or commercial fermentation tanks. At this scale, temperature control systems and pH monitoring become essential rather than optional [cite:c4].",
+        "**Always leave headspace** - Pack vegetables to no more than 85% of the vessel height. Place a weight on top, then leave at least 2–3 cm between the brine surface and the vessel rim to accommodate expansion."
       ]
     },
     {
@@ -99,7 +99,7 @@
     {
       "id": "timing-adjustments-text",
       "type": "paragraph",
-      "content": "Fermentation time is not a fixed number — it depends on temperature, salt concentration, vegetable type, and batch size [[article:temperature-and-fermentation]]. When scaling up, larger batches retain more metabolic heat generated by bacterial activity, which can accelerate fermentation by one to several days compared to a small jar in the same ambient environment [cite:c3]. When scaling down, small batches lose heat quickly and may ferment more slowly, especially in cool rooms. The only reliable way to determine doneness at any scale is to taste regularly and, ideally, measure pH [[article:ph-levels-fermentation]]."
+      "content": "Fermentation time is not a fixed number - it depends on temperature, salt concentration, vegetable type, and batch size [[article:temperature-and-fermentation]]. When scaling up, larger batches retain more metabolic heat generated by bacterial activity, which can accelerate fermentation by one to several days compared to a small jar in the same ambient environment [cite:c3]. When scaling down, small batches lose heat quickly and may ferment more slowly, especially in cool rooms. The only reliable way to determine doneness at any scale is to taste regularly and, ideally, measure pH [[article:ph-levels-fermentation]]."
     },
     {
       "id": "timing-adjustments-list",
@@ -109,7 +109,7 @@
         "**Taste daily** starting around day 3 for most vegetable ferments. Your palate is the ultimate judge of when a ferment has reached the flavour you want.",
         "**Measure pH** with strips or a meter to confirm acidity. A pH below 4.6 confirms food safety; below 4.0 indicates strong, stable acidification [cite:c5].",
         "**Monitor temperature** more closely with large batches. A 10-litre crock in a warm kitchen can self-heat by 2–4°C above ambient, pushing fermentation faster than expected.",
-        "**Do not rely on fixed day counts** from recipes — these are guidelines written for a specific batch size and temperature range, not universal rules."
+        "**Do not rely on fixed day counts** from recipes - these are guidelines written for a specific batch size and temperature range, not universal rules."
       ]
     },
     {
@@ -123,12 +123,12 @@
       "type": "list",
       "ordered": true,
       "items": [
-        "**Scaling salt by volume instead of weight** — The single most common and most consequential mistake. Always weigh salt on a digital scale, never measure by tablespoons or cups [cite:c1].",
-        "**Forgetting to scale all ingredients** — If your original recipe includes 1 kg cabbage, 50 g carrots, 10 g garlic, and 5 g caraway seeds, and you triple the batch, triple everything — not just the primary vegetable.",
-        "**Using the same fermentation time regardless of batch size** — A 10-litre batch in a warm kitchen may reach target acidity days faster than a 1-litre jar in a cool basement. Always taste and test rather than relying on the calendar.",
-        "**Insufficient mixing at large scale** — When salting 5+ kg of shredded cabbage, it is much harder to ensure even salt distribution. Mix thoroughly in a large bowl or tub in stages before packing into the vessel.",
-        "**Not adjusting vessel size** — Cramming a doubled recipe into the same jar creates overflow problems and reduces the effectiveness of weights and airlocks. Ensure your vessel has adequate headspace.",
-        "**Neglecting temperature management** — Large batches generate their own heat. In summer or warm kitchens, this can push temperatures into a range that encourages off-flavours and mushy texture [[article:troubleshooting-ferments]]."
+        "**Scaling salt by volume instead of weight** - The single most common and most consequential mistake. Always weigh salt on a digital scale, never measure by tablespoons or cups [cite:c1].",
+        "**Forgetting to scale all ingredients** - If your original recipe includes 1 kg cabbage, 50 g carrots, 10 g garlic, and 5 g caraway seeds, and you triple the batch, triple everything - not just the primary vegetable.",
+        "**Using the same fermentation time regardless of batch size** - A 10-litre batch in a warm kitchen may reach target acidity days faster than a 1-litre jar in a cool basement. Always taste and test rather than relying on the calendar.",
+        "**Insufficient mixing at large scale** - When salting 5+ kg of shredded cabbage, it is much harder to ensure even salt distribution. Mix thoroughly in a large bowl or tub in stages before packing into the vessel.",
+        "**Not adjusting vessel size** - Cramming a doubled recipe into the same jar creates overflow problems and reduces the effectiveness of weights and airlocks. Ensure your vessel has adequate headspace.",
+        "**Neglecting temperature management** - Large batches generate their own heat. In summer or warm kitchens, this can push temperatures into a range that encourages off-flavours and mushy texture [[article:troubleshooting-ferments]]."
       ]
     },
     {
@@ -140,18 +140,18 @@
     {
       "id": "home-to-market-text",
       "type": "paragraph",
-      "content": "If your ferments are good enough that friends and family keep asking for more, you may consider selling at farmers' markets, online, or to local shops. Scaling from home hobby to small commercial production introduces new considerations beyond simply making bigger batches [cite:c4]. Food safety regulations vary by jurisdiction but typically require pH testing, proper labelling, and sometimes a licensed commercial kitchen. Consistency becomes paramount — customers expect the same product every time, which demands meticulous record-keeping of weights, salt percentages, fermentation temperatures, and timing."
+      "content": "If your ferments are good enough that friends and family keep asking for more, you may consider selling at farmers' markets, online, or to local shops. Scaling from home hobby to small commercial production introduces new considerations beyond simply making bigger batches [cite:c4]. Food safety regulations vary by jurisdiction but typically require pH testing, proper labelling, and sometimes a licensed commercial kitchen. Consistency becomes paramount - customers expect the same product every time, which demands meticulous record-keeping of weights, salt percentages, fermentation temperatures, and timing."
     },
     {
       "id": "home-to-market-list",
       "type": "list",
       "ordered": false,
       "items": [
-        "**Regulatory compliance** — Research your local cottage food laws and food safety regulations. Many jurisdictions allow direct sales of fermented vegetables with minimal licensing, while others require a commercial kitchen inspection.",
-        "**Batch documentation** — Record every variable for every batch: vegetable weight, salt weight, salt percentage, start date, ambient temperature, pH readings, and tasting notes. This lets you replicate successes and diagnose problems.",
-        "**Equipment upgrades** — Commercial-scale fermentation typically requires food-grade stainless steel or certified plastic vessels, calibrated pH meters, and reliable temperature monitoring [[article:modern-fermentation-equipment]].",
-        "**Scaling recipes in stages** — Go from 1 L to 5 L to 20 L in steps, verifying quality at each stage. Do not jump from a quart jar directly to a 50-litre drum without intermediate testing [cite:c5].",
-        "**Shelf life testing** — Conduct informal shelf life tests by storing samples under expected retail conditions and monitoring quality over time [[article:storing-and-preserving-ferments]]."
+        "**Regulatory compliance** - Research your local cottage food laws and food safety regulations. Many jurisdictions allow direct sales of fermented vegetables with minimal licensing, while others require a commercial kitchen inspection.",
+        "**Batch documentation** - Record every variable for every batch: vegetable weight, salt weight, salt percentage, start date, ambient temperature, pH readings, and tasting notes. This lets you replicate successes and diagnose problems.",
+        "**Equipment upgrades** - Commercial-scale fermentation typically requires food-grade stainless steel or certified plastic vessels, calibrated pH meters, and reliable temperature monitoring [[article:modern-fermentation-equipment]].",
+        "**Scaling recipes in stages** - Go from 1 L to 5 L to 20 L in steps, verifying quality at each stage. Do not jump from a quart jar directly to a 50-litre drum without intermediate testing [cite:c5].",
+        "**Shelf life testing** - Conduct informal shelf life tests by storing samples under expected retail conditions and monitoring quality over time [[article:storing-and-preserving-ferments]]."
       ]
     }
   ],

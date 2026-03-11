@@ -20,7 +20,7 @@
   "fermentTimeMax": 3,
   "fermentTimeUnit": "days",
   "totalTimeHuman": "24–72 hours",
-  "blrNote": "Pineapples are ₹60–80 year-round at any local pushcart. Use Mandya jaggery (Bella) instead of Mexican piloncillo—it’s functionally identical and adds a gorgeous mineral depth.",
+  "blrNote": "Pineapples are ₹60–80 year-round at any local pushcart. Use Mandya jaggery (Bella) instead of Mexican piloncillo-it’s functionally identical and adds a gorgeous mineral depth.",
   "seasonality": [
     "all"
   ],
@@ -39,7 +39,7 @@
       "localAvailability": {
         "IN": {
           "ease": "easy",
-          "where": "Any fruit stall — keep the scraps after eating the fruit"
+          "where": "Any fruit stall - keep the scraps after eating the fruit"
         }
       }
     },
@@ -101,7 +101,7 @@
       "instruction": "Wash the pineapple exterior lightly (don’t scrub off the yeast). Remove the skin in large strips and keep the core. Eat the flesh.",
       "duration": "5 min",
       "tips": [
-        "Do not scrub the skin with soap — the white dusty layer on the outside contains the wild yeasts that drive fermentation",
+        "Do not scrub the skin with soap - the white dusty layer on the outside contains the wild yeasts that drive fermentation",
         "Organic or unsprayed pineapple is ideal; if using conventional, a light rinse is enough",
         "Organic pineapple carries a richer population of wild yeast on its skin, which leads to a more vigorous and flavourful ferment"
       ]
@@ -112,9 +112,9 @@
       "instruction": "Dissolve jaggery in 2L water. Add the skins, core, and cinnamon stick to the jar.",
       "duration": "5 min",
       "tips": [
-        "Dissolve jaggery in warm water first, then let it cool before adding pineapple — hot water kills the wild yeasts on the skin",
+        "Dissolve jaggery in warm water first, then let it cool before adding pineapple - hot water kills the wild yeasts on the skin",
         "Mandya bella (jaggery) works identically to Mexican piloncillo and adds a rich mineral sweetness",
-        "Make sure the water has cooled to below 35°C before combining — anything hotter will kill the wild yeasts on the pineapple skin and stall fermentation"
+        "Make sure the water has cooled to below 35°C before combining - anything hotter will kill the wild yeasts on the pineapple skin and stall fermentation"
       ]
     },
     {
@@ -124,9 +124,9 @@
       "duration": "1–3 days",
       "checkpoint": "Smells like fermented honey and pineapple",
       "tips": [
-        "The white foam on top is normal yeast activity — skim it but do not worry about it",
-        "Taste daily: sweet-tart with fizz means ready; if it tastes like vinegar, you have gone too far (but save it — pineapple vinegar is great)",
-        "In BLR summer (30°C+), check at 18 hours — it can go from perfect to vinegar fast"
+        "The white foam on top is normal yeast activity - skim it but do not worry about it",
+        "Taste daily: sweet-tart with fizz means ready; if it tastes like vinegar, you have gone too far (but save it - pineapple vinegar is great)",
+        "In BLR summer (30°C+), check at 18 hours - it can go from perfect to vinegar fast"
       ]
     },
     {
@@ -135,9 +135,9 @@
       "instruction": "Strain and bottle. Refrigerate immediately. If left out, it becomes pineapple vinegar (also useful!).",
       "duration": "5 min",
       "tips": [
-        "Use flip-top bottles and burp them twice daily for the first 2 days in the fridge — carbonation continues building",
+        "Use flip-top bottles and burp them twice daily for the first 2 days in the fridge - carbonation continues building",
         "Serve over ice with a pinch of chilli powder and a squeeze of lime for the authentic Mexican street style",
-        "Leave at least 3cm of headroom in each bottle — carbonation continues building in the fridge and overfilled bottles can burst"
+        "Leave at least 3cm of headroom in each bottle - carbonation continues building in the fridge and overfilled bottles can burst"
       ]
     }
   ],
@@ -147,11 +147,11 @@
       "caption": "Tepache",
       "attribution": "Photo by ProtoplasmaKid",
       "type": "hero",
-      "alt": "Tepache — Mexico’s pre-Columbian pineapple fizzer"
+      "alt": "Tepache - Mexico’s pre-Columbian pineapple fizzer"
     }
   ],
   "culturalContext": {
-    "story": "Tepache dates back to Pre-Columbian Mexico, where the Nahua people fermented corn-based beverages called 'tepatli.' After the Spanish introduced pineapple cultivation, the drink evolved into the pineapple-rind version we know today. In Mexico City, dedicated 'Tepacherías' serve it ice-cold in plastic bags with a straw, often spiked with a splash of beer. Street vendors across Mexico sell it from large glass barrels (vitroleros) for just a few pesos — it is the people's drink, cheap, refreshing, and alive.",
+    "story": "Tepache dates back to Pre-Columbian Mexico, where the Nahua people fermented corn-based beverages called 'tepatli.' After the Spanish introduced pineapple cultivation, the drink evolved into the pineapple-rind version we know today. In Mexico City, dedicated 'Tepacherías' serve it ice-cold in plastic bags with a straw, often spiked with a splash of beer. Street vendors across Mexico sell it from large glass barrels (vitroleros) for just a few pesos - it is the people's drink, cheap, refreshing, and alive.",
     "historicalNote": "The word 'tepache' derives from the Nahuatl 'tepiatl' meaning 'drink made from corn.' The shift to pineapple happened in the colonial era when tropical fruits became widely available. The original corn-based tepache still exists in some indigenous communities in Oaxaca and Guerrero.",
     "significance": "It is the ultimate zero-waste ferment. You pay for the fruit, but the drink is made from what usually goes in the bin. In an era of food waste awareness, tepache is a centuries-old solution to a modern problem.",
     "relatedTraditions": [
@@ -159,7 +159,7 @@
       "Chicha (corn-based fermented drink, South America)",
       "Kvass (bread-based fermented drink, Russia/Eastern Europe)"
     ],
-    "funFact": "In some parts of Mexico, a pinch of salt and chilli powder is added to the glass before serving — the same chamoy-tajin treatment given to fresh fruit."
+    "funFact": "In some parts of Mexico, a pinch of salt and chilli powder is added to the glass before serving - the same chamoy-tajin treatment given to fresh fruit."
   },
   "thingsToAccountFor": [
     {
@@ -181,7 +181,7 @@
   "dehydratorIntegration": {
     "applicable": true,
     "method": "Dehydrate the strained pineapple skins.",
-    "result": "Fermented pineapple \"leather\" bits—great for infusing into spirits.",
+    "result": "Fermented pineapple \"leather\" bits-great for infusing into spirits.",
     "shelfLife": "1 week refrigerated"
   },
   "variations": [
@@ -210,7 +210,7 @@
   ],
   "sources": [
     {
-      "title": "Tepache — Wikipedia",
+      "title": "Tepache - Wikipedia",
       "url": "https://en.wikipedia.org/wiki/Tepache"
     }
   ],
@@ -218,7 +218,7 @@
     {
       "url": "https://www.youtube.com/watch?v=R9reE6iO-p0",
       "title": "Tepache from Scraps",
-      "channel": "Bon Appétit — It's Alive",
+      "channel": "Bon Appétit - It's Alive",
       "type": "youtube"
     }
   ],

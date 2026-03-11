@@ -140,7 +140,7 @@ Each location and item has a humorous entry from "The Hitchhiker's Guide to the 
 {
   id: "betelgeuse",
   name: "Betelgeuse Trading Platform",
-  description: "A bustling commercial hub where anything can be bought or sold—emphasis on anything.",
+  description: "A bustling commercial hub where anything can be bought or sold-emphasis on anything.",
   guideEntry: "The Betelgeuse Trading Platform was built from the recycled remains of...",
   travelCosts: {
     "milliways": 500,

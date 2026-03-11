@@ -4,7 +4,7 @@
   "name": "Brine Pickles",
   "nameLocal": null,
   "nameRomanized": null,
-  "subtitle": "Any vegetable, saltwater, time — the universal lacto-ferment",
+  "subtitle": "Any vegetable, saltwater, time - the universal lacto-ferment",
   "category": "vegetable",
   "subcategory": "mixed-vegetables",
   "technique": "brine",
@@ -20,7 +20,7 @@
   "fermentTimeMax": 14,
   "fermentTimeUnit": "days",
   "totalTimeHuman": "3–14 days",
-  "blrNote": "KR Market is your playground — cucumbers, carrots, beans, cauliflower, radish, all dirt cheap and year-round. At BLR's 25°C, expect half-sours in 3 days, full sours by day 7. Use rock salt from any kirana store.",
+  "blrNote": "KR Market is your playground - cucumbers, carrots, beans, cauliflower, radish, all dirt cheap and year-round. At BLR's 25°C, expect half-sours in 3 days, full sours by day 7. Use rock salt from any kirana store.",
   "seasonality": [
     "all"
   ],
@@ -34,12 +34,12 @@
       "category": "produce",
       "essential": true,
       "substitutions": [
-        "Any firm vegetable — cucumber, carrot, beans, cauliflower, radish, turnip"
+        "Any firm vegetable - cucumber, carrot, beans, cauliflower, radish, turnip"
       ],
       "localAvailability": {
         "IN": {
           "ease": "easy",
-          "where": "KR Market, any sabziwala — ₹20–60/kg depending on vegetable"
+          "where": "KR Market, any sabziwala - ₹20–60/kg depending on vegetable"
         }
       }
     },
@@ -107,7 +107,7 @@
       "localAvailability": {
         "IN": {
           "ease": "easy",
-          "where": "Any kirana — mustard seeds are a South Indian pantry staple"
+          "where": "Any kirana - mustard seeds are a South Indian pantry staple"
         }
       }
     }
@@ -129,19 +129,19 @@
     {
       "step": 1,
       "title": "Make the brine",
-      "instruction": "Dissolve 30g non-iodised salt in 1 litre of unchlorinated water. Stir until fully dissolved. This gives you a 3% brine — the sweet spot for most vegetable ferments.",
+      "instruction": "Dissolve 30g non-iodised salt in 1 litre of unchlorinated water. Stir until fully dissolved. This gives you a 3% brine - the sweet spot for most vegetable ferments.",
       "duration": "2 min",
       "tips": [
         "3% is mild and crisp. Go to 5% for longer storage or softer vegetables like cucumbers.",
-        "Taste the brine — it should taste like pleasant seawater, not aggressively salty",
-        "Always weigh your salt with a kitchen scale — a tablespoon of fine salt and coarse salt differ by almost 50%"
+        "Taste the brine - it should taste like pleasant seawater, not aggressively salty",
+        "Always weigh your salt with a kitchen scale - a tablespoon of fine salt and coarse salt differ by almost 50%"
       ],
       "checkpoint": "Clear brine, salt fully dissolved"
     },
     {
       "step": 2,
       "title": "Prepare vegetables",
-      "instruction": "Wash vegetables. Cut into uniform pieces — spears, coins, or florets. Keep sizes consistent so they ferment evenly. Add optional garlic, mustard seeds, or other aromatics to the jar first.",
+      "instruction": "Wash vegetables. Cut into uniform pieces - spears, coins, or florets. Keep sizes consistent so they ferment evenly. Add optional garlic, mustard seeds, or other aromatics to the jar first.",
       "duration": "10 min",
       "tips": [
         "Cucumbers: cut off blossom end (contains enzymes that soften pickles)",
@@ -158,19 +158,19 @@
       "tips": [
         "Tight packing prevents vegetables from floating above the brine",
         "Leave 3–4cm headspace above the brine for bubbling",
-        "Place the jar on a plate — active fermentation often pushes brine over the rim in the first 48 hours"
+        "Place the jar on a plate - active fermentation often pushes brine over the rim in the first 48 hours"
       ],
       "checkpoint": "All vegetables submerged under brine with weight in place"
     },
     {
       "step": 4,
       "title": "Ferment",
-      "instruction": "Cover loosely (cloth or loose lid — gas needs to escape). Leave at room temperature away from direct sun. In BLR, taste daily from day 3. Half-sour by day 3–4, full sour by day 7–10.",
+      "instruction": "Cover loosely (cloth or loose lid - gas needs to escape). Leave at room temperature away from direct sun. In BLR, taste daily from day 3. Half-sour by day 3–4, full sour by day 7–10.",
       "duration": "3–14 days",
       "tips": [
         "Bubbles forming within 24–48 hours means fermentation is active",
-        "Brine will turn cloudy — this is normal and good",
-        "Skim any white film (kahm yeast) from the surface — harmless but tastes yeasty"
+        "Brine will turn cloudy - this is normal and good",
+        "Skim any white film (kahm yeast) from the surface - harmless but tastes yeasty"
       ],
       "checkpoint": "Vegetables taste pleasantly sour and tangy"
     },
@@ -181,8 +181,8 @@
       "duration": null,
       "tips": [
         "Keeps 2–3 months in the fridge",
-        "The brine is drinkable and deeply probiotic — don't discard it",
-        "Re-use the leftover brine as a starter for your next batch — it jump-starts fermentation and cuts a day off the timeline"
+        "The brine is drinkable and deeply probiotic - don't discard it",
+        "Re-use the leftover brine as a starter for your next batch - it jump-starts fermentation and cuts a day off the timeline"
       ],
       "checkpoint": "Tangy, crunchy, sour pickles in cold storage"
     }
@@ -193,13 +193,13 @@
       "caption": "Brine Pickles",
       "attribution": "Pickled cucumber in glass jar by Mariuszjbie",
       "type": "hero",
-      "alt": "Brine Pickles — Any vegetable, saltwater, time — the universal lacto-ferment"
+      "alt": "Brine Pickles - Any vegetable, saltwater, time - the universal lacto-ferment"
     }
   ],
   "culturalContext": {
-    "story": "Brine pickling is arguably the oldest food preservation technique after drying. Before refrigeration, before canning, before any technology at all — humans discovered that saltwater keeps food from spoiling. Every civilisation with access to salt independently developed some version of brine fermentation.",
+    "story": "Brine pickling is arguably the oldest food preservation technique after drying. Before refrigeration, before canning, before any technology at all - humans discovered that saltwater keeps food from spoiling. Every civilisation with access to salt independently developed some version of brine fermentation.",
     "historicalNote": "Archaeological evidence of brine-pickled cucumbers dates to 2030 BCE in Mesopotamia. The word \"pickle\" derives from the Dutch \"pekel\" (brine). Cleopatra attributed her beauty to pickles. Roman soldiers carried them on campaigns.",
-    "significance": "Brine pickles are the template for all lacto-fermentation. If you understand this technique — salt + water + submersion + time — you understand the principle behind sauerkraut, kimchi, and most vegetable ferments. This is fermentation at its most elemental.",
+    "significance": "Brine pickles are the template for all lacto-fermentation. If you understand this technique - salt + water + submersion + time - you understand the principle behind sauerkraut, kimchi, and most vegetable ferments. This is fermentation at its most elemental.",
     "relatedTraditions": [
       "Sauerkraut (German dry-salt)",
       "Torshi (Persian/Middle Eastern pickles)",
@@ -211,7 +211,7 @@
   "thingsToAccountFor": [
     {
       "title": "Vegetables floating above brine",
-      "description": "Anything above the brine will mould. Always use a weight. A zip-lock bag filled with brine works perfectly — if it leaks, it's just more brine.",
+      "description": "Anything above the brine will mould. Always use a weight. A zip-lock bag filled with brine works perfectly - if it leaks, it's just more brine.",
       "severity": "important",
       "appliesTo": [
         "all"
@@ -237,11 +237,11 @@
   "dehydratorIntegration": {
     "applicable": true,
     "method": "Drain vegetables, slice thinly, dehydrate at 40°C for 8–12 hours.",
-    "result": "Sour vegetable chips — tangy, crunchy, deeply flavoured snack.",
+    "result": "Sour vegetable chips - tangy, crunchy, deeply flavoured snack.",
     "shelfLife": "4–6 months airtight",
     "tips": [
       "Carrot and beet pickles dehydrate especially well",
-      "Cucumber pickles become chewy rather than crunchy — still delicious"
+      "Cucumber pickles become chewy rather than crunchy - still delicious"
     ]
   },
   "variations": [
@@ -283,7 +283,7 @@
   "containsAllergens": [],
   "sources": [
     {
-      "title": "Pickling — Wikipedia",
+      "title": "Pickling - Wikipedia",
       "url": "https://en.wikipedia.org/wiki/Pickling",
       "license": "CC BY-SA"
     }
@@ -292,7 +292,7 @@
     {
       "url": "https://www.youtube.com/watch?v=vD6XWXj9l8Q",
       "title": "Brad Makes Pickles",
-      "channel": "Bon Appétit — It's Alive",
+      "channel": "Bon Appétit - It's Alive",
       "type": "youtube"
     }
   ],

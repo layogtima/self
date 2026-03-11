@@ -8,7 +8,7 @@
     "title": "Dehydrating Ferments",
     "image": {
       "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Dried_vegetables.jpg/800px-Dried_vegetables.jpg",
-      "caption": "Dehydrated fermented vegetables — shelf-stable, intensely flavoured, and endlessly versatile",
+      "caption": "Dehydrated fermented vegetables - shelf-stable, intensely flavoured, and endlessly versatile",
       "attribution": "Wikimedia Commons, CC BY-SA 3.0"
     },
     "facts": [
@@ -25,7 +25,7 @@
     {
       "id": "intro",
       "type": "paragraph",
-      "content": "Fermentation and dehydration are two of humanity's oldest food preservation techniques, each dating back thousands of years [cite:c1]. Individually, they're powerful. Combined, they produce something neither can achieve alone: shelf-stable fermented foods with concentrated flavour, reduced weight, and — if done carefully — retained probiotic activity. Dehydrated sauerkraut [[recipe:sauerkraut-classic]] becomes a tangy seasoning powder. Fermented fruit becomes a complex, chewy leather. Honey garlic [[recipe:honey-garlic-ferment]] cloves become crunchy, umami-rich snacks. This article explores the science, techniques, and practical considerations of combining these two ancient methods."
+      "content": "Fermentation and dehydration are two of humanity's oldest food preservation techniques, each dating back thousands of years [cite:c1]. Individually, they're powerful. Combined, they produce something neither can achieve alone: shelf-stable fermented foods with concentrated flavour, reduced weight, and - if done carefully - retained probiotic activity. Dehydrated sauerkraut [[recipe:sauerkraut-classic]] becomes a tangy seasoning powder. Fermented fruit becomes a complex, chewy leather. Honey garlic [[recipe:honey-garlic-ferment]] cloves become crunchy, umami-rich snacks. This article explores the science, techniques, and practical considerations of combining these two ancient methods."
     },
     {
       "id": "why-combine",
@@ -36,16 +36,16 @@
     {
       "id": "why-combine-text",
       "type": "paragraph",
-      "content": "Each method solves different preservation problems. Fermentation creates an acidic, probiotic-rich environment that inhibits pathogens [[article:how-lacto-fermentation-works]], but fermented foods still contain enough moisture to eventually spoil — they require refrigeration for long-term storage. Dehydration removes the water that microorganisms need to grow, creating shelf stability at room temperature, but on its own it doesn't add the complex flavour compounds or nutritional benefits of fermentation. When you ferment first and then dehydrate, you get the best of both worlds: the developed flavour, acidity, and nutritional enhancement of fermentation locked into a shelf-stable, lightweight form [cite:c2]."
+      "content": "Each method solves different preservation problems. Fermentation creates an acidic, probiotic-rich environment that inhibits pathogens [[article:how-lacto-fermentation-works]], but fermented foods still contain enough moisture to eventually spoil - they require refrigeration for long-term storage. Dehydration removes the water that microorganisms need to grow, creating shelf stability at room temperature, but on its own it doesn't add the complex flavour compounds or nutritional benefits of fermentation. When you ferment first and then dehydrate, you get the best of both worlds: the developed flavour, acidity, and nutritional enhancement of fermentation locked into a shelf-stable, lightweight form [cite:c2]."
     },
     {
       "id": "why-combine-list",
       "type": "list",
       "ordered": false,
       "items": [
-        "**Concentrated flavour**: Removing water intensifies every flavour compound produced during fermentation — the sour, umami, and funk become bold and pronounced.",
+        "**Concentrated flavour**: Removing water intensifies every flavour compound produced during fermentation - the sour, umami, and funk become bold and pronounced.",
         "**Shelf stability**: Dried fermented foods stored in airtight containers at room temperature can last 6–18 months without refrigeration.",
-        "**Portability**: Dehydrated ferments are lightweight and compact — ideal for camping, travel, or emergency food supplies.",
+        "**Portability**: Dehydrated ferments are lightweight and compact - ideal for camping, travel, or emergency food supplies.",
         "**Versatility**: Dried ferments can be ground into powders, crumbled as toppings, or rehydrated for cooking.",
         "**Waste reduction**: Dehydrating a ferment that's getting too sour preserves it at its current state, stopping fermentation permanently."
       ]
@@ -59,7 +59,7 @@
     {
       "id": "pre-ferment-dehydration-text",
       "type": "paragraph",
-      "content": "In some cases, it makes sense to partially dehydrate produce before fermenting. This technique is less common but has specific applications. Partially drying fruit before fermentation concentrates the sugars, giving lactic acid bacteria more fuel and producing a more intensely flavoured end product. Sun-dried tomatoes can be fermented in brine for a deeply savoury condiment. Partially dehydrated chillies ferment into a more concentrated, shelf-stable chilli mash [[recipe:chilli-mash-base]]. The key principle is that reducing water activity slightly before fermentation slows the process but intensifies the result. Be cautious, however — if you dry produce too much before fermenting, there won't be enough moisture for bacterial activity, and the ferment may stall [[article:troubleshooting-ferments]]."
+      "content": "In some cases, it makes sense to partially dehydrate produce before fermenting. This technique is less common but has specific applications. Partially drying fruit before fermentation concentrates the sugars, giving lactic acid bacteria more fuel and producing a more intensely flavoured end product. Sun-dried tomatoes can be fermented in brine for a deeply savoury condiment. Partially dehydrated chillies ferment into a more concentrated, shelf-stable chilli mash [[recipe:chilli-mash-base]]. The key principle is that reducing water activity slightly before fermentation slows the process but intensifies the result. Be cautious, however - if you dry produce too much before fermenting, there won't be enough moisture for bacterial activity, and the ferment may stall [[article:troubleshooting-ferments]]."
     },
     {
       "id": "post-ferment-dehydration",
@@ -70,7 +70,7 @@
     {
       "id": "post-ferment-dehydration-text",
       "type": "paragraph",
-      "content": "The far more common approach is to ferment first, then dehydrate. This is the method used to make fermented vegetable powders, dried fermented snacks, and fermented fruit leather. The process is straightforward: complete your fermentation as normal, then drain excess brine (save it — see [[article:what-to-do-with-leftover-brine]]), and spread the fermented food in thin, even layers on dehydrator trays or parchment-lined baking sheets. The critical variable is temperature."
+      "content": "The far more common approach is to ferment first, then dehydrate. This is the method used to make fermented vegetable powders, dried fermented snacks, and fermented fruit leather. The process is straightforward: complete your fermentation as normal, then drain excess brine (save it - see [[article:what-to-do-with-leftover-brine]]), and spread the fermented food in thin, even layers on dehydrator trays or parchment-lined baking sheets. The critical variable is temperature."
     },
     {
       "id": "temperature-guide",
@@ -108,7 +108,7 @@
     {
       "id": "fermented-powders-text",
       "type": "paragraph",
-      "content": "Fermented vegetable powders are perhaps the most exciting application of this technique. Fully dehydrated fermented vegetables can be ground in a spice grinder or high-speed blender into fine, intensely flavoured powders that function as seasonings, flavour enhancers, and nutritional boosters. Sauerkraut powder is tangy, slightly funky, and adds depth to popcorn, roasted vegetables, or salad dressings. Kimchi powder is a Korean pantry staple — spicy, sour, and umami-rich, it transforms soups, stir-fries, and even buttered noodles [cite:c2]."
+      "content": "Fermented vegetable powders are perhaps the most exciting application of this technique. Fully dehydrated fermented vegetables can be ground in a spice grinder or high-speed blender into fine, intensely flavoured powders that function as seasonings, flavour enhancers, and nutritional boosters. Sauerkraut powder is tangy, slightly funky, and adds depth to popcorn, roasted vegetables, or salad dressings. Kimchi powder is a Korean pantry staple - spicy, sour, and umami-rich, it transforms soups, stir-fries, and even buttered noodles [cite:c2]."
     },
     {
       "id": "powder-steps",
@@ -118,7 +118,7 @@
         "**Ferment completely**: Allow your ferment to reach full acidity (pH below 3.8). Younger ferments with higher moisture and residual sugars are harder to dry and more prone to clumping.",
         "**Drain thoroughly**: Squeeze or press out as much brine as possible. The drier the starting material, the faster and more successful the dehydration.",
         "**Spread thin**: Arrange in a single layer on dehydrator trays lined with non-stick sheets or parchment paper. Pieces should not touch or overlap.",
-        "**Dehydrate fully**: Dry until completely brittle — the pieces should snap, not bend. Any residual moisture will cause clumping and potential mould growth during storage.",
+        "**Dehydrate fully**: Dry until completely brittle - the pieces should snap, not bend. Any residual moisture will cause clumping and potential mould growth during storage.",
         "**Grind**: Let the dried pieces cool completely, then grind in batches in a spice grinder. Pulse rather than running continuously to avoid overheating (which kills probiotics).",
         "**Store**: Transfer immediately to airtight glass jars or vacuum-sealed bags. Store in a cool, dark place. Add a food-safe desiccant packet if you live in a humid climate.",
         "**Label**: Note the source ferment, date dried, and whether it was dried at probiotic-safe temperatures."
@@ -129,7 +129,7 @@
       "type": "callout",
       "style": "tip",
       "title": "Best Powders to Try First",
-      "content": "Start with sauerkraut powder [[recipe:sauerkraut-classic]] — it's the easiest because cabbage dehydrates evenly and grinds to a fine, free-flowing powder. Sprinkle it on avocado toast, mix into softened butter, or use it as a tangy salt substitute. Next, try dried and powdered preserved lemons [[recipe:preserved-lemons-salt]] — the resulting powder is explosively flavourful and works beautifully on grilled fish, roasted chicken, or stirred into couscous."
+      "content": "Start with sauerkraut powder [[recipe:sauerkraut-classic]] - it's the easiest because cabbage dehydrates evenly and grinds to a fine, free-flowing powder. Sprinkle it on avocado toast, mix into softened butter, or use it as a tangy salt substitute. Next, try dried and powdered preserved lemons [[recipe:preserved-lemons-salt]] - the resulting powder is explosively flavourful and works beautifully on grilled fish, roasted chicken, or stirred into couscous."
     },
     {
       "id": "shelf-life-comparison",
@@ -143,12 +143,12 @@
       "caption": "Shelf life of fermented foods: fresh vs. refrigerated vs. dehydrated",
       "headers": ["Storage Method", "Shelf Life", "Probiotic Activity", "Flavour Quality", "Requires Refrigeration"],
       "rows": [
-        ["Room temperature (active ferment)", "1–2 weeks", "Very high (actively multiplying)", "Evolving — gets more sour daily", "No, but changes rapidly"],
-        ["Refrigerated", "3–6 months", "High (dormant but alive)", "Stable — slow flavour development", "Yes"],
-        ["Frozen", "12+ months", "Moderate (some die during freezing)", "Good — minimal change", "Yes (freezer)"],
+        ["Room temperature (active ferment)", "1–2 weeks", "Very high (actively multiplying)", "Evolving - gets more sour daily", "No, but changes rapidly"],
+        ["Refrigerated", "3–6 months", "High (dormant but alive)", "Stable - slow flavour development", "Yes"],
+        ["Frozen", "12+ months", "Moderate (some die during freezing)", "Good - minimal change", "Yes (freezer)"],
         ["Dehydrated (low temp, < 41 °C)", "6–12 months", "Moderate (dormant, slowly declining)", "Concentrated and intense", "No"],
         ["Dehydrated (high temp, > 57 °C)", "12–18 months", "None (killed by heat)", "Concentrated and intense", "No"],
-        ["Dehydrated + vacuum sealed", "18–24 months", "Low to moderate (if low temp)", "Excellent — best long-term option", "No"]
+        ["Dehydrated + vacuum sealed", "18–24 months", "Low to moderate (if low temp)", "Excellent - best long-term option", "No"]
       ]
     },
     {
@@ -168,8 +168,8 @@
       "caption": "Dehydrator vs. oven for drying fermented foods",
       "headers": ["Factor", "Dehydrator", "Oven"],
       "rows": [
-        ["Temperature control", "Precise, often adjustable in 1 °C increments", "Imprecise — most ovens can't go below 75 °C reliably"],
-        ["Probiotic preservation", "Excellent (if set below 41 °C)", "Poor — too hot for probiotic survival"],
+        ["Temperature control", "Precise, often adjustable in 1 °C increments", "Imprecise - most ovens can't go below 75 °C reliably"],
+        ["Probiotic preservation", "Excellent (if set below 41 °C)", "Poor - too hot for probiotic survival"],
         ["Airflow", "Built-in fan circulates evenly", "Must prop door open; uneven airflow"],
         ["Energy use", "Very low (200–700 watts)", "High (2000+ watts for hours)"],
         ["Capacity", "Multiple stackable trays", "Limited to 2–3 baking sheets"],
@@ -182,7 +182,7 @@
       "type": "callout",
       "style": "info",
       "title": "Oven Workaround for Low-Temperature Drying",
-      "content": "If your oven's lowest setting is too hot (above 50 °C), try this: set the oven to its lowest temperature, place the trays inside, and prop the door open 5–10 cm with a wooden spoon. Position a small fan nearby to improve airflow. Monitor with an oven thermometer placed on the tray. This jury-rigged setup can sometimes achieve 45–50 °C — not ideal for full probiotic preservation but better than 75 °C."
+      "content": "If your oven's lowest setting is too hot (above 50 °C), try this: set the oven to its lowest temperature, place the trays inside, and prop the door open 5–10 cm with a wooden spoon. Position a small fan nearby to improve airflow. Monitor with an oven thermometer placed on the tray. This jury-rigged setup can sometimes achieve 45–50 °C - not ideal for full probiotic preservation but better than 75 °C."
     },
     {
       "id": "fermented-fruit-leather",
@@ -193,7 +193,7 @@
     {
       "id": "fermented-fruit-leather-text",
       "type": "paragraph",
-      "content": "Fruit leather — thin sheets of pureed, dried fruit — takes on a new dimension when the fruit is fermented first. The lactic acid adds tanginess that balances the sweetness, and the fermentation process develops complex flavour notes that plain dried fruit cannot match. The method is simple: ferment fruit (or a fruit-vegetable combination) for 3–5 days until pleasantly tangy, then puree smooth and spread thinly on dehydrator sheets or parchment-lined trays. Dry at 41 °C for 12–18 hours (probiotic) or 57 °C for 6–10 hours (flavour only) until the leather peels cleanly from the sheet and is no longer sticky [cite:c1]."
+      "content": "Fruit leather - thin sheets of pureed, dried fruit - takes on a new dimension when the fruit is fermented first. The lactic acid adds tanginess that balances the sweetness, and the fermentation process develops complex flavour notes that plain dried fruit cannot match. The method is simple: ferment fruit (or a fruit-vegetable combination) for 3–5 days until pleasantly tangy, then puree smooth and spread thinly on dehydrator sheets or parchment-lined trays. Dry at 41 °C for 12–18 hours (probiotic) or 57 °C for 6–10 hours (flavour only) until the leather peels cleanly from the sheet and is no longer sticky [cite:c1]."
     },
     {
       "id": "fruit-leather-suggestions",
@@ -202,7 +202,7 @@
       "items": [
         "**Tepache leather**: Strain the solids from tepache [[recipe:tepache-pineapple]], puree with a little honey, and dry. Sweet, tangy, and tropical.",
         "**Fermented mango leather**: Ferment ripe mango chunks in a 2% brine for 3 days, drain, puree, and dry. Spectacular with a squeeze of lime in the puree.",
-        "**Apple-sauerkraut leather**: Blend equal parts fermented apple and sauerkraut [[recipe:sauerkraut-classic]] into a smooth puree. Sounds unusual, tastes remarkable — sweet-sour-savoury.",
+        "**Apple-sauerkraut leather**: Blend equal parts fermented apple and sauerkraut [[recipe:sauerkraut-classic]] into a smooth puree. Sounds unusual, tastes remarkable - sweet-sour-savoury.",
         "**Berry-beet leather**: Combine fermented berries with a small amount of beet kvass [[recipe:beet-kvass-basic]] for colour and earthiness."
       ]
     },
@@ -215,7 +215,7 @@
     {
       "id": "maintaining-probiotics-text",
       "type": "paragraph",
-      "content": "If your primary goal is to produce dehydrated fermented foods that retain live probiotic cultures, every decision must prioritise bacterial survival. Lactic acid bacteria are remarkably tough organisms — they survive the acid environment of fermentation, the salt stress of brine, and even the acid bath of the human stomach — but they are sensitive to heat and extreme desiccation [cite:c3]. Here's how to maximise survival:"
+      "content": "If your primary goal is to produce dehydrated fermented foods that retain live probiotic cultures, every decision must prioritise bacterial survival. Lactic acid bacteria are remarkably tough organisms - they survive the acid environment of fermentation, the salt stress of brine, and even the acid bath of the human stomach - but they are sensitive to heat and extreme desiccation [cite:c3]. Here's how to maximise survival:"
     },
     {
       "id": "probiotic-tips-list",
@@ -223,7 +223,7 @@
       "ordered": false,
       "items": [
         "**Never exceed 41 °C (106 °F)**: This is the absolute ceiling. Ideally, stay at 35–38 °C for maximum survival rates.",
-        "**Dry in thin layers**: Thicker layers take longer to dry, meaning the interior stays moist and warm for extended periods — stressful for bacteria.",
+        "**Dry in thin layers**: Thicker layers take longer to dry, meaning the interior stays moist and warm for extended periods - stressful for bacteria.",
         "**Minimise drying time**: The shorter the exposure to dehydration stress, the more bacteria survive. Thin layers + good airflow = shorter times.",
         "**Cool immediately**: Once dry, remove from the dehydrator and let cool to room temperature before grinding or packaging. Residual heat in a sealed container can kill bacteria.",
         "**Grind in short pulses**: Friction heat from prolonged grinding can raise the temperature of the powder significantly. Pulse for 2–3 seconds at a time, with 5-second rests.",
@@ -240,7 +240,7 @@
     {
       "id": "rehydrating-text",
       "type": "paragraph",
-      "content": "Dehydrated fermented foods can be rehydrated for use in recipes that call for the fresh version. The texture won't be identical — dehydration permanently changes cell structure — but the flavour is often more intense than the original. To rehydrate, soak dried fermented vegetables in cool or lukewarm water (never hot, if you want to preserve probiotics) for 15–30 minutes. Use the soaking water too — it's essentially an instant brine, full of flavour and reactivated bacteria. Rehydrated fermented vegetables work beautifully in cooked dishes: stir-fries, soups, grain bowls, and stews."
+      "content": "Dehydrated fermented foods can be rehydrated for use in recipes that call for the fresh version. The texture won't be identical - dehydration permanently changes cell structure - but the flavour is often more intense than the original. To rehydrate, soak dried fermented vegetables in cool or lukewarm water (never hot, if you want to preserve probiotics) for 15–30 minutes. Use the soaking water too - it's essentially an instant brine, full of flavour and reactivated bacteria. Rehydrated fermented vegetables work beautifully in cooked dishes: stir-fries, soups, grain bowls, and stews."
     },
     {
       "id": "safety-considerations",
@@ -251,7 +251,7 @@
     {
       "id": "safety-text",
       "type": "paragraph",
-      "content": "Combining fermentation and dehydration is inherently safe when done correctly — you're applying two preservation hurdles rather than one. The key safety principle is to ensure complete dehydration: the final product should be brittle and snap cleanly, with no pliable or moist spots. Incomplete dehydration is the main risk — if moisture remains above 10%, moulds can grow even on acidic dried foods. Store in airtight containers and inspect periodically for any signs of moisture absorption or mould, especially in humid climates [[article:troubleshooting-ferments]]."
+      "content": "Combining fermentation and dehydration is inherently safe when done correctly - you're applying two preservation hurdles rather than one. The key safety principle is to ensure complete dehydration: the final product should be brittle and snap cleanly, with no pliable or moist spots. Incomplete dehydration is the main risk - if moisture remains above 10%, moulds can grow even on acidic dried foods. Store in airtight containers and inspect periodically for any signs of moisture absorption or mould, especially in humid climates [[article:troubleshooting-ferments]]."
     },
     {
       "id": "salt-adjustment",
@@ -262,7 +262,7 @@
     {
       "id": "salt-adjustment-text",
       "type": "paragraph",
-      "content": "One easily overlooked detail: dehydration concentrates salt along with everything else [[article:salt-and-fermentation]]. A ferment made with a 3% salt brine, once dried to 10% of its original weight, now contains roughly 30% salt by weight. This makes dried fermented foods intensely salty. When using fermented powders as seasonings, start with tiny amounts — a quarter teaspoon can season an entire dish. When rehydrating, use plain unsalted water and avoid adding additional salt until you taste the result."
+      "content": "One easily overlooked detail: dehydration concentrates salt along with everything else [[article:salt-and-fermentation]]. A ferment made with a 3% salt brine, once dried to 10% of its original weight, now contains roughly 30% salt by weight. This makes dried fermented foods intensely salty. When using fermented powders as seasonings, start with tiny amounts - a quarter teaspoon can season an entire dish. When rehydrating, use plain unsalted water and avoid adding additional salt until you taste the result."
     },
     {
       "id": "getting-started",

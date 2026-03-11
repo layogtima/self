@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   THE RED THREAD v2 — App Abstractions
+   THE RED THREAD v2 - App Abstractions
    Reusable utilities that make the chaos manageable.
    ═══════════════════════════════════════════════════════════════════════════ */
 

@@ -1,5 +1,5 @@
 /**
- * FERMENT — TimerManager Component
+ * FERMENT - TimerManager Component
  * Countdown timers for fermentation batches
  */
 

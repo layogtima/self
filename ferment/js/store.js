@@ -1,5 +1,5 @@
 /**
- * FERMENT — localStorage Abstraction Layer
+ * FERMENT - localStorage Abstraction Layer
  * Handles persistence, migrations, and data management
  */
 

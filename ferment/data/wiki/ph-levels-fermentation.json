@@ -25,7 +25,7 @@
     {
       "id": "intro",
       "type": "paragraph",
-      "content": "pH — the measure of how acidic or alkaline a solution is — is the single most important safety parameter in fermentation. The magic number is 4.6: below this pH, the toxin-producing bacterium Clostridium botulinum cannot grow or produce toxin [cite:c1]. Properly lacto-fermented vegetables reliably drop well below this threshold, typically reaching pH 3.0–3.5. This is why lacto-fermented foods have an extraordinary safety record — the process has a built-in safety mechanism that activates within days [[article:how-lacto-fermentation-works]]."
+      "content": "pH - the measure of how acidic or alkaline a solution is - is the single most important safety parameter in fermentation. The magic number is 4.6: below this pH, the toxin-producing bacterium Clostridium botulinum cannot grow or produce toxin [cite:c1]. Properly lacto-fermented vegetables reliably drop well below this threshold, typically reaching pH 3.0–3.5. This is why lacto-fermented foods have an extraordinary safety record - the process has a built-in safety mechanism that activates within days [[article:how-lacto-fermentation-works]]."
     },
     {
       "id": "ph-explained",
@@ -36,7 +36,7 @@
     {
       "id": "ph-explained-text",
       "type": "paragraph",
-      "content": "pH stands for 'potential of hydrogen' and measures the concentration of hydrogen ions (H⁺) in a solution on a logarithmic scale from 0 to 14 [cite:c2]. A pH of 7 is neutral (pure water). Below 7 is acidic; above 7 is alkaline. Because the scale is logarithmic, each whole number represents a tenfold change — pH 3 is ten times more acidic than pH 4, and a hundred times more acidic than pH 5."
+      "content": "pH stands for 'potential of hydrogen' and measures the concentration of hydrogen ions (H⁺) in a solution on a logarithmic scale from 0 to 14 [cite:c2]. A pH of 7 is neutral (pure water). Below 7 is acidic; above 7 is alkaline. Because the scale is logarithmic, each whole number represents a tenfold change - pH 3 is ten times more acidic than pH 4, and a hundred times more acidic than pH 5."
     },
     {
       "id": "ph-common",
@@ -73,7 +73,7 @@
       "type": "callout",
       "style": "warning",
       "title": "The Safety Margin",
-      "content": "Most properly made vegetable ferments reach pH 3.0–3.5 within 7–14 days — well below the 4.6 threshold. This provides a substantial safety margin. However, always ensure vegetables remain submerged in brine during the first critical days when pH is still dropping. Vegetables above the brine can harbour aerobic spoilage organisms."
+      "content": "Most properly made vegetable ferments reach pH 3.0–3.5 within 7–14 days - well below the 4.6 threshold. This provides a substantial safety margin. However, always ensure vegetables remain submerged in brine during the first critical days when pH is still dropping. Vegetables above the brine can harbour aerobic spoilage organisms."
     },
     {
       "id": "ph-by-ferment",
@@ -148,7 +148,7 @@
       "type": "callout",
       "style": "tip",
       "title": "Do You Need to Measure pH?",
-      "content": "For most home fermenters: no. If you use the correct amount of salt (2–5%), keep vegetables submerged, and the ferment tastes increasingly sour over days — you're fine. pH measurement is most valuable when you're troubleshooting a ferment that doesn't seem right, when you're developing new recipes, or when you want to understand the science more deeply."
+      "content": "For most home fermenters: no. If you use the correct amount of salt (2–5%), keep vegetables submerged, and the ferment tastes increasingly sour over days - you're fine. pH measurement is most valuable when you're troubleshooting a ferment that doesn't seem right, when you're developing new recipes, or when you want to understand the science more deeply."
     },
     {
       "id": "ph-and-flavour",
@@ -159,7 +159,7 @@
     {
       "id": "ph-flavour-text",
       "type": "paragraph",
-      "content": "pH directly correlates with perceived sourness, but the relationship isn't linear. Most people find ferments pleasant between pH 3.2 and 4.0. Below pH 3.0, sourness can become sharp and overwhelming (though some people love it). The art of fermentation is stopping at the pH — the sourness level — that you personally enjoy."
+      "content": "pH directly correlates with perceived sourness, but the relationship isn't linear. Most people find ferments pleasant between pH 3.2 and 4.0. Below pH 3.0, sourness can become sharp and overwhelming (though some people love it). The art of fermentation is stopping at the pH - the sourness level - that you personally enjoy."
     },
     {
       "id": "ph-flavour-table",
@@ -190,7 +190,7 @@
       "type": "callout",
       "style": "info",
       "title": "Speed vs. Complexity",
-      "content": "Faster acidification (warm temperatures) produces a cleaner, sharper sour flavour. Slower acidification (cool temperatures) allows more time for complex flavour compounds to develop. This is why many traditional European fermenters use cool cellars for long, slow ferments — and why Bengaluru fermenters might choose to refrigerate a ferment after initial acidification to slow it down and develop more nuanced flavours."
+      "content": "Faster acidification (warm temperatures) produces a cleaner, sharper sour flavour. Slower acidification (cool temperatures) allows more time for complex flavour compounds to develop. This is why many traditional European fermenters use cool cellars for long, slow ferments - and why Bengaluru fermenters might choose to refrigerate a ferment after initial acidification to slow it down and develop more nuanced flavours."
     }
   ],
   "citations": [

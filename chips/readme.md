@@ -377,7 +377,7 @@ See [LICENSE](LICENSE) for full details.
 
 > "In the void, we found light. In chaos, we found order. In code, we found art."
 
-This project started as a simple font previewer and evolved into a 3D visualization playground. That's the beauty of open-source collaboration—you never know where you'll end up.
+This project started as a simple font previewer and evolved into a 3D visualization playground. That's the beauty of open-source collaboration-you never know where you'll end up.
 
 Now go forth and create reality-bending 3D experiences that make people question what's possible in a browser. 🚀✨
 

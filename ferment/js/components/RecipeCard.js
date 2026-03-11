@@ -95,7 +95,7 @@ const RecipeCardComponent = {
       }
       // Legacy fallback
       const t = this.recipe.totalTime || this.recipe.time;
-      if (!t) return '—';
+      if (!t) return '-';
       if (typeof t === 'object') {
         const days = t.min || t.days || 0;
         if (days >= 365) return Math.round(days / 365) + 'y';

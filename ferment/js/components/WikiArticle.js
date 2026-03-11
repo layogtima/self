@@ -1,5 +1,5 @@
 /**
- * FERMENT — WikiArticle Component
+ * FERMENT - WikiArticle Component
  * Rich article renderer: infobox, TOC, paragraphs with citations/cross-links,
  * images, galleries, videos, callouts, tables, lists, bibliography, see-also
  */

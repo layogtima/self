@@ -1,5 +1,5 @@
 /**
- * FERMENT — Main Application
+ * FERMENT - Main Application
  * Vue 3 app initialization, state management, routing
  */
 
@@ -18,7 +18,7 @@ const app = createApp({
     const showSettings = ref(false);
     const searchQuery = ref('');
 
-    // ── Contextual (secondary) nav — screen-specific tabs above mobile nav ──
+    // ── Contextual (secondary) nav - screen-specific tabs above mobile nav ──
     const contextualNavTabs = ref([]);
     const contextualNavActive = ref('');
 
@@ -454,7 +454,7 @@ const app = createApp({
 
     // ── Meta tag management for OG/sharing ──
     const defaultMeta = {
-      title: 'FERMENT — Your Fermentation Companion',
+      title: 'FERMENT - Your Fermentation Companion',
       description: 'A cultural guide to lactic acid fermentation from around the world. Browse recipes, track batches, and master the ancient art of fermentation.',
       image: '',
     };
@@ -490,7 +490,7 @@ const app = createApp({
       const timeStr = recipe.totalTimeHuman || (recipe.fermentTimeMin ? recipe.fermentTimeMin + '-' + (recipe.fermentTimeMax || '') + ' ' + (recipe.fermentTimeUnit || 'days') : '');
       const desc = recipe.tldr || (recipe.name + (recipe.country ? ' from ' + recipe.country : '') + (timeStr ? '. Ferment time: ' + timeStr : '') + '. ' + (recipe.ingredients || []).length + ' ingredients.');
       updateMeta({
-        title: recipe.name + ' — FERMENT',
+        title: recipe.name + ' - FERMENT',
         description: desc,
         image: heroUrl,
         type: 'article',
@@ -499,12 +499,12 @@ const app = createApp({
 
     function updateWikiMeta(article) {
       if (!article) { updateMeta(); return; }
-      const desc = article.subtitle || article.title + ' — Fermentation wiki article with ' + (article.citations || []).length + ' citations.';
+      const desc = article.subtitle || article.title + ' - Fermentation wiki article with ' + (article.citations || []).length + ' citations.';
       // Generate a simple OG image using an SVG data URI for wiki articles
       const icon = wikiArticleIcon(article.id);
       const svgOg = generateWikiOgImage(article.title, icon);
       updateMeta({
-        title: article.title + ' — FERMENT Wiki',
+        title: article.title + ' - FERMENT Wiki',
         description: desc,
         image: svgOg,
         type: 'article',
@@ -537,7 +537,7 @@ const app = createApp({
         <text x="600" y="240" text-anchor="middle" font-size="80" font-family="serif">${icon}</text>
         <text x="600" y="340" text-anchor="middle" font-size="42" font-family="Georgia,serif" fill="#2C1810" font-weight="bold">${escaped}</text>
         <text x="600" y="400" text-anchor="middle" font-size="22" font-family="sans-serif" fill="#A89485">FERMENT Wiki</text>
-        <text x="600" y="580" text-anchor="middle" font-size="18" font-family="sans-serif" fill="#C4A35A">🫙 FERMENT — Your Fermentation Companion</text>
+        <text x="600" y="580" text-anchor="middle" font-size="18" font-family="sans-serif" fill="#C4A35A">🫙 FERMENT - Your Fermentation Companion</text>
       </svg>`;
       return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
     }
@@ -571,7 +571,7 @@ const app = createApp({
       suppressPopState = true;
       const state = e.state;
       if (!state) {
-        // No state — go to home/browse
+        // No state - go to home/browse
         selectedRecipe.value = null;
         selectedWikiArticle.value = null;
         showSettings.value = false;
@@ -766,7 +766,7 @@ app.component('changelog-view', ChangelogViewComponent);
 // compiler can't find them via _ctx without this explicit registration)
 app.config.globalProperties.FermentFormat = FermentFormat;
 
-// Global error handler — catch-all for unhandled Vue errors
+// Global error handler - catch-all for unhandled Vue errors
 app.config.errorHandler = (err, _vm, info) => {
   console.error('[FERMENT] Unhandled error:', info, err);
 };

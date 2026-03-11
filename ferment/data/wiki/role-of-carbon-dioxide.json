@@ -8,7 +8,7 @@
     "title": "CO₂ in Fermentation",
     "image": {
       "url": "https://upload.wikimedia.org/wikipedia/commons/0/09/Fermentation_in_progress.jpg",
-      "caption": "Active bubbling during vegetable fermentation — CO₂ escaping from the brine",
+      "caption": "Active bubbling during vegetable fermentation - CO₂ escaping from the brine",
       "attribution": "Wikimedia Commons, CC BY-SA 3.0"
     },
     "facts": [
@@ -25,7 +25,7 @@
     {
       "id": "intro",
       "type": "paragraph",
-      "content": "If you've ever watched a jar of fermenting vegetables fizz and bubble, you've seen carbon dioxide at work. CO₂ is the most visible sign that fermentation is happening — and it plays a crucial role far beyond aesthetics. In the early stages of lacto-fermentation, carbon dioxide produced by heterofermentative bacteria physically displaces oxygen from the jar, creating the anaerobic (oxygen-free) environment that lactic acid bacteria need to thrive and that spoilage organisms cannot tolerate [cite:c1]."
+      "content": "If you've ever watched a jar of fermenting vegetables fizz and bubble, you've seen carbon dioxide at work. CO₂ is the most visible sign that fermentation is happening - and it plays a crucial role far beyond aesthetics. In the early stages of lacto-fermentation, carbon dioxide produced by heterofermentative bacteria physically displaces oxygen from the jar, creating the anaerobic (oxygen-free) environment that lactic acid bacteria need to thrive and that spoilage organisms cannot tolerate [cite:c1]."
     },
     {
       "id": "where-it-comes-from",
@@ -36,14 +36,14 @@
     {
       "id": "source-text",
       "type": "paragraph",
-      "content": "Carbon dioxide in lacto-fermentation is produced by heterofermentative lactic acid bacteria — primarily Leuconostoc mesenteroides in the early stages [[article:lactic-acid-bacteria]]. These bacteria use the phosphoketolase pathway to break down glucose, producing lactic acid, ethanol (or acetic acid), and CO₂ in roughly equal molar amounts [cite:c2]."
+      "content": "Carbon dioxide in lacto-fermentation is produced by heterofermentative lactic acid bacteria - primarily Leuconostoc mesenteroides in the early stages [[article:lactic-acid-bacteria]]. These bacteria use the phosphoketolase pathway to break down glucose, producing lactic acid, ethanol (or acetic acid), and CO₂ in roughly equal molar amounts [cite:c2]."
     },
     {
       "id": "reaction-callout",
       "type": "callout",
       "style": "info",
       "title": "The Heterofermentative Equation",
-      "content": "C₆H₁₂O₆ (glucose) → CH₃CHOHCOOH (lactic acid) + C₂H₅OH (ethanol) + CO₂\n\nThis contrasts with homofermentation, where glucose is converted to lactic acid only — no gas. That's why Phase 2 of fermentation (dominated by L. plantarum) is much less bubbly than Phase 1."
+      "content": "C₆H₁₂O₆ (glucose) → CH₃CHOHCOOH (lactic acid) + C₂H₅OH (ethanol) + CO₂\n\nThis contrasts with homofermentation, where glucose is converted to lactic acid only - no gas. That's why Phase 2 of fermentation (dominated by L. plantarum) is much less bubbly than Phase 1."
     },
     {
       "id": "critical-functions",
@@ -60,7 +60,7 @@
     {
       "id": "function1-text",
       "type": "paragraph",
-      "content": "This is the most important role. When you first pack vegetables into a jar, the headspace contains atmospheric air (about 21% oxygen). Most spoilage bacteria and moulds are aerobic — they need oxygen to grow. CO₂ produced during fermentation rises through the brine and accumulates in the headspace, physically pushing oxygen out through any openings. Within 24–48 hours of active fermentation, the headspace transitions from aerobic to anaerobic [cite:c1]. This is the tipping point that makes your ferment safe: lactic acid bacteria thrive without oxygen, while most of their competitors do not."
+      "content": "This is the most important role. When you first pack vegetables into a jar, the headspace contains atmospheric air (about 21% oxygen). Most spoilage bacteria and moulds are aerobic - they need oxygen to grow. CO₂ produced during fermentation rises through the brine and accumulates in the headspace, physically pushing oxygen out through any openings. Within 24–48 hours of active fermentation, the headspace transitions from aerobic to anaerobic [cite:c1]. This is the tipping point that makes your ferment safe: lactic acid bacteria thrive without oxygen, while most of their competitors do not."
     },
     {
       "id": "function2",
@@ -140,7 +140,7 @@
     {
       "id": "airlock-text",
       "type": "paragraph",
-      "content": "Many fermentation guides recommend airlocks — one-way valves that let CO₂ escape without letting air in. Are they necessary? The short answer: no, but they're convenient [cite:c3]."
+      "content": "Many fermentation guides recommend airlocks - one-way valves that let CO₂ escape without letting air in. Are they necessary? The short answer: no, but they're convenient [cite:c3]."
     },
     {
       "id": "airlock-table",
@@ -151,7 +151,7 @@
         ["Loose lid / cloth", "Simple, free, works perfectly. The traditional method for millennia.", "Requires occasional burping. Slightly higher kahm yeast risk.", "Beginners. Most vegetable ferments."],
         ["Airlock lid", "Set-and-forget. No burping needed. Minimal kahm yeast.", "Extra equipment cost. Can clog with brine if jar overfills.", "Longer ferments. Multiple simultaneous batches."],
         ["Sealed jar (with burping)", "Good seal between burps. Standard canning jars work.", "Must remember to burp. Pressure risk if you forget.", "Short ferments (1–2 weeks). Small batches."],
-        ["Open crock with weight", "Traditional. Beautiful. Large capacity.", "Surface exposed to air — higher kahm yeast risk. Needs regular skimming.", "Large batches. Traditional sauerkraut [[recipe:sauerkraut-classic]]. Kimchi."]
+        ["Open crock with weight", "Traditional. Beautiful. Large capacity.", "Surface exposed to air - higher kahm yeast risk. Needs regular skimming.", "Large batches. Traditional sauerkraut [[recipe:sauerkraut-classic]]. Kimchi."]
       ]
     },
     {
@@ -170,7 +170,7 @@
       "type": "list",
       "ordered": false,
       "items": [
-        "**Homofermentative dominance**: If the LAB population on your vegetables happens to skew homofermentative from the start, less CO₂ is produced. The ferment is still working — check the pH or taste for sourness.",
+        "**Homofermentative dominance**: If the LAB population on your vegetables happens to skew homofermentative from the start, less CO₂ is produced. The ferment is still working - check the pH or taste for sourness.",
         "**Temperature too low**: Below 15 °C, bacterial metabolism slows dramatically and gas production may be invisible [[article:temperature-and-fermentation]].",
         "**Too much salt**: Above 5% salt concentration, even LAB are partially inhibited [[article:salt-and-fermentation]]. The ferment proceeds but much more slowly.",
         "**Escaping unseen**: If your lid is very loose, CO₂ may escape as fast as it's produced, so you never see it accumulate. This is fine."
@@ -181,7 +181,7 @@
       "type": "callout",
       "style": "info",
       "title": "The Taste Test",
-      "content": "The most reliable indicator of fermentation is taste, not bubbles. If your ferment tastes increasingly sour over days, it's working — regardless of how many bubbles you see. Use pH strips [[article:ph-levels-fermentation]] for objective confirmation."
+      "content": "The most reliable indicator of fermentation is taste, not bubbles. If your ferment tastes increasingly sour over days, it's working - regardless of how many bubbles you see. Use pH strips [[article:ph-levels-fermentation]] for objective confirmation."
     },
     {
       "id": "carbonation-drinks",
@@ -192,14 +192,14 @@
     {
       "id": "carbonation-text",
       "type": "paragraph",
-      "content": "In fermented beverages, CO₂ isn't just a by-product — it's a feature. Tepache [[recipe:tepache-pineapple]], ginger bug [[recipe:ginger-bug-starter]], and beet kvass [[recipe:beet-kvass-basic]] get their pleasant fizz from dissolved carbon dioxide. To capture this carbonation, the drink is typically fermented in an open vessel first (to avoid excessive pressure), then transferred to sealed bottles for a secondary fermentation of 1–3 days. The sealed environment traps the CO₂ in solution, creating effervescence when opened."
+      "content": "In fermented beverages, CO₂ isn't just a by-product - it's a feature. Tepache [[recipe:tepache-pineapple]], ginger bug [[recipe:ginger-bug-starter]], and beet kvass [[recipe:beet-kvass-basic]] get their pleasant fizz from dissolved carbon dioxide. To capture this carbonation, the drink is typically fermented in an open vessel first (to avoid excessive pressure), then transferred to sealed bottles for a secondary fermentation of 1–3 days. The sealed environment traps the CO₂ in solution, creating effervescence when opened."
     },
     {
       "id": "carbonation-warning",
       "type": "callout",
       "style": "warning",
       "title": "Bottle Bomb Warning",
-      "content": "When doing secondary fermentation of drinks in sealed bottles, use bottles rated for pressure (flip-top/Grolsch-style or plastic soda bottles). Glass bottles not designed for pressure can explode. Always 'burp' bottles daily by opening briefly, especially in warm climates like Bengaluru's. Refrigerate as soon as carbonation reaches the desired level — cold slows CO₂ production dramatically."
+      "content": "When doing secondary fermentation of drinks in sealed bottles, use bottles rated for pressure (flip-top/Grolsch-style or plastic soda bottles). Glass bottles not designed for pressure can explode. Always 'burp' bottles daily by opening briefly, especially in warm climates like Bengaluru's. Refrigerate as soon as carbonation reaches the desired level - cold slows CO₂ production dramatically."
     }
   ],
   "citations": [

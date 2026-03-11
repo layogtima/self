@@ -27,7 +27,7 @@
     {
       "id": "intro",
       "type": "paragraph",
-      "content": "Lactic acid bacteria (LAB) are a group of Gram-positive, non-spore-forming bacteria that share the ability to produce lactic acid as the major end product of carbohydrate fermentation [cite:c1]. They are among the most important groups of microorganisms used in food fermentation, responsible for the preservation and flavour development of an extraordinary range of foods — from sauerkraut [[recipe:sauerkraut-classic]] and kimchi to yogurt [[recipe:dahi-homemade]], sourdough bread, and salami. They are everywhere: on the leaves of every vegetable you bring home from the market, in the soil of your garden, and in your own digestive tract."
+      "content": "Lactic acid bacteria (LAB) are a group of Gram-positive, non-spore-forming bacteria that share the ability to produce lactic acid as the major end product of carbohydrate fermentation [cite:c1]. They are among the most important groups of microorganisms used in food fermentation, responsible for the preservation and flavour development of an extraordinary range of foods - from sauerkraut [[recipe:sauerkraut-classic]] and kimchi to yogurt [[recipe:dahi-homemade]], sourdough bread, and salami. They are everywhere: on the leaves of every vegetable you bring home from the market, in the soil of your garden, and in your own digestive tract."
     },
     {
       "id": "two-pathways",
@@ -47,7 +47,7 @@
       "headers": ["Property", "Homofermentative", "Heterofermentative"],
       "rows": [
         ["Products from glucose", "Lactic acid only (>85%)", "Lactic acid + CO₂ + ethanol (or acetic acid)"],
-        ["Gas production", "None", "Yes — CO₂ bubbles"],
+        ["Gas production", "None", "Yes - CO₂ bubbles"],
         ["Efficiency", "Higher acid yield per glucose", "Lower acid yield, but more complex flavour"],
         ["Typical genera", "Lactobacillus (some), Pediococcus, Lactococcus", "Leuconostoc, Weissella, Lactobacillus (some)"],
         ["Role in fermentation", "Sustained acidification (Phase 2)", "Early acidification + CO₂ blanket (Phase 1)"],
@@ -87,7 +87,7 @@
         ["L. plantarum", "Homofermentative (facultatively hetero)", "The workhorse of vegetable fermentation. Acid-tolerant (grows down to pH 3.0), salt-tolerant, produces bacteriocins. Dominates Phase 2.", "Sauerkraut, kimchi, pickles, olives, most vegetable ferments"],
         ["L. brevis", "Heterofermentative", "Contributes to flavour complexity. Produces CO₂ and acetic acid alongside lactic acid.", "Sauerkraut, kimchi, sourdough, beer (as a spoilage organism!)"],
         ["L. acidophilus", "Homofermentative", "Major probiotic species. Produces only lactic acid. Naturally present in the human gut.", "Yogurt, acidophilus milk, probiotic supplements"],
-        ["L. delbrueckii subsp. bulgaricus", "Homofermentative", "One of the two essential yogurt cultures (with S. thermophilus). Produces acetaldehyde — the distinctive yogurt aroma.", "Yogurt, dahi [[recipe:dahi-homemade]]"],
+        ["L. delbrueckii subsp. bulgaricus", "Homofermentative", "One of the two essential yogurt cultures (with S. thermophilus). Produces acetaldehyde - the distinctive yogurt aroma.", "Yogurt, dahi [[recipe:dahi-homemade]]"],
         ["L. rhamnosus", "Homofermentative", "Well-studied probiotic. Survives stomach acid well. Used in clinical research.", "Fermented dairy, some pickles"],
         ["L. sakei", "Homofermentative", "Salt-tolerant, cold-tolerant. Named after Japanese sake.", "Fermented meats, kimchi, some vegetable ferments"]
       ]
@@ -101,7 +101,7 @@
     {
       "id": "leuconostoc-text",
       "type": "paragraph",
-      "content": "Leuconostoc species are the pioneers of vegetable fermentation — they start the process [cite:c4]. Unlike Lactobacillus, all Leuconostoc species are obligately heterofermentative, meaning they always produce CO₂ alongside lactic acid. The most important species is Leuconostoc mesenteroides, which dominates the first 1–3 days of sauerkraut and kimchi fermentation. It produces roughly equal amounts of lactic acid, CO₂, ethanol, and acetic acid, creating the initial acidification and gas production that sets up the anaerobic environment. However, L. mesenteroides is not very acid-tolerant — once the pH drops below about 4.5, it fades and Lactobacillus takes over."
+      "content": "Leuconostoc species are the pioneers of vegetable fermentation - they start the process [cite:c4]. Unlike Lactobacillus, all Leuconostoc species are obligately heterofermentative, meaning they always produce CO₂ alongside lactic acid. The most important species is Leuconostoc mesenteroides, which dominates the first 1–3 days of sauerkraut and kimchi fermentation. It produces roughly equal amounts of lactic acid, CO₂, ethanol, and acetic acid, creating the initial acidification and gas production that sets up the anaerobic environment. However, L. mesenteroides is not very acid-tolerant - once the pH drops below about 4.5, it fades and Lactobacillus takes over."
     },
     {
       "id": "pediococcus",
@@ -134,7 +134,7 @@
     {
       "id": "lactococcus-text",
       "type": "paragraph",
-      "content": "Lactococcus species are primarily associated with dairy fermentation rather than vegetables. Lactococcus lactis is one of the most commercially important LAB species globally — it's the primary culture in cheese, buttermilk, and cultured cream production. It grows best at mesophilic temperatures (20–30 °C) and is less salt-tolerant than Lactobacillus, which is why it's less common in brined vegetable ferments."
+      "content": "Lactococcus species are primarily associated with dairy fermentation rather than vegetables. Lactococcus lactis is one of the most commercially important LAB species globally - it's the primary culture in cheese, buttermilk, and cultured cream production. It grows best at mesophilic temperatures (20–30 °C) and is less salt-tolerant than Lactobacillus, which is why it's less common in brined vegetable ferments."
     },
     {
       "id": "succession",
@@ -145,7 +145,7 @@
     {
       "id": "succession-text",
       "type": "paragraph",
-      "content": "One of the most fascinating aspects of lacto-fermentation is how different bacterial species naturally succeed one another in a predictable sequence [[article:how-lacto-fermentation-works]]. You don't need to add cultures or manage the process — the bacteria do it themselves:"
+      "content": "One of the most fascinating aspects of lacto-fermentation is how different bacterial species naturally succeed one another in a predictable sequence [[article:how-lacto-fermentation-works]]. You don't need to add cultures or manage the process - the bacteria do it themselves:"
     },
     {
       "id": "succession-list",
@@ -168,14 +168,14 @@
     {
       "id": "where-text",
       "type": "paragraph",
-      "content": "You never need to buy lactic acid bacteria — they are already present on your vegetables. LAB populations on plant surfaces typically range from 10² to 10⁶ colony-forming units per gram, depending on the vegetable, growing conditions, and handling [cite:c1]. Organic vegetables tend to carry higher LAB populations because they haven't been treated with antimicrobial agents. Vegetables from open-air markets (like Bengaluru's KR Market) typically have richer microbial communities than supermarket produce."
+      "content": "You never need to buy lactic acid bacteria - they are already present on your vegetables. LAB populations on plant surfaces typically range from 10² to 10⁶ colony-forming units per gram, depending on the vegetable, growing conditions, and handling [cite:c1]. Organic vegetables tend to carry higher LAB populations because they haven't been treated with antimicrobial agents. Vegetables from open-air markets (like Bengaluru's KR Market) typically have richer microbial communities than supermarket produce."
     },
     {
       "id": "where-callout",
       "type": "callout",
       "style": "tip",
       "title": "No Starter Needed",
-      "content": "For vegetable fermentation, you almost never need a starter culture. The bacteria are already there. Salt selects for them, and the anaerobic environment you create does the rest. This is 'wild fermentation' in the truest sense. The exception is dairy ferments like dahi [[recipe:dahi-homemade]], where a spoonful of existing culture is used to inoculate warm milk — because dairy LAB species are different from vegetable LAB species."
+      "content": "For vegetable fermentation, you almost never need a starter culture. The bacteria are already there. Salt selects for them, and the anaerobic environment you create does the rest. This is 'wild fermentation' in the truest sense. The exception is dairy ferments like dahi [[recipe:dahi-homemade]], where a spoonful of existing culture is used to inoculate warm milk - because dairy LAB species are different from vegetable LAB species."
     },
     {
       "id": "probiotics",
@@ -186,7 +186,7 @@
     {
       "id": "probiotics-text",
       "type": "paragraph",
-      "content": "Many LAB species are classified as probiotics — live microorganisms that, when consumed in adequate amounts, confer a health benefit on the host [cite:c6]. L. plantarum, L. rhamnosus, and L. acidophilus are among the most studied probiotic species. However, for the probiotic benefits of fermented foods, the food must be unpasteurised — heat kills the bacteria. This is why store-bought sauerkraut that's been canned or pasteurised doesn't offer the same benefits as a live, bubbling jar from your kitchen."
+      "content": "Many LAB species are classified as probiotics - live microorganisms that, when consumed in adequate amounts, confer a health benefit on the host [cite:c6]. L. plantarum, L. rhamnosus, and L. acidophilus are among the most studied probiotic species. However, for the probiotic benefits of fermented foods, the food must be unpasteurised - heat kills the bacteria. This is why store-bought sauerkraut that's been canned or pasteurised doesn't offer the same benefits as a live, bubbling jar from your kitchen."
     }
   ],
   "citations": [

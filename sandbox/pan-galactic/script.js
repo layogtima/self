@@ -57,7 +57,7 @@ const gameData = {
         betelgeuse: {
             id: "betelgeuse",
             name: "Betelgeuse Trading Platform",
-            description: "A bustling commercial hub where anything can be bought or sold—emphasis on anything.",
+            description: "A bustling commercial hub where anything can be bought or sold-emphasis on anything.",
             guideEntry: "The Betelgeuse Trading Platform was built from the recycled remains of a Golgafrinchan ark. Steer clear of anyone trying to sell you a slightly used telephone sanitizer.",
             marketModifiers: {
                 "towel": 1.0,
@@ -214,7 +214,7 @@ const gameData = {
             id: "milliways",
             name: "Milliways",
             description: "The Restaurant at the End of the Universe, where patrons enjoy watching the destruction of the cosmos over dinner.",
-            guideEntry: "Milliways, the Restaurant at the End of the Universe, offers diners the opportunity to view a Gnab Gib—the opposite of a Big Bang—as they enjoy their meal. The food is, quite literally, to die for.",
+            guideEntry: "Milliways, the Restaurant at the End of the Universe, offers diners the opportunity to view a Gnab Gib-the opposite of a Big Bang-as they enjoy their meal. The food is, quite literally, to die for.",
             marketModifiers: {
                 "towel": 1.5,
                 "guide": 1.3,

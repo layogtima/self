@@ -1,5 +1,5 @@
 /**
- * FERMENT — Pantry ↔ Recipe Matching
+ * FERMENT - Pantry ↔ Recipe Matching
  * Powers the "What Can I Make?" feature
  */
 
@@ -29,7 +29,7 @@ const FermentMatching = {
       if (pantryNames.has(ingName)) {
         matched.push(ing);
       } else {
-        // Check substitutions — sub can be a string or an object with a name property
+        // Check substitutions - sub can be a string or an object with a name property
         const hasSub = (ing.substitutions || []).some(sub => {
           const subName = typeof sub === 'string' ? sub : (sub && sub.name);
           return subName && pantryNames.has(subName.toLowerCase().trim());

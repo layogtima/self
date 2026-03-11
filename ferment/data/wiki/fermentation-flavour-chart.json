@@ -8,7 +8,7 @@
     "title": "Fermentation Flavour Chart",
     "image": {
       "url": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Taste_buds.svg",
-      "caption": "The five basic tastes — sour, salty, umami, bitter, and sweet — are all represented in fermented foods",
+      "caption": "The five basic tastes - sour, salty, umami, bitter, and sweet - are all represented in fermented foods",
       "attribution": "Wikimedia Commons, CC BY-SA 3.0"
     },
     "facts": [
@@ -25,7 +25,7 @@
     {
       "id": "intro",
       "type": "paragraph",
-      "content": "Fermented foods are among the most flavour-dense ingredients on the planet. A spoonful of aged miso contains hundreds of volatile flavour compounds; a forkful of well-made sauerkraut balances sour, salty, and subtly sweet in a way no vinegar-pickled cabbage can replicate. But these flavours don't appear by accident — they emerge from a predictable interplay of microbial metabolism, enzymatic breakdown, and chemical transformation over time. Understanding this interplay gives you the power to steer your ferments toward the flavour profile you want. This article maps the landscape of fermentation flavour: what creates each taste, how it develops over time, and how you can control it [[article:how-lacto-fermentation-works]]."
+      "content": "Fermented foods are among the most flavour-dense ingredients on the planet. A spoonful of aged miso contains hundreds of volatile flavour compounds; a forkful of well-made sauerkraut balances sour, salty, and subtly sweet in a way no vinegar-pickled cabbage can replicate. But these flavours don't appear by accident - they emerge from a predictable interplay of microbial metabolism, enzymatic breakdown, and chemical transformation over time. Understanding this interplay gives you the power to steer your ferments toward the flavour profile you want. This article maps the landscape of fermentation flavour: what creates each taste, how it develops over time, and how you can control it [[article:how-lacto-fermentation-works]]."
     },
     {
       "id": "flavour-wheel",
@@ -57,7 +57,7 @@
       "type": "callout",
       "style": "tip",
       "title": "Funky Is Not a Flaw",
-      "content": "The 'funky' sector is the most divisive — and the most culturally dependent. What smells repulsive to one person may be deeply appetising to another. Korean mukeunji (aged kimchi), Japanese natto, and French Époisses cheese all occupy this sector. The compounds responsible — short-chain fatty acids, biogenic amines, and volatile sulfur compounds — are produced by extended fermentation and specific microbial communities. Embrace or avoid this sector according to your palate, but know that it represents some of the most nutritionally complex fermented foods on earth [cite:c2]."
+      "content": "The 'funky' sector is the most divisive - and the most culturally dependent. What smells repulsive to one person may be deeply appetising to another. Korean mukeunji (aged kimchi), Japanese natto, and French Époisses cheese all occupy this sector. The compounds responsible - short-chain fatty acids, biogenic amines, and volatile sulfur compounds - are produced by extended fermentation and specific microbial communities. Embrace or avoid this sector according to your palate, but know that it represents some of the most nutritionally complex fermented foods on earth [cite:c2]."
     },
     {
       "id": "taste-profiles-over-time",
@@ -68,7 +68,7 @@
     {
       "id": "taste-profiles-intro",
       "type": "paragraph",
-      "content": "A ferment's flavour is not static — it is a moving target. The taste on day one bears little resemblance to the taste at day thirty, and even less to the taste at six months. This is because different microbial populations dominate at different stages, each producing distinct metabolites. Additionally, enzymatic reactions continue to break down complex molecules into simpler, more flavourful ones over extended periods [[article:lactic-acid-bacteria]]."
+      "content": "A ferment's flavour is not static - it is a moving target. The taste on day one bears little resemblance to the taste at day thirty, and even less to the taste at six months. This is because different microbial populations dominate at different stages, each producing distinct metabolites. Additionally, enzymatic reactions continue to break down complex molecules into simpler, more flavourful ones over extended periods [[article:lactic-acid-bacteria]]."
     },
     {
       "id": "sourness-heading",
@@ -79,7 +79,7 @@
     {
       "id": "sourness-text",
       "type": "paragraph",
-      "content": "Sourness is the signature flavour of lacto-fermentation. It emerges rapidly — within 24–72 hours in warm conditions — as Leuconostoc mesenteroides and then Lactobacillus plantarum convert sugars to lactic acid [[article:ph-levels-fermentation]]. The sourness trajectory follows the pH curve: a gentle start, a steep plunge, and a long plateau. At room temperature in Bengaluru (~25 °C), a vegetable ferment will be noticeably sour by day 2–3 and sharply sour by day 7–10. In a cool European cellar at 12–15 °C, the same degree of sourness might take 14–21 days to develop. The type of acid matters too: lactic acid produces a smooth, round sourness, while acetic acid (produced by heterofermentative bacteria and by Acetobacter in aerobic conditions) produces a sharper, more vinegar-like tang [cite:c3]."
+      "content": "Sourness is the signature flavour of lacto-fermentation. It emerges rapidly - within 24–72 hours in warm conditions - as Leuconostoc mesenteroides and then Lactobacillus plantarum convert sugars to lactic acid [[article:ph-levels-fermentation]]. The sourness trajectory follows the pH curve: a gentle start, a steep plunge, and a long plateau. At room temperature in Bengaluru (~25 °C), a vegetable ferment will be noticeably sour by day 2–3 and sharply sour by day 7–10. In a cool European cellar at 12–15 °C, the same degree of sourness might take 14–21 days to develop. The type of acid matters too: lactic acid produces a smooth, round sourness, while acetic acid (produced by heterofermentative bacteria and by Acetobacter in aerobic conditions) produces a sharper, more vinegar-like tang [cite:c3]."
     },
     {
       "id": "umami-heading",
@@ -90,7 +90,7 @@
     {
       "id": "umami-text",
       "type": "paragraph",
-      "content": "Umami is the slow-building reward of patience. It develops primarily through proteolysis — the enzymatic breakdown of proteins into free amino acids, especially glutamic acid [cite:c4]. In vegetable ferments, umami is subtle: the breakdown of plant cell proteins releases small amounts of glutamate over weeks. In protein-rich ferments like miso [[recipe:miso-paste-basic]], soy sauce, and fish sauce, umami is the dominant flavour, built over months or years of koji enzyme activity. A young miso (3 months) is salty and mildly sweet; a two-year hatcho miso is a umami bomb, dense with glutamates and melanoidins from Maillard reactions. The lesson: if you want umami, ferment protein-rich substrates for a long time."
+      "content": "Umami is the slow-building reward of patience. It develops primarily through proteolysis - the enzymatic breakdown of proteins into free amino acids, especially glutamic acid [cite:c4]. In vegetable ferments, umami is subtle: the breakdown of plant cell proteins releases small amounts of glutamate over weeks. In protein-rich ferments like miso [[recipe:miso-paste-basic]], soy sauce, and fish sauce, umami is the dominant flavour, built over months or years of koji enzyme activity. A young miso (3 months) is salty and mildly sweet; a two-year hatcho miso is a umami bomb, dense with glutamates and melanoidins from Maillard reactions. The lesson: if you want umami, ferment protein-rich substrates for a long time."
     },
     {
       "id": "funk-heading",
@@ -101,7 +101,7 @@
     {
       "id": "funk-text",
       "type": "paragraph",
-      "content": "Funk is what happens when fermentation goes beyond simple acid production into the realm of complex biochemistry. Volatile sulfur compounds (think aged kimchi or ripe cheese), short-chain fatty acids (butyric acid's distinctive smell), biogenic amines (histamine, tyramine), and esters (fruity notes in beer and wine) all contribute to the 'funky' dimension. These compounds emerge in the later stages of fermentation, often after the primary lactic acid bacteria have done their work and secondary organisms — yeasts, moulds, and slower-growing bacteria — take over. Extended anaerobic storage, higher temperatures, and protein-rich substrates all push ferments toward greater funk [cite:c5]."
+      "content": "Funk is what happens when fermentation goes beyond simple acid production into the realm of complex biochemistry. Volatile sulfur compounds (think aged kimchi or ripe cheese), short-chain fatty acids (butyric acid's distinctive smell), biogenic amines (histamine, tyramine), and esters (fruity notes in beer and wine) all contribute to the 'funky' dimension. These compounds emerge in the later stages of fermentation, often after the primary lactic acid bacteria have done their work and secondary organisms - yeasts, moulds, and slower-growing bacteria - take over. Extended anaerobic storage, higher temperatures, and protein-rich substrates all push ferments toward greater funk [cite:c5]."
     },
     {
       "id": "effervescence-heading",
@@ -123,7 +123,7 @@
     {
       "id": "variables-intro",
       "type": "paragraph",
-      "content": "While dozens of factors influence fermentation flavour — vegetable variety, water chemistry [[article:water-quality-and-fermentation]], ambient microflora, vessel material — three variables give the home fermenter the most direct control over the final taste: salt concentration, temperature, and duration. These are your primary levers."
+      "content": "While dozens of factors influence fermentation flavour - vegetable variety, water chemistry [[article:water-quality-and-fermentation]], ambient microflora, vessel material - three variables give the home fermenter the most direct control over the final taste: salt concentration, temperature, and duration. These are your primary levers."
     },
     {
       "id": "salt-heading",
@@ -134,7 +134,7 @@
     {
       "id": "salt-text",
       "type": "paragraph",
-      "content": "Salt does far more than add saltiness — it is the master regulator of fermentation speed and microbial ecology [[article:salt-and-fermentation]]. Higher salt concentrations slow fermentation by inhibiting bacterial growth through osmotic stress. This has profound flavour consequences: a 2% salt sauerkraut ferments quickly, producing a bright, clean sourness dominated by lactic acid. A 5% salt ferment is slower, allowing more complex flavour compounds to develop but also risking a saltier final product. Beyond 8–10%, most lactic acid bacteria are inhibited and halophilic (salt-loving) organisms take over — this is the world of fish sauce, shrimp paste, and some traditional soy sauces, where extreme salinity selects for specialised microbes that produce intense umami and funk over many months [cite:c6]."
+      "content": "Salt does far more than add saltiness - it is the master regulator of fermentation speed and microbial ecology [[article:salt-and-fermentation]]. Higher salt concentrations slow fermentation by inhibiting bacterial growth through osmotic stress. This has profound flavour consequences: a 2% salt sauerkraut ferments quickly, producing a bright, clean sourness dominated by lactic acid. A 5% salt ferment is slower, allowing more complex flavour compounds to develop but also risking a saltier final product. Beyond 8–10%, most lactic acid bacteria are inhibited and halophilic (salt-loving) organisms take over - this is the world of fish sauce, shrimp paste, and some traditional soy sauces, where extreme salinity selects for specialised microbes that produce intense umami and funk over many months [cite:c6]."
     },
     {
       "id": "salt-flavour-table",
@@ -158,7 +158,7 @@
     {
       "id": "temperature-text",
       "type": "paragraph",
-      "content": "Temperature is the accelerator pedal of fermentation [[article:temperature-and-fermentation]]. Every 10 °C increase roughly doubles the metabolic rate of lactic acid bacteria. But speed comes at a cost to complexity. Cool fermentation (10–18 °C) favours a broader succession of microbial species, each contributing different metabolites. Heterofermentative bacteria like Leuconostoc thrive at lower temperatures and produce not just lactic acid but also acetic acid, ethanol, CO₂, and various esters — all contributing to flavour complexity [cite:c3]. Warm fermentation (25–35 °C) favours fast-growing homofermentative species like L. plantarum that produce almost exclusively lactic acid — clean and sour, but less nuanced."
+      "content": "Temperature is the accelerator pedal of fermentation [[article:temperature-and-fermentation]]. Every 10 °C increase roughly doubles the metabolic rate of lactic acid bacteria. But speed comes at a cost to complexity. Cool fermentation (10–18 °C) favours a broader succession of microbial species, each contributing different metabolites. Heterofermentative bacteria like Leuconostoc thrive at lower temperatures and produce not just lactic acid but also acetic acid, ethanol, CO₂, and various esters - all contributing to flavour complexity [cite:c3]. Warm fermentation (25–35 °C) favours fast-growing homofermentative species like L. plantarum that produce almost exclusively lactic acid - clean and sour, but less nuanced."
     },
     {
       "id": "temperature-flavour-table",
@@ -189,7 +189,7 @@
     {
       "id": "time-text",
       "type": "paragraph",
-      "content": "Time is the most powerful flavour variable — and the most patient one. The difference between a 5-day and a 5-month ferment is not merely one of degree; it is a difference in kind. Time allows successive waves of microbial activity, progressive enzymatic breakdown of complex molecules, and slow chemical reactions like the Maillard reaction (in amino acid-rich environments) and esterification (producing fruity and floral aromas). There is no shortcut: the depth of a two-year miso or a twelve-month fish sauce cannot be replicated by fermenting faster at higher temperatures [cite:c4]."
+      "content": "Time is the most powerful flavour variable - and the most patient one. The difference between a 5-day and a 5-month ferment is not merely one of degree; it is a difference in kind. Time allows successive waves of microbial activity, progressive enzymatic breakdown of complex molecules, and slow chemical reactions like the Maillard reaction (in amino acid-rich environments) and esterification (producing fruity and floral aromas). There is no shortcut: the depth of a two-year miso or a twelve-month fish sauce cannot be replicated by fermenting faster at higher temperatures [cite:c4]."
     },
     {
       "id": "development-stages",
@@ -211,7 +211,7 @@
     {
       "id": "early-stage-text",
       "type": "paragraph",
-      "content": "The ferment still tastes largely like its raw ingredients, but with a slight effervescence and a hint of tang. Salt flavour is most prominent. The brine may be slightly cloudy. CO₂ bubbles are beginning to form. The dominant organisms are gram-negative bacteria and early colonisers like Leuconostoc mesenteroides. This is the stage where kimchi is eaten as 'geotjeori' (fresh kimchi) in Korean cuisine — barely fermented, crunchy, and vibrant [[recipe:kimchi-traditional]]."
+      "content": "The ferment still tastes largely like its raw ingredients, but with a slight effervescence and a hint of tang. Salt flavour is most prominent. The brine may be slightly cloudy. CO₂ bubbles are beginning to form. The dominant organisms are gram-negative bacteria and early colonisers like Leuconostoc mesenteroides. This is the stage where kimchi is eaten as 'geotjeori' (fresh kimchi) in Korean cuisine - barely fermented, crunchy, and vibrant [[recipe:kimchi-traditional]]."
     },
     {
       "id": "early-stage-list",
@@ -257,7 +257,7 @@
     {
       "id": "mature-stage-text",
       "type": "paragraph",
-      "content": "The ferment has reached full sourness and is now developing secondary flavours. Umami notes begin to emerge as proteins break down. The overall flavour becomes rounder and more integrated — individual ingredients meld into a cohesive whole. Texture is noticeably softer. This is the sweet spot for many fermenters: maximum complexity with good acidity. Sauerkraut at this stage has a mellow tanginess quite different from its sharp week-one sourness. Kimchi develops the characteristic depth that makes it essential in Korean cooking — this is the stage used in kimchi-jjigae (kimchi stew) and kimchi-bokkeumbap (kimchi fried rice)."
+      "content": "The ferment has reached full sourness and is now developing secondary flavours. Umami notes begin to emerge as proteins break down. The overall flavour becomes rounder and more integrated - individual ingredients meld into a cohesive whole. Texture is noticeably softer. This is the sweet spot for many fermenters: maximum complexity with good acidity. Sauerkraut at this stage has a mellow tanginess quite different from its sharp week-one sourness. Kimchi develops the characteristic depth that makes it essential in Korean cooking - this is the stage used in kimchi-jjigae (kimchi stew) and kimchi-bokkeumbap (kimchi fried rice)."
     },
     {
       "id": "mature-stage-list",
@@ -280,7 +280,7 @@
     {
       "id": "aged-stage-text",
       "type": "paragraph",
-      "content": "Extended aging transforms a ferment into something entirely new. In Korean tradition, kimchi aged for months (mukeunji) develops profound umami, a funky pungency, and a complexity that makes it a cooking ingredient rather than a side dish. Sauerkraut aged for months becomes milder in sourness (as acids are slowly metabolised by secondary organisms) but develops deeper savoury notes. Protein-rich ferments like miso and fish sauce undergo dramatic transformation during long aging: Maillard browning deepens colour, proteolysis releases waves of glutamate, and slow esterification creates subtle fruity and floral background notes. The 'funk' sector of the flavour wheel is most active here — volatile sulfur compounds, biogenic amines, and short-chain fatty acids create the complex aromas that define aged fermented foods [cite:c5]."
+      "content": "Extended aging transforms a ferment into something entirely new. In Korean tradition, kimchi aged for months (mukeunji) develops profound umami, a funky pungency, and a complexity that makes it a cooking ingredient rather than a side dish. Sauerkraut aged for months becomes milder in sourness (as acids are slowly metabolised by secondary organisms) but develops deeper savoury notes. Protein-rich ferments like miso and fish sauce undergo dramatic transformation during long aging: Maillard browning deepens colour, proteolysis releases waves of glutamate, and slow esterification creates subtle fruity and floral background notes. The 'funk' sector of the flavour wheel is most active here - volatile sulfur compounds, biogenic amines, and short-chain fatty acids create the complex aromas that define aged fermented foods [cite:c5]."
     },
     {
       "id": "aged-stage-list",
@@ -311,7 +311,7 @@
       "type": "callout",
       "style": "tip",
       "title": "Finding Your Stage",
-      "content": "There is no objectively 'correct' stage to eat a ferment. Koreans prize both fresh geotjeori and ancient mukeunji. Germans enjoy sauerkraut anywhere from three weeks to three months old. Taste your ferment regularly and refrigerate it when it reaches the flavour you enjoy — the cold will dramatically slow further development without halting it entirely [[article:temperature-and-fermentation]]."
+      "content": "There is no objectively 'correct' stage to eat a ferment. Koreans prize both fresh geotjeori and ancient mukeunji. Germans enjoy sauerkraut anywhere from three weeks to three months old. Taste your ferment regularly and refrigerate it when it reaches the flavour you enjoy - the cold will dramatically slow further development without halting it entirely [[article:temperature-and-fermentation]]."
     },
     {
       "id": "regional-preferences",
@@ -345,7 +345,7 @@
       "type": "callout",
       "style": "info",
       "title": "Climate Shapes Flavour",
-      "content": "It is no coincidence that the most intensely funky ferments come from warm climates (Southeast Asian fish sauce, West African dawadawa) while the cleanest, most purely sour ferments come from cooler regions (German sauerkraut, Scandinavian surstroemming aside). Warmth accelerates microbial activity and pushes fermentation further along the flavour spectrum toward complexity and funk. Cooler climates naturally produce slower, cleaner ferments. Both approaches are valid — they simply occupy different regions of the flavour wheel [cite:c7]."
+      "content": "It is no coincidence that the most intensely funky ferments come from warm climates (Southeast Asian fish sauce, West African dawadawa) while the cleanest, most purely sour ferments come from cooler regions (German sauerkraut, Scandinavian surstroemming aside). Warmth accelerates microbial activity and pushes fermentation further along the flavour spectrum toward complexity and funk. Cooler climates naturally produce slower, cleaner ferments. Both approaches are valid - they simply occupy different regions of the flavour wheel [cite:c7]."
     },
     {
       "id": "interaction-heading",
@@ -356,7 +356,7 @@
     {
       "id": "interaction-text",
       "type": "paragraph",
-      "content": "The six flavour sectors do not operate independently — they modulate each other in important ways. Understanding these interactions helps you balance a ferment or troubleshoot one that tastes 'off'."
+      "content": "The six flavour sectors do not operate independently - they modulate each other in important ways. Understanding these interactions helps you balance a ferment or troubleshoot one that tastes 'off'."
     },
     {
       "id": "interaction-table",
@@ -369,7 +369,7 @@
         ["Sourness suppresses sweetness", "Acidity makes residual sugars less perceptible", "Kombucha tastes less sweet than the sugar content suggests"],
         ["Umami suppresses bitterness", "Free glutamates mask bitter peptides", "Long-aged miso is less bitter than young miso despite more peptides"],
         ["Sweetness suppresses sourness", "Residual sugars round out sharp acidity", "Adding honey to fermented hot sauce softens the tang"],
-        ["Funk can mask everything", "Intense volatile aromas dominate perception", "Very aged kimchi — the funk is the first thing you notice, not the sourness"],
+        ["Funk can mask everything", "Intense volatile aromas dominate perception", "Very aged kimchi - the funk is the first thing you notice, not the sourness"],
         ["Effervescence enhances sourness", "CO₂ forms carbonic acid; fizz makes acid feel sharper", "Fresh kombucha tastes more sour than flat kombucha at the same pH"]
       ]
     },
@@ -397,7 +397,7 @@
       "items": [
         "Use less salt (1.5–2%) to allow faster acid production [[article:salt-and-fermentation]]",
         "Ferment at warmer temperatures (25–30 °C) for faster lactic acid accumulation",
-        "Allow more time — sourness continues building until sugars are depleted",
+        "Allow more time - sourness continues building until sugars are depleted",
         "Choose vegetables with higher natural sugar content (cabbage, beets, carrots) for more substrate for acid production",
         "Avoid opening the vessel frequently, which can introduce Acetobacter and shift toward vinegar-like acidity"
       ]
@@ -414,7 +414,7 @@
       "ordered": false,
       "items": [
         "Include protein-rich ingredients: soybeans, fish, mushrooms, seaweed, legumes",
-        "Ferment for longer — proteolysis needs weeks to months to release significant glutamate",
+        "Ferment for longer - proteolysis needs weeks to months to release significant glutamate",
         "Use koji (Aspergillus oryzae) as a proteolytic enzyme source for dramatic umami amplification [[recipe:miso-paste-basic]]",
         "Add a strip of kombu seaweed to vegetable ferments for a umami boost",
         "Consider a small amount of fish sauce or soy sauce in vegetable ferments as a 'umami starter'"
@@ -433,7 +433,7 @@
       "items": [
         "Refrigerate earlier to halt secondary microbial activity",
         "Use lower salt (promotes faster, cleaner lactic acid fermentation)",
-        "Keep fermentation anaerobic — oxygen exposure encourages surface yeasts and moulds",
+        "Keep fermentation anaerobic - oxygen exposure encourages surface yeasts and moulds",
         "Avoid protein-rich additions if you want a clean-tasting vegetable ferment",
         "Ferment at cooler temperatures for a slower, cleaner microbial succession"
       ]
@@ -465,7 +465,7 @@
     {
       "id": "pairing-intro",
       "type": "paragraph",
-      "content": "Fermented foods are not just standalone side dishes — they are flavour amplifiers, condiments, and secret weapons in the kitchen. The high acidity, umami content, and complex aromas of fermented foods make them natural partners for a wide range of dishes. The basic principle is contrast and complement: fermented foods cut through richness, brighten heavy dishes, add depth to simple ones, and provide probiotic benefits alongside their culinary role."
+      "content": "Fermented foods are not just standalone side dishes - they are flavour amplifiers, condiments, and secret weapons in the kitchen. The high acidity, umami content, and complex aromas of fermented foods make them natural partners for a wide range of dishes. The basic principle is contrast and complement: fermented foods cut through richness, brighten heavy dishes, add depth to simple ones, and provide probiotic benefits alongside their culinary role."
     },
     {
       "id": "pairing-table",
@@ -486,7 +486,7 @@
       "type": "callout",
       "style": "tip",
       "title": "The Golden Rule of Pairing",
-      "content": "When in doubt, pair rich with sour and bland with umami. A bowl of plain rice is transformed by a spoonful of aged kimchi (umami + sour + funk). A rich pork ragu is balanced by a side of bright, crunchy sauerkraut (acid + texture). A simple vegetable soup becomes extraordinary with a spoonful of miso stirred in at the end (umami + salt). Start small — a tablespoon of ferment as a condiment — and adjust to taste."
+      "content": "When in doubt, pair rich with sour and bland with umami. A bowl of plain rice is transformed by a spoonful of aged kimchi (umami + sour + funk). A rich pork ragu is balanced by a side of bright, crunchy sauerkraut (acid + texture). A simple vegetable soup becomes extraordinary with a spoonful of miso stirred in at the end (umami + salt). Start small - a tablespoon of ferment as a condiment - and adjust to taste."
     },
     {
       "id": "pairing-principles-heading",
@@ -518,7 +518,7 @@
       "rows": [
         ["Vinegary sharpness", "Harsh, biting acidity (not smooth)", "Acetic acid from oxygen exposure or Acetobacter", "Ensure anaerobic conditions; keep vegetables submerged; seal vessel better"],
         ["Alcohol / boozy", "Wine-like or yeasty", "Yeast fermentation of sugars (common in warm, sugary ferments)", "Reduce sugar content; ferment cooler; ensure LAB dominance with proper salt"],
-        ["Rotten egg / sulfurous", "Sulfur, rotten eggs", "Sulfur-producing bacteria; common with brassicas early on", "Usually transient — ventilate and wait; reduce temperature slightly"],
+        ["Rotten egg / sulfurous", "Sulfur, rotten eggs", "Sulfur-producing bacteria; common with brassicas early on", "Usually transient - ventilate and wait; reduce temperature slightly"],
         ["Soapy / metallic", "Soap, metal, chemical", "Rancid fats (lipid oxidation); reactive metals from vessel", "Use non-reactive vessels (glass, ceramic, food-grade plastic); avoid adding oils"],
         ["Musty / earthy", "Damp basement, mould", "Surface mould; contaminated spices", "Remove mould and surface layer; use fresh spices [[article:aromatics-spices-herbs-in-fermentation]]; improve seal"],
         ["Excessively bitter", "Harsh, lingering bitterness", "Over-extraction of bitter compounds; certain peptides from proteolysis", "Add salt to suppress bitterness; blend with sweeter ferments; age longer (umami will mask it)"],
@@ -541,7 +541,7 @@
       "type": "list",
       "ordered": true,
       "items": [
-        "**Glycolysis and lactic acid production**: Sugars (glucose, fructose, sucrose) are metabolised to lactic acid via the Embden-Meyerhof-Parnas pathway (homofermentative) or the phosphoketolase pathway (heterofermentative). Homofermentation yields 2 moles of lactic acid per mole of glucose. Heterofermentation yields lactic acid plus ethanol, acetic acid, and CO₂ — contributing more flavour complexity [cite:c3].",
+        "**Glycolysis and lactic acid production**: Sugars (glucose, fructose, sucrose) are metabolised to lactic acid via the Embden-Meyerhof-Parnas pathway (homofermentative) or the phosphoketolase pathway (heterofermentative). Homofermentation yields 2 moles of lactic acid per mole of glucose. Heterofermentation yields lactic acid plus ethanol, acetic acid, and CO₂ - contributing more flavour complexity [cite:c3].",
         "**Proteolysis**: Enzymes (from microbes, from koji, or from the food itself) cleave proteins into peptides and free amino acids. Glutamic acid is the primary umami amino acid. This process accelerates over weeks and months, which is why umami builds slowly [cite:c4].",
         "**Lipolysis**: Fats are broken down into free fatty acids and glycerol. Short-chain fatty acids (butyric, caproic) contribute funky aromas. Medium-chain fatty acids contribute soapy off-notes if excessive.",
         "**Esterification**: Organic acids react with alcohols to form esters, which contribute fruity and floral aromas. This is a slow chemical (non-enzymatic) reaction that requires months, explaining why aged ferments develop aromatic complexity that young ones lack.",
@@ -582,14 +582,14 @@
     {
       "id": "putting-it-together-text",
       "type": "paragraph",
-      "content": "The Fermentation Flavour Chart is not a rigid framework — it is a map of possibilities. Every ferment you make occupies a unique point in the flavour space defined by its ingredients, salt level, temperature history, duration, and the particular community of microbes that colonised it. By understanding the six flavour sectors, the four development stages, and the three primary control levers, you gain the ability to navigate this space intentionally rather than by accident. Start by tasting your ferments regularly and noting how they change. Experiment with one variable at a time: try the same sauerkraut recipe at 2% salt and at 3.5% salt. Ferment one jar at room temperature and another in the fridge after day 3. Taste them side by side at one week, two weeks, four weeks. You will quickly develop an intuitive understanding of how the levers affect flavour — and you'll find your own preferred corner of the flavour chart [[article:how-lacto-fermentation-works]]."
+      "content": "The Fermentation Flavour Chart is not a rigid framework - it is a map of possibilities. Every ferment you make occupies a unique point in the flavour space defined by its ingredients, salt level, temperature history, duration, and the particular community of microbes that colonised it. By understanding the six flavour sectors, the four development stages, and the three primary control levers, you gain the ability to navigate this space intentionally rather than by accident. Start by tasting your ferments regularly and noting how they change. Experiment with one variable at a time: try the same sauerkraut recipe at 2% salt and at 3.5% salt. Ferment one jar at room temperature and another in the fridge after day 3. Taste them side by side at one week, two weeks, four weeks. You will quickly develop an intuitive understanding of how the levers affect flavour - and you'll find your own preferred corner of the flavour chart [[article:how-lacto-fermentation-works]]."
     },
     {
       "id": "summary-callout",
       "type": "callout",
       "style": "info",
       "title": "The Flavour Chart in One Sentence",
-      "content": "Less salt, more warmth, and less time give you bright, clean sourness; more salt, cooler temperatures, and much more time give you deep umami and complex funk — and the entire spectrum between these poles is yours to explore."
+      "content": "Less salt, more warmth, and less time give you bright, clean sourness; more salt, cooler temperatures, and much more time give you deep umami and complex funk - and the entire spectrum between these poles is yours to explore."
     }
   ],
   "citations": [

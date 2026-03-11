@@ -1,5 +1,5 @@
 /**
- * FERMENT — Search Engine
+ * FERMENT - Search Engine
  * Fuzzy full-text search across recipes
  */
 
@@ -34,7 +34,7 @@ const FermentSearch = {
   },
 
   /**
-   * Simple fuzzy search — returns matching recipe IDs sorted by relevance
+   * Simple fuzzy search - returns matching recipe IDs sorted by relevance
    */
   search(query, index) {
     if (!query || !query.trim()) return null; // null means "no filter"
@@ -70,7 +70,7 @@ const FermentSearch = {
   },
 
   /**
-   * Simple fuzzy matching — returns 0..1 similarity score
+   * Simple fuzzy matching - returns 0..1 similarity score
    */
   fuzzyMatch(needle, haystack) {
     if (haystack.includes(needle)) return 1;

@@ -8,7 +8,7 @@
     "title": "Lacto-Fermentation",
     "image": {
       "url": "https://upload.wikimedia.org/wikipedia/commons/4/48/Sauerkraut_in_jar.jpg",
-      "caption": "Sauerkraut fermenting in a glass jar — one of the simplest examples of lacto-fermentation",
+      "caption": "Sauerkraut fermenting in a glass jar - one of the simplest examples of lacto-fermentation",
       "attribution": "Wikimedia Commons, CC BY-SA 3.0"
     },
     "facts": [
@@ -27,7 +27,7 @@
     {
       "id": "intro",
       "type": "paragraph",
-      "content": "Lacto-fermentation is one of the oldest and most widespread methods of food preservation in human history [cite:c1]. The name comes not from lactose or dairy, but from Lactobacillus — the genus of bacteria that drives the process — which itself was named after the Latin word lac, meaning milk, because it was first isolated from soured milk [cite:c2]. In lacto-fermentation, naturally occurring lactic acid bacteria (LAB) convert sugars present in food into lactic acid, carbon dioxide, and a complex array of flavour compounds. The resulting acidic environment preserves the food, creates distinctive tangy flavours, and often increases nutritional value."
+      "content": "Lacto-fermentation is one of the oldest and most widespread methods of food preservation in human history [cite:c1]. The name comes not from lactose or dairy, but from Lactobacillus - the genus of bacteria that drives the process - which itself was named after the Latin word lac, meaning milk, because it was first isolated from soured milk [cite:c2]. In lacto-fermentation, naturally occurring lactic acid bacteria (LAB) convert sugars present in food into lactic acid, carbon dioxide, and a complex array of flavour compounds. The resulting acidic environment preserves the food, creates distinctive tangy flavours, and often increases nutritional value."
     },
     {
       "id": "why-it-matters",
@@ -38,7 +38,7 @@
     {
       "id": "why-it-matters-text",
       "type": "paragraph",
-      "content": "Before refrigeration, lacto-fermentation was how communities across every continent preserved vegetables, dairy, fish, and grains through seasons of scarcity. It requires no special equipment, no electricity, and no purchased cultures — just salt, food, and time. The process is self-regulating: the acid produced by beneficial bacteria suppresses the growth of pathogenic organisms, making properly fermented foods remarkably safe [cite:c3]. Today, lacto-fermented foods are valued not just for their keeping qualities but for their complex flavours and probiotic benefits."
+      "content": "Before refrigeration, lacto-fermentation was how communities across every continent preserved vegetables, dairy, fish, and grains through seasons of scarcity. It requires no special equipment, no electricity, and no purchased cultures - just salt, food, and time. The process is self-regulating: the acid produced by beneficial bacteria suppresses the growth of pathogenic organisms, making properly fermented foods remarkably safe [cite:c3]. Today, lacto-fermented foods are valued not just for their keeping qualities but for their complex flavours and probiotic benefits."
     },
     {
       "id": "the-basic-mechanism",
@@ -56,7 +56,7 @@
       "type": "callout",
       "style": "info",
       "title": "The Core Reaction",
-      "content": "C₆H₁₂O₆ (glucose) → 2 CH₃CHOHCOOH (lactic acid)\n\nOne molecule of glucose yields two molecules of lactic acid. This is homofermentation — the simplest pathway. Heterofermentative bacteria also produce CO₂ and ethanol alongside the lactic acid, which is why your ferments bubble."
+      "content": "C₆H₁₂O₆ (glucose) → 2 CH₃CHOHCOOH (lactic acid)\n\nOne molecule of glucose yields two molecules of lactic acid. This is homofermentation - the simplest pathway. Heterofermentative bacteria also produce CO₂ and ethanol alongside the lactic acid, which is why your ferments bubble."
     },
     {
       "id": "three-phases",
@@ -89,7 +89,7 @@
     {
       "id": "phase1-text",
       "type": "paragraph",
-      "content": "When you first pack vegetables into a jar with salt, the environment is aerobic (oxygen-rich) and near-neutral pH. At this point, many different microorganisms are present — including some you don't want. Salt provides the first line of defence, creating osmotic pressure that inhibits most pathogens while lactic acid bacteria, being naturally salt-tolerant, thrive [cite:c6]. Leuconostoc mesenteroides is typically the first to flourish. It's a heterofermentative species, meaning it produces CO₂ alongside lactic acid. This carbon dioxide is critical — it displaces oxygen from the jar, creating the anaerobic conditions that favour LAB and suppress aerobic spoilage organisms [[article:role-of-carbon-dioxide]]."
+      "content": "When you first pack vegetables into a jar with salt, the environment is aerobic (oxygen-rich) and near-neutral pH. At this point, many different microorganisms are present - including some you don't want. Salt provides the first line of defence, creating osmotic pressure that inhibits most pathogens while lactic acid bacteria, being naturally salt-tolerant, thrive [cite:c6]. Leuconostoc mesenteroides is typically the first to flourish. It's a heterofermentative species, meaning it produces CO₂ alongside lactic acid. This carbon dioxide is critical - it displaces oxygen from the jar, creating the anaerobic conditions that favour LAB and suppress aerobic spoilage organisms [[article:role-of-carbon-dioxide]]."
     },
     {
       "id": "phase2-detail",
@@ -100,7 +100,7 @@
     {
       "id": "phase2-text",
       "type": "paragraph",
-      "content": "As the pH drops below 4.5, Leuconostoc begins to die off — it's not very acid-tolerant. Lactobacillus plantarum and Lactobacillus brevis now dominate. These are the workhorses of lacto-fermentation [[article:lactic-acid-bacteria]]. L. plantarum is homofermentative, efficiently converting sugars directly into lactic acid with minimal gas production. This is when the most dramatic flavour changes occur. The ferment becomes distinctly sour, and the characteristic 'fermented' flavour profile develops."
+      "content": "As the pH drops below 4.5, Leuconostoc begins to die off - it's not very acid-tolerant. Lactobacillus plantarum and Lactobacillus brevis now dominate. These are the workhorses of lacto-fermentation [[article:lactic-acid-bacteria]]. L. plantarum is homofermentative, efficiently converting sugars directly into lactic acid with minimal gas production. This is when the most dramatic flavour changes occur. The ferment becomes distinctly sour, and the characteristic 'fermented' flavour profile develops."
     },
     {
       "id": "phase3-detail",
@@ -111,7 +111,7 @@
     {
       "id": "phase3-text",
       "type": "paragraph",
-      "content": "Below pH 3.5, even some Lactobacillus species slow down. The ferment enters a stable storage phase where very slow biochemical changes continue to develop flavour complexity. This is why a 6-week sauerkraut [[recipe:sauerkraut-classic]] tastes different from a 2-week one — not more sour, but more nuanced. Some ferments, like certain kimchi styles, are intentionally aged for months or even years."
+      "content": "Below pH 3.5, even some Lactobacillus species slow down. The ferment enters a stable storage phase where very slow biochemical changes continue to develop flavour complexity. This is why a 6-week sauerkraut [[recipe:sauerkraut-classic]] tastes different from a 2-week one - not more sour, but more nuanced. Some ferments, like certain kimchi styles, are intentionally aged for months or even years."
     },
     {
       "id": "role-of-salt",
@@ -122,7 +122,7 @@
     {
       "id": "salt-text",
       "type": "paragraph",
-      "content": "Salt is not just flavouring — it's the controller of the entire process [[article:salt-and-fermentation]]. At 2–5% concentration, salt creates selective pressure: it inhibits most spoilage bacteria and pathogens while allowing salt-tolerant LAB to flourish. Salt also draws water out of vegetables by osmosis (in dry-salt methods like sauerkraut [[recipe:sauerkraut-classic]]), creating the brine that submerges the food and maintains anaerobic conditions. Too little salt and the ferment may spoil; too much and even the LAB are inhibited."
+      "content": "Salt is not just flavouring - it's the controller of the entire process [[article:salt-and-fermentation]]. At 2–5% concentration, salt creates selective pressure: it inhibits most spoilage bacteria and pathogens while allowing salt-tolerant LAB to flourish. Salt also draws water out of vegetables by osmosis (in dry-salt methods like sauerkraut [[recipe:sauerkraut-classic]]), creating the brine that submerges the food and maintains anaerobic conditions. Too little salt and the ferment may spoil; too much and even the LAB are inhibited."
     },
     {
       "id": "why-its-safe",
@@ -140,8 +140,8 @@
       "type": "list",
       "ordered": true,
       "items": [
-        "**Acidification**: Lactic acid drops the pH below 4.6 — the threshold below which Clostridium botulinum cannot produce toxin [[article:ph-levels-fermentation]]. Most ferments reach pH 3.0–3.5, well below this threshold.",
-        "**Competitive exclusion**: LAB multiply rapidly, consuming available sugars and physically crowding out pathogenic bacteria. They also produce bacteriocins — antimicrobial proteins that directly kill competitors.",
+        "**Acidification**: Lactic acid drops the pH below 4.6 - the threshold below which Clostridium botulinum cannot produce toxin [[article:ph-levels-fermentation]]. Most ferments reach pH 3.0–3.5, well below this threshold.",
+        "**Competitive exclusion**: LAB multiply rapidly, consuming available sugars and physically crowding out pathogenic bacteria. They also produce bacteriocins - antimicrobial proteins that directly kill competitors.",
         "**Anaerobic environment**: The absence of oxygen prevents the growth of most mould and aerobic spoilage organisms. Salt further tilts the playing field in favour of LAB."
       ]
     },
@@ -150,7 +150,7 @@
       "type": "callout",
       "style": "warning",
       "title": "When to Discard a Ferment",
-      "content": "While lacto-fermentation is inherently safe, always trust your senses. Discard if you see fuzzy mould (not white kahm yeast film — that's harmless), detect a putrid or chemically off smell (sour and funky is normal), or notice a slimy texture that doesn't match the expected result. See [[article:troubleshooting-ferments]] for detailed guidance."
+      "content": "While lacto-fermentation is inherently safe, always trust your senses. Discard if you see fuzzy mould (not white kahm yeast film - that's harmless), detect a putrid or chemically off smell (sour and funky is normal), or notice a slimy texture that doesn't match the expected result. See [[article:troubleshooting-ferments]] for detailed guidance."
     },
     {
       "id": "nutritional-benefits",
@@ -161,7 +161,7 @@
     {
       "id": "nutrition-text",
       "type": "paragraph",
-      "content": "Lacto-fermentation doesn't just preserve food — it can enhance its nutritional profile in several ways [cite:c7]:"
+      "content": "Lacto-fermentation doesn't just preserve food - it can enhance its nutritional profile in several ways [cite:c7]:"
     },
     {
       "id": "nutrition-list",
@@ -172,7 +172,7 @@
         "**Vitamin synthesis**: LAB can synthesise B vitamins (B12, folate, riboflavin) and vitamin K2 during fermentation.",
         "**Probiotic bacteria**: Live LAB cultures in unpasteurised fermented foods may support gut health by contributing to microbial diversity in the digestive tract.",
         "**Pre-digestion**: Complex carbohydrates and proteins are partially broken down, making the food easier to digest.",
-        "**Preserved vitamin C**: Unlike heat-based preservation methods, lacto-fermentation preserves and can even increase the vitamin C content of vegetables — which is why sauerkraut [[recipe:sauerkraut-classic]] prevented scurvy on sailing ships [cite:c1]."
+        "**Preserved vitamin C**: Unlike heat-based preservation methods, lacto-fermentation preserves and can even increase the vitamin C content of vegetables - which is why sauerkraut [[recipe:sauerkraut-classic]] prevented scurvy on sailing ships [cite:c1]."
       ]
     },
     {
@@ -184,14 +184,14 @@
     {
       "id": "worldwide-text",
       "type": "paragraph",
-      "content": "Every food culture in the world has independently developed lacto-fermentation traditions [[article:fermentation-traditions-worldwide]]. Korean kimchi, German sauerkraut, Indian achaar and kanji [[recipe:kanji-rice]], Japanese tsukemono, Turkish tursu, Salvadoran curtido [[recipe:curtido-salvadoran]] — the technique is universal because the bacteria are universal. Wherever there are plants and salt, there is lacto-fermentation."
+      "content": "Every food culture in the world has independently developed lacto-fermentation traditions [[article:fermentation-traditions-worldwide]]. Korean kimchi, German sauerkraut, Indian achaar and kanji [[recipe:kanji-rice]], Japanese tsukemono, Turkish tursu, Salvadoran curtido [[recipe:curtido-salvadoran]] - the technique is universal because the bacteria are universal. Wherever there are plants and salt, there is lacto-fermentation."
     },
     {
       "id": "blr-context",
       "type": "callout",
       "style": "tip",
       "title": "Bengaluru Advantage",
-      "content": "At Bengaluru's consistent ~25 °C ambient temperature, lacto-fermentation proceeds at an ideal pace — fast enough to be efficient but slow enough to develop good flavour. Most recipes in this app are calibrated for these conditions. In cooler climates, ferments take longer; in hotter ones, they can be aggressively fast and may need to be refrigerated sooner [[article:temperature-and-fermentation]]."
+      "content": "At Bengaluru's consistent ~25 °C ambient temperature, lacto-fermentation proceeds at an ideal pace - fast enough to be efficient but slow enough to develop good flavour. Most recipes in this app are calibrated for these conditions. In cooler climates, ferments take longer; in hotter ones, they can be aggressively fast and may need to be refrigerated sooner [[article:temperature-and-fermentation]]."
     },
     {
       "id": "getting-started",
@@ -202,7 +202,7 @@
     {
       "id": "getting-started-text",
       "type": "paragraph",
-      "content": "The beauty of lacto-fermentation is its simplicity. To make your first ferment, you need just two things: a vegetable and salt. Start with sauerkraut [[recipe:sauerkraut-classic]] — it's two ingredients, requires no special equipment, and teaches you the fundamental principle behind almost everything in this app. Once you've seen cabbage transform into something tangy and alive in your kitchen, you'll understand why humans have been doing this for millennia."
+      "content": "The beauty of lacto-fermentation is its simplicity. To make your first ferment, you need just two things: a vegetable and salt. Start with sauerkraut [[recipe:sauerkraut-classic]] - it's two ingredients, requires no special equipment, and teaches you the fundamental principle behind almost everything in this app. Once you've seen cabbage transform into something tangy and alive in your kitchen, you'll understand why humans have been doing this for millennia."
     }
   ],
   "citations": [
@@ -217,7 +217,7 @@
     },
     {
       "id": "c2",
-      "text": "Lactobacillus — Wikipedia",
+      "text": "Lactobacillus - Wikipedia",
       "source": "Wikipedia",
       "url": "https://en.wikipedia.org/wiki/Lactobacillus",
       "year": 2024,

@@ -1,5 +1,5 @@
 /**
- * FERMENT — SettingsModal Component
+ * FERMENT - SettingsModal Component
  * App settings: region, units, theme, expert mode, data management
  */
 
@@ -334,7 +334,7 @@ const SettingsModalComponent = {
           <div class="text-center pt-2">
             <p class="text-2xl mb-1">🫙</p>
             <p class="font-serif text-lg text-text-primary dark:text-dark-text">FERMENT</p>
-            <p class="text-xs text-text-muted">v1.0 — Your Fermentation Companion</p>
+            <p class="text-xs text-text-muted">v1.0 - Your Fermentation Companion</p>
             <p class="text-xs text-text-muted mt-1">Made with salt, patience, and good bacteria.</p>
             <div v-if="userLevel.level > 0" class="mt-2">
               <span class="text-xs bg-bg-secondary dark:bg-dark-secondary rounded-full px-3 py-1 text-text-secondary dark:text-dark-text-secondary">

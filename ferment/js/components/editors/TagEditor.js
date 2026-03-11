@@ -1,5 +1,5 @@
 /**
- * FERMENT — TagEditor Component
+ * FERMENT - TagEditor Component
  * Tag pill bar with typeahead for adding tags
  */
 
