@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#E8862A"/>
+  <g transform="translate(256,280)" text-anchor="middle" font-family="Inter,system-ui,sans-serif">
+    <text font-size="210" font-weight="800" fill="#fff" letter-spacing="-8">LC</text>
+  </g>
+  <rect x="100" y="400" width="312" height="4" rx="2" fill="#fff" opacity=".3"/>
+</svg>

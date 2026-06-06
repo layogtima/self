@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#E8862A">
+  <meta name="description" content="Get instant PCB fabrication quotes. Upload Gerber files and configure your board in seconds.">
+  <title>Lion Circuits — Instant PCB Quote</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            lion: {
+              orange: '#E8862A',
+              'orange-light': '#F5A44B',
+              'orange-dark': '#C96F1D',
+              charcoal: '#2D2D2D',
+              dark: '#1A1A1A',
+              cream: '#FFF8F0',
+              'cream-dark': '#F5ECDF',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+</head>
+
+<body class="bg-lion-cream">
+
+<div id="app" v-cloak class="h-screen flex flex-col overflow-hidden">
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- HEADER                                                  -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <header class="flex-shrink-0 bg-white/80 backdrop-blur-xl border-b border-gray-100 z-50">
+    <div class="max-w-lg mx-auto px-5 py-3 flex items-center justify-between">
+      <!-- Logo -->
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 bg-lion-orange rounded-lg flex items-center justify-center shadow-sm">
+          <i class="fa-solid fa-microchip text-white text-sm"></i>
+        </div>
+        <div class="leading-none">
+          <div class="text-sm font-extrabold text-lion-charcoal tracking-tight">LION</div>
+          <div class="text-[0.55rem] font-bold text-lion-orange tracking-[0.2em]">CIRCUITS</div>
+        </div>
+      </div>
+
+      <!-- Pro toggle -->
+      <button v-if="currentStep > 0" @click="isProMode = !isProMode"
+              class="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full transition-all duration-300"
+              :class="isProMode
+                ? 'bg-lion-charcoal text-white shadow-md'
+                : 'bg-gray-100 text-gray-400 hover:bg-gray-200'">
+        <i class="fa-solid fa-wand-magic-sparkles text-[0.65rem]"></i>
+        <span>Pro</span>
+      </button>
+    </div>
+
+    <!-- Progress bar -->
+    <div v-if="currentStep > 0" class="h-1 bg-gray-100">
+      <div class="h-full progress-bar rounded-r-full transition-all duration-500 ease-out"
+           :style="{ width: progress + '%' }"></div>
+    </div>
+  </header>
+
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- WIZARD VIEWPORT                                         -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <main ref="viewport" class="flex-1 overflow-hidden"
+        @touchstart="handleTouchStart"
+        @touchend="handleTouchEnd">
+
+    <div class="flex h-full" :style="trackStyle">
+
+      <!-- ─── Step wrapper (each step = full-width panel) ─── -->
+      <section v-for="(s, i) in activeSteps" :key="s.id"
+               class="w-full flex-shrink-0 h-full overflow-y-auto">
+
+
+        <!-- ╔═══════════════════════════════════╗ -->
+        <!-- ║  WELCOME                          ║ -->
+        <!-- ╚═══════════════════════════════════╝ -->
+        <div v-if="s.id === 'welcome'"
+             class="flex flex-col items-center justify-center min-h-full px-6 py-10 text-center">
+
+          <div class="anim-fade-up">
+            <div class="w-16 h-16 bg-lion-orange rounded-2xl flex items-center justify-center mx-auto shadow-lg shadow-orange-200 mb-6">
+              <i class="fa-solid fa-microchip text-white text-2xl"></i>
+            </div>
+          </div>
+
+          <h1 class="text-2xl font-extrabold text-lion-charcoal mb-2 anim-fade-up stagger-1">
+            Instant PCB Quote
+          </h1>
+          <p class="text-gray-500 text-sm mb-10 anim-fade-up stagger-2">
+            Precision boards, priced in under 60 seconds
+          </p>
+
+          <!-- Two entry paths -->
+          <div class="w-full max-w-sm space-y-4 anim-fade-up stagger-3">
+            <button @click="selectPath('upload')"
+                    class="w-full p-5 rounded-2xl border-2 bg-white text-left flex items-center gap-4 transition-all duration-200 active:scale-[0.98]"
+                    :class="entryPath === 'upload' ? 'border-lion-orange shadow-lg bg-orange-50' : 'border-gray-200 hover:border-lion-orange/40'">
+              <div class="w-14 h-14 rounded-xl bg-lion-orange/10 flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-cloud-arrow-up text-2xl text-lion-orange"></i>
+              </div>
+              <div class="min-w-0">
+                <div class="font-bold text-lion-charcoal">I have a Gerber file</div>
+                <div class="text-sm text-gray-500 mt-0.5">Upload &amp; auto-detect board specs</div>
+              </div>
+              <i class="fa-solid fa-chevron-right text-gray-300 ml-auto flex-shrink-0"></i>
+            </button>
+
+            <button @click="selectPath('explore')"
+                    class="w-full p-5 rounded-2xl border-2 bg-white text-left flex items-center gap-4 transition-all duration-200 active:scale-[0.98]"
+                    :class="entryPath === 'explore' ? 'border-lion-orange shadow-lg bg-orange-50' : 'border-gray-200 hover:border-lion-orange/40'">
+              <div class="w-14 h-14 rounded-xl bg-lion-orange/10 flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-calculator text-2xl text-lion-orange"></i>
+              </div>
+              <div class="min-w-0">
+                <div class="font-bold text-lion-charcoal">Explore pricing</div>
+                <div class="text-sm text-gray-500 mt-0.5">Configure specs &amp; see instant quotes</div>
+              </div>
+              <i class="fa-solid fa-chevron-right text-gray-300 ml-auto flex-shrink-0"></i>
+            </button>
+          </div>
+
+          <p class="text-xs text-gray-400 mt-10 anim-fade-up stagger-4">
+            <i class="fa-solid fa-lock mr-1"></i> Your files are encrypted &amp; confidential
+          </p>
+
+          <!-- Install prompt -->
+          <button v-if="deferredInstallPrompt" @click="promptInstall"
+                  class="mt-4 text-xs text-lion-orange font-semibold anim-fade-up stagger-5">
+            <i class="fa-solid fa-download mr-1"></i> Install App
+          </button>
+        </div>
+
+
+        <!-- ╔═══════════════════════════════════╗ -->
+        <!-- ║  UPLOAD                           ║ -->
+        <!-- ╚═══════════════════════════════════╝ -->
+        <div v-else-if="s.id === 'upload'" class="max-w-lg mx-auto px-5 py-6 pb-32 space-y-6">
+
+          <div class="text-center">
+            <h2 class="text-xl font-extrabold text-lion-charcoal">Upload Your Gerber File</h2>
+            <p class="text-sm text-gray-500 mt-1">We'll auto-detect layers, size &amp; drill data</p>
+          </div>
+
+          <!-- Drop zone -->
+          <div class="drag-zone" :class="{ active: isDragOver }"
+               @dragover="handleDragOver" @dragleave="handleDragLeave" @drop="handleDrop"
+               @click="triggerFileInput">
+
+            <!-- Empty state -->
+            <template v-if="!gerberFile && !isAnalyzing">
+              <div class="drag-icon w-16 h-16 rounded-full bg-lion-orange/10 mx-auto mb-4 flex items-center justify-center">
+                <i class="fa-solid fa-cloud-arrow-up text-3xl text-lion-orange"></i>
+              </div>
+              <p class="font-semibold text-lion-charcoal">Tap to choose file</p>
+              <p class="text-sm text-gray-500 mt-1">or drag &amp; drop your Gerber .zip</p>
+              <p class="text-xs text-gray-400 mt-4">
+                <i class="fa-solid fa-file-zipper mr-1"></i> ZIP format &middot; Max 50 MB
+              </p>
+            </template>
+
+            <!-- Analyzing -->
+            <div v-if="isAnalyzing" class="py-4">
+              <div class="w-16 h-16 rounded-full bg-lion-orange/10 mx-auto mb-4 flex items-center justify-center" style="animation: pulse 1.2s ease infinite;">
+                <i class="fa-solid fa-microchip text-3xl text-lion-orange"></i>
+              </div>
+              <p class="font-semibold text-lion-charcoal">Analyzing your Gerber file&hellip;</p>
+              <p class="text-xs text-gray-500 mt-1">Detecting layers, dimensions &amp; drill data</p>
+            </div>
+
+            <!-- File accepted -->
+            <div v-if="gerberFile && !isAnalyzing" class="anim-scale-in">
+              <div class="w-16 h-16 rounded-full bg-green-100 mx-auto mb-4 flex items-center justify-center">
+                <i class="fa-solid fa-check text-3xl text-green-600"></i>
+              </div>
+              <p class="font-semibold text-lion-charcoal">{{ gerberFile.name }}</p>
+              <p class="text-sm text-gray-500 mt-0.5">{{ gerberFile.size }}</p>
+              <button @click.stop="removeFile" class="text-sm text-lion-orange mt-3 font-semibold">
+                <i class="fa-solid fa-arrow-rotate-left mr-1"></i> Choose different file
+              </button>
+            </div>
+
+            <input ref="fileInput" type="file" accept=".zip,.rar,.gbr,.grb,.gtl,.gbl,.gko" class="hidden"
+                   @change="handleFileSelect">
+          </div>
+
+          <!-- Auto-detected specs -->
+          <div v-if="gerberDetected" class="bg-green-50 border border-green-200 rounded-xl p-4 anim-fade-up">
+            <div class="flex items-center gap-2 mb-3">
+              <i class="fa-solid fa-wand-magic-sparkles text-green-600"></i>
+              <span class="font-bold text-green-800 text-sm">Auto-detected from your file</span>
+            </div>
+            <div class="grid grid-cols-3 gap-3 text-center text-sm">
+              <div class="bg-white rounded-lg p-2">
+                <div class="font-bold text-green-800">{{ specs.layers }}</div>
+                <div class="text-xs text-green-600">Layers</div>
+              </div>
+              <div class="bg-white rounded-lg p-2">
+                <div class="font-bold text-green-800">{{ specs.width }} mm</div>
+                <div class="text-xs text-green-600">Width</div>
+              </div>
+              <div class="bg-white rounded-lg p-2">
+                <div class="font-bold text-green-800">{{ specs.height }} mm</div>
+                <div class="text-xs text-green-600">Height</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sample gerber -->
+          <div class="bg-sky-50 border border-sky-200 rounded-xl p-4 flex items-start gap-3">
+            <i class="fa-solid fa-lightbulb text-sky-500 mt-0.5 flex-shrink-0"></i>
+            <div>
+              <p class="text-sm font-bold text-sky-900">New to Gerber files?</p>
+              <p class="text-xs text-sky-700 mt-1 leading-relaxed">
+                Gerber files describe your PCB's copper layers, solder mask, and drill holes.
+                They're exported from design tools like KiCad, Eagle, or Altium.
+              </p>
+              <button @click.stop="downloadSample" class="text-sm font-bold text-sky-600 mt-2.5 flex items-center gap-1.5">
+                <i class="fa-solid fa-download"></i> Download sample Gerber (2-layer, 50×40 mm)
+              </button>
+            </div>
+          </div>
+
+          <button @click="nextStep" class="w-full text-center text-sm text-gray-400 py-2 font-medium">
+            Skip — I'll upload later
+          </button>
+        </div>
+
+
+        <!-- ╔═══════════════════════════════════╗ -->
+        <!-- ║  BOARD BASICS                     ║ -->
+        <!-- ╚═══════════════════════════════════╝ -->
+        <div v-else-if="s.id === 'board'" class="max-w-lg mx-auto px-5 py-6 pb-32 space-y-8">
+
+          <div class="text-center">
+            <h2 class="text-xl font-extrabold text-lion-charcoal">Board Basics</h2>
+            <p class="text-sm text-gray-500 mt-1">Define your PCB's core parameters</p>
+          </div>
+
+          <!-- Layers -->
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <label class="font-bold text-lion-charcoal text-sm">Layers</label>
+              <button @click="toggleTip('layers')" class="text-xs text-lion-orange font-semibold">
+                <i class="fa-solid fa-circle-question mr-0.5"></i> What's this?
+              </button>
+            </div>
+            <div v-if="activeTip === 'layers'" class="tip-panel mb-3">{{ tip('layers') }}</div>
+            <div class="flex flex-wrap gap-2">
+              <button v-for="n in layerOptions" :key="n" @click="specs.layers = n"
+                      class="option-chip flex-1 min-w-[3.5rem]"
+                      :class="{ selected: specs.layers === n }">
+                <span>{{ n }}</span>
+                <span v-if="n === 2" class="chip-rec">Popular</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Dimensions -->
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <label class="font-bold text-lion-charcoal text-sm">Board Size</label>
+              <button @click="toggleTip('dimensions')" class="text-xs text-lion-orange font-semibold">
+                <i class="fa-solid fa-circle-question mr-0.5"></i> What's this?
+              </button>
+            </div>
+            <div v-if="activeTip === 'dimensions'" class="tip-panel mb-3">{{ tip('dimensions') }}</div>
+            <div class="flex items-center gap-3">
+              <div class="flex-1">
+                <label class="text-xs text-gray-400 mb-1 block font-medium">Width</label>
+                <input type="number" v-model.number="specs.width" class="input-field text-center" placeholder="50" min="1" max="500">
+              </div>
+              <span class="text-gray-300 font-bold text-lg mt-5">&times;</span>
+              <div class="flex-1">
+                <label class="text-xs text-gray-400 mb-1 block font-medium">Height</label>
+                <input type="number" v-model.number="specs.height" class="input-field text-center" placeholder="40" min="1" max="500">
+              </div>
+              <span class="text-gray-400 text-sm font-medium mt-5">mm</span>
+            </div>
+          </div>
+
+          <!-- Quantity -->
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <label class="font-bold text-lion-charcoal text-sm">Quantity</label>
+              <button @click="toggleTip('quantity')" class="text-xs text-lion-orange font-semibold">
+                <i class="fa-solid fa-circle-question mr-0.5"></i> What's this?
+              </button>
+            </div>
+            <div v-if="activeTip === 'quantity'" class="tip-panel mb-3">{{ tip('quantity') }}</div>
+            <div class="flex flex-wrap gap-2">
+              <button v-for="n in [5, 10, 15, 20, 25]" :key="n" @click="specs.quantity = n"
+                      class="option-chip flex-1 min-w-[3rem]"
+                      :class="{ selected: specs.quantity === n }">
+                {{ n }}
+              </button>
+            </div>
+            <div v-if="isProMode" class="mt-3">
+              <label class="text-xs text-gray-400 mb-1 block font-medium">Custom quantity</label>
+              <input type="number" v-model.number="specs.quantity" class="input-field text-center" min="1" max="10000">
+            </div>
+          </div>
+
+          <!-- Pro: Base Material -->
+          <div v-if="isProMode">
+            <div class="flex items-center justify-between mb-3">
+              <label class="font-bold text-lion-charcoal text-sm">Base Material</label>
+              <button @click="toggleTip('baseMaterial')" class="text-xs text-lion-orange font-semibold">
+                <i class="fa-solid fa-circle-question mr-0.5"></i> What's this?
+              </button>
+            </div>
+            <div v-if="activeTip === 'baseMaterial'" class="tip-panel mb-3">{{ tip('baseMaterial') }}</div>
+            <div class="space-y-2">
+              <button v-for="m in API.catalog.baseMaterials" :key="m.id" @click="specs.baseMaterial = m.id"
+                      class="option-card" :class="{ selected: specs.baseMaterial === m.id }">
+                <div class="flex-1">
+                  <div class="font-semibold text-sm">{{ m.label }}</div>
+                  <div class="text-xs text-gray-500 mt-0.5">{{ m.desc }}</div>
+                </div>
+                <i v-if="specs.baseMaterial === m.id" class="fa-solid fa-circle-check text-lion-orange"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Pro: Delivery Format -->
+          <div v-if="isProMode">
+            <div class="flex items-center justify-between mb-3">
+              <label class="font-bold text-lion-charcoal text-sm">Delivery Format</label>
+              <button @click="toggleTip('deliveryFormat')" class="text-xs text-lion-orange font-semibold">
+                <i class="fa-solid fa-circle-question mr-0.5"></i> What's this?
+              </button>
+            </div>
+            <div v-if="activeTip === 'deliveryFormat'" class="tip-panel mb-3">{{ tip('deliveryFormat') }}</div>
+            <div class="space-y-2">
+              <button v-for="f in API.catalog.deliveryFormats" :key="f.id" @click="specs.deliveryFormat = f.id"
+                      class="option-card" :class="{ selected: specs.deliveryFormat === f.id }">
+                <div class="flex-1">
+                  <div class="font-semibold text-sm">{{ f.label }}</div>
+                  <div class="text-xs text-gray-500 mt-0.5">{{ f.desc }}</div>
+                </div>
+                <i v-if="specs.deliveryFormat === f.id" class="fa-solid fa-circle-check text-lion-orange"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Pro: Discrete Design -->
+          <div v-if="isProMode">
+            <div class="flex items-center justify-between mb-3">
+              <label class="font-bold text-lion-charcoal text-sm">Discrete Designs</label>
+              <button @click="toggleTip('discreteDesign')" class="text-xs text-lion-orange font-semibold">
+                <i class="fa-solid fa-circle-question mr-0.5"></i> What's this?
+              </button>
+            </div>
+            <div v-if="activeTip === 'discreteDesign'" class="tip-panel mb-3">{{ tip('discreteDesign') }}</div>
+            <div class="flex gap-2">
+              <button v-for="n in API.catalog.discreteDesigns" :key="n" @click="specs.discreteDesign = n"
+                      class="option-chip flex-1" :class="{ selected: specs.discreteDesign === n }">
+                {{ n }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ╔═══════════════════════════════════╗ -->
+        <!-- ║  BOARD SPECS                      ║ -->
+        <!-- ╚═══════════════════════════════════╝ -->
+        <div v-else-if="s.id === 'specs'" class="max-w-lg mx-auto px-5 py-6 pb-32 space-y-8">
+
+          <div class="text-center">
+            <h2 class="text-xl font-extrabold text-lion-charcoal">Board Specs</h2>
+            <p class="text-sm text-gray-500 mt-1">Thickness, copper weight &amp; surface finish</p>
+          </div>
+
+          <!-- Thickness -->
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <label class="font-bold text-lion-charcoal text-sm">PCB Thickness</label>
+              <button @click="toggleTip('thickness')" class="text-xs text-lion-orange font-semibold">
+                <i class="fa-solid fa-circle-question mr-0.5"></i> What's this?
+              </button>
+            </div>
+            <div v-if="activeTip === 'thickness'" class="tip-panel mb-3">{{ tip('thickness') }}</div>
+            <div class="flex flex-wrap gap-2">
+              <button v-for="t in thicknessOptions" :key="t.value" @click="specs.thickness = t.value"
+                      class="option-chip flex-1 min-w-[4.5rem]" :class="{ selected: specs.thickness === t.value }">
+                <div class="font-semibold">{{ t.label }}</div>
+                <div class="text-xs text-gray-400 mt-0.5">{{ t.desc }}</div>
+                <span v-if="t.recommended" class="chip-rec">Rec</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Copper -->
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <label class="font-bold text-lion-charcoal text-sm">Copper Weight</label>
+              <button @click="toggleTip('copper')" class="text-xs text-lion-orange font-semibold">
+                <i class="fa-solid fa-circle-question mr-0.5"></i> What's this?
+              </button>
+            </div>
+            <div v-if="activeTip === 'copper'" class="tip-panel mb-3">{{ tip('copper') }}</div>
+            <div class="space-y-2">
+              <button v-for="c in copperOptions" :key="c.value" @click="specs.copperThickness = c.value"
+                      class="option-card" :class="{ selected: specs.copperThickness === c.value }">
+                <div class="flex-1">
+                  <div class="font-semibold text-sm">{{ c.label }}</div>
+                  <div class="text-xs text-gray-500 mt-0.5">{{ c.desc }}</div>
+                </div>
+                <span v-if="c.recommended" class="text-[0.6rem] font-bold text-lion-orange bg-orange-100 px-2 py-0.5 rounded-full">REC</span>
+                <i v-if="specs.copperThickness === c.value" class="fa-solid fa-circle-check text-lion-orange"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Surface Finish -->
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <label class="font-bold text-lion-charcoal text-sm">Surface Finish</label>
+              <button @click="toggleTip('finish')" class="text-xs text-lion-orange font-semibold">
+                <i class="fa-solid fa-circle-question mr-0.5"></i> What's this?
+              </button>
+            </div>
+            <div v-if="activeTip === 'finish'" class="tip-panel mb-3">{{ tip('finish') }}</div>
+            <div class="space-y-2">
+              <button v-for="f in finishOptions" :key="f.id" @click="specs.finish = f.id"
+                      class="option-card" :class="{ selected: specs.finish === f.id }">
+                <div class="flex-1">
+                  <div class="font-semibold text-sm">{{ f.label }}</div>
+                  <div class="text-xs text-gray-500 mt-0.5">{{ f.desc }}</div>
+                </div>
+                <span v-if="f.recommended" class="text-[0.6rem] font-bold text-lion-orange bg-orange-100 px-2 py-0.5 rounded-full">REC</span>
+                <i v-if="specs.finish === f.id" class="fa-solid fa-circle-check text-lion-orange"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ╔═══════════════════════════════════╗ -->
+        <!-- ║  BOARD LOOK                       ║ -->
+        <!-- ╚═══════════════════════════════════╝ -->
+        <div v-else-if="s.id === 'look'" class="max-w-lg mx-auto px-5 py-6 pb-32 space-y-8">
+
+          <div class="text-center">
+            <h2 class="text-xl font-extrabold text-lion-charcoal">Board Look</h2>
+            <p class="text-sm text-gray-500 mt-1">Choose your solder mask color</p>
+          </div>
+
+          <!-- Tip -->
+          <div>
+            <button @click="toggleTip('maskColor')" class="text-xs text-lion-orange font-semibold">
+              <i class="fa-solid fa-circle-question mr-0.5"></i> What is solder mask?
+            </button>
+            <div v-if="activeTip === 'maskColor'" class="tip-panel mt-2">{{ tip('maskColor') }}</div>
+          </div>
+
+          <!-- Color swatches -->
+          <div class="flex justify-center gap-4 flex-wrap">
+            <button v-for="c in API.catalog.maskColors" :key="c.id"
+                    @click="specs.maskColor = c.id"
+                    class="flex flex-col items-center gap-2 group">
+              <div class="color-swatch" :class="{ selected: specs.maskColor === c.id }"
+                   :style="{ backgroundColor: c.hex }">
+                <i v-if="specs.maskColor === c.id"
+                   class="fa-solid fa-check text-sm"
+                   :style="{ color: c.id === 'white' ? '#333' : '#fff' }"></i>
+              </div>
+              <span class="text-xs font-medium"
+                    :class="specs.maskColor === c.id ? 'text-lion-orange' : 'text-gray-500'">
+                {{ c.label }}
+              </span>
+            </button>
+          </div>
+
+          <!-- Live board preview -->
+          <div class="text-center">
+            <p class="text-xs text-gray-400 mb-4 font-medium">Preview</p>
+            <div class="pcb-board mx-auto" :style="{
+              backgroundColor: maskColorHex,
+              width: Math.min(Math.max(specs.width * 2, 120), 220) + 'px',
+              height: Math.min(Math.max(specs.height * 2, 80), 160) + 'px',
+            }">
+              <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 80" fill="none">
+                <!-- Traces -->
+                <line x1="10" y1="15" x2="40" y2="15" stroke="rgba(255,200,50,0.25)" stroke-width="0.6"/>
+                <line x1="40" y1="15" x2="40" y2="40" stroke="rgba(255,200,50,0.25)" stroke-width="0.6"/>
+                <line x1="60" y1="60" x2="90" y2="60" stroke="rgba(255,200,50,0.25)" stroke-width="0.6"/>
+                <line x1="15" y1="50" x2="15" y2="70" stroke="rgba(255,200,50,0.25)" stroke-width="0.6"/>
+                <line x1="15" y1="70" x2="45" y2="70" stroke="rgba(255,200,50,0.25)" stroke-width="0.6"/>
+                <!-- Pads -->
+                <circle cx="20" cy="30" r="2.5" fill="rgba(255,200,50,0.35)"/>
+                <circle cx="30" cy="30" r="2.5" fill="rgba(255,200,50,0.35)"/>
+                <circle cx="70" cy="45" r="2.5" fill="rgba(255,200,50,0.35)"/>
+                <circle cx="80" cy="45" r="2.5" fill="rgba(255,200,50,0.35)"/>
+                <!-- IC footprint -->
+                <rect x="45" y="25" width="18" height="10" rx="1" fill="rgba(255,200,50,0.12)"
+                      stroke="rgba(255,200,50,0.25)" stroke-width="0.5"/>
+                <!-- Vias -->
+                <circle cx="55" cy="55" r="1.5" fill="rgba(200,200,200,0.4)"
+                        stroke="rgba(255,200,50,0.3)" stroke-width="0.4"/>
+                <circle cx="62" cy="55" r="1.5" fill="rgba(200,200,200,0.4)"
+                        stroke="rgba(255,200,50,0.3)" stroke-width="0.4"/>
+              </svg>
+              <!-- Silkscreen -->
+              <div class="absolute top-2 left-2.5 font-mono text-[7px] tracking-wider opacity-50"
+                   :style="{ color: silkscreenColor }">LC-SAMPLE</div>
+              <div class="absolute bottom-1.5 right-2 font-mono text-[6px] opacity-35"
+                   :style="{ color: silkscreenColor }">REV 1.0</div>
+            </div>
+            <div class="text-xs text-gray-400 mt-3 font-medium">
+              {{ specs.width }} mm &times; {{ specs.height }} mm
+            </div>
+          </div>
+
+          <!-- Selected color description -->
+          <div class="text-center">
+            <p class="text-sm text-gray-500">
+              {{ API.catalog.maskColors.find(c => c.id === specs.maskColor)?.desc }}
+            </p>
+          </div>
+        </div>
+
+
+        <!-- ╔═══════════════════════════════════╗ -->
+        <!-- ║  DELIVERY                         ║ -->
+        <!-- ╚═══════════════════════════════════╝ -->
+        <div v-else-if="s.id === 'delivery'" class="max-w-lg mx-auto px-5 py-6 pb-32 space-y-8">
+
+          <div class="text-center">
+            <h2 class="text-xl font-extrabold text-lion-charcoal">Delivery</h2>
+            <p class="text-sm text-gray-500 mt-1">Choose build speed &amp; shipping</p>
+          </div>
+
+          <!-- Build time -->
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <label class="font-bold text-lion-charcoal text-sm">Build Time</label>
+              <button @click="toggleTip('buildTime')" class="text-xs text-lion-orange font-semibold">
+                <i class="fa-solid fa-circle-question mr-0.5"></i> What's this?
+              </button>
+            </div>
+            <div v-if="activeTip === 'buildTime'" class="tip-panel mb-3">{{ tip('buildTime') }}</div>
+            <div class="space-y-2">
+              <button v-for="b in API.catalog.buildTime" :key="b.id" @click="buildTime = b.id"
+                      class="option-card" :class="{ selected: buildTime === b.id }">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                     :class="{
+                       'bg-green-100 text-green-600': b.id === '5-6',
+                       'bg-blue-100 text-blue-600': b.id === '4-5',
+                       'bg-amber-100 text-amber-600': b.id === '2-3',
+                       'bg-red-100 text-red-600': b.id === '1-2',
+                     }">
+                  <i class="fa-solid" :class="b.icon"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="font-semibold text-sm">{{ b.label }}</div>
+                  <div class="text-xs text-gray-500">{{ b.desc }}</div>
+                </div>
+                <div class="flex-shrink-0 text-right">
+                  <span v-if="b.surcharge === 0" class="text-xs font-bold text-green-600">Best Value</span>
+                  <span v-else class="text-xs font-bold text-amber-600">+{{ formatPrice(b.surcharge) }}</span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Shipping -->
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <label class="font-bold text-lion-charcoal text-sm">Shipping Method</label>
+              <button @click="toggleTip('shipping')" class="text-xs text-lion-orange font-semibold">
+                <i class="fa-solid fa-circle-question mr-0.5"></i> What's this?
+              </button>
+            </div>
+            <div v-if="activeTip === 'shipping'" class="tip-panel mb-3">{{ tip('shipping') }}</div>
+            <div class="space-y-2">
+              <button v-for="sh in API.catalog.shipping" :key="sh.id" @click="shipping = sh.id"
+                      class="option-card" :class="{ selected: shipping === sh.id }">
+                <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0 text-gray-600">
+                  <i class="fa-solid" :class="sh.id === 'standard' ? 'fa-truck' : 'fa-truck-fast'"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="font-semibold text-sm">{{ sh.label }}</div>
+                  <div class="text-xs text-gray-500">{{ sh.desc }}</div>
+                </div>
+                <span v-if="sh.cost === 0" class="text-xs font-bold text-green-600">FREE</span>
+                <span v-else class="text-xs font-bold text-gray-600">{{ formatPrice(sh.cost) }}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ╔═══════════════════════════════════╗ -->
+        <!-- ║  REVIEW & QUOTE                   ║ -->
+        <!-- ╚═══════════════════════════════════╝ -->
+        <div v-else-if="s.id === 'review'" class="max-w-lg mx-auto px-5 py-6 pb-32 space-y-6">
+
+          <div class="text-center">
+            <h2 class="text-xl font-extrabold text-lion-charcoal">Your PCB Quote</h2>
+            <p class="text-sm text-gray-500 mt-1">Review your board configuration</p>
+          </div>
+
+          <!-- Board preview -->
+          <div class="text-center">
+            <div class="pcb-board mx-auto anim-float" :style="{
+              backgroundColor: maskColorHex,
+              width: Math.min(Math.max(specs.width * 1.8, 100), 180) + 'px',
+              height: Math.min(Math.max(specs.height * 1.8, 70), 130) + 'px',
+            }">
+              <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 80" fill="none">
+                <line x1="10" y1="15" x2="40" y2="15" stroke="rgba(255,200,50,0.25)" stroke-width="0.6"/>
+                <line x1="40" y1="15" x2="40" y2="40" stroke="rgba(255,200,50,0.25)" stroke-width="0.6"/>
+                <line x1="60" y1="60" x2="90" y2="60" stroke="rgba(255,200,50,0.25)" stroke-width="0.6"/>
+                <circle cx="20" cy="30" r="2.5" fill="rgba(255,200,50,0.35)"/>
+                <circle cx="30" cy="30" r="2.5" fill="rgba(255,200,50,0.35)"/>
+                <rect x="45" y="25" width="18" height="10" rx="1" fill="rgba(255,200,50,0.12)"
+                      stroke="rgba(255,200,50,0.25)" stroke-width="0.5"/>
+              </svg>
+              <div class="absolute top-1.5 left-2 font-mono text-[6px] tracking-wider opacity-50"
+                   :style="{ color: silkscreenColor }">LC-BOARD</div>
+            </div>
+            <p class="text-xs text-gray-400 mt-2 font-medium">
+              {{ specs.width }} &times; {{ specs.height }} mm &middot; {{ specs.layers }}-layer
+            </p>
+          </div>
+
+          <!-- Spec summary grid -->
+          <div class="grid grid-cols-3 gap-2">
+            <div class="bg-white rounded-xl p-3 text-center border border-gray-100">
+              <div class="text-xs text-gray-400 mb-0.5">Layers</div>
+              <div class="font-bold text-lion-charcoal">{{ specs.layers }}L</div>
+            </div>
+            <div class="bg-white rounded-xl p-3 text-center border border-gray-100">
+              <div class="text-xs text-gray-400 mb-0.5">Thickness</div>
+              <div class="font-bold text-lion-charcoal">{{ specs.thickness }} mm</div>
+            </div>
+            <div class="bg-white rounded-xl p-3 text-center border border-gray-100">
+              <div class="text-xs text-gray-400 mb-0.5">Copper</div>
+              <div class="font-bold text-lion-charcoal">{{ specs.copperThickness }} oz</div>
+            </div>
+            <div class="bg-white rounded-xl p-3 text-center border border-gray-100">
+              <div class="text-xs text-gray-400 mb-0.5">Finish</div>
+              <div class="font-bold text-lion-charcoal text-sm">{{ finishLabel }}</div>
+            </div>
+            <div class="bg-white rounded-xl p-3 text-center border border-gray-100">
+              <div class="text-xs text-gray-400 mb-0.5">Color</div>
+              <div class="flex items-center justify-center gap-1.5">
+                <span class="w-3 h-3 rounded-full inline-block" :style="{ backgroundColor: maskColorHex }"></span>
+                <span class="font-bold text-lion-charcoal text-sm capitalize">{{ specs.maskColor }}</span>
+              </div>
+            </div>
+            <div class="bg-white rounded-xl p-3 text-center border border-gray-100">
+              <div class="text-xs text-gray-400 mb-0.5">Quantity</div>
+              <div class="font-bold text-lion-charcoal">{{ specs.quantity }} pcs</div>
+            </div>
+          </div>
+
+          <!-- Delivery info -->
+          <div class="bg-white rounded-xl p-4 border border-gray-100 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-lion-orange/10 flex items-center justify-center flex-shrink-0">
+              <i class="fa-solid fa-clock text-lion-orange"></i>
+            </div>
+            <div class="min-w-0">
+              <div class="text-sm font-bold text-lion-charcoal">{{ buildTimeLabel }}</div>
+              <div class="text-xs text-gray-500">{{ shippingLabel }}</div>
+            </div>
+          </div>
+
+          <!-- Price breakdown -->
+          <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
+            <div class="px-4 py-3 border-b border-gray-100 bg-gray-50/80">
+              <h3 class="font-bold text-lion-charcoal text-sm flex items-center gap-2">
+                <i class="fa-solid fa-receipt text-lion-orange"></i> Price Breakdown
+              </h3>
+            </div>
+            <div class="p-4 space-y-3 text-sm">
+
+              <div class="flex justify-between">
+                <span class="text-gray-500">Per Unit Cost</span>
+                <span class="font-semibold text-lion-charcoal">
+                  {{ formatPrice(pricing.unitCost) }} &times; {{ pricing.quantity }}
+                </span>
+              </div>
+
+              <div v-if="pricing.nre > 0" class="flex justify-between">
+                <span class="text-gray-500">NRE (Setup Fee)</span>
+                <span class="font-semibold text-lion-charcoal">{{ formatPrice(pricing.nre) }}</span>
+              </div>
+
+              <div class="border-t border-dashed border-gray-200 pt-3 flex justify-between">
+                <span class="text-gray-500">Subtotal</span>
+                <span class="font-semibold">{{ formatPrice(pricing.subtotal) }}</span>
+              </div>
+
+              <div v-if="pricing.buildSurcharge > 0" class="flex justify-between">
+                <span class="text-gray-500">Rush Build</span>
+                <span class="font-semibold text-amber-600">+{{ formatPrice(pricing.buildSurcharge) }}</span>
+              </div>
+
+              <div class="flex justify-between">
+                <span class="text-gray-500">GST (18%)</span>
+                <span class="font-semibold">{{ formatPrice(pricing.gst) }}</span>
+              </div>
+
+              <div class="flex justify-between">
+                <span class="text-gray-500">Shipping</span>
+                <span class="font-semibold" :class="pricing.shippingCost === 0 ? 'text-green-600' : ''">
+                  {{ pricing.shippingCost === 0 ? 'FREE' : formatPrice(pricing.shippingCost) }}
+                </span>
+              </div>
+
+              <div class="border-t-2 border-lion-charcoal pt-3 flex justify-between items-baseline">
+                <span class="font-extrabold text-lion-charcoal text-lg">Total</span>
+                <span class="font-extrabold text-lion-charcoal text-xl">{{ formatPrice(pricing.total) }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Upload reminder (explore path) -->
+          <div v-if="entryPath === 'explore' && !gerberFile"
+               class="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
+            <i class="fa-solid fa-triangle-exclamation text-amber-500 mt-0.5 flex-shrink-0"></i>
+            <div>
+              <p class="text-sm font-bold text-amber-900">Gerber file needed to order</p>
+              <p class="text-xs text-amber-700 mt-0.5">
+                You'll need to upload your Gerber files before we can start production.
+              </p>
+            </div>
+          </div>
+
+          <!-- Add to Cart / Success -->
+          <div v-if="!addedToCart">
+            <button @click="addToCart"
+                    class="w-full bg-lion-orange text-white py-4 rounded-2xl font-bold text-lg shadow-lg shadow-orange-200/50 active:scale-[0.97] transition-all duration-200 flex items-center justify-center gap-2.5">
+              <i class="fa-solid fa-cart-plus"></i>
+              <span>Add to Cart</span>
+            </button>
+          </div>
+
+          <div v-else class="text-center space-y-4 anim-bounce-in">
+            <div class="w-20 h-20 bg-green-100 rounded-full mx-auto flex items-center justify-center">
+              <svg class="w-10 h-10 text-green-600" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 13l4 4L19 7"
+                      style="stroke-dasharray: 24; stroke-dashoffset: 24; animation: drawCheck 0.6s ease 0.2s forwards;"/>
+              </svg>
+            </div>
+            <p class="font-extrabold text-lion-charcoal text-xl">Added to Cart!</p>
+            <p class="text-sm text-gray-500">Your precision PCB order is ready</p>
+            <button @click="startOver"
+                    class="text-lion-orange font-bold text-sm mt-2 flex items-center gap-1.5 mx-auto">
+              <i class="fa-solid fa-plus"></i> Start a new quote
+            </button>
+          </div>
+
+          <!-- Made in India -->
+          <div class="flex items-center justify-center gap-2 text-xs text-gray-400 pt-4 pb-2">
+            <span class="inline-flex gap-0.5">
+              <span class="w-3 h-2 rounded-sm bg-orange-500"></span>
+              <span class="w-3 h-2 rounded-sm bg-white border border-gray-200"></span>
+              <span class="w-3 h-2 rounded-sm bg-green-600"></span>
+            </span>
+            <span class="font-medium">Made in India</span>
+          </div>
+        </div>
+
+
+      </section>
+    </div>
+  </main>
+
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- BOTTOM NAVIGATION                                       -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <nav v-if="currentStep > 0"
+       class="flex-shrink-0 bg-white/90 backdrop-blur-xl border-t border-gray-100 safe-area-bottom z-50">
+    <div class="max-w-lg mx-auto px-5 py-3 flex items-center justify-between gap-4">
+
+      <!-- Back -->
+      <button @click="prevStep"
+              class="text-sm font-semibold text-gray-500 flex items-center gap-1 active:scale-95 transition-transform min-w-[3.5rem]">
+        <i class="fa-solid fa-chevron-left text-xs"></i> Back
+      </button>
+
+      <!-- Step dots -->
+      <div class="flex gap-1.5 items-center">
+        <button v-for="(dot, di) in activeSteps" :key="dot.id"
+                @click="goToStep(di)"
+                class="rounded-full transition-all duration-300"
+                :class="di === currentStep
+                  ? 'w-6 h-2 bg-lion-orange'
+                  : di < currentStep
+                    ? 'w-2 h-2 bg-lion-orange/40 cursor-pointer'
+                    : 'w-2 h-2 bg-gray-200'">
+        </button>
+      </div>
+
+      <!-- Next -->
+      <button v-if="!isLastStep" @click="nextStep" :disabled="!canProceed"
+              class="bg-lion-orange text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-md shadow-orange-200/40 active:scale-95 transition-all duration-200 flex items-center gap-1.5 disabled:opacity-40 disabled:shadow-none min-w-[5rem] justify-center">
+        Next <i class="fa-solid fa-chevron-right text-xs"></i>
+      </button>
+      <div v-else class="min-w-[5rem]"></div>
+    </div>
+  </nav>
+
+</div>
+
+<script src="api.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

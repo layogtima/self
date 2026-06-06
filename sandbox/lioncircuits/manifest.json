@@ -1,0 +1,20 @@
+{
+  "name": "Lion Circuits — Instant PCB Quote",
+  "short_name": "Lion Circuits",
+  "description": "Get instant quotes for PCB fabrication. Upload Gerber files and configure your board in seconds.",
+  "start_url": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFF8F0",
+  "theme_color": "#E8862A",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "utilities"],
+  "lang": "en"
+}
