@@ -163,12 +163,10 @@ const app = createApp({
     // ── Track transform (swipe) ──
 
     trackStyle() {
-      const base = -(this.currentStep * 100);
-      const swipePct = this.viewportWidth > 0
-        ? (this.swipeOffset / this.viewportWidth) * 100
-        : 0;
+      const basePx = -(this.currentStep * this.viewportWidth);
+      const offset = basePx + this.swipeOffset;
       return {
-        transform: `translateX(${base + swipePct}%)`,
+        transform: `translateX(${offset}px)`,
         transition: this.isSwiping ? 'none' : 'transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)',
       };
     },
