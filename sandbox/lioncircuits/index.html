@@ -47,7 +47,7 @@
 
 <body class="bg-lion-cream">
 
-<div id="app" v-cloak class="h-screen flex flex-col overflow-hidden">
+<div id="app" v-cloak class="flex flex-col">
 
   <!-- ═══════════════════════════════════════════════════════ -->
   <!-- HEADER                                                  -->
@@ -91,11 +91,11 @@
         @touchstart="handleTouchStart"
         @touchend="handleTouchEnd">
 
-    <div class="flex h-full" :style="trackStyle">
+    <div class="wizard-track" :style="trackStyle">
 
       <!-- ─── Step wrapper (each step = full-width panel) ─── -->
       <section v-for="(s, i) in activeSteps" :key="s.id"
-               class="w-full flex-shrink-0 h-full overflow-y-auto">
+               class="wizard-step">
 
 
         <!-- ╔═══════════════════════════════════╗ -->
