@@ -6,6 +6,9 @@ const app = createApp({
 
   data() {
     return {
+      // ── API reference (for template access)
+      API,
+
       // ── Navigation
       currentStep: 0,
       entryPath: null,       // 'upload' | 'explore'
