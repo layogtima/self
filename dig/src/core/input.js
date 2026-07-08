@@ -4,7 +4,7 @@
 import { VIEW_W, VIEW_H } from '../config.js';
 
 export const keys = {};
-export const mouse = { x: 0, y: 0, left: false, right: false };
+export const mouse = { x: 0, y: 0, left: false, right: false, wheel: 0 };  // wheel: ±ticks this frame
 const justPressed = new Set();
 const listeners = [];
 
@@ -14,7 +14,7 @@ export function pressed(code) { return justPressed.has(code); }
 /** subscribe to a raw keydown (for scene changes); returns unsubscribe */
 export function onKey(fn) { listeners.push(fn); return () => listeners.splice(listeners.indexOf(fn), 1); }
 
-export function endFrame() { justPressed.clear(); }
+export function endFrame() { justPressed.clear(); mouse.wheel = 0; }
 
 /** was ANY key/button pressed since last endFrame? (dismisses cards) */
 export function anyPressed() { return justPressed.size > 0; }
@@ -53,4 +53,8 @@ export function attachInput(canvas, onFirstGesture) {
     if (e.button === 2) mouse.right = false;
   });
   canvas.addEventListener('contextmenu', e => e.preventDefault());
+  canvas.addEventListener('wheel', e => {
+    e.preventDefault();
+    mouse.wheel += Math.sign(e.deltaY);
+  }, { passive: false });
 }

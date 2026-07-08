@@ -1,105 +1,191 @@
-// Title: a full-screen dossier. Blueprint grid backdrop with drifting fossil
-// silhouettes, a chunky framed wordmark plate, amber Start. Enter also starts.
+// Title: a living diorama. The day-cycle sky, drifting clouds and birds, the
+// landing platform in silhouette with the rover idling (blinking, sometimes
+// zapping the ground), and a strata cutaway with glinting bone nubs below.
 
 import { VIEW_W, VIEW_H, TILE } from '../config.js';
 import { PALETTE } from '../render/palette.js';
-import { text, blueprintPanel, roundRect, measure } from '../render/text.js';
-import { drawProbe, drawFossil } from '../render/sprites.js';
+import { text, roundRect } from '../render/text.js';
+import { drawProbe } from '../render/sprites.js';
 import { mouse, pressed } from '../core/input.js';
 import { sfx } from '../core/audio.js';
 import { updateMusic, setMusicDepth } from '../core/music.js';
-import { FOSSILS } from '../content/fossils.js';
+import { makeEnvironment, DAY_LENGTH } from '../game/environment.js';
 import { STRATA } from '../content/strata.js';
 
 export function makeTitleScene(services) {
-  const { ctx, makeCanvas } = services;
+  const { ctx } = services;
+  const env = makeEnvironment(DAY_LENGTH * 0.5);   // start golden afternoon
   const buttons = [
-    { id: 'start', label: 'DIG', x: VIEW_W / 2 - 160, y: 372, w: 150, h: 54, primary: true },
-    { id: 'settings', label: 'Settings', x: VIEW_W / 2 + 10, y: 372, w: 150, h: 54 },
+    { id: 'start', label: 'DIG', x: VIEW_W / 2 - 150, y: VIEW_H - 108, w: 140, h: 48, primary: true },
+    { id: 'settings', label: 'settings', x: VIEW_W / 2 + 10, y: VIEW_H - 108, w: 140, h: 48 },
   ];
-  // slow-drifting background silhouettes (deterministic picks)
-  const drifters = [3, 8, 11, 19, 22, 6].map((fi, i) => ({
-    spec: FOSSILS[fi % FOSSILS.length],
-    x: (i * 220) % VIEW_W,
-    y: 60 + (i * 97) % 380,
-    v: 4 + (i % 3) * 2,
-  }));
+  let t = 0, zapT = 0, zapCd = 5;
+  const groundY = VIEW_H * 0.58;
 
   const hit = b => mouse.x >= b.x && mouse.x <= b.x + b.w && mouse.y >= b.y && mouse.y <= b.y + b.h;
 
   return {
     update(dt) {
+      t += dt;
+      env.update(dt * 6);                          // day passes quickly on the title
       setMusicDepth(0);
       updateMusic(dt);
-      for (const d of drifters) { d.x += d.v * dt; if (d.x > VIEW_W + 90) d.x = -90; }
+      zapCd -= dt;
+      zapT = Math.max(0, zapT - dt);
+      if (zapCd <= 0) { zapT = 0.5; zapCd = 6 + Math.random() * 6; }
       if (pressed('Enter') || pressed('Space')) { sfx.ui(); services.go(services.save ? 'game' : 'intro'); return; }
       if (pressed('MouseLeft')) {
         for (const b of buttons) if (hit(b)) { sfx.ui(); services.go(b.id === 'start' ? (services.save ? 'game' : 'intro') : 'settings'); return; }
       }
     },
+
     render(time) {
-      // the whole screen is one blueprint sheet
-      const { ix, iy, iw, ih } = blueprintPanel(ctx, 6, 6, VIEW_W - 12, VIEW_H - 12, { frameW: 10, r: 20 });
-
-      // drifting silhouettes behind everything
-      ctx.save();
-      roundRect(ctx, ix, iy, iw, ih, 10);
-      ctx.clip();
-      for (const d of drifters) {
-        ctx.globalAlpha = 0.13;
-        drawFossil(ctx, d.spec, d.x, d.y + Math.sin(time * 0.4 + d.x * 0.01) * 6, makeCanvas, 1.4);
+      // ---- sky (live day cycle) ----
+      const { top, bot } = env.skyColors();
+      const g = ctx.createLinearGradient(0, 0, 0, groundY);
+      g.addColorStop(0, top); g.addColorStop(1, bot);
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, VIEW_W, groundY);
+      const sm = env.sunMoon();
+      if (sm.stars > 0.05) {
+        ctx.fillStyle = `rgba(240,240,255,${(sm.stars * 0.9).toFixed(2)})`;
+        for (let i = 0; i < 50; i++) ctx.fillRect((i * 173.3 + 40) % VIEW_W, (i * 97.7) % (groundY * 0.8), 1.4, 1.4);
       }
-      ctx.globalAlpha = 1;
+      if (sm.sun && sm.sun.a > 0.05) {
+        const sg = ctx.createRadialGradient(sm.sun.x, sm.sun.y * 0.8, 2, sm.sun.x, sm.sun.y * 0.8, 34);
+        sg.addColorStop(0, `rgba(255,240,190,${sm.sun.a})`);
+        sg.addColorStop(1, 'rgba(255,220,140,0)');
+        ctx.fillStyle = sg;
+        ctx.beginPath(); ctx.arc(sm.sun.x, sm.sun.y * 0.8, 34, 0, Math.PI * 2); ctx.fill();
+      }
+      if (sm.moon && sm.moon.a > 0.05) {
+        ctx.fillStyle = `rgba(230,232,240,${sm.moon.a})`;
+        ctx.beginPath(); ctx.arc(sm.moon.x, sm.moon.y * 0.8, 10, 0, Math.PI * 2); ctx.fill();
+      }
+      // clouds
+      ctx.fillStyle = 'rgba(255,255,255,0.35)';
+      for (let c = 0; c < 5; c++) {
+        const cx = ((c * 311 + time * (6 + c * 2)) % (VIEW_W + 200)) - 100;
+        const cy = 40 + (c * 53) % 140;
+        for (const [ox, oy, r] of [[0, 0, 14], [12, -5, 11], [24, 2, 12]]) { ctx.beginPath(); ctx.arc(cx + ox, cy + oy, r, 0, Math.PI * 2); ctx.fill(); }
+      }
+      // birds
+      ctx.strokeStyle = 'rgba(40,34,30,0.6)';
+      ctx.lineWidth = 1.4;
+      for (let i = 0; i < 3; i++) {
+        const bx = ((i * 397 + time * 22) % (VIEW_W + 100)) - 50;
+        const by = 70 + (i * 61) % 90;
+        const flap = Math.sin(time * 8 + i * 2) * 2.5;
+        ctx.beginPath(); ctx.moveTo(bx - 4, by - flap); ctx.lineTo(bx, by); ctx.lineTo(bx + 4, by - flap); ctx.stroke();
+      }
+
+      // ---- ground + platform silhouette ----
+      ctx.fillStyle = PALETTE.grass;
+      ctx.fillRect(0, groundY - 4, VIEW_W, 4);
+      // grass tufts
+      ctx.strokeStyle = PALETTE.grassDeep;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      for (let x = 8; x < VIEW_W; x += 14) {
+        const sway = Math.sin(time * 1.7 + x * 0.4) * 2;
+        ctx.moveTo(x, groundY - 3);
+        ctx.quadraticCurveTo(x + sway, groundY - 8, x + sway, groundY - 11);
+      }
+      ctx.stroke();
+
+      // platform (simplified silhouette, right of centre)
+      const px = VIEW_W * 0.6, py = groundY - 10;
+      ctx.fillStyle = '#3A363F';
+      ctx.fillRect(px - 130, py, 300, 8);
+      // lander
+      ctx.fillStyle = '#332F3A';
+      if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(px + 90, py - 52, 30, 52, 7); ctx.fill(); } else ctx.fillRect(px + 90, py - 52, 30, 52);
+      ctx.strokeStyle = '#8E96A4'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(px + 100, py - 58, 8, Math.PI * 0.85, Math.PI * 1.95); ctx.stroke();
+      const blink = Math.sin(time * 3) > 0.6;
+      ctx.fillStyle = blink ? '#E85B4A' : '#5A2A24';
+      ctx.beginPath(); ctx.arc(px + 116, py - 56, 2.2, 0, Math.PI * 2); ctx.fill();
+      // vitrine glass hint
+      ctx.fillStyle = 'rgba(170,205,220,0.25)';
+      ctx.fillRect(px - 120, py - 42, 90, 42);
+      ctx.strokeStyle = '#4E4956'; ctx.lineWidth = 2;
+      ctx.strokeRect(px - 120, py - 42, 90, 42);
+      // deck lamp
+      ctx.fillStyle = '#4E4956'; ctx.fillRect(px + 40, py - 16, 2, 16);
+      ctx.fillStyle = '#FFE9B8'; ctx.beginPath(); ctx.arc(px + 41, py - 18, 2.4, 0, Math.PI * 2); ctx.fill();
+      if (env.night01() > 0.3) {
+        const lg = ctx.createRadialGradient(px + 41, py - 16, 0, px + 41, py - 16, 44);
+        lg.addColorStop(0, `rgba(255,233,184,${env.night01() * 0.25})`);
+        lg.addColorStop(1, 'rgba(255,233,184,0)');
+        ctx.fillStyle = lg;
+        ctx.beginPath(); ctx.arc(px + 41, py - 16, 44, 0, Math.PI * 2); ctx.fill();
+      }
+
+      // the rover, idling on the deck — blinks, sometimes zaps
+      const roverX = px - 10;
+      if (zapT > 0) {
+        ctx.strokeStyle = 'rgba(255,243,208,0.8)';
+        ctx.lineWidth = 1.6;
+        ctx.beginPath();
+        ctx.moveTo(roverX + 8, py - 6);
+        ctx.lineTo(roverX + 40, py + 4);
+        ctx.stroke();
+        ctx.fillStyle = 'rgba(255,240,200,0.7)';
+        ctx.beginPath(); ctx.arc(roverX + 40, py + 4, 2.5, 0, Math.PI * 2); ctx.fill();
+      }
+      drawProbe(ctx, roverX, py - 22, 1, time, 0, 0.9, 0, 0, { mood: zapT > 0 ? 'laser' : 'idle' });
+
+      // ---- strata cutaway below the surface ----
+      const cut = groundY;
+      let y = cut;
+      STRATA.forEach((s, i) => {
+        const h = i === 0 ? 26 : 34 - i;
+        ctx.fillStyle = s.colors.base;
+        ctx.fillRect(0, y, VIEW_W, h);
+        ctx.fillStyle = s.colors.band;
+        for (let x = (i * 37) % 60; x < VIEW_W; x += 60) ctx.fillRect(x, y + h * 0.5, 22, 2);
+        y += h;
+      });
+      // buried bone glints in the cutaway
+      for (let i = 0; i < 12; i++) {
+        const bx = (i * 199 + 60) % VIEW_W;
+        const by = cut + 24 + (i * 83) % (y - cut - 40);
+        const tw = Math.sin(time * 2 + i * 1.9);
+        ctx.save();
+        ctx.globalAlpha = 0.5 + tw * 0.2;
+        ctx.fillStyle = PALETTE.bone;
+        ctx.translate(bx, by); ctx.rotate(i);
+        ctx.fillRect(-4, -1.2, 8, 2.4);
+        ctx.beginPath(); ctx.arc(-4, 0, 1.8, 0, 7); ctx.arc(4, 0, 1.8, 0, 7); ctx.fill();
+        ctx.restore();
+        if (tw > 0.85) { ctx.fillStyle = 'rgba(255,250,230,0.9)'; ctx.fillRect(bx + 3, by - 4, 1.5, 1.5); }
+      }
+      // darken the cutaway progressively
+      const dg = ctx.createLinearGradient(0, cut, 0, VIEW_H);
+      dg.addColorStop(0, 'rgba(20,14,10,0)');
+      dg.addColorStop(1, 'rgba(20,14,10,0.55)');
+      ctx.fillStyle = dg;
+      ctx.fillRect(0, cut, VIEW_W, VIEW_H - cut);
+
+      // ---- wordmark ----
+      ctx.save();
+      ctx.shadowColor = 'rgba(224,162,74,0.6)';
+      ctx.shadowBlur = 24;
+      text(ctx, 'DIGGG', VIEW_W / 2, 64, { size: 76, bold: true, align: 'center', color: '#F6E8C8' });
       ctx.restore();
-
-      // wordmark plate
-      const pw = 520, phh = 150;
-      const px = VIEW_W / 2 - pw / 2, py = 96;
-      roundRect(ctx, px, py, pw, phh, 14);
-      ctx.fillStyle = PALETTE.frameDark;
-      ctx.fill();
-      ctx.lineWidth = 3; ctx.strokeStyle = PALETTE.frameLight; ctx.stroke();
-      text(ctx, 'DIGGG', VIEW_W / 2, py + 22, { size: 74, bold: true, align: 'center', color: PALETTE.amber });
-      text(ctx, 'FIND FOSSILS · YEAR 102,025', VIEW_W / 2, py + 106, { size: 18, bold: true, align: 'center', color: PALETTE.cream });
-
-      text(ctx, 'a probe. a planet. one legendary rex to bring home.', VIEW_W / 2, 276,
-        { size: 13, align: 'center', color: PALETTE.creamDim });
-
-      // era strip under the tagline (the reference's timeline bar, as decoration)
-      const tlW = 300, tlX = VIEW_W / 2 - tlW / 2, tlY = 306;
-      drawTimeline(tlX, tlY, tlW);
-
-      // the probe idling on the plate
-      drawProbe(ctx, VIEW_W / 2 + 232, py + phh - 22, -1, time, 0, 0.9, 0, 0);
+      text(ctx, 'find fossils · year 102,025', VIEW_W / 2, 148, { size: 14, align: 'center', color: 'rgba(246,232,200,0.75)' });
 
       // buttons
       for (const b of buttons) {
         const over = hit(b);
         roundRect(ctx, b.x, b.y, b.w, b.h, 12);
-        ctx.fillStyle = b.primary ? (over ? PALETTE.amberSoft : PALETTE.amber) : (over ? PALETTE.frameLight : PALETTE.frameDark);
+        ctx.fillStyle = b.primary ? (over ? '#E0A24A' : '#C8791E') : (over ? 'rgba(58,54,63,0.95)' : 'rgba(43,39,51,0.9)');
         ctx.fill();
-        ctx.lineWidth = 3;
-        ctx.strokeStyle = over ? PALETTE.cream : PALETTE.frameDark;
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = over ? '#F6E8C8' : 'rgba(0,0,0,0.4)';
         ctx.stroke();
-        text(ctx, b.label, b.x + b.w / 2, b.y + b.h / 2, {
-          size: 20, bold: true, align: 'center', baseline: 'middle',
-          color: b.primary ? '#3B2F16' : PALETTE.cream,
-        });
+        text(ctx, b.label, b.x + b.w / 2, b.y + b.h / 2, { size: 18, bold: b.primary, align: 'center', baseline: 'middle', color: b.primary ? '#2A1F10' : '#F6E8C8' });
       }
-
-      text(ctx, 'ENTER to dig', VIEW_W / 2, 448, { size: 11, align: 'center', color: PALETTE.creamDim });
     },
   };
-
-  function drawTimeline(tlX, tlY, tlW) {
-    STRATA.forEach((s, i) => {
-      ctx.fillStyle = s.colors.base;
-      ctx.fillRect(tlX + (i / STRATA.length) * tlW, tlY, tlW / STRATA.length - 1, 10);
-    });
-    ctx.strokeStyle = PALETTE.frameDark;
-    ctx.lineWidth = 2;
-    ctx.strokeRect(tlX, tlY, tlW, 10);
-    text(ctx, 'now', tlX - 6, tlY, { size: 9, align: 'right', color: PALETTE.creamDim });
-    text(ctx, '4.6 bya', tlX + tlW + 6, tlY, { size: 9, color: PALETTE.creamDim });
-  }
 }

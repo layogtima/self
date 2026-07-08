@@ -154,11 +154,95 @@ function laserZap(f0, f1, dur, vol) {
   o.start(t0); o.stop(t0 + dur + 0.02);
 }
 
+// -- persistent ambient loops with smooth gain automation ---------------------
+const loops = {};   // name -> {gain, set(v)}
+function ensureLoop(name, build) {
+  if (!AC) return null;
+  if (loops[name]) return loops[name];
+  const g = AC.createGain();
+  g.gain.value = 0;
+  g.connect(sfxBus);
+  build(g);
+  loops[name] = { gain: g, set(v) { g.gain.setTargetAtTime(Math.max(0, v), AC.currentTime, 0.4); } };
+  return loops[name];
+}
+
+/** rain wash: looped noise through a band */
+export function setRainLevel(v) {
+  const l = ensureLoop('rain', g => {
+    const src = AC.createBufferSource();
+    src.buffer = noise(); src.loop = true; src.playbackRate.value = 0.7;
+    const bp = AC.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 1800; bp.Q.value = 0.4;
+    src.connect(bp).connect(g);
+    src.start();
+  });
+  l?.set(v * 0.11);
+}
+
+/** night crickets: pulsing high sines */
+export function setCricketLevel(v) {
+  const l = ensureLoop('crickets', g => {
+    for (const [f, rate] of [[4200, 11], [3700, 9]]) {
+      const o = AC.createOscillator(); o.type = 'sine'; o.frequency.value = f;
+      const am = AC.createGain(); am.gain.value = 0;
+      const lfo = AC.createOscillator(); lfo.type = 'square'; lfo.frequency.value = rate;
+      const lfoG = AC.createGain(); lfoG.gain.value = 0.5;
+      lfo.connect(lfoG).connect(am.gain);
+      o.connect(am).connect(g);
+      o.start(); lfo.start();
+    }
+  });
+  l?.set(v * 0.018);
+}
+
+/** wind: low rumbling noise */
+export function setWindLevel(v) {
+  const l = ensureLoop('wind', g => {
+    const src = AC.createBufferSource();
+    src.buffer = noise(); src.loop = true; src.playbackRate.value = 0.35;
+    const lp = AC.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 480;
+    src.connect(lp).connect(g);
+    src.start();
+  });
+  l?.set(v * 0.06);
+}
+
+/** brushing swish for the prep minigame — gain follows stroke speed */
+export function setBrushLevel(v) {
+  const l = ensureLoop('brush', g => {
+    const src = AC.createBufferSource();
+    src.buffer = noise(); src.loop = true; src.playbackRate.value = 1.6;
+    const bp = AC.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 3200; bp.Q.value = 0.7;
+    src.connect(bp).connect(g);
+    src.start();
+  });
+  l?.set(v * 0.09);
+}
+
+export function thunder() {
+  if (!AC) return;
+  const t0 = AC.currentTime;
+  const src = AC.createBufferSource();
+  src.buffer = noise(); src.loop = true;
+  const lp = AC.createBiquadFilter(); lp.type = 'lowpass';
+  lp.frequency.setValueAtTime(220, t0);
+  lp.frequency.exponentialRampToValueAtTime(50, t0 + 2.4);
+  const g = AC.createGain();
+  g.gain.setValueAtTime(0.0001, t0);
+  g.gain.linearRampToValueAtTime(0.3, t0 + 0.08);
+  g.gain.exponentialRampToValueAtTime(0.001, t0 + 2.6);
+  src.connect(lp).connect(g).connect(sfxBus);
+  src.start(t0); src.stop(t0 + 2.7);
+}
+
 export const sfx = {
   laser: () => { laserZap(1400, 700, 0.06, 0.03); thud(0.05, 1600, 0.05); },
   laserBreak: () => { laserZap(1700, 400, 0.11, 0.045); thud(0.12, 900, 0.1); },
   crumble: () => { thud(0.2, 300, 0.25); tone(300, 90, 0.4, 'sawtooth', 0.04); },  // a fragment lost
   glue: () => tone(180, 240, 0.12, 'sine', 0.03),
+  plink: () => tone(1900 + Math.random() * 700, 900, 0.09, 'sine', 0.02),
+  flutter: () => { thud(0.05, 2400, 0.12); thud(0.04, 2000, 0.1); },
+  chirp: () => { tone(2400, 3100, 0.06, 'sine', 0.015); tone(2800, 2400, 0.05, 'sine', 0.012); },
   dig: () => thud(0.18, 650, 0.08),
   digHard: () => { thud(0.13, 900, 0.06); tone(900 + Math.random() * 200, 500, 0.05, 'square', 0.025); },
   break: () => thud(0.24, 420, 0.12),

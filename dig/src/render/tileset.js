@@ -1,13 +1,14 @@
-// Tile rendering — ONE master texture, palette-ramped per stratum, for a tight
-// consistent look. At boot we take a single 64×64 seamless master (assets/tiles/
-// master.png — chunky cracked rock) and remap its LUMINANCE into each stratum's
-// 4-colour ramp, baking a per-stratum 64×64 canvas (front) plus a darkened
-// desaturated copy (the carved BACK WALL behind dug air). If the master is
-// missing, a procedural atlas is the fallback.
+// Tile rendering v3 — de-monotonized. Two generated seamless masters are
+// assembled at boot into a 256×256 COMPOSITE (4×4 macro-cells of 64 px, each a
+// hashed choice of master + 90° rotation), its luminance ramped into every
+// stratum's palette (front + darkened back-wall + a grey landing-pad ramp).
+// Repetition period: 16 tiles with internal variety instead of 4.
 //
-//   drawTile(ctx, strataIndex, tx, ty, dx, dy)   — solid rock face
-//   drawBack(ctx, strataIndex, tx, ty, dx, dy)   — back wall behind air
-//   drawPlaced / grass cap helpers
+// On top of the base blit the game asks for:
+//   drawTile(ctx, si, tx, ty, dx, dy, shade)  — shade = extra darkening 0..1
+//   drawBack(...)                              — carved back wall
+//   drawPad(ctx, tx, ty, dx, dy)               — landing-pad ground
+//   drawAccent(ctx, stratumId, tx, ty, dx, dy) — sparse per-stratum motif
 
 import { TILE } from '../config.js';
 import { STRATA } from '../content/strata.js';
@@ -15,13 +16,15 @@ import { makeRng } from '../core/rng.js';
 
 const VARIANTS = 6;
 const MASTER = 64;
+const COMP = 256;                 // composite size (4×4 macro cells)
 
 export function buildTileset(makeCanvas, makeImage) {
-  const front = {};   // stratumId -> {canvas} (ramped master)
-  const back = {};    // stratumId -> {canvas} (darkened)
+  const front = {};   // stratumId -> composite canvas
+  const back = {};
+  let padCv = null;
   let masterReady = false;
 
-  // procedural atlas fallback (also the immediate look until the master loads)
+  // procedural atlas fallback
   const atlas = makeCanvas(VARIANTS * TILE, (STRATA.length + 1) * TILE);
   const a = atlas.getContext('2d');
   const rng = makeRng(20240607);
@@ -29,38 +32,62 @@ export function buildTileset(makeCanvas, makeImage) {
   const placed = { colors: { base: '#B7A98F', alt: '#AC9E83', band: '#9D8F74', speckle: '#84765C' }, texture: { banding: 0.2, speckle: 0.5 } };
   for (let v = 0; v < VARIANTS; v++) paintTile(a, v * TILE, STRATA.length * TILE, placed, v, rng);
 
-  // load + ramp the master
+  // load both masters, then build composites
+  const masters = {};
   if (makeImage) {
-    const img = makeImage('assets/tiles/master.png');
-    if (img) {
-      img.onload = () => { try { rampAll(img); masterReady = true; } catch { /* keep procedural */ } };
-      img.onerror = () => {};
+    let pending = 0;
+    for (const [key, file] of [['a', 'assets/tiles/master.png'], ['b', 'assets/tiles/master-b.png']]) {
+      const img = makeImage(file);
+      if (!img) continue;
+      pending++;
+      img.onload = () => { masters[key] = img; if (--pending === 0 || masters.a) tryBuild(); };
+      img.onerror = () => { if (--pending === 0 && masters.a) tryBuild(); };
     }
   }
 
-  function rampAll(img) {
-    // read the master's luminance once
-    const mc = makeCanvas(MASTER, MASTER);
-    const mctx = mc.getContext('2d');
-    mctx.drawImage(img, 0, 0, MASTER, MASTER);
-    const src = mctx.getImageData(0, 0, MASTER, MASTER);
-    const lum = new Float32Array(MASTER * MASTER);
+  function tryBuild() {
+    if (!masters.a) return;
+    try { buildComposites(); masterReady = true; } catch { /* stay procedural */ }
+  }
+
+  function buildComposites() {
+    // 1) assemble the structural composite from macro-cells
+    const compCv = makeCanvas(COMP, COMP);
+    const cc = compCv.getContext('2d');
+    const pick = makeRng(777);
+    for (let my = 0; my < COMP / MASTER; my++) {
+      for (let mx = 0; mx < COMP / MASTER; mx++) {
+        const useB = masters.b && pick.hash2(mx, my) > 0.5;
+        const rot = Math.floor(pick.hash2(mx * 3 + 1, my * 7 + 1) * 4);
+        cc.save();
+        cc.translate(mx * MASTER + MASTER / 2, my * MASTER + MASTER / 2);
+        cc.rotate(rot * Math.PI / 2);
+        cc.drawImage(useB ? masters.b : masters.a, -MASTER / 2, -MASTER / 2, MASTER, MASTER);
+        cc.restore();
+      }
+    }
+    // 2) luminance of the composite
+    const src = cc.getImageData(0, 0, COMP, COMP);
+    const lum = new Float32Array(COMP * COMP);
     for (let i = 0; i < lum.length; i++) {
-      const r = src.data[i * 4], g = src.data[i * 4 + 1], b = src.data[i * 4 + 2];
-      lum[i] = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+      lum[i] = (0.299 * src.data[i * 4] + 0.587 * src.data[i * 4 + 1] + 0.114 * src.data[i * 4 + 2]) / 255;
     }
-    for (const s of STRATA) { front[s.id] = ramp(s.colors, lum, 1); back[s.id] = ramp(s.colors, lum, 0.5); }
-    front.placed = ramp(placed.colors, lum, 1);
+    // 3) ramp per stratum (front + back) + the landing pad (grey)
+    for (const s of STRATA) {
+      front[s.id] = ramp(s.colors, lum, 1);
+      back[s.id] = ramp(s.colors, lum, 0.48);
+    }
+    padCv = ramp({ speckle: '#4E4A52', band: '#615C66', alt: '#736D79', base: '#847E8B' }, lum, 1);
   }
 
-  // map luminance → a 4-stop ramp (speckle→band→alt→base dark→light), × brightness
   function ramp(colors, lum, mul) {
     const stops = [hex(colors.speckle), hex(colors.band), hex(colors.alt), hex(colors.base)];
-    const cv = makeCanvas(MASTER, MASTER);
-    const ctx = cv.getContext('2d');
-    const out = ctx.createImageData(MASTER, MASTER);
+    const cv = makeCanvas(COMP, COMP);
+    const c = cv.getContext('2d');
+    const out = c.createImageData(COMP, COMP);
     for (let i = 0; i < lum.length; i++) {
-      const l = lum[i];
+      // slight gamma to widen contrast (fights the flat-slab look)
+      const l = Math.pow(lum[i], 1.25);
       const f = l * (stops.length - 1);
       const k = Math.min(stops.length - 2, Math.floor(f));
       const t = f - k;
@@ -70,41 +97,81 @@ export function buildTileset(makeCanvas, makeImage) {
       out.data[i * 4 + 2] = (c0[2] + (c1[2] - c0[2]) * t) * mul;
       out.data[i * 4 + 3] = 255;
     }
-    ctx.putImageData(out, 0, 0);
+    c.putImageData(out, 0, 0);
     return cv;
   }
 
-  const blitCrop = (ctx, cv, tx, ty, dx, dy) => {
-    const sx = ((tx * TILE) % MASTER + MASTER) % MASTER;
-    const sy = ((ty * TILE) % MASTER + MASTER) % MASTER;
+  const crop = (ctx, cv, tx, ty, dx, dy) => {
+    const sx = ((tx * TILE) % COMP + COMP) % COMP;
+    const sy = ((ty * TILE) % COMP + COMP) % COMP;
     ctx.drawImage(cv, sx, sy, TILE, TILE, dx, dy, TILE, TILE);
   };
+  const jitter = (tx, ty) => (((Math.imul(tx, 40503) ^ Math.imul(ty, 30011)) >>> 0) % 100) / 100;
 
   return {
     canvas: atlas,
     get ready() { return masterReady; },
 
-    drawTile(ctx, strataIndex, tx, ty, dx, dy) {
+    /**
+     * @param {number} shade extra darkening 0..1 (depth-within-stratum shading)
+     */
+    drawTile(ctx, strataIndex, tx, ty, dx, dy, shade = 0) {
       const s = STRATA[strataIndex];
-      if (masterReady && front[s.id]) { blitCrop(ctx, front[s.id], tx, ty, dx, dy); return; }
-      const variant = ((Math.imul(tx, 73856093) ^ Math.imul(ty, 19349663)) >>> 0) % VARIANTS;
-      ctx.drawImage(atlas, variant * TILE, strataIndex * TILE, TILE, TILE, dx, dy, TILE, TILE);
+      if (masterReady && front[s.id]) crop(ctx, front[s.id], tx, ty, dx, dy);
+      else {
+        const variant = ((Math.imul(tx, 73856093) ^ Math.imul(ty, 19349663)) >>> 0) % VARIANTS;
+        ctx.drawImage(atlas, variant * TILE, strataIndex * TILE, TILE, TILE, dx, dy, TILE, TILE);
+      }
+      // per-tile brightness jitter + within-stratum depth shade, one overlay
+      const dark = shade * 0.14 + (jitter(tx, ty) - 0.5) * 0.07;
+      if (dark > 0.01) { ctx.fillStyle = `rgba(18,12,10,${dark.toFixed(3)})`; ctx.fillRect(dx, dy, TILE, TILE); }
+      else if (dark < -0.01) { ctx.fillStyle = `rgba(255,244,220,${(-dark).toFixed(3)})`; ctx.fillRect(dx, dy, TILE, TILE); }
     },
 
-    /** the carved back wall shown behind dug/cave air below the surface */
     drawBack(ctx, strataIndex, tx, ty, dx, dy) {
       const s = STRATA[strataIndex];
-      if (masterReady && back[s.id]) { blitCrop(ctx, back[s.id], tx, ty, dx, dy); return; }
+      if (masterReady && back[s.id]) { crop(ctx, back[s.id], tx, ty, dx, dy); return; }
       const variant = ((Math.imul(tx, 92083) ^ Math.imul(ty, 47059)) >>> 0) % VARIANTS;
-      ctx.globalAlpha = 1;
       ctx.drawImage(atlas, variant * TILE, strataIndex * TILE, TILE, TILE, dx, dy, TILE, TILE);
-      ctx.fillStyle = 'rgba(20,16,26,0.5)';
+      ctx.fillStyle = 'rgba(20,16,26,0.52)';
       ctx.fillRect(dx, dy, TILE, TILE);
     },
 
-    drawPlaced(ctx, variant, dx, dy) {
-      if (masterReady && front.placed) { blitCrop(ctx, front.placed, variant, variant * 3, dx, dy); return; }
-      ctx.drawImage(atlas, (variant % VARIANTS) * TILE, STRATA.length * TILE, TILE, TILE, dx, dy, TILE, TILE);
+    /** the landing pad's artificial ground */
+    drawPad(ctx, tx, ty, dx, dy) {
+      if (masterReady && padCv) { crop(ctx, padCv, tx, ty, dx, dy); return; }
+      ctx.fillStyle = '#736D79';
+      ctx.fillRect(dx, dy, TILE, TILE);
+    },
+
+    /** sparse embedded motif — variety within a layer (~7% of tiles) */
+    drawAccent(ctx, stratumId, tx, ty, dx, dy) {
+      const r = jitter(tx * 3 + 1, ty * 5 + 2);
+      ctx.save();
+      ctx.globalAlpha = 0.8;
+      switch (stratumId) {
+        case 'anthropocene':  // brick shard
+          ctx.fillStyle = '#8A5A4A'; ctx.fillRect(dx + 4, dy + 8, 6, 3); break;
+        case 'quaternary':    // root thread
+          ctx.strokeStyle = '#6E5237'; ctx.lineWidth = 1.2;
+          ctx.beginPath(); ctx.moveTo(dx + 5, dy + 1); ctx.quadraticCurveTo(dx + 8, dy + 8, dx + 5, dy + 15); ctx.stroke(); break;
+        case 'cretaceous':    // shell arc
+          ctx.strokeStyle = '#B8AF92'; ctx.lineWidth = 1.2;
+          ctx.beginPath(); ctx.arc(dx + 8, dy + 9, 3.5, Math.PI, 0); ctx.stroke(); break;
+        case 'jurassic':      // spiral hint
+          ctx.strokeStyle = '#7F9769'; ctx.lineWidth = 1.2;
+          ctx.beginPath(); ctx.arc(dx + 8, dy + 8, 3, 0, Math.PI * 1.5); ctx.stroke(); break;
+        case 'carboniferous': // coal chunk
+          ctx.fillStyle = '#26222E'; ctx.fillRect(dx + 4 + r * 5, dy + 5, 4, 3); break;
+        case 'cambrian':
+        case 'precambrian':   // crystal glint
+          ctx.strokeStyle = '#D9CBE0'; ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(dx + 4, dy + 11); ctx.lineTo(dx + 8, dy + 5); ctx.lineTo(dx + 11, dy + 9); ctx.stroke(); break;
+        default:              // pebble
+          ctx.strokeStyle = 'rgba(60,45,35,0.7)'; ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.ellipse(dx + 8, dy + 9 + r * 3, 3, 2, 0.3, 0, Math.PI * 2); ctx.stroke();
+      }
+      ctx.restore();
     },
   };
 }
@@ -133,7 +200,6 @@ function paintTile(ctx, ox, oy, s, variant, rng) {
       ctx.fillRect(gx, gy, 2, 2);
     }
   }
-  // chunky dark crack lines (matches the master's structure so both looks agree)
   ctx.strokeStyle = 'rgba(30,22,20,0.35)';
   ctx.lineWidth = 1;
   ctx.strokeRect(ox + 0.5, oy + 0.5, TILE - 1, TILE - 1);

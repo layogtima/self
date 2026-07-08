@@ -7,7 +7,9 @@ export function installStubs() {
 
   // a chainable canvas 2D context stub
   function makeCtx() {
-    const grad = { addColorStop: noop };
+    // validate colours like a real browser so NaN/invalid gradients are caught
+    const validColor = c => typeof c === 'string' && !/nan|undefined/i.test(c) && !c.includes('NaN');
+    const grad = { addColorStop: (_stop, color) => { if (!validColor(color)) throw new Error(`invalid gradient color: ${color}`); } };
     const imageData = (w = 1, h = 1) => ({ width: w, height: h, data: new Uint8ClampedArray(w * h * 4) });
     return new Proxy({}, {
       get(_, k) {

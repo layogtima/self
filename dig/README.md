@@ -21,9 +21,12 @@ not opened as `file://`.)
 ## Play
 
 `A`/`D` (or arrows) move · `Space` jump · **walk into a wall to laser it** ·
-`S` dig down · `K` summon the winch and ride it home (A/D sways, Space lets go) ·
-mouse = precise cut · `E` start a lab minigame · `Tab` field journal · `Esc` pause.
-(You can't dig under the camp.)
+`S` dig down · `K` winch home (A/D sways, Space lets go) · mouse = precise cut ·
+`E` lab minigames + the glass display wall · `Tab` field journal · `Esc` pause.
+(You can't dig under the landing platform.) The HUD is nearly wordless: depth is
+**real-Earth scale** (Precambrian reads in km), rock age reads as "330–430
+million years", and finds report only weight/size — a species is *discovered*
+the moment its last bone mounts, straight into the platform's glass vitrine.
 
 Laser down, pull **bones** from the ground (a species scatters 1–6 bones nearby),
 `K` home, then run each bone through the lab: **prep** it (slow strokes — scrub
@@ -73,10 +76,20 @@ See **[docs/CONTENT.md](docs/CONTENT.md)** — add a fossil in ~8 lines of data,
 drop in a PNG whenever the art's ready. The procedural silhouettes keep the game
 playable until then.
 
+## The living planet
+
+A day/night cycle (~7 min) and a weather engine (clear ⇄ overcast ⇄ rain → storm,
+snow in the tundra) drive the sky, wind-swayed foliage, rain/lightning/thunder,
+crickets at night — and the **lighting**: the rover's wall-clipped headlight cone
+aims at your mouse and matters on the surface after dark, when the platform's
+deck lamps and the glow-mushrooms below become beacons. Surface fauna (grazers,
+hoppers, lizards) and cave dwellers (salamanders, spiders, glowworms) flee your
+treads. Duplicate bones convert to **genome samples** — at 100% a species turns
+*viable* and the incubator pod lights up. Resurrection is coming.
+
 ## Roadmap
 
+- **Resurrection**: hatch viable species from the incubator; living dinos on the surface
+- Wildlife observation/interaction (the fauna already have brains)
 - Real pixel-art fossils (drop-in slots already wired)
-- Per-station excavation minigames (interface already abstracted)
-- Rope-over-terrain wrapping for the pulley (v1 is a straight-line constraint)
-- Museum layout / visitors
 - Re-enable **Story Mode** (`poc/game.js` is the reference)

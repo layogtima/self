@@ -76,6 +76,7 @@ export function updateDigging(p, world, cam, particles, fx, dt) {
   const res = world.dig(aim.tx, aim.ty);
 
   if (res.broke) {
+    out.brokeAt = { x: wx, y: wy };
     particles.burst(wx, wy, PALETTE.amber, 7, 120);         // molten sparks
     particles.burst(wx, wy, stratum.colors.speckle, 6);
     fx.shake(1.4);

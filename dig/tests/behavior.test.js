@@ -267,4 +267,166 @@ console.log('\n[physics] fall, land, jump');
   t.ok(p.y < groundY - 32, 'jump clears two tiles');
 }
 
+// ===================================================================== v3.4: real depth scale
+console.log('\n[depth] real-Earth scale mapping');
+{
+  const { realDepthAt, formatDepth, formatAge } = await import('../src/content/strata.js');
+  t.ok(STRATA.every(x => Array.isArray(x.realDepth) && x.realDepth[1] > x.realDepth[0]), 'every stratum has a realDepth range');
+  let mono = true;
+  for (let i = 1; i < STRATA.length; i++) if (STRATA[i].realDepth[0] !== STRATA[i - 1].realDepth[1]) mono = false;
+  t.ok(mono, 'realDepth ranges are contiguous (monotonic column)');
+  t.ok(realDepthAt(1) < 5, 'shallow tiles read as a few metres');
+  t.ok(realDepthAt(440) > 5000, 'precambrian tiles read in kilometres');
+  t.eq(formatDepth(214), '214 m', 'metres format');
+  t.eq(formatDepth(5750), '5.8 km', 'km format');
+  t.ok(formatAge(STRATA[4]).includes('million years'), 'age phrased as million years');
+}
+
+// ===================================================================== v3.4: discovery gating
+console.log('\n[gating] species revealed only on completion');
+{
+  const col = makeCollection();
+  const spec = FOSSILS_BY_ID['pigeon'];   // 3 bones
+  // mounting all but one bone: not complete (identify alone NEVER completes)
+  for (let i = 0; i < spec.bones.length - 1; i++) col.mountBone('pigeon', i);
+  t.ok(!col.isComplete('pigeon'), 'pigeon stays undiscovered with a bone missing');
+  const nowComplete = col.mountBone('pigeon', spec.bones.length - 1);
+  t.ok(nowComplete, 'final mounted bone completes (triggers the one reveal)');
+}
+
+// ===================================================================== v3.4: lighting occlusion
+console.log('\n[lighting] cone rays stop at walls');
+{
+  const { makeLighting } = await import('../src/render/lighting.js');
+  const lighting = makeLighting(makeCanvas);
+  // a fake world: solid wall at tx >= 10
+  const wallWorld = { solidAt: (tx, ty) => tx >= 10 };
+  const ox = 5 * cfg.TILE, oy = 5 * cfg.TILE;
+  const poly = lighting.castCone(wallWorld, ox, oy, 1);
+  t.ok(poly.length > 20, 'cone polygon has ray points');
+  const maxX = Math.max(...poly.map(p => p.x));
+  t.ok(maxX < 11 * cfg.TILE, `rays stop at the wall (max x ${Math.round(maxX / cfg.TILE)} tiles)`);
+  // open world: rays reach full range
+  const openWorld = { solidAt: () => false };
+  const poly2 = lighting.castCone(openWorld, ox, oy, 1);
+  const maxX2 = Math.max(...poly2.map(p => p.x));
+  t.ok(maxX2 > maxX + cfg.TILE * 2, 'rays reach further with no wall');
+}
+
+// ===================================================================== v3.4: ambient bounded
+console.log('\n[ambient] life system stays bounded');
+{
+  const { makeAmbient } = await import('../src/game/ambient.js');
+  const w = makeWorld(11);
+  const col2 = w.spawnCol + 40;
+  const p = makePlayer(col2 * cfg.TILE, (w.surface[col2] + 30) * cfg.TILE);
+  const camStub = { bounds: () => ({ x0: col2 - 20, x1: col2 + 20, y0: w.surface[col2], y1: w.surface[col2] + 40 }), x: 0, y: 0 };
+  const amb = makeAmbient();
+  const fakePoly = [{ x: p.cx(), y: p.cy() }, { x: p.cx() + 100, y: p.cy() }, { x: p.cx() + 100, y: p.cy() + 50 }];
+  for (let i = 0; i < 2000; i++) {
+    amb.update(1 / 60, w, p, camStub, 30, fakePoly);
+    if (i % 60 === 0) amb.onDig(p.cx(), p.cy() + 40);
+  }
+  const c = amb.counts();
+  const total = Object.values(c).reduce((a, b2) => a + b2, 0);
+  t.ok(total < 150, `ambient population bounded (${total} entities after 2k frames)`);
+}
+
+// ===================================================================== v3.5: environment
+console.log('\n[environment] day cycle + weather');
+{
+  const { makeEnvironment, DAY_LENGTH } = await import('../src/game/environment.js');
+  const env = makeEnvironment(0);
+  env._setClock(DAY_LENGTH * 0.35);
+  t.eq(env.night01(), 0, 'noon is full day');
+  env._setClock(DAY_LENGTH * 0.8);
+  t.eq(env.night01(), 1, 'deep night is full dark');
+  env._setClock(DAY_LENGTH * 0.675);
+  t.ok(env.night01() > 0 && env.night01() < 1, 'dusk is a smooth ramp');
+  // weather forcing + intensity bounds over simulated time
+  const env2 = makeEnvironment(0);
+  let ok = true;
+  for (let i = 0; i < 60 * 600; i++) {   // 10 sim-minutes
+    env2.update(1 / 60);
+    const p2 = env2.precip01();
+    if (p2 < 0 || p2 > 1 || env2.wind01() < 0 || env2.wind01() > 1) { ok = false; break; }
+  }
+  t.ok(ok, 'precip + wind stay in 0..1 across 10 minutes of weather');
+  env2._force('storm');
+  t.ok(env2.precip01() === 1, 'forced storm has full intensity');
+  // sky colours must be FINITE rgb across the whole day × every weather (NaN-gradient guard)
+  const parse = str => { const m = /^rgb\((-?\d+),(-?\d+),(-?\d+)\)$/.exec(str); return m && [+m[1], +m[2], +m[3]].every(Number.isFinite) && +m[1] >= 0 && +m[1] <= 255; };
+  let skyOk = true;
+  for (const wx of ['clear', 'overcast', 'rain', 'storm']) {
+    const e3 = makeEnvironment(0); e3._force(wx);
+    for (let k = 0; k <= 40; k++) {
+      e3._setClock(DAY_LENGTH * (k / 40));
+      const sc = e3.skyColors();
+      if (!parse(sc.top) || !parse(sc.bot)) { skyOk = false; break; }
+    }
+  }
+  t.ok(skyOk, 'skyColors are finite rgb(0-255) across the whole day x all weathers');
+}
+
+// ===================================================================== v3.5: genome
+console.log('\n[genome] duplicates build toward resurrection');
+{
+  const col = makeCollection();
+  FOSSILS_BY_ID['ammonite'].bones.forEach((_, i) => col.mountBone('ammonite', i));
+  t.ok(col.isComplete('ammonite'), 'ammonite completed');
+  t.ok(!col.isViable('ammonite'), 'not viable at 0% genome');
+  let g = 0;
+  for (let i = 0; i < 6; i++) g = col.addGenome('ammonite');
+  t.ok(g >= 1, 'six duplicate samples reach 100% genome');
+  t.ok(col.isViable('ammonite'), 'complete + 100% genome = viable');
+  // round-trip
+  const col2 = makeCollection(col.export(), col.exportGenome());
+  t.ok(col2.isViable('ammonite'), 'genome survives save round-trip');
+}
+
+// ===================================================================== v3.5: lighting aim
+console.log('\n[lighting] cone follows an arbitrary aim angle');
+{
+  const { makeLighting } = await import('../src/render/lighting.js');
+  const lighting = makeLighting(makeCanvas);
+  const open = { solidAt: () => false };
+  const up = lighting.castCone(open, 100, 100, -Math.PI / 2);
+  const minY = Math.min(...up.map(p => p.y));
+  t.ok(minY < 100 - cfg.TILE * 6, 'aiming up sends rays upward');
+  const down = lighting.castCone(open, 100, 100, Math.PI / 2);
+  const maxY = Math.max(...down.map(p => p.y));
+  t.ok(maxY > 100 + cfg.TILE * 6, 'aiming down sends rays downward');
+}
+
+// ===================================================================== v3.5: creature bounds
+console.log('\n[fauna] population stays bounded');
+{
+  const { makeAmbient } = await import('../src/game/ambient.js');
+  const w = makeWorld(11);
+  const col3 = w.spawnCol + 40;
+  const p = makePlayer(col3 * cfg.TILE, (w.surface[col3] - 3) * cfg.TILE);
+  const camStub = { bounds: () => ({ x0: col3 - 20, x1: col3 + 20, y0: w.surface[col3] - 10, y1: w.surface[col3] + 30 }), x: col3 * cfg.TILE - 400, y: 0 };
+  const amb = makeAmbient();
+  for (let i = 0; i < 3000; i++) amb.update(1 / 60, w, p, camStub, 1, null);
+  const c = amb.counts();
+  t.ok(c.fauna <= 5, `surface fauna bounded (${c.fauna})`);
+  const total = Object.values(c).reduce((a, b2) => a + b2, 0);
+  t.ok(total < 160, `total ambient population bounded (${total})`);
+}
+
+// ===================================================================== v3.5: decoy similarity
+console.log('\n[decoys] compare candidates are size-plausible');
+{
+  const { pickDecoys } = await import('../src/game/fossils.js');
+  let allPlausible = true, worst = 0;
+  for (const f of FOSSILS) {
+    for (const d of pickDecoys(f, 7)) {
+      const ratio = Math.abs(Math.log((d.lengthM + 0.01) / (f.lengthM + 0.01)));
+      worst = Math.max(worst, ratio);
+      if (ratio > 3.6) allPlausible = false;   // < ~36x size difference max
+    }
+  }
+  t.ok(allPlausible, `every decoy within plausible size range (worst log-ratio ${worst.toFixed(2)})`);
+}
+
 t.done();

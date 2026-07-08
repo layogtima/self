@@ -8,117 +8,202 @@ import { PALETTE } from './palette.js';
 import { makeRng } from '../core/rng.js';
 import { FOSSILS } from '../content/fossils.js';
 
-// ---------------------------------------------------------------- the probe
-const METAL = '#8E96A4';
-const METAL_DARK = '#6C7480';
+// ---------------------------------------------------------------- THE ROVER
+// Modelled on the real thing: black 3D-printed chassis with vent holes, chunky
+// chain-link tank treads, messy yellow/red wires, and an OLED screen face with
+// two glowing cyan eyes. The eyes carry the personality (opts.mood):
+//   'idle' | 'sleepy' | 'drive' | 'laser' | 'find' | 'winch'
+const CHASSIS = '#1E1B22';
+const CHASSIS_LIT = '#332F3A';
+const TREAD = '#15131A';
+const TREAD_LINK = '#2B2733';
+const SCREEN = '#0A1418';
+const EYE = '#4BE3E8';
+const EYE_GLOW = 'rgba(75,227,232,0.35)';
+const WIRE_Y = '#E8B23A';
+const WIRE_R = '#C4432E';
 
 /**
- * Draw PROBE DG-3 — a small boxy excavation robot. Single glowing lens
- * (canonically the lantern light), antenna, tread-feet, scoop arm.
- * @param {CanvasRenderingContext2D} ctx
- * @param {number} cx centre x  @param {number} topY top y
- * @param {number} facing 1|-1  @param {number} time seconds
- * @param {number} swingT 0..0.16  @param {number} swingAim radians
- * @param {number} vx  @param {number} walkT
- * @param {{dangle?:number}} [opts]  dangle: rope angle for the ragdoll winch pose
+ * Draw the rover. Hitbox is PLAYER_W×PLAYER_H; art hangs on it.
+ * @param {{dangle?:number, mood?:string, blinkSeed?:number}} [opts]
+ * Also exports the laser emitter offset via drawProbe.emitter (set per call).
  */
 export function drawProbe(ctx, cx, topY, facing, time, swingT, swingAim, vx, walkT, opts = {}) {
   ctx.save();
   ctx.translate(Math.round(cx), Math.round(topY));
-
   const dangling = typeof opts.dangle === 'number';
-  if (dangling) {
-    // ragdoll: whole chassis pivots from the rope hook + loose wobble
-    ctx.rotate(opts.dangle + Math.sin(time * 6.5) * 0.14);
-  }
+  if (dangling) ctx.rotate(opts.dangle + Math.sin(time * 6.5) * 0.14);
   ctx.scale(facing, 1);
 
-  const ink = PALETTE.ink;
+  const mood = opts.mood || 'idle';
+  const profile = !dangling && (mood === 'drive' || mood === 'laser');
   const moving = Math.abs(vx) > 10;
-  const step = moving ? Math.sin(walkT * 16) * 2 : 0;
-  const bob = dangling ? 0 : moving ? Math.abs(Math.sin(walkT * 16)) * 1 : Math.sin(time * 1.6) * 0.6;
+  const bob = dangling ? 0 : moving ? Math.abs(Math.sin(walkT * 18)) * 0.8 : Math.sin(time * 1.4) * 0.5;
 
-  // antenna
-  ctx.strokeStyle = METAL;
-  ctx.lineWidth = 1.4;
+  if (profile) drawSideProfile(ctx, mood, time, walkT, bob);
+  else drawFrontView(ctx, mood, time, walkT, bob, dangling, moving, opts.blinkSeed || 0);
+
+  ctx.restore();
+  drawProbe.emitter = { x: cx + facing * 7, y: topY + PLAYER_H - 7 };
+}
+
+// ---- front view: the Wall-E "looking at you" pose --------------------------
+function drawFrontView(ctx, mood, time, walkT, bob, dangling, moving, blinkSeed) {
+  // treads: fat rounded band, links cycle
+  const trY = PLAYER_H - 9 + (dangling ? -2 : 0);
+  ctx.fillStyle = TREAD;
+  if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(-8, trY, 16, 9, 4.5); ctx.fill(); }
+  else ctx.fillRect(-8, trY, 16, 9);
+  const roll = (walkT * 26) % 4;
+  ctx.fillStyle = TREAD_LINK;
+  for (let i = -1; i < 4; i++) {
+    const lx = -7 + ((i * 4 + roll) % 16 + 16) % 16 - 1;
+    ctx.fillRect(lx, trY + 0.5, 2.4, 2);
+    ctx.fillRect(lx, trY + 6.5, 2.4, 2);
+  }
+  ctx.fillStyle = CHASSIS_LIT;
+  ctx.beginPath(); ctx.arc(-5, trY + 4.5, 1.4, 0, 7); ctx.arc(5, trY + 4.5, 1.4, 0, 7); ctx.fill();
+
+  // chassis + vents
+  const chY = 6 + bob;
+  ctx.fillStyle = CHASSIS;
+  if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(-7, chY, 14, PLAYER_H - 13, 2.5); ctx.fill(); }
+  else ctx.fillRect(-7, chY, 14, PLAYER_H - 13);
+  ctx.fillStyle = '#0C0A10';
+  for (let r = 0; r < 2; r++)
+    for (let c = 0; c < 4; c++) ctx.fillRect(-5 + c * 3, chY + 8 + r * 3, 1.4, 1.4);
+
+  // wires
+  ctx.lineWidth = 1.2;
+  ctx.strokeStyle = WIRE_Y;
   ctx.beginPath();
-  ctx.moveTo(-2, 4 + bob);
-  ctx.lineTo(-3.5, -1 + bob + (dangling ? Math.sin(time * 9) * 1.5 : 0));
+  ctx.moveTo(-5, chY + 1);
+  ctx.bezierCurveTo(-7, chY - 4 + Math.sin(time * 2) * 0.5, -1, chY - 5, 1, chY - 1);
   ctx.stroke();
-  ctx.fillStyle = PALETTE.danger;
-  ctx.beginPath(); ctx.arc(-3.5, -1.6 + bob, 1.4, 0, Math.PI * 2); ctx.fill();
-
-  // chassis (rounded box)
-  ctx.fillStyle = ink;
+  ctx.strokeStyle = WIRE_R;
   ctx.beginPath();
-  if (ctx.roundRect) ctx.roundRect(-6, 3 + bob, 12, 12, 3); else ctx.rect(-6, 3 + bob, 12, 12);
-  ctx.fill();
-  // panel line + rivet
-  ctx.strokeStyle = METAL_DARK;
-  ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(-5, 11 + bob); ctx.lineTo(5, 11 + bob); ctx.stroke();
-  ctx.fillStyle = METAL_DARK;
-  ctx.fillRect(-5, 13 + bob, 1.5, 1.5);
+  ctx.moveTo(4, chY + 1);
+  ctx.bezierCurveTo(6, chY - 3, 1, chY - 4 - Math.sin(time * 2.3) * 0.5, -1, chY - 1);
+  ctx.stroke();
 
-  // lens eye — glows (this IS the lantern); flares bright while the laser fires
-  const firing = !!opts.firing;
-  const glow = firing ? 1 : 0.75 + Math.sin(time * 3) * 0.25;
-  ctx.fillStyle = METAL;
-  ctx.beginPath(); ctx.arc(2.5, 7.5 + bob, 3.2, 0, Math.PI * 2); ctx.fill();
-  if (firing) {
-    ctx.globalAlpha = 0.5;
-    ctx.fillStyle = PALETTE.amber;
-    ctx.beginPath(); ctx.arc(2.5, 7.5 + bob, 5, 0, Math.PI * 2); ctx.fill();
+  // OLED face
+  const scX = -6, scY = chY - 1, scW = 12, scH = 8.5;
+  ctx.fillStyle = SCREEN;
+  if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(scX, scY, scW, scH, 1.5); ctx.fill(); }
+  else ctx.fillRect(scX, scY, scW, scH);
+  drawEyes(ctx, scX + scW / 2, scY + scH / 2, mood, time, moving, blinkSeed, 2);
+}
+
+// ---- side profile: the tank-tread Wall-E driving pose ----------------------
+function drawSideProfile(ctx, mood, time, walkT, bob) {
+  // long tread band with road wheels + idler
+  const trY = PLAYER_H - 10;
+  ctx.fillStyle = TREAD;
+  if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(-10, trY, 20, 10, 5); ctx.fill(); }
+  else ctx.fillRect(-10, trY, 20, 10);
+  // scrolling links around the band
+  const roll = (walkT * 30) % 5;
+  ctx.fillStyle = TREAD_LINK;
+  for (let i = -1; i < 5; i++) {
+    const lx = -9 + ((i * 5 + roll) % 20 + 20) % 20 - 1;
+    ctx.fillRect(lx, trY + 0.5, 3, 2);
+    ctx.fillRect(lx, trY + 7.5, 3, 2);
+  }
+  // road wheels (rotate)
+  const spin = walkT * 3.2;
+  for (const wx of [-5.5, 0, 5.5]) {
+    ctx.fillStyle = CHASSIS_LIT;
+    ctx.beginPath(); ctx.arc(wx, trY + 5, 3, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = TREAD;
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.moveTo(wx - Math.cos(spin) * 2.2, trY + 5 - Math.sin(spin) * 2.2);
+    ctx.lineTo(wx + Math.cos(spin) * 2.2, trY + 5 + Math.sin(spin) * 2.2);
+    ctx.stroke();
+  }
+
+  // chassis leaning slightly forward when driving
+  const chY = 7 + bob;
+  ctx.save();
+  ctx.rotate(0.03);
+  ctx.fillStyle = CHASSIS;
+  if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(-8, chY, 16, PLAYER_H - 16, 2.5); ctx.fill(); }
+  else ctx.fillRect(-8, chY, 16, PLAYER_H - 16);
+  // vents on the back half
+  ctx.fillStyle = '#0C0A10';
+  for (let r = 0; r < 2; r++)
+    for (let c = 0; c < 3; c++) ctx.fillRect(-6 + c * 3, chY + 6 + r * 3, 1.4, 1.4);
+  // wires trailing off the back
+  ctx.lineWidth = 1.2;
+  ctx.strokeStyle = WIRE_Y;
+  ctx.beginPath();
+  ctx.moveTo(-4, chY + 1);
+  ctx.bezierCurveTo(-9, chY - 3 + Math.sin(time * 3) * 1, -11, chY + 2, -8, chY + 4);
+  ctx.stroke();
+  ctx.strokeStyle = WIRE_R;
+  ctx.beginPath();
+  ctx.moveTo(-2, chY + 1);
+  ctx.bezierCurveTo(-7, chY - 4 - Math.sin(time * 2.6) * 1, -10, chY - 1, -9, chY + 2);
+  ctx.stroke();
+
+  // side eye panel at the front: a single forward-looking cyan eye strip
+  const eX = 3, eY = chY + 1.5, eW = 6.5, eH = 6;
+  ctx.fillStyle = SCREEN;
+  if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(eX - 1, eY - 1, eW + 2, eH + 2, 1.5); ctx.fill(); }
+  else ctx.fillRect(eX - 1, eY - 1, eW + 2, eH + 2);
+  drawEyes(ctx, eX + eW / 2, eY + eH / 2, mood, time, true, 0, 1);
+  ctx.restore();
+}
+
+// the whole personality lives in ~40 lines of eye
+function drawEyes(ctx, cx, cy, mood, time, moving, seed, eyeCount = 2) {
+  const blink = Math.max(0, Math.sin(time * 0.9 + seed) - 0.985) * 66;   // brief periodic blink
+  let w = 3.4, h = 3.4, dy = 0, dx = 0, lidTop = 0, arc = false, swirl = false;
+  if (mood === 'sleepy') { lidTop = 0.6; dy = 0.8; }
+  if (mood === 'drive') { dx = moving ? 1 : 0; }
+  if (mood === 'laser') { h = 1.4; dy = 0.3; }
+  if (mood === 'find') { arc = true; }
+  if (mood === 'winch') { swirl = true; }
+  const shut = Math.min(1, blink + lidTop);
+
+  ctx.save();
+  const eyeXs = eyeCount === 1 ? [cx + dx] : [cx - 3 + dx, cx + 3 + dx];
+  // glow bloom
+  ctx.fillStyle = EYE_GLOW;
+  ctx.beginPath();
+  for (const ex of eyeXs) ctx.arc(ex, cy + dy, 3.6, 0, 7);
+  ctx.fill();
+  ctx.fillStyle = EYE;
+  for (const ex of eyeXs) {
+    if (arc) {                                  // ^ ^ happy
+      ctx.lineWidth = 1.3; ctx.strokeStyle = EYE;
+      ctx.beginPath(); ctx.arc(ex, cy + 1.4 + dy, 2, Math.PI * 1.15, Math.PI * 1.85); ctx.stroke();
+    } else if (swirl) {                          // dizzy spiral
+      ctx.lineWidth = 1; ctx.strokeStyle = EYE;
+      ctx.beginPath();
+      for (let a = 0; a < 4.5; a += 0.4) {
+        const r = 0.5 + a * 0.42;
+        const px = ex + Math.cos(a + time * 6) * r, py = cy + dy + Math.sin(a + time * 6) * r;
+        a === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+    } else {
+      const eh = Math.max(0.5, h * (1 - shut));
+      if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(ex - w / 2, cy + dy - eh / 2, w, eh, 1.2); ctx.fill(); }
+      else ctx.fillRect(ex - w / 2, cy + dy - eh / 2, w, eh);
+      // dark pupil dot (the ref eyes have one)
+      if (eh > 2) { ctx.fillStyle = SCREEN; ctx.fillRect(ex - 0.7, cy + dy - 0.7, 1.4, 1.4); ctx.fillStyle = EYE; }
+    }
+  }
+  // sleepy z's
+  if (mood === 'sleepy') {
+    ctx.fillStyle = EYE;
+    const zt = (time * 0.6) % 1;
+    ctx.globalAlpha = 1 - zt;
+    ctx.font = 'bold 5px monospace';
+    ctx.fillText('z', cx + 7, cy - 4 - zt * 6);
     ctx.globalAlpha = 1;
   }
-  ctx.fillStyle = firing ? '#FFF3D0' : PALETTE.lantern;
-  ctx.globalAlpha = glow;
-  ctx.beginPath(); ctx.arc(2.5, 7.5 + bob, 2.1, 0, Math.PI * 2); ctx.fill();
-  ctx.globalAlpha = 1;
-  ctx.fillStyle = firing ? '#FFFFFF' : PALETTE.amber;
-  ctx.beginPath(); ctx.arc(3.1, 7 + bob, 0.9, 0, Math.PI * 2); ctx.fill();
-
-  // tread-feet (dangle loosely on the winch)
-  ctx.fillStyle = METAL_DARK;
-  if (dangling) {
-    const sway = Math.sin(time * 8) * 2;
-    ctx.fillRect(-5 + sway * 0.4, 16, 4.5, 5);
-    ctx.fillRect(1 - sway * 0.4, 17, 4.5, 5);
-  } else {
-    ctx.fillRect(-5 + step, PLAYER_H - 5, 4.5, 5);
-    ctx.fillRect(1 - step, PLAYER_H - 5, 4.5, 5);
-  }
-  ctx.fillStyle = ink;
-  ctx.fillRect(-4 + (dangling ? 0 : step), PLAYER_H - 3, 2.5, 1);
-  ctx.fillRect(2 - (dangling ? 0 : step), PLAYER_H - 3, 2.5, 1);
-
-  // scoop arm
-  ctx.strokeStyle = METAL;
-  const swinging = swingT > 0;
-  const prog = swinging ? 1 - swingT / 0.16 : 0;
-  let armA = 0.7;
-  if (swinging) {
-    const aim = Math.abs(facing === 1 ? swingAim : Math.PI - swingAim);
-    armA = (aim - 1.1) + Math.sin(prog * Math.PI) * 1.4;
-  } else if (dangling) {
-    armA = 1.4 + Math.sin(time * 7.5) * 0.3;   // arm hangs loose
-  }
-  const sx = 2, sy = 12 + bob;
-  const hx = sx + Math.cos(armA) * 6, hy = sy + Math.sin(armA) * 6;
-  ctx.lineWidth = 2.2;
-  ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(hx, hy); ctx.stroke();
-  const tipX = sx + Math.cos(armA) * 14, tipY = sy + Math.sin(armA) * 14;
-  ctx.lineWidth = 1.6;
-  ctx.beginPath(); ctx.moveTo(hx, hy); ctx.lineTo(tipX, tipY); ctx.stroke();
-  // scoop
-  ctx.save();
-  ctx.translate(tipX, tipY); ctx.rotate(armA);
-  ctx.fillStyle = METAL;
-  ctx.beginPath();
-  ctx.moveTo(0, -3.5); ctx.lineTo(5, -2); ctx.lineTo(5, 2); ctx.lineTo(0, 3.5);
-  ctx.closePath(); ctx.fill();
-  ctx.restore();
-
   ctx.restore();
 }
 

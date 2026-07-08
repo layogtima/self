@@ -2,7 +2,7 @@
 // the lab pipeline (dirty → cleaned → identified → stabilized → mounted). The
 // satchel is uncapped now — carry as many bones as you can find.
 
-import { FOSSILS_BY_ID } from '../content/fossils.js';
+import { FOSSILS, FOSSILS_BY_ID, fossilsForPeriod } from '../content/fossils.js';
 import { SPECIMEN_STATES } from '../content/stations.js';
 
 let uid = 0;
@@ -43,6 +43,23 @@ export function makeSatchel() {
     countAtState(state) { return items.filter(s => s.state === state).length; },
     clear() { items.length = 0; },
   };
+}
+
+/**
+ * Comparison-desk decoys: SIMILAR species (same period first, ranked by size
+ * closeness) so the choice is a real anatomy question, not "gnat vs t-rex".
+ */
+export function pickDecoys(spec, uid = 1) {
+  const sizeGap = f => Math.abs(Math.log((f.lengthM + 0.01) / (spec.lengthM + 0.01)));
+  const score = f => sizeGap(f)
+    + Math.abs(f.footprint[0] * f.footprint[1] - spec.footprint[0] * spec.footprint[1]) * 0.08
+    + (f.period === spec.period ? 0 : 0.6);        // same-period preferred, not required
+  // candidates from ANY period, but only size-plausible ones (< ~12× difference)
+  let pool = FOSSILS.filter(f => f.id !== spec.id && sizeGap(f) < 2.5);
+  if (pool.length < 2) pool = FOSSILS.filter(f => f.id !== spec.id);   // pathological fallback
+  const ranked = pool.sort((a, b) => score(a) - score(b)).slice(0, 2);
+  // display order varies per fragment; membership stays the two best
+  return (((uid * 2654435761) >>> 0) % 2 ? ranked : ranked.slice().reverse());
 }
 
 /** display label for a fragment given how much we know */

@@ -64,13 +64,16 @@ about discovery, not labour.
 
 ## Look & feel
 
-**Field journal**: every UI surface is a wood-grain frame around aged parchment,
-sepia ink, one ocher accent. Dossier cards show the fossil beside the probe at
-relative **scale**. Terrain is ONE master texture luminance-ramped into each
-stratum's palette (tight, consistent), carved tiles show a darkened **back wall**
-(never hollow), and a signature **post-process** (scanlines + warm vignette +
-film grain + light-breathing) makes it feel like found footage from 102,025.
-Audio is Jurassic-Park brass over a generative drone that deepens with depth.
+**Field journal**: wood-grain frames, parchment, sepia ink, one ocher accent —
+and as little text as the experience allows (icon satchel, `E` key-caps, bone
+pips, ages always as "X–Y million years", never era names before discovery).
+The rover is the real one: black chassis, chain-link treads, yellow/red wires,
+cyan OLED eyes with moods (blink/sleepy/drive/squint/happy/dizzy). Terrain: two
+masters composited per macro-cell + within-stratum depth shading + accents +
+dithered boundaries; carved air shows a darkened back wall. Headlights are a
+wall-clipped raycast cone from the rover's base. Ambient life everywhere: birds,
+butterflies, critters, swaying grass; drips, dust motes, pebbles, deep bats.
+Post-process (scanlines/vignette/grain/breathing) + JP brass audio on top.
 
 ## Progression & save
 

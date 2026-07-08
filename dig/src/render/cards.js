@@ -136,14 +136,24 @@ export function drawSpeciesCard(ctx, mode, spec, x, y, w, h, makeCanvas, time = 
 }
 
 /**
- * Mini bone-recovery card — the corner toast (~290×92). Shows the bone you just
- * pulled from the ground, unidentified. No freeze.
+ * Mini recovery card — the corner toast (~290×92). Deliberately anonymous:
+ * no species, no bone name. Just what a field instrument would measure —
+ * size, weight, condition — derived deterministically from the specimen.
  */
-export function drawMiniCard(ctx, spec, x, y, w, h, makeCanvas, time = 0, bone = 'bone') {
+export function drawMiniCard(ctx, spec, x, y, w, h, makeCanvas, time = 0, bone = 'bone', boneIndex = 0) {
   const stratum = STRATA_BY_ID[spec.period];
   const { ix, iy, iw, ih } = blueprintPanel(ctx, x, y, w, h, { frameW: 5, r: 10, grid: false });
 
-  // a little bone icon, left
+  // measured properties (stable per specimen+bone)
+  const hash = n => (((Math.imul(spec.id.length * 31 + boneIndex, 2654435761) + n * 40503) >>> 0) % 1000) / 1000;
+  const nBones = (spec.bones || ['piece']).length;
+  const sizeM = (spec.lengthM / nBones) * (0.55 + hash(1) * 0.9);
+  const weightKg = Math.max(0.02, Math.pow(sizeM, 2.4) * (30 + hash(2) * 40));
+  const sizeStr = sizeM >= 1 ? `${sizeM.toFixed(1)} m` : `${Math.max(1, Math.round(sizeM * 100))} cm`;
+  const weightStr = weightKg >= 1000 ? `${(weightKg / 1000).toFixed(1)} t` : weightKg >= 1 ? `${weightKg.toFixed(1)} kg` : `${Math.round(weightKg * 1000)} g`;
+  const condition = ['mineralized', 'permineralized', 'compressed', 'encrusted'][Math.floor(hash(3) * 4)];
+
+  // bone glyph, left
   const cx = ix + 30, cy = iy + ih / 2;
   ctx.save();
   ctx.translate(cx, cy); ctx.rotate(-0.5);
@@ -157,12 +167,27 @@ export function drawMiniCard(ctx, spec, x, y, w, h, makeCanvas, time = 0, bone =
   ctx.beginPath(); ctx.arc(ix + 12, iy + 14, 2.5, 0, Math.PI * 2); ctx.fill();
   ctx.globalAlpha = 1;
 
-  // copy, right
   const tx = ix + 62;
-  text(ctx, 'BONE RECOVERED', tx, iy + 10, { size: 10, bold: true, color: PALETTE.amber });
-  text(ctx, `? ${bone}`, tx, iy + 26, { size: 14, bold: true });
-  text(ctx, `${stratum.era} matrix`, tx, iy + 46, { size: 10, color: PALETTE.creamDim });
-  text(ctx, 'collate the set at the lab', tx, iy + 60, { size: 9, color: PALETTE.creamDim });
+  // size with ↔ bracket icon
+  ctx.strokeStyle = PALETTE.cream; ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  ctx.moveTo(tx, iy + 16); ctx.lineTo(tx + 12, iy + 16);
+  ctx.moveTo(tx + 2.5, iy + 13); ctx.lineTo(tx, iy + 16); ctx.lineTo(tx + 2.5, iy + 19);
+  ctx.moveTo(tx + 9.5, iy + 13); ctx.lineTo(tx + 12, iy + 16); ctx.lineTo(tx + 9.5, iy + 19);
+  ctx.stroke();
+  text(ctx, sizeStr, tx + 20, iy + 10, { size: 13, bold: true });
+  // weight with a little scale-pan icon
+  ctx.beginPath();
+  ctx.moveTo(tx + 6, iy + 30); ctx.lineTo(tx + 6, iy + 36);
+  ctx.moveTo(tx, iy + 31); ctx.lineTo(tx + 12, iy + 31);
+  ctx.arc(tx + 1.5, iy + 34, 2.5, Math.PI, 0, true);
+  ctx.arc(tx + 10.5, iy + 34, 2.5, Math.PI, 0, true);
+  ctx.stroke();
+  text(ctx, weightStr, tx + 20, iy + 26, { size: 13, bold: true });
+
+  text(ctx, condition, tx, iy + 48, { size: 10, italic: true, color: PALETTE.creamDim });
+  // age dots instead of era name
+  text(ctx, `${stratum.mya[0] >= 1 ? Math.round(stratum.mya[0]) : stratum.mya[0]}–${Math.round(stratum.mya[1])} million years`, tx, iy + 62, { size: 9, color: PALETTE.creamDim });
 }
 
 /** draw the fossil silhouette re-tinted to one flat colour (unknown mode) */
