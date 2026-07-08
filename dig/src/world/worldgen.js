@@ -54,6 +54,7 @@ export function generateWorld(seed) {
 
   carveWormCaves(rng, tiles, surface);
   carveCaverns(rng, tiles, surface);
+  seedFluids(rng, tiles, surface);
 
   const { pockets, pocketMap } = placeBones(rng, tiles, surface);
   return { tiles, surface, pockets, pocketMap };
@@ -92,6 +93,55 @@ function carveWormCaves(rng, tiles, surface) {
       if (x < 4 || x > WORLD_W - 4 || y > WORLD_H - 8) break;
     }
   }
+}
+
+/**
+ * Seed fluids into cave basins: WATER in the mid strata (depth 22–130), glowing
+ * LAVA deep down (depth > 236). We flood-fill a cave pocket from a seed, then
+ * fill its lowest ~4 rows so it reads as a settled pool. The flow CA
+ * (world/fluids.js) takes over once the player breaches one.
+ */
+function seedFluids(rng, tiles, surface) {
+  const T_WATER = 4, T_LAVA = 5;
+  const at = (x, y) => (x < 0 || x >= WORLD_W || y < 0 || y >= WORLD_H) ? T_ROCK : tiles[y * WORLD_W + x];
+  const depthAt = (x, y) => y - surface[Math.max(0, Math.min(WORLD_W - 1, x))];
+
+  const pools = (count, dMin, dMax, fluid, maxCells) => {
+    for (let n = 0; n < count; n++) {
+      // find an air seed in the band whose column has solid below (a basin bottom)
+      let sx = -1, sy = -1;
+      for (let tries = 0; tries < 40; tries++) {
+        const x = 6 + Math.floor(rng.next() * (WORLD_W - 12));
+        const d = dMin + Math.floor(rng.next() * (dMax - dMin));
+        const y = surface[x] + d;
+        if (y >= WORLD_H - 5) continue;
+        if (at(x, y) === T_AIR && at(x, y + 1) !== T_AIR && at(x, y + 1) !== T_WATER) { sx = x; sy = y; break; }
+      }
+      if (sx < 0) continue;
+      // bounded flood of the connected air pocket
+      const seen = new Set([sy * WORLD_W + sx]);
+      const stack = [[sx, sy]];
+      const cells = [];
+      while (stack.length && cells.length < maxCells) {
+        const [x, y] = stack.pop();
+        cells.push([x, y]);
+        for (const [ox, oy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+          const nx = x + ox, ny = y + oy, k = ny * WORLD_W + nx;
+          if (!seen.has(k) && at(nx, ny) === T_AIR && depthAt(nx, ny) >= dMin - 4) { seen.add(k); stack.push([nx, ny]); }
+        }
+      }
+      if (cells.length < 4) continue;
+      // fill the lowest rows of the pocket
+      const maxRow = Math.max(...cells.map(c => c[1]));
+      for (const [x, y] of cells) {
+        if (y >= maxRow - 4 && at(x, y + 1) !== T_AIR) tiles[y * WORLD_W + x] = fluid;   // has a floor
+        else if (y >= maxRow - 4) tiles[y * WORLD_W + x] = fluid;
+      }
+    }
+  };
+
+  pools(10, 22, 130, T_WATER, 70);
+  pools(8, 236, 999, T_LAVA, 90);
 }
 
 /** occasional large caverns in the deeper half — pause, look around, feel small */

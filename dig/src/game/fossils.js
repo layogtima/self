@@ -4,6 +4,7 @@
 
 import { FOSSILS, FOSSILS_BY_ID, fossilsForPeriod } from '../content/fossils.js';
 import { SPECIMEN_STATES } from '../content/stations.js';
+import { boneCategory } from '../render/bones.js';
 
 let uid = 0;
 
@@ -49,17 +50,29 @@ export function makeSatchel() {
  * Comparison-desk decoys: SIMILAR species (same period first, ranked by size
  * closeness) so the choice is a real anatomy question, not "gnat vs t-rex".
  */
-export function pickDecoys(spec, uid = 1) {
+/**
+ * Comparison-desk decoys for a specific BONE: two other species that ALSO have a
+ * bone of the same category (so the puzzle is "whose <spine> is this?"), ranked
+ * by size closeness. The minigame renders each candidate's version of that bone.
+ */
+export function pickBoneDecoys(spec, boneName, uid = 1) {
+  const cat = boneCategory(boneName);
   const sizeGap = f => Math.abs(Math.log((f.lengthM + 0.01) / (spec.lengthM + 0.01)));
+  const hasCat = f => (f.bones || []).some(b => boneCategory(b) === cat);
   const score = f => sizeGap(f)
-    + Math.abs(f.footprint[0] * f.footprint[1] - spec.footprint[0] * spec.footprint[1]) * 0.08
-    + (f.period === spec.period ? 0 : 0.6);        // same-period preferred, not required
-  // candidates from ANY period, but only size-plausible ones (< ~12× difference)
-  let pool = FOSSILS.filter(f => f.id !== spec.id && sizeGap(f) < 2.5);
-  if (pool.length < 2) pool = FOSSILS.filter(f => f.id !== spec.id);   // pathological fallback
+    + Math.abs(f.footprint[0] * f.footprint[1] - spec.footprint[0] * spec.footprint[1]) * 0.08;
+  // same-category first, size-plausible; then relax category, then relax size.
+  let pool = FOSSILS.filter(f => f.id !== spec.id && hasCat(f) && sizeGap(f) < 2.6);
+  if (pool.length < 2) pool = FOSSILS.filter(f => f.id !== spec.id && hasCat(f));
+  if (pool.length < 2) pool = FOSSILS.filter(f => f.id !== spec.id && sizeGap(f) < 2.6);
+  if (pool.length < 2) pool = FOSSILS.filter(f => f.id !== spec.id);
   const ranked = pool.sort((a, b) => score(a) - score(b)).slice(0, 2);
-  // display order varies per fragment; membership stays the two best
   return (((uid * 2654435761) >>> 0) % 2 ? ranked : ranked.slice().reverse());
+}
+
+/** @deprecated kept for older callers/tests — whole-species version */
+export function pickDecoys(spec, uid = 1) {
+  return pickBoneDecoys(spec, (spec.bones || ['piece'])[0], uid);
 }
 
 /** display label for a fragment given how much we know */

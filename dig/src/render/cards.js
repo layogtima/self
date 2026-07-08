@@ -9,7 +9,29 @@ import { TILE } from '../config.js';
 import { PALETTE, RARITY_COLORS } from './palette.js';
 import { blueprintPanel, text, wrap, measure, roundRect } from './text.js';
 import { drawFossil } from './sprites.js';
+import { drawBone, boneFootprint } from './bones.js';
 import { STRATA, STRATA_BY_ID } from '../content/strata.js';
+
+/**
+ * Codex card for a scanned creature/flora/feature/rock. Parchment panel with a
+ * category tab, a name, a blurb, and a stat table.
+ */
+export function drawCodexCard(ctx, entry, x, y, w, h) {
+  const { ix, iy, iw, ih } = blueprintPanel(ctx, x, y, w, h, { frameW: 8, r: 16 });
+  text(ctx, 'FIELD SCAN', ix + 14, iy + 10, { size: 11, bold: true, color: PALETTE.creamDim });
+  text(ctx, entry.category.toUpperCase(), ix + iw - 14, iy + 10, { size: 11, bold: true, color: PALETTE.amberSoft, align: 'right' });
+  text(ctx, entry.name, ix + 14, iy + 32, { size: 22, bold: true, color: PALETTE.amber });
+  let ry = iy + 66;
+  for (const line of wrap(ctx, entry.blurb, iw - 28, 14)) { text(ctx, line, ix + 14, ry, { size: 14 }); ry += 20; }
+  ry += 8;
+  for (const [label, val] of entry.stats || []) {
+    text(ctx, label, ix + 16, ry, { size: 12, color: PALETTE.creamDim });
+    text(ctx, val, ix + iw - 16, ry, { size: 12, bold: true, align: 'right' });
+    ctx.strokeStyle = 'rgba(74,52,33,0.15)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(ix + 16, ry + 16); ctx.lineTo(ix + iw - 16, ry + 16); ctx.stroke();
+    ry += 22;
+  }
+}
 
 /**
  * @param {'unknown'|'full'} mode
@@ -153,14 +175,10 @@ export function drawMiniCard(ctx, spec, x, y, w, h, makeCanvas, time = 0, bone =
   const weightStr = weightKg >= 1000 ? `${(weightKg / 1000).toFixed(1)} t` : weightKg >= 1 ? `${weightKg.toFixed(1)} kg` : `${Math.round(weightKg * 1000)} g`;
   const condition = ['mineralized', 'permineralized', 'compressed', 'encrusted'][Math.floor(hash(3) * 4)];
 
-  // bone glyph, left
-  const cx = ix + 30, cy = iy + ih / 2;
-  ctx.save();
-  ctx.translate(cx, cy); ctx.rotate(-0.5);
-  ctx.fillStyle = PALETTE.frame;
-  ctx.fillRect(-12, -3, 24, 6);
-  ctx.beginPath(); ctx.arc(-12, 0, 5, 0, Math.PI * 2); ctx.arc(12, 0, 5, 0, Math.PI * 2); ctx.fill();
-  ctx.restore();
+  // the actual recovered bone, left
+  const [bfw, bfh] = boneFootprint(bone);
+  const bsc = Math.min(46 / (bfw * TILE), (ih - 12) / (bfh * TILE), 1.4);
+  drawBone(ctx, spec, bone, ix + 30 - bfw * TILE * bsc / 2, iy + ih / 2 - bfh * TILE * bsc / 2, makeCanvas, bsc);
   const pulse = 0.6 + Math.sin(time * 5) * 0.3;
   ctx.globalAlpha = pulse;
   ctx.fillStyle = PALETTE.amber;

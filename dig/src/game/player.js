@@ -15,7 +15,10 @@ export function makePlayer(spawnX, spawnY) {
     onGround: false, coyote: 0, jumpBuf: 0, jumpHeld: false,
     facing: 1, walkT: 0, lastVy: 0,
     digCd: 0, swingT: 0, swingAim: 0.9, placeCd: 0,
+    fastFallT: 0, chute: false,  // parachute auto-deploys on a long fast fall
     beam: null,               // {x,y} world target while the laser fires this frame
+    tool: 'laser',            // 'laser' | 'scan' (Ctrl toggles)
+    inWater: false, inLava: false,
 
     cx() { return this.x + this.w / 2; },
     cy() { return this.y + this.h / 2; },
@@ -53,8 +56,29 @@ export function updatePlayer(p, world, dt) {
   if (p.jumpHeld && !jumpKey && p.vy < 0) { p.vy *= 0.45; p.jumpHeld = false; }
   if (!jumpKey) p.jumpHeld = false;
 
-  p.vy = Math.min(p.vy + GRAVITY * dt, MAX_FALL);
+  // fluids: sample what the rover is submerged in (chassis centre)
+  const fluid = world.fluidAt ? world.fluidAt(p.tx(), Math.floor(p.cy() / TILE)) : 0;
+  p.inWater = fluid === 4;
+  p.inLava = fluid === 5;
+  if (p.inWater) {
+    // buoyancy: gentle sink, strong drag, jump = swim stroke upward
+    p.vy = Math.min(p.vy + GRAVITY * 0.18 * dt, 90);
+    p.vx *= 0.86; p.vy *= 0.9;
+    if (p.jumpBuf > 0) { p.vy = -140; p.jumpBuf = 0; }
+  } else if (p.chute || (!p.onGround && p.fastFallT > 0.35)) {
+    // parachute: a long fast fall auto-deploys a canopy that eases you down
+    p.chute = true;
+    p.vy = Math.min(p.vy + GRAVITY * 0.25 * dt, 150);   // gentle terminal velocity
+    p.vx *= 0.94;
+  } else {
+    p.vy = Math.min(p.vy + GRAVITY * dt, MAX_FALL);
+  }
   moveAndCollide(p, world, dt);
+
+  // parachute bookkeeping: accumulate fast-fall time; stow the chute on landing
+  if (!p.onGround && !p.inWater && p.vy > 520) p.fastFallT += dt;
+  else if (p.vy < 200 || p.inWater) p.fastFallT = 0;
+  if (p.onGround || p.inWater) p.chute = false;
 
   p.digCd = Math.max(0, p.digCd - dt);
   p.swingT = Math.max(0, p.swingT - dt);

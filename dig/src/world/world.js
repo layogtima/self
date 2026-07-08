@@ -4,10 +4,11 @@
 
 import {
   WORLD_W, WORLD_H, SURFACE_BASE, TILE,
-  T_AIR, T_ROCK, T_PLACED, T_BEDROCK,
+  T_AIR, T_ROCK, T_PLACED, T_BEDROCK, T_WATER, T_LAVA,
   CAMP_HALF_L, CAMP_HALF_R, CAMP_DEPTH,
 } from '../config.js';
 import { generateWorld } from './worldgen.js';
+import { makeFluids } from './fluids.js';
 import { STRATA, strataIndexAtDepth, stratumAtDepth } from '../content/strata.js';
 
 export function makeWorld(seed) {
@@ -34,7 +35,14 @@ export function makeWorld(seed) {
     solidAt(tx, ty) {
       if (ty < 0) return false;
       if (tx < 0 || tx >= WORLD_W || ty >= WORLD_H) return true;
-      return tiles[ty * WORLD_W + tx] !== T_AIR;
+      const t = tiles[ty * WORLD_W + tx];
+      return t !== T_AIR && t !== T_WATER && t !== T_LAVA;   // fluids don't block
+    },
+    /** T_WATER | T_LAVA | 0 (none) */
+    fluidAt(tx, ty) {
+      if (!inBounds(tx, ty)) return 0;
+      const t = tiles[ty * WORLD_W + tx];
+      return (t === T_WATER || t === T_LAVA) ? t : 0;
     },
     depthAt(tx) {
       const c = Math.max(0, Math.min(WORLD_W - 1, tx));
@@ -93,6 +101,7 @@ export function makeWorld(seed) {
       const wasPlaced = tiles[idx] === T_PLACED;
       tiles[idx] = T_AIR;
       if (wasPlaced) placed.delete(idx); else dug.add(idx);
+      fluids.wake(tx, ty);   // a fluid neighbour may now pour into this cell
 
       const pIndex = pocketMap.get(idx);
       if (pIndex !== undefined && !excavated.has(pIndex)) {
@@ -101,6 +110,9 @@ export function makeWorld(seed) {
       }
       return { broke: true };
     },
+
+    /** advance fluid flow within the visible window */
+    stepFluids(bounds, dt) { fluids.step(bounds, dt); },
 
     place(tx, ty) {
       if (!inBounds(tx, ty)) return false;
@@ -132,6 +144,9 @@ export function makeWorld(seed) {
       }
     },
   };
+
+  const fluids = makeFluids(world);
+  fluids.seedActive();
 
   return world;
 }

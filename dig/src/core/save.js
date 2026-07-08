@@ -35,4 +35,4 @@ export function clearSave() {
   try { localStorage.removeItem(SAVE_KEY); } catch { /* ignore */ }
 }
 
-export const DEFAULT_SETTINGS = { volume: 0.8, music: 0.5, shake: true, filter: true };
+export const DEFAULT_SETTINGS = { volume: 0.8, music: 0.5, shake: true };

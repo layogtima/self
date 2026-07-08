@@ -210,6 +210,29 @@ function drawEyes(ctx, cx, cy, mood, time, moving, seed, eyeCount = 2) {
 /** @deprecated alias — older call sites; the dwarf retired to poc/ */
 export const drawDwarf = drawProbe;
 
+// ---------------------------------------------------------------- soft cloud
+// A flat-bottomed puff: overlapping ellipses on a shared baseline, a lighter
+// top highlight and a faint under-shadow. `gloom` 0..1 greys it for weather.
+export function softCloud(ctx, px, py, gloom = 0) {
+  const base = gloom > 0.4 ? [176, 180, 192] : [238, 240, 244];
+  const rgba = (c, a) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
+  const lobes = [[-20, 2, 13, 9], [-6, -4, 17, 13], [12, -2, 15, 11], [26, 3, 11, 8]];
+  ctx.save();
+  // soft under-shadow along the flat base
+  ctx.fillStyle = rgba(gloom > 0.4 ? [120, 122, 134] : [206, 210, 218], 0.5);
+  for (const [ox, oy, rx, ry] of lobes) { ctx.beginPath(); ctx.ellipse(px + ox, py + oy + 3, rx, ry, 0, 0, Math.PI * 2); ctx.fill(); }
+  // body
+  ctx.fillStyle = rgba(base, 0.92);
+  for (const [ox, oy, rx, ry] of lobes) { ctx.beginPath(); ctx.ellipse(px + ox, py + oy, rx, ry, 0, 0, Math.PI * 2); ctx.fill(); }
+  // flatten the bottom (clouds sit on an invisible shelf)
+  ctx.fillStyle = rgba(base, 0.92);
+  ctx.fillRect(px - 30, py + 2, 60, 7);
+  // top highlight
+  ctx.fillStyle = rgba(gloom > 0.4 ? [198, 202, 212] : [255, 255, 255], 0.6);
+  for (const [ox, oy, rx, ry] of lobes) { ctx.beginPath(); ctx.ellipse(px + ox, py + oy - 2, rx * 0.7, ry * 0.6, 0, Math.PI, Math.PI * 2); ctx.fill(); }
+  ctx.restore();
+}
+
 // ---------------------------------------------------------------- fossils
 const fossilImages = {};   // id -> HTMLImageElement (loaded) | false (missing)
 const silhouetteCache = {}; // id -> offscreen canvas

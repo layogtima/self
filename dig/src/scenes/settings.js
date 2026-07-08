@@ -16,9 +16,10 @@ export function makeSettingsScene(services, opts = {}) {
   const sfxSlider = { x: px + 160, y: py + 84, w: 210, h: 8, key: 'volume', apply: setVolume, label: 'SFX' };
   const musSlider = { x: px + 160, y: py + 134, w: 210, h: 8, key: 'music', apply: setMusicVolume, label: 'Music' };
   const shakeBox = { x: px + 160, y: py + 172, w: 24, h: 24 };
-  const filterBox = { x: px + 160, y: py + 202, w: 24, h: 24 };
+  const creditsBtn = { x: px + 40, y: py + 208, w: 165, h: 34 };
   const resetBtn = { x: px + 40, y: py + 262, w: 165, h: 42 };
   const backBtn = { x: px + pw - 205, y: py + 262, w: 165, h: 42 };
+  let showCredits = false;
 
   let resetFlash = 0;
   let dragging = null;
@@ -41,12 +42,13 @@ export function makeSettingsScene(services, opts = {}) {
   return {
     update(dt) {
       resetFlash = Math.max(0, resetFlash - dt);
-      if (pressed('Escape')) { goBack(); return; }
+      if (pressed('Escape')) { if (showCredits) { showCredits = false; sfx.uiBack(); return; } goBack(); return; }
+      if (showCredits) { if (pressed('MouseLeft')) { showCredits = false; sfx.uiBack(); } return; }
       if (pressed('MouseLeft')) {
+        if (hit(creditsBtn)) { showCredits = true; sfx.ui(); return; }
         if (sliderHit(sfxSlider)) { dragging = sfxSlider; setFromMouse(sfxSlider); sfx.ui(); persist(); }
         else if (sliderHit(musSlider)) { dragging = musSlider; setFromMouse(musSlider); persist(); }
         else if (hit(shakeBox)) { settings.shake = !settings.shake; sfx.ui(); persist(); }
-        else if (hit(filterBox)) { settings.filter = settings.filter === false; sfx.ui(); persist(); }
         else if (hit(resetBtn)) { clearSave(); services.save = null; resetFlash = 1.2; sfx.uiBack(); }
         else if (hit(backBtn)) { goBack(); }
       }
@@ -90,14 +92,12 @@ export function makeSettingsScene(services, opts = {}) {
         ctx.fillRect(shakeBox.x + 5, shakeBox.y + 5, shakeBox.w - 10, shakeBox.h - 10);
       }
 
-      text(ctx, 'Film filter', px + 42, filterBox.y + 4, { size: 15, bold: true });
-      roundRect(ctx, filterBox.x, filterBox.y, filterBox.w, filterBox.h, 6);
-      ctx.fillStyle = 'rgba(0,0,0,0.3)'; ctx.fill();
-      ctx.lineWidth = 2; ctx.strokeStyle = PALETTE.frameLight; ctx.stroke();
-      if (settings.filter !== false) {
-        ctx.fillStyle = PALETTE.amber;
-        ctx.fillRect(filterBox.x + 5, filterBox.y + 5, filterBox.w - 10, filterBox.h - 10);
-      }
+
+      // Credits button
+      roundRect(ctx, creditsBtn.x, creditsBtn.y, creditsBtn.w, creditsBtn.h, 8);
+      ctx.fillStyle = PALETTE.frameDark; ctx.fill();
+      ctx.lineWidth = 2; ctx.strokeStyle = hit(creditsBtn) ? PALETTE.cream : PALETTE.frameDark; ctx.stroke();
+      text(ctx, 'Credits', creditsBtn.x + creditsBtn.w / 2, creditsBtn.y + creditsBtn.h / 2, { size: 13, bold: true, align: 'center', baseline: 'middle', color: PALETTE.cream });
 
       for (const [b, label, primary] of [[resetBtn, resetFlash > 0 ? 'Save cleared' : 'Reset save', false], [backBtn, opts.overlay ? 'Resume' : 'Back', true]]) {
         roundRect(ctx, b.x, b.y, b.w, b.h, 10);
@@ -108,6 +108,27 @@ export function makeSettingsScene(services, opts = {}) {
       }
 
       text(ctx, 'ESC to close', px + pw / 2, py + ph - 26, { size: 11, align: 'center', color: PALETTE.creamDim });
+
+      if (showCredits) drawCredits();
     },
   };
+
+  function drawCredits() {
+    ctx.fillStyle = 'rgba(20,16,12,0.75)';
+    ctx.fillRect(0, 0, VIEW_W, VIEW_H);
+    const cw = 640, chh = 420, cx = VIEW_W / 2 - cw / 2, cy = VIEW_H / 2 - chh / 2;
+    blueprintPanel(ctx, cx, cy, cw, chh, { frameW: 8, r: 16 });
+    text(ctx, 'CREDITS', cx + 24, cy + 20, { size: 20, bold: true });
+    text(ctx, 'Ambient sound from Freesound.org (CC0 / CC-BY):', cx + 24, cy + 52, { size: 12, color: PALETTE.creamDim });
+    let y = cy + 76;
+    for (const c of (services.credits || [])) {
+      text(ctx, `${c.key}`, cx + 28, y, { size: 12, bold: true, color: PALETTE.amberSoft });
+      text(ctx, `“${(c.title || '').slice(0, 42)}” — ${c.author} · ${c.licence}`, cx + 150, y, { size: 11, color: PALETTE.cream });
+      y += 22;
+    }
+    if (!(services.credits || []).length) text(ctx, '(loading…)', cx + 28, y, { size: 12, color: PALETTE.creamDim });
+    y += 10;
+    text(ctx, 'Pixel art via RetroDiffusion; music & other SFX synthesized in-engine.', cx + 24, cy + chh - 52, { size: 11, color: PALETTE.creamDim });
+    text(ctx, 'click / ESC to close', cx + cw / 2, cy + chh - 26, { size: 11, align: 'center', color: PALETTE.creamDim });
+  }
 }

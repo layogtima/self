@@ -5,7 +5,7 @@
 import { VIEW_W, VIEW_H, TILE } from '../config.js';
 import { PALETTE } from '../render/palette.js';
 import { text, roundRect } from '../render/text.js';
-import { drawProbe } from '../render/sprites.js';
+import { drawProbe, softCloud } from '../render/sprites.js';
 import { mouse, pressed } from '../core/input.js';
 import { sfx } from '../core/audio.js';
 import { updateMusic, setMusicDepth } from '../core/music.js';
@@ -63,11 +63,10 @@ export function makeTitleScene(services) {
         ctx.beginPath(); ctx.arc(sm.moon.x, sm.moon.y * 0.8, 10, 0, Math.PI * 2); ctx.fill();
       }
       // clouds
-      ctx.fillStyle = 'rgba(255,255,255,0.35)';
       for (let c = 0; c < 5; c++) {
         const cx = ((c * 311 + time * (6 + c * 2)) % (VIEW_W + 200)) - 100;
-        const cy = 40 + (c * 53) % 140;
-        for (const [ox, oy, r] of [[0, 0, 14], [12, -5, 11], [24, 2, 12]]) { ctx.beginPath(); ctx.arc(cx + ox, cy + oy, r, 0, Math.PI * 2); ctx.fill(); }
+        const cy = 50 + (c * 53) % 130;
+        softCloud(ctx, cx, cy, 0);
       }
       // birds
       ctx.strokeStyle = 'rgba(40,34,30,0.6)';

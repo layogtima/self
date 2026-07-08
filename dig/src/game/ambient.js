@@ -21,6 +21,7 @@ export function makeAmbient() {
   // fauna: proper creatures with tiny brains {kind,x,y,dir,state,t,life}
   //   surface: grazer | hopper | lizard   caves: salamander | spider
   const fauna = [];
+  const fireflies = [];    // {x,y,t,life} night-only glowers
   const glowSpots = [];   // discovered glowworm ceiling patches {x,y,n,seed}
   const litCaverns = new Set();
   let dripScan = 0;
@@ -37,14 +38,21 @@ export function makeAmbient() {
       }
     },
 
-    update(dt, world, player, cam, depth, lightPoly) {
+    update(dt, world, player, cam, depth, lightPoly, env) {
       const b = cam.bounds();
       const above = depth < 2;
+      // time & weather drive who is out and how they behave (mod 14)
+      const night = env ? env.night01() : 0;
+      const weather = env ? env.weather : 'clear';
+      const raining = weather === 'rain' || weather === 'storm';
+      const storm = weather === 'storm';
+      const clearish = weather === 'clear' || weather === 'overcast';
+      const isDay = night < 0.35;
 
       // ---------- overground ----------
       if (above || player.cy() < world.surface[player.tx()] * TILE + TILE * 6) {
-        // bird flocks (rare)
-        if (birds.length < MAX.birds && Math.random() < 0.0012) {
+        // bird flocks (day only)
+        if (isDay && birds.length < MAX.birds && Math.random() < 0.0012) {
           const dir = Math.random() < 0.5 ? 1 : -1;
           const y = 40 + Math.random() * 110;
           birds.push({
@@ -52,8 +60,8 @@ export function makeAmbient() {
             members: Array.from({ length: 3 + (Math.random() * 4 | 0) }, (_, i) => ({ ox: -i * 12 * dir + (Math.random() - 0.5) * 8, oy: (i % 2 ? 7 : -5) + (Math.random() - 0.5) * 4, ph: Math.random() * 6 })),
           });
         }
-        // butterflies near the surface
-        if (butterflies.length < MAX.butterflies && Math.random() < 0.006) {
+        // butterflies: only bright, dry days
+        if (isDay && clearish && !raining && butterflies.length < MAX.butterflies && Math.random() < 0.006) {
           const tx = Math.max(0, Math.min(WORLD_W - 1, Math.floor(cam.x / TILE) + (Math.random() * (VIEW_W / TILE) | 0)));
           butterflies.push({ x: tx * TILE, y: world.surface[tx] * TILE - 8 - Math.random() * 24, t: Math.random() * 10, life: 12 + Math.random() * 10 });
         }
@@ -62,11 +70,22 @@ export function makeAmbient() {
           const dir = Math.random() < 0.5 ? 1 : -1;
           critters.push({ x: dir > 0 ? cam.x - 20 : cam.x + VIEW_W + 20, dir, t: 0, life: 14 });
         }
-        // surface fauna: grazer / hopper / lizard wander in from off-screen
+        // surface fauna, gated by time & weather
         if (fauna.filter(f => f.zone === 'surface').length < 3 && Math.random() < 0.0016) {
-          const kind = ['grazer', 'hopper', 'lizard'][(Math.random() * 3) | 0];
-          const dir = Math.random() < 0.5 ? 1 : -1;
-          fauna.push({ kind, zone: 'surface', x: dir > 0 ? cam.x - 30 : cam.x + VIEW_W + 30, y: 0, dir, state: 'walk', t: 0, life: 40 + Math.random() * 30, ph: Math.random() * 7 });
+          const eligible = [];
+          if (isDay) eligible.push('grazer');
+          if (isDay && weather === 'clear') eligible.push('lizard');
+          if (raining) { eligible.push('hopper', 'hopper'); }   // frogs love the rain
+          if (eligible.length) {
+            const kind = eligible[(Math.random() * eligible.length) | 0];
+            const dir = Math.random() < 0.5 ? 1 : -1;
+            fauna.push({ kind, zone: 'surface', x: dir > 0 ? cam.x - 30 : cam.x + VIEW_W + 30, y: 0, dir, state: 'walk', t: 0, life: 40 + Math.random() * 30, ph: Math.random() * 7 });
+          }
+        }
+        // fireflies drift over the surface on warm nights
+        if (night > 0.5 && !raining && fireflies.length < 14 && Math.random() < 0.03) {
+          const tx = Math.max(0, Math.min(WORLD_W - 1, Math.floor(cam.x / TILE) + (Math.random() * (VIEW_W / TILE) | 0)));
+          fireflies.push({ x: tx * TILE, y: world.surface[tx] * TILE - 6 - Math.random() * 40, t: Math.random() * 7, life: 8 + Math.random() * 8 });
         }
       }
 
@@ -155,14 +174,23 @@ export function makeAmbient() {
         }
       }
 
-      // fauna brains: wander/idle, flee the rover
+      // fauna brains: wander/idle, flee the rover, sleep at night, bolt in storms
+      const diurnal = k => k === 'grazer' || k === 'lizard';
       for (const f of fauna) {
         f.t += dt; f.life -= dt;
+        // weather/time overrides
+        if (f.zone === 'surface' && diurnal(f.kind)) {
+          if (storm && f.state !== 'flee') { f.state = 'flee'; f.dir = f.x < player.cx() ? -1 : 1; }
+          else if (night > 0.6 && f.state !== 'flee') { f.state = 'sleep'; }
+          else if (f.state === 'sleep' && night < 0.5) f.state = 'walk';
+        }
         const distX = Math.abs(f.x - player.cx());
         const near = distX < TILE * 5 && Math.abs((f.y || player.cy()) - player.cy()) < TILE * 6;
         if (near && f.state !== 'flee') { f.state = 'flee'; f.dir = f.x < player.cx() ? -1 : 1; f.t = 0; }
-        const speed = f.state === 'flee'
-          ? (f.kind === 'grazer' ? 90 : f.kind === 'hopper' ? 80 : f.kind === 'lizard' ? 110 : 50)
+        const fleeMul = storm ? 1.4 : 1;
+        const speed = f.state === 'sleep' ? 0
+          : f.state === 'flee'
+          ? (f.kind === 'grazer' ? 90 : f.kind === 'hopper' ? 80 : f.kind === 'lizard' ? 110 : 50) * fleeMul
           : f.state === 'walk' ? (f.kind === 'salamander' ? 12 : f.kind === 'spider' ? 22 : 24) : 0;
         if (f.state === 'flee' && f.t > 2.5) f.state = 'walk';
         if (f.state === 'walk' && f.t > 3 + (f.ph % 3)) { f.state = Math.random() < 0.5 ? 'idle' : 'walk'; f.t = 0; if (Math.random() < 0.3) f.dir *= -1; }
@@ -184,6 +212,8 @@ export function makeAmbient() {
       }
       for (let i = fauna.length - 1; i >= 0; i--) if (fauna[i].life <= 0) fauna.splice(i, 1);
 
+      for (const ff of fireflies) { ff.t += dt; ff.life -= dt; ff.x += Math.sin(ff.t * 1.3) * 12 * dt; ff.y += Math.cos(ff.t * 1.7) * 8 * dt; }
+      for (let i = fireflies.length - 1; i >= 0; i--) if (fireflies[i].life <= 0 || (env && env.night01() < 0.3)) fireflies.splice(i, 1);
       for (const m of motes) { m.x += m.vx * dt; m.y += m.vy * dt; m.life -= dt; }
       for (let i = motes.length - 1; i >= 0; i--) if (motes[i].life <= 0) motes.splice(i, 1);
 
@@ -226,6 +256,12 @@ export function makeAmbient() {
         ctx.fillRect(bf.x - 1 - open * 2, bf.y, 2, 2);
         ctx.fillRect(bf.x + 1 + open * 2 - 2, bf.y, 2, 2);
       }
+      // fireflies: pulsing amber dots
+      for (const ff of fireflies) {
+        const pulse = 0.4 + Math.abs(Math.sin(ff.t * 3)) * 0.6;
+        ctx.fillStyle = `rgba(255,210,90,${pulse.toFixed(2)})`;
+        ctx.fillRect(ff.x, ff.y, 2, 2);
+      }
       // critters: a scooting dark blob with legs
       ctx.fillStyle = '#3A3028';
       for (const cr of critters) {
@@ -267,6 +303,17 @@ export function makeAmbient() {
     },
 
     counts() { return { birds: birds.length, butterflies: butterflies.length, motes: motes.length, drips: drips.length, pebbles: pebbles.length, bats: bats.length, critters: critters.length, fauna: fauna.length, glow: glowSpots.length }; },
+    /** live creatures near a world point, for the scanner (kind = codex id) */
+    scanTargets(wx, wy, radius = TILE * 8) {
+      const out = [];
+      const r2 = radius * radius;
+      for (const f of fauna) if ((f.x - wx) ** 2 + ((f.y || 0) - wy) ** 2 < r2) out.push({ kind: f.kind, x: f.x, y: f.y || 0 });
+      for (const ff of fireflies) if ((ff.x - wx) ** 2 + (ff.y - wy) ** 2 < r2) out.push({ kind: 'firefly', x: ff.x, y: ff.y });
+      for (const bf of butterflies) if ((bf.x - wx) ** 2 + (bf.y - wy) ** 2 < r2) out.push({ kind: 'butterfly', x: bf.x, y: bf.y });
+      for (const bt of bats) if ((bt.x - wx) ** 2 + (bt.y - wy) ** 2 < r2) out.push({ kind: 'bat', x: bt.x, y: bt.y });
+      for (const g of glowSpots) if ((g.x - wx) ** 2 + (g.y - wy) ** 2 < r2) out.push({ kind: 'glowworm', x: g.x + 10, y: g.y });
+      return out;
+    },
     /** glowworm patches as light sources for the lighting pass */
     glowLights() { return glowSpots.map(g => ({ x: g.x + 10, y: g.y + 4, r: 34, warmth: 0 })); },
   };

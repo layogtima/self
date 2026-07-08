@@ -429,4 +429,116 @@ console.log('\n[decoys] compare candidates are size-plausible');
   t.ok(allPlausible, `every decoy within plausible size range (worst log-ratio ${worst.toFixed(2)})`);
 }
 
+// ===================================================================== v3.6: bones-as-bones
+console.log('\n[bones] every bone maps to a real glyph + decoys share category');
+{
+  const { boneCategory, boneFootprint } = await import('../src/render/bones.js');
+  const { pickBoneDecoys } = await import('../src/game/fossils.js');
+  let allMapped = true;
+  for (const f of FOSSILS) for (const b of f.bones) {
+    const fp = boneFootprint(b);
+    if (!Array.isArray(fp) || fp[0] <= 0) allMapped = false;
+  }
+  t.ok(allMapped, 'every bone name resolves to a drawable footprint');
+  // same-category decoys: for a spined species, decoys should also have that category (when available)
+  const spined = FOSSILS_BY_ID['t-rex'];
+  const decoys = pickBoneDecoys(spined, 'spine', 3);
+  t.ok(decoys.length === 2 && decoys.every(d => d.id !== 't-rex'), 'two distinct decoys returned');
+  const cat = boneCategory('spine');
+  const sameCat = decoys.filter(d => d.bones.some(b => boneCategory(b) === cat)).length;
+  t.ok(sameCat >= 1, 'decoys tend to share the bone category');
+}
+
+// ===================================================================== v3.6: codex + scan
+console.log('\n[codex] entries cover creatures + strata; scan resolves tiles');
+{
+  const { CODEX, CODEX_BY_ID } = await import('../src/content/codex.js');
+  for (const kind of ['grazer', 'hopper', 'lizard', 'salamander', 'spider', 'glowworm', 'firefly', 'butterfly', 'bird', 'bat']) {
+    t.ok(!!CODEX_BY_ID[kind], `codex has creature: ${kind}`);
+  }
+  t.ok(STRATA.every(x => CODEX_BY_ID[`rock-${x.id}`]), 'codex has a rock sample per stratum');
+  t.ok(CODEX_BY_ID.water && CODEX_BY_ID.lava, 'codex has water + lava');
+  const { scanTargetAt } = await import('../src/game/scan.js');
+  const w = makeWorld(3);
+  // a solid rock tile deep under an off-camp column resolves to its stratum rock
+  const col = w.spawnCol + 50, ty = w.surface[col] + 100;
+  // ensure it's rock
+  if (w.tileAt(col, ty) === cfg.T_ROCK) {
+    t.eq(scanTargetAt((col + 0.5) * cfg.TILE, (ty + 0.5) * cfg.TILE, w, []), `rock-${w.stratumAt(col, ty).id}`, 'scanning rock yields its stratum sample');
+  } else { t.ok(true, 'scan rock case skipped (tile was a cave)'); }
+}
+
+// ===================================================================== v3.6: fluids
+console.log('\n[fluids] world seeds pools + flow conserves volume');
+{
+  const w = makeWorld(999);
+  let water = 0, lava = 0;
+  for (const tt of w.tiles) { if (tt === cfg.T_WATER) water++; if (tt === cfg.T_LAVA) lava++; }
+  t.ok(water > 0, `world seeded water (${water} tiles)`);
+  // flow conservation: dig air below a water column, step, count stays equal
+  let idx = -1; for (let i = 0; i < w.tiles.length; i++) if (w.tiles[i] === cfg.T_WATER) { idx = i; break; }
+  const W = cfg.WORLD_W, tx = idx % W, ty = (idx / W) | 0;
+  const before = w.tiles.reduce((n, tt) => n + (tt === cfg.T_WATER ? 1 : 0), 0);
+  // clear a big air column below by digging rock (if any)
+  for (let k = 0; k < 6; k++) w.dig(tx, ty + 2 + k);
+  const bounds = { x0: tx - 40, x1: tx + 40, y0: ty - 40, y1: ty + 40 };
+  for (let k = 0; k < 300; k++) w.stepFluids(bounds, 1 / 60);
+  const after = w.tiles.reduce((n, tt) => n + (tt === cfg.T_WATER ? 1 : 0), 0);
+  t.ok(after === before, `water volume conserved through flow (${before} → ${after})`);
+  // fluids are non-solid
+  t.ok(!w.solidAt(tx, ty), 'fluid tiles are not solid (rover falls in)');
+}
+
+// ===================================================================== sound credits
+console.log('\n[sound] Freesound assets are attributed');
+{
+  const fs = await import('node:fs');
+  const path = await import('node:path');
+  const dir = path.join(process.cwd(), 'assets/sounds');
+  const manifest = JSON.parse(fs.readFileSync(path.join(dir, 'credits.json'), 'utf8'));
+  const needs = ['rain-loop', 'wind-loop', 'crickets-night', 'forest-day', 'cave-ambience', 'water-stream', 'lava-bubbling'];  // ambient beds only; SFX stay synth
+  t.ok(needs.every(n => manifest[n]), 'every ambient sound has a manifest entry');
+  let ok = true;
+  for (const n of needs) {
+    const m = manifest[n];
+    if (!(m && m.author && m.title && /CC0|CC-BY/.test(m.licence) && m.url)) ok = false;
+    if (!fs.existsSync(path.join(dir, n + '.mp3'))) ok = false;
+  }
+  t.ok(ok, 'each sound file exists with author + title + CC licence + url');
+  t.ok(fs.existsSync(path.join(process.cwd(), 'CREDITS.md')), 'CREDITS.md was generated');
+  // audio module exports the new sample-driven setters
+  const audio = await import('../src/core/audio.js');
+  t.ok(['loadSamples', 'setCaveLevel', 'setWaterLevel', 'setLavaLevel'].every(k => typeof audio[k] === 'function'), 'audio exports sample loaders + fluid loops');
+}
+
+// ===================================================================== v3.6.1: tutorial ends
+console.log('\n[tutorial] ends after one full cycle, does not loop');
+{
+  const { makeTutorial } = await import('../src/game/tutorial.js');
+  const tut = makeTutorial({ active: true, lab: { instances: [] }, starterFragments: () => {} });
+  t.ok(tut.active, 'tutorial starts active');
+  tut.onStationDone('clean'); tut.onStationDone('identify'); tut.onStationDone('stabilize');
+  t.ok(tut.active, 'still active mid-cycle');
+  tut.onStationDone('mount');        // first mounted bone → completion countdown
+  for (let i = 0; i < 60 * 6; i++) tut.update(1 / 60);   // let the 5s splash elapse
+  t.ok(!tut.active, 'tutorial ends after the first mounted bone (no loop)');
+}
+
+// ===================================================================== v3.6.1: parachute
+console.log('\n[parachute] a long fast fall deploys + caps descent');
+{
+  clearKeys();
+  const w = makeWorld(64);
+  const col = w.spawnCol + 40;
+  const p = makePlayer(col * cfg.TILE + 2, (w.surface[col] - 60) * cfg.TILE);   // high up, over open air
+  let deployed = false, maxVy = 0;
+  for (let i = 0; i < 240 && !p.onGround; i++) {
+    updatePlayer(p, w, 1 / 60);
+    if (p.chute) deployed = true;
+    if (p.chute) maxVy = Math.max(maxVy, p.vy);
+  }
+  t.ok(deployed, 'parachute deployed during the long fall');
+  t.ok(maxVy <= 160, `descent capped to a gentle rate under the chute (max ${Math.round(maxVy)}px/s)`);
+}
+
 t.done();

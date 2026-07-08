@@ -3,12 +3,11 @@
 
 import { VIEW_W, VIEW_H } from './config.js';
 import { attachInput, endFrame } from './core/input.js';
-import { initAudio, setVolume, setMusicVolume } from './core/audio.js';
+import { initAudio, setVolume, setMusicVolume, loadSamples } from './core/audio.js';
 import { startMusic } from './core/music.js';
 import { loadSave, DEFAULT_SETTINGS } from './core/save.js';
 import { buildTileset } from './render/tileset.js';
 import { loadFossilSprites, loadSprites } from './render/sprites.js';
-import { makePostFx } from './render/postfx.js';
 import { makeTitleScene } from './scenes/title.js';
 import { makeSettingsScene } from './scenes/settings.js';
 import { makeGameScene } from './scenes/game.js';
@@ -33,13 +32,17 @@ const services = {
   go(name, opts) { switchScene(name, opts); },
 };
 
+// sound credits (Freesound attribution) for the Credits panel
+services.credits = [];
+fetch('assets/sounds/credits.json').then(r => r.ok ? r.json() : {}).then(m => {
+  services.credits = Object.entries(m).map(([k, v]) => ({ key: k, ...v }));
+}).catch(() => {});
+
 // build sprite auto-loads (drop-in PNGs; falls back to procedural)
 loadFossilSprites(makeImage);
 loadSprites(makeImage, 'scenery', ['tree-badlands', 'tree-conifer', 'tree-palm', 'bush', 'boulder', 'flowers']);
 loadSprites(makeImage, 'stations', ['station-clean', 'station-analyze', 'station-prep', 'station-showcase']);
 
-// signature post-process (scanlines + vignette + grain + light-breathing)
-const postfx = makePostFx(makeCanvas);
 
 // -- scenes -------------------------------------------------------------------
 const scenes = {
@@ -70,6 +73,8 @@ attachInput(canvas, () => {
     setVolume(settings.volume);
     setMusicVolume(settings.music);
     startMusic();
+    // load the real Freesound ambience (decodes in the background; synth covers the gap)
+    loadSamples(['rain-loop', 'wind-loop', 'crickets-night', 'forest-day', 'cave-ambience', 'water-stream', 'lava-bubbling']);
     audioReady = true;
   }
 });
@@ -88,7 +93,6 @@ function frame(now) {
     acc -= DT;
   }
   current.render(now / 1000);
-  if (settings.filter !== false) postfx.apply(ctx, now / 1000);
   requestAnimationFrame(frame);
 }
 

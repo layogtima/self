@@ -21,12 +21,18 @@ not opened as `file://`.)
 ## Play
 
 `A`/`D` (or arrows) move · `Space` jump · **walk into a wall to laser it** ·
-`S` dig down · `K` winch home (A/D sways, Space lets go) · mouse = precise cut ·
-`E` lab minigames + the glass display wall · `Tab` field journal · `Esc` pause.
-(You can't dig under the landing platform.) The HUD is nearly wordless: depth is
-**real-Earth scale** (Precambrian reads in km), rock age reads as "330–430
-million years", and finds report only weight/size — a species is *discovered*
-the moment its last bone mounts, straight into the platform's glass vitrine.
+`S` dig down · `K` winch home · **`Ctrl` swaps tool (laser ↔ scanner)** ·
+mouse = aim · `E` lab + vitrine · `Tab` field journal (Fossils / Codex) · `Esc` pause.
+
+Found **bones look like bones** (a spine looks like a spine); clean, compare
+against same-bone cousins, stabilize, and mount each into the growing skeleton —
+a species is only revealed when its last bone is placed. A first-run **tutorial**
+walks you through the lab. **Scan mode** (Ctrl) catalogues creatures, flora, rock
+and features into the Codex. Dig into a cave and **water flows** into your shaft;
+go deep and **lava glows** (and flings you back to base). The weatherproof lab
+stays dry and lit through the **day/night + weather** cycle, while creatures come
+and go with the time and sky (butterflies by day, fireflies at night, frogs in
+the rain).
 
 Laser down, pull **bones** from the ground (a species scatters 1–6 bones nearby),
 `K` home, then run each bone through the lab: **prep** it (slow strokes — scrub

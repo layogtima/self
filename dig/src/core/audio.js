@@ -154,67 +154,127 @@ function laserZap(f0, f1, dur, vol) {
   o.start(t0); o.stop(t0 + dur + 0.02);
 }
 
+// -- real sound samples (Freesound, CC0/CC-BY — see CREDITS.md) ---------------
+// Ambient loops prefer a decoded sample; a synthesized fallback covers the gap
+// before a sample loads (or if a file is missing). One-shots (thunder/drip) use
+// samples when available.
+const samples = {};        // name -> AudioBuffer
+const loopSample = {       // loop id -> sample name
+  rain: 'rain-loop', wind: 'wind-loop', crickets: 'crickets-night',
+  surfpad: 'forest-day', cave: 'cave-ambience', water: 'water-stream', lava: 'lava-bubbling',
+};
+
+/** decode assets/sounds/<name>.mp3 into a buffer; upgrades any running loop */
+export async function loadSamples(names) {
+  if (!AC) return;
+  await Promise.all(names.map(async name => {
+    try {
+      const res = await fetch(`assets/sounds/${name}.mp3`);
+      if (!res.ok) return;
+      samples[name] = await AC.decodeAudioData(await res.arrayBuffer());
+      // if a synth loop is already running for this sample, swap it in seamlessly
+      for (const [id, sn] of Object.entries(loopSample)) if (sn === name && loops[id] && !loops[id].usingSample) upgradeLoop(id);
+    } catch { /* keep the synth fallback */ }
+  }));
+}
+
+const LOWPASS = { cave: 900, water: 1100 };   // damp the harsher beds
+function upgradeLoop(id) {
+  const l = loops[id];
+  if (!l || !samples[loopSample[id]]) return;
+  l.stopSource?.();
+  const src = AC.createBufferSource();
+  src.buffer = samples[loopSample[id]];
+  src.loop = true;
+  if (LOWPASS[id]) {
+    const lp = AC.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = LOWPASS[id];
+    src.connect(lp).connect(l.gain);
+  } else {
+    src.connect(l.gain);
+  }
+  src.start();
+  l.stopSource = () => { try { src.stop(); } catch { /* already stopped */ } };
+  l.usingSample = true;
+}
+
 // -- persistent ambient loops with smooth gain automation ---------------------
-const loops = {};   // name -> {gain, set(v)}
+const loops = {};   // name -> {gain, set(v), usingSample, stopSource}
 function ensureLoop(name, build) {
   if (!AC) return null;
   if (loops[name]) return loops[name];
   const g = AC.createGain();
   g.gain.value = 0;
   g.connect(sfxBus);
-  build(g);
-  loops[name] = { gain: g, set(v) { g.gain.setTargetAtTime(Math.max(0, v), AC.currentTime, 0.4); } };
-  return loops[name];
+  const loop = { gain: g, usingSample: false, set(v) { g.gain.setTargetAtTime(Math.max(0, v), AC.currentTime, 0.5); } };
+  loops[name] = loop;
+  // prefer the real sample if it's already decoded; else build the synth fallback
+  if (loopSample[name] && samples[loopSample[name]]) { loop.usingSample = true; upgradeLoop(name); }
+  else if (build) { const nodes = []; build(g, nodes); loop.stopSource = () => nodes.forEach(n => { try { n.stop(); } catch { /* ok */ } }); }
+  return loop;
 }
 
-/** rain wash: looped noise through a band */
+/** rain wash (sample: rain-loop) — synth fallback: soft lowpassed noise */
 export function setRainLevel(v) {
-  const l = ensureLoop('rain', g => {
+  const l = ensureLoop('rain', (g, nodes) => {
     const src = AC.createBufferSource();
-    src.buffer = noise(); src.loop = true; src.playbackRate.value = 0.7;
-    const bp = AC.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 1800; bp.Q.value = 0.4;
-    src.connect(bp).connect(g);
-    src.start();
+    src.buffer = noise(); src.loop = true; src.playbackRate.value = 0.5;
+    const lp = AC.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 700; lp.Q.value = 0.3;
+    src.connect(lp).connect(g); src.start(); nodes.push(src);
   });
-  l?.set(v * 0.11);
+  l?.set(v * (l.usingSample ? 0.3 : 0.06));
 }
 
-/** night crickets: pulsing high sines */
+/** surface ambience (sample: forest-day birdsong) — synth fallback: warm pad */
+export function setSurfacePad(v) {
+  const l = ensureLoop('surfpad', (g, nodes) => {
+    const o1 = AC.createOscillator(); o1.type = 'sine'; o1.frequency.value = 220;
+    const o2 = AC.createOscillator(); o2.type = 'sine'; o2.frequency.value = 277; o2.detune.value = 4;
+    const lp = AC.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 500;
+    o1.connect(lp); o2.connect(lp); lp.connect(g); o1.start(); o2.start(); nodes.push(o1, o2);
+  });
+  l?.set(v * (l.usingSample ? 0.26 : 0.012));
+}
+
+/** night crickets (sample: crickets-night) — synth fallback: pulsing sines */
 export function setCricketLevel(v) {
-  const l = ensureLoop('crickets', g => {
+  const l = ensureLoop('crickets', (g, nodes) => {
     for (const [f, rate] of [[4200, 11], [3700, 9]]) {
       const o = AC.createOscillator(); o.type = 'sine'; o.frequency.value = f;
       const am = AC.createGain(); am.gain.value = 0;
       const lfo = AC.createOscillator(); lfo.type = 'square'; lfo.frequency.value = rate;
       const lfoG = AC.createGain(); lfoG.gain.value = 0.5;
       lfo.connect(lfoG).connect(am.gain);
-      o.connect(am).connect(g);
-      o.start(); lfo.start();
+      o.connect(am).connect(g); o.start(); lfo.start(); nodes.push(o, lfo);
     }
   });
-  l?.set(v * 0.018);
+  l?.set(v * (l.usingSample ? 0.32 : 0.012));
 }
 
-/** wind: low rumbling noise */
+/** wind (sample: wind-loop) — synth fallback: low noise */
 export function setWindLevel(v) {
-  const l = ensureLoop('wind', g => {
+  const l = ensureLoop('wind', (g, nodes) => {
     const src = AC.createBufferSource();
     src.buffer = noise(); src.loop = true; src.playbackRate.value = 0.35;
     const lp = AC.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 480;
-    src.connect(lp).connect(g);
-    src.start();
+    src.connect(lp).connect(g); src.start(); nodes.push(src);
   });
-  l?.set(v * 0.06);
+  l?.set(v * (l.usingSample ? 0.24 : 0.06));
 }
 
-/** brushing swish for the prep minigame — gain follows stroke speed */
+/** underground cave ambience (sample: cave-ambience) — no synth fallback */
+export function setCaveLevel(v) { ensureLoop('cave', null)?.set(v * 0.3); }
+/** near flowing water (sample: water-stream) */
+export function setWaterLevel(v) { ensureLoop('water', null)?.set(v * 0.3); }
+/** near lava (sample: lava-bubbling) */
+export function setLavaLevel(v) { ensureLoop('lava', null)?.set(v * 0.32); }
+
+/** brushing swish for the prep minigame — synth (no sample) */
 export function setBrushLevel(v) {
-  const l = ensureLoop('brush', g => {
+  const l = ensureLoop('brush', (g, nodes) => {
     const src = AC.createBufferSource();
     src.buffer = noise(); src.loop = true; src.playbackRate.value = 1.6;
     const bp = AC.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 3200; bp.Q.value = 0.7;
-    src.connect(bp).connect(g);
-    src.start();
+    src.connect(bp).connect(g); src.start(); nodes.push(src);
   });
   l?.set(v * 0.09);
 }
@@ -243,6 +303,12 @@ export const sfx = {
   plink: () => tone(1900 + Math.random() * 700, 900, 0.09, 'sine', 0.02),
   flutter: () => { thud(0.05, 2400, 0.12); thud(0.04, 2000, 0.1); },
   chirp: () => { tone(2400, 3100, 0.06, 'sine', 0.015); tone(2800, 2400, 0.05, 'sine', 0.012); },
+  birdsong: () => {   // a bright little two-to-three note phrase
+    const base = 2200 + Math.random() * 500;
+    tone(base, base * 1.2, 0.09, 'sine', 0.02);
+    tone(base * 1.4, base * 1.3, 0.08, 'sine', 0.018, 0.12);
+    if (Math.random() < 0.5) tone(base * 1.1, base * 1.5, 0.1, 'sine', 0.016, 0.26);
+  },
   dig: () => thud(0.18, 650, 0.08),
   digHard: () => { thud(0.13, 900, 0.06); tone(900 + Math.random() * 200, 500, 0.05, 'square', 0.025); },
   break: () => thud(0.24, 420, 0.12),
