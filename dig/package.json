@@ -1,0 +1,11 @@
+{
+  "name": "diggg",
+  "version": "0.3.0",
+  "description": "Diggg: Find Fossils — a pastel paleontology digging game. Zero dependencies, native ES modules.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "serve": "python3 -m http.server 8642",
+    "test": "node tests/run.js"
+  }
+}

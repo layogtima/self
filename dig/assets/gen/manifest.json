@@ -1,0 +1,564 @@
+{
+  "entries": [
+    {
+      "id": "human",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/human_v001.png",
+      "version": 1,
+      "prompt": "human skeleton fossil, homo sapiens, standing pose, side view, bones",
+      "cost": 0.017,
+      "created_at": 1783530119,
+      "remaining_balance": 5.483
+    },
+    {
+      "id": "smartphone",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/smartphone_v001.png",
+      "version": 1,
+      "prompt": "old broken smartphone with cracked dark screen, ancient artifact, dirt",
+      "cost": 0.017,
+      "created_at": 1783530130,
+      "remaining_balance": 5.466
+    },
+    {
+      "id": "plastic-bottle",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/plastic-bottle_v001.png",
+      "version": 1,
+      "prompt": "crushed clear plastic water bottle, ancient artifact",
+      "cost": 0.017,
+      "created_at": 1783530145,
+      "remaining_balance": 5.449
+    },
+    {
+      "id": "sneaker",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/sneaker_v001.png",
+      "version": 1,
+      "prompt": "old worn sneaker shoe, ancient artifact, side view",
+      "cost": 0.017,
+      "created_at": 1783530158,
+      "remaining_balance": 5.432
+    },
+    {
+      "id": "house-cat",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/house-cat_v001.png",
+      "version": 1,
+      "prompt": "cat skeleton fossil, felis catus, sitting pose, side view, bones",
+      "cost": 0.017,
+      "created_at": 1783530180,
+      "remaining_balance": 5.415
+    },
+    {
+      "id": "pigeon",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/pigeon_v001.png",
+      "version": 1,
+      "prompt": "pigeon bird skeleton fossil, side view, bones",
+      "cost": 0.017,
+      "created_at": 1783530202,
+      "remaining_balance": 5.398
+    },
+    {
+      "id": "car-tyre",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/car-tyre_v001.png",
+      "version": 1,
+      "prompt": "old worn car tyre with deep treads, ancient rubber artifact",
+      "cost": 0.017,
+      "created_at": 1783530235,
+      "remaining_balance": 5.381
+    },
+    {
+      "id": "mammoth",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/mammoth_v001.png",
+      "version": 1,
+      "prompt": "woolly mammoth complete fossil skeleton with long curved tusks, side view, bones",
+      "cost": 0.017,
+      "created_at": 1783530246,
+      "remaining_balance": 5.364
+    },
+    {
+      "id": "smilodon",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/smilodon_v001.png",
+      "version": 1,
+      "prompt": "saber-toothed cat fossil skeleton with huge fangs, crouched side view, bones",
+      "cost": 0.017,
+      "created_at": 1783530270,
+      "remaining_balance": 5.347
+    },
+    {
+      "id": "giant-sloth",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/giant-sloth_v001.png",
+      "version": 1,
+      "prompt": "giant ground sloth megatherium fossil skeleton standing, side view, bones",
+      "cost": 0.017,
+      "created_at": 1783530280,
+      "remaining_balance": 5.33
+    },
+    {
+      "id": "eohippus",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/eohippus_v001.png",
+      "version": 1,
+      "prompt": "tiny dawn horse eohippus fossil skeleton, side view, bones",
+      "cost": 0.017,
+      "created_at": 1783530299,
+      "remaining_balance": 5.313
+    },
+    {
+      "id": "titanoboa",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/titanoboa_v001.png",
+      "version": 1,
+      "prompt": "enormous coiled snake fossil skeleton, titanoboa vertebrae spiral, bones",
+      "cost": 0.017,
+      "created_at": 1783530309,
+      "remaining_balance": 5.296
+    },
+    {
+      "id": "basilosaurus",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/basilosaurus_v001.png",
+      "version": 1,
+      "prompt": "long serpentine early whale basilosaurus fossil skeleton, side view, bones",
+      "cost": 0.017,
+      "created_at": 1783530320,
+      "remaining_balance": 5.279
+    },
+    {
+      "id": "t-rex",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/t-rex_v001.png",
+      "version": 1,
+      "prompt": "tyrannosaurus rex complete fossil skeleton, huge skull with teeth, side view, bones",
+      "cost": 0.018,
+      "created_at": 1783530331,
+      "remaining_balance": 5.261
+    },
+    {
+      "id": "triceratops",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/triceratops_v001.png",
+      "version": 1,
+      "prompt": "triceratops fossil skeleton with three horns and neck frill, side view, bones",
+      "cost": 0.017,
+      "created_at": 1783530342,
+      "remaining_balance": 5.244
+    },
+    {
+      "id": "mosasaur",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/mosasaur_v001.png",
+      "version": 1,
+      "prompt": "mosasaurus marine reptile fossil skeleton with paddle fins, side view, bones",
+      "cost": 0.017,
+      "created_at": 1783530351,
+      "remaining_balance": 5.227
+    },
+    {
+      "id": "amber-insect",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/amber-insect_v001.png",
+      "version": 1,
+      "prompt": "insect trapped in golden amber gemstone, translucent orange resin",
+      "cost": 0.017,
+      "created_at": 1783530363,
+      "remaining_balance": 5.21
+    },
+    {
+      "id": "stegosaurus",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/stegosaurus_v001.png",
+      "version": 1,
+      "prompt": "stegosaurus fossil skeleton with back plates and tail spikes, side view, bones",
+      "cost": 0.017,
+      "created_at": 1783530376,
+      "remaining_balance": 5.193
+    },
+    {
+      "id": "diplodocus",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/diplodocus_v001.png",
+      "version": 1,
+      "prompt": "diplodocus sauropod fossil skeleton with very long neck and whip tail, side view",
+      "cost": 0.017,
+      "created_at": 1783530387,
+      "remaining_balance": 5.176
+    },
+    {
+      "id": "archaeopteryx",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/archaeopteryx_v001.png",
+      "version": 1,
+      "prompt": "archaeopteryx fossil imprint in limestone slab with feather impressions and spread wings",
+      "cost": 0.017,
+      "created_at": 1783530399,
+      "remaining_balance": 5.159
+    },
+    {
+      "id": "ammonite",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/ammonite_v001.png",
+      "version": 1,
+      "prompt": "ammonite spiral shell fossil, ridged coil, cross section",
+      "cost": 0.017,
+      "created_at": 1783530409,
+      "remaining_balance": 5.142
+    },
+    {
+      "id": "coelophysis",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/coelophysis_v001.png",
+      "version": 1,
+      "prompt": "coelophysis small slender dinosaur fossil skeleton, side view, bones",
+      "cost": 0.017,
+      "created_at": 1783530419,
+      "remaining_balance": 5.125
+    },
+    {
+      "id": "phytosaur",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/phytosaur_v001.png",
+      "version": 1,
+      "prompt": "phytosaur crocodile-like fossil skeleton with long toothy snout, side view, bones",
+      "cost": 0.017,
+      "created_at": 1783530445,
+      "remaining_balance": 5.108
+    },
+    {
+      "id": "dimetrodon",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/dimetrodon_v001.png",
+      "version": 1,
+      "prompt": "dimetrodon fossil skeleton with tall sail spines on back, side view, bones",
+      "cost": 0.017,
+      "created_at": 1783530455,
+      "remaining_balance": 5.091
+    },
+    {
+      "id": "meganeura",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/meganeura_v001.png",
+      "version": 1,
+      "prompt": "giant dragonfly meganeura fossil imprint with four wings in stone slab",
+      "cost": 0.017,
+      "created_at": 1783530465,
+      "remaining_balance": 5.074
+    },
+    {
+      "id": "fern-frond",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/fern-frond_v001.png",
+      "version": 1,
+      "prompt": "fossilized fern frond imprint in dark coal shale, detailed leaves",
+      "cost": 0.017,
+      "created_at": 1783530475,
+      "remaining_balance": 5.057
+    },
+    {
+      "id": "dunkleosteus",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/dunkleosteus_v001.png",
+      "version": 1,
+      "prompt": "dunkleosteus armored fish fossil, huge bony head plates with blade jaws, side view",
+      "cost": 0.017,
+      "created_at": 1783530487,
+      "remaining_balance": 5.04
+    },
+    {
+      "id": "eurypterid",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/eurypterid_v001.png",
+      "version": 1,
+      "prompt": "sea scorpion eurypterid fossil with paddle limbs and segmented tail in stone",
+      "cost": 0.017,
+      "created_at": 1783530498,
+      "remaining_balance": 5.023
+    },
+    {
+      "id": "trilobite",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/trilobite_v001.png",
+      "version": 1,
+      "prompt": "trilobite fossil, segmented ribbed oval shell, top view, in stone",
+      "cost": 0.017,
+      "created_at": 1783530508,
+      "remaining_balance": 5.006
+    },
+    {
+      "id": "anomalocaris",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/anomalocaris_v001.png",
+      "version": 1,
+      "prompt": "anomalocaris cambrian predator fossil with grasping arms and lobed body, top view",
+      "cost": 0.017,
+      "created_at": 1783530534,
+      "remaining_balance": 4.989
+    },
+    {
+      "id": "stromatolite",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/stromatolite_v001.png",
+      "version": 1,
+      "prompt": "stromatolite fossil, layered banded dome rock cross-section",
+      "cost": 0.017,
+      "created_at": 1783530554,
+      "remaining_balance": 4.972
+    },
+    {
+      "id": "dickinsonia",
+      "cat": "fossils",
+      "file": "assets/gen/fossils/dickinsonia_v001.png",
+      "version": 1,
+      "prompt": "dickinsonia fossil imprint, ribbed oval ediacaran organism, top view in sandstone",
+      "cost": 0.017,
+      "created_at": 1783530577,
+      "remaining_balance": 4.955
+    },
+    {
+      "id": "anthropocene",
+      "cat": "tiles",
+      "file": "assets/gen/tiles/anthropocene_v001.png",
+      "version": 1,
+      "prompt": "compacted urban rubble soil with concrete chunks, brick fragments, wire bits, grey brown",
+      "cost": 0.017,
+      "created_at": 1783530590,
+      "remaining_balance": 4.938
+    },
+    {
+      "id": "quaternary",
+      "cat": "tiles",
+      "file": "assets/gen/tiles/quaternary_v001.png",
+      "version": 1,
+      "prompt": "dense wet loam topsoil with small roots and pebbles, dark warm brown",
+      "cost": 0.017,
+      "created_at": 1783530605,
+      "remaining_balance": 4.921
+    },
+    {
+      "id": "paleogene",
+      "cat": "tiles",
+      "file": "assets/gen/tiles/paleogene_v001.png",
+      "version": 1,
+      "prompt": "soft tan sandstone with fine sediment layers, pale orange",
+      "cost": 0.017,
+      "created_at": 1783530619,
+      "remaining_balance": 4.904
+    },
+    {
+      "id": "cretaceous",
+      "cat": "tiles",
+      "file": "assets/gen/tiles/cretaceous_v001.png",
+      "version": 1,
+      "prompt": "white chalk rock with small shell fragments, ivory cream",
+      "cost": 0.017,
+      "created_at": 1783530638,
+      "remaining_balance": 4.887
+    },
+    {
+      "id": "jurassic",
+      "cat": "tiles",
+      "file": "assets/gen/tiles/jurassic_v001.png",
+      "version": 1,
+      "prompt": "pale green-grey limestone with faint ammonite fragments",
+      "cost": 0.017,
+      "created_at": 1783530651,
+      "remaining_balance": 4.87
+    },
+    {
+      "id": "triassic",
+      "cat": "tiles",
+      "file": "assets/gen/tiles/triassic_v001.png",
+      "version": 1,
+      "prompt": "red siltstone with fine dusty layers, terracotta",
+      "cost": 0.017,
+      "created_at": 1783530665,
+      "remaining_balance": 4.853
+    },
+    {
+      "id": "carboniferous",
+      "cat": "tiles",
+      "file": "assets/gen/tiles/carboniferous_v001.png",
+      "version": 1,
+      "prompt": "dark coal seam with black shiny chunks in grey shale, purple-grey",
+      "cost": 0.017,
+      "created_at": 1783530698,
+      "remaining_balance": 4.836
+    },
+    {
+      "id": "devonian",
+      "cat": "tiles",
+      "file": "assets/gen/tiles/devonian_v001.png",
+      "version": 1,
+      "prompt": "blue-grey marine shale with thin ripple layers",
+      "cost": 0.017,
+      "created_at": 1783530711,
+      "remaining_balance": 4.819
+    },
+    {
+      "id": "cambrian",
+      "cat": "tiles",
+      "file": "assets/gen/tiles/cambrian_v001.png",
+      "version": 1,
+      "prompt": "ancient grey slate with fine mineral veins, cool lilac grey",
+      "cost": 0.017,
+      "created_at": 1783530725,
+      "remaining_balance": 4.802
+    },
+    {
+      "id": "precambrian",
+      "cat": "tiles",
+      "file": "assets/gen/tiles/precambrian_v001.png",
+      "version": 1,
+      "prompt": "dark basement gneiss rock with quartz crystal veins, dusty plum",
+      "cost": 0.017,
+      "created_at": 1783530739,
+      "remaining_balance": 4.785
+    },
+    {
+      "id": "probe",
+      "cat": "characters",
+      "file": "assets/gen/characters/probe_v001.png",
+      "version": 1,
+      "prompt": "small boxy robot probe with one glowing lens eye, antenna, tank treads, digging scoop arm",
+      "cost": 0.019,
+      "created_at": 1783530750,
+      "remaining_balance": 4.766
+    },
+    {
+      "id": "master-a",
+      "cat": "tiles",
+      "file": "assets/gen/tiles/master-a_v001.png",
+      "version": 1,
+      "prompt": "cracked dry dirt with rounded chunky clods separated by deep dark crack lines, flat chunky pixel art, warm brown",
+      "cost": 0.017,
+      "created_at": 1783533428,
+      "remaining_balance": 4.749
+    },
+    {
+      "id": "master-b",
+      "cat": "tiles",
+      "file": "assets/gen/tiles/master-b_v001.png",
+      "version": 1,
+      "prompt": "chunky rounded stone cobbles packed tight with dark gaps between, flat pixel art, warm brown",
+      "cost": 0.017,
+      "created_at": 1783533440,
+      "remaining_balance": 4.732
+    },
+    {
+      "id": "master-c",
+      "cat": "tiles",
+      "file": "assets/gen/tiles/master-c_v001.png",
+      "version": 1,
+      "prompt": "compacted soil with embedded rounded pebbles and thick dark fracture lines, flat pixel art",
+      "cost": 0.017,
+      "created_at": 1783533453,
+      "remaining_balance": 4.715
+    },
+    {
+      "id": "tree-badlands",
+      "cat": "scenery",
+      "file": "assets/gen/scenery/tree-badlands_v001.png",
+      "version": 1,
+      "prompt": "single bushy round-canopy tree with thick trunk, lush green leaves, side view game asset",
+      "cost": 0.018,
+      "created_at": 1783533469,
+      "remaining_balance": 4.697
+    },
+    {
+      "id": "tree-palm",
+      "cat": "scenery",
+      "file": "assets/gen/scenery/tree-palm_v001.png",
+      "version": 1,
+      "prompt": "single palm tree with curved trunk and fan fronds, side view game asset",
+      "cost": 0.018,
+      "created_at": 1783533487,
+      "remaining_balance": 4.679
+    },
+    {
+      "id": "tree-conifer",
+      "cat": "scenery",
+      "file": "assets/gen/scenery/tree-conifer_v001.png",
+      "version": 1,
+      "prompt": "single tall pine conifer tree, dark green with pale dusting, side view game asset",
+      "cost": 0.018,
+      "created_at": 1783534864,
+      "remaining_balance": 4.626
+    },
+    {
+      "id": "bush",
+      "cat": "scenery",
+      "file": "assets/gen/scenery/bush_v001.png",
+      "version": 1,
+      "prompt": "small round leafy green bush, side view game asset",
+      "cost": 0.017,
+      "created_at": 1783534880,
+      "remaining_balance": 4.609
+    },
+    {
+      "id": "boulder",
+      "cat": "scenery",
+      "file": "assets/gen/scenery/boulder_v001.png",
+      "version": 1,
+      "prompt": "rounded grey mossy boulder rock, side view game asset",
+      "cost": 0.017,
+      "created_at": 1783534899,
+      "remaining_balance": 4.592
+    },
+    {
+      "id": "flowers",
+      "cat": "scenery",
+      "file": "assets/gen/scenery/flowers_v001.png",
+      "version": 1,
+      "prompt": "cluster of pink and white wildflowers with green stems, side view game asset",
+      "cost": 0.017,
+      "created_at": 1783534921,
+      "remaining_balance": 4.575
+    },
+    {
+      "id": "station-clean",
+      "cat": "stations",
+      "file": "assets/gen/stations/station-clean_v001.png",
+      "version": 1,
+      "prompt": "small wooden workbench with brushes, dental picks and a fossil tray, side view game asset",
+      "cost": 0.017,
+      "created_at": 1783534940,
+      "remaining_balance": 4.558
+    },
+    {
+      "id": "station-analyze",
+      "cat": "stations",
+      "file": "assets/gen/stations/station-analyze_v001.png",
+      "version": 1,
+      "prompt": "wooden desk with brass microscope and anatomy comparison charts, side view game asset",
+      "cost": 0.017,
+      "created_at": 1783534955,
+      "remaining_balance": 4.541
+    },
+    {
+      "id": "station-prep",
+      "cat": "stations",
+      "file": "assets/gen/stations/station-prep_v001.png",
+      "version": 1,
+      "prompt": "small rig with glue bottles, clamps and consolidant applicator, side view game asset",
+      "cost": 0.017,
+      "created_at": 1783534969,
+      "remaining_balance": 4.524
+    },
+    {
+      "id": "station-showcase",
+      "cat": "stations",
+      "file": "assets/gen/stations/station-showcase_v001.png",
+      "version": 1,
+      "prompt": "museum skeleton mount armature stand with brass fittings on wooden base, side view game asset",
+      "cost": 0.017,
+      "created_at": 1783534983,
+      "remaining_balance": 4.507
+    }
+  ]
+}
