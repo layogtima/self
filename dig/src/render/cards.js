@@ -1,8 +1,8 @@
-// The species dossier card — the game's signature UI artifact (blueprint grid,
+// The species dossier card - the game's signature UI artifact (blueprint grid,
 // big specimen art, name plate, geologic timeline bar with a period marker, and
 // a real-length line). Three modes:
-//   'unknown' — discovery pop: dark silhouette, ? UNKNOWN SPECIMEN
-//   'full'    — analyzer reveal / collection detail: everything
+//   'unknown' - discovery pop: dark silhouette, ? UNKNOWN SPECIMEN
+//   'full' - analyzer reveal / collection detail: everything
 // Used by scenes/game.js overlays and the collection detail view.
 
 import { TILE } from '../config.js';
@@ -81,7 +81,7 @@ export function drawSpeciesCard(ctx, mode, spec, x, y, w, h, makeCanvas, time = 
     text(ctx, 'Encased specimen recovered.', rx, ry, { size: 14, bold: true }); ry += 24;
     text(ctx, 'Matrix: ' + stratum.era + ' rock', rx, ry, { size: 12, color: PALETTE.creamDim }); ry += 18;
     text(ctx, 'Identity: unknown', rx, ry, { size: 12, color: PALETTE.creamDim }); ry += 30;
-    text(ctx, 'Run it through the lab —', rx, ry, { size: 12, color: PALETTE.creamDim }); ry += 16;
+    text(ctx, 'Run it through the lab - ', rx, ry, { size: 12, color: PALETTE.creamDim }); ry += 16;
     text(ctx, 'clean, then analyze.', rx, ry, { size: 12, color: PALETTE.creamDim });
   } else {
     // rarity chip
@@ -158,9 +158,9 @@ export function drawSpeciesCard(ctx, mode, spec, x, y, w, h, makeCanvas, time = 
 }
 
 /**
- * Mini recovery card — the corner toast (~290×92). Deliberately anonymous:
- * no species, no bone name. Just what a field instrument would measure —
- * size, weight, condition — derived deterministically from the specimen.
+ * Mini recovery card - the corner toast (~290×92). Deliberately anonymous:
+ * no species, no bone name. Just what a field instrument would measure - 
+ * size, weight, condition - derived deterministically from the specimen.
  */
 export function drawMiniCard(ctx, spec, x, y, w, h, makeCanvas, time = 0, bone = 'bone', boneIndex = 0) {
   const stratum = STRATA_BY_ID[spec.period];

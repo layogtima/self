@@ -1,14 +1,14 @@
-// Lab minigames — one per station, real fossil-prep flavour, behind a common
+// Lab minigames - one per station, real fossil-prep flavour, behind a common
 // interface (content/stations.js keys them by `minigame`):
 //   const g = makeMinigame(kind, spec, makeCanvas, extra)
 //   g.update(dt) → sets g.status: 'active' | 'success' | 'failed' | 'cancelled'
 //   g.render(ctx, time)
 //
-//   prep      — brush matrix off the bone; fast strokes near the bone chip it.
+//   prep - brush matrix off the bone; fast strokes near the bone chip it.
 //               integrity can hit 0 → the fragment is LOST (real prep is slow).
-//   identify  — comparative anatomy: pick the species from 3 silhouettes.
-//   stabilize — consolidant: hold to raise the gauge, release inside the zone.
-//   mount     — place the bone in the correct slot of the skeleton.
+//   identify - comparative anatomy: pick the species from 3 silhouettes.
+//   stabilize - consolidant: hold to raise the gauge, release inside the zone.
+//   mount - place the bone in the correct slot of the skeleton.
 //
 // `extra` supplies: { fragment, decoys:[spec,spec], bones:[names], boneIndex,
 //                     mountedSlots:Set }
@@ -352,7 +352,7 @@ function makeMount(g, spec, makeCanvas, extra) {
     const fsc = Math.min(1.6, 70 / (fbh * TILE));
     drawBone(ctx, spec, boneName, cx0 - fbw * TILE * fsc / 2, rowY() - 88, makeCanvas, fsc);
 
-    // slots — each rendered as ITS bone glyph, clickable
+    // slots - each rendered as ITS bone glyph, clickable
     bones.forEach((b, i) => {
       const box = slotBox(i);
       const wob = i === sel ? Math.sin(time * 30) * wobble * 3 : 0;

@@ -5,6 +5,7 @@ import { VIEW_W, VIEW_H } from '../config.js';
 
 export const keys = {};
 export const mouse = { x: 0, y: 0, left: false, right: false, wheel: 0 };  // wheel: ±ticks this frame
+export const pointer = { moved: false };   // true once a real mouse has moved (touch/keyboard-only stays false)
 const justPressed = new Set();
 const listeners = [];
 
@@ -39,6 +40,7 @@ export function attachInput(canvas, onFirstGesture) {
   addEventListener('keyup', e => { keys[ALIAS[e.code] || e.code] = false; });
 
   canvas.addEventListener('mousemove', e => {
+    pointer.moved = true;
     const r = canvas.getBoundingClientRect();
     mouse.x = (e.clientX - r.left) * (VIEW_W / r.width);
     mouse.y = (e.clientY - r.top) * (VIEW_H / r.height);

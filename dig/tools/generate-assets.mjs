@@ -229,6 +229,18 @@ function buildJobs() {
     });
   }
 
+  // social share card (Open Graph / Twitter). Wide 16:9 pixel scene.
+  jobs.push({
+    cat: 'social', id: 'og-card',
+    livePath: join(ROOT, 'assets/og.png'),
+    payload: {
+      prompt: 'wide cutaway pixel art scene: a small boxy robot probe with tank treads digging through layered rock strata underground, glowing dinosaur bones and fossils half-buried in the earth, pastel blueprint palette, cheerful storybook paleontology, cross-section of soil layers with grass and trees on top and a warm sky',
+      width: 512, height: 288, num_images: 1,
+      prompt_style: 'rd_fast__game_asset',
+      input_palette: PALETTE_B64,
+    },
+  });
+
   jobs.push({
     cat: 'characters', id: 'probe',
     livePath: null,   // not wired into the game yet; saved for later

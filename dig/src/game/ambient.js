@@ -1,8 +1,8 @@
-// Ambient life — the world breathes. Context-driven spawners, all tiny and
+// Ambient life - the world breathes. Context-driven spawners, all tiny and
 // bounded. Overground: bird flocks, butterflies, pollen, scurrying critters.
 // Underground: dust motes in the headlight, ceiling drips (+plink), pebble
 // trickles after digs, deep crystal twinkles, one-shot bat bursts from caverns.
-// (Grass/canopy sway is drawn by the scenery layer using time — no state here.)
+// (Grass/canopy sway is drawn by the scenery layer using time - no state here.)
 
 import { TILE, WORLD_W, WORLD_H, VIEW_W, VIEW_H, T_AIR } from '../config.js';
 import { PALETTE } from '../render/palette.js';
@@ -31,7 +31,7 @@ export function makeAmbient() {
     /** the environment engine, for rain-driven drips + wind scatter */
     setEnvironment(env) { weatherRef = env; },
 
-    /** call after a tile breaks — a little settling trickle above the hole */
+    /** call after a tile breaks - a little settling trickle above the hole */
     onDig(wx, wy) {
       if (pebbles.length < MAX.pebbles && Math.random() < 0.5) {
         for (let i = 0; i < 2; i++) pebbles.push({ x: wx + (Math.random() - 0.5) * 10, y: wy - 8, vy: 20 + Math.random() * 30, life: 1.2 });
@@ -281,7 +281,7 @@ export function makeAmbient() {
       for (const p of pebbles) ctx.fillRect(p.x, p.y, 2, 2);
       // fauna
       for (const f of fauna) drawFauna(ctx, f, time);
-      // glowworm constellations (visible in the dark — they self-illuminate)
+      // glowworm constellations (visible in the dark - they self-illuminate)
       for (const g of glowSpots) {
         for (let i = 0; i < g.n; i++) {
           const gx = g.x + ((Math.imul(i + 1, 40503) >>> 0) % 28) - 6;

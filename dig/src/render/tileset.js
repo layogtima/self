@@ -1,14 +1,14 @@
-// Tile rendering v3 — de-monotonized. Two generated seamless masters are
+// Tile rendering v3 - de-monotonized. Two generated seamless masters are
 // assembled at boot into a 256×256 COMPOSITE (4×4 macro-cells of 64 px, each a
 // hashed choice of master + 90° rotation), its luminance ramped into every
 // stratum's palette (front + darkened back-wall + a grey landing-pad ramp).
 // Repetition period: 16 tiles with internal variety instead of 4.
 //
 // On top of the base blit the game asks for:
-//   drawTile(ctx, si, tx, ty, dx, dy, shade)  — shade = extra darkening 0..1
-//   drawBack(...)                              — carved back wall
-//   drawPad(ctx, tx, ty, dx, dy)               — landing-pad ground
-//   drawAccent(ctx, stratumId, tx, ty, dx, dy) — sparse per-stratum motif
+//   drawTile(ctx, si, tx, ty, dx, dy, shade) - shade = extra darkening 0..1
+//   drawBack(...) - carved back wall
+//   drawPad(ctx, tx, ty, dx, dy) - landing-pad ground
+//   drawAccent(ctx, stratumId, tx, ty, dx, dy) - sparse per-stratum motif
 
 import { TILE } from '../config.js';
 import { STRATA } from '../content/strata.js';
@@ -144,7 +144,7 @@ export function buildTileset(makeCanvas, makeImage) {
       ctx.fillRect(dx, dy, TILE, TILE);
     },
 
-    /** sparse embedded motif — variety within a layer (~7% of tiles) */
+    /** sparse embedded motif - variety within a layer (~7% of tiles) */
     drawAccent(ctx, stratumId, tx, ty, dx, dy) {
       const r = jitter(tx * 3 + 1, ty * 5 + 2);
       ctx.save();

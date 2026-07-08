@@ -9,7 +9,7 @@
  * @property {[number,number]} mya  million-years-ago range (display only)
  * @property {[number,number]} depth  [from,to) tiles below surface; last entry's `to` is Infinity
  * @property {[number,number]} realDepth  real-Earth burial depth in metres (HUD display scale)
- * @property {number} hp          shovel hits per tile (all 1 — digging is exploration, not labour)
+ * @property {number} hp          shovel hits per tile (all 1 - digging is exploration, not labour)
  * @property {{base:string,alt:string,band:string,speckle:string}} colors  pastel tokens
  * @property {{banding:number,speckle:number}} texture  0..1 strengths for the tileset generator
  */
@@ -99,7 +99,7 @@ export function formatDepth(m) {
   return m < 1000 ? `${m} m` : `${(m / 1000).toFixed(1)} km`;
 }
 
-/** "145–201 million years" — how we ALWAYS phrase age (never era names in HUD) */
+/** "145–201 million years" - how we ALWAYS phrase age (never era names in HUD) */
 export function formatAge(stratum) {
   const [a, b] = stratum.mya;
   const f = v => (v >= 1 ? Math.round(v) : v);

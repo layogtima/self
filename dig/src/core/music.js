@@ -1,4 +1,4 @@
-// Generative ambient music — minimal AF, atmospheric, zero assets.
+// Generative ambient music - minimal AF, atmospheric, zero assets.
 // Two detuned triangle drones through a slow-breathing lowpass, a feedback-delay
 // shimmer, and sparse pentatonic plucks every few seconds. Depth-aware: the
 // deeper you dig, the lower the root, the darker the filter, the rarer the notes.
@@ -20,10 +20,11 @@ export function startMusic() {
   if (!AC || !bus || started) return;
   started = true;
 
-  // drone: two detuned triangles → lowpass → gain
+  // drone: two detuned triangles → lowpass → gain.
+  // The gain is depth-driven (see updateMusic) so the surface & menus stay quiet
+  // - no persistent hum - and the drone only swells as you dig deeper.
   const droneGain = AC.createGain();
   droneGain.gain.value = 0;
-  droneGain.gain.setTargetAtTime(0.05, AC.currentTime, 4);   // slow fade-in
 
   const lp = AC.createBiquadFilter();
   lp.type = 'lowpass';
@@ -32,7 +33,7 @@ export function startMusic() {
 
   const o1 = AC.createOscillator(); o1.type = 'triangle'; o1.frequency.value = 110;
   const o2 = AC.createOscillator(); o2.type = 'triangle'; o2.frequency.value = 110; o2.detune.value = 6;
-  // quiet detuned saw layer — orchestral string body under the triangles
+  // quiet detuned saw layer - orchestral string body under the triangles
   const o3 = AC.createOscillator(); o3.type = 'sawtooth'; o3.frequency.value = 110; o3.detune.value = -4;
   const sawG = AC.createGain(); sawG.gain.value = 0.22;
   o3.connect(sawG).connect(lp);
@@ -63,13 +64,16 @@ export function updateMusic(dt) {
 
   // depth response (smoothed by setTargetAtTime)
   const d01 = Math.min(1, Math.max(0, depth / 300));
+  // drone swells with depth: silent above ~6m (no surface/menu hum), full by ~120m
+  const droneLevel = Math.min(0.06, Math.max(0, (depth - 6) / 114) * 0.06);
+  nodes.droneGain.gain.setTargetAtTime(droneLevel, AC.currentTime, 3);
   const root = 110 * Math.pow(2, -d01 * 0.7);          // drops ~a fifth by the basement
   nodes.o1.frequency.setTargetAtTime(root, AC.currentTime, 2);
   nodes.o2.frequency.setTargetAtTime(root * 1.5, AC.currentTime, 2);   // drone fifth
   nodes.o3.frequency.setTargetAtTime(root, AC.currentTime, 2);
   nodes.lp.frequency.setTargetAtTime(750 - d01 * 520, AC.currentTime, 2);
 
-  // sparse plucks — rarer as you descend
+  // sparse plucks - rarer as you descend
   pluckTimer -= dt;
   if (pluckTimer <= 0) {
     pluckTimer = 3 + Math.random() * (5 + d01 * 6);
@@ -80,7 +84,7 @@ export function updateMusic(dt) {
 export function setMusicDepth(d) { depth = d; }
 
 function pluck(AC, base, d01) {
-  // soft distant horn: detuned saws, lowpassed, slow attack — Isla Nublar at dusk
+  // soft distant horn: detuned saws, lowpassed, slow attack - Isla Nublar at dusk
   const n = PENTA[(Math.random() * PENTA.length) | 0] + (Math.random() < 0.3 ? 12 : 0);
   const f = semitone(base, n);
   const t0 = AC.currentTime;

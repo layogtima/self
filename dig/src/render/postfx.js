@@ -1,9 +1,9 @@
-// Signature post-process — the thing that makes it feel alive, like found
+// Signature post-process - the thing that makes it feel alive, like found
 // footage from 102,025. Four cheap layered passes over the finished frame:
-//   • scanlines      — faint 2px horizontal darkening
-//   • vignette       — warm corner falloff
-//   • film grain      — a small pre-baked noise tile, re-offset each frame
-//   • light-breathing — a whole-frame ±1.5% brightness sine
+//   • scanlines - faint 2px horizontal darkening
+//   • vignette - warm corner falloff
+//   • film grain - a small pre-baked noise tile, re-offset each frame
+//   • light-breathing - a whole-frame ±1.5% brightness sine
 // Overlays are cached; only the grain offset + breath phase change per frame.
 
 import { VIEW_W, VIEW_H } from '../config.js';
@@ -26,7 +26,7 @@ export function makePostFx(makeCanvas) {
     c.fillStyle = g;
     c.fillRect(0, 0, VIEW_W, VIEW_H);
   }
-  // grain tile (cached) — a small noise square we scroll around
+  // grain tile (cached) - a small noise square we scroll around
   const GS = 128;
   const grain = makeCanvas(GS, GS);
   {
@@ -54,7 +54,7 @@ export function makePostFx(makeCanvas) {
       ctx.globalCompositeOperation = 'source-over';
       ctx.globalAlpha = 1;
 
-      // grain — offset by a per-frame pseudo-random amount, tiled
+      // grain - offset by a per-frame pseudo-random amount, tiled
       const ox = (Math.imul(frame, 2654435761) >>> 0) % GS;
       const oy = (Math.imul(frame, 40503) >>> 0) % GS;
       ctx.save();

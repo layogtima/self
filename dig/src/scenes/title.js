@@ -120,7 +120,7 @@ export function makeTitleScene(services) {
         ctx.beginPath(); ctx.arc(px + 41, py - 16, 44, 0, Math.PI * 2); ctx.fill();
       }
 
-      // the rover, idling on the deck — blinks, sometimes zaps
+      // the rover, idling on the deck - blinks, sometimes zaps
       const roverX = px - 10;
       if (zapT > 0) {
         ctx.strokeStyle = 'rgba(255,243,208,0.8)';

@@ -1,4 +1,4 @@
-// Lab stations — pure data. Each bone fragment travels:
+// Lab stations - pure data. Each bone fragment travels:
 //   dirty → cleaned → identified → stabilized → mounted
 // Real fossil-prep order: mechanical prep, comparative ID, consolidation, mount.
 // `minigame` keys map to game/minigames.js kinds. Add a step by adding a state

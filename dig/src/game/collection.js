@@ -8,7 +8,7 @@ export function makeCollection(initial = {}, initialGenome = {}) {
   // speciesId -> Set of mounted bone indices
   const mounted = {};
   for (const [id, arr] of Object.entries(initial)) mounted[id] = new Set(arr);
-  // speciesId -> genome fraction 0..1 (fed by duplicate bones — path to resurrection)
+  // speciesId -> genome fraction 0..1 (fed by duplicate bones - path to resurrection)
   const genome = { ...initialGenome };
 
   const need = id => (FOSSILS_BY_ID[id]?.bones || ['piece']).length;

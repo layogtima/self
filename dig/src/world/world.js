@@ -85,9 +85,9 @@ export function makeWorld(seed) {
 
     /**
      * Apply one dig hit. Returns:
-     *   null — not diggable
-     *   {broke:false} — chipped, not yet broken
-     *   {broke:true, bone?:pocket} — tile cleared; if it held a bone pocket,
+     *   null - not diggable
+     *   {broke:false} - chipped, not yet broken
+     *   {broke:true, bone?:pocket} - tile cleared; if it held a bone pocket,
      *      `bone` is the pocket you just recovered.
      */
     dig(tx, ty) {

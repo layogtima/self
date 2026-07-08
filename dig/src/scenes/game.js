@@ -1,4 +1,4 @@
-// The dig. Year 102,025. v3.5: a living planet — day/night + weather engine,
+// The dig. Year 102,025. v3.5: a living planet - day/night + weather engine,
 // mouse-aimed wall-clipped lighting that matters on the surface after dark, a
 // properly composed base (vitrine wing · work bay · lander · solar wing +
 // incubator), cave features, creatures, and the genome path to resurrection.
@@ -82,7 +82,7 @@ export function makeGameScene(services) {
   let minigame = null;
   let lastStratumIndex = world.stratumIndexAt(player.tx(), Math.floor(player.cy() / TILE));
   let banner = null, missionBanner = 0;
-  let resultBanner = null;            // {done, next, t} — station "done" feedback
+  let resultBanner = null;            // {done, next, t} - station "done" feedback
   let rumbleT = 14 + Math.random() * 10;
   let idleT = 0, findT = 0, escHold = 0;
   let lightPoly = null;
@@ -96,14 +96,10 @@ export function makeGameScene(services) {
   const fx = { shake: m => cam.addShake(m, settings.shake) };
   function toast(str, color = PALETTE.amber) { toasts.push({ text: str, life: 2.4, color }); }
 
-  // onboarding: first run only (persisted via save.tutorialDone)
+  // onboarding: first run only (persisted via save.tutorialDone). A controls
+  // checklist the player must actually perform before the world is handed over.
   const tutorial = makeTutorial({
     active: !save?.tutorialDone && !save?.session,
-    lab,
-    starterFragments: (speciesId) => {
-      const spec = FOSSILS_BY_ID[speciesId];
-      spec.bones.forEach((b, i) => satchel.add(makeFragment(speciesId, b, i, spec.period)));
-    },
   });
   tutorial.onEnd(() => { save && (save.tutorialDone = true); persist(); });
 
@@ -132,7 +128,7 @@ export function makeGameScene(services) {
   function update(dt) {
     time += dt;
     env.update(dt);
-    tutorial.update(dt);
+    tutorial.update(dt, { player, pulley, codex });
     if (resultBanner) { resultBanner.t += dt; if (resultBanner.t > 2) resultBanner = null; }
     updateMusic(dt);
     decayToasts(dt);
@@ -321,7 +317,7 @@ export function makeGameScene(services) {
     player.y = (world.surface[spawnCol] - 3) * TILE;
     player.vx = 0; player.vy = -180;   // popped up onto the pad
     player.inLava = false;
-    toast('scorched — returned to base', PALETTE.danger);
+    toast('scorched - returned to base', PALETTE.danger);
   }
 
   function onBone(pocket) {
@@ -628,7 +624,7 @@ export function makeGameScene(services) {
         // ceiling features
         if (world.solidAt(tx, ty - 1)) {
           if (depth < 42 && h > 0.82) {
-            // hanging roots (topsoil bands) — sway
+            // hanging roots (topsoil bands) - sway
             const sway = Math.sin(rtime * 1.8 + tx) * 2;
             ctx.strokeStyle = '#6E5237';
             ctx.lineWidth = 1.3;
@@ -657,7 +653,7 @@ export function makeGameScene(services) {
             ctx.moveTo(dx + 4, dy + TILE); ctx.lineTo(dx + 8, dy + TILE - 8 - h * 4); ctx.lineTo(dx + 12, dy + TILE);
             ctx.closePath(); ctx.fill();
           } else if (depth > 14 && h > 0.965) {
-            // glow mushrooms — they light their corner
+            // glow mushrooms - they light their corner
             const pulse = 0.7 + Math.sin(rtime * 2 + tx) * 0.3;
             for (let m = 0; m < 3; m++) {
               const mx = dx + 3 + m * 5, stem = 3 + ((tx + m) % 3);
@@ -749,7 +745,7 @@ export function makeGameScene(services) {
     ctx.fillRect(deckX0, roofY, deckX1 - deckX0, 6);
     ctx.fillStyle = '#4E4956';
     for (let bx = deckX0; bx <= deckX1; bx += TILE * 2) ctx.fillRect(bx, roofY - 8, 2, 8 + (dy - roofY) * 0.12);
-    // interior ceiling lights — on regardless of day/night
+    // interior ceiling lights - on regardless of day/night
     for (let lx = deckX0 + 3 * TILE; lx < deckX1 - TILE; lx += 6 * TILE) {
       ctx.fillStyle = '#FFE9B8';
       ctx.fillRect(lx - 3, roofY + 5, 6, 2);
@@ -847,7 +843,7 @@ export function makeGameScene(services) {
     ctx.fillStyle = '#5C5766';
     ctx.beginPath(); ctx.ellipse(bayX1 + 36, dy - 7, 5, 7, 0, 0, Math.PI * 2); ctx.fill();
 
-    // ---- incubator pod (far left — the future) ----
+    // ---- incubator pod (far left - the future) ----
     const viable = collection.anyViable();
     ctx.fillStyle = '#3A363F';
     ctx.fillRect(INCUBATOR.x - 4, deckY - 4, 34, 6);
@@ -953,7 +949,7 @@ export function makeGameScene(services) {
       const x = st.x, y = deckTopY;   // ON the deck surface
       const isNear = near === st;
       const hasInput = !!satchel.firstAtState(st.spec.input);
-      // soft glow when the rover is at this station (no hard box — mod 9 cleanup)
+      // soft glow when the rover is at this station (no hard box - mod 9 cleanup)
       if (isNear) {
         const glow = ctx.createRadialGradient(x, y - 12, 4, x, y - 12, 30);
         glow.addColorStop(0, `rgba(224,162,74,${hasInput ? 0.24 : 0.12})`);

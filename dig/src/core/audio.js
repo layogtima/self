@@ -1,4 +1,4 @@
-// Tiny WebAudio SFX — synthesized, no asset files. Two buses: sfx + music
+// Tiny WebAudio SFX - synthesized, no asset files. Two buses: sfx + music
 // (music engine lives in core/music.js and plugs into getMusicBus()).
 
 let AC = null;
@@ -108,7 +108,7 @@ function boom(vol, delay = 0) {
   o.start(t0); o.stop(t0 + 0.75);
 }
 
-/** distant dino rumble — filtered growl sweep, deeper than the drone */
+/** distant dino rumble - filtered growl sweep, deeper than the drone */
 export function rumble() {
   if (!AC) return;
   const t0 = AC.currentTime;
@@ -154,7 +154,7 @@ function laserZap(f0, f1, dur, vol) {
   o.start(t0); o.stop(t0 + dur + 0.02);
 }
 
-// -- real sound samples (Freesound, CC0/CC-BY — see CREDITS.md) ---------------
+// -- real sound samples (Freesound, CC0/CC-BY - see CREDITS.md) ---------------
 // Ambient loops prefer a decoded sample; a synthesized fallback covers the gap
 // before a sample loads (or if a file is missing). One-shots (thunder/drip) use
 // samples when available.
@@ -213,7 +213,7 @@ function ensureLoop(name, build) {
   return loop;
 }
 
-/** rain wash (sample: rain-loop) — synth fallback: soft lowpassed noise */
+/** rain wash (sample: rain-loop) - synth fallback: soft lowpassed noise */
 export function setRainLevel(v) {
   const l = ensureLoop('rain', (g, nodes) => {
     const src = AC.createBufferSource();
@@ -224,7 +224,7 @@ export function setRainLevel(v) {
   l?.set(v * (l.usingSample ? 0.3 : 0.06));
 }
 
-/** surface ambience (sample: forest-day birdsong) — synth fallback: warm pad */
+/** surface ambience (sample: forest-day birdsong) - synth fallback: warm pad */
 export function setSurfacePad(v) {
   const l = ensureLoop('surfpad', (g, nodes) => {
     const o1 = AC.createOscillator(); o1.type = 'sine'; o1.frequency.value = 220;
@@ -235,7 +235,7 @@ export function setSurfacePad(v) {
   l?.set(v * (l.usingSample ? 0.26 : 0.012));
 }
 
-/** night crickets (sample: crickets-night) — synth fallback: pulsing sines */
+/** night crickets (sample: crickets-night) - synth fallback: pulsing sines */
 export function setCricketLevel(v) {
   const l = ensureLoop('crickets', (g, nodes) => {
     for (const [f, rate] of [[4200, 11], [3700, 9]]) {
@@ -250,7 +250,7 @@ export function setCricketLevel(v) {
   l?.set(v * (l.usingSample ? 0.32 : 0.012));
 }
 
-/** wind (sample: wind-loop) — synth fallback: low noise */
+/** wind (sample: wind-loop) - synth fallback: low noise */
 export function setWindLevel(v) {
   const l = ensureLoop('wind', (g, nodes) => {
     const src = AC.createBufferSource();
@@ -261,14 +261,14 @@ export function setWindLevel(v) {
   l?.set(v * (l.usingSample ? 0.24 : 0.06));
 }
 
-/** underground cave ambience (sample: cave-ambience) — no synth fallback */
+/** underground cave ambience (sample: cave-ambience) - no synth fallback */
 export function setCaveLevel(v) { ensureLoop('cave', null)?.set(v * 0.3); }
 /** near flowing water (sample: water-stream) */
 export function setWaterLevel(v) { ensureLoop('water', null)?.set(v * 0.3); }
 /** near lava (sample: lava-bubbling) */
 export function setLavaLevel(v) { ensureLoop('lava', null)?.set(v * 0.32); }
 
-/** brushing swish for the prep minigame — synth (no sample) */
+/** brushing swish for the prep minigame - synth (no sample) */
 export function setBrushLevel(v) {
   const l = ensureLoop('brush', (g, nodes) => {
     const src = AC.createBufferSource();
@@ -315,7 +315,7 @@ export const sfx = {
   jump: () => tone(200, 400, 0.09, 'square', 0.04),
   land: () => thud(0.15, 320, 0.07),
 
-  // fossils — brass, wonder, John-Williams-shaped intervals
+  // fossils - brass, wonder, John-Williams-shaped intervals
   hint: () => tone(1180, 1560, 0.25, 'sine', 0.045),                     // "something here…"
   discover: () => {                                                       // rising fourth swell
     brass(196.0, 0.5, 0.05);            // G3

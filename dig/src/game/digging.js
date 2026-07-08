@@ -61,7 +61,7 @@ export function updateDigging(p, world, cam, particles, fx, dt) {
 
   // camp guard: the beam won't fire near homebase
   if (world.inCampZone(aim.tx, aim.ty)) {
-    if (world.tileAt(aim.tx, aim.ty) === 1) out.camp = true;   // T_ROCK — you tried
+    if (world.tileAt(aim.tx, aim.ty) === 1) out.camp = true;   // T_ROCK - you tried
     return out;
   }
   if (!world.diggable(aim.tx, aim.ty) || !inReach(p, aim.tx, aim.ty)) return out;

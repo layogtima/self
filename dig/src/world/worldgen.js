@@ -70,7 +70,7 @@ function carveAt(tiles, surface, x, y) {
 
 /**
  * Worm caves: seeded random-walk tunnels, 2–3 tiles wide, snaking laterally
- * with a downward bias — real cave systems worth following.
+ * with a downward bias - real cave systems worth following.
  */
 function carveWormCaves(rng, tiles, surface) {
   const worms = 13;
@@ -144,7 +144,7 @@ function seedFluids(rng, tiles, surface) {
   pools(8, 236, 999, T_LAVA, 90);
 }
 
-/** occasional large caverns in the deeper half — pause, look around, feel small */
+/** occasional large caverns in the deeper half - pause, look around, feel small */
 function carveCaverns(rng, tiles, surface) {
   const caverns = 7;
   for (let c = 0; c < caverns; c++) {
@@ -163,7 +163,7 @@ function carveCaverns(rng, tiles, surface) {
 
 /**
  * Scatter bones. Each placed species drops ALL its bones as separate 1-tile
- * pockets clustered around a centre column within its stratum — so a dig site
+ * pockets clustered around a centre column within its stratum - so a dig site
  * feels like an articulated find you excavate piece by piece. Every species
  * gets at least one full cluster (guaranteed completable), plus extra clusters
  * weighted by rarity. Nothing spawns under the camp.
@@ -205,7 +205,7 @@ function placeBones(rng, tiles, surface) {
         seated = true;
         break;
       }
-      if (!seated) return false;   // incomplete cluster — abandon it (bones stay buried elsewhere)
+      if (!seated) return false;   // incomplete cluster - abandon it (bones stay buried elsewhere)
     }
     // commit the whole set
     for (const { idx, tx, ty, bi } of staged) {

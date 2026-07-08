@@ -1,4 +1,4 @@
-// The single source of colour truth — v3.1 "field dossier" theme.
+// The single source of colour truth - v3.1 "field dossier" theme.
 // Deep blueprint blues + chunky dark frames + cream text + one amber accent,
 // with richer, earthier strata (defined alongside the strata in content/strata.js).
 
@@ -28,7 +28,7 @@ export const PALETTE = {
   hardhatBrim: '#D18F27',
   beard: '#D9CDB8',
 
-  // UI — the FIELD JOURNAL language (parchment pages in wood frames).
+  // UI - the FIELD JOURNAL language (parchment pages in wood frames).
   // Token names are kept from the old blueprint theme so call sites don't churn.
   frame: '#6E4F33',          // wood frame
   frameLight: '#8A6A47',     // lighter grain streak

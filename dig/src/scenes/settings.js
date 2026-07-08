@@ -1,4 +1,4 @@
-// Settings / pause panel — blueprint dossier style. SFX + music sliders,
+// Settings / pause panel - blueprint dossier style. SFX + music sliders,
 // screen-shake toggle, reset save. Doubles as the pause menu via {overlay:true}.
 
 import { VIEW_W, VIEW_H } from '../config.js';
@@ -123,7 +123,7 @@ export function makeSettingsScene(services, opts = {}) {
     let y = cy + 76;
     for (const c of (services.credits || [])) {
       text(ctx, `${c.key}`, cx + 28, y, { size: 12, bold: true, color: PALETTE.amberSoft });
-      text(ctx, `“${(c.title || '').slice(0, 42)}” — ${c.author} · ${c.licence}`, cx + 150, y, { size: 11, color: PALETTE.cream });
+      text(ctx, `“${(c.title || '').slice(0, 42)}” - ${c.author} · ${c.licence}`, cx + 150, y, { size: 11, color: PALETTE.cream });
       y += 22;
     }
     if (!(services.credits || []).length) text(ctx, '(loading…)', cx + 28, y, { size: 12, color: PALETTE.creamDim });

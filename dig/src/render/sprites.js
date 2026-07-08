@@ -1,5 +1,5 @@
 // Sprites: PROBE DG-3 (drawn vectorially) and fossils (procedural silhouette now,
-// drop-in PNG later). Fossil art contract — see docs/CONTENT.md:
+// drop-in PNG later). Fossil art contract - see docs/CONTENT.md:
 //   put assets/sprites/fossils/<id>.png (footprint*16 px, transparent) and it is
 //   auto-loaded and used instead of the generated silhouette. No code change.
 
@@ -207,7 +207,7 @@ function drawEyes(ctx, cx, cy, mood, time, moving, seed, eyeCount = 2) {
   ctx.restore();
 }
 
-/** @deprecated alias — older call sites; the dwarf retired to poc/ */
+/** @deprecated alias - older call sites; the dwarf retired to poc/ */
 export const drawDwarf = drawProbe;
 
 // ---------------------------------------------------------------- soft cloud
@@ -239,7 +239,7 @@ const silhouetteCache = {}; // id -> offscreen canvas
 
 /**
  * Kick off async loads of any drop-in PNGs. Missing files fall back to the
- * procedural silhouette forever — the game never blocks on art.
+ * procedural silhouette forever - the game never blocks on art.
  * @param {(src:string)=>HTMLImageElement} makeImage  factory (real or stub-null)
  */
 export function loadFossilSprites(makeImage) {
@@ -270,7 +270,7 @@ function silhouette(spec, makeCanvas) {
   ctx.lineCap = 'round';
 
   const cx = w / 2, cy = h / 2;
-  // central body mass — an organic blob
+  // central body mass - an organic blob
   ctx.beginPath();
   const lobes = 7 + Math.floor(rng.next() * 4);
   for (let i = 0; i <= lobes; i++) {
@@ -282,7 +282,7 @@ function silhouette(spec, makeCanvas) {
   }
   ctx.closePath(); ctx.fill();
 
-  // ribs / segments / limbs radiating out — count scales with size
+  // ribs / segments / limbs radiating out - count scales with size
   const ribs = 3 + Math.floor((fw + fh) * 0.9);
   ctx.lineWidth = Math.max(1.5, Math.min(fw, fh) * 1.4);
   for (let i = 0; i < ribs; i++) {

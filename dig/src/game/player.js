@@ -1,5 +1,5 @@
 // Player: AABB physics vs the tile world. Logic ported verbatim from the proven
-// POC (constants unchanged) — only the world queries are now injected.
+// POC (constants unchanged) - only the world queries are now injected.
 
 import {
   TILE, GRAVITY, MAX_FALL, MOVE_SPEED, GROUND_ACCEL, AIR_ACCEL, FRICTION,

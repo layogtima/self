@@ -1,4 +1,4 @@
-// Text + panel helpers — the blueprint dossier UI language. Every UI surface
+// Text + panel helpers - the blueprint dossier UI language. Every UI surface
 // goes through blueprintPanel so the whole game reads as one artifact.
 
 import { PALETTE } from './palette.js';

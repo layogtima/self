@@ -1,4 +1,4 @@
-// STORY MODE — disabled (FLAGS.STORY_MODE=false in config.js). This carries the
+// STORY MODE - disabled (FLAGS.STORY_MODE=false in config.js). This carries the
 // v2 "unfurl" beat table as data for future re-entry. No systems run while the
 // flag is off. Full reference implementation preserved at poc/game.js.
 //

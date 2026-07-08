@@ -1,4 +1,4 @@
-// Flowing fluids — a bounded cellular automaton over the tile grid. Water and
+// Flowing fluids - a bounded cellular automaton over the tile grid. Water and
 // lava spread DOWN, then sideways into adjacent AIR. Only tiles within a window
 // around the camera are processed, and only cells flagged "active" (recently
 // touched), so the whole world never simulates at once. Conserves volume: fluid

@@ -1,6 +1,6 @@
 // Bone fragments + satchel. Digging a pocket yields a fragment, which travels
 // the lab pipeline (dirty → cleaned → identified → stabilized → mounted). The
-// satchel is uncapped now — carry as many bones as you can find.
+// satchel is uncapped now - carry as many bones as you can find.
 
 import { FOSSILS, FOSSILS_BY_ID, fossilsForPeriod } from '../content/fossils.js';
 import { SPECIMEN_STATES } from '../content/stations.js';
@@ -70,7 +70,7 @@ export function pickBoneDecoys(spec, boneName, uid = 1) {
   return (((uid * 2654435761) >>> 0) % 2 ? ranked : ranked.slice().reverse());
 }
 
-/** @deprecated kept for older callers/tests — whole-species version */
+/** @deprecated kept for older callers/tests - whole-species version */
 export function pickDecoys(spec, uid = 1) {
   return pickBoneDecoys(spec, (spec.bones || ['piece'])[0], uid);
 }

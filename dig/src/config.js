@@ -20,13 +20,13 @@ export const CAMP_DEPTH = 10;       // rows below surface protected
 
 // -- tile ids (world structure; strata are looked up by depth, not stored) ----
 export const T_AIR = 0;
-export const T_ROCK = 1;            // stratum rock — which stratum comes from depth
+export const T_ROCK = 1;            // stratum rock - which stratum comes from depth
 export const T_PLACED = 2;          // player-placed soil
 export const T_BEDROCK = 3;
 export const T_WATER = 4;           // flowing water (buoyant)
 export const T_LAVA = 5;            // glowing lava (deadly, knocks you back to base)
 
-// -- player physics (proven values from the POC — tuned, don't fiddle) --------
+// -- player physics (proven values from the POC - tuned, don't fiddle) --------
 export const GRAVITY = 1600;
 export const MAX_FALL = 760;
 export const MOVE_SPEED = 132;
@@ -39,7 +39,7 @@ export const JUMP_BUFFER = 0.1;
 export const PLAYER_W = 12;
 export const PLAYER_H = 22;
 
-// -- digging (always easy — exploration, not labour) ---------------------------
+// -- digging (always easy - exploration, not labour) ---------------------------
 export const DIG_REACH = 3.6 * TILE;
 export const DIG_COOLDOWN = 0.15;
 

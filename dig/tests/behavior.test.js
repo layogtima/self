@@ -18,7 +18,7 @@ const { makeLab } = await import('../src/game/stations.js');
 const { makePulley } = await import('../src/game/pulley.js');
 const { makeMinigame } = await import('../src/game/minigames.js');
 const { makeParticles } = await import('../src/render/particles.js');
-const { keys, mouse, endFrame, attachInput } = await import('../src/core/input.js');
+const { keys, mouse, pointer, endFrame, attachInput } = await import('../src/core/input.js');
 const { loadSave, writeSave } = await import('../src/core/save.js');
 const cfg = await import('../src/config.js');
 
@@ -511,17 +511,50 @@ console.log('\n[sound] Freesound assets are attributed');
   t.ok(['loadSamples', 'setCaveLevel', 'setWaterLevel', 'setLavaLevel'].every(k => typeof audio[k] === 'function'), 'audio exports sample loaders + fluid loops');
 }
 
-// ===================================================================== v3.6.1: tutorial ends
-console.log('\n[tutorial] ends after one full cycle, does not loop');
+// ===================================================================== v3.6.1: tutorial checklist
+console.log('\n[tutorial] a controls checklist that ends only after every control is performed');
 {
   const { makeTutorial } = await import('../src/game/tutorial.js');
-  const tut = makeTutorial({ active: true, lab: { instances: [] }, starterFragments: () => {} });
+  const tut = makeTutorial({ active: true });
+  const ctx = { player: { beam: null, tool: 'laser' }, pulley: { active: false }, codex: new Set() };
+  clearKeys(); pointer.moved = true;   // simulate a device with a mouse
   t.ok(tut.active, 'tutorial starts active');
-  tut.onStationDone('clean'); tut.onStationDone('identify'); tut.onStationDone('stabilize');
-  t.ok(tut.active, 'still active mid-cycle');
-  tut.onStationDone('mount');        // first mounted bone → completion countdown
-  for (let i = 0; i < 60 * 6; i++) tut.update(1 / 60);   // let the 5s splash elapse
-  t.ok(!tut.active, 'tutorial ends after the first mounted bone (no loop)');
+
+  // step 1: move needs BOTH A and D
+  keys.KeyA = true; tut.update(1 / 60, ctx);
+  keys.KeyD = true; tut.update(1 / 60, ctx);
+  clearKeys();
+  // step 2: jump
+  keys.Space = true; tut.update(1 / 60, ctx); clearKeys();
+  // step 3: dig (laser beam fired)
+  ctx.player.beam = { x: 0, y: 0 }; tut.update(1 / 60, ctx); ctx.player.beam = null;
+  // step 4: switch to scanner
+  ctx.player.tool = 'scan'; tut.update(1 / 60, ctx);
+  t.ok(tut.active, 'still active with the scan + winch steps outstanding');
+  // step 5: scan something (codex grows)
+  ctx.codex.add('rock-jurassic'); tut.update(1 / 60, ctx);
+  // step 6: winch
+  ctx.pulley.active = true; tut.update(1 / 60, ctx);
+  for (let i = 0; i < 60 * 5; i++) tut.update(1 / 60, ctx);   // let the completion splash elapse
+  t.ok(!tut.active, 'tutorial ends after all six controls are performed');
+}
+
+console.log('\n[tutorial] mouse-gated scan step auto-skips on a device with no pointer');
+{
+  const { makeTutorial } = await import('../src/game/tutorial.js');
+  const tut = makeTutorial({ active: true });
+  const ctx = { player: { beam: null, tool: 'laser' }, pulley: { active: false }, codex: new Set() };
+  clearKeys(); pointer.moved = false;   // keyboard/touch: no mouse ever moves
+  keys.KeyA = keys.KeyD = true; tut.update(1 / 60, ctx); clearKeys();   // move
+  keys.Space = true; tut.update(1 / 60, ctx); clearKeys();              // jump
+  ctx.player.beam = { x: 0, y: 0 }; tut.update(1 / 60, ctx); ctx.player.beam = null;  // dig
+  ctx.player.tool = 'scan'; tut.update(1 / 60, ctx);                    // switch
+  // now on the scan step with no pointer: waits out the grace window, then skips
+  for (let i = 0; i < 60 * 7; i++) tut.update(1 / 60, ctx);
+  ctx.pulley.active = true; tut.update(1 / 60, ctx);                    // winch
+  for (let i = 0; i < 60 * 5; i++) tut.update(1 / 60, ctx);
+  t.ok(!tut.active, 'tutorial still finishes without a mouse (scan step skipped)');
+  pointer.moved = false;
 }
 
 // ===================================================================== v3.6.1: parachute

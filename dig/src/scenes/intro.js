@@ -1,5 +1,5 @@
 // The landing. Year 102,025. PROBE DG-3 falls from a starfield, unfurls a
-// parachute through the atmosphere, and settles gently onto the camp — then the
+// parachute through the atmosphere, and settles gently onto the camp - then the
 // mission brief types out. Any key skips ahead; ~9s total.
 
 import { VIEW_W, VIEW_H } from '../config.js';
@@ -14,7 +14,7 @@ const BRIEF = [
   'YEAR 102,025',
   'PROBE DG-3 · SURFACE INSERTION COMPLETE',
   '',
-  'MISSION: recover the legendary relic —',
+  'MISSION: recover the legendary relic - ',
   'a complete TYRANNOSAURUS REX fossil.',
   '',
   'dig well, little probe.',
@@ -85,7 +85,7 @@ export function makeIntroScene(services) {
         ctx.fillRect(-8, gy, VIEW_W + 16, 5);
       }
 
-      // the probe — eased descent, then rest on the ground
+      // the probe - eased descent, then rest on the ground
       const probeX = VIEW_W / 2;
       let probeY;
       const chuting = t >= T_CHUTE && t < T_LAND;

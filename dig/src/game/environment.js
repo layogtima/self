@@ -1,6 +1,6 @@
 // The planet engine: one module owning TIME and WEATHER. Everything that makes
-// the world feel like a place — sky colours, sun/moon, stars, wind, rain/snow,
-// storms with lightning — reads from here. All transitions are smooth ramps.
+// the world feel like a place - sky colours, sun/moon, stars, wind, rain/snow,
+// storms with lightning - reads from here. All transitions are smooth ramps.
 
 import { VIEW_W, VIEW_H } from '../config.js';
 import { lerp, clamp01 } from '../core/rng.js';
@@ -65,7 +65,7 @@ export function makeEnvironment(startClock = DAY_LENGTH * 0.18) {
     /** rain/snow/gloom strength 0..1, crossfaded between states */
     precip01() { return lerp(intensityOf(weather), intensityOf(nextWeather), blend); },
     isStormy() { return this.weather === 'storm'; },
-    /** wind 0..1 — breathes on its own + rises with weather */
+    /** wind 0..1 - breathes on its own + rises with weather */
     wind01() { return clamp01(0.2 + Math.sin(windPhase) * 0.15 + this.precip01() * 0.55); },
 
     /** {top, bot} sky colours for now (weather-darkened) */

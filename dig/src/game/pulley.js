@@ -1,7 +1,7 @@
-// The winch: your way home. Invisible until you need it — press K underground
+// The winch: your way home. Invisible until you need it - press K underground
 // and a rig materialises at the surface directly above you, drops a line, and
 // reels you up. During extraction the winch OWNS the motion (a real pendulum:
-// θ'' = -(g/len)·sinθ, damped, A/D torques the swing) and ignores terrain — it's
+// θ'' = -(g/len)·sinθ, damped, A/D torques the swing) and ignores terrain - it's
 // a winch, not a climb. At the top you POP out of the hole with an impulse and
 // normal physics catch you mid-air.
 
@@ -46,7 +46,7 @@ export function makePulley() {
     },
 
     /**
-     * Owns player motion while active — call INSTEAD of updatePlayer.
+     * Owns player motion while active - call INSTEAD of updatePlayer.
      * @returns {{popped?:boolean, cancelled?:boolean}}
      */
     updateReel(p, world, dt) {
@@ -77,7 +77,7 @@ export function makePulley() {
       this.len = Math.max(ROPE_MIN_LEN, this.len - REEL_SPEED * dt);
       this.spin += REEL_SPEED * dt / 8;
 
-      // place the player on the rope (terrain ignored — it's a winch)
+      // place the player on the rope (terrain ignored - it's a winch)
       const bx = this.anchor.x + Math.sin(this.theta) * this.len;
       const by = this.anchor.y + Math.cos(this.theta) * this.len;
       p.x = bx - p.w / 2;

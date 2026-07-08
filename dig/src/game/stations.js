@@ -1,4 +1,4 @@
-// Surface lab: station placement + proximity. Interaction is now a minigame —
+// Surface lab: station placement + proximity. Interaction is now a minigame - 
 // the game scene opens one (game/minigames.js) when E is pressed at a station
 // holding a specimen in the right state. This module just knows WHERE stations
 // are and which one you're standing at.
