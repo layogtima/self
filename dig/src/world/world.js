@@ -4,7 +4,7 @@
 
 import {
   WORLD_W, WORLD_H, SURFACE_BASE, TILE,
-  T_AIR, T_ROCK, T_PLACED, T_BEDROCK, T_WATER, T_LAVA,
+  T_AIR, T_ROCK, T_PLACED, T_BEDROCK, T_WATER, T_LAVA, T_ROOF,
   CAMP_HALF_L, CAMP_HALF_R, CAMP_DEPTH,
 } from '../config.js';
 import { generateWorld } from './worldgen.js';
@@ -20,7 +20,8 @@ export function makeWorld(seed) {
   const damage = new Map();             // tile index -> hits taken
   const excavated = new Set();          // pocket indices already dug out
   const dug = new Set();                // player-cleared tile indices (for save)
-  const placed = new Set();             // player-placed tile indices (for save)
+  const placed = new Map();             // player-placed tile index -> tile id (for save)
+  const harvested = new Set();          // air tiles whose feature (mushroom/crystal) was picked
 
   const spawnCol = WORLD_W >> 1;
   const inBounds = (tx, ty) => tx >= 0 && tx < WORLD_W && ty >= 0 && ty < WORLD_H;
@@ -70,9 +71,19 @@ export function makeWorld(seed) {
 
     damageAt(tx, ty) { return damage.get(ty * WORLD_W + tx) || 0; },
 
+    // -- harvestable features (mushrooms/crystals; ground truth in game/features.js)
+    isHarvested(tx, ty) { return harvested.has(ty * WORLD_W + tx); },
+    harvest(tx, ty) {
+      if (!inBounds(tx, ty)) return false;
+      const idx = ty * WORLD_W + tx;
+      if (harvested.has(idx)) return false;
+      harvested.add(idx);
+      return true;
+    },
+
     hpAt(tx, ty) {
       const t = this.tileAt(tx, ty);
-      if (t === T_PLACED) return 1;
+      if (t === T_PLACED || t === T_ROOF) return 1;
       if (t === T_ROCK) return this.stratumAt(tx, ty).hp;
       return Infinity;
     },
@@ -80,7 +91,7 @@ export function makeWorld(seed) {
     diggable(tx, ty) {
       if (this.inCampZone(tx, ty)) return false;
       const t = this.tileAt(tx, ty);
-      return t === T_ROCK || t === T_PLACED;
+      return t === T_ROCK || t === T_PLACED || t === T_ROOF;
     },
 
     /**
@@ -98,7 +109,7 @@ export function makeWorld(seed) {
       if (hits < hp) { damage.set(idx, hits); return { broke: false }; }
 
       damage.delete(idx);
-      const wasPlaced = tiles[idx] === T_PLACED;
+      const wasPlaced = tiles[idx] === T_PLACED || tiles[idx] === T_ROOF;
       tiles[idx] = T_AIR;
       if (wasPlaced) placed.delete(idx); else dug.add(idx);
       fluids.wake(tx, ty);   // a fluid neighbour may now pour into this cell
@@ -114,12 +125,13 @@ export function makeWorld(seed) {
     /** advance fluid flow within the visible window */
     stepFluids(bounds, dt) { fluids.step(bounds, dt); },
 
-    place(tx, ty) {
+    /** @param {number} [t] placeable tile id - T_PLACED soil (default) or T_ROOF */
+    place(tx, ty, t = T_PLACED) {
       if (!inBounds(tx, ty)) return false;
       const idx = ty * WORLD_W + tx;
       if (tiles[idx] !== T_AIR) return false;
-      tiles[idx] = T_PLACED;
-      placed.add(idx);
+      tiles[idx] = t;
+      placed.set(idx, t);
       dug.delete(idx);
       return true;
     },
@@ -128,10 +140,11 @@ export function makeWorld(seed) {
 
     // -- save/restore ----------------------------------------------------------
     exportDeltas() {
-      return { dug: [...dug], placed: [...placed] };
+      return { dug: [...dug], placedTiles: [...placed.entries()], harvested: [...harvested] };
     },
     applyDeltas(save) {
       if (!save) return;
+      for (const idx of save.harvested || []) harvested.add(idx);
       for (const idx of save.dug || []) {
         if (tiles[idx] !== T_BEDROCK) {
           tiles[idx] = T_AIR; dug.add(idx);
@@ -139,8 +152,11 @@ export function makeWorld(seed) {
           if (p !== undefined) excavated.add(p);   // a dug pocket tile = already recovered
         }
       }
-      for (const idx of save.placed || []) {
-        if (tiles[idx] !== T_BEDROCK) { tiles[idx] = T_PLACED; placed.add(idx); }
+      for (const [idx, t] of save.placedTiles || []) {
+        if (tiles[idx] !== T_BEDROCK) { tiles[idx] = t; placed.set(idx, t); }
+      }
+      for (const idx of save.placed || []) {   // legacy array form
+        if (tiles[idx] !== T_BEDROCK) { tiles[idx] = T_PLACED; placed.set(idx, T_PLACED); }
       }
     },
   };

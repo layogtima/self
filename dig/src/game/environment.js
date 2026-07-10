@@ -51,6 +51,10 @@ export function makeEnvironment(startClock = DAY_LENGTH * 0.18) {
   const env = {
     get t01() { return (clock % DAY_LENGTH) / DAY_LENGTH; },
     get weather() { return blend >= 0.5 ? nextWeather : weather; },
+    /** the state we're crossfading toward - a free ~15s telegraph for quests */
+    get incoming() { return nextWeather; },
+    /** while false, rain/storm remap to overcast (new-game grace period) */
+    rainAllowed: true,
     lightning: 0,
 
     /** 0 = full day, 1 = deep night (smooth) */
@@ -107,6 +111,7 @@ export function makeEnvironment(startClock = DAY_LENGTH * 0.18) {
           const opts = CHAIN[weather];
           let total = opts.reduce((s, o) => s + o[1], 0), r = rand() * total;
           for (const [to, w] of opts) { r -= w; if (r <= 0) { nextWeather = to; break; } }
+          if (!env.rainAllowed && (nextWeather === 'rain' || nextWeather === 'storm')) nextWeather = 'overcast';
           blend = nextWeather === weather ? 1 : 0;
           const [d0, d1] = DWELL[nextWeather];
           dwell = d0 + rand() * (d1 - d0);

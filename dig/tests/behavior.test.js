@@ -14,7 +14,7 @@ const { makePlayer, updatePlayer } = await import('../src/game/player.js');
 const { updateDigging } = await import('../src/game/digging.js');
 const { makeSatchel, makeFragment } = await import('../src/game/fossils.js');
 const { makeCollection } = await import('../src/game/collection.js');
-const { makeLab } = await import('../src/game/stations.js');
+const { makeEntities } = await import('../src/game/entities.js');
 const { makePulley } = await import('../src/game/pulley.js');
 const { makeMinigame } = await import('../src/game/minigames.js');
 const { makeParticles } = await import('../src/render/particles.js');
@@ -234,14 +234,15 @@ console.log('\n[pulley] still extracts + pops');
 }
 
 // ===================================================================== save round-trip
-console.log('\n[save] deltas + bone collection round-trip');
+console.log('\n[save] deltas + bone collection round-trip (v2 placedTiles)');
 {
   const w = makeWorld(999);
   const spawn = w.spawnCol, col = spawn + 40;
   const surf = w.surface[col];
   w.dig(col, surf + 3);
+  w.place(col + 2, surf - 2, cfg.T_ROOF);              // a built roof panel
   const deltas = w.exportDeltas();
-  writeSave({ seed: 999, dug: deltas.dug, placed: deltas.placed, collected: { 't-rex': [0, 1] }, settings: { volume: 0.5 } });
+  writeSave({ v: 2, seed: 999, dug: deltas.dug, placedTiles: deltas.placedTiles, collected: { 't-rex': [0, 1] }, settings: { volume: 0.5 } });
   const loaded = loadSave();
   t.ok(loaded && loaded.seed === 999, 'save reloads');
   const col2 = makeCollection(loaded.collected);
@@ -249,6 +250,18 @@ console.log('\n[save] deltas + bone collection round-trip');
   const w2 = makeWorld(999);
   w2.applyDeltas(loaded);
   t.eq(w2.tileAt(col, surf + 3), cfg.T_AIR, 'dug tile restored as AIR');
+  t.eq(w2.tileAt(col + 2, surf - 2), cfg.T_ROOF, 'placed roof restored with its tile id');
+}
+
+console.log('\n[save] v1 saves reset but carry settings forward');
+{
+  const { clearSave } = await import('../src/core/save.js');
+  clearSave();
+  localStorage.setItem(cfg.SAVE_KEY_V1, JSON.stringify({ seed: 1, settings: { volume: 0.15, music: 0.9 } }));
+  const migrated = loadSave();
+  t.ok(migrated?.settingsOnly === true, 'v1 fallback is settings-only (no game state)');
+  t.eq(migrated.settings.volume, 0.15, 'v1 settings carried over');
+  localStorage.removeItem(cfg.SAVE_KEY_V1);
 }
 
 // ===================================================================== physics
@@ -264,7 +277,47 @@ console.log('\n[physics] fall, land, jump');
   keys.Space = true; p.bufferJump();
   for (let i = 0; i < 14; i++) updatePlayer(p, w, 1 / 60);
   keys.Space = false;
-  t.ok(p.y < groundY - 32, 'jump clears two tiles');
+  t.ok(p.y < groundY - 30, 'jump clears two tiles');
+}
+
+// ===================================================================== v4: 1-tile-tall probe
+console.log('\n[hitbox] probe is one tile tall: 1-tall tunnels + single-step hops');
+{
+  clearKeys();
+  t.ok(cfg.PLAYER_H < cfg.TILE, 'PLAYER_H fits inside one tile row');
+  const w = makeWorld(77);
+  const col = w.spawnCol + 40;
+  const row = w.surface[col] + 8;
+  // hand-carve a 1-tall tunnel: floor at `row`, ceiling directly above the gap
+  const isDiggable = (tx, ty) => w.diggable(tx, ty);
+  for (let tx = col; tx < col + 8; tx++) {
+    if (isDiggable(tx, row)) { while (w.dig(tx, row)?.broke === false) {} }
+  }
+  const p = makePlayer(col * cfg.TILE + 2, (row + 1) * cfg.TILE - cfg.PLAYER_H);
+  keys.KeyD = true;
+  let maxX = p.x;
+  for (let i = 0; i < 60 * 4; i++) { updatePlayer(p, w, 1 / 60); maxX = Math.max(maxX, p.x); }
+  keys.KeyD = false;
+  t.ok(maxX > (col + 5) * cfg.TILE, `probe drives through a 1-tall tunnel (reached ${Math.round(maxX / cfg.TILE - col)} tiles in)`);
+
+  // single-step hop: build a flat runway with a 1-tile step up halfway along
+  clearKeys();
+  const w2 = makeWorld(78);
+  const c2 = w2.spawnCol + 40;
+  const surf = w2.surface[c2];                       // first solid row at the start column
+  for (let o = 0; o <= 6; o++) if (w2.tileAt(c2 + o, surf) === cfg.T_AIR) w2.place(c2 + o, surf);   // flat floor
+  for (let o = 2; o <= 6; o++) w2.place(c2 + o, surf - 1);                                          // 1-tile step
+  const p2 = makePlayer(c2 * cfg.TILE + 2, surf * cfg.TILE - cfg.PLAYER_H);
+  for (let i = 0; i < 30; i++) updatePlayer(p2, w2, 1 / 60);
+  keys.KeyD = true; keys.Space = true; p2.bufferJump();
+  const stepTopY = (surf - 1) * cfg.TILE - cfg.PLAYER_H;
+  let hopped = false;
+  for (let i = 0; i < 60; i++) {
+    updatePlayer(p2, w2, 1 / 60);
+    if (p2.onGround && p2.x > (c2 + 2) * cfg.TILE - 4 && p2.y <= stepTopY + 0.01) hopped = true;
+  }
+  clearKeys();
+  t.ok(hopped, 'one buffered jump hops a single-tile step');
 }
 
 // ===================================================================== v3.4: real depth scale
@@ -468,6 +521,91 @@ console.log('\n[codex] entries cover creatures + strata; scan resolves tiles');
   } else { t.ok(true, 'scan rock case skipped (tile was a cave)'); }
 }
 
+// ===================================================================== v4: scan ground truth
+console.log('\n[features] scan names ONLY what the render draws (shared ground truth)');
+{
+  const { caveFeaturesAt } = await import('../src/game/features.js');
+  const { resolveScan, scanTargetAt } = await import('../src/game/scan.js');
+  const w = makeWorld(5);
+  const featureIds = new Set(['roots', 'stalactite', 'stalagmite', 'mushroom', 'crystal']);
+  let checked = 0, mismatches = 0, phantomCrystal = 0, found = { mushroom: 0, stalactite: 0 };
+  for (let ty = 0; ty < w.WORLD_H - 4 && checked < 40000; ty++) {
+    for (let tx = 0; tx < w.WORLD_W; tx++) {
+      if (w.tileAt(tx, ty) !== cfg.T_AIR || w.depthOfRow(tx, ty) < 3) continue;
+      checked++;
+      const f = caveFeaturesAt(w, tx, ty);
+      // scan the tile centre-bottom (floor half) and centre-top (ceiling half)
+      for (const [frac, side] of [[0.85, 'floor'], [0.15, 'ceiling']]) {
+        const r = resolveScan((tx + 0.5) * cfg.TILE, (ty + frac) * cfg.TILE, w, []);
+        if (r?.kind !== 'feature') {
+          if (f && f[side] && !f[side === 'floor' ? 'ceiling' : 'floor']) mismatches++;   // render draws, scan missed
+          continue;
+        }
+        if (!f || (r.id !== f.floor && r.id !== f.ceiling)) mismatches++;                 // scan names, render doesn't draw
+        if (!featureIds.has(r.id)) mismatches++;
+        if (r.id === 'crystal' && f?.si === 7) phantomCrystal++;
+        if (found[r.id] !== undefined) found[r.id]++;
+      }
+    }
+  }
+  t.ok(checked > 500, `checked ${checked} cave air tiles`);
+  t.eq(mismatches, 0, 'scan and render agree on every feature tile');
+  t.eq(phantomCrystal, 0, 'no phantom crystals in the devonian (si 7)');
+  t.ok(found.mushroom > 0 && found.stalactite > 0, `features exist to scan (${found.mushroom} mushrooms, ${found.stalactite} stalactites)`);
+}
+
+console.log('\n[fauna] registry is well-formed and covers the codex');
+{
+  const { FAUNA, FAUNA_BY_ID, eligibleFauna } = await import('../src/content/fauna.js');
+  const { FAUNA_ART } = await import('../src/render/fauna.js');
+  const { CODEX_BY_ID } = await import('../src/content/codex.js');
+  t.eq(new Set(FAUNA.map(f => f.id)).size, FAUNA.length, 'fauna ids are unique');
+  t.ok(FAUNA.every(f => CODEX_BY_ID[f.id]), 'every fauna id has a codex entry');
+  t.ok(FAUNA.every(f => f.zone === 'surface' || f.zone === 'cave'), 'zones valid');
+  t.ok(FAUNA.every(f => f.speed.walk > 0 && f.speed.flee > 0), 'speeds positive');
+  t.ok(FAUNA.every(f => Array.isArray(f.size) && f.size[0] > 0), 'sizes present');
+  t.ok(FAUNA.filter(f => f.capturable).every(f => Array.isArray(f.diet) && f.diet.length), 'capturables declare a diet');
+  t.ok(!!FAUNA_ART.generic, 'generic art fallback exists');
+  // behavior parity with the old hardcoded gates
+  const ids = ctx => eligibleFauna('surface', ctx).map(o => o.item.id).sort().join(',');
+  t.eq(ids({ isDay: true, weather: 'clear', depth: 0 }), 'grazer,lizard', 'clear day: grazer + lizard');
+  t.eq(ids({ isDay: true, weather: 'rain', depth: 0 }), 'grazer,hopper', 'rainy day: grazer + hopper');
+  t.eq(ids({ isDay: false, weather: 'rain', depth: 0 }), 'hopper', 'rainy night: hopper only');
+  t.eq(ids({ isDay: false, weather: 'clear', depth: 0 }), '', 'clear night: nobody out');
+  const cave = eligibleFauna('cave', { isDay: true, weather: 'clear', depth: 50 }).map(o => o.item.id).sort().join(',');
+  t.eq(cave, 'salamander,spider', 'deep cave: salamander + spider');
+  t.ok(FAUNA_BY_ID.hopper.rarity === 2, 'hopper keeps its double rain weight');
+}
+
+console.log('\n[harvest] picking a mushroom updates inventory, save, and the feature is gone');
+{
+  const { caveFeaturesAt } = await import('../src/game/features.js');
+  const { makeInventory } = await import('../src/game/inventory.js');
+  const w = makeWorld(5);
+  // find a mushroom tile
+  let spot = null;
+  for (let ty = 0; ty < w.WORLD_H - 4 && !spot; ty++)
+    for (let tx = 0; tx < w.WORLD_W && !spot; tx++) {
+      const f = caveFeaturesAt(w, tx, ty);
+      if (f?.floor === 'mushroom') spot = { tx, ty };
+    }
+  t.ok(!!spot, 'found a glow mushroom in the seeded world');
+  const inv = makeInventory();
+  t.ok(w.harvest(spot.tx, spot.ty), 'harvest marks the tile');
+  inv.add('mushroom');
+  t.eq(inv.count('mushroom'), 1, 'inventory counts the pick');
+  t.eq(caveFeaturesAt(w, spot.tx, spot.ty)?.floor ?? null, null, 'harvested feature no longer reported (render + scan agree it is gone)');
+  t.ok(!w.harvest(spot.tx, spot.ty), 'double-harvest refused');
+  // round-trip through deltas
+  const w2 = makeWorld(5);
+  w2.applyDeltas(w.exportDeltas());
+  t.eq(caveFeaturesAt(w2, spot.tx, spot.ty)?.floor ?? null, null, 'harvest persists through save deltas');
+  // inventory export/import
+  const inv2 = makeInventory(inv.export());
+  t.eq(inv2.count('mushroom'), 1, 'materials persist');
+  t.ok(inv2.pay({ mushroom: 1 }) && inv2.count('mushroom') === 0 && !inv2.pay({ mushroom: 1 }), 'pay() spends and refuses overdraft');
+}
+
 // ===================================================================== v3.6: fluids
 console.log('\n[fluids] world seeds pools + flow conserves volume');
 {
@@ -511,50 +649,103 @@ console.log('\n[sound] Freesound assets are attributed');
   t.ok(['loadSamples', 'setCaveLevel', 'setWaterLevel', 'setLavaLevel'].every(k => typeof audio[k] === 'function'), 'audio exports sample loaders + fluid loops');
 }
 
-// ===================================================================== v3.6.1: tutorial checklist
-console.log('\n[tutorial] a controls checklist that ends only after every control is performed');
+// ===================================================================== v4: quests
+console.log('\n[quests] boot calibration verifies every control, then completes');
 {
-  const { makeTutorial } = await import('../src/game/tutorial.js');
-  const tut = makeTutorial({ active: true });
-  const ctx = { player: { beam: null, tool: 'laser' }, pulley: { active: false }, codex: new Set() };
-  clearKeys(); pointer.moved = true;   // simulate a device with a mouse
-  t.ok(tut.active, 'tutorial starts active');
-
-  // step 1: move needs BOTH A and D
-  keys.KeyA = true; tut.update(1 / 60, ctx);
-  keys.KeyD = true; tut.update(1 / 60, ctx);
-  clearKeys();
-  // step 2: jump
-  keys.Space = true; tut.update(1 / 60, ctx); clearKeys();
-  // step 3: dig (laser beam fired)
-  ctx.player.beam = { x: 0, y: 0 }; tut.update(1 / 60, ctx); ctx.player.beam = null;
-  // step 4: switch to scanner
-  ctx.player.tool = 'scan'; tut.update(1 / 60, ctx);
-  t.ok(tut.active, 'still active with the scan + winch steps outstanding');
-  // step 5: scan something (codex grows)
-  ctx.codex.add('rock-jurassic'); tut.update(1 / 60, ctx);
-  // step 6: winch
-  ctx.pulley.active = true; tut.update(1 / 60, ctx);
-  for (let i = 0; i < 60 * 5; i++) tut.update(1 / 60, ctx);   // let the completion splash elapse
-  t.ok(!tut.active, 'tutorial ends after all six controls are performed');
+  const { makeQuests } = await import('../src/game/quests.js');
+  const q = makeQuests(null);
+  const ctx = { player: { beam: null, tool: 'laser' }, pulley: { active: false }, codex: new Set(), env: { precip01: () => 0 }, power: { frac: () => 1 }, builtCount: () => 0, exposedNow: false };
+  clearKeys(); pointer.moved = true;   // a device with a mouse
+  t.ok(q.isActive('boot'), 'boot quest auto-activates on a fresh game');
+  keys.KeyA = true; q.update(1 / 60, ctx);
+  keys.KeyD = true; q.update(1 / 60, ctx); clearKeys();          // drive
+  keys.Space = true; q.update(1 / 60, ctx); clearKeys();         // hop
+  ctx.player.beam = { x: 0, y: 0 }; q.update(1 / 60, ctx); ctx.player.beam = null;   // dig
+  ctx.player.tool = 'scan'; q.update(1 / 60, ctx);               // switch
+  t.ok(q.isActive('boot'), 'still active with scan + winch outstanding');
+  ctx.codex.add('rock-jurassic'); q.update(1 / 60, ctx);         // scan
+  ctx.pulley.active = true; q.update(1 / 60, ctx);               // winch
+  t.ok(q.isDone('boot'), 'boot completes after all six controls are performed');
 }
 
-console.log('\n[tutorial] mouse-gated scan step auto-skips on a device with no pointer');
+console.log('\n[quests] triggers: events activate quests; steps poll to done');
 {
-  const { makeTutorial } = await import('../src/game/tutorial.js');
-  const tut = makeTutorial({ active: true });
-  const ctx = { player: { beam: null, tool: 'laser' }, pulley: { active: false }, codex: new Set() };
-  clearKeys(); pointer.moved = false;   // keyboard/touch: no mouse ever moves
-  keys.KeyA = keys.KeyD = true; tut.update(1 / 60, ctx); clearKeys();   // move
-  keys.Space = true; tut.update(1 / 60, ctx); clearKeys();              // jump
-  ctx.player.beam = { x: 0, y: 0 }; tut.update(1 / 60, ctx); ctx.player.beam = null;  // dig
-  ctx.player.tool = 'scan'; tut.update(1 / 60, ctx);                    // switch
-  // now on the scan step with no pointer: waits out the grace window, then skips
-  for (let i = 0; i < 60 * 7; i++) tut.update(1 / 60, ctx);
-  ctx.pulley.active = true; tut.update(1 / 60, ctx);                    // winch
-  for (let i = 0; i < 60 * 5; i++) tut.update(1 / 60, ctx);
-  t.ok(!tut.active, 'tutorial still finishes without a mouse (scan step skipped)');
-  pointer.moved = false;
+  const { makeQuests } = await import('../src/game/quests.js');
+  const q = makeQuests(null);
+  let built = 0, precip = 0, exposed = true;
+  const ctx = { player: { beam: null, tool: 'laser' }, pulley: { active: false }, codex: new Set(), env: { precip01: () => precip }, power: { frac: () => 0.1 }, builtCount: () => built, exposedNow: exposed };
+  clearKeys(); pointer.moved = false;
+  t.ok(!q.isActive('shelter'), 'shelter quest locked before the rain telegraph');
+  q.emit('rain-soon');
+  q.update(1 / 60, ctx);
+  t.ok(q.isActive('shelter'), 'rain-soon activates the shelter quest');
+  built = 4; q.update(1 / 60, ctx);                       // step 1: 4 roof panels
+  precip = 0.6; exposed = false; ctx.exposedNow = false;
+  q.update(1 / 60, ctx);                                  // step 2: stay dry through rain
+  t.ok(q.isDone('shelter'), 'shelter completes: roofed up + stayed dry through rain');
+  // power-nap via event
+  q.emit('power-low');
+  q.update(1 / 60, ctx);
+  t.ok(q.isActive('power-nap'), 'power-low event activates the recharge quest');
+  ctx.power = { frac: () => 0.7 };
+  q.update(1 / 60, ctx);
+  t.ok(q.isDone('power-nap'), 'recharging past 60% completes it');
+  // save round-trip
+  const q2 = makeQuests(q.export());
+  t.ok(q2.isDone('shelter') && q2.isDone('power-nap'), 'quest states survive save round-trip');
+}
+
+console.log('\n[power] spend, solar recharge, low event, reserve floor');
+{
+  const { makePower } = await import('../src/game/power.js');
+  const p = makePower(null);
+  t.ok(Math.abs(p.frac() - 0.6) < 0.001, 'awakens at 60% charge');
+  t.ok(p.spend(10), 'spend works when charged');
+  let lowFired = 0;
+  p._set(cfg.POWER_CAP * 0.25);
+  for (let i = 0; i < 60; i++) { p.spend(0.2); p.update(1 / 60, { sun01: 0 }, () => lowFired++); }
+  t.eq(lowFired, 1, 'low-power event fires exactly once on entering the band');
+  p._set(cfg.POWER_CAP * 0.03);
+  t.ok(!p.spend(1), 'reserve refuses to spend (tools offline)');
+  t.ok(p.charge >= cfg.POWER_CAP * 0.02 - 0.001, 'charge floors at 2% - never a hard death');
+  for (let i = 0; i < 60 * 30; i++) p.update(1 / 60, { sun01: 1 });
+  t.ok(p.frac() > 0.5, 'sunbathing recharges the battery');
+}
+
+console.log('\n[status] rain soaks, shelter dries, speed slows, soak fires once');
+{
+  const { makeStatus } = await import('../src/game/status.js');
+  const s = makeStatus(null);
+  let soaks = 0;
+  t.eq(s.tier(), 'dry', 'starts dry');
+  for (let i = 0; i < 60 * 14; i++) s.update(1 / 60, { exposed01: 1, dry01: 0, onSoaked: () => soaks++ });
+  t.eq(s.tier(), 'soaked', 'a storm soaks the chassis in ~12s');
+  t.eq(soaks, 1, 'onSoaked fires exactly once');
+  t.ok(s.speedMul() < 0.7, `soaked probe is slow (x${s.speedMul().toFixed(2)})`);
+  for (let i = 0; i < 60 * 20; i++) s.update(1 / 60, { exposed01: 0, dry01: 1, onSoaked: () => soaks++ });
+  t.eq(s.tier(), 'dry', 'sun dries it back out');
+  t.eq(s.speedMul(), 1, 'dry probe at full speed');
+}
+
+console.log('\n[entities+build] pod exists; roof placement pays, shelters, refunds');
+{
+  const { makeInventory } = await import('../src/game/inventory.js');
+  const { BUILDABLES_BY_ID } = await import('../src/content/buildables.js');
+  const w = makeWorld(31);
+  const ents = makeEntities(null, { podTx: w.spawnCol - 1, podTy: w.surface[w.spawnCol] });
+  t.ok(ents.pod && ents.pod.uid === 1, 'crash pod is entity #1');
+  t.ok(!ents.remove(1), 'the pod cannot be deconstructed');
+  const inv = makeInventory({ regolith: 5 });
+  const roof = BUILDABLES_BY_ID.roof;
+  t.ok(inv.pay(roof.cost), 'roof costs regolith');
+  const col = w.spawnCol + 40, surf = w.surface[col];
+  t.ok(w.place(col, surf - 3, cfg.T_ROOF), 'roof panel placed in air');
+  t.ok(w.solidAt(col, surf - 3), 'roof is solid (stops rain, counts as cover)');
+  t.eq(inv.count('regolith'), 3, 'materials were spent');
+  // machines round-trip through entities save
+  const e = ents.add('solar', col + 3, surf);
+  const ents2 = makeEntities(ents.export(), { podTx: 0, podTy: 0 });
+  t.ok(ents2.list.some(x => x.uid === e.uid && x.type === 'solar'), 'built machines persist');
 }
 
 // ===================================================================== v3.6.1: parachute

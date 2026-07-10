@@ -5,6 +5,17 @@ export const lerp = (a, b, t) => a + (b - a) * t;
 export const smooth = t => t * t * (3 - 2 * t);
 
 /**
+ * Seed-INDEPENDENT positional hash → [0,1]. World-stable across saves - used
+ * for cosmetic/feature placement that scan + render must agree on (see
+ * game/features.js). Do not fold the world seed in here.
+ */
+export function hashCol(x, salt) {
+  let n = Math.imul(x | 0, 374761393) + Math.imul(salt | 0, 668265263) + 987;
+  n = Math.imul(n ^ (n >>> 13), 1274126177);
+  return ((n ^ (n >>> 16)) >>> 0) / 4294967295;
+}
+
+/**
  * Create a seeded generator namespace.
  * @param {number} seed integer seed
  */

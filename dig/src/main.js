@@ -11,7 +11,7 @@ import { loadFossilSprites, loadSprites } from './render/sprites.js';
 import { makeTitleScene } from './scenes/title.js';
 import { makeSettingsScene } from './scenes/settings.js';
 import { makeGameScene } from './scenes/game.js';
-import { makeIntroScene } from './scenes/intro.js';
+import { makeAwakenScene } from './scenes/awaken.js';
 
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
@@ -21,8 +21,9 @@ const makeCanvas = (w, h) => { const c = document.createElement('canvas'); c.wid
 const makeImage = src => { const i = new Image(); i.src = src; return i; };
 
 // -- shared services handed to every scene ------------------------------------
-const save = loadSave();
-const settings = { ...DEFAULT_SETTINGS, ...(save?.settings || {}) };
+const loaded = loadSave();
+const save = loaded?.settingsOnly ? null : loaded;   // v1 fallback carries settings, not a game
+const settings = { ...DEFAULT_SETTINGS, ...(loaded?.settings || {}) };
 
 const services = {
   canvas, ctx, makeCanvas, makeImage,
@@ -48,7 +49,7 @@ loadSprites(makeImage, 'stations', ['station-clean', 'station-analyze', 'station
 const scenes = {
   title: opts => makeTitleScene(services, opts),
   settings: opts => makeSettingsScene(services, opts),
-  intro: opts => makeIntroScene(services, opts),
+  intro: opts => makeAwakenScene(services, opts),   // the awakening (v4) - name kept for callers
   game: opts => makeGameScene(services, opts),
 };
 

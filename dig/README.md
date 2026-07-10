@@ -22,23 +22,25 @@ not opened as `file://`.)
 
 `A`/`D` (or arrows) move · `Space` jump · **walk into a wall to laser it** ·
 `S` dig down · `K` winch home · **`Ctrl` swaps tool (laser ↔ scanner)** ·
-mouse = aim · `E` lab + vitrine · `Tab` field journal (Fossils / Codex) · `Esc` pause.
+mouse = aim · `E` interact / harvest · **`B` build** · `H` mark home ·
+`Tab` field journal (Fossils / Codex) · `Esc` pause.
+
+You **awaken** beside the pod you came down in, on a bare planet. **Rain rusts
+you** - sparks, sluggish treads - so your first job is cover: dig dirt for
+regolith, press `B`, and roof yourself in (the pod's tiny awning shelters you
+day one). Your **battery** runs the laser and scanner and the **sun refills
+it** - tools brown out at low charge but you can always crawl home. **Quests**
+guide themselves from what you discover; the HUD (power, depth, satchel,
+materials, status, home arrow) boots up around you as you wake.
 
 Found **bones look like bones** (a spine looks like a spine); clean, compare
-against same-bone cousins, stabilize, and mount each into the growing skeleton —
-a species is only revealed when its last bone is placed. A first-run **tutorial**
-walks you through the lab. **Scan mode** (Ctrl) catalogues creatures, flora, rock
-and features into the Codex. Dig into a cave and **water flows** into your shaft;
-go deep and **lava glows** (and flings you back to base). The weatherproof lab
-stays dry and lit through the **day/night + weather** cycle, while creatures come
-and go with the time and sky (butterflies by day, fireflies at night, frogs in
-the rain).
-
-Laser down, pull **bones** from the ground (a species scatters 1–6 bones nearby),
-`K` home, then run each bone through the lab: **prep** it (slow strokes — scrub
-too fast near the bone and it crumbles, lost forever), **identify** it by
-comparative anatomy, **stabilize** it with consolidant, then **mount** it in the
-right slot. The museum skeleton assembles bone by bone. Complete the rex.
+against same-bone cousins, stabilize, and mount each into the growing skeleton -
+a species is only revealed when its last bone is placed. `E` at the pod runs the
+**fold-out field lab**. **Scan mode** (Ctrl) highlights exactly what it will
+catalogue, and known **glow mushrooms + crystals harvest** with `E`. Dig into a
+cave and **water flows** into your shaft; go deep and **lava glows** (and flings
+you back to the pod). Creatures come and go with the time and sky (butterflies
+by day, fireflies at night, frogs in the rain).
 
 ## Test
 

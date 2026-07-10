@@ -137,6 +137,25 @@ export function buildTileset(makeCanvas, makeImage) {
       ctx.fillRect(dx, dy, TILE, TILE);
     },
 
+    /** player-placed soil (atlas row after the strata) */
+    drawPlaced(ctx, variant, dx, dy) {
+      ctx.drawImage(atlas, (variant % VARIANTS) * TILE, STRATA.length * TILE, TILE, TILE, dx, dy, TILE, TILE);
+    },
+
+    /** player-built roof panel: thin plate + strut, air showing beneath */
+    drawRoof(ctx, tx, ty, dx, dy) {
+      ctx.fillStyle = '#6E4F33';                       // wood frame
+      ctx.fillRect(dx, dy + 2, TILE, 5);
+      ctx.fillStyle = '#8A6A45';                       // lit top edge
+      ctx.fillRect(dx, dy + 2, TILE, 1.5);
+      ctx.fillStyle = 'rgba(30,22,18,0.5)';            // underside shadow line
+      ctx.fillRect(dx, dy + 6, TILE, 1);
+      // rivet + hanging strut every other tile
+      ctx.fillStyle = '#4A3421';
+      ctx.fillRect(dx + 7, dy + 3, 2, 3);
+      if (((tx ^ ty) & 1) === 0) ctx.fillRect(dx + 7, dy + 7, 2, 6);
+    },
+
     /** the landing pad's artificial ground */
     drawPad(ctx, tx, ty, dx, dy) {
       if (masterReady && padCv) { crop(ctx, padCv, tx, ty, dx, dy); return; }

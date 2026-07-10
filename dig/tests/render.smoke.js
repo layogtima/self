@@ -45,8 +45,8 @@ console.log('\n[render] scenes boot & run');
 runScene('title', s => makeTitleScene(s));
 runScene('settings', s => makeSettingsScene(s, { overlay: true, back: 'game' }));
 {
-  const { makeIntroScene } = await import('../src/scenes/intro.js');
-  runScene('intro (full landing)', s => makeIntroScene(s), 750);   // 12.5s — through touchdown + brief
+  const { makeAwakenScene } = await import('../src/scenes/awaken.js');
+  runScene('awaken (boot log)', s => makeAwakenScene(s), 190);   // ~3.2s — just before hand-off to game
 }
 
 // minigame renders
@@ -85,7 +85,7 @@ console.log('\n[render] species card renders in both modes');
 console.log('\n[render] game scene across all strata');
 {
   const { STRATA } = await import('../src/content/strata.js');
-  const scene = makeGameScene(services);
+  const scene = makeGameScene(services, { boot: true });   // exercise the HUD boot overlay too
   scene.enter({});
   // reach into no internals — just drive it: dig downward for a while, render each frame
   try {

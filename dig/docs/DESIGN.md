@@ -90,3 +90,39 @@ doubles, an inverting palette, a loop through the world's crust) lives behind
 `FLAGS.STORY_MODE` (off) with its beat table in `game/story.js` and the full
 reference build preserved at `poc/game.js`. It re-enters on top of this loop
 later; the core game is the priority now.
+
+## v4 "Awaken" - the survival-crafting reboot
+
+Playtests demanded more planet, less prelude. v4 changes the fantasy: you are
+not a delivery mechanism for a museum - you are a small machine surviving on a
+bare world and rebuilding paleontology from garbage upward.
+
+- **Awaken, don't land.** `scenes/awaken.js` is a 3s boot log; the game HUD then
+  powers on element by element (`opts.boot`). No pre-built base: only the tipped
+  crash pod (entity #1, `game/entities.js`) with a 4-tile awning of real T_ROOF
+  tiles. The pod is default home and a fold-out field lab until stations are
+  buildable (M3).
+- **Power** (`game/power.js`): laser/scan spend battery, the sun refills it.
+  Low = sluggish tools; reserve = tools offline, speed x0.7, charge floors at
+  2%. Traversal and the winch are always free - pressure, never death.
+- **Wetness** (`game/status.js`): rain on an uncovered probe soaks it (sparks,
+  slow); cover = any solid tile above (caves, overhangs, built roofs all count
+  via one column scan). Sun dries. Soaked will drop items in M2.
+- **Building** (`game/build.js` + `content/buildables.js`): B toggles build
+  mode; soil + roof cost regolith (every 3rd dug tile pays 1) so shelter never
+  depends on machines. Machines are entities; tiles go through world.place
+  (now typed: T_PLACED | T_ROOF). Right-click refunds machines fully.
+- **Quests** (`game/quests.js` + `content/quests.js`): data-driven, triggered by
+  events (`rain-soon`, `power-low`, `bone-first`, `built:<id>`...), chains, or
+  predicates. The old tutorial is the `boot` quest verbatim. Rain is gated off
+  until calibration + 90s, and telegraphs ~15s ahead via the weather crossfade.
+- **Scan truth** (`game/features.js`): one module decides where cave features
+  exist; render, scanner, and highlight all consult it. Known mushrooms and
+  crystals harvest with E into the material inventory (`game/inventory.js`).
+- **Save v2**: world width changed (364) and the world contract with it; v1
+  saves reset, settings carry over (`core/save.js` peeks the old key).
+
+The road ahead (docs/ROADMAP.md): M2 garbage economy with a watchable, sun/wind
+powered Reclaimer; M3 seven biomes, stratum hardness + laser tiers, gas pockets
+and cave-ins answered by support pillars; M4 capture/raise fauna and true
+resurrection - released species joining the living world.

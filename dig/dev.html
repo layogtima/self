@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Diggg /dev - asset ledger + roadmap</title>
+  <meta name="robots" content="noindex">
+  <style>
+    :root {
+      --parchment: #E9DCBC; --parchment-deep: #DCCBA2; --ink: #3B2F22; --ink-dim: #7A6A50;
+      --frame: #6E4F33; --frame-dark: #4A3421; --amber: #E0A24A; --bg: #1D2433; --cyan: #4BE3E8;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.5 ui-monospace, Menlo, monospace; }
+    .page { max-width: 1080px; margin: 24px auto 80px; padding: 0 16px; }
+    .panel { background: var(--parchment); border: 6px solid var(--frame); border-radius: 14px; padding: 18px 22px; margin-bottom: 20px; box-shadow: 0 4px 0 var(--frame-dark); }
+    h1 { margin: 0 0 4px; font-size: 22px; color: var(--frame-dark); }
+    h1 small { color: var(--ink-dim); font-weight: normal; font-size: 12px; }
+    h2 { margin: 0 0 10px; font-size: 15px; color: var(--frame-dark); border-bottom: 2px solid var(--parchment-deep); padding-bottom: 6px; }
+    a { color: #7A5220; }
+    .ledger { display: flex; gap: 18px; flex-wrap: wrap; }
+    .stat { background: var(--parchment-deep); border-radius: 8px; padding: 8px 14px; }
+    .stat b { display: block; font-size: 20px; color: var(--frame-dark); }
+    .stat span { font-size: 11px; color: var(--ink-dim); }
+    .cat { margin-bottom: 14px; }
+    .cat h3 { margin: 12px 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-dim); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+    .asset { background: var(--parchment-deep); border-radius: 8px; padding: 8px; font-size: 11px; }
+    .asset img { width: 100%; image-rendering: pixelated; background:
+      repeating-conic-gradient(#cfc0a0 0% 25%, #c2b294 0% 50%) 0 0/16px 16px; border-radius: 4px; }
+    .asset .id { font-weight: bold; color: var(--frame-dark); }
+    .asset .meta { color: var(--ink-dim); }
+    .asset .prompt { color: var(--ink-dim); font-size: 10px; max-height: 42px; overflow: hidden; }
+    .badge { display: inline-block; border-radius: 4px; padding: 0 5px; font-size: 9px; font-weight: bold; }
+    .badge.live { background: #6C9A54; color: #fff; }
+    .badge.gen { background: var(--ink-dim); color: var(--parchment); }
+    /* roadmap markdown-lite */
+    .md h1 { font-size: 18px; margin: 10px 0 4px; }
+    .md h2 { font-size: 14px; margin: 16px 0 6px; border: 0; color: var(--frame-dark); }
+    .md p { margin: 6px 0; }
+    .md ul { margin: 4px 0; padding-left: 20px; list-style: none; }
+    .md li { margin: 2px 0; }
+    .md li.done { color: var(--ink-dim); }
+    .md li.done::before { content: "\2611 "; color: #6C9A54; }
+    .md li.todo::before { content: "\2610 "; color: var(--ink-dim); }
+    .err { color: #C4432E; }
+    .foot { color: rgba(233,220,188,0.6); font-size: 11px; text-align: center; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="panel">
+      <h1>DIGGG /dev <small>· field office - asset ledger, spend, roadmap</small></h1>
+      <div style="font-size:12px;color:var(--ink-dim)">
+        <a href="index.html">&larr; play the game</a> ·
+        generate: <code>node tools/generate-assets.mjs --dry</code> ·
+        tests: <code>node tests/run.js</code>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Spend ledger</h2>
+      <div class="ledger" id="ledger">loading manifest…</div>
+    </div>
+
+    <div class="panel">
+      <h2>Generated assets</h2>
+      <div id="assets">loading…</div>
+    </div>
+
+    <div class="panel">
+      <h2>Roadmap</h2>
+      <div class="md" id="roadmap">loading…</div>
+    </div>
+
+    <div class="foot">zero-build dev page · reads assets/gen/manifest.json + docs/ROADMAP.md · not linked in production</div>
+  </div>
+
+<script>
+(async () => {
+  // ---------------- manifest → ledger + gallery ----------------
+  try {
+    const m = await (await fetch('assets/gen/manifest.json')).json();
+    const entries = m.entries || [];
+    const total = entries.reduce((s, e) => s + (e.cost || 0), 0);
+    const last = entries[entries.length - 1] || {};
+    const cats = {};
+    for (const e of entries) (cats[e.cat] ||= []).push(e);
+
+    document.getElementById('ledger').innerHTML = `
+      <div class="stat"><b>$${total.toFixed(2)}</b><span>total spent (${entries.length} generations)</span></div>
+      <div class="stat"><b>$${(last.remaining_balance ?? 0).toFixed(2)}</b><span>balance after last run</span></div>
+      <div class="stat"><b>${Object.keys(cats).length}</b><span>categories</span></div>
+      <div class="stat"><b>${new Date((last.created_at || 0) * 1000).toLocaleDateString()}</b><span>last generation</span></div>`;
+
+    // live-path map mirrors tools/generate-assets.mjs buildJobs
+    const liveOf = e =>
+      e.cat === 'fossils' ? `assets/sprites/fossils/${e.id}.png` :
+      e.cat === 'scenery' ? `assets/sprites/scenery/${e.id}.png` :
+      e.cat === 'stations' ? `assets/sprites/stations/${e.id}.png` :
+      e.cat === 'tiles' ? (e.id === 'master-a' ? 'assets/tiles/master.png' : `assets/tiles/${e.id}.png`) :
+      e.cat === 'social' ? 'assets/og.png' : null;
+
+    const box = document.getElementById('assets');
+    box.innerHTML = '';
+    for (const [cat, list] of Object.entries(cats)) {
+      const wrap = document.createElement('div');
+      wrap.className = 'cat';
+      wrap.innerHTML = `<h3>${cat} · ${list.length}</h3><div class="grid"></div>`;
+      const grid = wrap.querySelector('.grid');
+      for (const e of list) {
+        const live = liveOf(e);
+        const cell = document.createElement('div');
+        cell.className = 'asset';
+        cell.innerHTML = `
+          <img loading="lazy" src="${e.file}" alt="${e.id}"
+               onerror="this.style.opacity=.25;this.alt='missing'">
+          <div class="id">${e.id} <span class="meta">v${e.version}</span>
+            ${live ? `<span class="badge live" title="${live}">LIVE</span>` : '<span class="badge gen">GEN</span>'}</div>
+          <div class="meta">$${(e.cost || 0).toFixed(3)}</div>
+          <div class="prompt" title="${(e.prompt || '').replace(/"/g, '&quot;')}">${e.prompt || ''}</div>`;
+        grid.appendChild(cell);
+      }
+      box.appendChild(wrap);
+    }
+  } catch (err) {
+    document.getElementById('ledger').innerHTML = `<span class="err">could not load assets/gen/manifest.json - ${err.message}</span>`;
+    document.getElementById('assets').textContent = '';
+  }
+
+  // ---------------- ROADMAP.md → markdown-lite ----------------
+  try {
+    const md = await (await fetch('docs/ROADMAP.md')).text();
+    const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+    let html = '', inList = false;
+    for (const line of md.split('\n')) {
+      const li = line.match(/^- \[([ x])\] (.*)$/);
+      if (li) {
+        if (!inList) { html += '<ul>'; inList = true; }
+        html += `<li class="${li[1] === 'x' ? 'done' : 'todo'}">${esc(li[2])}</li>`;
+        continue;
+      }
+      if (inList) { html += '</ul>'; inList = false; }
+      if (line.startsWith('## ')) html += `<h2>${esc(line.slice(3))}</h2>`;
+      else if (line.startsWith('# ')) html += `<h1>${esc(line.slice(2))}</h1>`;
+      else if (line.trim()) html += `<p>${esc(line)}</p>`;
+    }
+    if (inList) html += '</ul>';
+    document.getElementById('roadmap').innerHTML = html;
+  } catch (err) {
+    document.getElementById('roadmap').innerHTML = `<span class="err">could not load docs/ROADMAP.md - ${err.message}</span>`;
+  }
+})();
+</script>
+</body>
+</html>

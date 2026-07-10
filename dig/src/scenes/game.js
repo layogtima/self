@@ -1,11 +1,13 @@
-// The dig. Year 102,025. v3.5: a living planet - day/night + weather engine,
-// mouse-aimed wall-clipped lighting that matters on the surface after dark, a
-// properly composed base (vitrine wing · work bay · lander · solar wing +
-// incubator), cave features, creatures, and the genome path to resurrection.
+// The dig. Year 102,026. v4 "Awaken": you boot up on a bare planet beside the
+// pod you crashed in. Rain rusts you - build cover. The sun feeds your battery -
+// spend it wisely. Quests guide themselves; everything else you build. Still a
+// living planet: day/night + weather, wall-clipped lighting, cave features,
+// creatures, and the genome path to resurrection.
 
 import {
-  VIEW_W, VIEW_H, TILE, WORLD_W, WORLD_H, PLAYER_H,
-  T_AIR, T_PLACED, T_BEDROCK, T_WATER, T_LAVA, AUTOSAVE_SECONDS, CAMP_HALF_L, CAMP_HALF_R,
+  VIEW_W, VIEW_H, TILE, WORLD_W, WORLD_H, PLAYER_H, BEAM_Y, DIG_REACH, DIG_COOLDOWN,
+  T_AIR, T_PLACED, T_BEDROCK, T_WATER, T_LAVA, T_ROOF, AUTOSAVE_SECONDS, CAMP_HALF_L, CAMP_HALF_R,
+  POWER_DIG, POWER_SCAN,
 } from '../config.js';
 import { keys, mouse, pressed } from '../core/input.js';
 import { sfx, rumble, thunder, setRainLevel, setCricketLevel, setWindLevel, setSurfacePad, setCaveLevel, setWaterLevel, setLavaLevel } from '../core/audio.js';
@@ -17,7 +19,10 @@ import { PALETTE, RARITY_COLORS } from '../render/palette.js';
 import { text, chip, blueprintPanel, measure, roundRect } from '../render/text.js';
 import { drawProbe, drawFossil, drawBoneNub, drawSprite, hasSprite, softCloud } from '../render/sprites.js';
 import { drawSpeciesCard, drawMiniCard, drawCodexCard } from '../render/cards.js';
-import { scanTargetAt } from '../game/scan.js';
+import { resolveScan } from '../game/scan.js';
+import { caveFeaturesAt, sceneryAt } from '../game/features.js';
+import { makeInventory } from '../game/inventory.js';
+import { hashCol } from '../core/rng.js';
 import { CODEX, codexEntry } from '../content/codex.js';
 import { makeLighting } from '../render/lighting.js';
 import { makeWorld } from '../world/world.js';
@@ -29,17 +34,20 @@ import { makeAmbient } from '../game/ambient.js';
 import { makeEnvironment } from '../game/environment.js';
 import { makeSatchel, makeFragment, pickBoneDecoys } from '../game/fossils.js';
 import { makeCollection } from '../game/collection.js';
-import { makeLab } from '../game/stations.js';
-import { makeTutorial } from '../game/tutorial.js';
+import { makePower } from '../game/power.js';
+import { makeStatus } from '../game/status.js';
+import { makeEntities } from '../game/entities.js';
+import { makeBuild } from '../game/build.js';
+import { makeQuests } from '../game/quests.js';
+import { MATERIALS_BY_ID } from '../content/materials.js';
+import { BUILDABLES_BY_ID } from '../content/buildables.js';
 import { STATIONS } from '../content/stations.js';
 import { STRATA, realDepthAt, formatDepth, formatAge } from '../content/strata.js';
 import { biomeAtX } from '../content/biomes.js';
-import { FOSSILS, FOSSILS_BY_ID, fossilsForPeriod } from '../content/fossils.js';
+import { FOSSILS, FOSSILS_BY_ID } from '../content/fossils.js';
 import { SPECIMEN_STATES } from '../content/stations.js';
 
-const MISSION_ID = 't-rex';
-
-export function makeGameScene(services) {
+export function makeGameScene(services, opts) {
   const { ctx, tileset, makeCanvas, settings, save } = services;
 
   const seed = save?.seed ?? ((Math.random() * 1e9) | 0);
@@ -49,13 +57,12 @@ export function makeGameScene(services) {
   const spawnCol = world.spawnCol;
   const player = makePlayer(
     spawnCol * TILE + (TILE - 12) / 2,
-    (world.surface[spawnCol] - 2) * TILE - 22,
+    (world.surface[spawnCol] - 2) * TILE - PLAYER_H,
   );
   const cam = makeCamera();
   const particles = makeParticles();
   const satchel = makeSatchel();
   const collection = makeCollection(save?.collected || {}, save?.genome || {});
-  const lab = makeLab(spawnCol, world.surface);
   const pulley = makePulley();
   const lighting = makeLighting(makeCanvas);
   const ambient = makeAmbient();
@@ -77,39 +84,53 @@ export function makeGameScene(services) {
   let collectionOpen = false, journalTab = 'fossils';
   let overlay = null;
   let scanning = null;                // {id, t} while holding a scan
+  let scanTarget = null;              // resolveScan() result this frame (reticle + harvest)
   const codex = new Set(save?.codex || []);
+  const inventory = makeInventory(save?.materials);
   let birdT = 8 + Math.random() * 10;
   let minigame = null;
   let lastStratumIndex = world.stratumIndexAt(player.tx(), Math.floor(player.cy() / TILE));
-  let banner = null, missionBanner = 0;
+  let banner = null;
   let resultBanner = null;            // {done, next, t} - station "done" feedback
   let rumbleT = 14 + Math.random() * 10;
   let idleT = 0, findT = 0, escHold = 0;
   let lightPoly = null;
-  let campRoofY = 0;                  // updated each frame by drawPlatform (rain shelter line)
   let frameLights = [];               // per-frame static lights (lamps, mushrooms, glowworms)
   const rainDrops = [];               // {x,y,vy,snow}
   const toasts = [];
   const miniCards = [];
   const hintedPockets = new Set();
+  let bootT = opts?.boot ? 0 : Infinity;   // HUD power-on timeline (new game only)
+  let sparkT = 0;                          // wet-chassis spark cadence
+  let regolithCounter = 0;                 // every 3rd broken tile pays out spoil
 
   const fx = { shake: m => cam.addShake(m, settings.shake) };
   function toast(str, color = PALETTE.amber) { toasts.push({ text: str, life: 2.4, color }); }
 
-  // onboarding: first run only (persisted via save.tutorialDone). A controls
-  // checklist the player must actually perform before the world is handed over.
-  const tutorial = makeTutorial({
-    active: !save?.tutorialDone && !save?.session,
+  // -- v4 systems --------------------------------------------------------------
+  const power = makePower(save?.power);
+  const status = makeStatus(save?.status);
+  const podTy = world.surface[spawnCol];   // ground row the pod stands on
+  const entities = makeEntities(save, { podTx: spawnCol - 1, podTy });
+  const quests = makeQuests(save?.quests);
+  const build = makeBuild({
+    world, player, inventory, entities,
+    isQuestDone: id => quests.isDone(id),
+    onBuilt: id => { quests.emit(`built:${id}`); persist(); },
+    toast,
   });
-  tutorial.onEnd(() => { save && (save.tutorialDone = true); persist(); });
+  let home = save?.home ?? { x: spawnCol * TILE + TILE / 2, y: podTy * TILE };
+  env.rainAllowed = quests.isDone('boot');   // grace: no rain until calibrated (+90s, see update)
 
-  // camp platform geometry (world px)
-  const deckY = world.surface[spawnCol] * TILE;
-  const deckX0 = (spawnCol - CAMP_HALF_L) * TILE;
-  const deckX1 = (spawnCol + CAMP_HALF_R + 1) * TILE;
-  const VIT = { x: deckX0 + 8, w: 8 * TILE, h: 3.4 * TILE, cols: 4, rows: 2 };
-  VIT.y = deckY - VIT.h - 12;
-  const INCUBATOR = { x: deckX0 - 26, y: deckY - 30 };
+  // pod geometry (world px) - the one structure you didn't build
+  const pod = { tx: spawnCol - 1, ty: podTy, x: (spawnCol - 1) * TILE, groundY: podTy * TILE };
+
+  // brand-new game: bolt a tiny 4-tile awning beside the pod (real T_ROOF tiles:
+  // they stop rain, count as cover, persist, and can be dug away later)
+  if (!save) {
+    const awnY = podTy - 4;
+    for (let ox = 2; ox <= 5; ox++) world.place(spawnCol + ox, awnY, T_ROOF);
+  }
 
   function persist() {
     const deltas = world.exportDeltas();
@@ -117,28 +138,86 @@ export function makeGameScene(services) {
       px: player.x, py: player.y, vx: player.vx, vy: player.vy, facing: player.facing,
       satchel: satchel.items.map(s => ({ fossilId: s.fossilId, bone: s.bone, boneIndex: s.boneIndex, stratumId: s.stratumId, state: s.state, identified: s.identified })),
     };
-    const data = { seed, dug: deltas.dug, placed: deltas.placed, collected: collection.export(), genome: collection.exportGenome(), codex: [...codex], settings: { ...settings }, session, tutorialDone: save?.tutorialDone || !tutorial.active };
+    const data = {
+      v: 2, seed,
+      dug: deltas.dug, placedTiles: deltas.placedTiles, harvested: deltas.harvested,
+      collected: collection.export(), genome: collection.exportGenome(), codex: [...codex],
+      materials: inventory.export(),
+      ...entities.export(),                 // entities + nextUid
+      quests: quests.export(),
+      power: power.export(), status: status.export(),
+      home: { ...home },
+      settings: { ...settings }, session,
+    };
     writeSave(data);
     services.save = data;
   }
 
   cam.follow(player.cx(), player.cy(), 0, true);
 
+  // is anything solid anywhere above this tile? (cheap column scan - caves,
+  // overhangs and built roofs all count as rain cover for free)
+  function coveredAt(tx, headTy) {
+    for (let ty = headTy - 1; ty >= 0; ty--) if (world.solidAt(tx, ty)) return true;
+    return false;
+  }
+  function builtCount(type) {
+    const spec = BUILDABLES_BY_ID[type];
+    if (spec?.kind === 'tile') {
+      let n = 0;
+      for (const [, t] of world.exportDeltas().placedTiles) if (t === spec.tile) n++;
+      return n;
+    }
+    return entities.list.filter(e => e.type === type).length;
+  }
+
   // --------------------------------------------------------------- update
   function update(dt) {
     time += dt;
+    if (bootT < 3.5) { bootT += dt; if (bootT < 1.2) { env.update(dt); return; } }   // controls unlock at 1.2s
     env.update(dt);
-    tutorial.update(dt, { player, pulley, codex });
     if (resultBanner) { resultBanner.t += dt; if (resultBanner.t > 2) resultBanner = null; }
     updateMusic(dt);
     decayToasts(dt);
     for (const mc of miniCards) mc.t += dt;
     while (miniCards.length && miniCards[0].t > 4.2) miniCards.shift();
     if (banner) banner.life -= dt;
-    missionBanner = Math.max(0, missionBanner - dt);
     findT = Math.max(0, findT - dt);
 
     const depth = Math.max(0, world.depthOfRow(player.tx(), Math.floor(player.cy() / TILE)));
+    const onSurface = depth < 2;
+
+    // -- v4 systems: power, wetness, quests, weather events ---------------------
+    const sun01 = onSurface ? (1 - env.night01()) * (1 - 0.8 * env.precip01()) : 0;
+    power.update(dt, { sun01, boost: onSurface ? entities.solarBoostAt(player) * (1 - env.night01()) : 0 },
+      () => quests.emit('power-low'));
+
+    const headTy = Math.floor(player.y / TILE);
+    const exposedNow = onSurface && env.precip01() > 0.15 && !coveredAt(player.tx(), headTy);
+    status.update(dt, {
+      exposed01: exposedNow ? env.precip01() : 0,
+      dry01: (!exposedNow && onSurface && env.precip01() < 0.1 && env.night01() < 0.5) ? 1 : 0,
+      onSoaked: () => { quests.emit('soaked'); toast('SOAKED - systems sluggish', PALETTE.danger); },
+    });
+    player.speedMul = status.speedMul() * (power.state() === 'reserve' ? 0.7 : 1);
+    if (status.tier() !== 'dry') {
+      sparkT -= dt;
+      if (sparkT <= 0) {
+        sparkT = status.tier() === 'soaked' ? 0.25 : 0.55;
+        particles.burst(player.cx() + (Math.random() - 0.5) * 8, player.y + 4, '#FFE9B8', 2, 70);
+      }
+    }
+
+    // rain grace + weather telegraphs
+    if (!env.rainAllowed && quests.isDone('boot') && time > 90) env.rainAllowed = true;
+    if ((env.incoming === 'rain' || env.incoming === 'storm') && env.weather !== env.incoming) quests.emit('rain-soon');
+    if (env.precip01() > 0.3) quests.emit('rain-start');
+
+    quests.update(dt, {
+      player, pulley, codex, env, power, inventory,
+      builtCount, exposedNow,
+    }, toast);
+    entities.update(dt);
 
     // ambience audio levels follow the planet
     const above = depth < 4 ? 1 : Math.max(0, 1 - (depth - 4) / 10);
@@ -175,12 +254,25 @@ export function makeGameScene(services) {
       return;
     }
 
-    // during the tutorial, Esc is hold-to-skip; afterwards it pauses.
-    if (tutorial.active) {
-      if (keys.Escape) { escHold += dt; if (escHold > 0.8) { tutorial.skip(); escHold = 0; } } else escHold = 0;
-    } else if (pressed('Escape')) { persist(); services.go('settings', { overlay: true, back: 'game' }); return; }
+    // during calibration, Esc is hold-to-skip; afterwards it pauses.
+    if (quests.isActive('boot')) {
+      if (keys.Escape) { escHold += dt; if (escHold > 0.8) { quests.skipBoot(); escHold = 0; } } else escHold = 0;
+    } else if (pressed('Escape')) {
+      if (build.active) { build.exit(); }
+      else { persist(); services.go('settings', { overlay: true, back: 'game' }); return; }
+    }
     if (pressed('Tab')) { collectionOpen = !collectionOpen; sfx.ui(); }
     if (collectionOpen) { updateCollectionInput(); return; }
+
+    // B toggles build mode; H marks home
+    if (pressed('KeyB')) build.toggle();
+    if (pressed('KeyH')) {
+      home = { x: player.cx(), y: player.y + player.h };
+      particles.burst(home.x, home.y, PALETTE.amber, 10, 120);
+      toast('home marked');
+      sfx.ui();
+      persist();
+    }
 
     const anyInput = keys.KeyA || keys.KeyD || keys.KeyS || keys.KeyW || keys.Space || keys.KeyE || keys.KeyK || mouse.left;
     idleT = anyInput ? 0 : idleT + dt;
@@ -188,7 +280,7 @@ export function makeGameScene(services) {
     // Ctrl toggles the active tool (laser ↔ scanner)
     if (pressed('ControlLeft') || pressed('ControlRight')) {
       player.tool = player.tool === 'scan' ? 'laser' : 'scan';
-      scanning = null; sfx.ui();
+      scanning = null; scanTarget = null; sfx.ui();
     }
 
     if (pulley.active) {
@@ -199,30 +291,35 @@ export function makeGameScene(services) {
       if (pressed('KeyK')) pulley.tryAttach(player, world);
 
       updatePlayer(player, world, dt);
-      // lava: knock the rover back to the landing pad (no permadeath)
+      // lava: knock the rover back to the pod (no permadeath)
       if (player.inLava) respawnAtBase();
       else if (player.inWater && Math.random() < 0.3) particles.burst(player.cx(), player.y, 'rgba(160,200,220,0.6)', 1, 40);
 
-      if (player.tool === 'scan') {
+      if (build.active) {
+        player.beam = null;
+        build.update(dt, cam);
+      } else if (player.tool === 'scan') {
         updateScan(dt);
+      } else if (power.state() === 'reserve') {
+        player.beam = null;   // tools offline - crawl to the sun
       } else {
         const digEv = updateDigging(player, world, cam, particles, fx, dt);
-        if (digEv.brokeAt) ambient.onDig(digEv.brokeAt.x, digEv.brokeAt.y);
+        if (digEv.brokeAt) {
+          ambient.onDig(digEv.brokeAt.x, digEv.brokeAt.y);
+          power.spend(POWER_DIG);
+          // every 3rd broken tile yields regolith - shelter never waits on machines
+          if ((regolithCounter = (regolithCounter + 1) % 3) === 0) inventory.add('regolith');
+          if (power.state() === 'low') player.digCd = Math.max(player.digCd, DIG_COOLDOWN * 2);
+        }
         if (digEv.bone) onBone(digEv.bone);
         if (digEv.nearBone && !hintedPockets.has(digEv.nearBone.id)) { hintedPockets.add(digEv.nearBone.id); sfx.hint(); }
       }
 
-      if (pressed('KeyE')) {
-        const slot = vitrineSlotNear();
-        if (slot && collection.isComplete(slot.id)) { overlay = { type: 'dex', spec: FOSSILS_BY_ID[slot.id], t: 0 }; sfx.ui(); }
-        else {
-          const st = lab.nearest(player);
-          if (st) openStation(st);
+      if (pressed('KeyE') && !build.active) {
+        if (player.tool !== 'scan' || !tryHarvest()) {
+          const podNear = entities.nearest(player, e => e.type === 'pod', 2.6 * TILE);
+          if (podNear) openPodLab();
         }
-      }
-      if (pressed('MouseLeft')) {
-        const slot = vitrineSlotAtMouse();
-        if (slot && collection.isComplete(slot.id)) { overlay = { type: 'dex', spec: FOSSILS_BY_ID[slot.id], t: 0 }; sfx.ui(); }
       }
     }
 
@@ -262,14 +359,17 @@ export function makeGameScene(services) {
         });
       }
     }
-    const camped = tx => tx >= spawnCol - CAMP_HALF_L && tx <= spawnCol + CAMP_HALF_R;
     for (let i = rainDrops.length - 1; i >= 0; i--) {
       const d = rainDrops[i];
       d.y += d.vy * dt;
       d.x += d.vx * dt + (d.snow ? Math.sin(time * 2 + d.y * 0.05) * 14 * dt : 0);
       const tx = Math.floor(d.x / TILE);
-      // the weatherproof canopy stops rain over the camp span (it patters on the roof)
-      if (camped(tx) && d.y >= campRoofY) { rainDrops.splice(i, 1); continue; }
+      // any solid stops a drop - built roofs shelter with zero special-casing
+      if (d.y >= cam.y - 20 && world.solidAt(tx, Math.floor(d.y / TILE))) {
+        if (!d.snow && Math.random() < 0.3) particles.burst(d.x, Math.floor(d.y / TILE) * TILE, 'rgba(160,200,220,0.6)', 1, 30);
+        rainDrops.splice(i, 1);
+        continue;
+      }
       const groundY = world.surface[Math.max(0, Math.min(WORLD_W - 1, tx))] * TILE;
       if (d.y >= groundY || rainDrops.length > 160) {
         if (!d.snow && Math.random() < 0.3) particles.burst(d.x, groundY, 'rgba(160,200,220,0.6)', 1, 30);
@@ -292,9 +392,11 @@ export function makeGameScene(services) {
     player.beam = null;
     const wx = mouse.x + cam.x, wy = mouse.y + cam.y;
     const targets = ambient.scanTargets(wx, wy);
-    const id = scanTargetAt(wx, wy, world, targets);
+    scanTarget = resolveScan(wx, wy, world, targets);
+    const id = scanTarget?.id ?? null;
     if (mouse.left && id) {
       if (!scanning || scanning.id !== id) scanning = { id, t: 0 };
+      if (!power.spend(POWER_SCAN * dt)) { scanning = null; return; }   // scanner browns out
       scanning.t += dt;
       if (scanning.t >= 1) {
         const isNew = !codex.has(id);
@@ -307,6 +409,24 @@ export function makeGameScene(services) {
     } else {
       scanning = null;
     }
+  }
+
+  /** E with the scanner on a known mushroom/crystal in reach picks it */
+  function tryHarvest() {
+    if (!scanTarget?.harvest || !codex.has(scanTarget.id)) return false;
+    const tx = Math.floor((scanTarget.x + scanTarget.w / 2) / TILE);
+    const ty = Math.floor((scanTarget.y + scanTarget.h / 2) / TILE);
+    const d = Math.hypot(scanTarget.x + scanTarget.w / 2 - player.cx(), scanTarget.y + scanTarget.h / 2 - player.cy());
+    if (d > DIG_REACH) return false;
+    if (!world.harvest(tx, ty)) return false;
+    inventory.add(scanTarget.harvest);
+    toast(`+1 ${codexEntry(scanTarget.id).name.toLowerCase()}`);
+    particles.burst(tx * TILE + TILE / 2, ty * TILE + TILE - 4,
+      scanTarget.harvest === 'crystal' ? 'rgba(200,180,230,0.9)' : 'rgba(150,220,170,0.9)', 8, 90);
+    (sfx.pickup || sfx.ui)();
+    scanTarget = null;
+    persist();
+    return true;
   }
 
   function respawnAtBase() {
@@ -324,9 +444,20 @@ export function makeGameScene(services) {
     const stratum = world.stratumAt(pocket.tx, pocket.ty);
     satchel.add(makeFragment(pocket.fossilId, pocket.bone, pocket.boneIndex, stratum.id));
     miniCards.push({ spec: FOSSILS_BY_ID[pocket.fossilId], bone: pocket.bone, boneIndex: pocket.boneIndex, t: 0 });
+    quests.emit('bone-first');
     sfx.discover();
     fx.shake(1.5);
     findT = 2;
+  }
+
+  /** E at the pod: fold-out field lab - runs whichever station the first
+   *  eligible satchel fragment needs next (dedicated stations arrive in M3) */
+  function openPodLab() {
+    for (const spec of STATIONS) {
+      if (satchel.firstAtState(spec.input)) { openStation({ spec }); return; }
+    }
+    sfx.uiBack();
+    toast('nothing to process - go dig', PALETTE.creamDim);
   }
 
   function openStation(st) {
@@ -360,7 +491,6 @@ export function makeGameScene(services) {
     // "done" feedback: a 2s banner naming what happened + the next station (mod 8)
     const next = STATIONS.find(s => s.input === station.spec.output);
     resultBanner = { done: station.spec.output, next: next ? next.name : null, t: 0 };
-    tutorial.onStationDone(station.spec.id);
     if (station.spec.output === 'identified') { fragment.identified = true; sfx.complete(); }
     if (station.spec.output === 'mounted') {
       satchel.remove(fragment.uid);
@@ -370,9 +500,8 @@ export function makeGameScene(services) {
       if (complete) {
         overlay = { type: 'dex', spec: f, t: 0 };
         resultBanner = null;      // the dossier reveal is enough
-        tutorial.onSpeciesComplete(f.id);
-        if (fragment.fossilId === MISSION_ID) { missionBanner = 6; sfx.mission(); fx.shake(4); }
-        else sfx.reveal();
+        quests.emit('species-complete');
+        sfx.reveal();
       }
       persist();
     }
@@ -412,33 +541,6 @@ export function makeGameScene(services) {
     }
   }
 
-  // ---- vitrine helpers ----
-  function vitrineSlots() {
-    const started = FOSSILS.filter(f => collection.started(f.id));
-    const out = [];
-    started.slice(0, VIT.cols * VIT.rows).forEach((f, i) => {
-      const c = i % VIT.cols, r = Math.floor(i / VIT.cols);
-      out.push({
-        id: f.id, spec: f,
-        x: VIT.x + 6 + c * ((VIT.w - 12) / VIT.cols),
-        y: VIT.y + 8 + r * ((VIT.h - 16) / VIT.rows),
-        w: (VIT.w - 12) / VIT.cols - 4,
-        h: (VIT.h - 16) / VIT.rows - 4,
-      });
-    });
-    return out;
-  }
-  function vitrineSlotNear() {
-    if (Math.abs(player.cy() - deckY) > TILE * 4) return null;
-    for (const s of vitrineSlots()) if (player.cx() > s.x - 8 && player.cx() < s.x + s.w + 8) return s;
-    return null;
-  }
-  function vitrineSlotAtMouse() {
-    const wx = mouse.x + cam.x, wy = mouse.y + cam.y;
-    for (const s of vitrineSlots()) if (wx >= s.x && wx <= s.x + s.w && wy >= s.y && wy <= s.y + s.h) return s;
-    return null;
-  }
-
   // --------------------------------------------------------------- render
   function render(rtime) {
     frameLights = [];
@@ -452,13 +554,14 @@ export function makeGameScene(services) {
     drawTiles(b, rtime);
     drawCaveProps(b, rtime);
     drawPockets(b);
-    drawPlatform(rtime);
+    drawPod(rtime);
     pulley.draw(ctx, player, rtime);
     ambient.draw(ctx, rtime);
     particles.draw(ctx);
     drawPrecip();
     drawBeam(rtime);
-    if (player.tool === 'scan' && !pulley.active) drawReticle(rtime);
+    if (build.active) drawBuildGhost(rtime);
+    else if (player.tool === 'scan' && !pulley.active) drawReticle(rtime);
     if (player.chute && !pulley.active) drawChute(player.cx(), player.y, rtime);
     drawProbe(ctx, player.x + player.w / 2, player.y, player.facing, rtime,
       player.swingT, player.swingAim, player.vx, player.walkT,
@@ -471,7 +574,7 @@ export function makeGameScene(services) {
     const nightDark = env.night01() * 0.72;
     const stormDark = env.precip01() * 0.3;
     const ambientDark = Math.max(depthDark, nightDark, stormDark);
-    const emitter = { x: player.cx() + player.facing * 7, y: player.y + PLAYER_H - 7 };
+    const emitter = { x: player.cx() + player.facing * 7, y: player.y + BEAM_Y };
     const aim = Math.atan2((mouse.y + cam.y) - emitter.y, (mouse.x + cam.x) - emitter.x);
     lightPoly = lighting.apply(ctx, world, cam, emitter, aim, ambientDark,
       frameLights.concat(ambient.glowLights()));
@@ -484,14 +587,15 @@ export function makeGameScene(services) {
 
     drawHUD();
     if (banner && banner.life > 0) drawBanner();
-    if (missionBanner > 0) drawMissionBanner();
     if (resultBanner) drawResultBanner();
-    tutorial.draw(ctx, cam, rtime);
+    quests.draw(ctx, rtime);
+    if (build.active) drawBuildBar();
     drawToasts();
     drawMiniCards(rtime);
     if (collectionOpen) drawCollection();
     if (overlay) drawOverlay(rtime);
     if (minigame) minigame.game.render(ctx, rtime);
+    if (bootT < 3.5) drawBootOverlay(rtime);
   }
 
   // ---- sky: day/night gradient + sun/moon + stars + weather clouds ----
@@ -540,8 +644,9 @@ export function makeGameScene(services) {
       if (tx >= spawnCol - CAMP_HALF_L - 1 && tx <= spawnCol + CAMP_HALF_R + 1) continue;
       const baseY = world.surface[tx] * TILE;
       const biome = biomeAtX(tx, WORLD_W);
-      if (hashCol(tx, 55) > 0.93) drawTree(tx * TILE + TILE / 2, baseY, biome, tx, rtime);
-      else if (hashCol(tx, 40) > 0.9) drawDressing(tx * TILE + TILE / 2, baseY, tx);
+      const s = sceneryAt(tx);   // shared ground truth with the scanner
+      if (s === 'tree') drawTree(tx * TILE + TILE / 2, baseY, biome, tx, rtime);
+      else if (s === 'dressing') drawDressing(tx * TILE + TILE / 2, baseY, tx);
       if (hashCol(tx, 88) > 0.3) tuft(tx * TILE + TILE / 2, baseY, tx, biome, rtime);
     }
   }
@@ -578,6 +683,7 @@ export function makeGameScene(services) {
         if (t === T_BEDROCK) { ctx.fillStyle = '#4A4038'; ctx.fillRect(dx, dy, TILE, TILE); continue; }
 
         const inPad = ty === world.surface[tx] && tx >= spawnCol - CAMP_HALF_L && tx <= spawnCol + CAMP_HALF_R;
+        if (t === T_ROOF) { tileset.drawRoof(ctx, tx, ty, dx, dy); continue; }   // thin panel, no grass/shadow pass
         if (t === T_PLACED) tileset.drawPlaced(ctx, (tx ^ ty) & 7, dx, dy);
         else if (inPad) tileset.drawPad(ctx, tx, ty, dx, dy);
         else {
@@ -609,70 +715,62 @@ export function makeGameScene(services) {
   }
 
   // ---- cave features: stalactites, roots, glow mushrooms, crystals ----
+  // Placement decided by game/features.js (shared with the scanner) - this
+  // function only owns the geometry.
   function drawCaveProps(b, rtime) {
     const y0 = Math.max(1, b.y0), y1 = Math.min(WORLD_H - 4, b.y1);
     const x0 = Math.max(0, b.x0), x1 = Math.min(WORLD_W - 1, b.x1);
     for (let ty = y0; ty <= y1; ty++) {
       for (let tx = x0; tx <= x1; tx++) {
-        if (world.tileAt(tx, ty) !== T_AIR) continue;
-        const depth = world.depthOfRow(tx, ty);
-        if (depth < 3) continue;
+        const f = caveFeaturesAt(world, tx, ty);
+        if (!f) continue;
+        const { h, si } = f;
         const dx = tx * TILE, dy = ty * TILE;
-        const si = world.stratumIndexAt(tx, ty);
-        const h = hashCol(tx * 13 + 5, ty * 7 + 3);
 
-        // ceiling features
-        if (world.solidAt(tx, ty - 1)) {
-          if (depth < 42 && h > 0.82) {
-            // hanging roots (topsoil bands) - sway
-            const sway = Math.sin(rtime * 1.8 + tx) * 2;
-            ctx.strokeStyle = '#6E5237';
-            ctx.lineWidth = 1.3;
-            const len = 6 + h * 12;
-            ctx.beginPath();
-            ctx.moveTo(dx + 5, dy);
-            ctx.quadraticCurveTo(dx + 5 + sway, dy + len * 0.6, dx + 5 + sway, dy + len);
-            ctx.moveTo(dx + 11, dy);
-            ctx.quadraticCurveTo(dx + 11 - sway, dy + (len - 3) * 0.6, dx + 11 - sway, dy + len - 3);
-            ctx.stroke();
-          } else if (h > 0.9) {
-            // stalactite
-            const stal = STRATA[si].colors.band;
-            ctx.fillStyle = stal;
-            ctx.beginPath();
-            ctx.moveTo(dx + 3, dy); ctx.lineTo(dx + 8, dy + 9 + h * 5); ctx.lineTo(dx + 13, dy);
-            ctx.closePath(); ctx.fill();
-          }
+        if (f.ceiling === 'roots') {
+          // hanging roots (topsoil bands) - sway
+          const sway = Math.sin(rtime * 1.8 + tx) * 2;
+          ctx.strokeStyle = '#6E5237';
+          ctx.lineWidth = 1.3;
+          const len = 6 + h * 12;
+          ctx.beginPath();
+          ctx.moveTo(dx + 5, dy);
+          ctx.quadraticCurveTo(dx + 5 + sway, dy + len * 0.6, dx + 5 + sway, dy + len);
+          ctx.moveTo(dx + 11, dy);
+          ctx.quadraticCurveTo(dx + 11 - sway, dy + (len - 3) * 0.6, dx + 11 - sway, dy + len - 3);
+          ctx.stroke();
+        } else if (f.ceiling === 'stalactite') {
+          ctx.fillStyle = STRATA[si].colors.band;
+          ctx.beginPath();
+          ctx.moveTo(dx + 3, dy); ctx.lineTo(dx + 8, dy + 9 + h * 5); ctx.lineTo(dx + 13, dy);
+          ctx.closePath(); ctx.fill();
         }
-        // floor features
-        if (world.solidAt(tx, ty + 1)) {
-          if (h > 0.9 && h < 0.94) {
-            // stalagmite
-            ctx.fillStyle = STRATA[si].colors.band;
-            ctx.beginPath();
-            ctx.moveTo(dx + 4, dy + TILE); ctx.lineTo(dx + 8, dy + TILE - 8 - h * 4); ctx.lineTo(dx + 12, dy + TILE);
-            ctx.closePath(); ctx.fill();
-          } else if (depth > 14 && h > 0.965) {
-            // glow mushrooms - they light their corner
-            const pulse = 0.7 + Math.sin(rtime * 2 + tx) * 0.3;
-            for (let m = 0; m < 3; m++) {
-              const mx = dx + 3 + m * 5, stem = 3 + ((tx + m) % 3);
-              ctx.fillStyle = '#C8B890';
-              ctx.fillRect(mx, dy + TILE - stem, 1.6, stem);
-              ctx.fillStyle = `rgba(150,220,170,${0.85 * pulse})`;
-              ctx.beginPath(); ctx.arc(mx + 0.8, dy + TILE - stem, 2.6, Math.PI, 0); ctx.fill();
-            }
-            frameLights.push({ x: dx + 8, y: dy + TILE - 4, r: 42, warmth: 0.4 });
-          } else if (si >= STRATA.length - 2 && h > 0.93 && h <= 0.965) {
-            // deep crystal cluster
-            const tw = 0.6 + Math.sin(rtime * 3 + tx * 2) * 0.4;
-            ctx.fillStyle = `rgba(200,180,230,${0.5 + tw * 0.4})`;
-            ctx.beginPath();
-            ctx.moveTo(dx + 4, dy + TILE); ctx.lineTo(dx + 6, dy + TILE - 8); ctx.lineTo(dx + 8, dy + TILE);
-            ctx.moveTo(dx + 8, dy + TILE); ctx.lineTo(dx + 11, dy + TILE - 11); ctx.lineTo(dx + 14, dy + TILE);
-            ctx.closePath(); ctx.fill();
-            if (tw > 0.8) frameLights.push({ x: dx + 9, y: dy + TILE - 5, r: 30, warmth: 0 });
+
+        if (f.floor === 'stalagmite') {
+          ctx.fillStyle = STRATA[si].colors.band;
+          ctx.beginPath();
+          ctx.moveTo(dx + 4, dy + TILE); ctx.lineTo(dx + 8, dy + TILE - 8 - h * 4); ctx.lineTo(dx + 12, dy + TILE);
+          ctx.closePath(); ctx.fill();
+        } else if (f.floor === 'mushroom') {
+          // glow mushrooms - they light their corner
+          const pulse = 0.7 + Math.sin(rtime * 2 + tx) * 0.3;
+          for (let m = 0; m < 3; m++) {
+            const mx = dx + 3 + m * 5, stem = 3 + ((tx + m) % 3);
+            ctx.fillStyle = '#C8B890';
+            ctx.fillRect(mx, dy + TILE - stem, 1.6, stem);
+            ctx.fillStyle = `rgba(150,220,170,${0.85 * pulse})`;
+            ctx.beginPath(); ctx.arc(mx + 0.8, dy + TILE - stem, 2.6, Math.PI, 0); ctx.fill();
           }
+          frameLights.push({ x: dx + 8, y: dy + TILE - 4, r: 42, warmth: 0.4 });
+        } else if (f.floor === 'crystal') {
+          // deep crystal cluster
+          const tw = 0.6 + Math.sin(rtime * 3 + tx * 2) * 0.4;
+          ctx.fillStyle = `rgba(200,180,230,${0.5 + tw * 0.4})`;
+          ctx.beginPath();
+          ctx.moveTo(dx + 4, dy + TILE); ctx.lineTo(dx + 6, dy + TILE - 8); ctx.lineTo(dx + 8, dy + TILE);
+          ctx.moveTo(dx + 8, dy + TILE); ctx.lineTo(dx + 11, dy + TILE - 11); ctx.lineTo(dx + 14, dy + TILE);
+          ctx.closePath(); ctx.fill();
+          if (tw > 0.8) frameLights.push({ x: dx + 9, y: dy + TILE - 5, r: 30, warmth: 0 });
         }
       }
     }
@@ -688,244 +786,74 @@ export function makeGameScene(services) {
     }
   }
 
-  // ---- THE BASE: vitrine wing · work bay · lander · solar wing + incubator ----
-  function drawPlatform(rtime) {
-    const dy = deckY - 8;
+  // ---- THE POD: the one structure you didn't build ---------------------------
+  // A tipped survey pod resting where it came down. Home by default, a small
+  // always-on light, and (until you build stations, M3) a fold-out field lab.
+  function drawPod(rtime) {
+    const gy = pod.groundY;          // ground line the pod rests on
+    const lx = pod.x;                // left edge (3 tiles wide)
 
-    // under-truss + legs with feet
-    ctx.strokeStyle = '#4E4956';
-    ctx.lineWidth = 3;
-    for (let lx = deckX0 + 16; lx < deckX1; lx += 60) {
-      ctx.beginPath();
-      ctx.moveTo(lx, dy + 9); ctx.lineTo(lx - 6, deckY + 12);
-      ctx.moveTo(lx, dy + 9); ctx.lineTo(lx + 6, deckY + 12);
-      ctx.stroke();
-      ctx.fillStyle = '#3A363F';
-      ctx.fillRect(lx - 9, deckY + 11, 18, 3);
-    }
-    // deck: thick riveted plates
-    ctx.fillStyle = '#3A363F';
-    ctx.fillRect(deckX0, dy, deckX1 - deckX0, 10);
-    ctx.fillStyle = '#4E4956';
-    ctx.fillRect(deckX0, dy, deckX1 - deckX0, 2);
-    for (let x = deckX0; x < deckX1; x += 24) {
-      ctx.fillStyle = '#2B2733'; ctx.fillRect(x, dy, 1.5, 10);
-      ctx.fillStyle = '#5C5766'; ctx.fillRect(x + 11, dy + 4, 2, 2);
-    }
-    // hazard stripes at both ends
-    for (const ex of [deckX0, deckX1 - 16]) {
-      for (let i = 0; i < 4; i++) {
-        ctx.fillStyle = i % 2 ? '#1E1B22' : PALETTE.amberSoft;
-        ctx.fillRect(ex + i * 4, dy, 3.4, 3);
-      }
-    }
-    // cable run along the front face
-    ctx.strokeStyle = '#26222E';
-    ctx.lineWidth = 1.6;
-    ctx.beginPath();
-    for (let x = deckX0 + 6; x < deckX1 - 12; x += 26) {
-      ctx.moveTo(x, dy + 8);
-      ctx.quadraticCurveTo(x + 13, dy + 12, x + 26, dy + 8);
-    }
-    ctx.stroke();
+    // scorch mark + settled dust where it hit
+    ctx.fillStyle = 'rgba(30,22,18,0.25)';
+    ctx.beginPath(); ctx.ellipse(lx + 24, gy + 2, 34, 5, 0, 0, Math.PI * 2); ctx.fill();
 
-    // ---- weatherproof canopy: glass roof + walls, always-lit interior (mod 11) ----
-    const roofY = dy - 84;
-    // warm interior wash (reads as lit even in daylight)
-    ctx.fillStyle = 'rgba(255,236,190,0.10)';
-    ctx.fillRect(deckX0, roofY, deckX1 - deckX0, dy - roofY);
-    // glass side walls
-    ctx.fillStyle = 'rgba(180,210,225,0.12)';
-    ctx.fillRect(deckX0 - 4, roofY, 6, dy - roofY);
-    ctx.fillRect(deckX1 - 2, roofY, 6, dy - roofY);
-    // roof beams + translucent panels
-    ctx.fillStyle = '#2B2733';
-    ctx.fillRect(deckX0 - 6, roofY - 8, deckX1 - deckX0 + 12, 8);
-    ctx.fillStyle = 'rgba(150,190,210,0.16)';
-    ctx.fillRect(deckX0, roofY, deckX1 - deckX0, 6);
-    ctx.fillStyle = '#4E4956';
-    for (let bx = deckX0; bx <= deckX1; bx += TILE * 2) ctx.fillRect(bx, roofY - 8, 2, 8 + (dy - roofY) * 0.12);
-    // interior ceiling lights - on regardless of day/night
-    for (let lx = deckX0 + 3 * TILE; lx < deckX1 - TILE; lx += 6 * TILE) {
-      ctx.fillStyle = '#FFE9B8';
-      ctx.fillRect(lx - 3, roofY + 5, 6, 2);
-      frameLights.push({ x: lx, y: roofY + 8, r: 90, warmth: 0.9 });
-    }
-    campRoofY = roofY;
-
-    // deck lamps
-    for (let lx = deckX0 + 30; lx < deckX1 - 20; lx += 6 * TILE) {
-      ctx.fillStyle = '#4E4956';
-      ctx.fillRect(lx - 1, dy - 18, 2.5, 18);
-      ctx.fillStyle = '#FFE9B8';
-      ctx.beginPath(); ctx.arc(lx, dy - 19, 2.6, 0, Math.PI * 2); ctx.fill();
-      frameLights.push({ x: lx, y: dy - 16, r: 64, warmth: 0.8 });
-    }
-
-    // ---- work bay canopy over the stations ----
-    const bayX0 = lab.instances[0].x - 24, bayX1 = lab.instances[lab.instances.length - 1].x + 24;
-    ctx.strokeStyle = '#4E4956';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(bayX0, dy); ctx.lineTo(bayX0, dy - 52);
-    ctx.moveTo(bayX1, dy); ctx.lineTo(bayX1, dy - 56);
-    ctx.stroke();
-    // slanted roof
+    // pod body, tipped a few degrees - it LANDED, it wasn't parked
+    ctx.save();
+    ctx.translate(lx + 22, gy);
+    ctx.rotate(-0.06);
+    // engine bell, half buried
     ctx.fillStyle = '#2B2733';
     ctx.beginPath();
-    ctx.moveTo(bayX0 - 8, dy - 50); ctx.lineTo(bayX1 + 8, dy - 56);
-    ctx.lineTo(bayX1 + 8, dy - 50); ctx.lineTo(bayX0 - 8, dy - 44);
+    ctx.moveTo(-10, 0); ctx.lineTo(-14, 6); ctx.lineTo(10, 6); ctx.lineTo(6, 0);
     ctx.closePath(); ctx.fill();
-    ctx.fillStyle = PALETTE.amberSoft;
-    ctx.fillRect(bayX0 - 8, dy - 45, bayX1 - bayX0 + 16, 1.5);
-    // work strip marking
-    ctx.fillStyle = 'rgba(224,162,74,0.25)';
-    ctx.fillRect(bayX0, dy - 1, bayX1 - bayX0, 2);
-
-    // ---- lander core (the hero) ----
-    const lx = (spawnCol + CAMP_HALF_R - 5) * TILE;
-    // engine bell below deck
-    ctx.fillStyle = '#2B2733';
-    ctx.beginPath();
-    ctx.moveTo(lx + 14, dy + 10); ctx.lineTo(lx + 10, deckY + 12); ctx.lineTo(lx + 34, deckY + 12); ctx.lineTo(lx + 30, dy + 10);
-    ctx.closePath(); ctx.fill();
-    // pod body
+    // body
     ctx.fillStyle = '#332F3A';
-    if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(lx + 6, dy - 58, 32, 58, 8); ctx.fill(); } else ctx.fillRect(lx + 6, dy - 58, 32, 58);
+    if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(-16, -56, 32, 56, 8); ctx.fill(); } else ctx.fillRect(-16, -56, 32, 56);
     ctx.fillStyle = '#4E4956';
-    ctx.fillRect(lx + 10, dy - 50, 24, 3);
-    ctx.fillRect(lx + 10, dy - 42, 24, 3);
-    // round window (glows warm)
+    ctx.fillRect(-12, -48, 24, 3);
+    ctx.fillRect(-12, -40, 24, 3);
+    // round window (glows warm - somebody is home: you)
     ctx.fillStyle = '#1A2430';
-    ctx.beginPath(); ctx.arc(lx + 22, dy - 28, 6, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(0, -26, 6, 0, Math.PI * 2); ctx.fill();
     ctx.fillStyle = 'rgba(255,233,184,0.5)';
-    ctx.beginPath(); ctx.arc(lx + 22, dy - 28, 4, 0, Math.PI * 2); ctx.fill();
-    frameLights.push({ x: lx + 22, y: dy - 28, r: 46, warmth: 0.6 });
-    // ladder
-    ctx.strokeStyle = '#5C5766';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(lx + 2, dy); ctx.lineTo(lx + 2, dy - 34);
-    ctx.moveTo(lx + 7, dy); ctx.lineTo(lx + 7, dy - 34);
-    for (let r = 1; r < 6; r++) { ctx.moveTo(lx + 2, dy - r * 6); ctx.lineTo(lx + 7, dy - r * 6); }
-    ctx.stroke();
-    // dish on top
+    ctx.beginPath(); ctx.arc(0, -26, 4, 0, Math.PI * 2); ctx.fill();
+    // dented dish on top
     ctx.strokeStyle = '#8E96A4';
     ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.arc(lx + 16, dy - 66, 9, Math.PI * 0.85, Math.PI * 1.95); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(lx + 16, dy - 66); ctx.lineTo(lx + 18, dy - 58); ctx.stroke();
-    // beacon
+    ctx.beginPath(); ctx.arc(-6, -64, 9, Math.PI * 0.85, Math.PI * 1.95); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(-6, -64); ctx.lineTo(-4, -56); ctx.stroke();
+    ctx.restore();
+    frameLights.push({ x: lx + 22, y: gy - 26, r: 46, warmth: 0.6 });
+
+    // beacon (blinks - the HUD home arrow points here by default)
     const blink = Math.sin(rtime * 3) > 0.6;
     ctx.fillStyle = blink ? '#E85B4A' : '#5A2A24';
-    ctx.beginPath(); ctx.arc(lx + 34, dy - 62, 2.4, 0, Math.PI * 2); ctx.fill();
-    if (blink) frameLights.push({ x: lx + 34, y: dy - 62, r: 30, warmth: 0.3 });
+    ctx.beginPath(); ctx.arc(lx + 36, gy - 60, 2.4, 0, Math.PI * 2); ctx.fill();
+    if (blink) frameLights.push({ x: lx + 36, y: gy - 60, r: 30, warmth: 0.3 });
 
-    // ---- solar wing ----
-    const sx0 = lx + 46;
-    ctx.strokeStyle = '#4E4956'; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.moveTo(sx0 + 14, dy); ctx.lineTo(sx0 + 14, dy - 16); ctx.stroke();
-    ctx.save();
-    ctx.translate(sx0 + 14, dy - 16);
-    ctx.rotate(-0.12);
-    ctx.fillStyle = '#27405C';
-    ctx.fillRect(-16, -12, 32, 12);
-    ctx.strokeStyle = '#4E6E96'; ctx.lineWidth = 1;
-    for (let i = 1; i < 4; i++) { ctx.beginPath(); ctx.moveTo(-16 + i * 8, -12); ctx.lineTo(-16 + i * 8, 0); ctx.stroke(); }
-    ctx.strokeRect(-16, -12, 32, 12);
-    ctx.restore();
-
-    // ---- crates + barrel props ----
-    ctx.fillStyle = '#6E4F33';
-    ctx.fillRect(bayX1 + 14, dy - 12, 12, 12);
-    ctx.strokeStyle = '#4A3421'; ctx.lineWidth = 1;
-    ctx.strokeRect(bayX1 + 14, dy - 12, 12, 12);
-    ctx.beginPath(); ctx.moveTo(bayX1 + 14, dy - 12); ctx.lineTo(bayX1 + 26, dy); ctx.stroke();
-    ctx.fillStyle = '#5C5766';
-    ctx.beginPath(); ctx.ellipse(bayX1 + 36, dy - 7, 5, 7, 0, 0, Math.PI * 2); ctx.fill();
-
-    // ---- incubator pod (far left - the future) ----
-    const viable = collection.anyViable();
-    ctx.fillStyle = '#3A363F';
-    ctx.fillRect(INCUBATOR.x - 4, deckY - 4, 34, 6);
-    ctx.fillStyle = viable ? 'rgba(150,220,190,0.35)' : 'rgba(140,160,170,0.2)';
-    ctx.beginPath();
-    ctx.ellipse(INCUBATOR.x + 13, INCUBATOR.y + 12, 13, 18, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = '#5C5766';
+    // awning strut: the 4 T_ROOF tiles beside the pod are real tiles (drawTiles
+    // renders them); this is just the support leaning back to the hull
+    const awnX = (spawnCol + 2) * TILE, awnY = (podTy - 4) * TILE + 6;
+    ctx.strokeStyle = '#4A3421';
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.ellipse(INCUBATOR.x + 13, INCUBATOR.y + 12, 13, 18, 0, 0, Math.PI * 2);
+    ctx.moveTo(awnX + 2, awnY); ctx.lineTo(lx + 38, gy - 30);
+    ctx.moveTo((spawnCol + 5) * TILE + 12, awnY); ctx.lineTo((spawnCol + 5) * TILE + 12, gy);
     ctx.stroke();
-    // cables to the deck
-    ctx.strokeStyle = '#26222E'; ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(INCUBATOR.x + 24, INCUBATOR.y + 24);
-    ctx.quadraticCurveTo(INCUBATOR.x + 36, deckY - 2, deckX0 + 4, dy + 6);
-    ctx.stroke();
-    if (viable) {
-      const pulse = 0.5 + Math.sin(rtime * 2) * 0.4;
-      ctx.fillStyle = `rgba(150,220,190,${(pulse * 0.5).toFixed(2)})`;
-      ctx.beginPath(); ctx.ellipse(INCUBATOR.x + 13, INCUBATOR.y + 12, 8, 12, 0, 0, Math.PI * 2); ctx.fill();
-      frameLights.push({ x: INCUBATOR.x + 13, y: INCUBATOR.y + 12, r: 50, warmth: 0.2 });
+
+    // E keycap + label when the rover is at the pod with lab work to do
+    const near = entities.nearest(player, e => e.type === 'pod', 2.6 * TILE);
+    if (near && !build.active) {
+      const hasWork = STATIONS.some(s => satchel.firstAtState(s.input));
+      drawKeycap(ctx, lx + 22, gy - 78, hasWork);
+      const label = hasWork ? 'FIELD LAB' : 'POD';
+      const tw = measure(ctx, label, 9, true);
+      chip(ctx, lx + 22 - tw / 2 - 7, gy - 66, tw + 14, 14, { r: 7, fill: PALETTE.frameDark, border: null });
+      text(ctx, label, lx + 22, gy - 63, { size: 9, bold: true, align: 'center', color: PALETTE.parchment });
     }
-
-    // ---- vitrine (museum piece) ----
-    // base cabinet
-    ctx.fillStyle = '#4A3421';
-    ctx.fillRect(VIT.x - 6, deckY - 12, VIT.w + 12, 6);
-    ctx.fillStyle = '#6E4F33';
-    ctx.fillRect(VIT.x - 6, deckY - 10, VIT.w + 12, 2);
-    // steel frame
-    ctx.fillStyle = '#3A363F';
-    ctx.fillRect(VIT.x - 5, VIT.y - 5, VIT.w + 10, VIT.h + 10);
-    // interior glow
-    ctx.fillStyle = 'rgba(255,244,214,0.12)';
-    ctx.fillRect(VIT.x, VIT.y, VIT.w, VIT.h);
-    // glass
-    ctx.fillStyle = 'rgba(170,205,220,0.18)';
-    ctx.fillRect(VIT.x, VIT.y, VIT.w, VIT.h);
-    // mullions
-    ctx.fillStyle = '#4E4956';
-    ctx.fillRect(VIT.x, VIT.y + VIT.h / 2 - 1, VIT.w, 2.5);
-    for (let c = 1; c < VIT.cols; c++) ctx.fillRect(VIT.x + c * (VIT.w / VIT.cols) - 1, VIT.y, 2, VIT.h);
-    frameLights.push({ x: VIT.x + VIT.w / 2, y: VIT.y + VIT.h / 2, r: 80, warmth: 0.5 });
-
-    const near = vitrineSlotNear();
-    for (const s of vitrineSlots()) {
-      const frac = collection.fraction(s.id);
-      const isNear = near && near.id === s.id;
-      if (isNear && collection.isComplete(s.id)) {
-        ctx.fillStyle = 'rgba(224,162,74,0.18)';
-        ctx.fillRect(s.x - 2, s.y - 2, s.w + 4, s.h + 4);
-      }
-      ctx.save();
-      ctx.globalAlpha = collection.isComplete(s.id) ? 1 : 0.25 + frac * 0.35;
-      const sc = Math.min(s.w / (s.spec.footprint[0] * TILE), (s.h - 10) / (s.spec.footprint[1] * TILE));
-      drawFossil(ctx, s.spec, s.x + s.w / 2 - s.spec.footprint[0] * TILE * sc / 2, s.y + 2, makeCanvas, sc);
-      ctx.restore();
-      if (!collection.isComplete(s.id)) {
-        const n = collection.bonesNeeded(s.id);
-        for (let i = 0; i < n; i++) {
-          ctx.fillStyle = collection.hasBone(s.id, i) ? PALETTE.amber : 'rgba(0,0,0,0.25)';
-          ctx.fillRect(s.x + 2 + i * 5, s.y + s.h - 4, 3.5, 2.5);
-        }
-      }
-      // DNA pip (genome progress)
-      const gn = collection.genomeOf(s.id);
-      if (gn > 0) drawDnaPip(s.x + s.w - 9, s.y + 3, gn, rtime);
-      if (isNear && collection.isComplete(s.id)) drawKeycap(ctx, s.x + s.w / 2, s.y - 14);
-    }
-    // sheen
-    ctx.fillStyle = 'rgba(255,255,255,0.10)';
-    ctx.beginPath();
-    ctx.moveTo(VIT.x + 6, VIT.y + VIT.h); ctx.lineTo(VIT.x + VIT.w * 0.3, VIT.y);
-    ctx.lineTo(VIT.x + VIT.w * 0.42, VIT.y); ctx.lineTo(VIT.x + VIT.w * 0.18, VIT.y + VIT.h);
-    ctx.closePath(); ctx.fill();
-
-    drawStations(dy);
   }
 
-  // tiny double-helix progress pip
+  // tiny double-helix progress pip (journal genome indicator)
   function drawDnaPip(x, y, frac, rtime) {
     ctx.save();
     ctx.strokeStyle = frac >= 1 ? '#7FE8B8' : '#7FC4A8';
@@ -941,37 +869,6 @@ export function makeGameScene(services) {
       ctx.stroke();
     }
     ctx.restore();
-  }
-
-  function drawStations(deckTopY) {
-    const near = lab.nearest(player);
-    for (const st of lab.instances) {
-      const x = st.x, y = deckTopY;   // ON the deck surface
-      const isNear = near === st;
-      const hasInput = !!satchel.firstAtState(st.spec.input);
-      // soft glow when the rover is at this station (no hard box - mod 9 cleanup)
-      if (isNear) {
-        const glow = ctx.createRadialGradient(x, y - 12, 4, x, y - 12, 30);
-        glow.addColorStop(0, `rgba(224,162,74,${hasInput ? 0.24 : 0.12})`);
-        glow.addColorStop(1, 'rgba(224,162,74,0)');
-        ctx.fillStyle = glow;
-        ctx.beginPath(); ctx.arc(x, y - 12, 30, 0, Math.PI * 2); ctx.fill();
-      }
-      // pedestal
-      ctx.fillStyle = '#4E4956';
-      ctx.fillRect(x - 14, y - 4, 28, 4);
-      if (hasSprite('stations', st.spec.sprite)) drawSprite(ctx, 'stations', st.spec.sprite, x, y - 3, 38, 38);
-      else { chip(ctx, x - 15, y - 25, 30, 21, { fill: st.spec.tint, r: 5 }); }
-      // near: floating E cap + a compact name chip sized to the name (mods 9,10)
-      if (isNear) {
-        drawKeycap(ctx, x, y - 56, hasInput);
-        const label = st.spec.name;
-        const tw = measure(ctx, label, 9, true);
-        chip(ctx, x - tw / 2 - 7, y - 44, tw + 14, 14, { r: 7, fill: PALETTE.frameDark, border: null });
-        text(ctx, label, x, y - 41, { size: 9, bold: true, align: 'center', color: PALETTE.parchment });
-        if (!hasInput) text(ctx, `needs ${st.spec.input}`, x, y - 30, { size: 8, align: 'center', color: PALETTE.creamDim });
-      }
-    }
   }
 
   function drawKeycap(ctx2, x, y, active = true) {
@@ -1016,12 +913,12 @@ export function makeGameScene(services) {
     }
   }
 
-  // scanner reticle at the mouse; brackets close + progress ring while scanning
+  // scanner reticle at the mouse; the resolved target gets its OWN bracket +
+  // name chip so you always see exactly what will be catalogued.
   function drawReticle(rtime) {
     const wx = mouse.x + cam.x, wy = mouse.y + cam.y;
-    const targets = ambient.scanTargets(wx, wy);
-    const id = scanTargetAt(wx, wy, world, targets);
-    const has = !!id;
+    const tgt = scanTarget;
+    const has = !!tgt;
     ctx.strokeStyle = has ? '#4BE3E8' : 'rgba(75,227,232,0.4)';
     ctx.lineWidth = 1.6;
     const r = 12 - (scanning ? scanning.t * 4 : 0);
@@ -1039,6 +936,37 @@ export function makeGameScene(services) {
     } else if (has) {
       ctx.fillStyle = 'rgba(75,227,232,0.9)';
       ctx.beginPath(); ctx.arc(wx, wy, 1.6, 0, Math.PI * 2); ctx.fill();
+    }
+    if (!tgt) return;
+
+    // target brackets: pulse gently, tighten while the scan charges
+    const pad = 3 - (scanning ? scanning.t * 2 : 0);
+    const bx = tgt.x - pad, by = tgt.y - pad, bw = tgt.w + pad * 2, bh = tgt.h + pad * 2;
+    const arm = Math.min(5, bw * 0.3);
+    ctx.strokeStyle = `rgba(75,227,232,${(0.6 + Math.sin(rtime * 6) * 0.25).toFixed(2)})`;
+    ctx.lineWidth = 1.4;
+    for (const [cxs, cys] of [[0, 0], [1, 0], [1, 1], [0, 1]]) {
+      const px = bx + cxs * bw, py = by + cys * bh;
+      const dx = cxs ? -1 : 1, dy = cys ? -1 : 1;
+      ctx.beginPath();
+      ctx.moveTo(px, py + dy * arm);
+      ctx.lineTo(px, py);
+      ctx.lineTo(px + dx * arm, py);
+      ctx.stroke();
+    }
+    // name chip under the target
+    const entry = codexEntry(tgt.id);
+    if (entry) {
+      const isNew = !codex.has(tgt.id);
+      const canPick = tgt.harvest && codex.has(tgt.id)
+        && Math.hypot(tgt.x + tgt.w / 2 - player.cx(), tgt.y + tgt.h / 2 - player.cy()) <= DIG_REACH;
+      const label = canPick ? `${entry.name} · E - HARVEST` : isNew ? `${entry.name} · NEW` : entry.name;
+      const lw = measure(ctx, label, 9, true) + 10;
+      const lx = tgt.x + tgt.w / 2 - lw / 2, lyy = by + bh + 5;
+      ctx.fillStyle = 'rgba(14,26,30,0.82)';
+      roundRect(ctx, lx, lyy, lw, 13, 4);
+      ctx.fill();
+      text(ctx, label, lx + 5, lyy + 3, { size: 9, bold: true, color: isNew || canPick ? '#4BE3E8' : 'rgba(140,200,205,0.9)' });
     }
   }
 
@@ -1067,7 +995,7 @@ export function makeGameScene(services) {
 
   function drawBeam(rtime) {
     if (!player.beam) return;
-    const lx = player.cx() + player.facing * 7, ly = player.y + PLAYER_H - 7;
+    const lx = player.cx() + player.facing * 7, ly = player.y + BEAM_Y;
     const { x, y } = player.beam;
     ctx.strokeStyle = 'rgba(224,162,74,0.35)';
     ctx.lineWidth = 5;
@@ -1120,39 +1048,63 @@ export function makeGameScene(services) {
   }
 
   // --------------------------------------------------------------- HUD
+  // The probe's FPV: power · depth · satchel · materials · status · home arrow.
+  // Elements flicker on in sequence during the boot (bootOn gates each).
+  function hudOn(at) { return bootT >= at; }
+
   function drawHUD() {
     const depth = Math.max(0, world.depthOfRow(player.tx(), Math.floor((player.y + player.h) / TILE)));
     const stratum = world.stratumAt(player.tx(), Math.floor(player.cy() / TILE));
 
-    // active-tool chip, bottom-centre-left (Ctrl to switch)
-    const scan = player.tool === 'scan';
-    chip(ctx, 108, VIEW_H - 40, 118, 28, { r: 8 });
-    ctx.fillStyle = scan ? '#4BE3E8' : PALETTE.amber;
-    if (scan) { ctx.strokeStyle = '#4BE3E8'; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.arc(124, VIEW_H - 26, 5, 0, Math.PI * 2); ctx.stroke(); ctx.fillRect(123, VIEW_H - 27, 2, 2); }
-    else { ctx.fillRect(118, VIEW_H - 27, 12, 2); }
-    text(ctx, scan ? 'SCAN' : 'LASER', 136, VIEW_H - 33, { size: 12, bold: true, color: scan ? '#4BE3E8' : PALETTE.amber });
-    text(ctx, 'CTRL', 200, VIEW_H - 32, { size: 9, color: PALETTE.creamDim });
+    // -- power bar (top-left, first thing to come online) -----------------------
+    if (hudOn(0.4)) {
+      const frac = power.frac();
+      const state = power.state();
+      const blink = state !== 'ok' && Math.sin(time * (state === 'reserve' ? 10 : 6)) > 0;
+      chip(ctx, 12, 12, 186, 24, { r: 8 });
+      // lightning glyph
+      ctx.fillStyle = blink ? PALETTE.danger : PALETTE.amber;
+      ctx.beginPath();
+      ctx.moveTo(26, 17); ctx.lineTo(21, 25); ctx.lineTo(25, 25); ctx.lineTo(22, 31); ctx.lineTo(29, 23); ctx.lineTo(25, 23); ctx.lineTo(28, 17);
+      ctx.closePath(); ctx.fill();
+      // bar
+      ctx.fillStyle = 'rgba(0,0,0,0.25)';
+      ctx.fillRect(36, 18, 130, 12);
+      ctx.fillStyle = state === 'reserve' ? PALETTE.danger : state === 'low' ? '#E0A24A' : '#7FC46E';
+      ctx.fillRect(36, 18, 130 * frac, 12);
+      ctx.strokeStyle = PALETTE.frameDark; ctx.lineWidth = 1.4;
+      ctx.strokeRect(36, 18, 130, 12);
+      text(ctx, `${Math.round(frac * 100)}`, 172, 18, { size: 11, bold: true, color: blink ? PALETTE.danger : PALETTE.cream });
+      if (state === 'reserve') text(ctx, 'RESERVE - tools offline, find sun', 12, 40, { size: 9, bold: true, color: PALETTE.danger });
+    }
 
-    chip(ctx, 12, 12, 186, 48, { r: 10 });
-    text(ctx, formatDepth(realDepthAt(depth)), 26, 19, { size: 19, bold: true, color: PALETTE.amber });
-    text(ctx, depth > 0 ? formatAge(stratum) : 'surface', 26, 42, { size: 10, color: PALETTE.creamDim });
-    ctx.fillStyle = stratum.colors.base;
-    ctx.fillRect(176, 22, 12, 28);
+    // -- depth chip --------------------------------------------------------------
+    if (hudOn(0.9)) {
+      chip(ctx, 12, 44, 186, 44, { r: 10 });
+      text(ctx, formatDepth(realDepthAt(depth)), 26, 50, { size: 18, bold: true, color: PALETTE.amber });
+      text(ctx, depth > 0 ? formatAge(stratum) : 'surface', 26, 71, { size: 10, color: PALETTE.creamDim });
+      ctx.fillStyle = stratum.colors.base;
+      ctx.fillRect(176, 52, 12, 26);
+    }
 
-    if (!collection.isComplete(MISSION_ID)) {
-      const rex = FOSSILS_BY_ID[MISSION_ID];
-      const need = collection.bonesNeeded(MISSION_ID);
-      const w = 44 + need * 9;
-      chip(ctx, VIEW_W / 2 - w / 2, 12, w, 26, { r: 8, fill: PALETTE.frameDark });
-      ctx.save(); ctx.globalAlpha = 0.9;
-      drawFossil(ctx, rex, VIEW_W / 2 - w / 2 + 5, 15, makeCanvas, 0.26);
-      ctx.restore();
-      for (let i = 0; i < need; i++) {
-        ctx.fillStyle = collection.hasBone(MISSION_ID, i) ? PALETTE.amber : 'rgba(255,255,255,0.15)';
-        ctx.fillRect(VIEW_W / 2 - w / 2 + 32 + i * 9, 22, 6, 6);
+    // -- status icon row (wet = blinking droplet) --------------------------------
+    if (hudOn(1.8) && status.tier() !== 'dry') {
+      const soaked = status.tier() === 'soaked';
+      const show = !soaked || Math.sin(time * 8) > -0.2;   // soaked blinks red
+      if (show) {
+        chip(ctx, 204, 12, 64, 24, { r: 8, fill: PALETTE.frameDark });
+        ctx.fillStyle = soaked ? PALETTE.danger : '#7FB2DE';
+        ctx.beginPath();
+        ctx.moveTo(216, 16); ctx.quadraticCurveTo(222, 26, 216, 30); ctx.quadraticCurveTo(210, 26, 216, 16);
+        ctx.fill();
+        text(ctx, soaked ? 'SOAKED' : 'WET', 226, 17, { size: 9, bold: true, color: soaked ? PALETTE.danger : '#7FB2DE' });
       }
     }
 
+    // -- home marker: edge arrow + distance when home is off-screen --------------
+    if (hudOn(0.9)) drawHomeArrow();
+
+    if (!hudOn(1.4)) return;
     const frags = satchel.items;
     const shown = Math.min(frags.length, 6);
     const sw = 26 + shown * 15 + (frags.length > 6 ? 26 : 0);
@@ -1170,6 +1122,25 @@ export function makeGameScene(services) {
     }
     if (frags.length > 6) text(ctx, `+${frags.length - 6}`, VIEW_W - 24, 19, { size: 11, bold: true, align: 'right', color: PALETTE.cream });
 
+    // materials chip (glow caps, crystals, ...) under the satchel
+    const mats = inventory.entries();
+    if (mats.length) {
+      const MAT_COLORS = { mushroom: '#96DCAA', crystal: '#C8B4E6' };
+      const mw = 14 + mats.length * 34;
+      chip(ctx, VIEW_W - mw - 12, 46, mw, 24, { r: 8 });
+      mats.forEach(([id, n], i) => {
+        const mx = VIEW_W - mw - 12 + 10 + i * 34;
+        ctx.fillStyle = MAT_COLORS[id] || PALETTE.amberSoft;
+        if (id === 'crystal') {
+          ctx.beginPath(); ctx.moveTo(mx + 4, 64); ctx.lineTo(mx + 7, 52); ctx.lineTo(mx + 10, 64); ctx.closePath(); ctx.fill();
+        } else {
+          ctx.fillRect(mx + 6, 58, 2, 6);
+          ctx.beginPath(); ctx.arc(mx + 7, 58, 4, Math.PI, 0); ctx.fill();
+        }
+        text(ctx, `${n}`, mx + 14, 53, { size: 11, bold: true, color: PALETTE.cream });
+      });
+    }
+
     chip(ctx, 12, VIEW_H - 40, 86, 28, { r: 8 });
     ctx.fillStyle = PALETTE.parchment;
     ctx.beginPath(); ctx.arc(30, VIEW_H - 27, 5.5, 0, Math.PI * 2); ctx.fill();
@@ -1177,6 +1148,94 @@ export function makeGameScene(services) {
     ctx.fillStyle = PALETTE.frameDark;
     ctx.fillRect(27.5, VIEW_H - 29, 2, 2); ctx.fillRect(31.5, VIEW_H - 29, 2, 2);
     text(ctx, `${collection.completedCount()}/${collection.total()}`, 44, VIEW_H - 33, { size: 13, bold: true, color: PALETTE.cream });
+
+    // -- active-tool chip, bottom-centre-left (Ctrl to switch; B to build) -------
+    if (hudOn(2.9)) {
+      const scan = player.tool === 'scan';
+      chip(ctx, 108, VIEW_H - 40, 118, 28, { r: 8 });
+      ctx.fillStyle = scan ? '#4BE3E8' : PALETTE.amber;
+      if (scan) { ctx.strokeStyle = '#4BE3E8'; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.arc(124, VIEW_H - 26, 5, 0, Math.PI * 2); ctx.stroke(); ctx.fillRect(123, VIEW_H - 27, 2, 2); }
+      else { ctx.fillRect(118, VIEW_H - 27, 12, 2); }
+      text(ctx, build.active ? 'BUILD' : scan ? 'SCAN' : 'LASER', 136, VIEW_H - 33, { size: 12, bold: true, color: build.active ? '#9FBE9A' : scan ? '#4BE3E8' : PALETTE.amber });
+      text(ctx, build.active ? 'B' : 'CTRL', 200, VIEW_H - 32, { size: 9, color: PALETTE.creamDim });
+    }
+  }
+
+  // amber edge arrow + distance pointing home when it's off-screen
+  function drawHomeArrow() {
+    const dx = home.x - (cam.x + VIEW_W / 2), dy = home.y - (cam.y + VIEW_H / 2);
+    const sx = home.x - cam.x, sy = home.y - cam.y;
+    const onScreen = sx > 20 && sx < VIEW_W - 20 && sy > 20 && sy < VIEW_H - 20;
+    if (onScreen) {
+      // subtle marker over the spot
+      const bob = Math.sin(time * 3) * 2;
+      ctx.fillStyle = 'rgba(224,162,74,0.85)';
+      ctx.beginPath();
+      ctx.moveTo(sx, sy - 26 + bob); ctx.lineTo(sx - 4, sy - 33 + bob); ctx.lineTo(sx + 4, sy - 33 + bob);
+      ctx.closePath(); ctx.fill();
+      return;
+    }
+    // clamp to the screen border along the home direction
+    const ang = Math.atan2(dy, dx);
+    const px = Math.max(26, Math.min(VIEW_W - 26, VIEW_W / 2 + Math.cos(ang) * VIEW_W));
+    const py = Math.max(56, Math.min(VIEW_H - 56, VIEW_H / 2 + Math.sin(ang) * VIEW_H));
+    const dist = Math.round(Math.hypot(home.x - player.cx(), home.y - player.cy()) / TILE);
+    ctx.save();
+    ctx.translate(px, py);
+    ctx.rotate(ang);
+    ctx.fillStyle = PALETTE.amber;
+    ctx.beginPath(); ctx.moveTo(10, 0); ctx.lineTo(-2, -6); ctx.lineTo(-2, 6); ctx.closePath(); ctx.fill();
+    ctx.restore();
+    // house glyph + metres
+    ctx.fillStyle = 'rgba(20,16,22,0.6)';
+    roundRect(ctx, px - 20, py + 8, 40, 13, 4); ctx.fill();
+    text(ctx, `⌂ ${dist}m`, px, py + 10, { size: 9, bold: true, align: 'center', color: PALETTE.amberSoft });
+  }
+
+  // -- build mode: world-space ghost + screen-space palette bar ------------------
+  function drawBuildGhost(rtime) {
+    const g = build.ghost(cam);
+    if (!g) return;
+    const px = g.tx * TILE, py = (g.ty - (g.spec.kind === 'machine' ? g.h - 1 : 0)) * TILE;
+    ctx.globalAlpha = 0.45 + Math.sin(rtime * 5) * 0.1;
+    ctx.fillStyle = g.ok ? 'rgba(120,200,120,0.5)' : 'rgba(220,90,70,0.5)';
+    ctx.fillRect(px, py, g.w * TILE, g.h * TILE);
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = g.ok ? '#7FC46E' : '#E85B4A';
+    ctx.lineWidth = 1.6;
+    ctx.strokeRect(px + 0.5, py + 0.5, g.w * TILE - 1, g.h * TILE - 1);
+  }
+
+  function drawBuildBar() {
+    const items = build.unlocked();
+    const cur = build.current();
+    const bw = items.length * 92 + 16;
+    chip(ctx, VIEW_W / 2 - bw / 2, VIEW_H - 64, bw, 52, { r: 10, fill: PALETTE.frameDark });
+    items.forEach((b2, i) => {
+      const x = VIEW_W / 2 - bw / 2 + 8 + i * 92;
+      const isSel = b2 === cur;
+      const afford = inventory.canAfford(b2.cost);
+      if (isSel) { ctx.fillStyle = 'rgba(224,162,74,0.18)'; roundRect(ctx, x, VIEW_H - 60, 88, 44, 6); ctx.fill(); }
+      text(ctx, b2.name, x + 44, VIEW_H - 56, { size: 10, bold: isSel, align: 'center', color: afford ? (isSel ? PALETTE.amber : PALETTE.parchment) : 'rgba(150,140,130,0.6)' });
+      const cost = Object.entries(b2.cost).map(([id, n]) => `${n} ${MATERIALS_BY_ID[id]?.name.toLowerCase() ?? id}`).join(' · ');
+      text(ctx, cost, x + 44, VIEW_H - 42, { size: 8, align: 'center', color: afford ? PALETTE.creamDim : 'rgba(200,90,70,0.8)' });
+      if (isSel) text(ctx, 'click to place · right-click reclaims', x + 44, VIEW_H - 30, { size: 7, align: 'center', color: PALETTE.creamDim });
+    });
+    text(ctx, 'Q / wheel to cycle · B to exit', VIEW_W / 2, VIEW_H - 76, { size: 9, align: 'center', color: PALETTE.creamDim });
+  }
+
+  // -- boot: scanline iris + elements flickering on -----------------------------
+  function drawBootOverlay(rtime) {
+    const p = Math.min(1, bootT / 3.5);
+    // dark iris pulling back
+    ctx.fillStyle = `rgba(5,7,12,${(0.85 * (1 - p)).toFixed(2)})`;
+    ctx.fillRect(0, 0, VIEW_W, VIEW_H);
+    // rolling scanlines
+    ctx.fillStyle = `rgba(75,227,232,${(0.05 * (1 - p)).toFixed(3)})`;
+    for (let y = (rtime * 60 | 0) % 3; y < VIEW_H; y += 3) ctx.fillRect(0, y, VIEW_W, 1);
+    if (bootT < 1.2) {
+      text(ctx, 'OPTICS ONLINE', VIEW_W / 2, VIEW_H / 2 - 8, { size: 13, bold: true, align: 'center', color: '#4BE3E8' });
+    }
   }
 
   function drawBanner() {
@@ -1186,14 +1245,6 @@ export function makeGameScene(services) {
     const tw = measure(ctx, str, 17, true);
     blueprintPanel(ctx, VIEW_W / 2 - tw / 2 - 26, 74, tw + 52, 44, { frameW: 6, r: 12, deep: true, grid: false });
     text(ctx, str, VIEW_W / 2, 96, { size: 17, bold: true, align: 'center', baseline: 'middle', color: PALETTE.cream });
-    ctx.globalAlpha = 1;
-  }
-  function drawMissionBanner() {
-    const a = Math.min(1, missionBanner) * Math.min(1, (6 - missionBanner) * 2);
-    ctx.globalAlpha = a;
-    blueprintPanel(ctx, VIEW_W / 2 - 240, VIEW_H / 2 - 60, 480, 96, { frameW: 8, r: 16, deep: true });
-    text(ctx, 'MISSION COMPLETE', VIEW_W / 2, VIEW_H / 2 - 34, { size: 30, bold: true, align: 'center', color: PALETTE.amber });
-    text(ctx, 'transmission sent', VIEW_W / 2, VIEW_H / 2 + 8, { size: 12, align: 'center', color: PALETTE.creamDim });
     ctx.globalAlpha = 1;
   }
   function drawToasts() {
@@ -1321,12 +1372,6 @@ export function makeGameScene(services) {
       if (mx >= cx && mx <= cx + cellW - 8 && my >= cy && my <= cy + cellH - 8) return CODEX[i];
     }
     return null;
-  }
-
-  function hashCol(x, salt) {
-    let n = Math.imul(x | 0, 374761393) + Math.imul(salt | 0, 668265263) + 987;
-    n = Math.imul(n ^ (n >>> 13), 1274126177);
-    return ((n ^ (n >>> 16)) >>> 0) / 4294967295;
   }
 
   return { enter() {}, update, render, leave() { persist(); } };

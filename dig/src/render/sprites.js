@@ -3,7 +3,7 @@
 //   put assets/sprites/fossils/<id>.png (footprint*16 px, transparent) and it is
 //   auto-loaded and used instead of the generated silhouette. No code change.
 
-import { TILE, PLAYER_H } from '../config.js';
+import { TILE, PLAYER_H, BEAM_Y } from '../config.js';
 import { PALETTE } from './palette.js';
 import { makeRng } from '../core/rng.js';
 import { FOSSILS } from '../content/fossils.js';
@@ -38,127 +38,125 @@ export function drawProbe(ctx, cx, topY, facing, time, swingT, swingAim, vx, wal
   const mood = opts.mood || 'idle';
   const profile = !dangling && (mood === 'drive' || mood === 'laser');
   const moving = Math.abs(vx) > 10;
-  const bob = dangling ? 0 : moving ? Math.abs(Math.sin(walkT * 18)) * 0.8 : Math.sin(time * 1.4) * 0.5;
+  const bob = dangling ? 0 : moving ? Math.abs(Math.sin(walkT * 18)) * 0.5 : Math.sin(time * 1.4) * 0.3;
 
   if (profile) drawSideProfile(ctx, mood, time, walkT, bob);
   else drawFrontView(ctx, mood, time, walkT, bob, dangling, moving, opts.blinkSeed || 0);
 
   ctx.restore();
-  drawProbe.emitter = { x: cx + facing * 7, y: topY + PLAYER_H - 7 };
+  drawProbe.emitter = { x: cx + facing * 7, y: topY + BEAM_Y };
 }
 
-// ---- front view: the Wall-E "looking at you" pose --------------------------
+// ---- front view: the Wall-E "looking at you" pose (1 tile tall: squat, all eyes)
 function drawFrontView(ctx, mood, time, walkT, bob, dangling, moving, blinkSeed) {
   // treads: fat rounded band, links cycle
-  const trY = PLAYER_H - 9 + (dangling ? -2 : 0);
+  const trY = PLAYER_H - 7 + (dangling ? -2 : 0);
   ctx.fillStyle = TREAD;
-  if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(-8, trY, 16, 9, 4.5); ctx.fill(); }
-  else ctx.fillRect(-8, trY, 16, 9);
+  if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(-8, trY, 16, 7, 3.5); ctx.fill(); }
+  else ctx.fillRect(-8, trY, 16, 7);
   const roll = (walkT * 26) % 4;
   ctx.fillStyle = TREAD_LINK;
   for (let i = -1; i < 4; i++) {
     const lx = -7 + ((i * 4 + roll) % 16 + 16) % 16 - 1;
-    ctx.fillRect(lx, trY + 0.5, 2.4, 2);
-    ctx.fillRect(lx, trY + 6.5, 2.4, 2);
+    ctx.fillRect(lx, trY + 0.5, 2.4, 1.8);
+    ctx.fillRect(lx, trY + 4.7, 2.4, 1.8);
   }
   ctx.fillStyle = CHASSIS_LIT;
-  ctx.beginPath(); ctx.arc(-5, trY + 4.5, 1.4, 0, 7); ctx.arc(5, trY + 4.5, 1.4, 0, 7); ctx.fill();
+  ctx.beginPath(); ctx.arc(-5, trY + 3.5, 1.2, 0, 7); ctx.arc(5, trY + 3.5, 1.2, 0, 7); ctx.fill();
 
-  // chassis + vents
-  const chY = 6 + bob;
+  // chassis: squat box that kisses the tread top; the OLED face IS the identity
+  const chY = 0.5 + bob;
   ctx.fillStyle = CHASSIS;
-  if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(-7, chY, 14, PLAYER_H - 13, 2.5); ctx.fill(); }
-  else ctx.fillRect(-7, chY, 14, PLAYER_H - 13);
+  if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(-7, chY, 14, PLAYER_H - 7, 2.5); ctx.fill(); }
+  else ctx.fillRect(-7, chY, 14, PLAYER_H - 7);
   ctx.fillStyle = '#0C0A10';
-  for (let r = 0; r < 2; r++)
-    for (let c = 0; c < 4; c++) ctx.fillRect(-5 + c * 3, chY + 8 + r * 3, 1.4, 1.4);
+  for (let c = 0; c < 4; c++) ctx.fillRect(-5 + c * 3, chY + 6.6, 1.4, 1.4);
 
-  // wires
+  // wires (arcs peak ~2px above the hitbox - visual only, like grass tufts)
   ctx.lineWidth = 1.2;
   ctx.strokeStyle = WIRE_Y;
   ctx.beginPath();
   ctx.moveTo(-5, chY + 1);
-  ctx.bezierCurveTo(-7, chY - 4 + Math.sin(time * 2) * 0.5, -1, chY - 5, 1, chY - 1);
+  ctx.bezierCurveTo(-7, chY - 2.5 + Math.sin(time * 2) * 0.5, -1, chY - 3, 1, chY - 0.5);
   ctx.stroke();
   ctx.strokeStyle = WIRE_R;
   ctx.beginPath();
   ctx.moveTo(4, chY + 1);
-  ctx.bezierCurveTo(6, chY - 3, 1, chY - 4 - Math.sin(time * 2.3) * 0.5, -1, chY - 1);
+  ctx.bezierCurveTo(6, chY - 2, 1, chY - 2.6 - Math.sin(time * 2.3) * 0.5, -1, chY - 0.5);
   ctx.stroke();
 
-  // OLED face
-  const scX = -6, scY = chY - 1, scW = 12, scH = 8.5;
+  // OLED face covers most of the chassis
+  const scX = -6, scY = chY + 0.5, scW = 12, scH = 5.5;
   ctx.fillStyle = SCREEN;
   if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(scX, scY, scW, scH, 1.5); ctx.fill(); }
   else ctx.fillRect(scX, scY, scW, scH);
-  drawEyes(ctx, scX + scW / 2, scY + scH / 2, mood, time, moving, blinkSeed, 2);
+  drawEyes(ctx, scX + scW / 2, scY + scH / 2, mood, time, moving, blinkSeed, 2, 0.8);
 }
 
-// ---- side profile: the tank-tread Wall-E driving pose ----------------------
+// ---- side profile: the tank-tread Wall-E driving pose (1 tile tall) --------
 function drawSideProfile(ctx, mood, time, walkT, bob) {
   // long tread band with road wheels + idler
-  const trY = PLAYER_H - 10;
+  const trY = PLAYER_H - 8;
   ctx.fillStyle = TREAD;
-  if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(-10, trY, 20, 10, 5); ctx.fill(); }
-  else ctx.fillRect(-10, trY, 20, 10);
+  if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(-10, trY, 20, 8, 4); ctx.fill(); }
+  else ctx.fillRect(-10, trY, 20, 8);
   // scrolling links around the band
   const roll = (walkT * 30) % 5;
   ctx.fillStyle = TREAD_LINK;
   for (let i = -1; i < 5; i++) {
     const lx = -9 + ((i * 5 + roll) % 20 + 20) % 20 - 1;
-    ctx.fillRect(lx, trY + 0.5, 3, 2);
-    ctx.fillRect(lx, trY + 7.5, 3, 2);
+    ctx.fillRect(lx, trY + 0.5, 3, 1.8);
+    ctx.fillRect(lx, trY + 5.7, 3, 1.8);
   }
   // road wheels (rotate)
   const spin = walkT * 3.2;
   for (const wx of [-5.5, 0, 5.5]) {
     ctx.fillStyle = CHASSIS_LIT;
-    ctx.beginPath(); ctx.arc(wx, trY + 5, 3, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(wx, trY + 4, 2.6, 0, Math.PI * 2); ctx.fill();
     ctx.strokeStyle = TREAD;
     ctx.lineWidth = 1.2;
     ctx.beginPath();
-    ctx.moveTo(wx - Math.cos(spin) * 2.2, trY + 5 - Math.sin(spin) * 2.2);
-    ctx.lineTo(wx + Math.cos(spin) * 2.2, trY + 5 + Math.sin(spin) * 2.2);
+    ctx.moveTo(wx - Math.cos(spin) * 1.9, trY + 4 - Math.sin(spin) * 1.9);
+    ctx.lineTo(wx + Math.cos(spin) * 1.9, trY + 4 + Math.sin(spin) * 1.9);
     ctx.stroke();
   }
 
   // chassis leaning slightly forward when driving
-  const chY = 7 + bob;
+  const chY = 0.5 + bob;
   ctx.save();
   ctx.rotate(0.03);
   ctx.fillStyle = CHASSIS;
-  if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(-8, chY, 16, PLAYER_H - 16, 2.5); ctx.fill(); }
-  else ctx.fillRect(-8, chY, 16, PLAYER_H - 16);
+  if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(-8, chY, 16, PLAYER_H - 8, 2.5); ctx.fill(); }
+  else ctx.fillRect(-8, chY, 16, PLAYER_H - 8);
   // vents on the back half
   ctx.fillStyle = '#0C0A10';
-  for (let r = 0; r < 2; r++)
-    for (let c = 0; c < 3; c++) ctx.fillRect(-6 + c * 3, chY + 6 + r * 3, 1.4, 1.4);
+  for (let c = 0; c < 3; c++) ctx.fillRect(-6 + c * 3, chY + 5, 1.4, 1.4);
   // wires trailing off the back
   ctx.lineWidth = 1.2;
   ctx.strokeStyle = WIRE_Y;
   ctx.beginPath();
   ctx.moveTo(-4, chY + 1);
-  ctx.bezierCurveTo(-9, chY - 3 + Math.sin(time * 3) * 1, -11, chY + 2, -8, chY + 4);
+  ctx.bezierCurveTo(-9, chY - 2 + Math.sin(time * 3) * 0.8, -11, chY + 2, -8, chY + 3.5);
   ctx.stroke();
   ctx.strokeStyle = WIRE_R;
   ctx.beginPath();
   ctx.moveTo(-2, chY + 1);
-  ctx.bezierCurveTo(-7, chY - 4 - Math.sin(time * 2.6) * 1, -10, chY - 1, -9, chY + 2);
+  ctx.bezierCurveTo(-7, chY - 2.6 - Math.sin(time * 2.6) * 0.8, -10, chY - 1, -9, chY + 2);
   ctx.stroke();
 
   // side eye panel at the front: a single forward-looking cyan eye strip
-  const eX = 3, eY = chY + 1.5, eW = 6.5, eH = 6;
+  const eX = 3, eY = chY + 1, eW = 6.5, eH = 4.5;
   ctx.fillStyle = SCREEN;
   if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(eX - 1, eY - 1, eW + 2, eH + 2, 1.5); ctx.fill(); }
   else ctx.fillRect(eX - 1, eY - 1, eW + 2, eH + 2);
-  drawEyes(ctx, eX + eW / 2, eY + eH / 2, mood, time, true, 0, 1);
+  drawEyes(ctx, eX + eW / 2, eY + eH / 2, mood, time, true, 0, 1, 0.8);
   ctx.restore();
 }
 
 // the whole personality lives in ~40 lines of eye
-function drawEyes(ctx, cx, cy, mood, time, moving, seed, eyeCount = 2) {
+function drawEyes(ctx, cx, cy, mood, time, moving, seed, eyeCount = 2, eyeScale = 1) {
   const blink = Math.max(0, Math.sin(time * 0.9 + seed) - 0.985) * 66;   // brief periodic blink
-  let w = 3.4, h = 3.4, dy = 0, dx = 0, lidTop = 0, arc = false, swirl = false;
+  let w = 3.4 * eyeScale, h = 3.4 * eyeScale, dy = 0, dx = 0, lidTop = 0, arc = false, swirl = false;
   if (mood === 'sleepy') { lidTop = 0.6; dy = 0.8; }
   if (mood === 'drive') { dx = moving ? 1 : 0; }
   if (mood === 'laser') { h = 1.4; dy = 0.3; }

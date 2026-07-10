@@ -34,6 +34,8 @@ export const CODEX = [
   { id: 'mushroom', name: 'Glow Cap', category: 'flora', blurb: 'A fungus that thrives in the dark, its cap emitting a soft warm light to attract spore-spreaders.', stats: [['habitat', 'caves'], ['light', 'faint glow']] },
   // - features & fluids - 
   { id: 'stalactite', name: 'Stalactite', category: 'feature', blurb: 'A mineral icicle, grown one dripping millennium at a time from the cave ceiling.', stats: [['forms', 'ceiling'], ['growth', '~1cm / century']] },
+  { id: 'stalagmite', name: 'Stalagmite', category: 'feature', blurb: 'The floor answering the ceiling: every drip that falls leaves a little stone behind, piling up over ages.', stats: [['forms', 'floor'], ['growth', '~1cm / century']] },
+  { id: 'roots', name: 'Hanging Roots', category: 'feature', blurb: 'Roots of the surface flora, reaching down through the topsoil bands in search of groundwater.', stats: [['habitat', 'shallow caves'], ['source', 'surface flora']] },
   { id: 'crystal', name: 'Crystal Cluster', category: 'feature', blurb: 'Faceted mineral growth in the oldest rock, catching what little light reaches this depth.', stats: [['habitat', 'deep strata'], ['optical', 'refractive']] },
   { id: 'water', name: 'Groundwater', category: 'fluid', blurb: 'Rain that seeped down through the strata and pooled in the caves. Breach it and it will flow.', stats: [['state', 'liquid'], ['behaviour', 'flows']] },
   { id: 'lava', name: 'Magma', category: 'fluid', blurb: 'Molten rock from the deep, glowing at over a thousand degrees. The probe cannot survive contact.', stats: [['state', 'molten'], ['temp', '>1000°C'], ['hazard', 'lethal']] },

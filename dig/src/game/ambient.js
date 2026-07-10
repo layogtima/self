@@ -7,6 +7,9 @@
 import { TILE, WORLD_W, WORLD_H, VIEW_W, VIEW_H, T_AIR } from '../config.js';
 import { PALETTE } from '../render/palette.js';
 import { sfx } from '../core/audio.js';
+import { pickFauna, FAUNA_BY_ID } from '../content/fauna.js';
+import { drawFauna } from '../render/fauna.js';
+import { biomeAtX } from '../content/biomes.js';
 
 const MAX = { birds: 2, butterflies: 6, motes: 40, drips: 26, pebbles: 30, bats: 12, critters: 1, fauna: 5 };
 
@@ -70,16 +73,14 @@ export function makeAmbient() {
           const dir = Math.random() < 0.5 ? 1 : -1;
           critters.push({ x: dir > 0 ? cam.x - 20 : cam.x + VIEW_W + 20, dir, t: 0, life: 14 });
         }
-        // surface fauna, gated by time & weather
+        // surface fauna: whoever the registry says is out in this time & weather
         if (fauna.filter(f => f.zone === 'surface').length < 3 && Math.random() < 0.0016) {
-          const eligible = [];
-          if (isDay) eligible.push('grazer');
-          if (isDay && weather === 'clear') eligible.push('lizard');
-          if (raining) { eligible.push('hopper', 'hopper'); }   // frogs love the rain
-          if (eligible.length) {
-            const kind = eligible[(Math.random() * eligible.length) | 0];
-            const dir = Math.random() < 0.5 ? 1 : -1;
-            fauna.push({ kind, zone: 'surface', x: dir > 0 ? cam.x - 30 : cam.x + VIEW_W + 30, y: 0, dir, state: 'walk', t: 0, life: 40 + Math.random() * 30, ph: Math.random() * 7 });
+          const dir = Math.random() < 0.5 ? 1 : -1;
+          const spawnX = dir > 0 ? cam.x - 30 : cam.x + VIEW_W + 30;
+          const biomeId = biomeAtX(Math.floor(spawnX / TILE), WORLD_W).id;
+          const spec = pickFauna('surface', { isDay, weather, depth: 0, biomeId });
+          if (spec) {
+            fauna.push({ kind: spec.id, spec, zone: 'surface', x: spawnX, y: 0, dir, state: 'walk', t: 0, life: 40 + Math.random() * 30, ph: Math.random() * 7 });
           }
         }
         // fireflies drift over the surface on warm nights
@@ -89,15 +90,16 @@ export function makeAmbient() {
         }
       }
 
-      // cave fauna: salamander / spider near the player when deep
+      // cave fauna: registry-picked for this depth, near the player
       if (depth > 20 && fauna.filter(f => f.zone === 'cave').length < 2 && Math.random() < 0.003) {
-        const kind = Math.random() < 0.5 ? 'salamander' : 'spider';
+        const biomeId = biomeAtX(player.tx(), WORLD_W).id;
+        const spec = pickFauna('cave', { isDay, weather, depth, biomeId });
         // seat it on a nearby air-tile floor/wall
-        for (let tries = 0; tries < 10; tries++) {
+        if (spec) for (let tries = 0; tries < 10; tries++) {
           const tx = player.tx() + ((Math.random() * 16 - 8) | 0);
           const ty = Math.floor(player.cy() / TILE) + ((Math.random() * 10 - 5) | 0);
           if (world.tileAt(tx, ty) === T_AIR && world.solidAt(tx, ty + 1)) {
-            fauna.push({ kind, zone: 'cave', x: (tx + 0.5) * TILE, y: (ty + 1) * TILE, dir: Math.random() < 0.5 ? 1 : -1, state: 'walk', t: 0, life: 30, ph: Math.random() * 7 });
+            fauna.push({ kind: spec.id, spec, zone: 'cave', x: (tx + 0.5) * TILE, y: (ty + 1) * TILE, dir: Math.random() < 0.5 ? 1 : -1, state: 'walk', t: 0, life: 30, ph: Math.random() * 7 });
             break;
           }
         }
@@ -175,11 +177,12 @@ export function makeAmbient() {
       }
 
       // fauna brains: wander/idle, flee the rover, sleep at night, bolt in storms
-      const diurnal = k => k === 'grazer' || k === 'lizard';
+      const diurnal = f => !!(f.spec?.activity?.day && !f.spec?.activity?.night);
       for (const f of fauna) {
+        f.spec = f.spec || FAUNA_BY_ID[f.kind];   // tolerate registry-less spawns (tests)
         f.t += dt; f.life -= dt;
         // weather/time overrides
-        if (f.zone === 'surface' && diurnal(f.kind)) {
+        if (f.zone === 'surface' && diurnal(f)) {
           if (storm && f.state !== 'flee') { f.state = 'flee'; f.dir = f.x < player.cx() ? -1 : 1; }
           else if (night > 0.6 && f.state !== 'flee') { f.state = 'sleep'; }
           else if (f.state === 'sleep' && night < 0.5) f.state = 'walk';
@@ -188,10 +191,10 @@ export function makeAmbient() {
         const near = distX < TILE * 5 && Math.abs((f.y || player.cy()) - player.cy()) < TILE * 6;
         if (near && f.state !== 'flee') { f.state = 'flee'; f.dir = f.x < player.cx() ? -1 : 1; f.t = 0; }
         const fleeMul = storm ? 1.4 : 1;
+        const sp = f.spec?.speed || { walk: 24, flee: 50 };
         const speed = f.state === 'sleep' ? 0
-          : f.state === 'flee'
-          ? (f.kind === 'grazer' ? 90 : f.kind === 'hopper' ? 80 : f.kind === 'lizard' ? 110 : 50) * fleeMul
-          : f.state === 'walk' ? (f.kind === 'salamander' ? 12 : f.kind === 'spider' ? 22 : 24) : 0;
+          : f.state === 'flee' ? sp.flee * fleeMul
+          : f.state === 'walk' ? sp.walk : 0;
         if (f.state === 'flee' && f.t > 2.5) f.state = 'walk';
         if (f.state === 'walk' && f.t > 3 + (f.ph % 3)) { f.state = Math.random() < 0.5 ? 'idle' : 'walk'; f.t = 0; if (Math.random() < 0.3) f.dir *= -1; }
         if (f.state === 'idle' && f.t > 2) { f.state = 'walk'; f.t = 0; }
@@ -200,7 +203,7 @@ export function makeAmbient() {
           if (speed > 0) f.x += f.dir * speed * dt;
           const tx = Math.max(0, Math.min(WORLD_W - 1, Math.floor(f.x / TILE)));
           const baseY = world.surface[tx] * TILE;
-          f.y = f.kind === 'hopper' && speed > 0 ? baseY - Math.abs(Math.sin(f.t * 6)) * 10 : baseY;
+          f.y = f.spec?.hop && speed > 0 ? baseY - Math.abs(Math.sin(f.t * 6)) * 10 : baseY;
         } else {
           if (speed > 0) {
             f.x += f.dir * speed * dt;
@@ -307,7 +310,7 @@ export function makeAmbient() {
     scanTargets(wx, wy, radius = TILE * 8) {
       const out = [];
       const r2 = radius * radius;
-      for (const f of fauna) if ((f.x - wx) ** 2 + ((f.y || 0) - wy) ** 2 < r2) out.push({ kind: f.kind, x: f.x, y: f.y || 0 });
+      for (const f of fauna) if ((f.x - wx) ** 2 + ((f.y || 0) - wy) ** 2 < r2) out.push({ kind: f.kind, x: f.x, y: f.y || 0, size: (f.spec || FAUNA_BY_ID[f.kind])?.size });
       for (const ff of fireflies) if ((ff.x - wx) ** 2 + (ff.y - wy) ** 2 < r2) out.push({ kind: 'firefly', x: ff.x, y: ff.y });
       for (const bf of butterflies) if ((bf.x - wx) ** 2 + (bf.y - wy) ** 2 < r2) out.push({ kind: 'butterfly', x: bf.x, y: bf.y });
       for (const bt of bats) if ((bt.x - wx) ** 2 + (bt.y - wy) ** 2 < r2) out.push({ kind: 'bat', x: bt.x, y: bt.y });
@@ -319,63 +322,4 @@ export function makeAmbient() {
   };
 }
 
-// ---------------------------------------------------------------- fauna art
-function drawFauna(ctx, f, time) {
-  const step = Math.abs(Math.sin(f.t * (f.state === 'flee' ? 16 : 8)));
-  ctx.save();
-  ctx.translate(f.x, f.y);
-  ctx.scale(f.dir, 1);
-  switch (f.kind) {
-    case 'grazer': {  // small deer-like herbivore
-      ctx.fillStyle = '#8A7358';
-      ctx.beginPath(); ctx.ellipse(0, -8, 7, 4, 0, 0, Math.PI * 2); ctx.fill();
-      // head dips while idle-grazing
-      const headY = f.state === 'idle' ? -4 + Math.sin(f.t * 2) * 2 : -11;
-      ctx.fillRect(5, headY, 4, 3.5);
-      ctx.beginPath(); ctx.moveTo(7, headY); ctx.lineTo(9, headY - 4); ctx.moveTo(8, headY); ctx.lineTo(10, headY - 3); ctx.strokeStyle = '#8A7358'; ctx.lineWidth = 1; ctx.stroke();
-      ctx.fillRect(-5 + step, -4, 1.6, 4);
-      ctx.fillRect(3 - step, -4, 1.6, 4);
-      break;
-    }
-    case 'hopper': {  // frog-rabbit thing
-      ctx.fillStyle = '#7A8A58';
-      ctx.beginPath(); ctx.ellipse(0, -4, 4.5, 3.5, 0, 0, Math.PI * 2); ctx.fill();
-      ctx.beginPath(); ctx.arc(3, -7, 2.4, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#F2EBD7';
-      ctx.fillRect(3.6, -7.8, 1.2, 1.2);
-      ctx.fillStyle = '#7A8A58';
-      ctx.fillRect(-4, -2, 3, 2);   // haunch
-      break;
-    }
-    case 'lizard': {
-      ctx.fillStyle = '#6E8A72';
-      ctx.fillRect(-6, -2.5, 10, 2.5);
-      ctx.beginPath(); ctx.arc(5, -1.5, 1.8, 0, Math.PI * 2); ctx.fill();
-      ctx.beginPath(); ctx.moveTo(-6, -1.2); ctx.quadraticCurveTo(-10, -1 + Math.sin(f.t * 8) * 1.5, -12, -2); ctx.strokeStyle = '#6E8A72'; ctx.lineWidth = 1.6; ctx.stroke();
-      break;
-    }
-    case 'salamander': {  // pale cave dweller
-      ctx.fillStyle = '#D8C8CE';
-      ctx.fillRect(-6, -2.2, 10, 2.2);
-      ctx.beginPath(); ctx.arc(5, -1.2, 1.7, 0, Math.PI * 2); ctx.fill();
-      ctx.beginPath(); ctx.moveTo(-6, -1); ctx.quadraticCurveTo(-9, -1 + Math.sin(f.t * 5) * 1.2, -11, -1.6); ctx.strokeStyle = '#D8C8CE'; ctx.lineWidth = 1.4; ctx.stroke();
-      break;
-    }
-    case 'spider': {
-      ctx.fillStyle = '#2E2836';
-      ctx.beginPath(); ctx.arc(0, -3, 2.6, 0, Math.PI * 2); ctx.fill();
-      ctx.strokeStyle = '#2E2836'; ctx.lineWidth = 1;
-      for (let l = 0; l < 4; l++) {
-        const a = -0.6 + l * 0.4 + Math.sin(f.t * 12 + l) * 0.15;
-        ctx.beginPath(); ctx.moveTo(0, -3);
-        ctx.lineTo(Math.cos(a) * 5, -3 + Math.sin(a) * 4 + 2);
-        ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(0, -3);
-        ctx.lineTo(-Math.cos(a) * 5, -3 + Math.sin(a) * 4 + 2);
-        ctx.stroke();
-      }
-      break;
-    }
-  }
-  ctx.restore();
-}
+// fauna art lives in render/fauna.js (FAUNA_ART), keyed by the registry's `draw` field.
