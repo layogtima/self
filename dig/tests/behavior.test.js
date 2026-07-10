@@ -53,7 +53,8 @@ console.log('\n[content] schema validation');
   t.ok(ok.env && ok.rarity && ok.foot, 'env/rarity/footprint valid');
   t.ok(ok.len, 'every fossil has positive lengthM');
   t.ok(ok.bones, 'every fossil has a 1..6 bones list of strings');
-  t.ok(STRATA.every(s => s.hp === 1), 'every stratum is 1-hit');
+  t.ok(STRATA.every(s => Number.isInteger(s.hp) && s.hp >= 1), 'every stratum hp is an integer ≥ 1');
+  t.ok(STRATA.every((s, i) => i === 0 || s.hp >= STRATA[i - 1].hp), 'hp never decreases with depth (deep rock is chewier)');
   t.ok(FOSSILS.length >= 30, `registry has ${FOSSILS.length} species`);
   t.ok(STRATA.every(s => FOSSILS.some(f => f.period === s.id)), 'every stratum has a fossil');
   // stations: 4 known minigames, contiguous pipeline
@@ -543,7 +544,7 @@ console.log('\n[features] scan names ONLY what the render draws (shared ground t
         }
         if (!f || (r.id !== f.floor && r.id !== f.ceiling)) mismatches++;                 // scan names, render doesn't draw
         if (!featureIds.has(r.id)) mismatches++;
-        if (r.id === 'crystal' && f?.si === 7) phantomCrystal++;
+        if (r.id === 'crystal' && f?.si === 7 && biomeAtX(tx, w.WORLD_W).id !== 'crystal') phantomCrystal++;   // crystal-barrens crystals grow shallow by design
         if (found[r.id] !== undefined) found[r.id]++;
       }
     }
@@ -566,14 +567,20 @@ console.log('\n[fauna] registry is well-formed and covers the codex');
   t.ok(FAUNA.every(f => Array.isArray(f.size) && f.size[0] > 0), 'sizes present');
   t.ok(FAUNA.filter(f => f.capturable).every(f => Array.isArray(f.diet) && f.diet.length), 'capturables declare a diet');
   t.ok(!!FAUNA_ART.generic, 'generic art fallback exists');
-  // behavior parity with the old hardcoded gates
-  const ids = ctx => eligibleFauna('surface', ctx).map(o => o.item.id).sort().join(',');
+  // behavior parity with the old hardcoded gates (in the tundra, where the
+  // seven-biome newcomers are all weighted out)
+  const ids = ctx => eligibleFauna('surface', { biomeId: 'tundra', ...ctx }).map(o => o.item.id).sort().join(',');
   t.eq(ids({ isDay: true, weather: 'clear', depth: 0 }), 'grazer,lizard', 'clear day: grazer + lizard');
   t.eq(ids({ isDay: true, weather: 'rain', depth: 0 }), 'grazer,hopper', 'rainy day: grazer + hopper');
   t.eq(ids({ isDay: false, weather: 'rain', depth: 0 }), 'hopper', 'rainy night: hopper only');
   t.eq(ids({ isDay: false, weather: 'clear', depth: 0 }), '', 'clear night: nobody out');
-  const cave = eligibleFauna('cave', { isDay: true, weather: 'clear', depth: 50 }).map(o => o.item.id).sort().join(',');
-  t.eq(cave, 'salamander,spider', 'deep cave: salamander + spider');
+  const cave = eligibleFauna('cave', { isDay: true, weather: 'clear', depth: 50, biomeId: 'tundra' }).map(o => o.item.id).sort().join(',');
+  t.eq(cave, 'salamander,spider', 'shallow-deep cave: salamander + spider');
+  // biome gating works: the wetland fields waders, the ash flats only crabs move
+  const wet = eligibleFauna('surface', { isDay: true, weather: 'clear', depth: 0, biomeId: 'wetland' }).map(o => o.item.id);
+  t.ok(wet.includes('wader'), 'wetland fields the stilt wader');
+  const ash = eligibleFauna('surface', { isDay: true, weather: 'clear', depth: 0, biomeId: 'ashflats' }).map(o => o.item.id);
+  t.ok(ash.includes('cindercrab') && !ash.includes('wader'), 'ash flats: cinder crabs, no waders');
   t.ok(FAUNA_BY_ID.hopper.rarity === 2, 'hopper keeps its double rain weight');
 }
 
@@ -746,6 +753,151 @@ console.log('\n[entities+build] pod exists; roof placement pays, shelters, refun
   const e = ents.add('solar', col + 3, surf);
   const ents2 = makeEntities(ents.export(), { podTx: 0, podTy: 0 });
   t.ok(ents2.list.some(x => x.uid === e.uid && x.type === 'solar'), 'built machines persist');
+}
+
+// ===================================================================== v4 M2: garbage economy
+console.log('\n[garbage] the anthropocene is full of junk; digging it fills the hold');
+{
+  const w = makeWorld(12);
+  t.ok(w.garbage.length >= 40, `garbage deposits seeded (${w.garbage.length})`);
+  t.ok(w.garbage.every(g => {
+    const d = g.ty - w.surface[g.tx];
+    return d >= 0 && d <= 12;
+  }), 'all garbage lies in the anthropocene band (depth 0-12)');
+  // dig one out
+  const g = w.garbage[0];
+  let res = w.dig(g.tx, g.ty);
+  while (res && !res.broke) res = w.dig(g.tx, g.ty);
+  t.eq(res?.garbage?.type, g.type, 'digging a deposit returns its garbage');
+  t.ok(!w.garbageAt(g.tx, g.ty), 'deposit is gone after scavenging');
+  // dug-tile restore marks it scavenged
+  const w2 = makeWorld(12);
+  w2.applyDeltas(w.exportDeltas());
+  t.ok(!w2.garbageAt(g.tx, g.ty), 'scavenged state survives save deltas');
+}
+
+console.log('\n[reclaimer] powered wash→shred→extract cycle fills the tray');
+{
+  const { RECLAIM_STAGES } = await import('../src/game/entities.js');
+  const ents = makeEntities(null, { podTx: 10, podTy: 20 });
+  const e = ents.add('processor', 30, 20);
+  e.queue.push('bottle-cluster', 'scrap-metal');
+  // unpowered night, no wind: frozen
+  for (let i = 0; i < 60 * 3; i++) ents.update(1 / 60, { sun01: 0, wind01: 0 });
+  t.eq(e.queue.length, 2, 'no power (night, still air) = no progress');
+  t.ok(e.powered === false, 'machine reports unpowered');
+  // storm wind powers it
+  const total = RECLAIM_STAGES.reduce((a, b) => a + b, 0);
+  for (let i = 0; i < Math.ceil((total * 2 + 1) * 60); i++) ents.update(1 / 60, { sun01: 0, wind01: 0.8 });
+  t.eq(e.queue.length, 0, 'storm wind ran both items through the cycle');
+  t.ok((e.outBuffer.plastic || 0) >= 2 && (e.outBuffer.metal || 0) >= 2, `tray holds yields (${JSON.stringify(e.outBuffer)})`);
+  // an adjacent wind vane powers it under a light breeze
+  const e2 = ents.add('processor', 40, 20);
+  e2.queue.push('tyre-chunk');
+  ents.add('wind-vane', 43, 20);
+  for (let i = 0; i < Math.ceil((total + 1) * 60); i++) ents.update(1 / 60, { sun01: 0, wind01: 0.2 });
+  t.eq(e2.queue.length, 0, 'adjacent wind vane powers the machine in a breeze');
+}
+
+console.log('\n[quests] M2 chain: scavenge → processing → power-up');
+{
+  const { makeQuests } = await import('../src/game/quests.js');
+  const q = makeQuests(null);
+  let procs = 0, gens = 0;
+  const ctx = {
+    player: { beam: null, tool: 'laser' }, pulley: { active: false }, codex: new Set(),
+    env: { precip01: () => 0 }, power: { frac: () => 0.95 },
+    builtCount: type => type === 'processor' ? procs : (type === 'solar' || type === 'wind-vane') ? gens : 0,
+    exposedNow: false, stats: { garbageDug: 0, matsExtracted: 0 }, procQueued: 0,
+  };
+  q.emit('garbage-first');
+  q.update(1 / 60, ctx);
+  t.ok(q.isActive('scavenge'), 'first junk activates the survey');
+  ctx.stats.garbageDug = 3; q.update(1 / 60, ctx);
+  t.ok(q.isDone('scavenge'), 'three deposits complete the survey');
+  q.update(1 / 60, ctx);
+  t.ok(q.isActive('processing'), 'reclamation chains from the survey');
+  procs = 1; q.update(1 / 60, ctx);
+  ctx.procQueued = 3; q.update(1 / 60, ctx);
+  ctx.stats.matsExtracted = 6; q.update(1 / 60, ctx);
+  t.ok(q.isDone('processing'), 'build + feed + extract completes reclamation');
+  q.update(1 / 60, ctx);
+  t.ok(q.isActive('power-up'), 'the grid chains from reclamation');
+  gens = 1; q.update(1 / 60, ctx); q.update(1 / 60, ctx);
+  t.ok(q.isDone('power-up'), 'generator + full battery completes the grid');
+}
+
+// ===================================================================== v4 M3: dig power tiers
+console.log('\n[laser] hp curve + mk tiers: deep rock is chewy until you upgrade');
+{
+  const w = makeWorld(21);
+  // find a jurassic (hp 3) rock tile
+  const col = w.spawnCol + 60;
+  let ty = w.surface[col] + 150;   // jurassic band: depth 140-200
+  while (w.tileAt(col, ty) !== cfg.T_ROCK && ty < w.surface[col] + 199) ty++;
+  t.eq(w.stratumAt(col, ty).id, 'jurassic', 'test tile sits in the jurassic');
+  t.eq(w.hpAt(col, ty), 3, 'jurassic rock takes 3 mk1 hits');
+  t.eq(w.dig(col, ty, 1).broke, false, 'first mk1 hit chips');
+  t.eq(w.damageAt(col, ty), 1, 'damage recorded');
+  t.eq(w.dig(col, ty, 2).broke, true, 'mk2 strike finishes it (1+2 ≥ 3)');
+  // mk3 one-shots hp-4 rock
+  const col2 = w.spawnCol + 80;
+  let ty2 = w.surface[col2] + 260;   // carboniferous: hp 4
+  while (w.tileAt(col2, ty2) !== cfg.T_ROCK && ty2 < w.surface[col2] + 309) ty2++;
+  t.eq(w.dig(col2, ty2, 4).broke, true, 'mk3 (power 4) one-shots carboniferous rock');
+}
+
+// ===================================================================== v4 M3: hazards
+console.log('\n[gas] clouds are bounded, seep upward, and vent at the sky');
+{
+  const { makeHazards } = await import('../src/game/hazards.js');
+  const w = makeWorld(44);
+  const hz = makeHazards(w);
+  // carve a chimney from depth 70 to the surface at an off-camp column
+  const col = w.spawnCol + 60;
+  for (let d = 0; d <= 70; d++) {
+    const ty = w.surface[col] + d;
+    if (w.diggable(col, ty)) w.dig(col, ty, 999);
+  }
+  t.ok(hz.releaseGas(col, w.surface[col] + 69), 'cloud released into the chimney');
+  t.ok(hz._cellCount() > 0 && hz._cellCount() <= 40, `cells bounded (${hz._cellCount()})`);
+  const p = { tx: () => 0, cy: () => 0 };   // player far away
+  for (let i = 0; i < 60 * 40 && hz._cellCount() > 0; i++) hz.update(1 / 60, p);
+  t.eq(hz._cellCount(), 0, 'cloud fully vented/expired up the chimney');
+}
+
+console.log('\n[cave-in] wide unsupported spans can drop; a pillar splits them');
+{
+  const { makeHazards } = await import('../src/game/hazards.js');
+  // deterministic: force the collapse roll
+  const oldRandom = Math.random;
+  Math.random = () => 0;   // always below the collapse chance
+  try {
+    const w = makeWorld(45);
+    const hz = makeHazards(w);
+    const col = w.spawnCol + 70;
+    const cy = w.surface[col] + 30;   // depth 30 (> 12)
+    // carve a 10-wide, 2-tall room so the ceiling is a 10-span
+    for (let x = col; x < col + 10; x++) for (let dy = 0; dy < 2; dy++) {
+      if (w.diggable(x, cy + dy)) w.dig(x, cy + dy, 999);
+    }
+    const res = hz.onDig(col + 5, cy);
+    t.ok(res.collapsed.length >= 2, `10-span ceiling collapsed (${res.collapsed.length} tiles of rubble)`);
+    t.ok(res.payout >= res.collapsed.length, 'cave-in pays out regolith');
+    t.ok(res.collapsed.every(c => w.tileAt(c.tx, c.ty) === cfg.T_PLACED), 'debris piles as placed soil');
+
+    // same room shape, but with a support pillar mid-span: no collapse
+    const w2 = makeWorld(46);
+    const hz2 = makeHazards(w2);
+    const col2 = w2.spawnCol + 70;
+    const cy2 = w2.surface[col2] + 30;
+    for (let x = col2; x < col2 + 10; x++) for (let dy = 0; dy < 2; dy++) {
+      if (w2.diggable(x, cy2 + dy)) w2.dig(x, cy2 + dy, 999);
+    }
+    w2.place(col2 + 5, cy2, cfg.T_PLACED);       // the pillar (fills to the ceiling row)
+    const res2 = hz2.onDig(col2 + 2, cy2);
+    t.eq(res2.collapsed.length, 0, 'a mid-span pillar splits the ceiling - no collapse');
+  } finally { Math.random = oldRandom; }
 }
 
 // ===================================================================== v3.6.1: parachute

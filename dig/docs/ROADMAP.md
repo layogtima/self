@@ -24,18 +24,18 @@ into materials, build machines, dig deep for fossils, resurrect species, release
 - [x] Save v2 (old saves reset, settings carry over) + WORLD_W 364
 
 ## M2 - Garbage economy
-- [ ] Garbage seeding in the anthropocene band
-- [ ] Reclaimer: powered (sun/wind), watchable wash->shred->extract pipeline, peek panel
-- [ ] Solar panel + wind vane buildables (storm wind = peak machine power)
-- [ ] Storage crate, home beacon; soaked drops items (recoverable, never deleted)
-- [ ] Quest chain: scavenge -> processing -> power-up
+- [x] Garbage seeding in the anthropocene band
+- [x] Reclaimer: powered (sun/wind), watchable wash->shred->extract pipeline, peek panel
+- [x] Solar panel + wind vane buildables (storm wind = peak machine power)
+- [x] Storage crate, home beacon; soaked drops items (recoverable, never deleted)
+- [x] Quest chain: scavenge -> processing -> power-up
 
 ## M3 - Deep world
-- [ ] 7 biomes: tundra, wetland, badlands, savanna, ashflats, crystal, coast
-- [ ] Stratum hp curve + laser mk1-3 (crafted from crystal/mushroom/rubble)
-- [ ] Gas pockets + cave-ins with support pillars (build your way around danger)
-- [ ] Buildable lab stations (pod lab shrinks)
-- [ ] RetroDiffusion flora batch + spritesheet player groundwork
+- [x] 7 biomes: tundra, wetland, badlands, savanna, ashflats, crystal, coast
+- [x] Stratum hp curve + laser mk1-3 (U at the pod; crystal/mushroom/regolith)
+- [x] Gas pockets + cave-ins with support pillars (Q flicks a soil block)
+- [x] Buildable lab stations (pod lab defers to built benches)
+- [x] RetroDiffusion flora batch (mangrove/acacia/deadsnag/shardspire/reeds/shard) + spritesheet player groundwork
 
 ## M4 - Life
 - [ ] Capture / study / raise fauna (lure, habitat, trust, genome bonus)

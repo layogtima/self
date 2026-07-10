@@ -22,8 +22,8 @@ not opened as `file://`.)
 
 `A`/`D` (or arrows) move · `Space` jump · **walk into a wall to laser it** ·
 `S` dig down · `K` winch home · **`Ctrl` swaps tool (laser ↔ scanner)** ·
-mouse = aim · `E` interact / harvest · **`B` build** · `H` mark home ·
-`Tab` field journal (Fossils / Codex) · `Esc` pause.
+mouse = aim · `E` interact / harvest · **`B` build** · `Q` flick a soil block ·
+`H` mark home · `U` upgrade the laser (at the pod) · `Tab` field journal · `Esc` pause.
 
 You **awaken** beside the pod you came down in, on a bare planet. **Rain rusts
 you** - sparks, sluggish treads - so your first job is cover: dig dirt for
@@ -33,14 +33,24 @@ it** - tools brown out at low charge but you can always crawl home. **Quests**
 guide themselves from what you discover; the HUD (power, depth, satchel,
 materials, status, home arrow) boots up around you as you wake.
 
+The topsoil is full of the old world: dig **garbage** (grey glints), feed it to
+a **Reclaimer** you build, and watch it wash → shred → extract into pure
+materials - it runs on sun or wind, so storms power your machines while you
+shelter. **Seven biomes** stretch across the world (tundra, wetland, badlands,
+savanna, ash flats, crystal barrens, coast), each with its own flora, grass and
+creatures. Deep rock is chewy: upgrade the laser at the pod (`U`) with cave
+harvests. Down there, **gas pockets** vent up shafts you dig, and wide ceilings
+**cave in** unless you drop a support pillar (`Q`).
+
 Found **bones look like bones** (a spine looks like a spine); clean, compare
 against same-bone cousins, stabilize, and mount each into the growing skeleton -
 a species is only revealed when its last bone is placed. `E` at the pod runs the
-**fold-out field lab**. **Scan mode** (Ctrl) highlights exactly what it will
-catalogue, and known **glow mushrooms + crystals harvest** with `E`. Dig into a
-cave and **water flows** into your shaft; go deep and **lava glows** (and flings
-you back to the pod). Creatures come and go with the time and sky (butterflies
-by day, fireflies at night, frogs in the rain).
+**fold-out field lab** until you build real benches where you want them.
+**Scan mode** (Ctrl) highlights exactly what it will catalogue, and known
+**glow mushrooms + crystals harvest** with `E`. Dig into a cave and **water
+flows** into your shaft; go deep and **lava glows** (and flings you back to the
+pod). Creatures come and go with the time, sky and biome (butterflies by day,
+fireflies at night, frogs in the rain, one lonely crab on the ash).
 
 ## Test
 

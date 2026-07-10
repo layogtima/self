@@ -207,6 +207,13 @@ function buildJobs() {
     ['bush', 'small round leafy green bush, side view game asset', 64, 64],
     ['boulder', 'rounded grey mossy boulder rock, side view game asset', 64, 64],
     ['flowers', 'cluster of pink and white wildflowers with green stems, side view game asset', 64, 64],
+    // the seven-biome wave (v4 M3)
+    ['tree-mangrove', 'single mangrove tree standing on tall stilted arching roots above wet ground, dense green canopy, side view game asset', 64, 80],
+    ['tree-acacia', 'single acacia tree with wide flat umbrella canopy on a slender trunk, savanna, side view game asset', 64, 88],
+    ['tree-deadsnag', 'single dead bleached tree snag, bare twisted branches, no leaves, ashen, side view game asset', 64, 88],
+    ['tree-shardspire', 'tall pale violet crystal spire growing from the ground like a tree, faceted translucent mineral, faint glow, side view game asset', 64, 96],
+    ['reeds', 'small clump of tall marsh reeds with brown cattail heads, side view game asset', 64, 64],
+    ['shard', 'small cluster of pale violet crystal shards jutting from the ground, side view game asset', 64, 64],
   ]) {
     jobs.push({
       cat: 'scenery', id,

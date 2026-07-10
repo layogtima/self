@@ -18,6 +18,7 @@ export function makePlayer(spawnX, spawnY) {
     fastFallT: 0, chute: false,  // parachute auto-deploys on a long fast fall
     beam: null,               // {x,y} world target while the laser fires this frame
     tool: 'laser',            // 'laser' | 'scan' (Ctrl toggles)
+    laserMk: 1,               // 1 | 2 | 3 - dig power 1/2/4 (upgrade at the pod)
     inWater: false, inLava: false,
 
     cx() { return this.x + this.w / 2; },

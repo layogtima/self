@@ -54,9 +54,7 @@ export function resolveScan(wx, wy, world, creatures) {
       if (!s) continue;
       const groundY = world.surface[Math.max(0, Math.min(world.WORLD_W - 1, c))] * TILE;
       const biome = biomeAtX(c, world.WORLD_W);
-      const id = s === 'tree'
-        ? (biome.id === 'tundra' ? 'tree-conifer' : biome.id === 'coast' ? 'tree-palm' : 'tree-badlands')
-        : null;   // dressings (bush/boulder/flowers) aren't codex entries yet
+      const id = s === 'tree' ? biome.scenery.tree : null;   // dressings aren't codex entries yet
       if (!id) continue;
       const rect = { x: c * TILE + TILE / 2 - 28, y: groundY - 72, w: 56, h: 74 };
       if (wx >= rect.x - 8 && wx <= rect.x + rect.w + 8) return { id, kind: 'flora', ...rect };

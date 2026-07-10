@@ -126,3 +126,27 @@ The road ahead (docs/ROADMAP.md): M2 garbage economy with a watchable, sun/wind
 powered Reclaimer; M3 seven biomes, stratum hardness + laser tiers, gas pockets
 and cave-ins answered by support pillars; M4 capture/raise fauna and true
 resurrection - released species joining the living world.
+
+## v4 M2+M3 - garbage economy + a deep, dangerous world
+
+- **Garbage economy** (M2): ~90 junk deposits in the anthropocene band (grey
+  glints). Digging one fills the raw-junk hold; the **Reclaimer** (buildable)
+  runs a watchable wash → shred → extract cycle per item into a visible output
+  tray, with a peek panel (queue, stage bar, powered lamp). It runs on **sun or
+  wind** - `env.wind01()` peaks in the storms that drive you indoors - or an
+  adjacent Solar Panel / Wind Vane. Soaked now drops a satchel bone as a
+  recoverable ground pickup.
+- **Seven biomes** (M3): tundra · wetland · badlands · savanna · ash flats ·
+  crystal barrens · coast. Biome data now owns grass colours, scenery types and
+  densities (shared with the scanner via features.js - still no phantom flora),
+  snow, and fauna weights. Six new creatures (stilt wader, dust mole, cinder
+  crab, prismfly, gleamback, ashworm) ride the fauna registry; crystals grow
+  shallow under the barrens.
+- **Depth resists** (M3): stratum hp curve 1→8; the laser upgrades at the pod
+  (U) - mk2 (6 crystal + 4 glow caps) and mk3 (14 crystal + 6 regolith) cut
+  2x/4x. Damaged rock shows cracks.
+- **Hazards** (M3, `game/hazards.js`): trapped **gas** (olive speckle) releases
+  buoyant clouds that stun after 2s exposure and vent up shafts you dig;
+  **cave-ins** drop wide unsupported ceilings as rubble (paying out regolith) -
+  a 1-tile pillar (Q = flick a soil block) splits the span. Creaks telegraph.
+  No weapons, only engineering.

@@ -354,6 +354,36 @@ export function drawSprite(ctx, dir, id, x, baseY, w, h) {
 
 export function hasSprite(dir, id) { return !!spriteImages[`${dir}/${id}`]; }
 
+// ---------------------------------------------------------------- spritesheet player
+// Groundwork for API-animated fauna (M4): RetroDiffusion's animation styles can
+// return a PNG spritesheet (`return_spritesheet: true`) - a horizontal strip of
+// equal frames. makeSheet wraps one for time-driven playback; callers draw with
+// sheet.draw(ctx, time, x, baseY, w, h). Missing image → returns null so the
+// procedural FAUNA_ART fallback keeps working.
+
+/**
+ * @param {HTMLImageElement} img  horizontal strip, frames of frameW px
+ * @param {number} frameW  source frame width (px)
+ * @param {number} [fps]
+ */
+export function makeSheet(img, frameW, fps = 8) {
+  if (!img) return null;
+  const player = {
+    get ready() { return !!(img.complete && img.naturalWidth); },
+    frames() { return this.ready ? Math.max(1, Math.floor(img.naturalWidth / frameW)) : 1; },
+    /** draw centred-bottom; time drives the frame */
+    draw(ctx, time, x, baseY, w, h) {
+      if (!this.ready) return false;
+      const f = Math.floor(time * fps) % this.frames();
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(img, f * frameW, 0, frameW, img.naturalHeight,
+        Math.round(x - w / 2), Math.round(baseY - h), w, h);
+      return true;
+    },
+  };
+  return player;
+}
+
 // ---------------------------------------------------------------- buried bone nub
 // A single bone in the ground reads as a small knuckle of cream pixels; some are
 // tiny skulls (per the ref). Deliberately faint until the tile is exposed.

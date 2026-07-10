@@ -17,6 +17,10 @@ export function makeWorld(seed) {
   const surface = gen.surface;
   const pockets = gen.pockets;
   const pocketMap = gen.pocketMap;      // tile index -> pocket index
+  const garbage = gen.garbage;          // anthropocene junk deposits
+  const garbageMap = gen.garbageMap;    // tile index -> garbage index
+  const scavenged = new Set();          // garbage indices already recovered
+  const gasMap = gen.gasMap;            // tile indices holding trapped gas
   const damage = new Map();             // tile index -> hits taken
   const excavated = new Set();          // pocket indices already dug out
   const dug = new Set();                // player-cleared tile indices (for save)
@@ -27,7 +31,7 @@ export function makeWorld(seed) {
   const inBounds = (tx, ty) => tx >= 0 && tx < WORLD_W && ty >= 0 && ty < WORLD_H;
 
   const world = {
-    seed, tiles, surface, pockets, WORLD_W, WORLD_H, spawnCol,
+    seed, tiles, surface, pockets, garbage, WORLD_W, WORLD_H, spawnCol,
 
     tileAt(tx, ty) {
       if (!inBounds(tx, ty)) return ty < 0 ? T_AIR : T_BEDROCK;
@@ -69,7 +73,21 @@ export function makeWorld(seed) {
       return p !== undefined && !excavated.has(p) ? pockets[p] : null;
     },
 
+    /** buried garbage deposit at this tile (if not yet scavenged), else null */
+    garbageAt(tx, ty) {
+      if (!inBounds(tx, ty)) return null;
+      const g = garbageMap.get(ty * WORLD_W + tx);
+      return g !== undefined && !scavenged.has(g) ? garbage[g] : null;
+    },
+
     damageAt(tx, ty) { return damage.get(ty * WORLD_W + tx) || 0; },
+
+    /** gas-bearing rock (telegraphed with an olive speckle by the renderer) */
+    gasAt(tx, ty) {
+      if (!inBounds(tx, ty)) return false;
+      const idx = ty * WORLD_W + tx;
+      return gasMap.has(idx) && tiles[idx] === T_ROCK;
+    },
 
     // -- harvestable features (mushrooms/crystals; ground truth in game/features.js)
     isHarvested(tx, ty) { return harvested.has(ty * WORLD_W + tx); },
@@ -101,11 +119,12 @@ export function makeWorld(seed) {
      *   {broke:true, bone?:pocket} - tile cleared; if it held a bone pocket,
      *      `bone` is the pocket you just recovered.
      */
-    dig(tx, ty) {
+    /** @param {number} [power] hits applied per strike (laser mk tier: 1/2/4) */
+    dig(tx, ty, power = 1) {
       if (!this.diggable(tx, ty)) return null;
       const idx = ty * WORLD_W + tx;
       const hp = this.hpAt(tx, ty);
-      const hits = (damage.get(idx) || 0) + 1;
+      const hits = (damage.get(idx) || 0) + power;
       if (hits < hp) { damage.set(idx, hits); return { broke: false }; }
 
       damage.delete(idx);
@@ -114,12 +133,20 @@ export function makeWorld(seed) {
       if (wasPlaced) placed.delete(idx); else dug.add(idx);
       fluids.wake(tx, ty);   // a fluid neighbour may now pour into this cell
 
+      const out = { broke: true };
+      if (gasMap.has(idx)) { gasMap.delete(idx); out.gas = true; }   // released once, ever
       const pIndex = pocketMap.get(idx);
       if (pIndex !== undefined && !excavated.has(pIndex)) {
         excavated.add(pIndex);
-        return { broke: true, bone: pockets[pIndex] };
+        out.bone = pockets[pIndex];
+        return out;
       }
-      return { broke: true };
+      const gIndex = garbageMap.get(idx);
+      if (gIndex !== undefined && !scavenged.has(gIndex)) {
+        scavenged.add(gIndex);
+        out.garbage = garbage[gIndex];
+      }
+      return out;
     },
 
     /** advance fluid flow within the visible window */
@@ -150,6 +177,8 @@ export function makeWorld(seed) {
           tiles[idx] = T_AIR; dug.add(idx);
           const p = pocketMap.get(idx);
           if (p !== undefined) excavated.add(p);   // a dug pocket tile = already recovered
+          const g = garbageMap.get(idx);
+          if (g !== undefined) scavenged.add(g);   // same for garbage
         }
       }
       for (const [idx, t] of save.placedTiles || []) {

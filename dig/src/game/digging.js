@@ -73,10 +73,12 @@ export function updateDigging(p, world, cam, particles, fx, dt) {
 
   p.digCd = DIG_COOLDOWN;
   const stratum = world.stratumAt(aim.tx, aim.ty);
-  const res = world.dig(aim.tx, aim.ty);
+  const res = world.dig(aim.tx, aim.ty, [1, 2, 4][(p.laserMk || 1) - 1]);
 
   if (res.broke) {
     out.brokeAt = { x: wx, y: wy };
+    out.brokeTile = { tx: aim.tx, ty: aim.ty };
+    if (res.gas) out.gas = { tx: aim.tx, ty: aim.ty };
     particles.burst(wx, wy, PALETTE.amber, 7, 120);         // molten sparks
     particles.burst(wx, wy, stratum.colors.speckle, 6);
     fx.shake(1.4);
@@ -85,6 +87,9 @@ export function updateDigging(p, world, cam, particles, fx, dt) {
       out.bone = res.bone;
       fx.shake(2.5);
       particles.burst(wx, wy, PALETTE.bone, 16, 200);
+    } else if (res.garbage) {
+      out.garbage = res.garbage;
+      particles.burst(wx, wy, '#8FA3B8', 10, 150);          // junk clatter
     } else {
       for (const [ox, oy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
         const near = world.pocketAt(aim.tx + ox, aim.ty + oy);

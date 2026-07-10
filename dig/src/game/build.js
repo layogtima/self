@@ -10,12 +10,14 @@ import { sfx } from '../core/audio.js';
 
 const BUILD_REACH = 4 * TILE;
 
-export function makeBuild({ world, player, inventory, entities, isQuestDone, onBuilt, toast }) {
+export function makeBuild({ world, player, inventory, entities, isQuestUnlocked, onBuilt, toast }) {
   let active = false;
   let sel = 0;                       // index into unlocked()
 
+  // a buildable unlocks the moment its gating quest ACTIVATES (the quest asks
+  // you to build it - it can't require its own completion)
   function unlocked() {
-    return BUILDABLES.filter(b => !b.unlock || isQuestDone(b.unlock));
+    return BUILDABLES.filter(b => !b.unlock || isQuestUnlocked(b.unlock));
   }
   function current() {
     const u = unlocked();

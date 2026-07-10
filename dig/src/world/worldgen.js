@@ -9,6 +9,7 @@ import { makeRng, clamp01 } from '../core/rng.js';
 import { STRATA, strataIndexAtDepth } from '../content/strata.js';
 import { fossilsForPeriod } from '../content/fossils.js';
 import { envWeightAt } from '../content/biomes.js';
+import { GARBAGE } from '../content/materials.js';
 import { RARITY_WEIGHTS } from '../config.js';
 
 /**
@@ -57,7 +58,77 @@ export function generateWorld(seed) {
   seedFluids(rng, tiles, surface);
 
   const { pockets, pocketMap } = placeBones(rng, tiles, surface);
-  return { tiles, surface, pockets, pocketMap };
+  const { garbage, garbageMap } = seedGarbage(rng, tiles, surface, pocketMap);
+  const gasMap = seedGas(rng, tiles, surface, pocketMap);
+  return { tiles, surface, pockets, pocketMap, garbage, garbageMap, gasMap };
+}
+
+/**
+ * Trapped gas: ~26 small blobs sealed in deep rock (depth 60+). Lasering one
+ * open releases a buoyant cloud (game/hazards.js) - vent it up a shaft or
+ * route around. Faint olive speckle telegraphs gas-bearing rock.
+ * @returns {Set<number>} tile indices holding gas
+ */
+function seedGas(rng, tiles, surface, pocketMap) {
+  const gasMap = new Set();
+  for (let n = 0; n < 26; n++) {
+    const cx = 4 + Math.floor(rng.next() * (WORLD_W - 8));
+    if (inCamp(cx)) continue;
+    const cy = surface[cx] + 60 + Math.floor(rng.next() * (WORLD_H - surface[cx] - 80));
+    if (cy >= WORLD_H - 5) continue;
+    // 2x2-ish blob
+    for (const [ox, oy] of [[0, 0], [1, 0], [0, 1], [1, 1], [rng.next() > 0.5 ? 2 : -1, 0]]) {
+      const x = cx + ox, y = cy + oy;
+      if (x < 1 || x >= WORLD_W - 1 || y >= WORLD_H - 4) continue;
+      const idx = y * WORLD_W + x;
+      if (tiles[idx] === T_ROCK && !pocketMap.has(idx)) gasMap.add(idx);
+    }
+  }
+  return gasMap;
+}
+
+/**
+ * Anthropocene garbage: ~90 deposits of raw junk in the top band, clustered
+ * 2-4 tiles of the same type. Dig one out and it goes in your hold as raw
+ * garbage for the Reclaimer. (Parallel to - not replacing - the museum-worthy
+ * modern "fossils" like the smartphone.)
+ * @returns {{garbage:Array<{id:string,type:string,tx:number,ty:number}>, garbageMap:Map<number,number>}}
+ */
+function seedGarbage(rng, tiles, surface, pocketMap) {
+  const garbage = [];
+  const garbageMap = new Map();    // tile index -> garbage index
+  const totalFreq = GARBAGE.reduce((s, g) => s + g.freq, 0);
+
+  for (let n = 0; n < 90; n++) {
+    // weighted type pick
+    let r = rng.next() * totalFreq, type = GARBAGE[0];
+    for (const g of GARBAGE) { r -= g.freq; if (r <= 0) { type = g; break; } }
+
+    // deposit centre: any column outside the pod span, depth within the band
+    let cx = 0;
+    for (let tries = 0; tries < 20; tries++) { cx = 3 + Math.floor(rng.next() * (WORLD_W - 6)); if (!inCamp(cx)) break; }
+    if (inCamp(cx)) continue;
+    const cd = type.band[0] + 1 + Math.floor(rng.next() * Math.max(1, type.band[1] - type.band[0] - 1));
+
+    // cluster 2-4 same-type tiles around the centre
+    const cluster = 2 + Math.floor(rng.next() * 3);
+    for (let c = 0; c < cluster; c++) {
+      for (let tries = 0; tries < 12; tries++) {
+        const tx = Math.max(1, Math.min(WORLD_W - 2, cx + Math.round((rng.next() - 0.5) * 5)));
+        if (inCamp(tx)) continue;
+        const ty = surface[tx] + Math.max(1, cd + Math.round((rng.next() - 0.5) * 3));
+        if (ty >= WORLD_H - 4) continue;
+        const idx = ty * WORLD_W + tx;
+        if (tiles[idx] !== T_ROCK || garbageMap.has(idx) || pocketMap.has(idx)) continue;   // bones win ties
+        const depth = ty - surface[tx];
+        if (depth < type.band[0] || depth > type.band[1]) continue;
+        garbageMap.set(idx, garbage.length);
+        garbage.push({ id: `${type.id}@${tx},${ty}`, type: type.id, tx, ty });
+        break;
+      }
+    }
+  }
+  return { garbage, garbageMap };
 }
 
 /** carve a tile (guarded: never bedrock, never above the near-surface) */

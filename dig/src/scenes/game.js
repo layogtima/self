@@ -36,12 +36,13 @@ import { makeSatchel, makeFragment, pickBoneDecoys } from '../game/fossils.js';
 import { makeCollection } from '../game/collection.js';
 import { makePower } from '../game/power.js';
 import { makeStatus } from '../game/status.js';
-import { makeEntities } from '../game/entities.js';
+import { makeEntities, RECLAIM_STAGES } from '../game/entities.js';
 import { makeBuild } from '../game/build.js';
 import { makeQuests } from '../game/quests.js';
-import { MATERIALS_BY_ID } from '../content/materials.js';
+import { makeHazards } from '../game/hazards.js';
+import { MATERIALS_BY_ID, GARBAGE_BY_ID } from '../content/materials.js';
 import { BUILDABLES_BY_ID } from '../content/buildables.js';
-import { STATIONS } from '../content/stations.js';
+import { STATIONS, STATIONS_BY_ID } from '../content/stations.js';
 import { STRATA, realDepthAt, formatDepth, formatAge } from '../content/strata.js';
 import { biomeAtX } from '../content/biomes.js';
 import { FOSSILS, FOSSILS_BY_ID } from '../content/fossils.js';
@@ -70,6 +71,7 @@ export function makeGameScene(services, opts) {
   ambient.setEnvironment(env);
   env.onThunder = () => { thunder(); cam.addShake(2, settings.shake); };
 
+  if (save?.laserMk) player.laserMk = save.laserMk;
   if (save?.session) {
     const s = save.session;
     if (typeof s.px === 'number') { player.x = s.px; player.y = s.py; player.vx = s.vx || 0; player.vy = s.vy || 0; player.facing = s.facing || 1; }
@@ -86,7 +88,7 @@ export function makeGameScene(services, opts) {
   let scanning = null;                // {id, t} while holding a scan
   let scanTarget = null;              // resolveScan() result this frame (reticle + harvest)
   const codex = new Set(save?.codex || []);
-  const inventory = makeInventory(save?.materials);
+  const inventory = makeInventory(save?.materials, save?.garbage);
   let birdT = 8 + Math.random() * 10;
   let minigame = null;
   let lastStratumIndex = world.stratumIndexAt(player.tx(), Math.floor(player.cy() / TILE));
@@ -103,6 +105,10 @@ export function makeGameScene(services, opts) {
   let bootT = opts?.boot ? 0 : Infinity;   // HUD power-on timeline (new game only)
   let sparkT = 0;                          // wet-chassis spark cadence
   let regolithCounter = 0;                 // every 3rd broken tile pays out spoil
+  let stunT = 0;                           // gas stun: input lock, green wobble
+  let garbageDug = save?.quests?.stats?.garbageDug ?? 0;       // scavenge-quest counter
+  let matsExtracted = save?.quests?.stats?.matsExtracted ?? 0; // processing-quest counter
+  const droppedItems = [];                 // {frag, x, y, vy} soaked-dropped bones (walk over to recover)
 
   const fx = { shake: m => cam.addShake(m, settings.shake) };
   function toast(str, color = PALETTE.amber) { toasts.push({ text: str, life: 2.4, color }); }
@@ -113,10 +119,19 @@ export function makeGameScene(services, opts) {
   const podTy = world.surface[spawnCol];   // ground row the pod stands on
   const entities = makeEntities(save, { podTx: spawnCol - 1, podTy });
   const quests = makeQuests(save?.quests);
+  const hazards = makeHazards(world);
   const build = makeBuild({
     world, player, inventory, entities,
-    isQuestDone: id => quests.isDone(id),
-    onBuilt: id => { quests.emit(`built:${id}`); persist(); },
+    isQuestUnlocked: id => quests.isDone(id) || quests.isActive(id),
+    onBuilt: id => {
+      quests.emit(`built:${id}`);
+      if (id === 'beacon') {   // planting a beacon re-homes you
+        const b2 = entities.list[entities.list.length - 1];
+        home = { x: entities.centerX(b2), y: b2.ty * TILE };
+        toast('home beacon online');
+      }
+      persist();
+    },
     toast,
   });
   let home = save?.home ?? { x: spawnCol * TILE + TILE / 2, y: podTy * TILE };
@@ -142,11 +157,11 @@ export function makeGameScene(services, opts) {
       v: 2, seed,
       dug: deltas.dug, placedTiles: deltas.placedTiles, harvested: deltas.harvested,
       collected: collection.export(), genome: collection.exportGenome(), codex: [...codex],
-      materials: inventory.export(),
+      materials: inventory.export(), garbage: inventory.exportGarbage(),
       ...entities.export(),                 // entities + nextUid
-      quests: quests.export(),
+      quests: { ...quests.export(), stats: { garbageDug, matsExtracted } },
       power: power.export(), status: status.export(),
-      home: { ...home },
+      home: { ...home }, laserMk: player.laserMk,
       settings: { ...settings }, session,
     };
     writeSave(data);
@@ -197,7 +212,17 @@ export function makeGameScene(services, opts) {
     status.update(dt, {
       exposed01: exposedNow ? env.precip01() : 0,
       dry01: (!exposedNow && onSurface && env.precip01() < 0.1 && env.night01() < 0.5) ? 1 : 0,
-      onSoaked: () => { quests.emit('soaked'); toast('SOAKED - systems sluggish', PALETTE.danger); },
+      onSoaked: () => {
+        quests.emit('soaked');
+        toast('SOAKED - systems sluggish', PALETTE.danger);
+        // a random satchel bone slips out - recoverable where it fell, never deleted
+        if (satchel.items.length) {
+          const frag = satchel.items[(Math.random() * satchel.items.length) | 0];
+          satchel.remove(frag.uid);
+          droppedItems.push({ frag, x: player.cx() + (Math.random() - 0.5) * 20, y: player.y, vy: -60 });
+          toast(`${frag.bone} slipped from the satchel!`, PALETTE.danger);
+        }
+      },
     });
     player.speedMul = status.speedMul() * (power.state() === 'reserve' ? 0.7 : 1);
     if (status.tier() !== 'dry') {
@@ -216,8 +241,18 @@ export function makeGameScene(services, opts) {
     quests.update(dt, {
       player, pulley, codex, env, power, inventory,
       builtCount, exposedNow,
+      stats: { garbageDug, matsExtracted },
+      procQueued: entities.list.reduce((s, e) => s + (e.type === 'processor' ? (e.queue?.length || 0) : 0), 0),
     }, toast);
-    entities.update(dt);
+    entities.update(dt, { sun01, wind01: env.wind01() });
+    stunT = Math.max(0, stunT - dt);
+    const hz = hazards.update(dt, player);
+    if (hz.stun) {
+      stunT = 1.5;
+      player.vx = hz.shoveX;
+      toast('GAS - stumbling clear', PALETTE.danger);
+      fx.shake(2.5);
+    }
 
     // ambience audio levels follow the planet
     const above = depth < 4 ? 1 : Math.max(0, 1 - (depth - 4) / 10);
@@ -264,8 +299,11 @@ export function makeGameScene(services, opts) {
     if (pressed('Tab')) { collectionOpen = !collectionOpen; sfx.ui(); }
     if (collectionOpen) { updateCollectionInput(); return; }
 
-    // B toggles build mode; H marks home
+    // B toggles build mode; H marks home; U at the pod upgrades the laser;
+    // Q flicks a soil block under the cursor (support pillars, quick stairs)
     if (pressed('KeyB')) build.toggle();
+    if (pressed('KeyQ') && !build.active && player.tool === 'laser' && stunT <= 0) tryQuickSoil();
+    if (pressed('KeyU') && entities.nearest(player, e => e.type === 'pod', 2.6 * TILE)) tryUpgradeLaser();
     if (pressed('KeyH')) {
       home = { x: player.cx(), y: player.y + player.h };
       particles.burst(home.x, home.y, PALETTE.amber, 10, 120);
@@ -295,7 +333,9 @@ export function makeGameScene(services, opts) {
       if (player.inLava) respawnAtBase();
       else if (player.inWater && Math.random() < 0.3) particles.burst(player.cx(), player.y, 'rgba(160,200,220,0.6)', 1, 40);
 
-      if (build.active) {
+      if (stunT > 0) {
+        player.beam = null;   // reeling - no tools
+      } else if (build.active) {
         player.beam = null;
         build.update(dt, cam);
       } else if (player.tool === 'scan') {
@@ -303,23 +343,61 @@ export function makeGameScene(services, opts) {
       } else if (power.state() === 'reserve') {
         player.beam = null;   // tools offline - crawl to the sun
       } else {
-        const digEv = updateDigging(player, world, cam, particles, fx, dt);
+        const digEv = stunT > 0 ? {} : updateDigging(player, world, cam, particles, fx, dt);
         if (digEv.brokeAt) {
           ambient.onDig(digEv.brokeAt.x, digEv.brokeAt.y);
           power.spend(POWER_DIG);
           // every 3rd broken tile yields regolith - shelter never waits on machines
           if ((regolithCounter = (regolithCounter + 1) % 3) === 0) inventory.add('regolith');
           if (power.state() === 'low') player.digCd = Math.max(player.digCd, DIG_COOLDOWN * 2);
+          if (digEv.gas) {
+            hazards.releaseGas(digEv.gas.tx, digEv.gas.ty);
+            toast('GAS POCKET - it seeps upward', '#8CB45A');
+            (sfx.hiss || sfx.uiBack)();
+          }
+          const cave = hazards.onDig(digEv.brokeTile.tx, digEv.brokeTile.ty);
+          if (cave.creak) { rumble(); fx.shake(1.2); toast('the ceiling creaks…', PALETTE.creamDim); }
+          if (cave.collapsed.length) {
+            fx.shake(4);
+            (sfx.crumble || sfx.laserBreak)();
+            toast('CAVE-IN!', PALETTE.danger);
+            inventory.add('regolith', cave.payout);
+            for (const cpos of cave.collapsed) particles.burst((cpos.tx + 0.5) * TILE, cpos.ty * TILE, '#AA9678', 8, 160);
+            // rubble landing on the probe stuns it
+            if (cave.collapsed.some(cpos => Math.abs(cpos.tx - player.tx()) <= 1)) stunT = 1.2;
+          }
         }
         if (digEv.bone) onBone(digEv.bone);
+        if (digEv.garbage) onGarbage(digEv.garbage);
         if (digEv.nearBone && !hintedPockets.has(digEv.nearBone.id)) { hintedPockets.add(digEv.nearBone.id); sfx.hint(); }
       }
 
       if (pressed('KeyE') && !build.active) {
         if (player.tool !== 'scan' || !tryHarvest()) {
-          const podNear = entities.nearest(player, e => e.type === 'pod', 2.6 * TILE);
-          if (podNear) openPodLab();
+          const proc = entities.nearest(player, e => e.type === 'processor', 2.4 * TILE);
+          const stEnt = entities.nearest(player, e => !!BUILDABLES_BY_ID[e.type]?.station, 2.2 * TILE);
+          if (proc) interactProcessor(proc);
+          else if (stEnt) openStation({ spec: STATIONS_BY_ID[BUILDABLES_BY_ID[stEnt.type].station] });
+          else {
+            const podNear = entities.nearest(player, e => e.type === 'pod', 2.6 * TILE);
+            if (podNear) openPodLab();
+          }
         }
+      }
+    }
+
+    // soaked-dropped bones lie where they fell; roll over one to recover it
+    for (let i = droppedItems.length - 1; i >= 0; i--) {
+      const d = droppedItems[i];
+      d.vy = (d.vy || 0) + 900 * dt;
+      d.y += d.vy * dt;
+      const gy = world.surface[Math.max(0, Math.min(WORLD_W - 1, Math.floor(d.x / TILE)))] * TILE;
+      if (d.y > gy - 2) { d.y = gy - 2; d.vy = 0; }
+      if (Math.abs(d.x - player.cx()) < 14 && Math.abs(d.y - player.cy()) < 18) {
+        satchel.add(d.frag);
+        toast(`${d.frag.bone} recovered`);
+        (sfx.pickup || sfx.ui)();
+        droppedItems.splice(i, 1);
       }
     }
 
@@ -347,7 +425,7 @@ export function makeGameScene(services, opts) {
   // precipitation particles (world-space, near the camera, above ground only)
   function updatePrecip(dt) {
     const p = env.precip01();
-    const snow = biomeAtX(player.tx(), WORLD_W).id === 'tundra';
+    const snow = biomeAtX(player.tx(), WORLD_W).snow;
     if (p > 0.1 && rainDrops.length < p * 140) {
       for (let i = 0; i < 4; i++) {
         rainDrops.push({
@@ -450,11 +528,84 @@ export function makeGameScene(services, opts) {
     findT = 2;
   }
 
+  function onGarbage(deposit) {
+    inventory.addGarbage(deposit.type);
+    garbageDug += 1;
+    quests.emit('garbage-first');
+    toast(`+1 ${GARBAGE_BY_ID[deposit.type]?.name.toLowerCase() ?? 'junk'} (raw)`, '#8FA3B8');
+    (sfx.pickup || sfx.ui)();
+  }
+
+  /** Q: flick one soil block into an adjacent air tile (1 regolith) - support
+   *  pillars under wide ceilings, a quick step, a dam plug */
+  function tryQuickSoil() {
+    const wx = mouse.x + cam.x, wy = mouse.y + cam.y;
+    let tx = Math.floor(wx / TILE), ty = Math.floor(wy / TILE);
+    if (Math.hypot(wx - player.cx(), wy - player.cy()) > DIG_REACH) {   // fall back to the tile underfoot-ahead
+      tx = player.tx() + player.facing; ty = Math.floor((player.y + player.h - 1) / TILE);
+    }
+    if (world.tileAt(tx, ty) !== T_AIR) return;
+    const px2 = tx * TILE, py2 = ty * TILE;
+    if (px2 < player.x + player.w && px2 + TILE > player.x && py2 < player.y + player.h && py2 + TILE > player.y) return;
+    if (!inventory.spend('regolith', 1)) { toast('need regolith (dig dirt)', PALETTE.creamDim); sfx.uiBack(); return; }
+    world.place(tx, ty, T_PLACED);
+    particles.burst(px2 + TILE / 2, py2 + TILE / 2, '#AA9678', 6, 90);
+    (sfx.place || sfx.ui)();
+  }
+
+  // laser tiers: deep rock is chewy until you upgrade (crafted from cave harvests)
+  const LASER_COSTS = { 2: { crystal: 6, mushroom: 4 }, 3: { crystal: 14, regolith: 6 } };
+  function laserUpgradeCost() { return LASER_COSTS[player.laserMk + 1] || null; }
+
+  function tryUpgradeLaser() {
+    const cost = laserUpgradeCost();
+    if (!cost) { toast('laser at maximum tier'); sfx.uiBack(); return; }
+    if (!inventory.pay(cost)) {
+      toast(`mk${player.laserMk + 1} needs ${Object.entries(cost).map(([id, n]) => `${n} ${id}`).join(' + ')}`, PALETTE.creamDim);
+      sfx.uiBack();
+      return;
+    }
+    player.laserMk += 1;
+    toast(`LASER MK${player.laserMk} - cuts ${[1, 2, 4][player.laserMk - 1]}x`, PALETTE.amber);
+    particles.burst(player.cx(), player.y + BEAM_Y, '#FFF3D0', 16, 200);
+    sfx.complete();
+    persist();
+  }
+
+  /** E at the Reclaimer: load raw garbage, or collect the output tray */
+  function interactProcessor(e) {
+    const raw = inventory.garbageCount();
+    if (raw > 0) {
+      e.queue.push(...inventory.takeAllGarbage());
+      toast(`${raw} junk loaded into the Reclaimer`);
+      sfx.station();
+      persist();
+      return;
+    }
+    const out = Object.entries(e.outBuffer || {}).filter(([, n]) => n > 0);
+    if (out.length) {
+      let total = 0;
+      for (const [id, n] of out) { inventory.add(id, n); matsExtracted += n; total += n; e.outBuffer[id] = 0; }
+      toast(`+${total} materials collected`, '#7FC46E');
+      particles.burst(entities.centerX(e), e.ty * TILE - 14, '#9FBE9A', 10, 130);
+      (sfx.pickup || sfx.complete)();
+      persist();
+      return;
+    }
+    toast(e.queue.length ? 'reclaiming…' : 'feed me garbage', PALETTE.creamDim);
+    sfx.uiBack();
+  }
+
   /** E at the pod: fold-out field lab - runs whichever station the first
    *  eligible satchel fragment needs next (dedicated stations arrive in M3) */
   function openPodLab() {
     for (const spec of STATIONS) {
-      if (satchel.firstAtState(spec.input)) { openStation({ spec }); return; }
+      if (!satchel.firstAtState(spec.input)) continue;
+      // a dedicated built station owns this step now - the pod points you there
+      const built = entities.list.some(e2 => BUILDABLES_BY_ID[e2.type]?.station === spec.id);
+      if (built) { toast(`use your ${spec.name}`, PALETTE.creamDim); sfx.uiBack(); return; }
+      openStation({ spec });
+      return;
     }
     sfx.uiBack();
     toast('nothing to process - go dig', PALETTE.creamDim);
@@ -555,9 +706,11 @@ export function makeGameScene(services, opts) {
     drawCaveProps(b, rtime);
     drawPockets(b);
     drawPod(rtime);
+    drawEntities(rtime);
     pulley.draw(ctx, player, rtime);
     ambient.draw(ctx, rtime);
     particles.draw(ctx);
+    hazards.draw(ctx, rtime);
     drawPrecip();
     drawBeam(rtime);
     if (build.active) drawBuildGhost(rtime);
@@ -582,6 +735,15 @@ export function makeGameScene(services, opts) {
     // lightning flash over everything
     if (env.lightning > 0) {
       ctx.fillStyle = `rgba(240,244,255,${(env.lightning * 0.55).toFixed(2)})`;
+      ctx.fillRect(0, 0, VIEW_W, VIEW_H);
+    }
+    // gas exposure: green closing vignette; stun: brief wobble tint
+    if (hazards.exposure01 > 0 || stunT > 0) {
+      const a = Math.max(hazards.exposure01 * 0.35, stunT > 0 ? 0.25 : 0);
+      const g2 = ctx.createRadialGradient(VIEW_W / 2, VIEW_H / 2, VIEW_H * 0.3, VIEW_W / 2, VIEW_H / 2, VIEW_H * 0.75);
+      g2.addColorStop(0, 'rgba(110,160,70,0)');
+      g2.addColorStop(1, `rgba(110,160,70,${a.toFixed(2)})`);
+      ctx.fillStyle = g2;
       ctx.fillRect(0, 0, VIEW_W, VIEW_H);
     }
 
@@ -646,8 +808,8 @@ export function makeGameScene(services, opts) {
       const biome = biomeAtX(tx, WORLD_W);
       const s = sceneryAt(tx);   // shared ground truth with the scanner
       if (s === 'tree') drawTree(tx * TILE + TILE / 2, baseY, biome, tx, rtime);
-      else if (s === 'dressing') drawDressing(tx * TILE + TILE / 2, baseY, tx);
-      if (hashCol(tx, 88) > 0.3) tuft(tx * TILE + TILE / 2, baseY, tx, biome, rtime);
+      else if (s === 'dressing') drawDressing(tx * TILE + TILE / 2, baseY, tx, biome);
+      if (hashCol(tx, 88) < biome.scenery.tuftP) tuft(tx * TILE + TILE / 2, baseY, tx, biome, rtime);
     }
   }
 
@@ -695,11 +857,16 @@ export function makeGameScene(services, opts) {
           else if (to - depth < 2 && si < STRATA.length - 1 && hashCol(tx * 5 + ty, 17) > 0.55) si += 1;
           tileset.drawTile(ctx, si, tx, ty, dx, dy, Math.max(0, Math.min(1, within)));
           if (hashCol(tx * 3 + 1, ty * 5 + 2) < 0.07) tileset.drawAccent(ctx, STRATA[si].id, tx, ty, dx, dy);
+          if (world.gasAt(tx, ty)) {   // trapped gas: olive speckle + occasional wisp
+            ctx.fillStyle = 'rgba(140,170,80,0.5)';
+            ctx.fillRect(dx + 3, dy + 4, 2, 2); ctx.fillRect(dx + 9, dy + 9, 2, 2); ctx.fillRect(dx + 6, dy + 12, 2, 2);
+            if (Math.random() < 0.002) particles.burst(dx + 8, dy + 2, 'rgba(140,180,90,0.5)', 1, 20);
+          }
         }
 
         if (ty === world.surface[tx] && !inPad) {
           const biome = biomeAtX(tx, WORLD_W);
-          ctx.fillStyle = biome.id === 'tundra' ? '#9DB8AE' : biome.id === 'coast' ? PALETTE.grassDeep : PALETTE.grass;
+          ctx.fillStyle = biome.grass.cap;
           ctx.fillRect(dx, dy, TILE, 4);
           ctx.fillStyle = PALETTE.grassDeep;
           ctx.fillRect(dx, dy + 3, TILE, 1);
@@ -710,6 +877,21 @@ export function makeGameScene(services, opts) {
         if (world.tileAt(tx, ty + 1) === T_AIR) ctx.fillRect(dx, dy + TILE - 2, TILE, 2);
         if (world.tileAt(tx - 1, ty) === T_AIR) ctx.fillRect(dx, dy, 2, TILE);
         if (world.tileAt(tx + 1, ty) === T_AIR) ctx.fillRect(dx + TILE - 2, dy, 2, TILE);
+
+        // multi-hit rock shows its damage as spreading cracks
+        const dmg = world.damageAt(tx, ty);
+        if (dmg > 0) {
+          ctx.strokeStyle = 'rgba(20,14,10,0.55)';
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.moveTo(dx + 4, dy + 3); ctx.lineTo(dx + 8, dy + 8); ctx.lineTo(dx + 6, dy + 13);
+          ctx.moveTo(dx + 8, dy + 8); ctx.lineTo(dx + 12, dy + 10);
+          if (dmg >= 3) {
+            ctx.moveTo(dx + 11, dy + 2); ctx.lineTo(dx + 9, dy + 6);
+            ctx.moveTo(dx + 3, dy + 10); ctx.lineTo(dx + 6, dy + 8);
+          }
+          ctx.stroke();
+        }
       }
     }
   }
@@ -784,6 +966,21 @@ export function makeGameScene(services, opts) {
         world.tileAt(p.tx, p.ty - 1) === T_AIR || world.tileAt(p.tx, p.ty + 1) === T_AIR;
       drawBoneNub(ctx, p, p.tx * TILE, p.ty * TILE, exposed);
     }
+    // garbage deposits: dull junk glints in the anthropocene band
+    for (const g of world.garbage || []) {
+      if (g.tx < b.x0 || g.tx > b.x1 || g.ty < b.y0 || g.ty > b.y1) continue;
+      if (!world.garbageAt(g.tx, g.ty)) continue;
+      const dx = g.tx * TILE, dy = g.ty * TILE;
+      ctx.fillStyle = 'rgba(143,163,184,0.75)';
+      ctx.fillRect(dx + 4, dy + 8, 6, 3);
+      ctx.fillRect(dx + 8, dy + 5, 3, 3);
+      ctx.fillStyle = 'rgba(60,66,78,0.6)';
+      ctx.fillRect(dx + 5, dy + 9, 3, 1.4);
+    }
+    // soaked-dropped bones waiting to be recovered
+    for (const d of droppedItems) {
+      drawBoneNub(ctx, { bone: d.frag.bone }, d.x - TILE / 2, d.y - TILE + 4, true);
+    }
   }
 
   // ---- THE POD: the one structure you didn't build ---------------------------
@@ -850,7 +1047,176 @@ export function makeGameScene(services, opts) {
       const tw = measure(ctx, label, 9, true);
       chip(ctx, lx + 22 - tw / 2 - 7, gy - 66, tw + 14, 14, { r: 7, fill: PALETTE.frameDark, border: null });
       text(ctx, label, lx + 22, gy - 63, { size: 9, bold: true, align: 'center', color: PALETTE.parchment });
+      // laser upgrade offer when the parts are in the hold
+      const cost = laserUpgradeCost();
+      if (cost && inventory.canAfford(cost)) {
+        const ul = `U - LASER MK${player.laserMk + 1}`;
+        const uw = measure(ctx, ul, 9, true);
+        chip(ctx, lx + 22 - uw / 2 - 7, gy - 96, uw + 14, 14, { r: 7, fill: PALETTE.frameDark, border: null });
+        text(ctx, ul, lx + 22, gy - 93, { size: 9, bold: true, align: 'center', color: PALETTE.amber });
+      }
     }
+  }
+
+  // ---- built machines: solar, wind vane, Reclaimer, storage, beacon ----------
+  function drawEntities(rtime) {
+    const nearProc = entities.nearest(player, e => e.type === 'processor', 2.4 * TILE);
+    for (const e of entities.list) {
+      if (e.type === 'pod') continue;   // drawPod owns it
+      const [w] = entities.sizeOf(e);
+      const cx = entities.centerX(e), gy = e.ty * TILE;
+
+      if (e.type === 'solar') {
+        ctx.strokeStyle = '#4E4956'; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(cx, gy); ctx.lineTo(cx, gy - 12); ctx.stroke();
+        ctx.save();
+        ctx.translate(cx, gy - 12);
+        ctx.rotate(-0.14);
+        ctx.fillStyle = '#27405C';
+        ctx.fillRect(-15, -10, 30, 10);
+        ctx.strokeStyle = '#4E6E96'; ctx.lineWidth = 1;
+        for (let i = 1; i < 4; i++) { ctx.beginPath(); ctx.moveTo(-15 + i * 7.5, -10); ctx.lineTo(-15 + i * 7.5, 0); ctx.stroke(); }
+        ctx.strokeRect(-15, -10, 30, 10);
+        // glint by day
+        if (env.night01() < 0.4) { ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.fillRect(-13, -9, 8, 2); }
+        ctx.restore();
+
+      } else if (e.type === 'wind-vane') {
+        const spin = rtime * (1 + env.wind01() * 14);
+        ctx.strokeStyle = '#4E4956'; ctx.lineWidth = 2.4;
+        ctx.beginPath(); ctx.moveTo(cx, gy); ctx.lineTo(cx, gy - 26); ctx.stroke();
+        ctx.fillStyle = '#5C5766';
+        ctx.beginPath(); ctx.arc(cx, gy - 26, 2.4, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = '#8E96A4'; ctx.lineWidth = 1.8;
+        for (let bIdx = 0; bIdx < 3; bIdx++) {
+          const a = spin + bIdx * (Math.PI * 2 / 3);
+          ctx.beginPath(); ctx.moveTo(cx, gy - 26);
+          ctx.lineTo(cx + Math.cos(a) * 10, gy - 26 + Math.sin(a) * 10);
+          ctx.stroke();
+        }
+
+      } else if (e.type === 'processor') {
+        const x0 = e.tx * TILE, bw = w * TILE;   // 2x2 body
+        const dim = e.powered === false ? 0.55 : 1;
+        ctx.save();
+        ctx.globalAlpha = dim;
+        // body + feet
+        ctx.fillStyle = '#3A363F';
+        ctx.fillRect(x0, gy - 26, bw, 26);
+        ctx.fillStyle = '#2B2733';
+        ctx.fillRect(x0 + 1, gy - 3, 4, 3); ctx.fillRect(x0 + bw - 5, gy - 3, 4, 3);
+        // hopper (top-left) with visible junk lumps
+        ctx.fillStyle = '#4E4956';
+        ctx.beginPath();
+        ctx.moveTo(x0 - 2, gy - 36); ctx.lineTo(x0 + 12, gy - 36); ctx.lineTo(x0 + 9, gy - 26); ctx.lineTo(x0 + 1, gy - 26);
+        ctx.closePath(); ctx.fill();
+        for (let q = 0; q < Math.min(3, e.queue?.length || 0); q++) {
+          ctx.fillStyle = ['#8FA3B8', '#7FB2DE', '#9FBE9A'][q];
+          ctx.fillRect(x0 + 2 + q * 3, gy - 35 + (q % 2), 2.6, 2.6);
+        }
+        // three stage bays with live tells
+        const working = e.queue?.length > 0 && e.powered !== false;
+        for (let s = 0; s < 3; s++) {
+          const bx = x0 + 3 + s * 9;
+          const active = working && e.stage === s;
+          ctx.fillStyle = active ? '#20303A' : '#26222E';
+          ctx.fillRect(bx, gy - 22, 7, 12);
+          if (active) {
+            if (s === 0) {          // wash: falling droplets
+              ctx.fillStyle = 'rgba(140,200,230,0.9)';
+              for (let d = 0; d < 3; d++) ctx.fillRect(bx + 1.5 + d * 2, gy - 20 + ((rtime * 26 + d * 4) % 9), 1.2, 2.4);
+            } else if (s === 1) {   // shred: rattling teeth
+              const j = Math.sin(rtime * 40) * 1.2;
+              ctx.fillStyle = '#9A9088';
+              ctx.fillRect(bx + 1, gy - 18 + j, 5, 1.6);
+              ctx.fillRect(bx + 1, gy - 14 - j, 5, 1.6);
+            } else {                // extract: spectrometer glow sweep
+              const g = 0.5 + Math.sin(rtime * 8) * 0.5;
+              ctx.fillStyle = `rgba(150,220,170,${(0.3 + g * 0.6).toFixed(2)})`;
+              ctx.fillRect(bx + 1, gy - 21, 5, 10);
+            }
+          }
+        }
+        // output tray (right) piling material cubes
+        ctx.fillStyle = '#4E4956';
+        ctx.fillRect(x0 + bw - 2, gy - 12, 8, 12);
+        const outs = Object.entries(e.outBuffer || {}).filter(([, n]) => n > 0);
+        outs.slice(0, 4).forEach(([id], i2) => {
+          ctx.fillStyle = MATERIALS_BY_ID[id]?.color || '#9AA4B2';
+          ctx.fillRect(x0 + bw - 1 + (i2 % 2) * 3.4, gy - 10 - Math.floor(i2 / 2) * 4, 3, 3);
+        });
+        // powered lamp
+        ctx.fillStyle = e.powered === false ? '#5A2A24' : (Math.sin(rtime * 3) > 0 ? '#7FC46E' : '#4A7A44');
+        ctx.beginPath(); ctx.arc(x0 + bw - 4, gy - 23, 1.8, 0, Math.PI * 2); ctx.fill();
+        ctx.restore();
+        if (working) frameLights.push({ x: cx, y: gy - 16, r: 34, warmth: 0.5 });
+        // peek panel when standing here
+        if (nearProc === e && !build.active) drawPeekPanel(e, cx, gy - 44, rtime);
+
+      } else if (BUILDABLES_BY_ID[e.type]?.station) {
+        const spec = STATIONS_BY_ID[BUILDABLES_BY_ID[e.type].station];
+        const isNear = !build.active && entities.nearest(player, x2 => x2 === e, 2.2 * TILE) === e;
+        const hasInput = !!satchel.firstAtState(spec.input);
+        if (isNear) {
+          const glow = ctx.createRadialGradient(cx, gy - 12, 4, cx, gy - 12, 30);
+          glow.addColorStop(0, `rgba(224,162,74,${hasInput ? 0.24 : 0.12})`);
+          glow.addColorStop(1, 'rgba(224,162,74,0)');
+          ctx.fillStyle = glow;
+          ctx.beginPath(); ctx.arc(cx, gy - 12, 30, 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.fillStyle = '#4E4956';
+        ctx.fillRect(cx - 14, gy - 4, 28, 4);
+        if (hasSprite('stations', spec.sprite)) drawSprite(ctx, 'stations', spec.sprite, cx, gy - 3, 38, 38);
+        else chip(ctx, cx - 15, gy - 25, 30, 21, { fill: spec.tint, r: 5 });
+        if (isNear) {
+          drawKeycap(ctx, cx, gy - 56, hasInput);
+          const tw2 = measure(ctx, spec.name, 9, true);
+          chip(ctx, cx - tw2 / 2 - 7, gy - 44, tw2 + 14, 14, { r: 7, fill: PALETTE.frameDark, border: null });
+          text(ctx, spec.name, cx, gy - 41, { size: 9, bold: true, align: 'center', color: PALETTE.parchment });
+          if (!hasInput) text(ctx, `needs ${spec.input}`, cx, gy - 30, { size: 8, align: 'center', color: PALETTE.creamDim });
+        }
+
+      } else if (e.type === 'storage') {
+        ctx.fillStyle = '#6E4F33';
+        ctx.fillRect(cx - 12, gy - 14, 24, 14);
+        ctx.strokeStyle = '#4A3421'; ctx.lineWidth = 1;
+        ctx.strokeRect(cx - 12, gy - 14, 24, 14);
+        ctx.beginPath(); ctx.moveTo(cx - 12, gy - 14); ctx.lineTo(cx + 12, gy); ctx.stroke();
+
+      } else if (e.type === 'beacon') {
+        const blink = Math.sin(rtime * 4) > 0.4;
+        ctx.strokeStyle = '#4E4956'; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(cx, gy); ctx.lineTo(cx, gy - 24); ctx.stroke();
+        ctx.fillStyle = blink ? PALETTE.amber : '#7A5220';
+        ctx.beginPath(); ctx.arc(cx, gy - 26, 3, 0, Math.PI * 2); ctx.fill();
+        if (blink) frameLights.push({ x: cx, y: gy - 26, r: 40, warmth: 0.7 });
+      }
+    }
+  }
+
+  // the Reclaimer's little status window - peeking a 3D printer mid-print
+  function drawPeekPanel(e, cx, topY, rtime) {
+    const pw = 118, ph = 46;
+    const px = cx - pw / 2, py = topY - ph;
+    chip(ctx, px, py, pw, ph, { r: 8, fill: PALETTE.frameDark });
+    // powered lamp + label
+    ctx.fillStyle = e.powered === false ? PALETTE.danger : '#7FC46E';
+    ctx.beginPath(); ctx.arc(px + 10, py + 9, 2.6, 0, Math.PI * 2); ctx.fill();
+    text(ctx, e.powered === false ? 'NO POWER - needs sun or wind' : 'RECLAIMING', px + 17, py + 5, { size: 8, bold: true, color: e.powered === false ? PALETTE.danger : PALETTE.parchment });
+    // queue icons
+    const qn = e.queue?.length || 0;
+    for (let q = 0; q < Math.min(8, qn); q++) { ctx.fillStyle = '#8FA3B8'; ctx.fillRect(px + 8 + q * 6, py + 17, 4, 4); }
+    if (qn > 8) text(ctx, `+${qn - 8}`, px + 58, py + 15, { size: 8, color: PALETTE.creamDim });
+    if (qn === 0) text(ctx, 'hopper empty', px + 8, py + 15, { size: 8, color: PALETTE.creamDim });
+    // stage progress bar
+    const labels = ['WASH', 'SHRED', 'EXTRACT'];
+    const frac = qn ? Math.min(1, e.t / RECLAIM_STAGES[e.stage]) : 0;
+    ctx.fillStyle = 'rgba(0,0,0,0.3)'; ctx.fillRect(px + 8, py + 27, 70, 6);
+    ctx.fillStyle = '#7FC4A8'; ctx.fillRect(px + 8, py + 27, 70 * ((qn ? e.stage : 0) + frac) / 3, 6);
+    text(ctx, qn ? labels[e.stage] : '-', px + 82, py + 25, { size: 8, bold: true, color: PALETTE.amberSoft });
+    // buffer summary
+    const outs = Object.entries(e.outBuffer || {}).filter(([, n]) => n > 0);
+    text(ctx, outs.length ? outs.map(([id, n]) => `${n} ${id}`).join(' · ') : 'tray empty', px + 8, py + 36, { size: 7, color: outs.length ? '#9FBE9A' : PALETTE.creamDim });
   }
 
   // tiny double-helix progress pip (journal genome indicator)
@@ -997,20 +1363,24 @@ export function makeGameScene(services, opts) {
     if (!player.beam) return;
     const lx = player.cx() + player.facing * 7, ly = player.y + BEAM_Y;
     const { x, y } = player.beam;
+    const mkW = 1 + (player.laserMk - 1) * 0.5;           // beefier beam per tier
+    const flicker = power.state() === 'low' && Math.sin(rtime * 30) > 0.3 ? 0.4 : 1;
+    ctx.globalAlpha = flicker;
     ctx.strokeStyle = 'rgba(224,162,74,0.35)';
-    ctx.lineWidth = 5;
+    ctx.lineWidth = 5 * mkW;
     ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(x, y); ctx.stroke();
     ctx.strokeStyle = '#FFF3D0';
-    ctx.lineWidth = 1.6;
+    ctx.lineWidth = 1.6 * mkW;
     ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(x, y); ctx.stroke();
     ctx.fillStyle = 'rgba(255,240,200,0.7)';
-    ctx.beginPath(); ctx.arc(x, y, 3 + Math.sin(rtime * 40) * 1.5, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(x, y, (3 + Math.sin(rtime * 40) * 1.5) * mkW, 0, Math.PI * 2); ctx.fill();
+    ctx.globalAlpha = 1;
   }
 
   // ---- scenery primitives (wind-driven sway) ----
   function cloud(px, py, gloom) { softCloud(ctx, px, py, gloom); }
   function tuft(px, baseY, sx, biome, rtime) {
-    ctx.strokeStyle = biome.id === 'tundra' ? PALETTE.tundraGrass : biome.id === 'coast' ? PALETTE.grassDeep : PALETTE.grass;
+    ctx.strokeStyle = biome.grass.tuft;
     ctx.lineWidth = 1.5;
     const sway = Math.sin(rtime * (1.6 + env.wind01() * 3) + sx * 0.7) * (1.2 + env.wind01() * 5);
     const blades = 2 + Math.floor(hashCol(sx, 9) * 2);
@@ -1024,7 +1394,7 @@ export function makeGameScene(services, opts) {
     ctx.stroke();
   }
   function drawTree(px, baseY, biome, sx, rtime) {
-    const id = biome.id === 'tundra' ? 'tree-conifer' : biome.id === 'coast' ? 'tree-palm' : 'tree-badlands';
+    const id = biome.scenery.tree;
     const sway = Math.sin(rtime * (1.1 + env.wind01() * 2) + sx) * (0.008 + env.wind01() * 0.03);
     ctx.save();
     ctx.translate(px, baseY + 2);
@@ -1034,17 +1404,24 @@ export function makeGameScene(services, opts) {
       ctx.fillStyle = PALETTE.wood;
       const h = 3 + Math.floor(hashCol(px, 3) * 3);
       ctx.fillRect(-2, -h * TILE - 2, 4, h * TILE);
-      ctx.fillStyle = biome.id === 'tundra' ? '#8FB0A2' : PALETTE.grassDeep;
+      ctx.fillStyle = biome.grass.tuft;
       for (const [ox, oy, r] of [[0, -6, 13], [-9, 0, 10], [9, -1, 10], [0, 6, 9]]) { ctx.beginPath(); ctx.arc(ox, -h * TILE - 2 + oy, r, 0, Math.PI * 2); ctx.fill(); }
     }
     ctx.restore();
   }
-  function drawDressing(px, baseY, sx) {
-    const r = hashCol(sx, 71);
-    const id = r > 0.66 ? 'bush' : r > 0.33 ? 'boulder' : 'flowers';
+  function drawDressing(px, baseY, sx, biome) {
+    const pool = biome?.scenery.dressings || ['bush', 'boulder', 'flowers'];
+    const id = pool[Math.floor(hashCol(sx, 71) * pool.length) % pool.length];
     if (hasSprite('scenery', id)) { drawSprite(ctx, 'scenery', id, px, baseY + 2, 24, 20); return; }
     if (id === 'boulder') { ctx.fillStyle = '#9A93A0'; ctx.beginPath(); ctx.ellipse(px, baseY - 5, 9, 6, 0, 0, Math.PI * 2); ctx.fill(); }
-    else { ctx.fillStyle = id === 'flowers' ? '#C98BA8' : PALETTE.grassDeep; ctx.beginPath(); ctx.arc(px, baseY - 5, 6, 0, Math.PI * 2); ctx.fill(); }
+    else if (id === 'reeds') {   // wetland reeds: tall thin strokes with a cattail
+      ctx.strokeStyle = biome.grass.deep; ctx.lineWidth = 1.4;
+      for (let r2 = -1; r2 <= 1; r2++) { ctx.beginPath(); ctx.moveTo(px + r2 * 3, baseY); ctx.lineTo(px + r2 * 4, baseY - 12); ctx.stroke(); }
+      ctx.fillStyle = '#8A6A45'; ctx.fillRect(px - 1, baseY - 13, 2.4, 4);
+    } else if (id === 'shard') { // crystal barrens: a ground shard
+      ctx.fillStyle = 'rgba(200,180,230,0.85)';
+      ctx.beginPath(); ctx.moveTo(px - 4, baseY); ctx.lineTo(px, baseY - 11); ctx.lineTo(px + 4, baseY); ctx.closePath(); ctx.fill();
+    } else { ctx.fillStyle = id === 'flowers' ? '#C98BA8' : (biome?.grass.deep ?? PALETTE.grassDeep); ctx.beginPath(); ctx.arc(px, baseY - 5, 6, 0, Math.PI * 2); ctx.fill(); }
   }
 
   // --------------------------------------------------------------- HUD
@@ -1122,23 +1499,37 @@ export function makeGameScene(services, opts) {
     }
     if (frags.length > 6) text(ctx, `+${frags.length - 6}`, VIEW_W - 24, 19, { size: 11, bold: true, align: 'right', color: PALETTE.cream });
 
-    // materials chip (glow caps, crystals, ...) under the satchel
+    // materials chip (regolith, glow caps, crystals, refined mats) under the satchel
     const mats = inventory.entries();
     if (mats.length) {
-      const MAT_COLORS = { mushroom: '#96DCAA', crystal: '#C8B4E6' };
       const mw = 14 + mats.length * 34;
       chip(ctx, VIEW_W - mw - 12, 46, mw, 24, { r: 8 });
       mats.forEach(([id, n], i) => {
         const mx = VIEW_W - mw - 12 + 10 + i * 34;
-        ctx.fillStyle = MAT_COLORS[id] || PALETTE.amberSoft;
-        if (id === 'crystal') {
+        const spec = MATERIALS_BY_ID[id];
+        ctx.fillStyle = spec?.color || PALETTE.amberSoft;
+        if (spec?.glyph === 'shard') {
           ctx.beginPath(); ctx.moveTo(mx + 4, 64); ctx.lineTo(mx + 7, 52); ctx.lineTo(mx + 10, 64); ctx.closePath(); ctx.fill();
-        } else {
+        } else if (spec?.glyph === 'cap') {
           ctx.fillRect(mx + 6, 58, 2, 6);
           ctx.beginPath(); ctx.arc(mx + 7, 58, 4, Math.PI, 0); ctx.fill();
+        } else if (spec?.glyph === 'clod') {
+          ctx.beginPath(); ctx.ellipse(mx + 7, 60, 5, 3.4, 0.2, 0, Math.PI * 2); ctx.fill();
+        } else {
+          ctx.fillRect(mx + 3, 55, 8, 8);
+          ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.fillRect(mx + 3, 55, 8, 2);
         }
         text(ctx, `${n}`, mx + 14, 53, { size: 11, bold: true, color: PALETTE.cream });
       });
+    }
+    // raw garbage hold (junk waiting for the Reclaimer)
+    const rawN = inventory.garbageCount();
+    if (rawN > 0) {
+      const gy2 = mats.length ? 74 : 46;
+      chip(ctx, VIEW_W - 84 - 12, gy2, 84, 22, { r: 8, fill: PALETTE.frameDark });
+      ctx.fillStyle = '#8FA3B8';
+      ctx.fillRect(VIEW_W - 86, gy2 + 7, 6, 4); ctx.fillRect(VIEW_W - 82, gy2 + 4, 4, 4);
+      text(ctx, `junk ×${rawN}`, VIEW_W - 74, gy2 + 5, { size: 10, bold: true, color: '#8FA3B8' });
     }
 
     chip(ctx, 12, VIEW_H - 40, 86, 28, { r: 8 });

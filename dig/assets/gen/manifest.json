@@ -559,6 +559,66 @@
       "cost": 0.017,
       "created_at": 1783534983,
       "remaining_balance": 4.507
+    },
+    {
+      "id": "tree-mangrove",
+      "cat": "scenery",
+      "file": "assets/gen/scenery/tree-mangrove_v001.png",
+      "version": 1,
+      "prompt": "single mangrove tree standing on tall stilted arching roots above wet ground, dense green canopy, side view game asset",
+      "cost": 0.018,
+      "created_at": 1783717590,
+      "remaining_balance": 14.466
+    },
+    {
+      "id": "tree-acacia",
+      "cat": "scenery",
+      "file": "assets/gen/scenery/tree-acacia_v001.png",
+      "version": 1,
+      "prompt": "single acacia tree with wide flat umbrella canopy on a slender trunk, savanna, side view game asset",
+      "cost": 0.018,
+      "created_at": 1783717603,
+      "remaining_balance": 14.448
+    },
+    {
+      "id": "tree-deadsnag",
+      "cat": "scenery",
+      "file": "assets/gen/scenery/tree-deadsnag_v001.png",
+      "version": 1,
+      "prompt": "single dead bleached tree snag, bare twisted branches, no leaves, ashen, side view game asset",
+      "cost": 0.018,
+      "created_at": 1783717621,
+      "remaining_balance": 14.43
+    },
+    {
+      "id": "tree-shardspire",
+      "cat": "scenery",
+      "file": "assets/gen/scenery/tree-shardspire_v001.png",
+      "version": 1,
+      "prompt": "tall pale violet crystal spire growing from the ground like a tree, faceted translucent mineral, faint glow, side view game asset",
+      "cost": 0.018,
+      "created_at": 1783717633,
+      "remaining_balance": 14.412
+    },
+    {
+      "id": "reeds",
+      "cat": "scenery",
+      "file": "assets/gen/scenery/reeds_v001.png",
+      "version": 1,
+      "prompt": "small clump of tall marsh reeds with brown cattail heads, side view game asset",
+      "cost": 0.017,
+      "created_at": 1783717648,
+      "remaining_balance": 14.395
+    },
+    {
+      "id": "shard",
+      "cat": "scenery",
+      "file": "assets/gen/scenery/shard_v001.png",
+      "version": 1,
+      "prompt": "small cluster of pale violet crystal shards jutting from the ground, side view game asset",
+      "cost": 0.017,
+      "created_at": 1783717665,
+      "remaining_balance": 14.378
     }
   ]
 }

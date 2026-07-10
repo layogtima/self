@@ -41,7 +41,10 @@ fetch('assets/sounds/credits.json').then(r => r.ok ? r.json() : {}).then(m => {
 
 // build sprite auto-loads (drop-in PNGs; falls back to procedural)
 loadFossilSprites(makeImage);
-loadSprites(makeImage, 'scenery', ['tree-badlands', 'tree-conifer', 'tree-palm', 'bush', 'boulder', 'flowers']);
+loadSprites(makeImage, 'scenery', [
+  'tree-badlands', 'tree-conifer', 'tree-palm', 'tree-mangrove', 'tree-acacia', 'tree-deadsnag', 'tree-shardspire',
+  'bush', 'boulder', 'flowers', 'reeds', 'shard',
+]);
 loadSprites(makeImage, 'stations', ['station-clean', 'station-analyze', 'station-prep', 'station-showcase']);
 
 

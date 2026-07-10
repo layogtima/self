@@ -55,6 +55,32 @@ export const FAUNA_ART = {
     }
   },
 
+  wader(ctx, f) {   // wetland stilt-bird
+    const step = gait(f);
+    ctx.strokeStyle = '#B8C4CE'; ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.moveTo(-2 + step, 0); ctx.lineTo(-2, -8); ctx.moveTo(3 - step, 0); ctx.lineTo(2, -8); ctx.stroke();
+    ctx.fillStyle = '#B8C4CE';
+    ctx.beginPath(); ctx.ellipse(0, -11, 5, 3.4, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(4, -15, 2, 0, Math.PI * 2); ctx.fill();
+    // spear beak, dips when idle (fishing)
+    const dip = f.state === 'idle' ? Math.max(0, Math.sin(f.t * 3)) * 4 : 0;
+    ctx.strokeStyle = '#E0A24A'; ctx.lineWidth = 1.3;
+    ctx.beginPath(); ctx.moveTo(5, -15 + dip * 0.4); ctx.lineTo(10, -13 + dip); ctx.stroke();
+  },
+
+  cindercrab(ctx, f) {   // slow armoured ash-sifter
+    const step = gait(f) * 0.6;
+    ctx.fillStyle = '#8A6A62';
+    ctx.beginPath(); ctx.ellipse(0, -4, 5, 3.2, 0, Math.PI, 0); ctx.fill();
+    ctx.fillRect(-5, -4, 10, 2.4);
+    ctx.strokeStyle = '#6E524C'; ctx.lineWidth = 1;
+    for (const lx of [-4, -1.5, 1.5, 4]) {
+      ctx.beginPath(); ctx.moveTo(lx, -2); ctx.lineTo(lx + (lx < 0 ? -1.5 : 1.5), 0.5 + (Math.abs(lx) < 2 ? step : -step)); ctx.stroke();
+    }
+    ctx.fillStyle = '#E8B23A';
+    ctx.fillRect(3.4, -6, 1.4, 1.4);   // one ember eye
+  },
+
   /** palette-tinted body + legs; keeps unknown registry entries alive on screen */
   generic(ctx, f) {
     const step = gait(f);

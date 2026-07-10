@@ -56,6 +56,47 @@ export const FAUNA = [
     depth: [20, 9999], speed: { walk: 22, flee: 50 }, size: [11, 8],
     palette: '#2E2836', draw: 'spider', rarity: 1,
   },
+
+  // -- the seven-biome wave (M3): generic art until bespoke sprites land -------
+  {
+    id: 'wader', zone: 'surface', activity: { day: true },
+    depth: [0, 0], speed: { walk: 30, flee: 95 }, size: [12, 16],
+    palette: '#B8C4CE', draw: 'wader', rarity: 1,
+    biomes: { wetland: 3, coast: 1.2, tundra: 0, badlands: 0, savanna: 0, ashflats: 0, crystal: 0 },
+    capturable: true, diet: ['mushroom'], habitatNeeds: { temp: 'any', space: 2 },
+  },
+  {
+    id: 'dustmole', zone: 'surface', activity: {},
+    depth: [0, 0], speed: { walk: 18, flee: 70 }, size: [12, 8],
+    palette: '#A8906E', draw: 'generic', rarity: 0.8,
+    biomes: { savanna: 3, badlands: 2, tundra: 0, wetland: 0, crystal: 0, coast: 0 },
+    capturable: true, diet: ['mushroom'], habitatNeeds: { temp: 'warm', space: 1 },
+  },
+  {
+    id: 'cindercrab', zone: 'surface', activity: {},
+    depth: [0, 0], speed: { walk: 10, flee: 28 }, size: [10, 6],
+    palette: '#8A6A62', draw: 'cindercrab', rarity: 0.9,
+    biomes: { ashflats: 4, tundra: 0, wetland: 0, badlands: 0, savanna: 0, crystal: 0.4, coast: 0.4 },
+    capturable: true, diet: ['crystal'], habitatNeeds: { temp: 'warm', space: 1 },
+  },
+  {
+    id: 'prismfly', zone: 'surface', activity: { day: true, weather: ['clear', 'overcast'] },
+    depth: [0, 0], speed: { walk: 16, flee: 60 }, size: [8, 7],
+    palette: '#C8B4E6', draw: 'generic', rarity: 0.8,
+    biomes: { crystal: 4, tundra: 0, wetland: 0.5, badlands: 0, savanna: 0, ashflats: 0, coast: 0 },
+  },
+  {
+    id: 'gleamback', zone: 'cave', activity: {},
+    depth: [60, 200], speed: { walk: 20, flee: 60 }, size: [11, 7],
+    palette: '#4E6E5A', draw: 'generic', rarity: 0.9,
+    capturable: true, diet: ['mushroom'], habitatNeeds: { temp: 'any', space: 1 },
+  },
+  {
+    id: 'ashworm', zone: 'cave', activity: {},
+    depth: [200, 9999], speed: { walk: 14, flee: 40 }, size: [16, 5],
+    palette: '#7A5A52', draw: 'generic', rarity: 0.8,
+    biomes: { ashflats: 3 },
+  },
 ];
 
 export const FAUNA_BY_ID = Object.fromEntries(FAUNA.map(f => [f.id, f]));

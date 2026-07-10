@@ -4,8 +4,9 @@
 // Placement is a seed-independent positional hash (core/rng.js hashCol), so it
 // is stable across saves and identical for render + scan by construction.
 
-import { T_AIR } from '../config.js';
+import { T_AIR, WORLD_W } from '../config.js';
 import { STRATA } from '../content/strata.js';
+import { biomeAtX } from '../content/biomes.js';
 import { hashCol } from '../core/rng.js';
 
 /**
@@ -27,9 +28,12 @@ export function caveFeaturesAt(world, tx, ty) {
     else if (h > 0.9) ceiling = 'stalactite';
   }
   if (world.solidAt(tx, ty + 1)) {
+    // under the Crystal Barrens, crystals grow shallow (the biome's signature)
+    const crystalBiome = biomeAtX(tx, WORLD_W).id === 'crystal';
+    const crystalDepthOk = si >= STRATA.length - 2 || (crystalBiome && depth > 20);
     if (h > 0.9 && h < 0.94) floor = 'stalagmite';
     else if (depth > 14 && h > 0.965) floor = world.isHarvested?.(tx, ty) ? null : 'mushroom';
-    else if (si >= STRATA.length - 2 && h > 0.93 && h <= 0.965) floor = world.isHarvested?.(tx, ty) ? null : 'crystal';
+    else if (crystalDepthOk && h > 0.93 && h <= 0.965) floor = world.isHarvested?.(tx, ty) ? null : 'crystal';
   }
   return (ceiling || floor) ? { ceiling, floor, h, si, depth } : null;
 }
@@ -39,10 +43,12 @@ export const HARVESTABLE = { mushroom: 'mushroom', crystal: 'crystal' };
 
 /**
  * Surface scenery at a column: 'tree' | 'dressing' | null (grass tufts are
- * ubiquitous and not scannable). Same hash gates as drawScenery.
+ * ubiquitous and not scannable). Thresholds come from the biome so a savanna
+ * is sparse and a wetland is thick - and the scanner agrees by construction.
  */
 export function sceneryAt(tx) {
-  if (hashCol(tx, 55) > 0.93) return 'tree';
-  if (hashCol(tx, 40) > 0.9) return 'dressing';
+  const sc = biomeAtX(tx, WORLD_W).scenery;
+  if (hashCol(tx, 55) > sc.treeP) return 'tree';
+  if (hashCol(tx, 40) > sc.dressP) return 'dressing';
   return null;
 }
