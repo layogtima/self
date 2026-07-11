@@ -54,8 +54,15 @@ export function makeLighting(makeCanvas) {
     usedSkyBlit = true;
   }
 
-  /** per-tile sky illumination over the camera window (0..1) */
-  function computeSky(world, bounds) {
+  /**
+   * per-tile sky illumination over the camera window (0..1).
+   * @param {number} [shear]  horizontal drift of sunlight per row of descent -
+   *   the sun's angle. 0 = noon (straight down); positive leans the rays right
+   *   (morning sun in the east), negative left (evening). The seed pass walks
+   *   top-down shifting a whole open-row by the accumulated shear (Bresenham),
+   *   so god-rays genuinely FOLLOW the sun across the day.
+   */
+  function computeSky(world, bounds, shear = 0) {
     const x0 = Math.max(0, bounds.x0 - 2), x1 = Math.min(WORLD_W - 1, bounds.x1 + 2);
     const y0 = Math.max(0, bounds.y0 - 2), y1 = Math.min(WORLD_H - 1, bounds.y1 + 2);
     const w = x1 - x0 + 1, h = y1 - y0 + 1;
@@ -63,15 +70,36 @@ export function makeLighting(makeCanvas) {
     const at = (x, y) => grid[(y - y0) * w + (x - x0)];
     const set = (x, y, v) => { grid[(y - y0) * w + (x - x0)] = v; };
 
-    // seed: every air cell with an unbroken line to the sky is fully lit
-    // (start above the natural surface to catch built roofs/awnings)
-    for (let x = x0; x <= x1; x++) {
-      const start = Math.max(0, Math.min(world.surface[x] - 9, y0));
-      let open = true;
-      for (let y = start; y <= y1; y++) {
-        if (open && world.solidAt(x, y)) open = false;
-        if (y >= y0 && open && !world.solidAt(x, y)) set(x, y, 1);
+    // seed: every air cell with an unbroken SUN-ANGLED line to the sky is lit.
+    // Start above the highest surface in reach; pad the scan on the upstream
+    // side so slanted ancestry never leaves the window.
+    let topSurf = Infinity;
+    for (let x = Math.max(0, x0 - 60); x <= Math.min(WORLD_W - 1, x1 + 60); x++) {
+      if (world.surface[x] < topSurf) topSurf = world.surface[x];
+    }
+    const yStart = Math.max(0, Math.min(topSurf - 9, y0));
+    const drift = Math.ceil(Math.abs(shear) * (y1 - yStart + 1)) + 2;
+    const ex0 = Math.max(0, x0 - (shear > 0 ? drift : 2));
+    const ex1 = Math.min(WORLD_W - 1, x1 + (shear < 0 ? drift : 2));
+    const ew = ex1 - ex0 + 1;
+    let open = new Uint8Array(ew).fill(1);   // the sky itself
+    let next = new Uint8Array(ew);
+    let prevOff = 0;
+    for (let y = yStart; y <= y1; y++) {
+      const off = Math.round((y - yStart) * shear);
+      const step = off - prevOff;              // -1 | 0 | +1 per row
+      prevOff = off;
+      let anyOpen = 0;
+      for (let x = ex0; x <= ex1; x++) {
+        const src = x - step;
+        const srcOpen = src < ex0 || src > ex1 ? 1 : open[src - ex0];
+        const v = srcOpen && !world.solidAt(x, y) ? 1 : 0;
+        next[x - ex0] = v;
+        anyOpen |= v;
       }
+      [open, next] = [next, open];
+      if (y >= y0) for (let x = x0; x <= x1; x++) if (open[x - ex0]) set(x, y, 1);
+      if (!anyOpen) break;                     // fully sealed: nothing below is sky-lit
     }
     // spread: light spills into adjacent air (cave mouths, shaft bottoms)
     for (let pass = 0; pass < SKY_SPREAD; pass++) {
@@ -134,7 +162,7 @@ export function makeLighting(makeCanvas) {
       // daytime surface shade: even with no darkness mask, overhangs get a soft
       // shadow so the sun reads as directional light
       if (sun && sun.strength > 0.15 && ambient < 0.02) {
-        const sky = computeSky(world, cam.bounds());
+        const sky = computeSky(world, cam.bounds(), sun.shear || 0);
         blitSkyGrid(ctx, sky, cam, (x, y, v) => {
           if (world.solidAt(x, y)) return 0;
           const nearSurface = y - world.surface[Math.max(0, Math.min(WORLD_W - 1, x))] < 8;
@@ -144,7 +172,7 @@ export function makeLighting(makeCanvas) {
       }
       if (ambient < 0.02) return null;
       c.clearRect(0, 0, VIEW_W, VIEW_H);
-      c.fillStyle = `rgba(16,11,20,${Math.min(0.94, ambient)})`;
+      c.fillStyle = `rgba(16,11,20,${Math.min(0.97, ambient)})`;
       c.fillRect(0, 0, VIEW_W, VIEW_H);
 
       const sx = emitter.x - cam.x, sy = emitter.y - cam.y;
@@ -153,7 +181,7 @@ export function makeLighting(makeCanvas) {
       // SKY LIGHT: the sun pours into everything open to it - cave mouths,
       // skylight shafts, the surface at dusk - and spills a few tiles in
       if (sun && sun.strength > 0.02) {
-        const sky = computeSky(world, cam.bounds());
+        const sky = computeSky(world, cam.bounds(), sun.shear || 0);
         blitSkyGrid(c, sky, cam, (x, y, v) => v < 0.06 ? 0 : v * sun.strength * 0.92);
       }
 

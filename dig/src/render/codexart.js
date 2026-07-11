@@ -138,6 +138,16 @@ function drawFeatureOrFlora(ctx, id, time) {
       }
       break;
     }
+    case 'obsidian': {
+      ctx.fillStyle = '#1A1620'; ctx.fillRect(2, 4, 20, 18);
+      ctx.fillStyle = '#2C2636';
+      ctx.beginPath(); ctx.moveTo(2, 8); ctx.lineTo(22, 5); ctx.lineTo(22, 22); ctx.lineTo(2, 22); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = 'rgba(180,170,210,0.6)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(6, 6); ctx.lineTo(14, 18); ctx.moveTo(16, 8); ctx.lineTo(12, 20); ctx.stroke();
+      const g = 0.4 + Math.sin(time * 3) * 0.3;
+      ctx.fillStyle = `rgba(210,200,235,${g.toFixed(2)})`; ctx.fillRect(15, 7, 3, 2);
+      break;
+    }
     case 'crystal':
     case 'tree-shardspire': {
       ctx.fillStyle = '#4A3A2C'; ctx.fillRect(0, 20, N, 4);

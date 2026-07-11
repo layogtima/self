@@ -154,6 +154,33 @@
       "stats": [["species", "Alvinella pompejana"], ["tolerates", "~60°C+"], ["coat", "symbiotic bacteria"]]
     },
 
+    "pupfish": {
+      "name": "Devils Hole Pupfish",
+      "blurbs": [
+        "An inch of blue fish that the makers found living in one flooded cave and nowhere else on the planet. The loneliest vertebrate in the archive, and it never seemed to mind.",
+        "Its entire species fit in a single pool the makers could have stepped across. They fenced it, guarded it, counted it by hand. This unit finds the tenderness unexpected.",
+        "A whole lineage balanced on one warm puddle for millennia. Extinction was always one dry season away, and it swam anyway. Logged with respect."
+      ],
+      "stats": [["species", "Cyprinodon diabolis"], ["entire range", "one cave pool"], ["habitat", "surface water"]]
+    },
+    "mudskipper": {
+      "name": "Atlantic Mudskipper",
+      "blurbs": [
+        "A fish that got bored of water. It walks the banks on its arm-fins, breathes through wet skin, and drops back into the pond only when alarmed - a rough draft of every land animal that followed.",
+        "It keeps its eyes on top of its head like a periscope and its options open. Half in the water, half out: the archive files it under 'undecided, successfully'.",
+        "The makers' distant ancestors were once exactly this brave and this ridiculous - a fish deciding the land looked interesting. This unit salutes the audacity."
+      ],
+      "stats": [["species", "Periophthalmus barbarus"], ["trick", "walks + breathes air"], ["eyes", "periscope, on top"]]
+    },
+    "vines": {
+      "name": "Feral Pothos",
+      "blurbs": [
+        "The escaped houseplant that ate the tropics. The makers kept it in pots on their windowsills; it waited, got out, and swallowed whole forests in heart-shaped leaves.",
+        "Nearly unkillable by design - it was bred to survive the makers' neglect, then survived the makers entirely. It hangs from the cave roof now, thriving on almost nothing, out of spite.",
+        "A decorative vine that outlived its decorators. It never flowers here, never needs to; it just keeps reaching down into the dark, green and patient and free."
+      ],
+      "stats": [["species", "Epipremnum aureum"], ["was", "a houseplant"], ["now", "everywhere, unkillable"]]
+    },
     "tree-badlands": {
       "name": "Quiver Tree",
       "blurbs": [
@@ -253,6 +280,15 @@
         "Roots through a cave ceiling: proof the surface never stopped thinking about what is underneath. Neither has this unit."
       ],
       "stats": [["habitat", "shallow caves"], ["record", "fig roots >100 m deep"]]
+    },
+    "obsidian": {
+      "name": "Obsidian",
+      "blurbs": [
+        "Glass the planet made in an argument. Where molten rock met water, the quarrel froze mid-sentence into a black mirror sharper than anything the makers forged.",
+        "Volcanic glass - lava quenched so fast it never learned to be a crystal. The makers knapped it into blades keener than steel and then, characteristically, into decorative coasters.",
+        "A frozen collision. This unit logs it as evidence that even a planet, given lava and a puddle, will occasionally overreact."
+      ],
+      "stats": [["substance", "amorphous silica glass"], ["born of", "lava + water"], ["edge", "sharper than steel"]]
     },
     "crystal": {
       "name": "Selenite",
@@ -423,6 +459,9 @@
     "build.lamp-blue": { "blurbs": ["The blue of a cave ceiling pretending to be a night sky - synthesized, no larvae required.", "A false star, copied from the glowworm's false stars. Forgery of a forgery; light all the same."] },
     "build.lamp-teal": { "blurbs": ["A millipede's ghost-teal warning, minus the cyanide. All of the menace, none of the chemistry.", "Motyxia's broadcast, re-transmitted. Still no trespassing."] },
     "build.lamp-amber": { "blurbs": ["Warm amber the wildlife can live with - the firefly-safe frequency. Light without light pollution.", "The dark sky stays dark; the ground gets just enough. Fireflies signed off on the spec."] },
+    "build.lure": { "blurbs": ["A gentle broadcast on a frequency the local fauna finds reassuring. They wander over to see what's so calming. It is a lie, but a kind one.", "Copied from the courtship pulse of a scanned creature - it calls its kind closer. The archive files this under 'benign manipulation'."] },
+    "build.planter": { "blurbs": ["Scanned a plant, learned its shape, printed the seed. This unit is now, improbably, a gardener.", "Vegetation, synthesized and sown. The makers paved paradise; DG-3 is quietly un-paving it, one planter at a time."] },
+    "build.terrarium": { "blurbs": ["A little walled world with its own weather. Somewhere to keep a revived species safe until the planet remembers how to hold it.", "Glass, soil, and hope. The archive's smallest habitat, and its most optimistic."] },
     "build.st-clean": { "blurbs": ["Brushes and picks - free the bone from its matrix.", "Where stone admits it was hiding a skeleton."] },
     "build.st-identify": { "blurbs": ["Microscope + anatomy charts. Name the dead correctly; it is the least the living can do.", "Comparison desk: every bone gets its day in court."] },
     "build.st-stabilize": { "blurbs": ["Glue for deep time.", "Consolidant rig - teaches fragile fossils to hold themselves together a while longer."] },

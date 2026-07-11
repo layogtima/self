@@ -7,18 +7,35 @@ export const keys = {};
 export const mouse = { x: 0, y: 0, left: false, right: false, wheel: 0 };  // wheel: ±ticks this frame
 export const pointer = { moved: false };   // true once a real mouse has moved (touch/keyboard-only stays false)
 const justPressed = new Set();
+const synthetic = new Set();               // presses injected by the attract autopilot
 const listeners = [];
 
-/** was this key pressed since the last endFrame()? */
+/** was this key pressed since the last endFrame()? (includes synthetic) */
 export function pressed(code) { return justPressed.has(code); }
+
+/** was this key pressed BY THE HUMAN? The title's start check must use this,
+ *  or the attract autopilot's injected presses would start the game by itself */
+export function userPressed(code) { return justPressed.has(code) && !synthetic.has(code); }
+export function anyUserPressed() { for (const c of justPressed) if (!synthetic.has(c)) return true; return false; }
 
 /** subscribe to a raw keydown (for scene changes); returns unsubscribe */
 export function onKey(fn) { listeners.push(fn); return () => listeners.splice(listeners.indexOf(fn), 1); }
 
-export function endFrame() { justPressed.clear(); mouse.wheel = 0; }
+export function endFrame() { justPressed.clear(); synthetic.clear(); mouse.wheel = 0; }
 
 /** was ANY key/button pressed since last endFrame? (dismisses cards) */
 export function anyPressed() { return justPressed.size > 0; }
+
+/** synthesize a one-frame key press - the attract-mode driver (and tests)
+ *  puppet the game exactly like a player: cleared by the next endFrame() */
+export function injectPress(code) { justPressed.add(code); synthetic.add(code); }
+
+/** drop every held key + button - call when the autopilot hands over control */
+export function releaseAll() {
+  for (const k of Object.keys(keys)) keys[k] = false;
+  mouse.left = false; mouse.right = false;
+  justPressed.clear(); synthetic.clear();
+}
 
 const PREVENT = new Set(['Space', 'KeyW', 'KeyA', 'KeyS', 'KeyD', 'Tab',
   'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown']);

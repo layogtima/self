@@ -3,8 +3,15 @@
 // `period`, weighted by the biome's environment preference.
 
 import {
-  WORLD_W, WORLD_H, SURFACE_BASE, T_AIR, T_ROCK, T_BEDROCK, CAMP_HALF_L, CAMP_HALF_R,
+  WORLD_W, WORLD_H, SURFACE_BASE, WORLD_SCALE, T_AIR, T_ROCK, T_BEDROCK, CAMP_HALF_L, CAMP_HALF_R,
 } from '../config.js';
+
+// v4.7: the world is WORLD_SCALE(=4)x bigger each axis. S scales tile-depth
+// literals (cave/fluid/gas depths), AREA scales entity counts that should keep
+// density across the ~16x larger footprint, LAT scales lateral cave counts.
+const S = WORLD_SCALE;
+const AREA = S * S;
+const LAT = S;
 import { makeRng, clamp01 } from '../core/rng.js';
 import { STRATA, strataIndexAtDepth } from '../content/strata.js';
 import { fossilsForPeriod } from '../content/fossils.js';
@@ -37,7 +44,8 @@ export function generateWorld(seed) {
   const surface = new Int16Array(WORLD_W);
 
   for (let x = 0; x < WORLD_W; x++) {
-    surface[x] = Math.round(SURFACE_BASE + (rng.noise2(x * 0.045, 7.3) - 0.5) * 10);
+    // gentler frequency + taller rolls for the wider world
+    surface[x] = Math.round(SURFACE_BASE + (rng.noise2(x * 0.02, 7.3) - 0.5) * 10 * S);
   }
 
   for (let x = 0; x < WORLD_W; x++) {
@@ -48,7 +56,7 @@ export function generateWorld(seed) {
       if (y >= WORLD_H - 3) { tiles[i] = T_BEDROCK; continue; }
       const depth = y - surf;
       // sparse noise pockets (a nice surprise, and lets sites peek out)
-      const cave = depth > 8 && rng.noise2(x * 0.07 + 100, y * 0.07 + 100) > 0.80;
+      const cave = depth > 8 * S && rng.noise2(x * 0.07 + 100, y * 0.07 + 100) > 0.80;
       tiles[i] = cave ? T_AIR : T_ROCK;
     }
   }
@@ -56,12 +64,41 @@ export function generateWorld(seed) {
   carveWormCaves(rng, tiles, surface);
   carveShallowCaves(rng, tiles, surface);
   carveCaverns(rng, tiles, surface);
+  carvePonds(rng, tiles, surface);
   seedFluids(rng, tiles, surface);
 
   const { pockets, pocketMap } = placeBones(rng, tiles, surface);
   const { garbage, garbageMap } = seedGarbage(rng, tiles, surface, pocketMap);
   const gasMap = seedGas(rng, tiles, surface, pocketMap);
-  return { tiles, surface, pockets, pocketMap, garbage, garbageMap, gasMap };
+  const geodeMap = seedGeodes(rng, tiles, surface);
+  return { tiles, surface, pockets, pocketMap, garbage, garbageMap, gasMap, geodeMap };
+}
+
+/**
+ * Geodes: ~12 hollow crystal-lined pockets in the mid-deep rock (depth 60-360).
+ * A small rounded void carved into the rock; caveFeaturesAt lines the whole
+ * cavity with selenite. Breaking into one is a little reward for deep digging.
+ * @returns {Set<number>} air tile indices inside a geode
+ */
+function seedGeodes(rng, tiles, surface) {
+  const geodeMap = new Set();
+  for (let n = 0; n < 12 * AREA; n++) {
+    const cx = 6 + Math.floor(rng.next() * (WORLD_W - 12));
+    if (inCamp(cx)) continue;
+    const cy = surface[cx] + 60 * S + Math.floor(rng.next() * 300 * S);
+    if (cy >= WORLD_H - 8) continue;
+    const rx = 2 + rng.next() * 2, ry = 1.5 + rng.next() * 1.5;
+    for (let dy = -Math.ceil(ry); dy <= Math.ceil(ry); dy++) {
+      for (let dx = -Math.ceil(rx); dx <= Math.ceil(rx); dx++) {
+        if ((dx * dx) / (rx * rx) + (dy * dy) / (ry * ry) > 1) continue;
+        const x = cx + dx, y = cy + dy;
+        if (x < 1 || x >= WORLD_W - 1 || y >= WORLD_H - 4) continue;
+        const i = y * WORLD_W + x;
+        if (tiles[i] === T_ROCK) { tiles[i] = T_AIR; geodeMap.add(i); }
+      }
+    }
+  }
+  return geodeMap;
 }
 
 /**
@@ -72,10 +109,10 @@ export function generateWorld(seed) {
  */
 function seedGas(rng, tiles, surface, pocketMap) {
   const gasMap = new Set();
-  for (let n = 0; n < 26; n++) {
+  for (let n = 0; n < 26 * AREA; n++) {
     const cx = 4 + Math.floor(rng.next() * (WORLD_W - 8));
     if (inCamp(cx)) continue;
-    const cy = surface[cx] + 60 + Math.floor(rng.next() * (WORLD_H - surface[cx] - 80));
+    const cy = surface[cx] + 60 * S + Math.floor(rng.next() * (WORLD_H - surface[cx] - 80 * S));
     if (cy >= WORLD_H - 5) continue;
     // 2x2-ish blob
     for (const [ox, oy] of [[0, 0], [1, 0], [0, 1], [1, 1], [rng.next() > 0.5 ? 2 : -1, 0]]) {
@@ -100,7 +137,7 @@ function seedGarbage(rng, tiles, surface, pocketMap) {
   const garbageMap = new Map();    // tile index -> garbage index
   const totalFreq = GARBAGE.reduce((s, g) => s + g.freq, 0);
 
-  for (let n = 0; n < 90; n++) {
+  for (let n = 0; n < 90 * AREA; n++) {
     // weighted type pick
     let r = rng.next() * totalFreq, type = GARBAGE[0];
     for (const g of GARBAGE) { r -= g.freq; if (r <= 0) { type = g; break; } }
@@ -145,12 +182,12 @@ function carveAt(tiles, surface, x, y) {
  * with a downward bias - real cave systems worth following.
  */
 function carveWormCaves(rng, tiles, surface) {
-  const worms = 13;
+  const worms = 13 * LAT;
   for (let w = 0; w < worms; w++) {
     let x = 8 + rng.next() * (WORLD_W - 16);
-    let y = SURFACE_BASE + 14 + rng.next() * (WORLD_H - SURFACE_BASE - 70);
+    let y = SURFACE_BASE + 14 + rng.next() * (WORLD_H - SURFACE_BASE - 70 * S);
     let heading = rng.next() * Math.PI * 2;
-    const steps = 45 + Math.floor(rng.next() * 85);
+    const steps = (45 + Math.floor(rng.next() * 85)) * S;   // longer tunnels for the deeper world
     const fat = rng.next() > 0.6 ? 1.6 : 1.1;    // some tunnels are roomier
     for (let s = 0; s < steps; s++) {
       const cx = Math.round(x), cy = Math.round(y);
@@ -216,18 +253,20 @@ function seedFluids(rng, tiles, surface) {
     }
   };
 
-  // strict geological order, surface -> core: tar (petroleum seeps in the loose
-  // anthropocene/quaternary fill) -> fresh groundwater (permeable sedimentary
-  // strata) -> evaporite brines (Devonian-Cambrian marine basins) -> magma.
-  pools(5, 4, 40, T_TAR, 24);
-  pools(10, 45, 140, T_WATER, 70);
-  pools(6, 300, 400, T_BRINE, 60);
+  // strict geological order, surface -> core (all bands x4 for the deep world):
+  // tar (loose anthropocene/quaternary fill) -> fresh groundwater (permeable
+  // sedimentary strata) -> evaporite brines, now spread across the WHOLE marine
+  // section so you meet brine at several depths, not one thin band -> magma.
+  pools(5 * AREA, 4 * S, 40 * S, T_TAR, 24);
+  pools(10 * AREA, 45 * S, 140 * S, T_WATER, 70);
+  pools(9 * AREA, 960, 1500, T_BRINE, 60);   // carboniferous-devonian marine section
 
-  // the basement runs MOLTEN: below ~depth 380 the caves thin out, so stamp
-  // magma chambers straight into the rock (elliptical, brim-full of lava)
-  for (let n = 0; n < 20; n++) {
+  // the basement runs MOLTEN: stamp magma chambers through the deep third (from
+  // ~1500 down, below the brine) so lava caverns are encounterable over a wide
+  // band before bedrock, not jammed against the floor. Elliptical, brim-full.
+  for (let n = 0; n < 22 * AREA; n++) {
     const cx = 5 + Math.floor(rng.next() * (WORLD_W - 10));
-    const cy = surface[cx] + 380 + Math.floor(rng.next() * 60);
+    const cy = surface[cx] + 1500 + Math.floor(rng.next() * 300);
     if (cy >= WORLD_H - 6) continue;
     const rx = 3 + rng.next() * 5, ry = 2 + rng.next() * 2.5;
     for (let dy = -Math.ceil(ry); dy <= Math.ceil(ry); dy++) {
@@ -250,11 +289,12 @@ function seedFluids(rng, tiles, surface) {
  */
 function carveShallowCaves(rng, tiles, surface) {
   let wells = 0;
-  for (let c = 0; c < 6; c++) {
+  const wellCap = 2 * LAT;
+  for (let c = 0; c < 6 * LAT; c++) {
     let x = 8 + rng.next() * (WORLD_W - 16);
-    let y = surface[Math.floor(x)] + 8 + rng.next() * 10;
+    let y = surface[Math.floor(x)] + (8 + rng.next() * 10) * S;
     let heading = rng.next() < 0.5 ? 0 : Math.PI;   // mostly lateral
-    const steps = 40 + Math.floor(rng.next() * 40);
+    const steps = (40 + Math.floor(rng.next() * 40)) * S;
     let sinceChamber = 3 + Math.floor(rng.next() * 4);
     for (let s2 = 0; s2 < steps; s2++) {
       const cx = Math.round(x), cy = Math.round(y);
@@ -274,11 +314,11 @@ function carveShallowCaves(rng, tiles, surface) {
       y += Math.sin(heading) * 0.35;                 // stay shallow
       const sRef = surface[Math.max(0, Math.min(WORLD_W - 1, Math.round(x)))];
       const d = y - sRef;
-      if (d < 6) y = sRef + 6;
-      if (d > 25) y -= 1.5;
+      if (d < 6 * S) y = sRef + 6 * S;
+      if (d > 25 * S) y -= 1.5;
       if (x < 4 || x > WORLD_W - 4) break;
-      // skylight well: RARE (2 per world max), 1-wide, grass lip kept
-      if (wells < 2 && rng.next() < 0.012) {
+      // skylight well: RARE, 1-wide, grass lip kept
+      if (wells < wellCap && rng.next() < 0.012 / S) {
         wells += 1;
         const sx = Math.round(x);
         const surfRow = surface[Math.max(0, Math.min(WORLD_W - 1, sx))];
@@ -291,12 +331,55 @@ function carveShallowCaves(rng, tiles, surface) {
   }
 }
 
+/**
+ * Surface ponds: rain-fed water bodies scooped into the terrain, weighted to
+ * the wetland and coast (elsewhere rare). Elliptical bowl 2-4 deep, solid rim
+ * plugs at both edges so the fluids CA holds the water, surface[] updated to
+ * the pond floor (first solid row) so depth/scan/scenery stay consistent.
+ * Water creatures (ambient zone 'water') live here.
+ */
+function carvePonds(rng, tiles, surface) {
+  const T_WATER = 4;
+  let made = 0;
+  // scale by WIDTH, not area - a handful of ponds, not an ocean (v4.8 fix)
+  for (let tries = 0; tries < 40 * LAT && made < 4 * LAT; tries++) {
+    const cx = 10 + Math.floor(rng.next() * (WORLD_W - 20));
+    if (Math.abs(cx - spawnCol) < 16) continue;                    // never near the pod
+    const f = cx / WORLD_W;
+    const wet = (f >= 1 / 7 && f < 2 / 7) || f >= 6 / 7;           // wetland | coast
+    if (!wet && rng.next() < 0.85) continue;                       // dry biomes: rare
+    const half = 4 + Math.floor(rng.next() * 5);                   // 9-17 wide: a pond, not a sea
+    if (cx - half < 3 || cx + half > WORLD_W - 3) continue;
+    // water level = the lower of the two rims, so both banks hold
+    const level = Math.max(surface[cx - half], surface[cx + half]);
+    if (level + 8 >= WORLD_H - 4) continue;
+    const deep = 2 + Math.floor(rng.next() * 3);
+    for (let x = cx - half + 1; x <= cx + half - 1; x++) {
+      const t = (x - cx) / half;
+      const d = Math.max(1, Math.round(deep * Math.sqrt(Math.max(0, 1 - t * t))));
+      const bottom = Math.max(level + d, surface[x]);
+      for (let y = Math.min(surface[x], level); y <= bottom; y++) {
+        tiles[y * WORLD_W + x] = y >= level ? T_WATER : T_AIR;     // banks above the level stay open
+      }
+      if (bottom + 1 < WORLD_H - 3) tiles[(bottom + 1) * WORLD_W + x] = T_ROCK;   // watertight floor
+      surface[x] = bottom + 1;                                     // first solid row = pond floor
+    }
+    // rim plugs: the edge columns stay solid at and just under the waterline
+    for (const rx of [cx - half, cx + half]) {
+      for (let y = level; y <= level + deep + 1 && y < WORLD_H - 3; y++) {
+        if (tiles[y * WORLD_W + rx] === T_AIR) tiles[y * WORLD_W + rx] = T_ROCK;
+      }
+    }
+    made++;
+  }
+}
+
 /** occasional large caverns in the deeper half - pause, look around, feel small */
 function carveCaverns(rng, tiles, surface) {
-  const caverns = 7;
+  const caverns = 7 * AREA;
   for (let c = 0; c < caverns; c++) {
     const cx = Math.floor(10 + rng.next() * (WORLD_W - 20));
-    const cy = Math.floor(SURFACE_BASE + 70 + rng.next() * (WORLD_H - SURFACE_BASE - 130));
+    const cy = Math.floor(SURFACE_BASE + 70 * S + rng.next() * (WORLD_H - SURFACE_BASE - 130 * S));
     const rx = 4 + rng.next() * 6, ry = 2.5 + rng.next() * 3.5;
     for (let dy = -Math.ceil(ry); dy <= Math.ceil(ry); dy++) {
       for (let dx = -Math.ceil(rx); dx <= Math.ceil(rx); dx++) {
@@ -323,7 +406,7 @@ function placeBones(rng, tiles, surface) {
   // depth band (below the LOCAL surface) that a bone must land in to be legal
   const bandFor = si => {
     const s = STRATA[si];
-    return [s.id, s.depth[0], Number.isFinite(s.depth[1]) ? s.depth[1] : s.depth[0] + 50];
+    return [s.id, s.depth[0], Number.isFinite(s.depth[1]) ? s.depth[1] : s.depth[0] + 200];
   };
 
   /** try to place ALL of a species' bones as a cluster; returns true only if the
@@ -369,10 +452,12 @@ function placeBones(rng, tiles, surface) {
     if (!pool.length) continue;
     for (const spec of pool) {
       // GUARANTEE at least one complete cluster (up to many attempts), so every
-      // species is completable, then add rarity-scaled extras.
+      // species is completable, then add rarity-scaled extras. The 4x world is
+      // huge, so scale by width - and reward the DEEP strata with more finds, so
+      // a descent always turns up genome (the resurrection payoff).
       let got = false;
       for (let a = 0; a < 60 && !got; a++) got = placeCluster(spec, si);
-      const extra = Math.round((RARITY_WEIGHTS[spec.rarity] ?? 0.2) * 3);
+      const extra = Math.round((RARITY_WEIGHTS[spec.rarity] ?? 0.2) * 3 * LAT) + Math.max(1, Math.round(si * 0.8));
       for (let c = 0; c < extra; c++) placeCluster(spec, si);
     }
   }

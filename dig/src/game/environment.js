@@ -43,6 +43,9 @@ export function makeEnvironment(startClock = DAY_LENGTH * 0.18) {
   let lightning = 0;               // flash alpha
   let thunderIn = -1;              // seconds until the boom
   let windPhase = 0;
+  let event = null;                // rare sky event: {name, t, dur}
+  let eventRoll = 20;              // seconds to the next event dice roll
+  let eclipseDay = -1;             // day index of the last eclipse (max 1/day)
 
   const rand = () => Math.random();
 
@@ -57,14 +60,34 @@ export function makeEnvironment(startClock = DAY_LENGTH * 0.18) {
     rainAllowed: true,
     lightning: 0,
 
-    /** 0 = full day, 1 = deep night (smooth) */
+    /** 0 = full day, 1 = deep night (smooth) - an eclipse IS night, briefly:
+     *  solar dies, diurnal fauna beds down, fireflies come out, crickets sing
+     *  at noon. Everything downstream reads this and reacts for free. */
     night01() {
+      return Math.max(this.baseNight01(), this.eclipse01() * 0.95);
+    },
+    /** the astronomical clock only (sun/moon arcs key off this) */
+    baseNight01() {
       const t = this.t01;
       if (t < 0.6) return 0;
       if (t < 0.75) return clamp01((t - 0.6) / 0.15);      // dusk ramp
       if (t < 0.92) return 1;
       return clamp01(1 - (t - 0.92) / 0.08);                // pre-dawn ramp
     },
+
+    // ---- rare sky events (one at a time) -----------------------------------
+    /** the running event, or null: {name:'eclipse'|'aurora'|'meteors', t, dur} */
+    get event() { return event; },
+    /** smooth 0→1→0 envelope over the event's life */
+    _phase(name) {
+      if (!event || event.name !== name) return 0;
+      return Math.sin(Math.PI * clamp01(event.t / event.dur));
+    },
+    eclipse01() { return this._phase('eclipse'); },
+    aurora01() { return this._phase('aurora'); },
+    meteors01() { return this._phase('meteors'); },
+    /** test hook: run an event at a given phase (0..1 of its duration) */
+    _forceEvent(name, at = 0.5) { event = name ? { name, t: at * 30, dur: 30 } : null; },
 
     /** rain/snow/gloom strength 0..1, crossfaded between states */
     precip01() { return lerp(intensityOf(weather), intensityOf(nextWeather), blend); },
@@ -117,6 +140,25 @@ export function makeEnvironment(startClock = DAY_LENGTH * 0.18) {
           dwell = d0 + rand() * (d1 - d0);
         }
       }
+      // rare sky events: dice roll every ~20s; each has its own window
+      if (event) {
+        event.t += dt;
+        if (event.t >= event.dur) event = null;
+      } else {
+        eventRoll -= dt;
+        if (eventRoll <= 0) {
+          eventRoll = 20;
+          const t = this.t01, calm = this.weather === 'clear' || this.weather === 'overcast';
+          const day = Math.floor(clock / DAY_LENGTH);
+          if (calm && t > 0.28 && t < 0.4 && day !== eclipseDay && rand() < 0.05) {
+            event = { name: 'eclipse', t: 0, dur: 30 };
+            eclipseDay = day;
+          } else if (this.weather === 'clear' && this.baseNight01() > 0.85 && rand() < 0.08) {
+            event = { name: rand() < 0.5 ? 'aurora' : 'meteors', t: 0, dur: rand() < 0.5 ? 45 : 40 };
+          }
+        }
+      }
+
       // lightning during storms
       this.lightning = Math.max(0, this.lightning - dt * 3);
       if (this.weather === 'storm' && this.precip01() > 0.8 && rand() < dt * 0.12) {

@@ -81,6 +81,44 @@ export const FAUNA_ART = {
     ctx.fillRect(3.4, -6, 1.4, 1.4);   // one ember eye
   },
 
+  fish(ctx, f) {   // pond swimmer, drawn mid-water (no ground line assumed)
+    ctx.fillStyle = f.spec?.palette || '#7FA8D0';
+    ctx.beginPath(); ctx.ellipse(0, -3, 4, 2.2, 0, 0, Math.PI * 2); ctx.fill();
+    const flick = Math.sin(f.t * 9) * 1.6;
+    ctx.beginPath(); ctx.moveTo(-4, -3); ctx.lineTo(-6.5, -3 - 2 + flick); ctx.lineTo(-6.5, -3 + 2 + flick); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#F2EBD7'; ctx.fillRect(2.4, -3.8, 1, 1);
+  },
+
+  mudskipper(ctx, f) {   // the fish that walks: blunt head, periscope eyes, prop fins
+    ctx.fillStyle = f.spec?.palette || '#8A9070';
+    ctx.beginPath(); ctx.ellipse(-1, -3, 5.5, 2.6, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(4, -3.5, 2.2, 0, Math.PI * 2); ctx.fill();   // blunt head
+    const flick = Math.sin(f.t * 7) * 1.4;
+    ctx.beginPath(); ctx.moveTo(-6, -3); ctx.lineTo(-8.5, -3 + flick); ctx.lineTo(-8, -1.4); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#2A2620';                                             // eyes on top
+    ctx.fillRect(3.4, -6.2, 1.2, 1.2); ctx.fillRect(5, -6, 1.2, 1.2);
+    ctx.fillStyle = f.spec?.palette || '#8A9070';                          // pectoral props
+    ctx.fillRect(1.4, -1.6, 1.4, 2); ctx.fillRect(-2.6, -1.4, 1.4, 1.8);
+  },
+
+  /** a resurrected fossil: spectral green-lit body sized from the specimen,
+   *  a faint incubator-glow aura marking it as brought-back */
+  revenant(ctx, f) {
+    const step = gait(f);
+    const [w, h] = f.spec?.size || [18, 12];
+    // aura
+    ctx.fillStyle = 'rgba(150,220,170,0.16)';
+    ctx.beginPath(); ctx.ellipse(0, -h / 2 - 2, w / 2 + 3, h / 2 + 3, 0, 0, Math.PI * 2); ctx.fill();
+    // body
+    ctx.fillStyle = f.spec?.palette || '#8FBE9A';
+    ctx.beginPath(); ctx.ellipse(0, -h / 2 - 2, w / 2, h / 2.4, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(w / 2 - 1, -h + 1, h / 3.2, 0, Math.PI * 2); ctx.fill();   // head
+    // legs
+    ctx.fillRect(-w / 4 + step, -3, 2, 4); ctx.fillRect(w / 5 - step, -3, 2, 4);
+    // eye spark
+    ctx.fillStyle = '#E8FFF0'; ctx.fillRect(w / 2 - 1, -h + 0.5, 1.6, 1.6);
+  },
+
   /** palette-tinted body + legs; keeps unknown registry entries alive on screen */
   generic(ctx, f) {
     const step = gait(f);

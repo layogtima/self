@@ -7,7 +7,7 @@
 // peeking the v1 key for SETTINGS ONLY - volume/music/shake carry over, the
 // game itself starts fresh. The v1 key is left untouched for rollback.
 
-import { SAVE_KEY, SAVE_KEY_V1 } from '../config.js';
+import { SAVE_KEY, SAVE_KEY_PREV, SAVE_KEY_V1 } from '../config.js';
 
 /**
  * The full shape is whatever game.js persist() writes - see there. Highlights:
@@ -22,10 +22,11 @@ export function loadSave() {
   try {
     const raw = localStorage.getItem(SAVE_KEY);
     if (raw) return JSON.parse(raw);
-    // no v2 save: carry the old settings forward (and nothing else)
-    const v1 = localStorage.getItem(SAVE_KEY_V1);
-    if (v1) {
-      const settings = JSON.parse(v1)?.settings;
+    // no current save: carry SETTINGS ONLY forward from the newest older key
+    for (const k of [SAVE_KEY_PREV, SAVE_KEY_V1]) {
+      const old = localStorage.getItem(k);
+      if (!old) continue;
+      const settings = JSON.parse(old)?.settings;
       if (settings) return { settingsOnly: true, settings };
     }
     return null;

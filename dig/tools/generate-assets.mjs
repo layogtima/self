@@ -222,21 +222,23 @@ function buildJobs() {
     });
   }
 
-  // biome parallax backdrops (v4.5): wide horizon paintings the sky wears per
-  // biome, crossfaded as you cross borders (render/backdrop.js)
+  // biome backdrops (v4.8): SIMPLE, seamlessly HORIZONTALLY-TILING horizon
+  // silhouettes - a low band of distant terrain that repeats forever behind the
+  // ground. Minimal + transparent-topped so the sky owns the upper screen.
+  const bd = 'minimal distant horizon silhouette band, low simple rolling hills at the bottom third, very few elements, flat muted colours, mostly empty sky above, seamless tileable, no characters, no foreground';
   for (const [id, prompt] of [
-    ['tundra', 'wide pixel art landscape background, distant view: snowy jagged mountain range behind a dark larch conifer treeline and a cold still lake, pale sky, layered depth, no characters'],
-    ['wetland', 'wide pixel art landscape background, distant view: misty mangrove marsh flats with standing water channels and reed banks under a soft green-grey sky, layered depth, no characters'],
-    ['badlands', 'wide pixel art landscape background, distant view: striped sedimentary mesa buttes and dry canyons in warm terracotta and tan bands, hazy distance, layered depth, no characters'],
-    ['savanna', 'wide pixel art landscape background, distant view: golden grass plain with scattered flat-top acacia tree silhouettes and distant blue hills, warm sky, layered depth, no characters'],
-    ['ashflats', 'wide pixel art landscape background, distant view: grey volcanic ash plain with bleached dead tree snags and one distant smoking cinder cone, muted sky, layered depth, no characters'],
-    ['crystal', 'wide pixel art landscape background, distant view: pale gypsum dune field with clusters of tall translucent violet selenite crystal spires, soft lilac sky, layered depth, no characters'],
-    ['coast', 'wide pixel art landscape background, distant view: green coastal headlands stepping down to a calm sea horizon with scattered palm tree silhouettes, bright sky, layered depth, no characters'],
+    ['tundra', `${bd}, faint snowy peaks and a dark conifer treeline`],
+    ['wetland', `${bd}, low misty marsh flats and reed banks`],
+    ['badlands', `${bd}, low striped mesa buttes in warm tan`],
+    ['savanna', `${bd}, flat golden plain with tiny flat-top acacia silhouettes`],
+    ['ashflats', `${bd}, low grey ash plain with a faint distant cinder cone`],
+    ['crystal', `${bd}, pale gypsum dunes with small violet crystal spire silhouettes`],
+    ['coast', `${bd}, low green headlands meeting a calm sea horizon`],
   ]) {
     jobs.push({
       cat: 'backdrops', id: `backdrop-${id}`,
       livePath: join(ROOT, 'assets/sprites/backdrops', `${id}.png`),
-      payload: { prompt, width: 384, height: 216, num_images: 1, prompt_style: 'rd_fast__game_asset', input_palette: PALETTE_B64 },
+      payload: { prompt, width: 256, height: 128, num_images: 1, prompt_style: 'rd_fast__default', tile_x: true, input_palette: PALETTE_B64 },
     });
   }
 

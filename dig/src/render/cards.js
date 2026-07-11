@@ -12,8 +12,16 @@ import { drawFossil } from './sprites.js';
 import { drawBone, boneFootprint } from './bones.js';
 import { STRATA, STRATA_BY_ID } from '../content/strata.js';
 
-// visor chrome shared with render/hud.js (THE VISOR v5)
-const V = { chrome: '#241C16', deep: '#171210', cyan: '#4BE3E8', line: 'rgba(233,220,188,0.14)' };
+// visor chrome shared with render/hud.js (THE VISOR v5). NOTE: PALETTE.cream/
+// creamDim are sepia INK for parchment panels - unreadable on dark chrome, so
+// the card carries its own light text tiers.
+const V = {
+  chrome: '#241C16', deep: '#171210', cyan: '#4BE3E8',
+  line: 'rgba(233,220,188,0.14)',
+  text: '#EFE6CE',                    // primary light text
+  dim: 'rgba(233,220,188,0.68)',      // labels / captions
+  faint: 'rgba(233,220,188,0.42)',    // footer strip
+};
 const CATEGORY_GLYPH = { creature: '§', flora: '¥', feature: '¤', fluid: '≈', rock: '≡', salvage: '¶' };
 
 /**
@@ -79,16 +87,16 @@ export function drawCodexCard(ctx, entry, x, y, w, h, drawArt, time = 0, opts = 
     text(ctx, 'LIVE TELEMETRY', lx, ry, { size: 9, bold: true, color: V.cyan }); ry += 14;
     const ageClass = live.age < 0.35 ? 'JUVENILE' : live.age < 0.75 ? 'ADULT' : live.age < 1 ? 'ELDER' : 'FADING';
     // age gauge: pixel cells filled to lived fraction
-    text(ctx, 'AGE', lx, ry, { size: 10, color: PALETTE.creamDim });
+    text(ctx, 'AGE', lx, ry, { size: 10, color: V.dim });
     const gx0 = lx + 44, cells = 10;
     for (let c = 0; c < cells; c++) {
-      ctx.fillStyle = live.age > (c + 0.5) / cells ? PALETTE.amber : 'rgba(0,0,0,0.5)';
+      ctx.fillStyle = live.age > (c + 0.5) / cells ? PALETTE.amberSoft : 'rgba(0,0,0,0.5)';
       ctx.fillRect(gx0 + c * 8, ry + 1, 6, 7);
     }
-    text(ctx, ageClass, gx0 + cells * 8 + 8, ry, { size: 10, bold: true, color: PALETTE.parchment });
+    text(ctx, ageClass, gx0 + cells * 8 + 8, ry, { size: 10, bold: true, color: V.text });
     ry += 15;
-    for (const [label, val, col] of [['STATE', live.state.toUpperCase(), PALETTE.parchment], ['MOOD', live.mood, live.mood === 'TERRIFIED' || live.mood === 'TERRITORIAL' ? '#E88A6A' : '#9FBE9A']]) {
-      text(ctx, label, lx, ry, { size: 10, color: PALETTE.creamDim });
+    for (const [label, val, col] of [['STATE', live.state.toUpperCase(), V.text], ['MOOD', live.mood, live.mood === 'TERRIFIED' || live.mood === 'TERRITORIAL' ? '#E88A6A' : '#9FBE9A']]) {
+      text(ctx, label, lx, ry, { size: 10, color: V.dim });
       text(ctx, val, lx + 44, ry, { size: 10, bold: true, color: col });
       ry += 15;
     }
@@ -97,26 +105,27 @@ export function drawCodexCard(ctx, entry, x, y, w, h, drawArt, time = 0, opts = 
   }
   // the science: label/value readout rows
   for (const [label, val] of (entry.stats || []).slice(0, live ? 4 : 6)) {
-    text(ctx, label.toUpperCase(), lx, ry, { size: 9, color: PALETTE.creamDim });
-    text(ctx, val, lx + colW, ry, { size: 10, bold: true, align: 'right', color: PALETTE.parchment });
+    text(ctx, label.toUpperCase(), lx, ry, { size: 9, bold: true, color: V.dim });
+    text(ctx, val, lx + colW, ry, { size: 10, bold: true, align: 'right', color: V.text });
     ctx.fillStyle = V.line; ctx.fillRect(lx, ry + 12, colW, 1);
     ry += 17;
   }
 
-  // ---- the archive speaks: flavor quote block (anchored to the bottom) ----
-  const qLines = wrap(ctx, entry.blurb, w - 56, 11).slice(0, 4);
-  const qH = qLines.length * 15 + 16;
-  const qy = y + h - qH - 24;
+  // ---- the archive speaks: flavor quote block flows right after the science
+  // (clearing the art inset), so short cards have no dead middle
+  const qLines = wrap(ctx, entry.blurb, w - 56, 12).slice(0, 4);
+  const qH = qLines.length * 16 + 16;
+  const qy = Math.max(ry + 6, drawArt ? ay2 + as + 14 : ry + 6);
   ctx.fillStyle = 'rgba(0,0,0,0.28)';
   roundRect(ctx, x + 14, qy, w - 28, qH, 6); ctx.fill();
   ctx.fillStyle = PALETTE.amberSoft; ctx.fillRect(x + 14, qy, 2, qH);
   let qly = qy + 8;
-  for (const line of qLines) { text(ctx, line, x + 26, qly, { size: 11, italic: true, color: PALETTE.cream }); qly += 15; }
+  for (const line of qLines) { text(ctx, line, x + 26, qly, { size: 12, color: V.text }); qly += 16; }
 
   // footer strip
   ctx.fillStyle = V.deep; ctx.fillRect(x, y + h - 16, w, 16);
-  text(ctx, `ARCHIVE ${entry.id.toUpperCase()}`, x + 12, y + h - 12, { size: 8, color: PALETTE.creamDim });
-  text(ctx, live ? 'PATTERN STORED · SPECIMEN UNHARMED' : 'PATTERN STORED', x + w - 12, y + h - 12, { size: 8, color: PALETTE.creamDim, align: 'right' });
+  text(ctx, `ARCHIVE ${entry.id.toUpperCase()}`, x + 12, y + h - 12, { size: 8, color: V.faint });
+  text(ctx, live ? 'PATTERN STORED · SPECIMEN UNHARMED' : 'PATTERN STORED', x + w - 12, y + h - 12, { size: 8, color: V.faint, align: 'right' });
 
   // boot sweep: a bright scanline crosses the plate as the analysis lands
   if (openT < 0.5) {

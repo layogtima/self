@@ -6,13 +6,36 @@
 // world never simulates at once. Conserves volume: fluid moves, it doesn't
 // multiply, so a breached pool drains and settles.
 
-import { WORLD_W, WORLD_H, T_AIR, FLUID_SPECS } from '../config.js';
+import { WORLD_W, WORLD_H, T_AIR, T_WATER, T_LAVA, T_BRINE, T_OBSIDIAN, FLUID_SPECS, FLUID_ACTIVE_CAP } from '../config.js';
 
 export function makeFluids(world) {
   const tiles = world.tiles;
   const active = new Set();            // packed indices to (re)check
 
   const isFluid = t => FLUID_SPECS[t] !== undefined;
+
+  /**
+   * Quench a lava tile that touches water/brine: molten rock hitting water is
+   * the classic - it flashes the water to steam and freezes to volcanic glass.
+   * Returns true if a reaction happened (the lava cell is consumed).
+   */
+  function tryReact(x, y) {
+    const i = y * WORLD_W + x;
+    if (tiles[i] !== T_LAVA) return false;
+    for (const [ox, oy] of [[0, -1], [0, 1], [-1, 0], [1, 0]]) {
+      const nx = x + ox, ny = y + oy;
+      if (nx < 0 || nx >= WORLD_W || ny < 0 || ny >= WORLD_H) continue;
+      const nt = tiles[ny * WORLD_W + nx];
+      if (nt === T_WATER || nt === T_BRINE) {
+        tiles[i] = T_OBSIDIAN;                       // lava -> volcanic glass
+        tiles[ny * WORLD_W + nx] = T_AIR;            // water flashes to steam
+        world.reactAt?.(x, y, 'quench');            // scene drains this for steam + hiss
+        wake(x, y); wake(nx, ny);
+        return true;
+      }
+    }
+    return false;
+  }
 
   /** mark a cell + neighbours active (call when something changes near it) */
   function wake(tx, ty) {
@@ -52,6 +75,8 @@ export function makeFluids(world) {
         const t = tiles[i];
         if (!isFluid(t)) continue;
         const x = i % WORLD_W, y = (i / WORLD_W) | 0;
+        // reactions first: lava meeting water freezes to obsidian this frame
+        if (t === T_LAVA && tryReact(x, y)) continue;
         if (Math.random() > FLUID_SPECS[t].visc) { next.add(i); continue; }   // viscosity gate
 
         // 1) fall straight down
@@ -81,8 +106,17 @@ export function makeFluids(world) {
       }
       active.clear();
       for (const i of next) active.add(i);
-      // hard cap so a pathological world can't grow the active set unbounded
-      if (active.size > 6000) { let n = 0; for (const i of active) { if (n++ > 6000) active.delete(i); } }
+      // cap the active set, but evict the cells FARTHEST from the camera so the
+      // fluid you're looking at always keeps simulating (Set-order eviction used
+      // to freeze on-screen pools on the big world)
+      if (active.size > FLUID_ACTIVE_CAP) {
+        const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
+        const arr = [...active].sort((a, b) => {
+          const ax = a % WORLD_W, ay = (a / WORLD_W) | 0, bx = b % WORLD_W, by = (b / WORLD_W) | 0;
+          return ((bx - cx) ** 2 + (by - cy) ** 2) - ((ax - cx) ** 2 + (ay - cy) ** 2);   // farthest first
+        });
+        for (let k = 0; k < arr.length - FLUID_ACTIVE_CAP; k++) active.delete(arr[k]);
+      }
     },
 
     activeCount() { return active.size; },

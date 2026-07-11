@@ -9,7 +9,7 @@
 /**
  * @typedef {Object} FaunaSpec
  * @property {string} id            codex id
- * @property {'surface'|'cave'} zone
+ * @property {'surface'|'cave'|'water'} zone  water = lives IN ponds (swims)
  * @property {{day?:boolean, night?:boolean, weather?:string[]}} activity  omitted key = any
  * @property {[number,number]} depth   tile-depth band (cave kinds)
  * @property {{walk:number, flee:number}} speed  px/s
@@ -26,6 +26,9 @@
  * @property {number} [lifespan]       seconds from juvenile to old age (default 150)
  * @property {string[]} [prey]         fauna/ambient ids this one hunts
  * @property {boolean} [grazes]        pauses to feed at grass tufts
+ * @property {'herd'|'solitary'} [social]  herd = drifts toward its own kind
+ * @property {boolean} [basks]         long sun-bathing idles on clear days
+ * @property {boolean} [amphibious]    may skim a pond's edge (mudskipper)
  */
 
 /** @type {FaunaSpec[]} */
@@ -33,7 +36,7 @@ export const FAUNA = [
   {
     id: 'grazer', zone: 'surface', activity: { day: true },
     depth: [0, 0], speed: { walk: 24, flee: 90 }, size: [16, 13],
-    palette: '#8A7358', draw: 'grazer', rarity: 1, lifespan: 200, grazes: true,
+    palette: '#8A7358', draw: 'grazer', rarity: 1, lifespan: 200, grazes: true, social: 'herd',
     capturable: true, diet: ['mushroom'], habitatNeeds: { temp: 'any', space: 2 },
   },
   {
@@ -45,18 +48,18 @@ export const FAUNA = [
   {
     id: 'lizard', zone: 'surface', activity: { day: true, weather: ['clear'] },
     depth: [0, 0], speed: { walk: 24, flee: 110 }, size: [14, 6],
-    palette: '#6E8A72', draw: 'lizard', rarity: 1, lifespan: 160,
+    palette: '#6E8A72', draw: 'lizard', rarity: 1, lifespan: 160, basks: true,
     capturable: true, diet: ['mushroom'], habitatNeeds: { temp: 'warm', space: 1 },
   },
   {
     id: 'salamander', zone: 'cave', activity: {},
-    depth: [14, 9999], speed: { walk: 12, flee: 50 }, size: [12, 5],
+    depth: [56, 9999], speed: { walk: 12, flee: 50 }, size: [12, 5],
     palette: '#D8C8CE', draw: 'salamander', rarity: 1, lifespan: 240,
     capturable: true, diet: ['mushroom'], habitatNeeds: { temp: 'any', space: 1 },
   },
   {
     id: 'spider', zone: 'cave', activity: {},
-    depth: [10, 9999], speed: { walk: 22, flee: 50 }, size: [11, 8],
+    depth: [40, 9999], speed: { walk: 22, flee: 50 }, size: [11, 8],
     palette: '#2E2836', draw: 'spider', rarity: 1, lifespan: 150, prey: ['firefly', 'prismfly'],
   },
 
@@ -71,7 +74,7 @@ export const FAUNA = [
   {
     id: 'dustmole', zone: 'surface', activity: {},
     depth: [0, 0], speed: { walk: 18, flee: 70 }, size: [12, 8],
-    palette: '#A8906E', draw: 'generic', rarity: 0.8, lifespan: 140, grazes: true,
+    palette: '#A8906E', draw: 'generic', rarity: 0.8, lifespan: 140, grazes: true, social: 'herd',
     biomes: { savanna: 3, badlands: 2, tundra: 0, wetland: 0, crystal: 0, coast: 0 },
     capturable: true, diet: ['mushroom'], habitatNeeds: { temp: 'warm', space: 1 },
   },
@@ -90,13 +93,26 @@ export const FAUNA = [
   },
   {
     id: 'gleamback', zone: 'cave', activity: {},
-    depth: [60, 200], speed: { walk: 20, flee: 60 }, size: [11, 7],
+    depth: [240, 800], speed: { walk: 20, flee: 60 }, size: [11, 7],
     palette: '#4E6E5A', draw: 'generic', rarity: 0.9, lifespan: 130, grazes: true,
     capturable: true, diet: ['mushroom'], habitatNeeds: { temp: 'any', space: 1 },
   },
+  // -- pond life (v4.6): surface water bodies -----------------------------------
+  {
+    id: 'pupfish', zone: 'water', activity: {},
+    depth: [0, 10], speed: { walk: 14, flee: 60 }, size: [8, 5],
+    palette: '#7FA8D0', draw: 'fish', rarity: 1, lifespan: 90,
+  },
+  {
+    id: 'mudskipper', zone: 'water', activity: { day: true },
+    depth: [0, 10], speed: { walk: 16, flee: 55 }, size: [11, 6],
+    palette: '#8A9070', draw: 'mudskipper', rarity: 0.9, lifespan: 140, grazes: true, amphibious: true,
+    biomes: { wetland: 3, coast: 2, ashflats: 0.2, crystal: 0.2 },
+  },
+
   {
     id: 'ashworm', zone: 'cave', activity: {},
-    depth: [200, 9999], speed: { walk: 14, flee: 40 }, size: [16, 5],
+    depth: [800, 9999], speed: { walk: 14, flee: 40 }, size: [16, 5],
     palette: '#7A5A52', draw: 'generic', rarity: 0.8, lifespan: 200,
     biomes: { ashflats: 3 },
   },

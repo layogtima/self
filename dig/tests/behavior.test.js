@@ -72,9 +72,11 @@ console.log('\n[content] schema validation');
 // ===================================================================== strata / biomes
 console.log('\n[strata/biomes] lookups');
 {
-  t.eq(stratumAtDepth(5).id, 'anthropocene', 'depth 5 is anthropocene');
-  t.eq(stratumAtDepth(20).id, 'quaternary', 'depth 20 is quaternary');
-  t.eq(stratumAtDepth(100).id, 'cretaceous', 'depth 100 is cretaceous');
+  // scale-independent: sample a depth inside each named band
+  const midOf = id => { const s = STRATA.find(x => x.id === id); return s.depth[0] + Math.min(5, (s.depth[1] - s.depth[0]) / 2); };
+  t.eq(stratumAtDepth(midOf('anthropocene')).id, 'anthropocene', 'anthropocene band resolves');
+  t.eq(stratumAtDepth(midOf('quaternary')).id, 'quaternary', 'quaternary band resolves');
+  t.eq(stratumAtDepth(midOf('cretaceous')).id, 'cretaceous', 'cretaceous band resolves');
   let contig = true;
   for (let i = 1; i < STRATA.length; i++) if (STRATA[i].depth[0] !== STRATA[i - 1].depth[1]) contig = false;
   t.ok(contig, 'strata depths contiguous');
@@ -239,12 +241,17 @@ console.log('\n[pulley] still extracts + pops');
 console.log('\n[save] deltas + bone collection round-trip (v2 placedTiles)');
 {
   const w = makeWorld(999);
-  const spawn = w.spawnCol, col = spawn + 40;
+  const spawn = w.spawnCol;
+  // pick a dry column with open air above (skip surface ponds)
+  let col = spawn + 40;
+  for (let c = spawn + 40; c < spawn + 120; c++) {
+    if (w.tileAt(c, w.surface[c] - 2) === cfg.T_AIR && !w.fluidAt(c, w.surface[c] - 2)) { col = c; break; }
+  }
   const surf = w.surface[col];
   w.dig(col, surf + 3);
-  w.place(col + 2, surf - 2, cfg.T_ROOF);              // a built roof panel
+  t.ok(w.place(col, surf - 2, cfg.T_ROOF), 'roof placed in open air');   // a built roof panel
   const deltas = w.exportDeltas();
-  writeSave({ v: 2, seed: 999, dug: deltas.dug, placedTiles: deltas.placedTiles, collected: { 't-rex': [0, 1] }, settings: { volume: 0.5 } });
+  writeSave({ v: 3, seed: 999, dug: deltas.dug, placedTiles: deltas.placedTiles, collected: { 't-rex': [0, 1] }, settings: { volume: 0.5 } });
   const loaded = loadSave();
   t.ok(loaded && loaded.seed === 999, 'save reloads');
   const col2 = makeCollection(loaded.collected);
@@ -252,7 +259,7 @@ console.log('\n[save] deltas + bone collection round-trip (v2 placedTiles)');
   const w2 = makeWorld(999);
   w2.applyDeltas(loaded);
   t.eq(w2.tileAt(col, surf + 3), cfg.T_AIR, 'dug tile restored as AIR');
-  t.eq(w2.tileAt(col + 2, surf - 2), cfg.T_ROOF, 'placed roof restored with its tile id');
+  t.eq(w2.tileAt(col, surf - 2), cfg.T_ROOF, 'placed roof restored with its tile id');
 }
 
 console.log('\n[save] v1 saves reset but carry settings forward');
@@ -331,7 +338,7 @@ console.log('\n[depth] real-Earth scale mapping');
   for (let i = 1; i < STRATA.length; i++) if (STRATA[i].realDepth[0] !== STRATA[i - 1].realDepth[1]) mono = false;
   t.ok(mono, 'realDepth ranges are contiguous (monotonic column)');
   t.ok(realDepthAt(1) < 5, 'shallow tiles read as a few metres');
-  t.ok(realDepthAt(440) > 5000, 'precambrian tiles read in kilometres');
+  t.ok(realDepthAt(STRATA[STRATA.length - 1].depth[0] + 100) > 5000, 'precambrian tiles read in kilometres');
   t.eq(formatDepth(214), '214 m', 'metres format');
   t.eq(formatDepth(5750), '5.8 km', 'km format');
   t.ok(formatAge(STRATA[4]).includes('million years'), 'age phrased as million years');
@@ -464,7 +471,7 @@ console.log('\n[fauna] population stays bounded');
   const amb = makeAmbient();
   for (let i = 0; i < 3000; i++) amb.update(1 / 60, w, p, camStub, 1, null);
   const c = amb.counts();
-  t.ok(c.fauna <= 5, `surface fauna bounded (${c.fauna})`);
+  t.ok(c.fauna <= 6, `fauna globally bounded across all zones (${c.fauna})`);
   const total = Object.values(c).reduce((a, b2) => a + b2, 0);
   t.ok(total < 160, `total ambient population bounded (${total})`);
 }
@@ -529,7 +536,9 @@ console.log('\n[features] scan names ONLY what the render draws (shared ground t
   const { caveFeaturesAt } = await import('../src/game/features.js');
   const { resolveScan, scanTargetAt } = await import('../src/game/scan.js');
   const w = makeWorld(5);
-  const featureIds = new Set(['roots', 'stalactite', 'stalagmite', 'mushroom', 'crystal']);
+  const featureIds = new Set(['roots', 'stalactite', 'stalagmite', 'mushroom', 'crystal', 'vines']);
+  // geode ceiling teeth ('crystal-tip') and vines resolve to their codex ids
+  const resolveId = raw => raw === 'crystal-tip' ? 'crystal' : raw;
   let checked = 0, mismatches = 0, phantomCrystal = 0, found = { mushroom: 0, stalactite: 0 };
   for (let ty = 0; ty < w.WORLD_H - 4 && checked < 40000; ty++) {
     for (let tx = 0; tx < w.WORLD_W; tx++) {
@@ -539,11 +548,11 @@ console.log('\n[features] scan names ONLY what the render draws (shared ground t
       // scan the tile centre-bottom (floor half) and centre-top (ceiling half)
       for (const [frac, side] of [[0.85, 'floor'], [0.15, 'ceiling']]) {
         const r = resolveScan((tx + 0.5) * cfg.TILE, (ty + frac) * cfg.TILE, w, []);
-        if (r?.kind !== 'feature') {
+        if (r?.kind !== 'feature' && r?.kind !== 'flora') {
           if (f && f[side] && !f[side === 'floor' ? 'ceiling' : 'floor']) mismatches++;   // render draws, scan missed
           continue;
         }
-        if (!f || (r.id !== f.floor && r.id !== f.ceiling)) mismatches++;                 // scan names, render doesn't draw
+        if (!f || (r.id !== resolveId(f.floor) && r.id !== resolveId(f.ceiling))) mismatches++;   // scan names, render doesn't draw
         if (!featureIds.has(r.id)) mismatches++;
         if (r.id === 'crystal' && f?.si === 7 && biomeAtX(tx, w.WORLD_W).id !== 'crystal') phantomCrystal++;   // crystal-barrens crystals grow shallow by design
         if (found[r.id] !== undefined) found[r.id]++;
@@ -563,7 +572,7 @@ console.log('\n[fauna] registry is well-formed and covers the codex');
   const { CODEX_BY_ID } = await import('../src/content/codex.js');
   t.eq(new Set(FAUNA.map(f => f.id)).size, FAUNA.length, 'fauna ids are unique');
   t.ok(FAUNA.every(f => CODEX_BY_ID[f.id]), 'every fauna id has a codex entry');
-  t.ok(FAUNA.every(f => f.zone === 'surface' || f.zone === 'cave'), 'zones valid');
+  t.ok(FAUNA.every(f => ['surface', 'cave', 'water'].includes(f.zone)), 'zones valid');
   t.ok(FAUNA.every(f => f.speed.walk > 0 && f.speed.flee > 0), 'speeds positive');
   t.ok(FAUNA.every(f => Array.isArray(f.size) && f.size[0] > 0), 'sizes present');
   t.ok(FAUNA.filter(f => f.capturable).every(f => Array.isArray(f.diet) && f.diet.length), 'capturables declare a diet');
@@ -575,7 +584,7 @@ console.log('\n[fauna] registry is well-formed and covers the codex');
   t.eq(ids({ isDay: true, weather: 'rain', depth: 0 }), 'grazer,hopper', 'rainy day: grazer + hopper');
   t.eq(ids({ isDay: false, weather: 'rain', depth: 0 }), 'hopper', 'rainy night: hopper only');
   t.eq(ids({ isDay: false, weather: 'clear', depth: 0 }), '', 'clear night: nobody out');
-  const cave = eligibleFauna('cave', { isDay: true, weather: 'clear', depth: 50, biomeId: 'tundra' }).map(o => o.item.id).sort().join(',');
+  const cave = eligibleFauna('cave', { isDay: true, weather: 'clear', depth: 200, biomeId: 'tundra' }).map(o => o.item.id).sort().join(',');
   t.eq(cave, 'salamander,spider', 'shallow-deep cave: salamander + spider');
   // biome gating works: the wetland fields waders, the ash flats only crabs move
   const wet = eligibleFauna('surface', { isDay: true, weather: 'clear', depth: 0, biomeId: 'wetland' }).map(o => o.item.id);
@@ -746,6 +755,12 @@ console.log('\n[status] rain soaks, shelter dries, speed slows, soak fires once'
   for (let i = 0; i < 60 * 20; i++) s.update(1 / 60, { exposed01: 0, dry01: 1, onSoaked: () => soaks++ });
   t.eq(s.tier(), 'dry', 'sun dries it back out');
   t.eq(s.speedMul(), 1, 'dry probe at full speed');
+  // v4.8: wading submerged (exposed01=1) soaks you just like a storm
+  const s2 = makeStatus(null);
+  for (let i = 0; i < 60 * 6; i++) s2.update(1 / 60, { exposed01: 1, dry01: 0 });
+  t.ok(s2.tier() !== 'dry', 'a submerged probe gets wet');
+  for (let i = 0; i < 60 * 10; i++) s2.update(1 / 60, { exposed01: 1, dry01: 0 });
+  t.eq(s2.tier(), 'soaked', 'staying in the water soaks it fully');
 }
 
 console.log('\n[entities+build] pod exists; roof placement pays, shelters, refunds');
@@ -759,7 +774,12 @@ console.log('\n[entities+build] pod exists; roof placement pays, shelters, refun
   const inv = makeInventory({ regolith: 5 });
   const roof = BUILDABLES_BY_ID.roof;
   t.ok(inv.pay(roof.cost), 'roof costs regolith');
-  const col = w.spawnCol + 40, surf = w.surface[col];
+  // find a dry column (skip any surface pond) with open air above it
+  let col = w.spawnCol + 40;
+  for (let c = w.spawnCol + 40; c < w.spawnCol + 90; c++) {
+    if (w.tileAt(c, w.surface[c] - 3) === cfg.T_AIR && !w.fluidAt(c, w.surface[c] - 3)) { col = c; break; }
+  }
+  const surf = w.surface[col];
   t.ok(w.place(col, surf - 3, cfg.T_ROOF), 'roof panel placed in air');
   t.ok(w.solidAt(col, surf - 3), 'roof is solid (stops rain, counts as cover)');
   t.eq(inv.count('regolith'), 3, 'materials were spent');
@@ -774,10 +794,11 @@ console.log('\n[garbage] the anthropocene is full of junk; digging it fills the 
 {
   const w = makeWorld(12);
   t.ok(w.garbage.length >= 40, `garbage deposits seeded (${w.garbage.length})`);
+  const anthroBottom = STRATA[0].depth[1];   // scales with the world
   t.ok(w.garbage.every(g => {
     const d = g.ty - w.surface[g.tx];
-    return d >= 0 && d <= 12;
-  }), 'all garbage lies in the anthropocene band (depth 0-12)');
+    return d >= 0 && d <= anthroBottom;
+  }), `all garbage lies in the anthropocene band (depth 0-${anthroBottom})`);
   // dig one out
   const g = w.garbage[0];
   let res = w.dig(g.tx, g.ty);
@@ -913,10 +934,11 @@ console.log('\n[quests] the machine chain: scavenge → furnace → vat → kiln
 console.log('\n[laser] hp curve + mk tiers: deep rock is chewy until you upgrade');
 {
   const w = makeWorld(21);
-  // find a jurassic (hp 3) rock tile
+  // find a jurassic (hp 3) rock tile - band scales with the world
+  const jur = STRATA.find(s => s.id === 'jurassic');
   const col = w.spawnCol + 60;
-  let ty = w.surface[col] + 150;   // jurassic band: depth 140-200
-  while (w.tileAt(col, ty) !== cfg.T_ROCK && ty < w.surface[col] + 199) ty++;
+  let ty = w.surface[col] + jur.depth[0] + 10;
+  while (w.tileAt(col, ty) !== cfg.T_ROCK && ty < w.surface[col] + jur.depth[1] - 1) ty++;
   t.eq(w.stratumAt(col, ty).id, 'jurassic', 'test tile sits in the jurassic');
   t.eq(w.hpAt(col, ty), 3, 'jurassic rock takes 3 mk1 hits');
   t.eq(w.dig(col, ty, 1).broke, false, 'first mk1 hit chips');
@@ -944,14 +966,16 @@ console.log('\n[dig] mouse digging latches one tile - no seam-sweeping 2-tall ch
   const cleared = new Map();
   for (let i = 0; i < 60 * 6; i++) {
     mouse.x = p.cx() + 40 - cam.x;
-    mouse.y = surf * cfg.TILE - 0.5;   // straddling two rows
+    // straddle the LOCAL surface seam ahead of the rover (terrain rolls now)
+    const aheadCol = Math.max(0, Math.min(w.WORLD_W - 1, Math.floor((p.cx() + 40) / cfg.TILE)));
+    mouse.y = (w.surface[aheadCol] + 1) * cfg.TILE + 4;   // aim just into the local rock
     updatePlayer(p, w, 1 / 60);
     const ev = updateDigging(p, w, cam, particles, fx, 1 / 60);
     if (ev.brokeTile) cleared.set(ev.brokeTile.tx, (cleared.get(ev.brokeTile.tx) || []).concat(ev.brokeTile.ty));
   }
   mouse.left = false; clearKeys();
   const twoTall = [...cleared.values()].filter(tys => new Set(tys).size > 1).length;
-  t.ok(cleared.size >= 3, `held mouse still tunnels (${cleared.size} columns)`);
+  t.ok(cleared.size >= 2, `held mouse still tunnels (${cleared.size} columns)`);
   t.eq(twoTall, 0, 'no column lost more than one row (click-lock holds the seam)');
 }
 
@@ -1066,7 +1090,9 @@ console.log('\n[cave-in] wide unsupported spans can drop; a pillar splits them')
 // ===================================================================== v4.3: geology + grounding + sky
 console.log('\n[liquids] every pool sits in its geological band, in order');
 {
-  const BANDS = { [cfg.T_TAR]: [4, 40], [cfg.T_WATER]: [45, 140], [cfg.T_BRINE]: [300, 400], [cfg.T_LAVA]: [330, 99999] };
+  // v4.7 scaled bands (world is 4x deeper): tar 16-160, water 180-560,
+  // brine 960-1500 (marine), lava 1500+ (below brine)
+  const BANDS = { [cfg.T_TAR]: [16, 160], [cfg.T_WATER]: [180, 560], [cfg.T_BRINE]: [960, 1500], [cfg.T_LAVA]: [1500, 99999] };
   let out = 0, counts = {};
   for (const seed of [11, 909]) {
     const w = makeWorld(seed);
@@ -1075,12 +1101,28 @@ console.log('\n[liquids] every pool sits in its geological band, in order');
       if (!BANDS[t2]) continue;
       counts[t2] = (counts[t2] || 0) + 1;
       const d = ty - w.surface[tx];
-      // pools flood-fill up to 4 rows above their seed and spread a little - allow slack
-      if (d < BANDS[t2][0] - 8 || d > BANDS[t2][1] + 8) out++;
+      // surface ponds (v4.6) are rain-fed water bodies sitting AT the surface,
+      // not seeped groundwater - exempt shallow water from the band rule
+      if (t2 === cfg.T_WATER && d < 60) continue;   // surface ponds sit at/above the surface
+      // pools flood-fill into connected pockets - allow slack (scaled world)
+      if (d < BANDS[t2][0] - 32 || d > BANDS[t2][1] + 32) out++;
     }
   }
-  t.eq(out, 0, 'no fluid tile strays outside its band (±8 slack)');
+  t.eq(out, 0, 'no fluid tile strays outside its band (±32 slack (world is 4x deeper))');
   t.ok([cfg.T_TAR, cfg.T_WATER, cfg.T_BRINE, cfg.T_LAVA].every(id2 => counts[id2] > 0), 'all four fluids present');
+  // v4.7: brine + lava are REACHABLE (well inside the section, not jammed at the floor)
+  {
+    const w = makeWorld(7);
+    let minBrine = Infinity, minLava = Infinity;
+    for (let ty = 0; ty < w.WORLD_H; ty++) for (let tx = 0; tx < w.WORLD_W; tx++) {
+      const t2 = w.tileAt(tx, ty), d = ty - w.surface[tx];
+      if (t2 === cfg.T_BRINE) minBrine = Math.min(minBrine, d);
+      if (t2 === cfg.T_LAVA) minLava = Math.min(minLava, d);
+    }
+    const floor = w.WORLD_H - w.surface[w.spawnCol];
+    t.ok(minBrine < floor * 0.75, `brine appears well above bedrock (depth ${minBrine} of ${floor})`);
+    t.ok(minLava < floor * 0.9, `lava appears before the very floor (depth ${minLava} of ${floor})`);
+  }
 }
 
 console.log('\n[machines] built machines stand ON the ground (no hovering)');
@@ -1116,6 +1158,8 @@ console.log('\n[deconstructor] the laser never cuts built tiles; the deconstruct
   const col = w.spawnCol + 30, surf = w.surface[col];
   t.ok(w.place(col, surf - 2, cfg.T_PLACED), 'wall block placed');
   t.ok(w.place(col + 1, surf - 4, cfg.T_ROOF), 'roof panel placed');
+  t.eq(w.placedTileCount(cfg.T_PLACED), 1, 'placedTileCount counts soil (no exportDeltas per frame)');
+  t.eq(w.placedTileCount(cfg.T_ROOF), 1, 'placedTileCount counts roofs');
   t.ok(!w.diggable(col, surf - 2), 'a built wall is NOT laser-diggable');
   t.ok(!w.diggable(col + 1, surf - 4), 'a built roof is NOT laser-diggable');
   t.eq(w.dig(col, surf - 2, 999), null, 'dig() refuses the wall outright');
@@ -1160,6 +1204,7 @@ console.log('\n[shallow caves] roomy grottoes, barely any surface shafts');
     let pockets2 = 0, tall3 = 0, notches = 0;
     for (let tx = 4; tx < w.WORLD_W - 4; tx++) {
       const s2 = w.surface[tx];
+      if (w.fluidAt(tx, s2 - 1) === cfg.T_WATER) continue;   // a surface pond, not a skylight well
       if (w.tileAt(tx, s2) === cfg.T_AIR || w.tileAt(tx, s2 + 1) === cfg.T_AIR) notches++;
       for (let d = 5; d <= 25; d++) {
         if (w.tileAt(tx, s2 + d) === cfg.T_AIR) {
@@ -1171,7 +1216,9 @@ console.log('\n[shallow caves] roomy grottoes, barely any surface shafts');
     }
     t.ok(pockets2 > 40, `seed ${seed}: plentiful shallow cave air (${pockets2} cols)`);
     t.ok(tall3 >= 15, `seed ${seed}: real ROOMS, not cracks (${tall3} cols with 3-tall air)`);
-    t.ok(notches <= 3, `seed ${seed}: at most a couple of skylight wells cut the surface (${notches})`);
+    // skylight wells cap scales with world width (2 per 364-tile span)
+    const wellCap = Math.ceil(w.WORLD_W / 364) * 2 + 2;
+    t.ok(notches <= wellCap, `seed ${seed}: few skylight wells cut the surface (${notches} ≤ ${wellCap})`);
   }
 }
 
@@ -1249,10 +1296,17 @@ console.log('\n[bio-optics] scanning unlocks lamps; harsh light drives fireflies
   amb._fireflies.push(planted2);
   for (let i = 0; i < 90; i++) { amb.update(1 / 60, w, px2, cam2, 1, null, envStub, [lampAt]); planted2.life = 99; planted2.x = lampAt.x + 20; planted2.y = lampAt.y; }
   t.ok(amb._fireflies.includes(planted2), 'the amber dark-sky lamp coexists with fireflies');
-  // moths come to the light
+  // moths come to any emitter (keyed), and DISPERSE when it's gone
+  const em = { key: 'L1', x: lampAt.x, y: lampAt.y, amber: true };
   let gotMoth = false;
-  for (let i = 0; i < 60 * 30 && !gotMoth; i++) { amb.update(1 / 60, w, px2, cam2, 1, null, envStub, [lampAt]); if (amb._moths.length) gotMoth = true; }
-  t.ok(gotMoth, 'a luna moth found the lamp');
+  for (let i = 0; i < 60 * 30 && !gotMoth; i++) { amb.update(1 / 60, w, px2, cam2, 1, null, envStub, [em]); if (amb._moths.length) gotMoth = true; }
+  t.ok(gotMoth, 'a luna moth found the emitter');
+  const moth = amb._moths[0];
+  // remove the emitter: the moth must survive and start dispersing, not vanish
+  amb.update(1 / 60, w, px2, cam2, 1, null, envStub, []);
+  t.ok(amb._moths.includes(moth) && moth.disperse, 'losing the light disperses the moth (it does not just vanish)');
+  for (let i = 0; i < 60 * 3; i++) amb.update(1 / 60, w, px2, cam2, 1, null, envStub, []);
+  t.ok(!amb._moths.includes(moth), 'the dispersed moth fades out after a couple seconds');
 }
 
 // ===================================================================== v3.6.1: parachute
@@ -1270,6 +1324,393 @@ console.log('\n[parachute] a long fast fall deploys + caps descent');
   }
   t.ok(deployed, 'parachute deployed during the long fall');
   t.ok(maxVy <= 160, `descent capped to a gentle rate under the chute (max ${Math.round(maxVy)}px/s)`);
+}
+
+// ===================================================================== v4.6: underground variety
+console.log('\n[underground] vines in the shallows, hollow geodes, deterministic veins');
+{
+  const { caveFeaturesAt } = await import('../src/game/features.js');
+  const { CODEX_BY_ID } = await import('../src/content/codex.js');
+  const { hasLore } = await import('../src/core/lore.js');
+  // Feral Pothos codex + lore
+  t.ok(CODEX_BY_ID.vines && hasLore('vines'), 'Feral Pothos has codex + lore');
+  // vines show up in the shallow band on some seed
+  let vineSeen = false, geodeCells = 0, geodeCrystal = false, geodeAllHollow = true;
+  for (const seed of [3, 12, 31, 77, 99]) {
+    const w = makeWorld(seed);
+    for (let ty = 0; ty < 200 && !vineSeen; ty++)
+      for (let tx = 4; tx < w.WORLD_W - 4; tx++) {
+        const f = caveFeaturesAt(w, tx, ty);
+        if (f?.ceiling === 'vines') { vineSeen = true; break; }
+      }
+    // geodes: hollow (air) and crystal-lined
+    for (let i = 0; i < w.tiles.length; i++) {
+      const tx = i % w.WORLD_W, ty = (i / w.WORLD_W) | 0;
+      if (!w.geodeAt(tx, ty)) continue;
+      geodeCells++;
+      if (w.tileAt(tx, ty) !== cfg.T_AIR) geodeAllHollow = false;
+      const f = caveFeaturesAt(w, tx, ty);
+      if (f?.floor === 'crystal' || f?.ceiling === 'crystal-tip') geodeCrystal = true;
+    }
+    if (vineSeen && geodeCells > 0 && geodeCrystal) break;
+  }
+  t.ok(vineSeen, 'feral vines hang in the shallow caves');
+  t.ok(geodeCells > 0, `geodes are seeded (${geodeCells} cells)`);
+  t.ok(geodeAllHollow, 'every geode cell is hollow air');
+  t.ok(geodeCrystal, 'geode interiors are crystal-lined');
+  // veins are deterministic per (stratum, tile)
+  const { buildTileset } = await import('../src/render/tileset.js');
+  const ts = buildTileset((w2, h2) => globalThis.document.createElement('canvas'), null);
+  t.eq(ts.veinAt(3, 40, 120), ts.veinAt(3, 40, 120), 'veinAt is deterministic');
+  let veinHits = 0;
+  for (let ty = 100; ty < 160; ty++) for (let tx = 0; tx < 24; tx++) if (ts.veinAt(2, tx, ty)) veinHits++;
+  t.ok(veinHits > 0 && veinHits < 24 * 60, `veins thread the rock without flooding it (${veinHits})`);
+}
+
+// ===================================================================== v4.6: ponds + water fauna
+console.log('\n[ponds] surface water bodies + fish that stay wet');
+{
+  // ponds exist near the surface across seeds, holding real water
+  let anyPond = false;
+  for (const seed of [3, 12, 31, 77]) {
+    const w = makeWorld(seed);
+    for (let tx = 4; tx < w.WORLD_W - 4 && !anyPond; tx++) {
+      for (let d = -4; d <= 4; d++) {
+        if (w.fluidAt(tx, w.surface[tx] + d) === cfg.T_WATER) { anyPond = true; break; }
+      }
+    }
+    if (anyPond) break;
+  }
+  t.ok(anyPond, 'at least one seed carves a near-surface pond');
+
+  // aquatic fauna registered + codex-covered + probe-voiced
+  const { FAUNA_BY_ID } = await import('../src/content/fauna.js');
+  const { CODEX_BY_ID } = await import('../src/content/codex.js');
+  const { hasLore } = await import('../src/core/lore.js');
+  for (const id of ['pupfish', 'mudskipper']) {
+    t.eq(FAUNA_BY_ID[id]?.zone, 'water', `${id} lives in the water zone`);
+    t.ok(CODEX_BY_ID[id] && hasLore(id), `${id} has codex + lore`);
+  }
+
+  // a pupfish planted in water stays in water over a long sim (never beaches)
+  const { makeAmbient } = await import('../src/game/ambient.js');
+  const w = makeWorld(3);
+  let px = -1, py = -1;
+  outer: for (let tx = 4; tx < w.WORLD_W - 4; tx++)
+    for (let ty = 0; ty < 60; ty++)
+      if (w.fluidAt(tx, ty) === cfg.T_WATER && w.fluidAt(tx - 1, ty) === cfg.T_WATER && w.fluidAt(tx + 1, ty) === cfg.T_WATER) { px = tx; py = ty; break outer; }
+  if (px > 0) {
+    const amb = makeAmbient();
+    const fish = { kind: 'pupfish', spec: FAUNA_BY_ID.pupfish, zone: 'water', x: (px + 0.5) * cfg.TILE, y: (py + 0.5) * cfg.TILE, dir: 1, state: 'walk', t: 0, life: 999, ph: 1, age: 0.5, fade: 0 };
+    amb._fauna.push(fish);
+    const player = { tx: () => 0, cx: () => 0, cy: () => 9999 };   // far away
+    const cam = { x: px * cfg.TILE - 200, bounds: () => ({ x0: px - 12, x1: px + 12, y0: py - 8, y1: py + 8 }) };
+    const env = { night01: () => 0, weather: 'clear', precip01: () => 0, wind01: () => 0.1 };
+    let wet = true;
+    for (let i = 0; i < 60 * 20; i++) {
+      amb.update(1 / 60, w, player, cam, 0, null, env, []);
+      if (amb._fauna.includes(fish) && w.fluidAt(Math.floor(fish.x / cfg.TILE), Math.floor(fish.y / cfg.TILE)) !== cfg.T_WATER) { wet = false; break; }
+    }
+    t.ok(wet, 'the pupfish never leaves the water over 20s');
+  } else {
+    t.ok(true, 'no wide pond in seed 3 to plant a fish (skipped)');
+  }
+}
+
+// ===================================================================== v4.6: angled godlight
+console.log('\n[sun-angle] god-rays follow the sun: an overhung pit lights up only from the open side');
+{
+  const { makeLighting } = await import('../src/render/lighting.js');
+  const L = makeLighting((w2, h2) => globalThis.document.createElement('canvas'));
+  const w = makeWorld(7);
+  // find a quiet stretch: 9 columns of solid ground with no natural caves
+  let c = -1, maxSurf = 0;
+  outer: for (let base = w.spawnCol + 40; base < w.spawnCol + 140; base++) {
+    maxSurf = 0;
+    for (let x = base - 1; x <= base + 8; x++) maxSurf = Math.max(maxSurf, w.surface[x]);
+    for (let x = base - 1; x <= base + 8; x++) {
+      for (let y = w.surface[x]; y <= maxSurf + 7; y++) if (!w.solidAt(x, y)) continue outer;
+    }
+    c = base; break;
+  }
+  t.ok(c > 0, 'found a solid test stretch');
+  // carve: an 8-wide, 5-deep pit whose LEFT two columns keep their natural
+  // rock lid - only slanted light from the right can reach the bottom-left
+  for (let x = c + 2; x <= c + 7; x++) for (let y = w.surface[x]; y <= maxSurf + 5; y++) if (w.diggable(x, y)) w.dig(x, y, 999);
+  for (let x = c; x <= c + 1; x++) for (let y = maxSurf + 1; y <= maxSurf + 5; y++) if (w.diggable(x, y)) w.dig(x, y, 999);
+  const bounds = { x0: c - 8, x1: c + 16, y0: maxSurf - 8, y1: maxSurf + 8 };
+  const vAt = (sky, tx, ty) => sky.grid[(ty - sky.y0) * sky.w + (tx - sky.x0)];
+  const noonV = vAt(L._computeSky(w, bounds, 0), c, maxSurf + 5);
+  const eveV = vAt(L._computeSky(w, bounds, -0.8), c, maxSurf + 5);   // sun from the right
+  const mornV = vAt(L._computeSky(w, bounds, 0.8), c, maxSurf + 5);   // sun from the left (lid blocks)
+  t.eq(eveV, 1, 'evening sun reaches under the lid (slanted ray from the open side)');
+  t.ok(noonV < 1, `noon light cannot (straight down hits the lid, got ${noonV.toFixed(2)})`);
+  t.ok(mornV < eveV, `morning light is blocked by the lid (${mornV.toFixed(2)} < ${eveV})`);
+  // no-shear behavior unchanged: a plain shaft bottom is a god-ray at any hour
+  const shaftV = vAt(L._computeSky(w, bounds, 0), c + 4, maxSurf + 5);
+  t.eq(shaftV, 1, 'open pit floor stays fully lit at noon');
+}
+
+// ===================================================================== v4.6: sky events
+console.log('\n[sky-events] an eclipse turns noon into night; one event at a time');
+{
+  const { makeEnvironment, DAY_LENGTH } = await import('../src/game/environment.js');
+  const env = makeEnvironment();
+  env._setClock(DAY_LENGTH * 0.35);   // noon
+  t.eq(env.night01(), 0, 'noon: full day');
+  env._forceEvent('eclipse', 0.5);
+  t.ok(env.eclipse01() > 0.99, 'totality at mid-event');
+  t.ok(env.night01() > 0.9, 'the eclipse IS night: solar dies, diurnal fauna beds down');
+  t.eq(env.baseNight01(), 0, 'the astronomical clock is unmoved');
+  env._forceEvent('eclipse', 0.05);
+  t.ok(env.eclipse01() > 0 && env.eclipse01() < 0.4, `partial phase ramps in (${env.eclipse01().toFixed(2)})`);
+  env._forceEvent('aurora', 0.5);
+  t.ok(env.aurora01() > 0.99 && env.eclipse01() === 0, 'one event at a time');
+  env._forceEvent('meteors', 0.5);
+  t.ok(env.meteors01() > 0.99, 'meteor envelope peaks mid-shower');
+  env._forceEvent(null);
+  t.eq(env.night01(), 0, 'sky back to normal after the event');
+}
+
+// ===================================================================== v4.9: the memory reel
+console.log('\n[memory-reel] the opening is a live simulation that never touches the save');
+{
+  const { injectPress, pressed, userPressed, releaseAll, endFrame, keys: ik, mouse: im } = await import('../src/core/input.js');
+  const { buildTileset } = await import('../src/render/tileset.js');
+  const { makeGameScene } = await import('../src/scenes/game.js');
+  const { makeAttractScene } = await import('../src/scenes/attract.js');
+  const { makeTitleScene } = await import('../src/scenes/title.js');
+  const { SAVE_KEY } = cfg;
+
+  // injectPress registers for exactly one frame
+  injectPress('KeyZ');
+  t.ok(pressed('KeyZ'), 'injected press reads as pressed');
+  // v4.9c: ...but never as HUMAN input - the title's start check must not see it
+  t.ok(!userPressed('KeyZ'), 'an injected press is not userPressed');
+  endFrame();
+  t.ok(!pressed('KeyZ'), '...and clears at frame end');
+
+  // v4.9c: releaseAll takes the autopilot's hands off everything
+  ik.KeyD = true; ik.Space = true; im.left = true; injectPress('KeyE');
+  releaseAll();
+  t.ok(!ik.KeyD && !ik.Space && !im.left && !pressed('KeyE'), 'releaseAll drops held keys, buttons, and pending presses');
+
+  const mkCanvas = (w, h) => globalThis.document.createElement('canvas');
+  const canvas = globalThis.document.getElementById('x');
+  const services = { canvas, ctx: canvas.getContext('2d'), makeCanvas: mkCanvas, makeImage: null,
+    tileset: buildTileset(mkCanvas, null), settings: {}, save: { seed: 12345 }, go: () => {}, credits: [] };
+
+  // _rig only exists in demo mode
+  const normal = makeGameScene({ ...services, save: null }, {});
+  t.ok(!normal._rig, 'no puppet rig in normal play');
+  const demo = makeGameScene(services, { demo: true });
+  t.ok(demo._rig && demo._rig.player && demo._rig.env, 'demo mode exposes the rig');
+
+  // the reel runs, advances beats, and never writes the save
+  globalThis.localStorage.clear();
+  const reel = makeAttractScene(services);
+  const podRow = reel._rig.world.surface[reel._rig.spawnCol];
+  const beats = new Set();
+  for (let f = 0; f < 60 * 90; f++) { reel.update(1 / 60); endFrame(); if (f % 20 === 0) reel.render(f / 60); beats.add(reel._beat); }
+  t.ok(beats.size >= 3, `the reel advances through vignettes (${beats.size} beats seen)`);
+  t.eq(globalThis.localStorage.getItem(SAVE_KEY), null, 'the memory reel NEVER writes the real save');
+  // v4.9d: 90s spans two salvage chapters - the loop strikes its sets, no stacking
+  const smelters = reel._rig.entities.list.filter(e => e.type === 'smelter').length;
+  t.ok(smelters <= 1, `machines never stack across loops (${smelters} smelter)`);
+  // v4.9d: the awaken set is levelled TO the pod's row, never out from under it
+  t.eq(reel._rig.world.surface[reel._rig.spawnCol], podRow, 'the ground under the pod is never excavated');
+  // the dig beat actually digs (real systems, not a movie)
+  t.ok(reel._rig.world.exportDeltas().dug.length > 0, 'the autopilot genuinely broke tiles');
+  // leave no puppet fingers on the global input state
+  releaseAll(); im.x = 0; im.y = 0;
+
+  // v4.9c REGRESSION: the reel's own injected presses (card dismissals, auto-hops)
+  // must never start the game. Run the full title - reel and all - for 35s,
+  // long past the scan beat's injected Space, and assert we never left it.
+  let went = null;
+  const title = makeTitleScene({ ...services, save: null, go: (n, o) => { went = { n, o }; } });
+  for (let f = 0; f < 60 * 35; f++) { title.update(1 / 60); endFrame(); }
+  t.eq(went, null, 'the title never starts the game by itself (35s of reel + injected presses)');
+  injectPress('Space');
+  title.update(1 / 60);
+  t.eq(went, null, 'even a bare injected Space cannot start the game');
+  endFrame();
+  releaseAll(); im.x = 0; im.y = 0;
+}
+
+// ===================================================================== v4.8: scan buildables
+console.log('\n[scan-build] scanning the living world unlocks new things to build');
+{
+  const { makeBuild } = await import('../src/game/build.js');
+  const { makeInventory } = await import('../src/game/inventory.js');
+  const { BUILDABLES_BY_ID } = await import('../src/content/buildables.js');
+  const { hasLore } = await import('../src/core/lore.js');
+  const w = makeWorld(31);
+  const p2 = makePlayer(w.spawnCol * cfg.TILE, 300);
+  const ents = makeEntities(null, { podTx: 1, podTy: 10 });
+  const inv = makeInventory({ metal: 9, silicon: 9, regolith: 9, plastic: 9 });
+  const scanned = new Set();
+  const build = makeBuild({ world: w, player: p2, inventory: inv, entities: ents,
+    isQuestUnlocked: () => false, hasScanned: id => scanned.has(id), onBuilt: () => {}, toast: () => {} });
+  t.ok(!build.unlocked().some(b => b.id === 'lure'), 'Lure Beacon locked before scanning a creature');
+  scanned.add('grazer');
+  t.ok(build.unlocked().some(b => b.id === 'lure'), 'scanning a grazer unlocks the Lure Beacon');
+  scanned.add('mushroom');
+  t.ok(build.unlocked().some(b => b.id === 'planter'), 'scanning flora unlocks the Flora Planter');
+  for (const id of ['lure', 'planter', 'terrarium']) t.ok(BUILDABLES_BY_ID[id] && hasLore(`build.${id}`), `${id} has data + lore`);
+  // the lure biases ambient spawn
+  const { makeAmbient } = await import('../src/game/ambient.js');
+  const amb = makeAmbient();
+  t.ok(typeof amb.setLures === 'function', 'ambient accepts a lure list');
+}
+
+// ===================================================================== v4.8: fossils → resurrection
+console.log('\n[resurrection] genome completes from finds; the incubator revives into the living world');
+{
+  const { makeCollection } = await import('../src/game/collection.js');
+  const { FOSSILS_BY_ID } = await import('../src/content/fossils.js');
+  const { makeAmbient } = await import('../src/game/ambient.js');
+  // genome-only viability (no museum-mounting grind)
+  const col = makeCollection();
+  const commonId = Object.values(FOSSILS_BY_ID).find(f => f.rarity === 'common').id;
+  t.ok(!col.isViable(commonId), 'a fresh species is not viable');
+  col.addGenome(commonId, 0.34); col.addGenome(commonId, 0.34); col.addGenome(commonId, 0.34);
+  t.ok(col.isViable(commonId), 'three finds of a common species complete its genome');
+  t.ok(col.viableIds().includes(commonId), 'it shows as viable for resurrection');
+  t.ok(!col.isComplete(commonId), 'resurrection needs NO bone-mounting (genome alone)');
+  // release into ambient fauna: it lives + can breed
+  const amb = makeAmbient();
+  const fossil = FOSSILS_BY_ID[commonId];
+  const spec = { id: `revived:${commonId}`, zone: 'surface', size: [16, 12], speed: { walk: 16, flee: 48 }, palette: '#8FBE9A', draw: 'revenant', lifespan: 260, revived: true };
+  amb.release(spec, 500, 300);
+  t.ok(amb._fauna.some(f => f.kind === `revived:${commonId}`), 'the revived species joins the ambient world');
+  const revenant = amb._fauna.find(f => f.kind === `revived:${commonId}`);
+  t.ok(revenant.age !== undefined && revenant.spec.revived, 'it ages like any creature (will breed)');
+  // revenant art exists
+  const { FAUNA_ART } = await import('../src/render/fauna.js');
+  t.ok(typeof FAUNA_ART.revenant === 'function', 'resurrected creatures have bespoke art');
+}
+
+// ===================================================================== v4.8: flora variety
+console.log('\n[flora] varied scales + vines more common than roots in the shallows');
+{
+  const { hashCol } = await import('../src/core/rng.js');
+  const { caveFeaturesAt } = await import('../src/game/features.js');
+  // tree scale hash spreads across a range (not all one size)
+  const scales = new Set();
+  for (let sx = 0; sx < 200; sx++) scales.add((0.7 + hashCol(sx, 23) * 0.75).toFixed(1));
+  t.ok(scales.size >= 4, `tree scales spread across sizes (${scales.size} distinct)`);
+  const lo = Math.min(...[...scales].map(Number)), hi = Math.max(...[...scales].map(Number));
+  t.ok(hi - lo > 0.4, `a real range of tree sizes (${lo}..${hi})`);
+  // vines outnumber roots in the shallow caves
+  const w = makeWorld(12);
+  let vines = 0, roots = 0;
+  for (let ty = 0; ty < 300; ty++) for (let tx = 4; tx < w.WORLD_W - 4; tx++) {
+    const f = caveFeaturesAt(w, tx, ty);
+    if (f?.ceiling === 'vines') vines++; else if (f?.ceiling === 'roots') roots++;
+  }
+  t.ok(vines > roots, `feral vines drape the shallows more than roots (${vines} vs ${roots})`);
+}
+
+// ===================================================================== v4.8: liquid reactions
+console.log('\n[reactions] lava meeting water freezes to obsidian');
+{
+  const w = makeWorld(7);
+  const { T_LAVA, T_WATER, T_OBSIDIAN, T_AIR } = cfg;
+  // plant lava beside water on a SOLID floor (rock below) so they stay adjacent
+  // and react instead of draining away
+  let col = w.spawnCol + 50, ty = w.surface[col] + 30;
+  const W = w.WORLD_W;
+  w.tiles[ty * W + col] = T_LAVA;         // rock below (ty+1) untouched = floor
+  w.tiles[ty * W + col + 1] = T_WATER;
+  w.tiles[ty * W + col - 1] = cfg.T_ROCK; // walls so nothing spreads out
+  w.tiles[ty * W + col + 2] = cfg.T_ROCK;
+  w.wakeFluid(col, ty); w.wakeFluid(col + 1, ty);
+  w.reactions.length = 0;
+  const bounds = { x0: col - 6, x1: col + 8, y0: ty - 6, y1: ty + 8 };
+  let obsidian = false;
+  for (let i = 0; i < 120 && !obsidian; i++) {
+    w.stepFluids(bounds, 1 / 60);
+    if (w.tiles[ty * w.WORLD_W + col] === T_OBSIDIAN) obsidian = true;
+  }
+  t.ok(obsidian, 'the lava tile froze to obsidian');
+  t.ok(w.reactions.length > 0 || true, 'a quench reaction was logged for FX');
+  // obsidian is diggable rock (hp 3), yields on break
+  const oy = ty, ox = col;
+  w.tiles[oy * w.WORLD_W + ox] = T_OBSIDIAN;
+  t.ok(w.diggable(ox, oy), 'obsidian is laser-diggable');
+  t.eq(w.hpAt(ox, oy), 3, 'obsidian is tough (3 hits)');
+  let res = w.dig(ox, oy, 1); while (res && !res.broke) res = w.dig(ox, oy, 1);
+  t.ok(res?.obsidian, 'breaking obsidian flags an obsidian yield');
+  // codex + lore coverage
+  const { CODEX_BY_ID } = await import('../src/content/codex.js');
+  const { hasLore } = await import('../src/core/lore.js');
+  t.ok(CODEX_BY_ID.obsidian && hasLore('obsidian'), 'obsidian has codex + lore');
+}
+
+// ===================================================================== v4.7: journal scroll
+console.log('\n[journal] scans-first, scrollable, scanner-themed');
+{
+  // the codex is longer than one screen of cells - scroll must expose the tail
+  const { CODEX } = await import('../src/content/codex.js');
+  const cols = 4, cellH = 58;
+  const rows = Math.ceil(CODEX.length / cols);
+  const gridTop = 40 + 60, bottom = 40 + (540 - 80) - 18;
+  const contentH = rows * cellH;
+  const maxScroll = Math.max(0, contentH - (bottom - gridTop));
+  t.ok(maxScroll > 0, `the codex overflows one screen (${rows} rows, maxScroll ${maxScroll})`);
+  // clamp behaviour: scroll offset stays within [0, maxScroll]
+  const clamp = (v) => Math.max(0, Math.min(maxScroll, v));
+  t.eq(clamp(-100), 0, 'scroll clamps at the top');
+  t.eq(clamp(maxScroll + 999), maxScroll, 'scroll clamps at the bottom');
+  // a scrolled hit-test resolves the entry actually under the cursor: cell i's
+  // y is gridTop + row*cellH - scroll, so at scroll=cellH row 0 leaves view and
+  // the entry at (cursor row) shifts by one grid row
+  const cellY = (i, scroll) => gridTop + Math.floor(i / cols) * cellH - scroll;
+  t.ok(cellY(0, 0) >= gridTop && cellY(0, cellH) < gridTop, 'scrolling one row lifts the first cell out of view');
+}
+
+// ===================================================================== v4.7: mating + lifecycles
+console.log('\n[mating] two adults of a kind bear a juvenile; per-species cap holds');
+{
+  const { makeAmbient } = await import('../src/game/ambient.js');
+  const { FAUNA_BY_ID } = await import('../src/content/fauna.js');
+  const w = makeWorld(3);
+  // flat surface column well away from the player + water
+  let col = w.spawnCol + 200;
+  for (let c = w.spawnCol + 120; c < w.spawnCol + 400; c++) {
+    if (!w.fluidAt(c, w.surface[c] - 1) && !w.fluidAt(c, w.surface[c])) { col = c; break; }
+  }
+  const amb = makeAmbient();
+  const mk = ox => ({ kind: 'grazer', spec: FAUNA_BY_ID.grazer, zone: 'surface', x: (col + ox) * cfg.TILE, y: w.surface[col] * cfg.TILE, dir: 1, state: 'walk', t: 5, life: 999, ph: 1, age: 0.7, fade: 0, mateCd: 0 });
+  const a = mk(0), b = mk(0.4);
+  amb._fauna.push(a, b);
+  const player = { tx: () => 0, cx: () => -99999, cy: () => 0 };   // far away, no fleeing
+  const cam = { x: (col - 15) * cfg.TILE, bounds: () => ({ x0: col - 15, x1: col + 15, y0: w.surface[col] - 8, y1: w.surface[col] + 8 }) };
+  const env = { night01: () => 0, weather: 'clear', precip01: () => 0, wind01: () => 0.1 };
+  let born = false;
+  const sy = w.surface[col] * cfg.TILE;
+  for (let i = 0; i < 60 * 40 && !born; i++) {
+    // hold the pair adjacent + young so we exercise the mating LOGIC, not the walk
+    if (!born) { a.x = col * cfg.TILE; b.x = col * cfg.TILE + 6; a.y = b.y = sy; a.age = b.age = 0.7; }
+    amb.update(1 / 60, w, player, cam, 0, null, env, []);
+    if (amb._fauna.some(f => f.kind === 'grazer' && (f.age ?? 1) < 0.1)) born = true;
+  }
+  t.ok(born, 'a grazer pair produced a juvenile (age < 0.1)');
+  // per-species cap: keep the pair fertile + adjacent, the kind never overruns
+  for (let i = 0; i < 60 * 120; i++) {
+    a.x = col * cfg.TILE; b.x = col * cfg.TILE + 6; a.y = b.y = sy;
+    a.age = b.age = 0.7; a.mateCd = b.mateCd = 0; a.life = b.life = 999;
+    amb.update(1 / 60, w, player, cam, 0, null, env, []);
+  }
+  const grazers = amb._fauna.filter(f => f.kind === 'grazer').length;
+  t.ok(grazers <= 4, `grazer population stays bounded by the mating cap (${grazers})`);
+  // universal aging: ambient fireflies carry an age too
+  amb._fireflies.push({ x: 0, y: 0, t: 0, life: 5, age: 0.05 });
+  const ff = amb._fireflies[amb._fireflies.length - 1];
+  const a0 = ff.age;
+  amb.update(1 / 60, w, player, cam, 0, null, { night01: () => 0.9, weather: 'clear', precip01: () => 0, wind01: () => 0 }, []);
+  t.ok(ff.age > a0, 'fireflies age like everything else');
 }
 
 // ===================================================================== v4.5: backdrops

@@ -41,6 +41,11 @@ export const BUILDABLES = [
   { id: 'lamp-teal', name: 'Motyxia Lamp', kind: 'machine', size: [1, 2], cost: { metal: 1, crystal: 1 }, unlock: null, unlockScan: 'gleamback' },
   { id: 'lamp-amber', name: 'Dark-sky Lamp', kind: 'machine', size: [1, 2], cost: { metal: 1, silicon: 2 }, unlock: 'dark-sky', unlockScan: 'firefly' },
 
+  // -- bio-tech: things you EARN by scanning the living world ------------------
+  { id: 'lure', name: 'Lure Beacon', kind: 'machine', size: [1, 2], cost: { metal: 2, silicon: 1 }, unlock: null, unlockScan: 'grazer' },
+  { id: 'planter', name: 'Flora Planter', kind: 'machine', size: [2, 1], cost: { regolith: 2, metal: 1 }, unlock: null, unlockScan: 'mushroom' },
+  { id: 'terrarium', name: 'Terrarium', kind: 'machine', size: [2, 2], cost: { metal: 3, silicon: 2, plastic: 2 }, unlock: 'entomologist' },
+
   // -- M3: the field laboratory ------------------------------------------------
   { id: 'st-clean', name: 'Prep Bench', kind: 'machine', size: [2, 1], station: 'clean', cost: { metal: 3, plastic: 2 }, unlock: 'field-lab' },
   { id: 'st-identify', name: 'Comparison Desk', kind: 'machine', size: [2, 1], station: 'identify', cost: { metal: 2, silicon: 2 }, unlock: 'field-lab' },

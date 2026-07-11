@@ -142,6 +142,19 @@ export function buildTileset(makeCanvas, makeImage) {
       ctx.drawImage(atlas, (variant % VARIANTS) * TILE, STRATA.length * TILE, TILE, TILE, dx, dy, TILE, TILE);
     },
 
+    /** volcanic glass: lava quenched by water. Dark, glassy, conchoidal sheen */
+    drawObsidian(ctx, variant, dx, dy) {
+      ctx.fillStyle = '#1A1620'; ctx.fillRect(dx, dy, TILE, TILE);
+      ctx.fillStyle = '#2C2636';
+      ctx.beginPath();
+      ctx.moveTo(dx, dy + 4 + (variant & 3)); ctx.lineTo(dx + TILE, dy + 8);
+      ctx.lineTo(dx + TILE, dy + TILE); ctx.lineTo(dx, dy + TILE); ctx.closePath(); ctx.fill();
+      // sharp highlight fracture
+      ctx.strokeStyle = 'rgba(150,140,180,0.5)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(dx + 3, dy + 2); ctx.lineTo(dx + 9 + (variant & 1) * 3, dy + 11); ctx.stroke();
+      ctx.fillStyle = 'rgba(200,190,230,0.25)'; ctx.fillRect(dx + 10, dy + 3, 3, 2);
+    },
+
     /** cave-in rubble: loose broken fill - reads as diggable, not built */
     drawRubble(ctx, variant, dx, dy) {
       ctx.drawImage(atlas, (variant % VARIANTS) * TILE, STRATA.length * TILE, TILE, TILE, dx, dy, TILE, TILE);
@@ -168,6 +181,24 @@ export function buildTileset(makeCanvas, makeImage) {
       ctx.fillStyle = '#4A3421';
       ctx.fillRect(dx + 7, dy + 3, 2, 3);
       if (((tx ^ ty) & 1) === 0) ctx.fillRect(dx + 7, dy + 7, 2, 6);
+    },
+
+    /**
+     * Mineral veins: long sine-path seams threading a stratum in its accent
+     * colour, so the deep rock stops reading as one flat wall. Deterministic:
+     * a tile lies on a vein when its row's sine-offset column lands on it.
+     * Returns the vein colour to overlay, or null.
+     */
+    veinAt(si, tx, ty) {
+      const s = STRATA[si];
+      // three seams per stratum-band, each a slow diagonal sine across the world
+      for (let k = 0; k < 3; k++) {
+        const phase = si * 2.7 + k * 41;
+        const cx = ((ty * (0.35 + k * 0.12)) + Math.sin(ty * 0.09 + phase) * 6 + phase * 13) % 24;
+        const col = ((tx % 24) + 24) % 24;
+        if (Math.abs(col - cx) < 0.6) return s.colors.speckle;
+      }
+      return null;
     },
 
     /** the landing pad's artificial ground */

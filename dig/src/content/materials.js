@@ -26,19 +26,19 @@ export const MATERIALS_BY_ID = Object.fromEntries(MATERIALS.map(m => [m.id, m]))
  */
 export const GARBAGE = [
   // -- metals (the Smelter's diet) --------------------------------------------
-  { id: 'scrap-metal', name: 'Scrap Bundle', yields: { metal: [2, 3] }, freq: 0.9, band: [0, 12] },
-  { id: 'aluminium-can', name: 'Aluminium Can', yields: { metal: [1, 2] }, freq: 0.8, band: [0, 12] },
-  { id: 'stainless-cutlery', name: 'Cutlery Cache', yields: { metal: [1, 2] }, freq: 0.4, band: [1, 12] },
-  { id: 'rebar-chunk', name: 'Rebar Chunk', yields: { metal: [2, 4] }, freq: 0.5, band: [2, 12] },
+  { id: 'scrap-metal', name: 'Scrap Bundle', yields: { metal: [2, 3] }, freq: 0.9, band: [0, 48] },
+  { id: 'aluminium-can', name: 'Aluminium Can', yields: { metal: [1, 2] }, freq: 0.8, band: [0, 48] },
+  { id: 'stainless-cutlery', name: 'Cutlery Cache', yields: { metal: [1, 2] }, freq: 0.4, band: [4, 48] },
+  { id: 'rebar-chunk', name: 'Rebar Chunk', yields: { metal: [2, 4] }, freq: 0.5, band: [8, 48] },
   // -- plastics & polymers (the Pyrolysis Vat) ---------------------------------
-  { id: 'bottle-cluster', name: 'Bottle Cluster', yields: { plastic: [2, 3] }, freq: 1.0, band: [0, 12] },
-  { id: 'lego-brick', name: 'Toy Bricks', yields: { plastic: [1, 2] }, freq: 0.25, band: [0, 10] },
-  { id: 'tyre-chunk', name: 'Tyre Chunk', yields: { polymer: [2, 3] }, freq: 0.6, band: [2, 12] },
-  { id: 'fishing-net', name: 'Ghost Net', yields: { polymer: [1, 3] }, freq: 0.4, band: [1, 12] },
+  { id: 'bottle-cluster', name: 'Bottle Cluster', yields: { plastic: [2, 3] }, freq: 1.0, band: [0, 48] },
+  { id: 'lego-brick', name: 'Toy Bricks', yields: { plastic: [1, 2] }, freq: 0.25, band: [0, 40] },
+  { id: 'tyre-chunk', name: 'Tyre Chunk', yields: { polymer: [2, 3] }, freq: 0.6, band: [8, 48] },
+  { id: 'fishing-net', name: 'Ghost Net', yields: { polymer: [1, 3] }, freq: 0.4, band: [4, 48] },
   // -- silica & ceramics (the Ash Kiln) ----------------------------------------
-  { id: 'circuit-board', name: 'E-Waste', yields: { silicon: [1, 2] }, freq: 0.45, band: [4, 12] },
-  { id: 'glass-bottle', name: 'Glass Bottles', yields: { silicon: [1, 2] }, freq: 0.7, band: [0, 12] },
-  { id: 'ceramic-shards', name: 'Ceramic Shards', yields: { silicon: [1, 1], regolith: [1, 2] }, freq: 0.6, band: [1, 12] },
-  { id: 'smartphone', name: 'Pocket Shrine', yields: { silicon: [1, 2], metal: [1, 1] }, freq: 0.3, band: [2, 12] },
+  { id: 'circuit-board', name: 'E-Waste', yields: { silicon: [1, 2] }, freq: 0.45, band: [16, 48] },
+  { id: 'glass-bottle', name: 'Glass Bottles', yields: { silicon: [1, 2] }, freq: 0.7, band: [0, 48] },
+  { id: 'ceramic-shards', name: 'Ceramic Shards', yields: { silicon: [1, 1], regolith: [1, 2] }, freq: 0.6, band: [4, 48] },
+  { id: 'smartphone', name: 'Pocket Shrine', yields: { silicon: [1, 2], metal: [1, 1] }, freq: 0.3, band: [8, 48] },
 ];
 export const GARBAGE_BY_ID = Object.fromEntries(GARBAGE.map(g => [g.id, g]));

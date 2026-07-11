@@ -709,6 +709,76 @@
       "cost": 0.03,
       "created_at": 1783727493,
       "remaining_balance": 14.134
+    },
+    {
+      "id": "backdrop-tundra",
+      "cat": "backdrops",
+      "file": "assets/gen/backdrops/backdrop-tundra_v002.png",
+      "version": 2,
+      "prompt": "minimal distant horizon silhouette band, low simple rolling hills at the bottom third, very few elements, flat muted colours, mostly empty sky above, seamless tileable, no characters, no foreground, faint snowy peaks and a dark conifer treeline",
+      "cost": 0.022,
+      "created_at": 1783733977,
+      "remaining_balance": 14.112
+    },
+    {
+      "id": "backdrop-wetland",
+      "cat": "backdrops",
+      "file": "assets/gen/backdrops/backdrop-wetland_v002.png",
+      "version": 2,
+      "prompt": "minimal distant horizon silhouette band, low simple rolling hills at the bottom third, very few elements, flat muted colours, mostly empty sky above, seamless tileable, no characters, no foreground, low misty marsh flats and reed banks",
+      "cost": 0.022,
+      "created_at": 1783733994,
+      "remaining_balance": 14.09
+    },
+    {
+      "id": "backdrop-badlands",
+      "cat": "backdrops",
+      "file": "assets/gen/backdrops/backdrop-badlands_v002.png",
+      "version": 2,
+      "prompt": "minimal distant horizon silhouette band, low simple rolling hills at the bottom third, very few elements, flat muted colours, mostly empty sky above, seamless tileable, no characters, no foreground, low striped mesa buttes in warm tan",
+      "cost": 0.022,
+      "created_at": 1783734018,
+      "remaining_balance": 14.068
+    },
+    {
+      "id": "backdrop-savanna",
+      "cat": "backdrops",
+      "file": "assets/gen/backdrops/backdrop-savanna_v002.png",
+      "version": 2,
+      "prompt": "minimal distant horizon silhouette band, low simple rolling hills at the bottom third, very few elements, flat muted colours, mostly empty sky above, seamless tileable, no characters, no foreground, flat golden plain with tiny flat-top acacia silhouettes",
+      "cost": 0.022,
+      "created_at": 1783734035,
+      "remaining_balance": 14.046
+    },
+    {
+      "id": "backdrop-ashflats",
+      "cat": "backdrops",
+      "file": "assets/gen/backdrops/backdrop-ashflats_v002.png",
+      "version": 2,
+      "prompt": "minimal distant horizon silhouette band, low simple rolling hills at the bottom third, very few elements, flat muted colours, mostly empty sky above, seamless tileable, no characters, no foreground, low grey ash plain with a faint distant cinder cone",
+      "cost": 0.022,
+      "created_at": 1783734051,
+      "remaining_balance": 14.024
+    },
+    {
+      "id": "backdrop-crystal",
+      "cat": "backdrops",
+      "file": "assets/gen/backdrops/backdrop-crystal_v002.png",
+      "version": 2,
+      "prompt": "minimal distant horizon silhouette band, low simple rolling hills at the bottom third, very few elements, flat muted colours, mostly empty sky above, seamless tileable, no characters, no foreground, pale gypsum dunes with small violet crystal spire silhouettes",
+      "cost": 0.022,
+      "created_at": 1783734072,
+      "remaining_balance": 14.002
+    },
+    {
+      "id": "backdrop-coast",
+      "cat": "backdrops",
+      "file": "assets/gen/backdrops/backdrop-coast_v002.png",
+      "version": 2,
+      "prompt": "minimal distant horizon silhouette band, low simple rolling hills at the bottom third, very few elements, flat muted colours, mostly empty sky above, seamless tileable, no characters, no foreground, low green headlands meeting a calm sea horizon",
+      "cost": 0.022,
+      "created_at": 1783734091,
+      "remaining_balance": 13.98
     }
   ]
 }

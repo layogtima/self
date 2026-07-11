@@ -29,10 +29,10 @@ function entry(id, category, fallback = {}) {
 
 const CREATURES = ['grazer', 'hopper', 'lizard', 'salamander', 'spider', 'glowworm',
   'firefly', 'butterfly', 'bird', 'bat', 'wader', 'dustmole', 'cindercrab',
-  'prismfly', 'gleamback', 'moth', 'ashworm'];
+  'prismfly', 'gleamback', 'moth', 'ashworm', 'pupfish', 'mudskipper'];
 const FLORA = ['tree-badlands', 'tree-conifer', 'tree-palm', 'tree-mangrove',
-  'tree-acacia', 'tree-deadsnag', 'mushroom'];
-const FEATURES = ['tree-shardspire', 'stalactite', 'stalagmite', 'roots', 'crystal'];
+  'tree-acacia', 'tree-deadsnag', 'mushroom', 'vines'];
+const FEATURES = ['tree-shardspire', 'stalactite', 'stalagmite', 'roots', 'crystal', 'obsidian'];
 const FLUIDS = ['water', 'brine', 'tar', 'lava'];
 const SALVAGE = ['scrap-metal', 'aluminium-can', 'stainless-cutlery', 'rebar-chunk',
   'bottle-cluster', 'lego-brick', 'tyre-chunk', 'fishing-net',

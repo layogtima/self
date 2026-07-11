@@ -1,6 +1,7 @@
-// The awakening. No falling from orbit - you were already here. Black screen,
-// a hum, a typewriter boot log with two quietly ominous lines, then the game
-// scene takes over with its own HUD power-on (opts.boot). Any key skips.
+// The awakening. The title's field record fades gently to black (the scene
+// manager hands us its last frame as opts.backdrop) while the boot log types -
+// the recording ends, the real probe wakes. Then the game takes over with its
+// own HUD power-on (boot: true). Any key skips.
 
 import { VIEW_W, VIEW_H } from '../config.js';
 import { PALETTE } from '../render/palette.js';
@@ -17,15 +18,15 @@ const LOG = [
 ];
 const T_DONE = 3.4;
 
-export function makeAwakenScene(services) {
+export function makeAwakenScene(services, opts) {
   const { ctx } = services;
+  const backdrop = opts?.backdrop || null;   // the record's last frame
   let t = 0;
   let blipped = 0;
 
   return {
     update(dt) {
       t += dt;
-      // one soft blip as each line lands
       const due = LOG.filter(([, at]) => at <= t).length;
       if (due > blipped) { blipped = due; sfx.ui?.(); }
       if (t > 0.5 && anyPressed()) t = T_DONE;
@@ -36,23 +37,30 @@ export function makeAwakenScene(services) {
       ctx.fillStyle = '#05070C';
       ctx.fillRect(0, 0, VIEW_W, VIEW_H);
 
+      // the field record dims away - a projector winding down, not a crash
+      if (backdrop) {
+        const dim = Math.max(0, 1 - t / (T_DONE * 0.7));
+        if (dim > 0.01) {
+          ctx.globalAlpha = dim * 0.8;
+          ctx.drawImage(backdrop, 0, 0);
+          ctx.globalAlpha = 1;
+        }
+      }
+
       // faint scanline flicker while the optics warm up
       ctx.fillStyle = `rgba(75,227,232,${(0.02 + Math.random() * 0.02).toFixed(3)})`;
       for (let y = (time * 40 | 0) % 4; y < VIEW_H; y += 4) ctx.fillRect(0, y, VIEW_W, 1);
 
       const x = VIEW_W / 2 - 170, y0 = VIEW_H / 2 - 60;
+      ctx.fillStyle = 'rgba(5,7,12,0.55)';
+      ctx.fillRect(x - 16, y0 - 14, 372, LOG.length * 22 + 30);
       LOG.forEach(([line, at], i) => {
         if (t < at) return;
-        // typewriter reveal over 0.4s per line
         const chars = Math.min(line.length, Math.floor((t - at) / 0.4 * line.length));
         const shown = line.slice(0, chars);
         const glitch = line.includes('corrupted') || line.includes('NOT FOUND');
-        text(ctx, shown, x, y0 + i * 22, {
-          size: 14, bold: glitch,
-          color: glitch ? PALETTE.amber : '#4BE3E8',
-        });
+        text(ctx, shown, x, y0 + i * 22, { size: 14, bold: glitch, color: glitch ? PALETTE.amber : '#4BE3E8' });
       });
-      // blinking cursor after the last visible line
       if ((time * 2 | 0) % 2 === 0) {
         const visible = LOG.filter(([, at]) => at <= t).length;
         ctx.fillStyle = '#4BE3E8';

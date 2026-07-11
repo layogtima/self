@@ -79,3 +79,53 @@ into materials, build machines, dig deep for fossils, resurrect species, release
 - [x] NO living things in any recipe: lamps cost metal/silicon/crystal, laser mk2 is mineral-only, mushrooms are scan targets (not harvestable), material registry is organic-free (lint-tested)
 - [x] Rich scan cards: DG-3 FIELD ANALYSIS plate (chamfered chrome, corner brackets, scanline sweep) with LIVE TELEMETRY - age gauge (juvenile/adult/elder), state, derived mood - plus readout-grid science and the archive's flavor line
 - [x] Biome parallax backdrops: 7 generated horizon paintings ($0.21, balance $14.13) crossfading at borders, sky-fade mask keeps the day/night sky, vertical parallax carries them away underground, procedural ridge fallback (underground variants skipped on purpose: caves draw full back walls, a painting would never show)
+
+## v4.6 - audit, atmosphere, living water, richer underground
+- [x] Code audit + perf: builtCount reads world.placedTileCount (no per-frame exportDeltas), cached codex category tallies, single-pass lampsBuilt; recommend a v4.7 housekeeping round to split game.js render fns into render/worldview.js
+- [x] Card contrast: light text tiers (own palette, not sepia-on-dark), de-italicised brighter blurb, content-sized plate that flows the quote under the science (no dead middle)
+- [x] Clouds v2: persistent world-anchored puff field drifting on the wind (no more zooming), far-layer parallax, density eases with weather
+- [x] Fog: a real weather state (dawn-weighted), visibility banks hugging the surface, kills god-rays + hazes the backdrop, no rain/wetness
+- [x] Deeper = darker: piecewise depth curve to 0.96 by ~depth 244, mask cap 0.97
+- [x] Sun-angled god-rays: computeSky shears the sky-openness scan along the sun's azimuth (Bresenham per-row) - morning light leans east, evening west; a giant space flashlight
+- [x] Rare sky events: solar eclipse (noon night: stars out, fauna beds down, fireflies emerge, via effectiveNight01), aurora ribbons, meteor showers; toasts + quest events
+- [x] Surface ponds (wetland/coast-weighted) + aquatic fauna: Devils Hole Pupfish (water-bound) + Atlantic Mudskipper (amphibious); swim brain checks fluidAt, no trees in ponds
+- [x] Richer underground: Feral Pothos vines in the shallows, fauna-rich shallow grottoes (spawn from depth 5, cap 3), glowworms from depth 18, hollow crystal geodes, per-stratum mineral vein seams, depth-toothier stalactites
+
+## v4.7 - bigger world, living ecology, scanner journal
+- [x] Removed fog weather entirely (annoying); reverted CHAIN/render/backdrop terms
+- [x] Backdrops rebuilt procedural: 2-3 seamless rolling silhouette layers in the biome's OWN palette (no more seamy paintings), and moved BELOW the sun/moon (drawSky split into gradient+stars / sun+moon)
+- [x] World 4x bigger both axes (WORLD_W 1456, WORLD_H 1920): strata bands, fluid bands, cave/gas/geode/pond depths + counts all scaled; SAVE_KEY v3 (settings carry). Worldgen ~180ms
+- [x] All four liquids reachable: brine spread across the marine section (depth ~960+), magma chambers through the deep third (~1500+, below brine), pool counts up
+- [x] Ground creatures stay out of ponds: surface fauna don't spawn on water columns + turn at a water bank (amphibious mudskippers may skim the edge)
+- [x] Universal lifecycles + MATING: two same-species adults pair up and bear a juvenile (per-species cap + cooldown bounded); fireflies/butterflies age too (juveniles smaller)
+- [x] Species behaviours: grazers/dustmoles herd, lizards bask in clear sun, mudskippers amphibious
+- [x] Field journal re-themed as the DG-3 scanner readout (dark chrome + cyan), SCANS tab first + Fossils second, both wheel-scrollable with a scrollbar
+
+## v4.8 - flowing water, living lights, the resurrection loop, richer flora
+- [x] Water: pond count cut from 96 (×AREA) to ~16 (×LAT); fluid CA active-cap raised to 24000 + evicts farthest-from-camera, so pools flow instead of freezing
+- [x] Get wet when submerged (status.exposed01 fed from player.inWater/inBrine)
+- [x] Liquid reactions: lava + water → obsidian (new T_OBSIDIAN, diggable, yields crystal/silicon) + steam FX; codex + probe lore
+- [x] Overhead tube lights (ceiling bar + downward cone) instead of floor lamps; emitter-aware moths orbit any light (lamps, pod, machines, rover-at-night) and DISPERSE (not vanish) when the light is gone
+- [x] Build-menu icons redrawn to match the placed objects (smelter/vat/kiln/lamp-tube/incubator + new buildables)
+- [x] Fossils rethought → RESURRECTION: excavating a specimen tops up genome directly (no bone-mount grind; ~3 finds = common species), genome-only viability, the Incubator revives a species into the living ambient world where it ages + breeds (revenant fauna art, genesis quest)
+- [x] Deep caves worth it: fossils scale by width + skew deeper (the resurrection genome lives in the true deep strata); geodes/veins already depth-rich
+- [x] More to build from scans: Lure Beacon (draws fauna near), Flora Planter, Terrarium - all scan-unlocked
+- [x] Painted backdrops back but SIMPLE + seamlessly tiling (regenerated tile_x, image-mode with sky-fade + procedural fallback, below sun/moon)
+- [x] Far more flora: per-instance tree/dressing scale (0.7-1.4x), vines drape shallow AND deep caves, denser ground flora
+
+## v4.9 - THE MEMORY REEL: the opening is the trailer
+- [x] Demo mode in the game scene (opts.demo): persist() hard-gated (the reel can NEVER touch the real save), fresh deterministic seed 777, _rig puppet handle (demo only); core/input injectPress
+- [x] scenes/attract.js: the real engine replays DG-3's corrupted mission archive - six scripted-autopilot vignettes (awaken / dig / scan-with-live-card / storm salvage line / deep quench-to-obsidian / aurora resurrection), memory-seek glitch wipes, probe-voiced lower-third caption cards, loops like an arcade attract mode
+- [x] Title = the reel: wordmark + buttons + a flickering "MEMORY REPLAY - 2 SECTORS CORRUPTED" chip over the live simulation; `?trailer` URL param hides all chrome for clean capture (the reel IS the shippable trailer)
+- [x] awaken.js = the corruption cut: pressing DIG freezes the reel (overlay snapshot), corruption bars eat the frame to black while the boot log types `replay ... [TERMINATED] / objective ... [NOT FOUND]`, then the game boots - play begins where the memory fails. Returning saves skip straight in
+
+## v4.9b - THE FIELD RECORD (reel refinements)
+- [x] Corruption framing dropped: the reel is an endless narrated FIELD RECORD, not a broken memory - soft fade-through-black cuts (no glitch), storybook captions with chapter numerals ("it woke alone." ... "and it brought them back.")
+- [x] Rover always moving/interacting: drive-ins to every set piece, auto-hop over steps, position-based approaches, a REAL E-load at the smelter and a REAL E-resurrection at the incubator each loop (revived set cleared per pass), pacing/ambling between actions
+- [x] Beat stages flattened (stagecraft) so walks and machine lines read cleanly; title chip now a quiet "FIELD RECORD · DG-3" light; awaken = the record gently dimming out under the boot log
+
+## v4.9c - Reel handoff fix (input provenance)
+- [x] BUG: the reel's injected presses (card-dismiss Space, auto-hop) tripped the title's own start check - the game launched itself mid-loop with the autopilot's D still held (rover ran right forever). core/input now tracks a `synthetic` set; the title starts only on `userPressed` (human input, checked BEFORE reel.update)
+- [x] `releaseAll()` drops every held key/button/pending press - called on title start, settings, and non-demo game-scene creation, so no scene ever inherits the autopilot's hands
+- [x] Livelier, less marchy beats: awaken drives home then STOPS for a slow wondering headlight sweep (+ a headlamp flick), scan approaches the saiga from the right and creeps in close instead of pacing
+- [x] Regression tests: injected press is never userPressed; releaseAll clears everything; the full title runs 35s of reel (injected presses and all) without self-starting. 418 behavior + 10 render green

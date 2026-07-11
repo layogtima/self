@@ -6,10 +6,10 @@
 
 import {
   VIEW_W, VIEW_H, TILE, WORLD_W, WORLD_H, PLAYER_H, BEAM_Y, DIG_REACH, DIG_COOLDOWN,
-  T_AIR, T_PLACED, T_BEDROCK, T_WATER, T_LAVA, T_ROOF, T_BRINE, T_TAR, T_RUBBLE, FLUID_SPECS, AUTOSAVE_SECONDS, CAMP_HALF_L, CAMP_HALF_R,
+  T_AIR, T_PLACED, T_BEDROCK, T_WATER, T_LAVA, T_ROOF, T_BRINE, T_TAR, T_RUBBLE, T_OBSIDIAN, FLUID_SPECS, AUTOSAVE_SECONDS, CAMP_HALF_L, CAMP_HALF_R,
   POWER_DIG, POWER_SCAN,
 } from '../config.js';
-import { keys, mouse, pressed } from '../core/input.js';
+import { keys, mouse, pressed, releaseAll } from '../core/input.js';
 import { sfx, rumble, thunder, setRainLevel, setCricketLevel, setWindLevel, setSurfacePad, setCaveLevel, setWaterLevel, setLavaLevel } from '../core/audio.js';
 import { setMusicDepth, updateMusic } from '../core/music.js';
 import { writeSave } from '../core/save.js';
@@ -52,9 +52,15 @@ import { biomeAtX } from '../content/biomes.js';
 import { FOSSILS, FOSSILS_BY_ID } from '../content/fossils.js';
 
 export function makeGameScene(services, opts) {
-  const { ctx, tileset, makeCanvas, settings, save } = services;
+  const { ctx, tileset, makeCanvas, settings } = services;
+  // DEMO MODE (the title's memory reel): a fresh deterministic world, no save
+  // read, and - critically - persist() no-ops so the reel can NEVER touch the
+  // player's real save.
+  const demoMode = !!opts?.demo;
+  const save = demoMode ? null : services.save;
+  if (!demoMode) releaseAll();   // never inherit the attract autopilot's held keys
 
-  const seed = save?.seed ?? ((Math.random() * 1e9) | 0);
+  const seed = demoMode ? 777 : (save?.seed ?? ((Math.random() * 1e9) | 0));
 
   const world = makeWorld(seed);
   world.applyDeltas(save);
@@ -87,14 +93,18 @@ export function makeGameScene(services, opts) {
   }
 
   let time = 0, autosaveT = AUTOSAVE_SECONDS;
-  let collectionOpen = false, journalTab = 'fossils';
+  let collectionOpen = false, journalTab = 'codex';   // scans first
+  let journalScroll = 0;              // wheel scroll offset in the journal grid
   let inventoryOpen = false;          // I - the hold manifest
   let overlay = null;
   let scanning = null;                // {id, t} while holding a scan
   let scanTarget = null;              // resolveScan() result this frame (reticle + harvest)
   let deconTarget = null;             // deconstructor hover: {kind, tx, ty, e?, spec}
   let umbilical = null;               // machine uid the rover is feeding power (G)
+  let codexTally = { size: -1, creatures: 0, junk: 0 };   // cached codex category counts
+  let lastSkyEvent = null;            // rare-event toast edge detector
   const codex = new Set(save?.codex || []);
+  const revived = new Set(save?.revived || []);   // fossil ids already resurrected
   const inventory = makeInventory(save?.materials, save?.garbage);
   let birdT = 8 + Math.random() * 10;
   let minigame = null;
@@ -157,6 +167,7 @@ export function makeGameScene(services, opts) {
   }
 
   function persist() {
+    if (demoMode) return;   // the memory reel never writes the real save
     const deltas = world.exportDeltas();
     const session = {
       px: player.x, py: player.y, vx: player.vx, vy: player.vy, facing: player.facing,
@@ -166,6 +177,7 @@ export function makeGameScene(services, opts) {
       v: 2, seed,
       dug: deltas.dug, placedTiles: deltas.placedTiles, harvested: deltas.harvested,
       collected: collection.export(), genome: collection.exportGenome(), codex: [...codex],
+      revived: [...revived],
       materials: inventory.export(), garbage: inventory.exportGarbage(),
       ...entities.export(),                 // entities + nextUid
       quests: { ...quests.export(), stats: { garbageDug, matsExtracted, netsDug, entoRewarded } },
@@ -205,12 +217,10 @@ export function makeGameScene(services, opts) {
   }
   function builtCount(type) {
     const spec = BUILDABLES_BY_ID[type];
-    if (spec?.kind === 'tile') {
-      let n = 0;
-      for (const [, t] of world.exportDeltas().placedTiles) if (t === spec.tile) n++;
-      return n;
-    }
-    return entities.list.filter(e => e.type === type).length;
+    if (spec?.kind === 'tile') return world.placedTileCount(spec.tile);
+    let n = 0;
+    for (const e of entities.list) if (e.type === type) n++;
+    return n;
   }
 
   // --------------------------------------------------------------- update
@@ -218,6 +228,7 @@ export function makeGameScene(services, opts) {
     time += dt;
     if (bootT < 3.5) { bootT += dt; if (bootT < 1.2) { env.update(dt); return; } }   // controls unlock at 1.2s
     env.update(dt);
+    updateClouds(dt);
     updateMusic(dt);
     decayToasts(dt);
     for (const mc of miniCards) mc.t += dt;
@@ -235,9 +246,11 @@ export function makeGameScene(services, opts) {
       () => quests.emit('power-low'));
 
     const headTy = Math.floor(player.y / TILE);
-    const exposedNow = onSurface && env.precip01() > 0.15 && !coveredAt(player.tx(), headTy);
+    const rainExposed = onSurface && env.precip01() > 0.15 && !coveredAt(player.tx(), headTy);
+    const submerged = player.inWater || player.inBrine;   // wading soaks you fast
+    const exposedNow = rainExposed || submerged;
     status.update(dt, {
-      exposed01: exposedNow ? env.precip01() : 0,
+      exposed01: submerged ? 1 : rainExposed ? env.precip01() : 0,
       dry01: (!exposedNow && onSurface && env.precip01() < 0.1 && env.night01() < 0.5) ? 1 : 0,
       onSoaked: () => {
         quests.emit('soaked');
@@ -260,19 +273,43 @@ export function makeGameScene(services, opts) {
       }
     }
 
+    // rare sky events announce themselves once
+    if (env.event?.name !== lastSkyEvent) {
+      lastSkyEvent = env.event?.name || null;
+      if (lastSkyEvent) {
+        toast({
+          eclipse: 'ECLIPSE - the sun is going out',
+          aurora: 'aurora overhead',
+          meteors: 'meteor shower - look up',
+        }[lastSkyEvent], lastSkyEvent === 'eclipse' ? PALETTE.danger : '#7FC4A8');
+        quests.emit(lastSkyEvent);
+        if (lastSkyEvent === 'eclipse') (sfx.hint || sfx.ui)();
+      }
+    }
+
     // rain grace + weather telegraphs
     if (!env.rainAllowed && quests.isDone('boot') && time > 90) env.rainAllowed = true;
     if ((env.incoming === 'rain' || env.incoming === 'storm') && env.weather !== env.incoming) quests.emit('rain-soon');
     if (env.precip01() > 0.3) quests.emit('rain-start');
 
-    const creaturesScanned = [...codex].filter(id => codexEntry(id)?.category === 'creature').length;
-    const junkTypesScanned = [...codex].filter(id => codexEntry(id)?.category === 'salvage').length;
+    // codex tallies only move when the codex does - don't refilter every frame
+    if (codex.size !== codexTally.size) {
+      codexTally = { size: codex.size, creatures: 0, junk: 0 };
+      for (const id of codex) {
+        const cat = codexEntry(id)?.category;
+        if (cat === 'creature') codexTally.creatures++;
+        else if (cat === 'salvage') codexTally.junk++;
+      }
+    }
+    const creaturesScanned = codexTally.creatures, junkTypesScanned = codexTally.junk;
     if (creaturesScanned >= 5) quests.emit('creatures-5');
     if (junkTypesScanned >= 4) quests.emit('junk-4-scanned');
+    let lampsBuilt = 0;
+    for (const e of entities.list) if (e.type.startsWith('lamp-')) lampsBuilt++;
     quests.update(dt, {
       player, pulley, codex, env, power, inventory,
       builtCount, exposedNow,
-      lampsBuilt: ['lamp-green', 'lamp-blue', 'lamp-teal', 'lamp-amber'].reduce((s2, id) => s2 + builtCount(id), 0),
+      lampsBuilt,
       stats: { garbageDug, matsExtracted, netsDug, creaturesScanned, junkTypesScanned },
       procQueued: entities.list.reduce((s, e) => s + (e.queue?.length || 0), 0),
     }, toast);
@@ -415,6 +452,10 @@ export function makeGameScene(services, opts) {
           power.spend(POWER_DIG);
           // every 3rd broken tile yields regolith - shelter never waits on machines
           if ((regolithCounter = (regolithCounter + 1) % 3) === 0) inventory.add('regolith');
+          if (digEv.obsidian) {   // volcanic glass: a little crystal + silicon
+            inventory.add('crystal'); if (Math.random() < 0.5) inventory.add('silicon');
+            toast('+obsidian shards', '#B39BC0');
+          }
           if (power.state() === 'low') player.digCd = Math.max(player.digCd, DIG_COOLDOWN * 2);
           if (digEv.gas) {
             hazards.releaseGas(digEv.gas.tx, digEv.gas.ty);
@@ -442,7 +483,9 @@ export function makeGameScene(services, opts) {
         if (player.tool !== 'scan' || !tryHarvest()) {
           const proc = entities.nearest(player, e => !!BUILDABLES_BY_ID[e.type]?.accepts, 2.4 * TILE);
           const stEnt = entities.nearest(player, e => !!BUILDABLES_BY_ID[e.type]?.station, 2.2 * TILE);
-          if (proc) interactMachine(proc);
+          const incu = entities.nearest(player, e => e.type === 'incubator', 2.4 * TILE);
+          if (incu) tryResurrect(incu);
+          else if (proc) interactMachine(proc);
           else if (stEnt) openStation({ spec: STATIONS_BY_ID[BUILDABLES_BY_ID[stEnt.type].station] });
           else {
             const podNear = entities.nearest(player, e => e.type === 'pod', 2.6 * TILE);
@@ -489,10 +532,32 @@ export function makeGameScene(services, opts) {
     cam.decay(dt);
     particles.update(dt);
     world.stepFluids(cam.bounds(), dt);
-    const lampsLit = (env.night01() > 0.2) ? entities.list
-      .filter(e2 => e2.type.startsWith('lamp-'))
-      .map(e2 => ({ x: entities.centerX(e2), y: (e2.ty + 1) * TILE - 23, amber: e2.type === 'lamp-amber' })) : [];
-    ambient.update(dt, world, player, cam, depth, lightPoly, env, lampsLit);
+    // drain fluid reactions for FX: lava quenched to obsidian hisses + steams
+    if (world.reactions.length) {
+      for (const r of world.reactions) {
+        particles.burst((r.tx + 0.5) * TILE, (r.ty + 0.5) * TILE, 'rgba(230,235,240,0.8)', 8, 90);
+        fx.shake(1);
+      }
+      (sfx.hiss || sfx.uiBack)?.();
+      world.reactions.length = 0;
+    }
+    // EMITTERS: anything glowing in the dark that moths orbit and fireflies
+    // read - built lamps, the pod beacon, powered machines, and the grounded
+    // rover itself at night. Each carries a stable `key` so a moth can tell
+    // when its light is gone (deconstructed / moved / powered down) and disperse.
+    const dark = env.night01() > 0.2 || depth > 4;
+    const emitters = [];
+    if (dark) {
+      for (const e2 of entities.list) {
+        if (e2.type.startsWith('lamp-')) emitters.push({ key: `L${e2.uid}`, x: entities.centerX(e2), y: (e2.ty + 1) * TILE - 30, amber: e2.type === 'lamp-amber' });
+        else if (e2.type === 'pod') emitters.push({ key: 'pod', x: entities.centerX(e2), y: (e2.ty + 1) * TILE - 20, amber: false });
+        else if (BUILDABLES_BY_ID[e2.type]?.accepts && e2.enabled !== false && (e2.battery || 0) > 0) emitters.push({ key: `M${e2.uid}`, x: entities.centerX(e2), y: (e2.ty + 1) * TILE - 16, amber: false });
+      }
+      // the rover on the ground is a warm little emitter at night
+      if (player.onGround && env.night01() > 0.4) emitters.push({ key: 'rover', x: player.cx(), y: player.y, amber: false });
+    }
+    ambient.setLures(entities.list.filter(e2 => e2.type === 'lure').map(e2 => entities.centerX(e2)));
+    ambient.update(dt, world, player, cam, depth, lightPoly, env, emitters);
 
     const si = world.stratumIndexAt(player.tx(), Math.floor(player.cy() / TILE));
     if (si !== lastStratumIndex && player.cy() > world.surface[player.tx()] * TILE) {
@@ -605,14 +670,60 @@ export function makeGameScene(services, opts) {
     toast('scorched - returned to base', PALETTE.danger);
   }
 
+  // genome gained per excavated specimen, by rarity - a common species needs
+  // ~3 finds, a legendary ~7, so digging IS the analysis (no bone-mount grind)
+  const GENOME_CHUNK = { common: 0.34, uncommon: 0.26, rare: 0.2, legendary: 0.15 };
   function onBone(pocket) {
+    const spec = FOSSILS_BY_ID[pocket.fossilId];
     const stratum = world.stratumAt(pocket.tx, pocket.ty);
     satchel.add(makeFragment(pocket.fossilId, pocket.bone, pocket.boneIndex, stratum.id));
-    miniCards.push({ spec: FOSSILS_BY_ID[pocket.fossilId], bone: pocket.bone, boneIndex: pocket.boneIndex, t: 0 });
+    miniCards.push({ spec, bone: pocket.bone, boneIndex: pocket.boneIndex, t: 0 });
     quests.emit('bone-first');
+    // excavating a specimen reconstructs genome directly - the path to revival
+    const wasViable = collection.isViable(pocket.fossilId);
+    const g = collection.addGenome(pocket.fossilId, GENOME_CHUNK[spec?.rarity] || 0.25);
+    if (!wasViable && g >= 1) {
+      toast(`${spec.name} GENOME COMPLETE - revive it at an Incubator`, '#7FC4A8');
+      quests.emit('genome-complete');
+    } else {
+      toast(`${spec.name} genome ${Math.round(g * 100)}%`, '#7FC4A8');
+    }
     sfx.discover();
     fx.shake(1.5);
     findT = 2;
+    persist();
+  }
+
+  // a resurrected fossil becomes a living creature: a synthetic fauna spec built
+  // from the specimen, released into the ambient world where it ages + breeds
+  function resurrectedSpec(fossil) {
+    const marine = fossil.environment === 'marine' || fossil.environment === 'freshwater';
+    const big = Math.max(fossil.footprint[0], fossil.footprint[1]);
+    return {
+      id: `revived:${fossil.id}`, fossilId: fossil.id, zone: marine ? 'water' : 'surface',
+      size: [Math.min(28, 8 + big * 3), Math.min(20, 6 + big * 2)],
+      speed: { walk: 16, flee: 48 }, palette: '#8FBE9A', draw: 'revenant',
+      lifespan: 260, revived: true,
+    };
+  }
+  function tryResurrect(incu) {
+    const revivable = collection.viableIds().filter(id => !revived.has(id));
+    if (!revivable.length) {
+      toast(collection.anyViable() ? 'all viable species already revived' : 'no complete genome yet - dig more fossils', PALETTE.creamDim);
+      sfx.uiBack();
+      return;
+    }
+    const id = revivable[0];
+    const fossil = FOSSILS_BY_ID[id];
+    revived.add(id);
+    const spec = resurrectedSpec(fossil);
+    const gx = entities.centerX(incu), gy = (incu.ty + 1) * TILE;
+    ambient.release(spec, gx, spec.zone === 'water' ? gy : (world.surface[Math.floor(gx / TILE)] * TILE));
+    toast(`${fossil.name} REVIVED - it walks again`, PALETTE.amber);
+    quests.emit('resurrect');
+    particles.burst(gx, gy - 10, '#96DCAA', 24, 220);
+    (sfx.complete || sfx.reveal)?.();
+    persist();
   }
 
   // hand-salvage: crude direct yields so the first machine is always reachable
@@ -815,11 +926,12 @@ export function makeGameScene(services, opts) {
 
   function updateCollectionInput() {
     if (pressed('Escape')) { collectionOpen = false; sfx.uiBack(); return; }
-    if (pressed('KeyA')) { journalTab = journalTab === 'codex' ? 'fossils' : 'codex'; sfx.ui(); }
-    if (pressed('KeyD')) { journalTab = journalTab === 'fossils' ? 'codex' : 'fossils'; sfx.ui(); }
+    if (pressed('KeyA')) { journalTab = journalTab === 'codex' ? 'fossils' : 'codex'; journalScroll = 0; sfx.ui(); }
+    if (pressed('KeyD')) { journalTab = journalTab === 'fossils' ? 'codex' : 'fossils'; journalScroll = 0; sfx.ui(); }
+    if (mouse.wheel) { journalScroll = Math.max(0, Math.min(journalMaxScroll, journalScroll + mouse.wheel * 28)); }
     if (pressed('MouseLeft')) {
       const tab = journalTabAt(mouse.x, mouse.y);
-      if (tab) { journalTab = tab; sfx.ui(); return; }
+      if (tab) { if (tab !== journalTab) journalScroll = 0; journalTab = tab; sfx.ui(); return; }
       if (journalTab === 'codex') {
         const e = codexCellAt(mouse.x, mouse.y);
         if (e && codex.has(e.id)) { rerollLore(); overlay = { type: 'codex', codexId: e.id, t: 0 }; collectionOpen = false; sfx.ui(); }
@@ -833,8 +945,9 @@ export function makeGameScene(services, opts) {
   // --------------------------------------------------------------- render
   function render(rtime) {
     frameLights = [];
-    drawSky(rtime);
-    backdrop.draw(ctx, cam, env);   // the biome's horizon, behind the world
+    drawSkyGradient(rtime);          // deep sky: gradient + stars
+    backdrop.draw(ctx, cam, env);    // the biome's hills continuing to the horizon
+    drawSunMoon(rtime);              // sun/moon/events ride OVER the hills
 
     ctx.save();
     cam.apply(ctx);
@@ -862,15 +975,25 @@ export function makeGameScene(services, opts) {
       pulley.active ? { dangle: pulley.dangleAngle(), mood: 'winch' } : { mood: roverMood(), blinkSeed: seed % 7 });
     ctx.restore();
 
-    // darkness: depth OR night OR storm-gloom; cone aims at the mouse
+    // darkness: depth OR night OR storm-gloom; cone aims at the mouse.
+    // Depth keeps climbing past the old shelf: shallow ramp to 0.8 by ~54,
+    // then a slow slide to 0.96 by ~244 - the basement is a basement.
     const depth = world.depthOfRow(player.tx(), Math.floor(player.cy() / TILE));
-    const depthDark = Math.min(0.82, Math.max(0, (depth - 4) / 60) * 0.82);
+    const depthDark = Math.min(1, Math.max(0, (depth - 4) / 50)) * 0.8
+      + Math.min(1, Math.max(0, (depth - 54) / 190)) * 0.16;
     const nightDark = env.night01() * 0.72;
     const stormDark = env.precip01() * 0.3;
     const ambientDark = Math.max(depthDark, nightDark, stormDark);
     const emitter = { x: player.cx() + player.facing * 7, y: player.y + BEAM_Y };
     const aim = Math.atan2((mouse.y + cam.y) - emitter.y, (mouse.x + cam.x) - emitter.x);
-    const sunlight = { strength: (1 - env.night01()) * (1 - 0.5 * env.precip01()), warm: env.night01() > 0.3 ? 0 : Math.max(0, 0.5 - Math.abs(env.t01 - 0.35)) };
+    // god-ray shear follows the sun's arc - morning light leans right, noon
+    // straight, evening left
+    const dayArc = Math.max(0, Math.min(1, (env.t01 + 0.05) / 0.7));
+    const sunlight = {
+      strength: (1 - env.night01()) * (1 - 0.5 * env.precip01()),
+      warm: env.night01() > 0.3 ? 0 : Math.max(0, 0.5 - Math.abs(env.t01 - 0.35)),
+      shear: (1 - dayArc * 2) * 0.85,
+    };
     lightPoly = lighting.apply(ctx, world, cam, emitter, aim, ambientDark,
       frameLights.concat(ambient.glowLights()), sunlight);
 
@@ -899,8 +1022,10 @@ export function makeGameScene(services, opts) {
     if (bootT < 3.5) hud.drawBootOverlay(rtime);
   }
 
-  // ---- sky: day/night gradient + sun/moon + stars + weather clouds ----
-  function drawSky(rtime) {
+
+  // ---- sky, in two passes so the backdrop hills sit BETWEEN them ----
+  // 1) gradient + stars (deep sky, behind the hills)
+  function drawSkyGradient(rtime) {
     const { top, bot } = env.skyColors();
     const g = ctx.createLinearGradient(0, 0, 0, VIEW_H);
     g.addColorStop(0, top);
@@ -918,6 +1043,11 @@ export function makeGameScene(services, opts) {
         ctx.fillRect(sx2, sy2, tw, tw);
       }
     }
+  }
+
+  // 2) sun/moon + rare events (ride OVER the backdrop hills)
+  function drawSunMoon(rtime) {
+    const sm = env.sunMoon();
     if (sm.sun && sm.sun.a > 0.05) {
       const grad = ctx.createRadialGradient(sm.sun.x, sm.sun.y, 2, sm.sun.x, sm.sun.y, 40);
       grad.addColorStop(0, `rgba(255,240,190,${sm.sun.a})`);
@@ -932,20 +1062,101 @@ export function makeGameScene(services, opts) {
       ctx.fillStyle = env.skyColors().top;
       ctx.beginPath(); ctx.arc(sm.moon.x + 5, sm.moon.y - 3, 10, 0, Math.PI * 2); ctx.fill();
     }
+
+    // ---- rare sky events -------------------------------------------------
+    const ec = env.eclipse01();
+    if (ec > 0.02 && sm.sun) {
+      // the dark disc slides across the sun; at totality, a thin corona
+      const slide = (1 - ec) * 46 * (env.event && env.event.t / env.event.dur < 0.5 ? -1 : 1);
+      if (ec > 0.85) {
+        ctx.strokeStyle = `rgba(255,244,214,${((ec - 0.85) / 0.15 * 0.9).toFixed(2)})`;
+        ctx.lineWidth = 2.5;
+        ctx.beginPath(); ctx.arc(sm.sun.x, sm.sun.y, 15, 0, Math.PI * 2); ctx.stroke();
+      }
+      ctx.fillStyle = `rgba(18,16,26,${Math.min(1, ec * 1.6).toFixed(2)})`;
+      ctx.beginPath(); ctx.arc(sm.sun.x + slide, sm.sun.y, 14, 0, Math.PI * 2); ctx.fill();
+    }
+    const au = env.aurora01();
+    if (au > 0.02) {
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      for (let bnd = 0; bnd < 3; bnd++) {
+        const col = ['120,235,190', '110,200,220', '160,150,230'][bnd];
+        ctx.strokeStyle = `rgba(${col},${(au * 0.10).toFixed(3)})`;
+        ctx.lineWidth = 14 - bnd * 3;
+        ctx.beginPath();
+        for (let x = -10; x <= VIEW_W + 10; x += 16) {
+          const y = 54 + bnd * 26 + Math.sin(x * 0.008 + rtime * 0.35 + bnd * 1.9) * 20
+            + Math.sin(x * 0.021 - rtime * 0.2 + bnd) * 8;
+          x === -10 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+    const mt = env.meteors01();
+    if (mt > 0.02) {
+      for (let i = 0; i < 3; i++) {
+        const ph = (rtime * 0.31 + i * 0.47) % 1;
+        if (ph > 0.14) continue;   // each streak lives ~1.4s of its cycle
+        const p2 = ph / 0.14;
+        const sx2 = ((i * 373 + Math.floor(rtime / 3.2) * 191) % (VIEW_W - 100)) + 50 + p2 * 130;
+        const sy2 = 24 + i * 52 + p2 * 90;
+        const a = mt * (1 - p2) * 0.9;
+        const g2 = ctx.createLinearGradient(sx2 - 46, sy2 - 32, sx2, sy2);
+        g2.addColorStop(0, 'rgba(240,244,255,0)');
+        g2.addColorStop(1, `rgba(240,244,255,${a.toFixed(2)})`);
+        ctx.strokeStyle = g2; ctx.lineWidth = 1.6;
+        ctx.beginPath(); ctx.moveTo(sx2 - 46, sy2 - 32); ctx.lineTo(sx2, sy2); ctx.stroke();
+        ctx.fillStyle = `rgba(255,255,255,${a.toFixed(2)})`;
+        ctx.fillRect(sx2 - 1, sy2 - 1, 2.4, 2.4);
+      }
+    }
+  }
+
+  // persistent cloud field (v4.6): world-anchored puffs that DRIFT on the wind
+  // instead of zooming on a formula. Density eases with weather; far layer
+  // rides a 0.5 parallax so the sky has depth.
+  const clouds = Array.from({ length: 14 }, (_, i) => ({
+    x: (seed * 131 + i * 977 + i * i * 389) % (WORLD_W * TILE),
+    y: 24 + (i * 47) % 130,
+    scale: 0.75 + ((i * 37) % 10) / 10 * 0.85,
+    layer: i % 2,                        // 0 = far (smaller, slower, parallax)
+    drift: 2 + ((i * 53) % 10) / 10 * 5, // px/s at full wind
+    a: 1,
+  }));
+  function updateClouds(dt) {
+    const want = Math.round(5 + env.precip01() * 8);
+    clouds.forEach((c, i) => {
+      c.x += c.drift * (0.25 + env.wind01()) * (c.layer ? 1 : 0.55) * dt;
+      if (c.x > WORLD_W * TILE + 200) c.x -= WORLD_W * TILE + 400;
+      c.a += ((i < want ? 1 : 0) - c.a) * Math.min(1, dt * 0.4);   // fade, never pop
+    });
+  }
+  function drawClouds() {
+    const gloom = env.precip01();
+    for (const c of clouds) {
+      if (c.a < 0.03) continue;
+      const px = c.layer ? c.x : c.x + cam.x * 0.5;   // far layer: half parallax
+      const s = c.scale * (c.layer ? 1 : 0.68);
+      ctx.save();
+      ctx.globalAlpha = c.a * (c.layer ? 0.95 : 0.7);
+      ctx.translate(px, c.y);
+      ctx.scale(s, s);
+      softCloud(ctx, 0, 0, gloom);
+      if (c.scale > 1.15) softCloud(ctx, 36, 4, gloom);   // the big ones billow
+      ctx.restore();
+    }
+    ctx.globalAlpha = 1;
   }
 
   function drawScenery(rtime, b) {
-    const cloudiness = 1 + env.precip01() * 2;
-    for (let c = 0; c < Math.round(5 * cloudiness); c++) {
-      const cw = WORLD_W * TILE;
-      const cx = ((c * 811 + rtime * (5 + c * 2) * (1 + env.wind01())) % (cw + 300)) - 150;
-      cloud(cx, 26 + (c * 47 % 130), env.precip01());
-    }
+    drawClouds();
     for (let tx = Math.max(0, b.x0); tx <= Math.min(WORLD_W - 1, b.x1); tx++) {
       if (tx >= spawnCol - CAMP_HALF_L - 1 && tx <= spawnCol + CAMP_HALF_R + 1) continue;
       const baseY = world.surface[tx] * TILE;
       const biome = biomeAtX(tx, WORLD_W);
-      const s = sceneryAt(tx);   // shared ground truth with the scanner
+      const s = sceneryAt(tx, world);   // shared ground truth with the scanner
       if (s === 'tree') drawTree(tx * TILE + TILE / 2, baseY, biome, tx, rtime);
       else if (s === 'dressing') drawDressing(tx * TILE + TILE / 2, baseY, tx, biome);
       if (hashCol(tx, 88) < biome.scenery.tuftP) tuft(tx * TILE + TILE / 2, baseY, tx, biome, rtime);
@@ -1005,6 +1216,7 @@ export function makeGameScene(services, opts) {
         const inPad = ty === world.surface[tx] && tx >= spawnCol - CAMP_HALF_L && tx <= spawnCol + CAMP_HALF_R;
         if (t === T_ROOF) { tileset.drawRoof(ctx, tx, ty, dx, dy); continue; }   // thin panel, no grass/shadow pass
         if (t === T_RUBBLE) tileset.drawRubble(ctx, (tx ^ ty) & 7, dx, dy);
+        else if (t === T_OBSIDIAN) tileset.drawObsidian(ctx, (tx ^ ty) & 7, dx, dy);
         else if (t === T_PLACED) tileset.drawPlaced(ctx, (tx ^ ty) & 7, dx, dy);
         else if (inPad) tileset.drawPad(ctx, tx, ty, dx, dy);
         else {
@@ -1016,6 +1228,18 @@ export function makeGameScene(services, opts) {
           else if (to - depth < 2 && si < STRATA.length - 1 && hashCol(tx * 5 + ty, 17) > 0.55) si += 1;
           tileset.drawTile(ctx, si, tx, ty, dx, dy, Math.max(0, Math.min(1, within)));
           if (hashCol(tx * 3 + 1, ty * 5 + 2) < 0.07) tileset.drawAccent(ctx, STRATA[si].id, tx, ty, dx, dy);
+          // mineral vein seam threading the stratum (de-monotonizes deep rock)
+          if (depth > 6) {
+            const vein = tileset.veinAt(si, tx, ty);
+            if (vein) {
+              ctx.fillStyle = vein;
+              ctx.globalAlpha = 0.6;
+              ctx.fillRect(dx + 4, dy, 4, TILE);
+              ctx.globalAlpha = 0.28;
+              ctx.fillRect(dx + 2, dy, 2, TILE); ctx.fillRect(dx + 8, dy, 2, TILE);
+              ctx.globalAlpha = 1;
+            }
+          }
           if (world.gasAt(tx, ty)) {   // trapped gas: olive speckle + occasional wisp
             ctx.fillStyle = 'rgba(140,170,80,0.5)';
             ctx.fillRect(dx + 3, dy + 4, 2, 2); ctx.fillRect(dx + 9, dy + 9, 2, 2); ctx.fillRect(dx + 6, dy + 12, 2, 2);
@@ -1080,11 +1304,33 @@ export function makeGameScene(services, opts) {
           ctx.moveTo(dx + 11, dy);
           ctx.quadraticCurveTo(dx + 11 - sway, dy + (len - 3) * 0.6, dx + 11 - sway, dy + len - 3);
           ctx.stroke();
-        } else if (f.ceiling === 'stalactite') {
-          ctx.fillStyle = STRATA[si].colors.band;
+        } else if (f.ceiling === 'vines') {
+          // feral pothos: swaying strands with heart-leaf pairs
+          const sway = Math.sin(rtime * 1.5 + tx * 0.8) * 2.4;
+          const len = 8 + h * 16;
+          for (let v = 0; v < 2; v++) {
+            const vx = dx + 4 + v * 7;
+            ctx.strokeStyle = '#4E7A44'; ctx.lineWidth = 1.4;
+            ctx.beginPath();
+            ctx.moveTo(vx, dy);
+            ctx.quadraticCurveTo(vx + sway * (v ? -1 : 1), dy + len * 0.55, vx + sway * (v ? -1 : 1), dy + len);
+            ctx.stroke();
+            ctx.fillStyle = '#5F9A54';
+            for (let lf = 1; lf <= 2; lf++) {
+              const ly = dy + len * (lf / 3);
+              const lxp = vx + sway * (v ? -1 : 1) * (lf / 3);
+              ctx.beginPath(); ctx.ellipse(lxp - 2, ly, 2.2, 1.5, -0.5, 0, Math.PI * 2); ctx.fill();
+            }
+          }
+        } else if (f.ceiling === 'stalactite' || f.ceiling === 'crystal-tip') {
+          if (f.ceiling === 'crystal-tip') {
+            const tw = 0.6 + Math.sin(rtime * 3 + tx * 2) * 0.4;
+            ctx.fillStyle = `rgba(200,180,230,${0.5 + tw * 0.4})`;
+          } else ctx.fillStyle = STRATA[si].colors.band;
           ctx.beginPath();
           ctx.moveTo(dx + 3, dy); ctx.lineTo(dx + 8, dy + 9 + h * 5); ctx.lineTo(dx + 13, dy);
           ctx.closePath(); ctx.fill();
+          if (f.geode) frameLights.push({ x: dx + 8, y: dy + 6, r: 26, warmth: 0 });
         }
 
         if (f.floor === 'stalagmite') {
@@ -1534,16 +1780,26 @@ export function makeGameScene(services, opts) {
           'lamp-amber': { orb: '#FFD27A', tint: '255,210,120' },
         }[e.type];
         const lit = env.night01() > 0.2 || world.depthOfRow(e.tx, e.ty) > 4;
+        // OVERHEAD TUBE: a horizontal bar mounted up high on a slim bracket,
+        // throwing a downward cone of tinted light (v4.8)
+        const topY = gy - 30;                       // tube height above the floor
         ctx.strokeStyle = '#4E4956'; ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.moveTo(cx, gy); ctx.lineTo(cx, gy - 20); ctx.stroke();
-        ctx.fillStyle = lit ? L.orb : '#3A363F';
-        ctx.beginPath(); ctx.arc(cx, gy - 23, 3.6, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.moveTo(cx - 7, topY - 3); ctx.lineTo(cx - 7, gy); ctx.stroke();   // bracket stand
+        ctx.fillStyle = '#3A363F'; ctx.fillRect(cx - 9, topY - 5, 18, 4);                       // housing
+        ctx.fillStyle = lit ? L.orb : '#2E2A34';                                                // the tube
+        ctx.fillRect(cx - 8, topY - 2, 16, 2.4);
         if (lit) {
-          const pulse = 0.8 + Math.sin(rtime * 2 + e.uid) * 0.2;
-          ctx.globalAlpha = 0.3 * pulse;
-          ctx.beginPath(); ctx.arc(cx, gy - 23, 7, 0, Math.PI * 2); ctx.fill();
-          ctx.globalAlpha = 1;
-          frameLights.push({ x: cx, y: gy - 23, r: 110, warmth: 1, tint: L.tint });
+          // painted downward cone (world space) - the directional read
+          const pulse = 0.85 + Math.sin(rtime * 2 + e.uid) * 0.15;
+          const g = ctx.createLinearGradient(cx, topY, cx, gy + 8);
+          g.addColorStop(0, `rgba(${L.tint},${(0.24 * pulse).toFixed(2)})`);
+          g.addColorStop(1, `rgba(${L.tint},0)`);
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.moveTo(cx - 9, topY); ctx.lineTo(cx + 9, topY);
+          ctx.lineTo(cx + 20, gy + 8); ctx.lineTo(cx - 20, gy + 8); ctx.closePath(); ctx.fill();
+          // darkness-mask hole biased BELOW the tube (light pools on the floor)
+          frameLights.push({ x: cx, y: gy - 8, r: 96, warmth: 1, tint: L.tint });
         }
 
       } else if (e.type === 'storage') {
@@ -1560,6 +1816,53 @@ export function makeGameScene(services, opts) {
         ctx.fillStyle = blink ? PALETTE.amber : '#7A5220';
         ctx.beginPath(); ctx.arc(cx, gy - 26, 3, 0, Math.PI * 2); ctx.fill();
         if (blink) frameLights.push({ x: cx, y: gy - 26, r: 40, warmth: 0.7 });
+
+      } else if (e.type === 'incubator') {
+        // a womb of glass and code: a lit tank on a plinth
+        const bw = 2 * TILE;
+        ctx.fillStyle = '#2E2A34'; ctx.fillRect(cx - bw / 2, gy - 6, bw, 6);           // plinth
+        ctx.fillStyle = '#3A3E4A'; ctx.fillRect(cx - 12, gy - 30, 24, 24);             // frame
+        const pulse = 0.6 + Math.sin(rtime * 2) * 0.4;
+        const g = ctx.createLinearGradient(cx, gy - 30, cx, gy - 6);
+        g.addColorStop(0, `rgba(150,220,170,${(0.5 * pulse).toFixed(2)})`);
+        g.addColorStop(1, 'rgba(150,220,170,0.1)');
+        ctx.fillStyle = g; ctx.fillRect(cx - 9, gy - 27, 18, 20);                       // glowing tank
+        ctx.strokeStyle = '#6EA07A'; ctx.lineWidth = 1; ctx.strokeRect(cx - 9, gy - 27, 18, 20);
+        // a curled embryo silhouette
+        ctx.fillStyle = `rgba(230,255,238,${(0.4 + pulse * 0.3).toFixed(2)})`;
+        ctx.beginPath(); ctx.arc(cx, gy - 16, 4, 0, Math.PI * 2); ctx.fill();
+        frameLights.push({ x: cx, y: gy - 16, r: 44, warmth: 0.6, tint: '150,220,170' });
+
+      } else if (e.type === 'lure') {
+        ctx.strokeStyle = '#4E4956'; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(cx, gy); ctx.lineTo(cx, gy - 22); ctx.stroke();
+        ctx.fillStyle = '#7FC4A8'; ctx.beginPath(); ctx.arc(cx, gy - 25, 3, 0, Math.PI * 2); ctx.fill();
+        // pulsing call rings
+        const ph = (rtime * 0.8) % 1;
+        ctx.strokeStyle = `rgba(127,196,168,${(0.5 * (1 - ph)).toFixed(2)})`; ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.arc(cx, gy - 25, 4 + ph * 14, 0, Math.PI * 2); ctx.stroke();
+
+      } else if (e.type === 'planter') {
+        const bw = 2 * TILE;
+        ctx.fillStyle = '#6E4F33'; ctx.fillRect(cx - bw / 2 + 2, gy - 8, bw - 4, 8);
+        ctx.strokeStyle = '#4A3421'; ctx.lineWidth = 1; ctx.strokeRect(cx - bw / 2 + 2, gy - 8, bw - 4, 8);
+        // sprouting flora, swaying (a little garden)
+        ctx.strokeStyle = '#5F9A54'; ctx.lineWidth = 1.4;
+        for (let s = 0; s < 6; s++) {
+          const sxp = cx - bw / 2 + 6 + s * 4, hh = 6 + ((s * 7) % 6), sway = Math.sin(rtime * 1.6 + s) * 2;
+          ctx.beginPath(); ctx.moveTo(sxp, gy - 8); ctx.quadraticCurveTo(sxp + sway, gy - 8 - hh * 0.6, sxp + sway, gy - 8 - hh); ctx.stroke();
+        }
+        ctx.fillStyle = '#C98BA8'; ctx.fillRect(cx - 4, gy - 16, 2, 2); ctx.fillRect(cx + 5, gy - 15, 2, 2);
+
+      } else if (e.type === 'terrarium') {
+        const bw = 2 * TILE;
+        ctx.fillStyle = 'rgba(150,220,170,0.14)'; ctx.fillRect(cx - bw / 2, gy - 30, bw, 30);
+        ctx.strokeStyle = '#6EA07A'; ctx.lineWidth = 1.4; ctx.strokeRect(cx - bw / 2, gy - 30, bw, 30);
+        ctx.fillStyle = '#4A3A2C'; ctx.fillRect(cx - bw / 2 + 2, gy - 8, bw - 4, 8);   // soil
+        ctx.strokeStyle = '#5F9A54'; ctx.lineWidth = 1.2;                              // little plants
+        for (const ox of [-8, 0, 9]) { ctx.beginPath(); ctx.moveTo(cx + ox, gy - 8); ctx.lineTo(cx + ox + Math.sin(rtime + ox) * 1.5, gy - 16); ctx.stroke(); }
+        // a faint sheen on the glass
+        ctx.strokeStyle = 'rgba(230,255,238,0.3)'; ctx.beginPath(); ctx.moveTo(cx - bw / 2 + 3, gy - 27); ctx.lineTo(cx - bw / 2 + 8, gy - 27); ctx.stroke();
       }
     }
   }
@@ -1709,7 +2012,6 @@ export function makeGameScene(services, opts) {
   }
 
   // ---- scenery primitives (wind-driven sway) ----
-  function cloud(px, py, gloom) { softCloud(ctx, px, py, gloom); }
   function tuft(px, baseY, sx, biome, rtime) {
     ctx.strokeStyle = biome.grass.tuft;
     ctx.lineWidth = 1.5;
@@ -1727,9 +2029,12 @@ export function makeGameScene(services, opts) {
   function drawTree(px, baseY, biome, sx, rtime) {
     const id = biome.scenery.tree;
     const sway = Math.sin(rtime * (1.1 + env.wind01() * 2) + sx) * (0.008 + env.wind01() * 0.03);
+    // per-instance scale so a stand of trees has saplings AND giants, not a hedge
+    const sc = 0.7 + hashCol(sx, 23) * 0.75;
     ctx.save();
     ctx.translate(px, baseY + 2);
     ctx.rotate(sway);
+    ctx.scale(sc, sc);
     if (hasSprite('scenery', id)) drawSprite(ctx, 'scenery', id, 0, 0, 56, 72);
     else {
       ctx.fillStyle = PALETTE.wood;
@@ -1743,7 +2048,9 @@ export function makeGameScene(services, opts) {
   function drawDressing(px, baseY, sx, biome) {
     const pool = biome?.scenery.dressings || ['bush', 'boulder', 'flowers'];
     const id = pool[Math.floor(hashCol(sx, 71) * pool.length) % pool.length];
-    if (hasSprite('scenery', id)) { drawSprite(ctx, 'scenery', id, px, baseY + 2, 24, 20); return; }
+    const sc = 0.6 + hashCol(sx, 29) * 0.7;   // varied dressing scale
+    if (hasSprite('scenery', id)) { drawSprite(ctx, 'scenery', id, px, baseY + 2, 24 * sc, 20 * sc); return; }
+    ctx.save(); ctx.translate(px, baseY); ctx.scale(sc, sc); ctx.translate(-px, -baseY);
     if (id === 'boulder') { ctx.fillStyle = '#9A93A0'; ctx.beginPath(); ctx.ellipse(px, baseY - 5, 9, 6, 0, 0, Math.PI * 2); ctx.fill(); }
     else if (id === 'reeds') {   // wetland reeds: tall thin strokes with a cattail
       ctx.strokeStyle = biome.grass.deep; ctx.lineWidth = 1.4;
@@ -1753,6 +2060,7 @@ export function makeGameScene(services, opts) {
       ctx.fillStyle = 'rgba(200,180,230,0.85)';
       ctx.beginPath(); ctx.moveTo(px - 4, baseY); ctx.lineTo(px, baseY - 11); ctx.lineTo(px + 4, baseY); ctx.closePath(); ctx.fill();
     } else { ctx.fillStyle = id === 'flowers' ? '#C98BA8' : (biome?.grass.deep ?? PALETTE.grassDeep); ctx.beginPath(); ctx.arc(px, baseY - 5, 6, 0, Math.PI * 2); ctx.fill(); }
+    ctx.restore();
   }
 
   // --------------------------------------------------------------- HUD v3
@@ -1870,9 +2178,15 @@ export function makeGameScene(services, opts) {
     ctx.fillRect(0, 0, VIEW_W, VIEW_H);
     const p = Math.min(1, overlay.t / 0.22), ease = 1 - Math.pow(1 - p, 3);
     if (overlay.type === 'codex') {
-      const cw = 500, chh = 330, cx = VIEW_W / 2 - cw / 2, cy = VIEW_H / 2 - chh / 2 + (1 - ease) * 40;
+      // size the plate to its content - no dead middle on short entries
+      const entry = codexEntry(overlay.codexId);
+      const statN = Math.min((entry.stats || []).length, overlay.live ? 4 : 6);
+      const contentBottom = Math.max(60 + (overlay.live ? 58 : 0) + statN * 17, 124);   // vs the art inset
+      const quoteLines = Math.max(1, Math.min(4, Math.ceil((entry.blurb?.length || 40) / 58)));
+      const cw = 500, chh = Math.max(230, Math.min(410, contentBottom + 6 + quoteLines * 16 + 50));
+      const cx = VIEW_W / 2 - cw / 2, cy = VIEW_H / 2 - chh / 2 + (1 - ease) * 40;
       ctx.globalAlpha = ease;
-      drawCodexCard(ctx, codexEntry(overlay.codexId), cx, cy, cw, chh, drawCodexArt, rtime,
+      drawCodexCard(ctx, entry, cx, cy, cw, chh, drawCodexArt, rtime,
         { live: overlay.live || null, openT: overlay.t });
       if (overlay.t > 0.6) text(ctx, 'press any key', VIEW_W / 2, cy + chh + 14, { size: 11, align: 'center', color: PALETTE.creamDim });
       ctx.globalAlpha = 1;
@@ -1892,85 +2206,138 @@ export function makeGameScene(services, opts) {
   }
 
   // --------------------------------------------------------------- journal
+  // THE FIELD JOURNAL - themed as the scanner's own readout (dark chrome + cyan,
+  // matching the DG-3 cards). Scans first, fossils second, both scrollable.
   const DEX = { px: 60, py: 40, cols: 7, cellH: 68 };
+  const JV = { chrome: '#241C16', deep: '#171210', cyan: '#4BE3E8', text: '#EFE6CE', dim: 'rgba(233,220,188,0.62)' };
+  const GRID_TOP = DEX.py + 60;                       // first cell row
+  let journalMaxScroll = 0;                           // set by draw, read by input
+  function journalGridBottom() { return DEX.py + (VIEW_H - 80) - 18; }
+
   function collectionCellAt(mx, my) {
     const pw = VIEW_W - 120, cellW = (pw - 48) / DEX.cols;
     for (let i = 0; i < FOSSILS.length; i++) {
-      const cx = DEX.px + 24 + (i % DEX.cols) * cellW, cy = DEX.py + 74 + Math.floor(i / DEX.cols) * DEX.cellH;
+      const cx = DEX.px + 24 + (i % DEX.cols) * cellW, cy = GRID_TOP + Math.floor(i / DEX.cols) * DEX.cellH - journalScroll;
+      if (cy < GRID_TOP - DEX.cellH || cy > journalGridBottom()) continue;
       if (mx >= cx && mx <= cx + cellW - 8 && my >= cy && my <= cy + DEX.cellH - 8) return FOSSILS[i];
     }
     return null;
   }
-  // clickable tab headers
+  // clickable tab headers (SCANS left, FOSSILS right)
   function journalTabAt(mx, my) {
     if (my < DEX.py + 12 || my > DEX.py + 34) return null;
-    if (mx >= DEX.px + 150 && mx < DEX.px + 250) return 'fossils';
-    if (mx >= DEX.px + 254 && mx < DEX.px + 340) return 'codex';
+    if (mx >= DEX.px + 150 && mx < DEX.px + 260) return 'codex';
+    if (mx >= DEX.px + 266 && mx < DEX.px + 360) return 'fossils';
     return null;
   }
   function drawCollection() {
-    ctx.fillStyle = 'rgba(20,16,12,0.6)';
+    ctx.fillStyle = 'rgba(8,10,14,0.72)';
     ctx.fillRect(0, 0, VIEW_W, VIEW_H);
     const pw = VIEW_W - 120, ph = VIEW_H - 80;
-    blueprintPanel(ctx, DEX.px, DEX.py, pw, ph, { frameW: 10, r: 16 });
-    text(ctx, 'FIELD JOURNAL', DEX.px + 28, DEX.py + 22, { size: 20, bold: true });
-    // tabs
-    for (const [id, label, tx] of [['fossils', `Fossils ${collection.completedCount()}/${collection.total()}`, DEX.px + 150], ['codex', `Codex ${codex.size}/${CODEX.length}`, DEX.px + 254]]) {
+    // visor plate
+    ctx.fillStyle = JV.chrome; roundRect(ctx, DEX.px, DEX.py, pw, ph, 12); ctx.fill();
+    ctx.strokeStyle = 'rgba(75,227,232,0.5)'; ctx.lineWidth = 2; roundRect(ctx, DEX.px, DEX.py, pw, ph, 12); ctx.stroke();
+    ctx.fillStyle = JV.deep; roundRect(ctx, DEX.px, DEX.py, pw, 44, 12); ctx.fill();
+    ctx.fillStyle = JV.cyan; ctx.fillRect(DEX.px + 8, DEX.py + 43, pw - 16, 1);
+    text(ctx, 'DG-3 · FIELD JOURNAL', DEX.px + 24, DEX.py + 16, { size: 15, bold: true, color: JV.cyan });
+    // tabs: SCANS then FOSSILS
+    for (const [id, label, tx, tw] of [
+      ['codex', `SCANS ${codex.size}/${CODEX.length}`, DEX.px + 150, 108],
+      ['fossils', `FOSSILS ${collection.completedCount()}/${collection.total()}`, DEX.px + 266, 92],
+    ]) {
       const on = journalTab === id;
-      chip(ctx, tx, DEX.py + 12, id === 'fossils' ? 100 : 130, 22, { r: 7, fill: on ? PALETTE.amber : PALETTE.frameDark, border: null });
-      text(ctx, label, tx + (id === 'fossils' ? 50 : 65), DEX.py + 17, { size: 10, bold: true, align: 'center', color: on ? '#2A1F10' : PALETTE.creamDim });
+      const accent = id === 'codex' ? JV.cyan : PALETTE.amber;
+      ctx.fillStyle = on ? '#2E241C' : JV.deep;
+      roundRect(ctx, tx, DEX.py + 12, tw, 22, 6); ctx.fill();
+      if (on) { ctx.strokeStyle = accent; ctx.lineWidth = 1.4; roundRect(ctx, tx, DEX.py + 12, tw, 22, 6); ctx.stroke(); }
+      text(ctx, label, tx + tw / 2, DEX.py + 17, { size: 10, bold: true, align: 'center', color: on ? accent : JV.dim });
     }
-    if (journalTab === 'codex') { drawCodexGrid(pw, ph); return; }
+    // clip the scrolling grid to the plate body
+    ctx.save();
+    ctx.beginPath(); ctx.rect(DEX.px + 6, GRID_TOP - 4, pw - 12, ph - (GRID_TOP - DEX.py) - 6); ctx.clip();
+    const bottom = journalGridBottom();
+    if (journalTab === 'codex') journalMaxScroll = drawCodexGrid(pw, bottom);
+    else journalMaxScroll = drawFossilGrid(pw, bottom);
+    ctx.restore();
+    // scrollbar
+    if (journalMaxScroll > 0) {
+      const trackY = GRID_TOP, trackH = bottom - GRID_TOP;
+      const thumbH = Math.max(24, trackH * trackH / (trackH + journalMaxScroll));
+      const thumbY = trackY + (trackH - thumbH) * (journalScroll / journalMaxScroll);
+      ctx.fillStyle = 'rgba(233,220,188,0.10)'; roundRect(ctx, DEX.px + pw - 12, trackY, 4, trackH, 2); ctx.fill();
+      ctx.fillStyle = 'rgba(75,227,232,0.6)'; roundRect(ctx, DEX.px + pw - 12, thumbY, 4, thumbH, 2); ctx.fill();
+    }
+    journalScroll = Math.min(journalScroll, journalMaxScroll);
+  }
+
+  /** @returns {number} max scroll offset */
+  function drawFossilGrid(pw, bottom) {
     const cellW = (pw - 48) / DEX.cols;
+    let maxRow = 0;
     FOSSILS.forEach((f, i) => {
-      const cx = DEX.px + 24 + (i % DEX.cols) * cellW, cy = DEX.py + 74 + Math.floor(i / DEX.cols) * DEX.cellH;
-      if (cy > DEX.py + ph - 20) return;
+      const row = Math.floor(i / DEX.cols); maxRow = row;
+      const cx = DEX.px + 24 + (i % DEX.cols) * cellW, cy = GRID_TOP + row * DEX.cellH - journalScroll;
+      if (cy < GRID_TOP - DEX.cellH || cy > bottom) return;
       const frac = collection.fraction(f.id), started = collection.started(f.id), done = frac >= 1;
-      roundRect(ctx, cx, cy, cellW - 8, DEX.cellH - 8, 8);
-      ctx.fillStyle = done ? 'rgba(108,154,84,0.18)' : started ? 'rgba(200,121,30,0.12)' : 'rgba(0,0,0,0.10)';
-      ctx.fill();
-      if (started) { ctx.lineWidth = 2; ctx.strokeStyle = done ? PALETTE.good : PALETTE.amber; ctx.stroke(); }
+      ctx.fillStyle = done ? 'rgba(108,154,84,0.16)' : started ? 'rgba(224,162,74,0.12)' : 'rgba(255,255,255,0.03)';
+      roundRect(ctx, cx, cy, cellW - 8, DEX.cellH - 8, 8); ctx.fill();
+      if (started) { ctx.lineWidth = 1.6; ctx.strokeStyle = done ? PALETTE.good : PALETTE.amber; roundRect(ctx, cx, cy, cellW - 8, DEX.cellH - 8, 8); ctx.stroke(); }
       ctx.save(); ctx.beginPath(); ctx.rect(cx, cy, cellW - 8, DEX.cellH - 20); ctx.clip();
       ctx.globalAlpha = done ? 1 : started ? 0.35 : 0.12;
       drawFossil(ctx, f, cx + (cellW - 8) / 2 - f.footprint[0] * 6, cy + 4, makeCanvas, 0.55);
       ctx.globalAlpha = 1; ctx.restore();
-      if (done) text(ctx, f.name, cx + (cellW - 8) / 2, cy + DEX.cellH - 20, { size: 9, bold: true, align: 'center' });
+      if (done) text(ctx, f.name, cx + (cellW - 8) / 2, cy + DEX.cellH - 20, { size: 9, bold: true, align: 'center', color: JV.text });
       else {
         const n = collection.bonesNeeded(f.id);
         const px0 = cx + (cellW - 8) / 2 - (n * 6) / 2;
         for (let k = 0; k < n; k++) {
-          ctx.fillStyle = collection.hasBone(f.id, k) ? PALETTE.amber : 'rgba(0,0,0,0.2)';
+          ctx.fillStyle = collection.hasBone(f.id, k) ? PALETTE.amber : 'rgba(255,255,255,0.14)';
           ctx.fillRect(px0 + k * 6, cy + DEX.cellH - 17, 4, 3);
         }
       }
       const gn = collection.genomeOf(f.id);
       if (gn > 0) drawDnaPip(cx + cellW - 20, cy + 4, gn, time);
     });
+    const contentH = (maxRow + 1) * DEX.cellH;
+    return Math.max(0, contentH - (bottom - GRID_TOP));
   }
 
-  function drawCodexGrid(pw, ph) {
+  function drawCodexGrid(pw, bottom) {
     const cols = 4, cellW = (pw - 48) / cols, cellH = 58;
+    let maxRow = 0;
     CODEX.forEach((e, i) => {
-      const cx = DEX.px + 24 + (i % cols) * cellW, cy = DEX.py + 74 + Math.floor(i / cols) * cellH;
-      if (cy > DEX.py + ph - 20) return;
+      const row = Math.floor(i / cols); maxRow = row;
+      const cx = DEX.px + 24 + (i % cols) * cellW, cy = GRID_TOP + row * cellH - journalScroll;
+      if (cy < GRID_TOP - cellH || cy > bottom) return;
       const known = codex.has(e.id);
-      roundRect(ctx, cx, cy, cellW - 8, cellH - 8, 8);
-      ctx.fillStyle = known ? 'rgba(75,180,190,0.12)' : 'rgba(0,0,0,0.10)';
-      ctx.fill();
-      if (known) { ctx.lineWidth = 2; ctx.strokeStyle = '#4BE3E8'; ctx.stroke(); }
+      ctx.fillStyle = known ? 'rgba(75,227,232,0.10)' : 'rgba(255,255,255,0.03)';
+      roundRect(ctx, cx, cy, cellW - 8, cellH - 8, 8); ctx.fill();
+      if (known) { ctx.lineWidth = 1.6; ctx.strokeStyle = JV.cyan; roundRect(ctx, cx, cy, cellW - 8, cellH - 8, 8); ctx.stroke(); }
       if (known) drawCodexArt(ctx, e, cx + 8, cy + 10, 30, time);
-      text(ctx, e.category, cx + 44, cy + 10, { size: 8, color: PALETTE.creamDim });
-      text(ctx, known ? e.name : '????????', cx + 44, cy + 22, { size: 11, bold: known, color: known ? PALETTE.cream : PALETTE.creamDim });
+      text(ctx, e.category, cx + 44, cy + 10, { size: 8, color: JV.dim });
+      text(ctx, known ? e.name : '????????', cx + 44, cy + 22, { size: 11, bold: known, color: known ? JV.text : JV.dim });
     });
+    const contentH = (maxRow + 1) * cellH;
+    return Math.max(0, contentH - (bottom - GRID_TOP));
   }
   function codexCellAt(mx, my) {
     const pw = VIEW_W - 120, cols = 4, cellW = (pw - 48) / cols, cellH = 58;
     for (let i = 0; i < CODEX.length; i++) {
-      const cx = DEX.px + 24 + (i % cols) * cellW, cy = DEX.py + 74 + Math.floor(i / cols) * cellH;
+      const cx = DEX.px + 24 + (i % cols) * cellW, cy = GRID_TOP + Math.floor(i / cols) * cellH - journalScroll;
+      if (cy < GRID_TOP - cellH || cy > journalGridBottom()) continue;
       if (mx >= cx && mx <= cx + cellW - 8 && my >= cy && my <= cy + cellH - 8) return CODEX[i];
     }
     return null;
   }
 
-  return { enter() {}, update, render, leave() { persist(); } };
+  const scene = { enter() {}, update, render, leave() { persist(); } };
+  if (demoMode) {
+    // the attract reel's puppet strings - demo only, never present in real play
+    scene._rig = {
+      player, cam, env, world, entities, ambient, inventory, collection, quests,
+      switchMode, spawnCol, tryResurrect, revived,
+      skipBoot() { bootT = Infinity; },
+    };
+  }
+  return scene;
 }

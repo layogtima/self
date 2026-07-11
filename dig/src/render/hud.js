@@ -62,21 +62,35 @@ export function drawBuildIcon(ctx, id, x, y, s = 20) {
       ctx.fillStyle = '#8A6A45'; ctx.fillRect(1, 7, 18, 1.6);
       ctx.fillStyle = '#4A3421'; ctx.fillRect(9, 12, 2, 6);
       break;
-    case 'smelter':
-      ctx.fillStyle = '#3A363F'; ctx.fillRect(3, 6, 14, 12);
-      ctx.fillStyle = '#E0692A'; ctx.fillRect(6, 10, 8, 5);      // glowing mouth
-      ctx.fillStyle = '#4E4956'; ctx.fillRect(7, 2, 6, 4);       // stack
+    case 'smelter':   // brick furnace + chimney + ember mouth (matches the body)
+      ctx.fillStyle = '#4A3A34'; ctx.fillRect(2, 6, 13, 12);
+      ctx.strokeStyle = '#3A2C28'; ctx.lineWidth = 1;
+      for (let r = 0; r < 3; r++) { ctx.beginPath(); ctx.moveTo(2, 9 + r * 3.5); ctx.lineTo(15, 9 + r * 3.5); ctx.stroke(); }
+      ctx.fillStyle = '#4E4956'; ctx.fillRect(11, 2, 5, 6);      // chimney
+      ctx.fillStyle = '#E0692A'; ctx.fillRect(5, 14, 6, 3);      // ember mouth
       break;
-    case 'pyrolysis':
-      ctx.fillStyle = '#3A363F'; ctx.fillRect(4, 8, 12, 10);
-      ctx.strokeStyle = '#9FBE9A'; ctx.lineWidth = 1.6;
-      ctx.beginPath(); ctx.arc(10, 13, 3.4, 0, 7); ctx.stroke(); // vat window
-      ctx.fillStyle = '#4E4956'; ctx.fillRect(8, 3, 4, 5);
+    case 'pyrolysis':   // rounded sealed tank on legs + sight-glass + pipe
+      ctx.fillStyle = '#2B2733'; ctx.fillRect(4, 16, 2, 3); ctx.fillRect(13, 16, 2, 3);   // legs
+      ctx.fillStyle = '#39423B';
+      ctx.beginPath(); ctx.moveTo(4, 6); ctx.lineTo(15, 6); ctx.quadraticCurveTo(17, 11, 15, 16); ctx.lineTo(4, 16); ctx.quadraticCurveTo(2, 11, 4, 6); ctx.fill();
+      ctx.fillStyle = '#4E4956'; ctx.fillRect(8, 2, 3, 5);       // top pipe
+      ctx.fillStyle = '#16201A'; ctx.beginPath(); ctx.arc(12, 12, 2.6, 0, 7); ctx.fill();
+      ctx.strokeStyle = '#9FBE9A'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.arc(12, 12, 2.6, 0, 7); ctx.stroke();   // sight-glass
       break;
-    case 'kiln':
+    case 'kiln':   // brick dome + vent + silica slot
       ctx.fillStyle = '#5A4A42';
-      ctx.beginPath(); ctx.moveTo(3, 18); ctx.lineTo(6, 6); ctx.lineTo(14, 6); ctx.lineTo(17, 18); ctx.closePath(); ctx.fill();
+      ctx.beginPath(); ctx.moveTo(3, 18); ctx.quadraticCurveTo(4, 5, 10, 4); ctx.quadraticCurveTo(16, 5, 17, 18); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = '#4A3A34'; ctx.lineWidth = 0.8;
+      for (let r = 1; r <= 2; r++) { ctx.beginPath(); ctx.moveTo(4 + r, 18); ctx.quadraticCurveTo(10, 6 + r * 4, 16 - r, 18); ctx.stroke(); }
+      ctx.fillStyle = '#3A322E'; ctx.fillRect(8, 3, 4, 3);       // vent
       ctx.fillStyle = '#B39BC0'; ctx.fillRect(8, 11, 4, 7);      // silica glow slot
+      break;
+    case 'incubator':   // lit glass tank on a plinth
+      ctx.fillStyle = '#2E2A34'; ctx.fillRect(3, 16, 14, 3);
+      ctx.fillStyle = '#3A3E4A'; ctx.fillRect(4, 3, 12, 14);
+      ctx.fillStyle = 'rgba(150,220,170,0.5)'; ctx.fillRect(6, 5, 8, 10);
+      ctx.strokeStyle = '#6EA07A'; ctx.lineWidth = 1; ctx.strokeRect(6, 5, 8, 10);
+      ctx.fillStyle = 'rgba(230,255,238,0.7)'; ctx.beginPath(); ctx.arc(10, 10, 2, 0, 7); ctx.fill();
       break;
     case 'solar':
       ctx.strokeStyle = '#4E4956'; ctx.lineWidth = 2;
@@ -109,13 +123,36 @@ export function drawBuildIcon(ctx, id, x, y, s = 20) {
       break;
     case 'lamp-green': case 'lamp-blue': case 'lamp-teal': case 'lamp-amber': {
       const col = { 'lamp-green': '#96DCAA', 'lamp-blue': '#7FB8E8', 'lamp-teal': '#7FE8D8', 'lamp-amber': '#FFD27A' }[id];
-      ctx.strokeStyle = '#4E4956'; ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.moveTo(10, 18); ctx.lineTo(10, 9); ctx.stroke();
-      ctx.fillStyle = col;
-      ctx.beginPath(); ctx.arc(10, 7, 3.6, 0, 7); ctx.fill();
-      ctx.globalAlpha = 0.35;
-      ctx.beginPath(); ctx.arc(10, 7, 6.5, 0, 7); ctx.fill();
+      // overhead tube + downward cone (matches the placed object)
+      ctx.strokeStyle = '#4E4956'; ctx.lineWidth = 1.6;
+      ctx.beginPath(); ctx.moveTo(4, 4); ctx.lineTo(4, 17); ctx.stroke();     // bracket
+      ctx.fillStyle = '#3A363F'; ctx.fillRect(3, 3, 14, 3);                    // housing
+      ctx.fillStyle = col; ctx.fillRect(4, 5, 12, 1.6);                        // the tube
+      ctx.globalAlpha = 0.3;
+      ctx.beginPath(); ctx.moveTo(4, 6); ctx.lineTo(16, 6); ctx.lineTo(18, 18); ctx.lineTo(2, 18); ctx.closePath(); ctx.fill();
       ctx.globalAlpha = 1;
+      break;
+    }
+    case 'lure': {
+      ctx.strokeStyle = '#4E4956'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(10, 18); ctx.lineTo(10, 8); ctx.stroke();
+      ctx.fillStyle = '#7FC4A8'; ctx.beginPath(); ctx.arc(10, 6, 2.6, 0, 7); ctx.fill();
+      ctx.strokeStyle = 'rgba(127,196,168,0.6)'; ctx.lineWidth = 1;
+      for (const r of [4, 7]) { ctx.beginPath(); ctx.arc(10, 6, r, -0.9, -2.2, true); ctx.stroke(); }   // call rings
+      break;
+    }
+    case 'planter': {
+      ctx.fillStyle = '#6E4F33'; ctx.fillRect(4, 13, 12, 5);                   // trough
+      ctx.fillStyle = '#5F9A54';
+      for (const [x, h] of [[6, 6], [9, 8], [12, 5], [14, 7]]) { ctx.fillRect(x, 13 - h, 1.4, h); }   // sprouts
+      ctx.fillStyle = '#C98BA8'; ctx.fillRect(9, 4, 2, 2);
+      break;
+    }
+    case 'terrarium': {
+      ctx.fillStyle = 'rgba(150,220,170,0.18)'; ctx.fillRect(3, 5, 14, 12);    // glass
+      ctx.strokeStyle = '#6EA07A'; ctx.lineWidth = 1.2; ctx.strokeRect(3, 5, 14, 12);
+      ctx.fillStyle = '#5F9A54'; ctx.fillRect(4, 14, 12, 3);                    // soil + plant
+      ctx.fillRect(9, 9, 1.4, 5);
       break;
     }
     case 'st-clean':

@@ -155,6 +155,16 @@ export const QUESTS = [
         check: c => (c.stats?.junkTypesScanned || 0) >= 12 },
     ],
   },
+  {
+    id: 'genesis', title: 'Genesis', trigger: { event: 'genome-complete' },
+    brief: 'The genome is whole. Build the womb and bring it back.',
+    steps: [
+      { id: 'build-incubator', label: 'Incubator', line: 'Press B and build the Incubator - a womb of glass and code',
+        check: c => (c.builtCount?.('incubator') || 0) > 0 },
+      { id: 'revive', label: 'Resurrection', line: 'Press E at the Incubator to revive a completed species - it walks again',
+        event: 'resurrect' },
+    ],
+  },
 ];
 
 export const QUESTS_BY_ID = Object.fromEntries(QUESTS.map(q => [q.id, q]));

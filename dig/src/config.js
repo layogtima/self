@@ -9,9 +9,12 @@ export const FLAGS = {
 export const TILE = 16;
 export const VIEW_W = 960;
 export const VIEW_H = 540;
-export const WORLD_W = 364;         // tiles (widened for the 7-biome world; resized WITH the v2 save bump)
-export const WORLD_H = 480;         // tiles
-export const SURFACE_BASE = 26;     // mean surface row; depth = row - surface
+// v4.7: the world is 4x bigger on BOTH axes - each biome 4x wider, the geologic
+// section 4x deeper. Strata bands + worldgen depth literals scale with WORLD_SCALE.
+export const WORLD_SCALE = 4;
+export const WORLD_W = 1456;        // tiles (364 * 4): the 7 biomes, 4x wider each
+export const WORLD_H = 1920;        // tiles (480 * 4): room to reach the deep strata + magma
+export const SURFACE_BASE = 104;    // mean surface row (26 * 4); depth = row - surface
 
 // pod no-dig span (columns around spawn; you can't undermine your own pod)
 export const CAMP_HALF_L = 2;
@@ -30,6 +33,12 @@ export const T_BRINE = 7;           // hypersaline groundwater (deep aquifers; e
 export const T_TAR = 8;             // natural asphalt seep (La Brea-style; barely flows, grips)
 export const T_RUBBLE = 9;          // cave-in debris: diggable loose fill (built tiles are NOT -
                                     // T_PLACED/T_ROOF only come down via the Deconstructor)
+
+export const T_OBSIDIAN = 10;       // volcanic glass: lava quenched by water (diggable rock)
+
+// fluid CA active-set ceiling. Scaled for the 4x world - too small and pools
+// on a big map get truncated (Set-order eviction) and freeze mid-flow.
+export const FLUID_ACTIVE_CAP = 24000;
 
 // per-fluid viscosity: probability a cell advances each CA frame (1 = watery)
 export const FLUID_SPECS = {
@@ -76,6 +85,7 @@ export const SATCHEL_SIZE = 3;
 export const RARITY_WEIGHTS = { common: 1.0, uncommon: 0.45, rare: 0.18, legendary: 0.06 };
 
 // -- save ---------------------------------------------------------------------
-export const SAVE_KEY = 'diggg-save-v2';   // v4 reboot: world contract changed; v1 saves reset (settings carry)
+export const SAVE_KEY = 'diggg-save-v3';   // v4.7: world 4x bigger, tile indices changed; older saves reset (settings carry)
+export const SAVE_KEY_PREV = 'diggg-save-v2';
 export const SAVE_KEY_V1 = 'diggg-save-v1';
 export const AUTOSAVE_SECONDS = 10;

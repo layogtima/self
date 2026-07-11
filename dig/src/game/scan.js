@@ -4,7 +4,7 @@
 // feature (game/features.js is the ground truth - scan never names something
 // the render doesn't draw), a fluid tile, surface flora, or the rock itself.
 
-import { TILE, T_WATER, T_LAVA, T_BRINE, T_TAR, T_AIR, T_ROCK } from '../config.js';
+import { TILE, T_WATER, T_LAVA, T_BRINE, T_TAR, T_AIR, T_ROCK, T_OBSIDIAN } from '../config.js';
 import { biomeAtX } from '../content/biomes.js';
 import { caveFeaturesAt, sceneryAt, HARVESTABLE } from './features.js';
 
@@ -33,6 +33,9 @@ export function resolveScan(wx, wy, world, creatures) {
   const tileRect = { x: tx * TILE, y: ty * TILE, w: TILE, h: TILE };
   const t = world.tileAt(tx, ty);
 
+  // obsidian reads as a mineral feature
+  if (t === T_OBSIDIAN) return { id: 'obsidian', kind: 'feature', ...tileRect };
+
   // 2) fluids under the reticle
   if (t === T_WATER) return { id: 'water', kind: 'fluid', ...tileRect };
   if (t === T_LAVA) return { id: 'lava', kind: 'fluid', ...tileRect };
@@ -44,15 +47,17 @@ export function resolveScan(wx, wy, world, creatures) {
   if (f) {
     // both halves present: pick by which half of the tile the reticle is in
     const topHalf = wy - ty * TILE < TILE / 2;
-    const id = topHalf ? (f.ceiling || f.floor) : (f.floor || f.ceiling);
-    return { id, kind: 'feature', ...tileRect, harvest: HARVESTABLE[id] };
+    let id = topHalf ? (f.ceiling || f.floor) : (f.floor || f.ceiling);
+    if (id === 'crystal-tip') id = 'crystal';        // geode ceiling teeth = crystal codex
+    const cat = id === 'vines' ? 'flora' : 'feature';
+    return { id, kind: cat, ...tileRect, harvest: HARVESTABLE[id] };
   }
 
   // 4) surface flora - only where drawScenery actually put something
   if (t === T_AIR && world.depthOfRow(tx, ty) <= 1) {
     for (const ox of [0, -1, 1, -2, 2]) {
       const c = tx + ox;
-      const s = sceneryAt(c);
+      const s = sceneryAt(c, world);
       if (!s) continue;
       const groundY = world.surface[Math.max(0, Math.min(world.WORLD_W - 1, c))] * TILE;
       const biome = biomeAtX(c, world.WORLD_W);

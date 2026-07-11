@@ -1,68 +1,76 @@
-// Biome parallax backdrops - the horizon the sky wears. Each biome gets a wide
-// painting (assets/sprites/backdrops/<biomeId>.png, generated) drawn between
-// the sky gradient and the world: tiled horizontally with a slow parallax
-// scroll, anchored so descending underground carries it up and out of view
-// naturally (no depth-fade bookkeeping - the camera does it). Crossing a biome
-// border CROSSFADES old→new over ~1.8s. Missing art falls back to procedural
-// two-layer ridge silhouettes tinted from the biome palette, so the game never
-// blocks on generation. Night and rain dim/haze the painting via env.
-//
-// (Underground gets no backdrop variant on purpose: every cave cell draws a
-// back wall, so a cavern painting would never be visible.)
+// Biome backdrop - the painted horizon the sky wears. v4.8: back to the painted
+// look the player liked, but SIMPLE + seamlessly repeating. Each biome has a
+// low, horizontally-tiling silhouette band (assets/sprites/backdrops/<id>.png,
+// generated with tile_x) drawn between the sky gradient and the sun/moon, so it
+// repeats forever behind the ground and the celestial bodies ride over it. The
+// painting's baked sky is faded to transparent up top so the game's own
+// day/night sky shows through. Missing art falls back to procedural ridges, so
+// the game never blocks on assets.
 
 import { VIEW_W, VIEW_H, TILE, WORLD_W, SURFACE_BASE } from '../config.js';
 import { BIOMES, biomeAtX } from '../content/biomes.js';
 import { getSprite } from './sprites.js';
 
-const FADE_T = 1.8;               // seconds, border crossfade
-const PARA_X = 0.12;              // horizontal parallax factor
-const PARA_Y = 0.25;              // vertical parallax factor
-const SCALE = 2.5;                // 384x216 painting → 960x540 layer
+const FADE_T = 1.8;               // seconds, biome-border crossfade
+const PARA = 0.35;                // horizontal parallax factor
+const SCALE = 3;                  // 256-wide painting → ~768 on screen
+
+function hx(h) { return [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)]; }
 
 /** @param {(w:number,h:number)=>HTMLCanvasElement} [makeCanvas]  enables the sky-fade mask */
 export function makeBackdrop(makeCanvas = null) {
-  let cur = null;                 // current biome id
-  let prev = null;                // fading-out biome id
-  let fade = 1;                   // 0..1, prev→cur
-  const masked = {};              // biomeId -> canvas: painting w/ top faded out
+  let cur = null, prev = null, fade = 1;
+  const masked = {};              // biomeId -> sky-faded canvas of the painting
 
-  // the paintings arrive with baked skies; fading their top third to
-  // transparent lets the game's own day/night sky own the upper screen while
-  // the painted horizon keeps the ground
+  // fade the top ~45% of the painting to transparent so the real sky owns it
   function maskedImage(biomeId, img) {
     if (!makeCanvas) return img;
     if (masked[biomeId]) return masked[biomeId];
-    const w = img.width || 384, h = img.height || 216;
+    const w = img.width || 256, h = img.height || 128;
     const cv = makeCanvas(w, h);
     const c = cv.getContext('2d');
     c.drawImage(img, 0, 0);
     c.globalCompositeOperation = 'destination-out';
-    const g = c.createLinearGradient(0, 0, 0, h * 0.42);
+    const g = c.createLinearGradient(0, 0, 0, h * 0.5);
     g.addColorStop(0, 'rgba(0,0,0,1)');
     g.addColorStop(1, 'rgba(0,0,0,0)');
-    c.fillStyle = g;
-    c.fillRect(0, 0, w, h * 0.42);
+    c.fillStyle = g; c.fillRect(0, 0, w, h * 0.5);
     c.globalCompositeOperation = 'source-over';
     masked[biomeId] = cv;
     return cv;
   }
 
-  /** one painted (or procedural) layer at the given alpha */
-  function drawLayer(ctx, cam, biomeId, alpha) {
+  /** procedural fallback: two seamless ridge silhouettes in the biome palette */
+  function drawProcedural(ctx, cam, biomeId, bottomY) {
+    const biome = BIOMES.find(b => b.id === biomeId) || BIOMES[0];
+    const P = WORLD_W * TILE;
+    const ridge = (rgb, amp, base, para, ph, alpha) => {
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+      ctx.beginPath(); ctx.moveTo(0, VIEW_H);
+      for (let sx = 0; sx <= VIEW_W; sx += 8) {
+        const wx = (sx + cam.x * para) / P * Math.PI * 2;
+        const y = bottomY - base - (Math.sin(wx * 3 + ph) + Math.sin(wx * 7 + 1.3) * 0.5) * amp;
+        ctx.lineTo(sx, y);
+      }
+      ctx.lineTo(VIEW_W, VIEW_H); ctx.closePath(); ctx.fill();
+    };
+    const haze = rgb => rgb.map((c, i) => Math.round(c * 0.5 + [150, 162, 178][i] * 0.5));
+    ridge(haze(hx(biome.surfaceTint)), 22, 70, PARA * 0.6, 1.7, 0.5);
+    ridge(haze(hx(biome.grass.deep)), 30, 26, PARA, 4.2, 0.55);
+    ctx.globalAlpha = 1;
+  }
+
+  function drawBiome(ctx, cam, biomeId, alpha, bottomY) {
     if (alpha <= 0.01) return;
-    // bottom of the painting sits a touch below the surface line on screen,
-    // rising away as the camera digs down (vertical parallax)
-    const bottomY = SURFACE_BASE * TILE * (1 - PARA_Y) + 190 - cam.y * PARA_Y;
-    if (bottomY < -20) return;    // fully scrolled out - deep underground
+    const img = getSprite('backdrops', biomeId);
     ctx.save();
     ctx.globalAlpha = alpha;
-    const img = getSprite('backdrops', biomeId);
     if (img) {
       const src = maskedImage(biomeId, img);
-      const iw = (img.width || 384) * SCALE, ih = (img.height || 216) * SCALE;
-      const off = -(((cam.x * PARA_X) % iw) + iw) % iw;
-      const prevSmooth = ctx.imageSmoothingEnabled;
-      ctx.imageSmoothingEnabled = false;
+      const iw = (img.width || 256) * SCALE, ih = (img.height || 128) * SCALE;
+      const off = -(((cam.x * PARA) % iw) + iw) % iw;
+      const prevSmooth = ctx.imageSmoothingEnabled; ctx.imageSmoothingEnabled = false;
       for (let x = off; x < VIEW_W; x += iw) ctx.drawImage(src, x, bottomY - ih, iw, ih);
       ctx.imageSmoothingEnabled = prevSmooth;
     } else {
@@ -71,30 +79,7 @@ export function makeBackdrop(makeCanvas = null) {
     ctx.restore();
   }
 
-  /** fallback: two ridge silhouettes from the biome palette (stable, seamless) */
-  function drawProcedural(ctx, cam, biomeId, bottomY) {
-    const biome = BIOMES.find(b => b.id === biomeId) || BIOMES[0];
-    const ridge = (color, amp, base, para, ph) => {
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.moveTo(0, bottomY);
-      for (let x = 0; x <= VIEW_W; x += 16) {
-        const wx = (x + cam.x * para) * 0.008;
-        const y = bottomY - base - (Math.sin(wx + ph) + Math.sin(wx * 2.3 + ph * 2) * 0.5 + Math.sin(wx * 0.31) * 1.2) * amp;
-        ctx.lineTo(x, y);
-      }
-      ctx.lineTo(VIEW_W, bottomY);
-      ctx.closePath(); ctx.fill();
-    };
-    ctx.globalAlpha *= 0.55;
-    ridge(biome.surfaceTint, 26, 90, PARA_X * 0.6, 1.7);   // far, pale
-    ctx.globalAlpha /= 0.55;
-    ctx.globalAlpha *= 0.5;
-    ridge(biome.grass.deep, 34, 34, PARA_X, 4.2);          // near, deep tone
-  }
-
   return {
-    /** track the player's biome; a border crossing starts the crossfade */
     update(dt, playerTx) {
       const id = biomeAtX(playerTx, WORLD_W).id;
       if (id !== cur) { prev = cur; cur = id; fade = prev ? 0 : 1; }
@@ -102,17 +87,18 @@ export function makeBackdrop(makeCanvas = null) {
       if (fade >= 1) prev = null;
     },
 
-    /** call right after drawSky (screen space, before the camera transform) */
+    /** call between the sky gradient and the sun/moon (screen space) */
     draw(ctx, cam, env) {
       if (!cur) return;
-      // night swallows the horizon; rain hazes it
-      const vis = (1 - (env?.night01?.() ?? 0) * 0.75) * (1 - (env?.precip01?.() ?? 0) * 0.5);
+      const vis = 1 - (env?.night01?.() ?? 0) * 0.7;
       if (vis <= 0.02) return;
-      if (prev) drawLayer(ctx, cam, prev, vis * (1 - fade));
-      drawLayer(ctx, cam, cur, vis * (prev ? fade : 1));
+      // horizon anchored to the surface, rising away as we dig down
+      const bottomY = SURFACE_BASE * TILE * 0.7 + 170 - cam.y * 0.55;
+      if (bottomY < -60) return;
+      if (prev) drawBiome(ctx, cam, prev, vis * (1 - fade), bottomY);
+      drawBiome(ctx, cam, cur, vis * (prev ? fade : 1), bottomY);
     },
 
-    /** test hooks */
     get _cur() { return cur; },
     get _prev() { return prev; },
     get _fade() { return fade; },

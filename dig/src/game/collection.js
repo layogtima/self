@@ -45,8 +45,11 @@ export function makeCollection(initial = {}, initialGenome = {}) {
       return genome[id];
     },
     genomeOf(id) { return genome[id] || 0; },
-    isViable(id) { return this.isComplete(id) && (genome[id] || 0) >= 1; },
+    // v4.8: resurrection is gated on GENOME alone (excavating enough of a species
+    // reconstructs its code) - no museum-mounting grind required
+    isViable(id) { return (genome[id] || 0) >= 1; },
     anyViable() { return FOSSILS.some(f => this.isViable(f.id)); },
+    viableIds() { return FOSSILS.filter(f => this.isViable(f.id)).map(f => f.id); },
 
     /** serialise for the save */
     export() {

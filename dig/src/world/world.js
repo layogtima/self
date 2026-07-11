@@ -4,7 +4,7 @@
 
 import {
   WORLD_W, WORLD_H, SURFACE_BASE, TILE,
-  T_AIR, T_ROCK, T_PLACED, T_BEDROCK, T_WATER, T_LAVA, T_ROOF, T_RUBBLE, FLUID_SPECS,
+  T_AIR, T_ROCK, T_PLACED, T_BEDROCK, T_WATER, T_LAVA, T_ROOF, T_RUBBLE, T_OBSIDIAN, FLUID_SPECS,
   CAMP_HALF_L, CAMP_HALF_R, CAMP_DEPTH,
 } from '../config.js';
 import { generateWorld } from './worldgen.js';
@@ -21,6 +21,7 @@ export function makeWorld(seed) {
   const garbageMap = gen.garbageMap;    // tile index -> garbage index
   const scavenged = new Set();          // garbage indices already recovered
   const gasMap = gen.gasMap;            // tile indices holding trapped gas
+  const geodeMap = gen.geodeMap || new Set();   // air tiles inside crystal geodes
   const damage = new Map();             // tile index -> hits taken
   const excavated = new Set();          // pocket indices already dug out
   const dug = new Set();                // player-cleared tile indices (for save)
@@ -89,6 +90,12 @@ export function makeWorld(seed) {
       return gasMap.has(idx) && tiles[idx] === T_ROCK;
     },
 
+    /** is this air tile inside a crystal-lined geode pocket? */
+    geodeAt(tx, ty) {
+      if (!inBounds(tx, ty)) return false;
+      return geodeMap.has(ty * WORLD_W + tx);
+    },
+
     // -- harvestable features (mushrooms/crystals; ground truth in game/features.js)
     isHarvested(tx, ty) { return harvested.has(ty * WORLD_W + tx); },
     harvest(tx, ty) {
@@ -102,16 +109,21 @@ export function makeWorld(seed) {
     hpAt(tx, ty) {
       const t = this.tileAt(tx, ty);
       if (t === T_RUBBLE) return 1;
+      if (t === T_OBSIDIAN) return 3;                       // glassy + tough
       if (t === T_ROCK) return this.stratumAt(tx, ty).hp;
       return Infinity;
     },
 
-    /** the laser cuts geology (rock, cave-in rubble) - never what you built */
+    /** the laser cuts geology (rock, cave-in rubble, obsidian) - never builds */
     diggable(tx, ty) {
       if (this.inCampZone(tx, ty)) return false;
       const t = this.tileAt(tx, ty);
-      return t === T_ROCK || t === T_RUBBLE;
+      return t === T_ROCK || t === T_RUBBLE || t === T_OBSIDIAN;
     },
+
+    /** set by makeFluids: last reaction, drained by the scene for FX */
+    reactions: [],
+    reactAt(tx, ty, kind) { this.reactions.push({ tx, ty, kind }); if (this.reactions.length > 40) this.reactions.shift(); },
 
     /**
      * Deconstruct a built tile (T_PLACED soil / T_ROOF panel). Returns the tile
@@ -146,12 +158,14 @@ export function makeWorld(seed) {
       if (hits < hp) { damage.set(idx, hits); return { broke: false }; }
 
       damage.delete(idx);
+      const wasObsidian = tiles[idx] === T_OBSIDIAN;
       const wasPlaced = tiles[idx] === T_RUBBLE;   // rubble was "placed" by the cave-in
       tiles[idx] = T_AIR;
       if (wasPlaced) placed.delete(idx); else dug.add(idx);
       fluids.wake(tx, ty);   // a fluid neighbour may now pour into this cell
 
       const out = { broke: true };
+      if (wasObsidian) out.obsidian = true;   // yields crystal/silicon (game.js)
       if (gasMap.has(idx)) { gasMap.delete(idx); out.gas = true; }   // released once, ever
       const pIndex = pocketMap.get(idx);
       if (pIndex !== undefined && !excavated.has(pIndex)) {
@@ -169,6 +183,8 @@ export function makeWorld(seed) {
 
     /** advance fluid flow within the visible window */
     stepFluids(bounds, dt) { fluids.step(bounds, dt); },
+    /** flag a fluid cell (+neighbours) active - after a manual tile edit */
+    wakeFluid(tx, ty) { fluids.wake(tx, ty); },
 
     /** @param {number} [t] placeable tile id - T_PLACED soil (default) or T_ROOF */
     place(tx, ty, t = T_PLACED) {
@@ -182,6 +198,14 @@ export function makeWorld(seed) {
     },
 
     variantAt(tx, ty) { return (Math.imul(tx, 73856093) ^ Math.imul(ty, 19349663)) >>> 0; },
+
+    /** how many player-built tiles of this id stand right now (O(placed), no
+     *  allocation - exportDeltas() is for saves, not per-frame quest checks) */
+    placedTileCount(t) {
+      let n = 0;
+      for (const v of placed.values()) if (v === t) n++;
+      return n;
+    },
 
     // -- save/restore ----------------------------------------------------------
     exportDeltas() {
