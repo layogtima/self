@@ -30,6 +30,15 @@ export function anyPressed() { return justPressed.size > 0; }
  *  puppet the game exactly like a player: cleared by the next endFrame() */
 export function injectPress(code) { justPressed.add(code); synthetic.add(code); }
 
+/** a REAL press from the touch layer (v5.0). NOT synthetic - the title's
+ *  userPressed gate must accept a human thumb - and fires onKey like keydown */
+export function humanPress(code) {
+  justPressed.add(code);
+  if (!code.startsWith('Mouse')) for (const fn of listeners) fn(code);   // mirror keydown, not mousedown
+}
+/** hold / release a key from the touch layer, exactly like keydown/keyup */
+export function hold(code, on) { keys[code] = !!on; }
+
 /** drop every held key + button - call when the autopilot hands over control */
 export function releaseAll() {
   for (const k of Object.keys(keys)) keys[k] = false;

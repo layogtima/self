@@ -113,4 +113,17 @@ console.log('\n[render] post-process pass');
   } catch (e) { t.ok(false, 'postfx threw: ' + (e.stack || e)); }
 }
 
+// v5.0: the stage is dynamic on phones - every scene must survive every width
+console.log('\n[render] dynamic stage widths (phone aspects)');
+{
+  const { setView } = cfg;
+  for (const w of [720, 1170, 1280]) {
+    setView(w);
+    runScene(`title @ ${w}`, s => makeTitleScene(s), 60);
+    runScene(`settings @ ${w}`, s => makeSettingsScene(s, {}), 30);
+    runScene(`game @ ${w}`, s => makeGameScene(s, {}), 90);
+  }
+  setView(960);   // leave the stage as the other tests expect it
+}
+
 t.done();

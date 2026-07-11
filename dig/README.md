@@ -23,6 +23,22 @@ git-ignored) from deploys.
 
 `index.html?trailer` hides all title chrome for clean trailer capture.
 
+## Mobile
+
+The game plays on phones (v5.0), landscape-first: the stage height is fixed at
+540 and the **width follows the device aspect** (clamped 720–1280; portrait
+pauses under a rotate card). Touch controls appear automatically on coarse
+pointers and tuck away when a mouse/keyboard speaks: **left thumb** = floating
+joystick (drag hard down to dig down), **right thumb** = tap to click things
+(scan a creature, use HUD buttons) or drag to aim-and-fire the laser twin-stick
+style. **JUMP** / **E** / **K** buttons + a contextual pill (power, umbilical,
+upgrade), pause and journal chips top-right; swipe scrolls the journal. Build
+and Deconstruct switch to a direct cursor: your finger carries the ghost
+(floating just above it), a tap places exactly once. The touch layer
+(`src/core/touch.js`) simply writes the same `keys`/`mouse` state as the
+keyboard, so gameplay code has no idea phones exist. Test on a phone via LAN:
+`npm run serve` then `http://<your-ip>:8642`.
+
 ## Play
 
 `A`/`D` (or arrows) move · `Space` jump · mouse aims the headlight + laser ·

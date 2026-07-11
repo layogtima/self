@@ -7,8 +7,20 @@ export const FLAGS = {
 
 // -- canvas / world dimensions ------------------------------------------------
 export const TILE = 16;
-export const VIEW_W = 960;
+// The stage: height is FIXED (all vertical layout is authored against 540);
+// width adapts to the device aspect (v5.0 mobile) - phones get an edge-to-edge
+// landscape view. `let` + live ES-module bindings: consumers that read VIEW_W
+// at draw time follow resizes automatically. Buffers sized at construction
+// (lighting) lazily re-allocate when they notice a mismatch.
+export let VIEW_W = 960;
 export const VIEW_H = 540;
+export const VIEW_W_MIN = 720;      // 4:3 tablets
+export const VIEW_W_MAX = 1280;     // ~21:9, wider gets letterboxed
+/** resize the stage width (clamped landscape range). Returns the applied width. */
+export function setView(w) {
+  VIEW_W = Math.max(VIEW_W_MIN, Math.min(VIEW_W_MAX, Math.round(w)));
+  return VIEW_W;
+}
 // v4.7: the world is 4x bigger on BOTH axes - each biome 4x wider, the geologic
 // section 4x deeper. Strata bands + worldgen depth literals scale with WORLD_SCALE.
 export const WORLD_SCALE = 4;

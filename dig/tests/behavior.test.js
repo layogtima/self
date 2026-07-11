@@ -1799,4 +1799,161 @@ console.log('\n[lore] all flavor text lives in lore.json, with variants per entr
   t.ok(allBlurbs.every(b => !/\btoday\b|\bnowadays\b/i.test(b)), 'no present-day framing in the archive');
 }
 
+// ===================================================================== v5.0: mobile
+console.log('\n[mobile] dynamic stage + the touch cockpit');
+{
+  const { setView, VIEW_W_MIN, VIEW_W_MAX, DIG_REACH } = cfg;
+  const input = await import('../src/core/input.js');
+  const { keys, mouse, pressed, userPressed, humanPress, endFrame, releaseAll } = input;
+  const { touch } = await import('../src/core/touch.js');
+
+  // -- setView clamps to the landscape range and propagates live -------------
+  t.eq(setView(300), VIEW_W_MIN, 'portrait-ish widths clamp to the minimum');
+  t.eq(setView(4000), VIEW_W_MAX, 'ultrawide clamps to the maximum');
+  setView(1170);
+  t.eq(cfg.VIEW_W, 1170, 'VIEW_W is a live binding - consumers see the new width');
+  const { makeCamera } = await import('../src/core/camera.js');
+  const cam2 = makeCamera();
+  cam2.follow(500, 300, 0, true);
+  const b2 = cam2.bounds();
+  t.ok((b2.x1 - b2.x0 + 1) * cfg.TILE >= 1170, 'camera cull window follows the wider stage');
+  setView(960);
+
+  // -- humanPress is HUMAN input (the title accepts a thumb) ------------------
+  releaseAll();
+  humanPress('MouseLeft');
+  t.ok(pressed('MouseLeft') && userPressed('MouseLeft'), 'a touch press is userPressed (not autopilot)');
+  endFrame();
+
+  // -- tap vs drag classification --------------------------------------------
+  touch.active = true;
+  const gameScene = { touchMode: () => ({ mode: 'game', anchor: { x: 480, y: 270 }, idle: { x: 524, y: 262 }, cursor: 'relative' }) };
+  const directScene = { touchMode: () => ({ mode: 'direct' }) };
+
+  // a quick tap in the aim zone = absolute click, committed at touch end
+  touch.frame(1 / 60, gameScene);
+  touch.start(1, 700, 200);
+  touch.end(1);
+  touch.frame(1 / 60, gameScene);
+  t.ok(mouse.x === 700 && mouse.y === 200, 'tap commits its own coordinates');
+  t.ok(mouse.left && pressed('MouseLeft') && userPressed('MouseLeft'), 'tap fires a real 1-frame click');
+  endFrame();
+  touch.frame(1 / 60, gameScene);
+  t.ok(!mouse.left, 'the tap pulse clears after one frame');
+
+  // a drag in the aim zone = relative twin-stick aim + held laser
+  touch.start(2, 700, 200);
+  touch.move(2, 760, 230);                       // > slop: classified as aim
+  touch.frame(1 / 60, gameScene);
+  t.ok(mouse.left, 'aim drag holds the laser');
+  const dx = mouse.x - 480, dy = mouse.y - 270;
+  t.ok(dx > 0 && dy > 0, 'aim rides rover + drag vector');
+  t.ok(Math.hypot(dx, dy) <= DIG_REACH * 0.95 + 0.01, 'aim clamps INSIDE dig reach (a full drag still lands)');
+  touch.end(2);
+  touch.frame(1 / 60, gameScene);
+  t.ok(!mouse.left, 'laser releases with the finger');
+  endFrame();
+
+  // -- the joystick ------------------------------------------------------------
+  touch.start(3, 200, 300);                      // left zone
+  touch.move(3, 240, 300);
+  touch.frame(1 / 60, gameScene);
+  t.ok(keys.KeyD && !keys.KeyA, 'stick right walks right');
+  touch.move(3, 150, 300);
+  touch.frame(1 / 60, gameScene);
+  t.ok(keys.KeyA && !keys.KeyD, 'stick reverses cleanly');
+  touch.move(3, 205, 345);
+  touch.frame(1 / 60, gameScene);
+  t.ok(keys.KeyS, 'hard down digs down');
+  touch.end(3);
+  touch.frame(1 / 60, gameScene);
+  t.ok(!keys.KeyA && !keys.KeyD && !keys.KeyS, 'stick release leaves no stuck keys');
+  endFrame();
+
+  // -- touchcancel releases only touch-owned inputs ---------------------------
+  keys.KeyQ = true;                              // a "keyboard" hold on a hybrid device
+  touch.start(4, 200, 300);
+  touch.move(4, 260, 300);
+  touch.frame(1 / 60, gameScene);
+  t.ok(keys.KeyD, 'stick engaged');
+  touch.cancel(4);
+  touch.frame(1 / 60, gameScene);
+  t.ok(!keys.KeyD, 'cancel drops the stick');
+  t.ok(keys.KeyQ, '...but never someone else\'s held key');
+  keys.KeyQ = false;
+  endFrame();
+
+  // -- buttons: JUMP holds Space; pause chip holds Escape ----------------------
+  touch.frame(1 / 60, gameScene);                // refresh layout state
+  const jump = touch._buttons().find(b => b.id === 'jump');
+  touch.start(5, jump.x, jump.y);
+  t.ok(pressed('Space') && userPressed('Space'), 'JUMP fires the jump buffer as human input');
+  t.ok(keys.Space, 'JUMP holds Space (variable-height jumps, pulley release)');
+  endFrame();
+  touch.end(5);
+  t.ok(!keys.Space, 'JUMP releases Space with the thumb');
+
+  // -- absolute ghost mode (build/decon): drag carries, tap pulses once --------
+  const buildScene = { touchMode: () => ({ mode: 'game', anchor: { x: 480, y: 270 }, cursor: 'absolute' }) };
+  touch.frame(1 / 60, buildScene);
+  touch.start(6, 700, 300);
+  touch.move(6, 640, 320);                       // classified: ghost carry
+  touch.frame(1 / 60, buildScene);
+  t.ok(!mouse.left, 'ghost drag never fires the placer');
+  t.ok(mouse.x === 640 && mouse.y === 320 - 40, 'ghost rides above the finger');
+  touch.end(6);
+  touch.frame(1 / 60, buildScene);
+  endFrame();
+
+  // -- direct mode: journal scroll drags emit wheel ticks, fractions kept ------
+  const journalScene = { touchMode: () => ({ mode: 'direct', chips: true, scroll: true }) };
+  touch.frame(1 / 60, journalScene);
+  touch.start(7, 500, 300);
+  touch.move(7, 500, 240);                       // swipe up 60px = scroll down
+  touch.frame(1 / 60, journalScene);
+  t.ok(mouse.wheel >= 2, `vertical drag scrolls (${mouse.wheel} ticks)`);
+  t.ok(!pressed('MouseLeft'), 'scroll drags never click cells');
+  touch.end(7);
+  endFrame();
+
+  // -- direct mode taps + slider drags ----------------------------------------
+  touch.frame(1 / 60, directScene);
+  touch.start(8, 400, 200);
+  touch.move(8, 460, 204);                       // horizontal drag: slider-style hold
+  touch.frame(1 / 60, directScene);
+  t.ok(mouse.left && mouse.x === 460, 'direct drag holds MouseLeft with a live cursor');
+  touch.end(8);
+  touch.frame(1 / 60, directScene);
+  t.ok(!mouse.left, 'direct drag releases');
+  endFrame();
+
+  // -- hotRects guard the thumbs ----------------------------------------------
+  touch.frame(1 / 60, gameScene);
+  const rects = touch.hotRects();
+  t.ok(rects.length >= 5, 'touch buttons register as UI hot zones');
+  touch.active = false;
+  t.eq(touch.hotRects().length, 0, 'no thumb zones when touch is away');
+  releaseAll(); mouse.x = 0; mouse.y = 0; mouse.wheel = 0;
+}
+
+// -- reused sky buffers must be zero-filled between frames ---------------------
+console.log('\n[mobile] lighting scratch buffers never bleed stale light');
+{
+  const { makeLighting } = await import('../src/render/lighting.js');
+  const L2 = makeLighting((w, h) => globalThis.document.createElement('canvas'));
+  const w2 = makeWorld(77);
+  const c2 = 30, surf2 = w2.surface[c2];
+  const bounds2 = { x0: c2 - 10, x1: c2 + 10, y0: surf2 - 4, y1: surf2 + 20 };
+  const first = L2._computeSky(w2, bounds2, 0);
+  const litBefore = first.grid.some(v => v > 0);
+  // seal the whole window under a solid lid, then recompute with REUSED buffers
+  for (let x = c2 - 12; x <= c2 + 12; x++) w2.tiles[(surf2 - 1) * w2.WORLD_W + x] = 1;
+  for (let x = c2 - 12; x <= c2 + 12; x++) w2.surface[x] = Math.min(w2.surface[x], surf2 - 1);
+  const second = L2._computeSky(w2, { x0: c2 - 8, x1: c2 + 8, y0: surf2 + 2, y1: surf2 + 18 }, 0);
+  const deepLit = [];
+  for (let i = 0; i < second.grid.length; i++) if (second.grid[i] > 0.9) deepLit.push(i);
+  t.ok(litBefore, 'open ground was sky-lit in pass one');
+  t.eq(deepLit.length, 0, `sealed window shows zero full-lit cells on reused buffers (${deepLit.length})`);
+}
+
 t.done();

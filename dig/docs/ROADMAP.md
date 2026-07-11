@@ -129,3 +129,20 @@ into materials, build machines, dig deep for fossils, resurrect species, release
 - [x] `releaseAll()` drops every held key/button/pending press - called on title start, settings, and non-demo game-scene creation, so no scene ever inherits the autopilot's hands
 - [x] Livelier, less marchy beats: awaken drives home then STOPS for a slow wondering headlight sweep (+ a headlamp flick), scan approaches the saiga from the right and creeps in close instead of pacing
 - [x] Regression tests: injected press is never userPressed; releaseAll clears everything; the full title runs 35s of reel (injected presses and all) without self-starting. 418 behavior + 10 render green
+
+## v4.9d - Reel polish + handoff
+- [x] Hop spam killed: the scan beat injected Space EVERY FRAME for 1.4s (~84 presses); one-shot flag now. autoHop needs a genuine 0.55s stall (with cooldown) instead of firing on every walk start (~12 jumps/loop, all intentional)
+- [x] EMOTE vocabulary (two keys + a headlight, used with intent): wonder / watch / startle / hop / fidget - startled double-take + pleased hop at the scan card, machine-by-machine supervision on the salvage line, two "it's ALIVE" hops + rapt following after resurrection. releaseInputs() every frame before beats run - no key can ever stick
+- [x] Title DIG/settings buttons ride just below the reel's ground line (reel._groundY), clear of the storybook caption
+- [x] The awaken beat strikes yesterday's sets (all non-pod entities + staged fauna) - loops never stack machines on machines
+- [x] flatten() takes a target level; awaken levels the approach TO the pod's ground row - the pod never hovers over its own excavation
+- [x] README.md rewritten as the handoff doc. 420+10 green; 3-loop sim: beats 0-5, pod row untouched, revenant walks
+
+## v5.0 - MOBILE: dynamic stage + touch cockpit
+- [x] Dynamic stage width: config VIEW_W is a live `let` + setView() clamped 720-1280 (VIEW_H stays 540); main.js fitCanvas() reads visualViewport, applies at frame start only; portrait pauses under a "rotate your device" card; lighting buffer + scratch arrays lazily follow resizes; title/settings re-center per frame; index.html gets viewport-fit=cover/dvh/touch-action:none/user-select:none + gesturestart block + safe-area inset CSS vars
+- [x] core/touch.js - the touch cockpit: 'direct' dialect (finger = cursor; taps commit coords + a REAL MouseLeft press at touchEND so the attract reel's per-frame coordinate stomps can't misdirect them; drags hold the cursor live for sliders/scrubbing; journal drags scroll via fractional wheel ticks) and 'game' dialect (LEFT floating joystick with re-anchor for quick reversals; RIGHT hybrid aim - tap = absolute click, drag = relative twin-stick aim clamped INSIDE dig reach with the laser held; build/decon force an absolute ghost 40px above the finger, tap = exactly one placement pulse)
+- [x] On-canvas buttons: JUMP (holds Space - variable jumps + pulley release), E, K winch, contextual pill (P power / G umbilical / U upgrade by proximity), pause chip (HOLDS Escape - boot skip is hold-to-skip) + journal chip; buttons register as UI hot zones (never dig under a thumb); mode toggles gain thumb slop without moving
+- [x] input.js humanPress()/hold(): touch is HUMAN input (userPressed accepts it; the autopilot's injectPress stays synthetic); touchcancel releases only touch-owned inputs; scene contract scene.touchMode() reports dialect/anchor/idle-aim/cursor/context per frame
+- [x] Inventory manifest closes on tap (was KeyI/Escape only - a touch trap)
+- [x] Phone perf: computeSky + blitSkyGrid reuse zero-filled scratch buffers (Float32Array/Uint8Array/ImageData) - was the main per-frame GC churn, up to 2 allocs/frame
+- [x] Tests: 32 new [mobile] behavior tests (tap-vs-drag, stick, cancel-releases-only-ours, ghost mode, wheel scroll, humanPress, setView/camera, stale-light-bleed) + render smoke at 720/1170/1280. 452 behavior + 19 render green. Touch-only sim: stick+JUMP traverses, aim-drag digs, journal chip opens/scrolls/closes, title tap-DIG starts the game

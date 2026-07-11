@@ -10,6 +10,7 @@ import {
   POWER_DIG, POWER_SCAN,
 } from '../config.js';
 import { keys, mouse, pressed, releaseAll } from '../core/input.js';
+import { touch } from '../core/touch.js';
 import { sfx, rumble, thunder, setRainLevel, setCricketLevel, setWindLevel, setSurfacePad, setCaveLevel, setWaterLevel, setLavaLevel } from '../core/audio.js';
 import { setMusicDepth, updateMusic } from '../core/music.js';
 import { writeSave } from '../core/save.js';
@@ -192,7 +193,8 @@ export function makeGameScene(services, opts) {
   cam.follow(player.cx(), player.cy(), 0, true);
 
   function mouseOverUi() {
-    return hud.uiHotRects().some(r => mouse.x >= r.x && mouse.x <= r.x + r.w && mouse.y >= r.y && mouse.y <= r.y + r.h);
+    const rects = hud.uiHotRects().concat(touch.hotRects());   // never dig under a thumb button
+    return rects.some(r => mouse.x >= r.x && mouse.x <= r.x + r.w && mouse.y >= r.y && mouse.y <= r.y + r.h);
   }
 
   /** the four visor toggles: laser | scan | build | deconstruct - always exits clean */
@@ -390,7 +392,8 @@ export function makeGameScene(services, opts) {
     if (collectionOpen) { updateCollectionInput(); return; }
     if (pressed('KeyI')) { inventoryOpen = !inventoryOpen; sfx.ui(); }
     if (inventoryOpen) {
-      if (pressed('Escape')) { inventoryOpen = false; sfx.uiBack(); }
+      // MouseLeft too: on touch there is no I key - a tap must not be a trap
+      if (pressed('Escape') || pressed('MouseLeft')) { inventoryOpen = false; sfx.uiBack(); }
       return;
     }
 
@@ -2121,6 +2124,23 @@ export function makeGameScene(services, opts) {
     return null;
   }
 
+  // which secondary key matters RIGHT NOW - the touch layer's contextual pill
+  // borrows the context line's judgement (P power, G umbilical, U upgrade)
+  function touchContext() {
+    const proc = entities.nearest(player, e2 => !!BUILDABLES_BY_ID[e2.type]?.accepts, 2.4 * TILE);
+    if (proc) {
+      if (proc.enabled === false) return { code: 'KeyP', label: 'PWR' };
+      if (umbilical === proc.uid) return { code: 'KeyG', label: 'UNPLUG' };
+      if ((proc.battery || 0) <= 0.01 && !proc.powered) return { code: 'KeyG', label: 'PLUG' };
+    }
+    const podNear = entities.nearest(player, e2 => e2.type === 'pod', 2.6 * TILE);
+    if (podNear) {
+      const cost = laserUpgradeCost();
+      if (cost && inventory.canAfford(cost)) return { code: 'KeyU', label: 'UPGRADE' };
+    }
+    return null;
+  }
+
   // -- deconstruct mode: red brackets on the built thing under the cursor --------
   function drawDeconTarget(rtime) {
     if (!deconTarget) return;
@@ -2331,6 +2351,21 @@ export function makeGameScene(services, opts) {
   }
 
   const scene = { enter() {}, update, render, leave() { persist(); } };
+  // the touch layer's per-frame contract (v5.0): which dialect to speak, where
+  // the rover sits on screen (relative aim origin), and what the pill offers
+  scene.touchMode = () => {
+    if (minigame || overlay || collectionOpen || inventoryOpen) {
+      return { mode: 'direct', chips: true, scroll: !!collectionOpen };
+    }
+    const ax = player.cx() - cam.x, ay = player.cy() - cam.y;
+    return {
+      mode: 'game', chips: true,
+      anchor: { x: ax, y: ay },
+      idle: { x: ax + player.facing * 44, y: ay - 8 },
+      cursor: (build.active || player.tool === 'deconstruct') ? 'absolute' : 'relative',
+      context: touchContext(),
+    };
+  };
   if (demoMode) {
     // the attract reel's puppet strings - demo only, never present in real play
     scene._rig = {

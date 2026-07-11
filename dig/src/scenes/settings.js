@@ -11,7 +11,8 @@ import { clearSave, writeSave } from '../core/save.js';
 export function makeSettingsScene(services, opts = {}) {
   const { ctx, settings } = services;
   const back = opts.back || 'title';
-  const px = VIEW_W / 2 - 220, py = 74, pw = 440, ph = 380;
+  let px = VIEW_W / 2 - 220;
+  const py = 74, pw = 440, ph = 380;
 
   const sfxSlider = { x: px + 160, y: py + 84, w: 210, h: 8, key: 'volume', apply: setVolume, label: 'SFX' };
   const musSlider = { x: px + 160, y: py + 134, w: 210, h: 8, key: 'music', apply: setMusicVolume, label: 'Music' };
@@ -20,6 +21,14 @@ export function makeSettingsScene(services, opts = {}) {
   const resetBtn = { x: px + 40, y: py + 262, w: 165, h: 42 };
   const backBtn = { x: px + pw - 205, y: py + 262, w: 165, h: 42 };
   let showCredits = false;
+
+  // the stage width is dynamic on phones (v5.0) - re-center every frame
+  function layout() {
+    px = VIEW_W / 2 - 220;
+    sfxSlider.x = musSlider.x = shakeBox.x = px + 160;
+    creditsBtn.x = resetBtn.x = px + 40;
+    backBtn.x = px + pw - 205;
+  }
 
   let resetFlash = 0;
   let dragging = null;
@@ -41,6 +50,7 @@ export function makeSettingsScene(services, opts = {}) {
 
   return {
     update(dt) {
+      layout();
       resetFlash = Math.max(0, resetFlash - dt);
       if (pressed('Escape')) { if (showCredits) { showCredits = false; sfx.uiBack(); return; } goBack(); return; }
       if (showCredits) { if (pressed('MouseLeft')) { showCredits = false; sfx.uiBack(); } return; }
@@ -59,7 +69,9 @@ export function makeSettingsScene(services, opts = {}) {
     },
     render() {
       if (opts.overlay && opts.backdrop) {
-        ctx.drawImage(opts.backdrop, 0, 0);                  // frozen game frame
+        // explicit dest dims: a mid-pause resize stretches the frozen frame
+        // instead of leaving bars beside a stale-sized snapshot
+        ctx.drawImage(opts.backdrop, 0, 0, VIEW_W, VIEW_H);
         ctx.fillStyle = 'rgba(20,25,38,0.55)';
         ctx.fillRect(0, 0, VIEW_W, VIEW_H);
       } else {

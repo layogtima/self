@@ -38,9 +38,12 @@ export function makeTitleScene(services) {
       setMusicDepth(0);
       updateMusic(dt);
       // park the buttons just below the reel's ground line (never over the
-      // wordmark above or the storybook caption below), gliding across cuts
+      // wordmark above or the storybook caption below), gliding across cuts.
+      // x recomputed too - the stage width is dynamic on phones (v5.0)
       const target = Math.max(170, Math.min(VIEW_H - 175, (reel._groundY ?? VIEW_H - 175) + 26));
       btnY = btnY === null ? target : btnY + (target - btnY) * Math.min(1, dt * 3);
+      buttons[0].x = VIEW_W / 2 - 150;
+      buttons[1].x = VIEW_W / 2 + 10;
       for (const b of buttons) b.y = btnY;
       // HUMAN input only: the reel injects synthetic presses (card dismissals,
       // auto-hops) that must never start the game on their own. Check BEFORE

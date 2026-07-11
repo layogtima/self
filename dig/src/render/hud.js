@@ -13,6 +13,7 @@
 // few hit-rects the scene uses to route clicks).
 
 import { VIEW_W, VIEW_H, TILE } from '../config.js';
+import { touch } from '../core/touch.js';
 import { PALETTE } from './palette.js';
 import { text, chip, blueprintPanel, measure, roundRect } from './text.js';
 import { MATERIALS, MATERIALS_BY_ID, GARBAGE_BY_ID } from '../content/materials.js';
@@ -193,6 +194,7 @@ export function drawBuildIcon(ctx, id, x, y, s = 20) {
  */
 export function makeHud(deps) {
   const { ctx, player, world, power, status, inventory, satchel, build, hazards, cam } = deps;
+  // touch is only consulted for hit slop - the HUD never draws differently
 
   const hudOn = at => deps.state().bootT >= at;
 
@@ -584,10 +586,12 @@ export function makeHud(deps) {
   return {
     BAR_TOP, BAR_BOT,
     buildBarRect,
-    /** 'laser' | 'scan' | 'build' | 'deconstruct' | null - toggle under (mx,my) */
+    /** 'laser' | 'scan' | 'build' | 'deconstruct' | null - toggle under (mx,my).
+     *  Visuals stay 26px; a thumb gets extra slop so the targets are ~40px */
     modeToggleAt(mx, my) {
+      const slop = touch.active ? 7 : 0;
       for (const r of toggleRects()) {
-        if (mx >= r.x && mx <= r.x + r.w && my >= r.y - 3 && my <= r.y + r.h) return r.mode;
+        if (mx >= r.x - slop && mx <= r.x + r.w + slop && my >= r.y - 3 - slop && my <= r.y + r.h + slop) return r.mode;
       }
       return null;
     },

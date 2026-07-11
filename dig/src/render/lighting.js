@@ -25,6 +25,13 @@ export function makeLighting(makeCanvas) {
   const skyC = skyCv.getContext('2d');
   let lastSky = null;             // {x0,y0,w,h,grid} - test hook + shade pass
   let usedSkyBlit = false;        // test hook: seamless path exercised
+  // reused scratch buffers (v5.0 phone perf): computeSky runs up to twice a
+  // frame; allocating fresh typed arrays + ImageData each call was the main
+  // GC churn on mobile. Reused buffers MUST be re-zeroed - the write loops
+  // skip zero cells, so stale values would bleed yesterday's light.
+  let gridBuf = new Float32Array(0);
+  let openBuf = new Uint8Array(0), nextBuf = new Uint8Array(0);
+  let imgBuf = null;
 
   /**
    * Paint per-tile alphas at 1px/tile and upscale in ONE smoothed drawImage.
@@ -35,7 +42,9 @@ export function makeLighting(makeCanvas) {
    */
   function blitSkyGrid(target, sky, cam, alphaAt, rgb = [0, 0, 0]) {
     if (skyCv.width !== sky.w || skyCv.height !== sky.h) { skyCv.width = sky.w; skyCv.height = sky.h; }
-    const img = skyC.createImageData(sky.w, sky.h);
+    let img = imgBuf;
+    if (!img || img.width !== sky.w || img.height !== sky.h) img = imgBuf = skyC.createImageData(sky.w, sky.h);
+    else img.data.fill(0);
     for (let y = 0; y < sky.h; y++) {
       for (let x = 0; x < sky.w; x++) {
         const i = y * sky.w + x;
@@ -66,7 +75,9 @@ export function makeLighting(makeCanvas) {
     const x0 = Math.max(0, bounds.x0 - 2), x1 = Math.min(WORLD_W - 1, bounds.x1 + 2);
     const y0 = Math.max(0, bounds.y0 - 2), y1 = Math.min(WORLD_H - 1, bounds.y1 + 2);
     const w = x1 - x0 + 1, h = y1 - y0 + 1;
-    const grid = new Float32Array(w * h);
+    if (gridBuf.length < w * h) gridBuf = new Float32Array(w * h);
+    const grid = gridBuf.subarray(0, w * h);
+    grid.fill(0);
     const at = (x, y) => grid[(y - y0) * w + (x - x0)];
     const set = (x, y, v) => { grid[(y - y0) * w + (x - x0)] = v; };
 
@@ -82,8 +93,10 @@ export function makeLighting(makeCanvas) {
     const ex0 = Math.max(0, x0 - (shear > 0 ? drift : 2));
     const ex1 = Math.min(WORLD_W - 1, x1 + (shear < 0 ? drift : 2));
     const ew = ex1 - ex0 + 1;
-    let open = new Uint8Array(ew).fill(1);   // the sky itself
-    let next = new Uint8Array(ew);
+    if (openBuf.length < ew) { openBuf = new Uint8Array(ew); nextBuf = new Uint8Array(ew); }
+    let open = openBuf.subarray(0, ew);      // the sky itself
+    open.fill(1);
+    let next = nextBuf.subarray(0, ew);      // fully overwritten row by row
     let prevOff = 0;
     for (let y = yStart; y <= y1; y++) {
       const off = Math.round((y - yStart) * shear);
@@ -159,6 +172,9 @@ export function makeLighting(makeCanvas) {
      * @param {{strength:number, warm:number}} [sun]  daylight 0..1 + dusk warmth
      */
     apply(ctx, world, cam, emitter, aimAngle, ambient, lights = [], sun = null) {
+      // the stage can resize mid-session (v5.0 dynamic width) - the darkness
+      // buffer follows lazily (assigning width also clears it)
+      if (cv.width !== VIEW_W || cv.height !== VIEW_H) { cv.width = VIEW_W; cv.height = VIEW_H; }
       // daytime surface shade: even with no darkness mask, overhangs get a soft
       // shadow so the sun reads as directional light
       if (sun && sun.strength > 0.15 && ambient < 0.02) {

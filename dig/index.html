@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <title>Diggg - Find Fossils</title>
   <meta name="description" content="Pilot a little digging robot through ten layers of deep time. Excavate buried bones, prep them in the lab, and rebuild whole skeletons in this cheerful pixel-art paleontology game.">
   <meta name="author" content="Amit">
@@ -27,22 +27,38 @@
 
   <link rel="icon" type="image/png" href="assets/og.png">
   <style>
+    :root {
+      /* surfaced for JS: notches/home-indicator insets (in-canvas touch buttons
+         read these via getComputedStyle and keep clear) */
+      --sai-t: env(safe-area-inset-top, 0px);
+      --sai-r: env(safe-area-inset-right, 0px);
+      --sai-b: env(safe-area-inset-bottom, 0px);
+      --sai-l: env(safe-area-inset-left, 0px);
+    }
     html, body {
       margin: 0;
       height: 100%;
-      /* dark letterbox so the bars above/below the 16:9 canvas read as a frame,
+      height: 100dvh;
+      /* dark letterbox so any bars around the canvas read as a frame,
          not stray cream-coloured gaps */
       background: #1D2433;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      overscroll-behavior: none;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
     }
     canvas {
       image-rendering: pixelated;
+      /* graceful pre-JS default; main.js fits the canvas to the real
+         viewport (dynamic width, v5.0 mobile) via inline styles */
       width: min(100vw, calc(100vh * 16 / 9));
       aspect-ratio: 16 / 9;
       cursor: crosshair;
+      touch-action: none;
     }
   </style>
 </head>
@@ -53,6 +69,8 @@
     // dev field office - local serves only, never in production
     if (['localhost', '127.0.0.1'].includes(location.hostname))
       document.getElementById('devlink').style.display = 'block';
+    // iOS ignores user-scalable=no for pinch - block the proprietary gesture
+    addEventListener('gesturestart', e => e.preventDefault());
   </script>
   <script type="module" src="src/main.js"></script>
 </body>
