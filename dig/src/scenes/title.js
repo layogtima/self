@@ -8,6 +8,7 @@
 import { VIEW_W, VIEW_H } from '../config.js';
 import { text, roundRect } from '../render/text.js';
 import { mouse, userPressed, releaseAll } from '../core/input.js';
+import { touch, toggleFullscreen, fsAvailable } from '../core/touch.js';
 import { sfx } from '../core/audio.js';
 import { updateMusic, setMusicDepth } from '../core/music.js';
 import { makeAttractScene } from './attract.js';
@@ -22,6 +23,7 @@ export function makeTitleScene(services) {
   ];
   let t = 0;
   let btnY = null;   // buttons ride just below the reel's ground line, clear of the caption
+  const fsBtn = { x: VIEW_W - 46, y: 12, w: 34, h: 34 };   // x refreshed per frame (dynamic stage)
 
   const hit = b => mouse.x >= b.x && mouse.x <= b.x + b.w && mouse.y >= b.y && mouse.y <= b.y + b.h;
   const start = () => {
@@ -44,6 +46,7 @@ export function makeTitleScene(services) {
       btnY = btnY === null ? target : btnY + (target - btnY) * Math.min(1, dt * 3);
       buttons[0].x = VIEW_W / 2 - 150;
       buttons[1].x = VIEW_W / 2 + 10;
+      fsBtn.x = VIEW_W - 46;
       for (const b of buttons) b.y = btnY;
       // HUMAN input only: the reel injects synthetic presses (card dismissals,
       // auto-hops) that must never start the game on their own. Check BEFORE
@@ -51,6 +54,8 @@ export function makeTitleScene(services) {
       if (!trailerMode) {
         if (userPressed('Enter') || userPressed('Space')) { start(); return; }
         if (userPressed('MouseLeft')) {
+          // fullscreen glyph, top-right (mouse path; the touch layer has its own chip)
+          if (!touch.active && fsAvailable() && hit(fsBtn)) { sfx.ui(); toggleFullscreen(); return; }
           for (const b of buttons) {
             if (!hit(b)) continue;
             if (b.id === 'start') { start(); return; }
@@ -81,6 +86,22 @@ export function makeTitleScene(services) {
       text(ctx, 'DIGGG', VIEW_W / 2, 40, { size: 64, bold: true, align: 'center', color: '#F6E8C8' });
       ctx.restore();
       text(ctx, 'find fossils · year 102,025', VIEW_W / 2, 112, { size: 13, align: 'center', color: 'rgba(246,232,200,0.75)' });
+
+      // fullscreen glyph (mouse users; the touch layer draws its own chip)
+      if (!touch.active && fsAvailable()) {
+        const over = hit(fsBtn);
+        ctx.fillStyle = over ? 'rgba(58,54,63,0.9)' : 'rgba(14,12,10,0.55)';
+        roundRect(ctx, fsBtn.x, fsBtn.y, fsBtn.w, fsBtn.h, 8); ctx.fill();
+        ctx.strokeStyle = over ? '#F6E8C8' : 'rgba(75,227,232,0.5)';
+        ctx.lineWidth = 2;
+        const m = 9, x0 = fsBtn.x + m, y0 = fsBtn.y + m, x1 = fsBtn.x + fsBtn.w - m, y1 = fsBtn.y + fsBtn.h - m;
+        ctx.beginPath();
+        ctx.moveTo(x0 + 5, y0); ctx.lineTo(x0, y0); ctx.lineTo(x0, y0 + 5);
+        ctx.moveTo(x1 - 5, y0); ctx.lineTo(x1, y0); ctx.lineTo(x1, y0 + 5);
+        ctx.moveTo(x0 + 5, y1); ctx.lineTo(x0, y1); ctx.lineTo(x0, y1 - 5);
+        ctx.moveTo(x1 - 5, y1); ctx.lineTo(x1, y1); ctx.lineTo(x1, y1 - 5);
+        ctx.stroke();
+      }
 
       // a quiet record light: this is the mission, playing itself
       ctx.fillStyle = 'rgba(14,12,10,0.55)';

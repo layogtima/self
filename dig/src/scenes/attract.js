@@ -20,8 +20,8 @@ const NUMERAL = ['I', 'II', 'III', 'IV', 'V', 'VI'];
 
 /** aim the (virtual) mouse at a world point through the rig's camera */
 function aimAt(rig, wx, wy) {
-  mouse.x = Math.max(0, Math.min(VIEW_W, wx - rig.cam.x));
-  mouse.y = Math.max(0, Math.min(VIEW_H, wy - rig.cam.y));
+  mouse.x = Math.max(0, Math.min(VIEW_W, rig.cam.sx(wx)));
+  mouse.y = Math.max(0, Math.min(VIEW_H, rig.cam.sy(wy)));
 }
 function releaseInputs() {
   for (const k of Object.keys(keys)) keys[k] = false;
@@ -277,7 +277,7 @@ export function makeAttractScene(services) {
     get _beat() { return beat; },
     get _rig() { return rig; },
     /** screen-space y of the ground line under the rover (the title parks its buttons below it) */
-    get _groundY() { return rig.player.y + 16 - rig.cam.y; },
+    get _groundY() { return rig.cam.sy(rig.player.y + 16); },
 
     update(dt) {
       if (!started) { started = true; startBeat(0); }

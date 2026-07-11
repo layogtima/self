@@ -200,8 +200,9 @@ export function makeHud(deps) {
 
   // ---------------------------------------------------------- geometry (shared)
   function toggleRects() {
+    const s = touch.active ? 52 : 26;      // 2x for thumbs (v5.1), same bottom edge
     const by = VIEW_H - BAR_BOT - 6;
-    return ['laser', 'scan', 'build', 'deconstruct'].map((mode, i) => ({ mode, x: 8 + i * 30, y: by - 22, w: 26, h: 26 }));
+    return ['laser', 'scan', 'build', 'deconstruct'].map((mode, i) => ({ mode, x: 8 + i * (s + 4), y: by - s + 4, w: s, h: s }));
   }
   function buildBarRect() {
     const n = build.unlocked().length;
@@ -441,10 +442,11 @@ export function makeHud(deps) {
         roundRect(ctx, r.x, r.y + lift, r.w, r.h, 6); ctx.fill();
         if (on) { ctx.strokeStyle = PALETTE.amber; ctx.lineWidth = 1.6; roundRect(ctx, r.x, r.y + lift, r.w, r.h, 6); ctx.stroke(); }
         else { ctx.strokeStyle = 'rgba(233,220,188,0.18)'; ctx.lineWidth = 1; roundRect(ctx, r.x, r.y + lift, r.w, r.h, 6); ctx.stroke(); }
-        drawModeIcon(r.mode, r.x + 3, r.y + 3 + lift, 20, on ? MODE_COL[r.mode] : 'rgba(233,220,188,0.45)');
+        drawModeIcon(r.mode, r.x + 3, r.y + 3 + lift, r.w - 6, on ? MODE_COL[r.mode] : 'rgba(233,220,188,0.45)');
       }
       const label = { build: 'CONSTRUCTOR', scan: 'SCANNER', deconstruct: 'DECONSTRUCTOR', laser: `LASER mk${player.laserMk}` }[active];
-      text(ctx, label, 130, by + 6, { size: 9, bold: true, color: MODE_COL[active] });
+      const labelX = 14 + 4 * ((touch.active ? 52 : 26) + 4);
+      text(ctx, label, labelX, by + 6, { size: 9, bold: true, color: MODE_COL[active] });
     }
     // context line (centre)
     if (context) text(ctx, context, VIEW_W / 2, by + 6, { size: 10, bold: true, align: 'center', color: PALETTE.parchment });
@@ -597,9 +599,10 @@ export function makeHud(deps) {
     },
     /** rects where mouse clicks belong to the UI, not the world */
     uiHotRects() {
+      const s = touch.active ? 52 : 26;
       const rects = [
         { x: 0, y: 0, w: NOTCH_W, h: NOTCH_H },                                  // notch
-        { x: 0, y: VIEW_H - BAR_BOT - 32, w: 130, h: BAR_BOT + 32 },             // toggle cluster (4 modes)
+        { x: 0, y: VIEW_H - BAR_BOT - s - 6, w: 14 + 4 * (s + 4), h: BAR_BOT + s + 6 },   // toggle cluster (4 modes)
       ];
       if (build.active) { const r = buildBarRect(); rects.push({ x: r.x, y: r.y - 60, w: r.w, h: r.h + 60 }); }
       return rects;

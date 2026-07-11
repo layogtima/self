@@ -224,7 +224,8 @@ console.log('\n[pulley] still extracts + pops');
   const w = makeWorld(64);
   const col = w.spawnCol + 30;   // outside camp so we can dig
   const p = makePlayer(col * cfg.TILE + 2, (w.surface[col] - 3) * cfg.TILE);
-  const pulley = makePulley(); const particles = makeParticles(); const cam = { x: 0, y: 0 };
+  const pulley = makePulley(); const particles = makeParticles();
+  const cam = { x: 0, y: 0, wx(mx) { return mx / cfg.VIEW_ZOOM + this.x; }, wy(my) { return my / cfg.VIEW_ZOOM + this.y; } };
   const fx = { shake: () => {} };
   for (let i = 0; i < 60; i++) updatePlayer(p, w, 1 / 60);
   keys.KeyS = true;
@@ -958,17 +959,18 @@ console.log('\n[dig] mouse digging latches one tile - no seam-sweeping 2-tall ch
   const w = makeWorld(500);
   const col = w.spawnCol + 50, surf = w.surface[col];
   const p = makePlayer(col * cfg.TILE + 2, surf * cfg.TILE - cfg.PLAYER_H);
-  const particles = makeParticles(); const cam = { x: 0, y: 0 }, fx = { shake: () => {} };
+  const particles = makeParticles(), fx = { shake: () => {} };
+  const cam = { x: 0, y: 0, wx(mx) { return mx / cfg.VIEW_ZOOM + this.x; }, wy(my) { return my / cfg.VIEW_ZOOM + this.y; } };
   for (let i = 0; i < 30; i++) updatePlayer(p, w, 1 / 60);
   // hold the cursor ON a tile seam while walking - the old repro
   mouse.left = true;
   keys.KeyD = true;
   const cleared = new Map();
   for (let i = 0; i < 60 * 6; i++) {
-    mouse.x = p.cx() + 40 - cam.x;
+    mouse.x = (p.cx() + 40 - cam.x) * cfg.VIEW_ZOOM;      // stage px (the cursor lives zoomed)
     // straddle the LOCAL surface seam ahead of the rover (terrain rolls now)
     const aheadCol = Math.max(0, Math.min(w.WORLD_W - 1, Math.floor((p.cx() + 40) / cfg.TILE)));
-    mouse.y = (w.surface[aheadCol] + 1) * cfg.TILE + 4;   // aim just into the local rock
+    mouse.y = ((w.surface[aheadCol] + 1) * cfg.TILE + 4 - cam.y) * cfg.VIEW_ZOOM;   // aim just into the local rock
     updatePlayer(p, w, 1 / 60);
     const ev = updateDigging(p, w, cam, particles, fx, 1 / 60);
     if (ev.brokeTile) cleared.set(ev.brokeTile.tx, (cleared.get(ev.brokeTile.tx) || []).concat(ev.brokeTile.ty));
@@ -1802,7 +1804,7 @@ console.log('\n[lore] all flavor text lives in lore.json, with variants per entr
 // ===================================================================== v5.0: mobile
 console.log('\n[mobile] dynamic stage + the touch cockpit');
 {
-  const { setView, VIEW_W_MIN, VIEW_W_MAX, DIG_REACH } = cfg;
+  const { setView, VIEW_W_MIN, VIEW_W_MAX, DIG_REACH, VIEW_ZOOM } = cfg;
   const input = await import('../src/core/input.js');
   const { keys, mouse, pressed, userPressed, humanPress, endFrame, releaseAll } = input;
   const { touch } = await import('../src/core/touch.js');
@@ -1816,7 +1818,11 @@ console.log('\n[mobile] dynamic stage + the touch cockpit');
   const cam2 = makeCamera();
   cam2.follow(500, 300, 0, true);
   const b2 = cam2.bounds();
-  t.ok((b2.x1 - b2.x0 + 1) * cfg.TILE >= 1170, 'camera cull window follows the wider stage');
+  t.ok((b2.x1 - b2.x0 + 1) * cfg.TILE >= 1170 / VIEW_ZOOM, 'camera cull window follows the wider stage (zoomed)');
+  t.ok((b2.x1 - b2.x0 + 1) * cfg.TILE < 1170, 'the zoomed camera frames a tighter world window than the stage');
+  // v5.1: the zoom round-trips - a world point maps to stage px and back exactly
+  t.ok(Math.abs(cam2.wx(cam2.sx(555)) - 555) < 0.001, 'sx/wx round-trip is exact');
+  t.ok(Math.abs(cam2.wy(cam2.sy(444)) - 444) < 0.001, 'sy/wy round-trip is exact');
   setView(960);
 
   // -- humanPress is HUMAN input (the title accepts a thumb) ------------------
@@ -1848,7 +1854,7 @@ console.log('\n[mobile] dynamic stage + the touch cockpit');
   t.ok(mouse.left, 'aim drag holds the laser');
   const dx = mouse.x - 480, dy = mouse.y - 270;
   t.ok(dx > 0 && dy > 0, 'aim rides rover + drag vector');
-  t.ok(Math.hypot(dx, dy) <= DIG_REACH * 0.95 + 0.01, 'aim clamps INSIDE dig reach (a full drag still lands)');
+  t.ok(Math.hypot(dx, dy) <= DIG_REACH * VIEW_ZOOM * 0.95 + 0.01, 'aim clamps INSIDE dig reach (a full drag still lands, zoomed)');
   touch.end(2);
   touch.frame(1 / 60, gameScene);
   t.ok(!mouse.left, 'laser releases with the finger');

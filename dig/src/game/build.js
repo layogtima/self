@@ -36,7 +36,7 @@ export function makeBuild({ world, player, inventory, entities, isQuestUnlocked,
   function ghost(cam) {
     const spec = current();
     if (!spec) return null;
-    const wx = mouse.x + cam.x, wy = mouse.y + cam.y;
+    const wx = cam.wx(mouse.x), wy = cam.wy(mouse.y);
     const tx = Math.floor(wx / TILE);
     let ty = Math.floor(wy / TILE);
     const inReach = Math.hypot(wx - player.cx(), wy - player.cy()) <= BUILD_REACH;

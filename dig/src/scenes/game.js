@@ -5,7 +5,7 @@
 // creatures, and the genome path to resurrection.
 
 import {
-  VIEW_W, VIEW_H, TILE, WORLD_W, WORLD_H, PLAYER_H, BEAM_Y, DIG_REACH, DIG_COOLDOWN,
+  VIEW_W, VIEW_H, WIN_W, VIEW_ZOOM, TILE, WORLD_W, WORLD_H, PLAYER_H, BEAM_Y, DIG_REACH, DIG_COOLDOWN,
   T_AIR, T_PLACED, T_BEDROCK, T_WATER, T_LAVA, T_ROOF, T_BRINE, T_TAR, T_RUBBLE, T_OBSIDIAN, FLUID_SPECS, AUTOSAVE_SECONDS, CAMP_HALF_L, CAMP_HALF_R,
   POWER_DIG, POWER_SCAN,
 } from '../config.js';
@@ -582,7 +582,7 @@ export function makeGameScene(services, opts) {
     if (p > 0.1 && rainDrops.length < p * 140) {
       for (let i = 0; i < 4; i++) {
         rainDrops.push({
-          x: cam.x - 40 + Math.random() * (VIEW_W + 80),
+          x: cam.x - 40 + Math.random() * (WIN_W + 80),
           y: cam.y - 30 - Math.random() * 60,
           vy: snow ? 26 + Math.random() * 18 : 320 + Math.random() * 120,
           vx: snow ? (Math.random() - 0.5) * 20 : -30 * env.wind01(),
@@ -621,7 +621,7 @@ export function makeGameScene(services, opts) {
   // hold the mouse over a scannable to catalogue it (mod 12)
   function updateScan(dt, overUi = false) {
     player.beam = null;
-    const wx = mouse.x + cam.x, wy = mouse.y + cam.y;
+    const wx = cam.wx(mouse.x), wy = cam.wy(mouse.y);
     const targets = ambient.scanTargets(wx, wy);
     scanTarget = overUi ? null : resolveScan(wx, wy, world, targets);
     const id = scanTarget?.id ?? null;
@@ -750,7 +750,7 @@ export function makeGameScene(services, opts) {
   /** Q: flick one soil block into an adjacent air tile (1 regolith) - support
    *  pillars under wide ceilings, a quick step, a dam plug */
   function tryQuickSoil() {
-    const wx = mouse.x + cam.x, wy = mouse.y + cam.y;
+    const wx = cam.wx(mouse.x), wy = cam.wy(mouse.y);
     let tx = Math.floor(wx / TILE), ty = Math.floor(wy / TILE);
     if (Math.hypot(wx - player.cx(), wy - player.cy()) > DIG_REACH) {   // fall back to the tile underfoot-ahead
       tx = player.tx() + player.facing; ty = Math.floor((player.y + player.h - 1) / TILE);
@@ -767,7 +767,7 @@ export function makeGameScene(services, opts) {
   /** what the deconstructor would reclaim under the cursor (built tile or machine) */
   function resolveDecon(overUi) {
     if (overUi) return null;
-    const wx = mouse.x + cam.x, wy = mouse.y + cam.y;
+    const wx = cam.wx(mouse.x), wy = cam.wy(mouse.y);
     if (Math.hypot(wx - player.cx(), wy - player.cy()) > DIG_REACH) return null;
     const tx = Math.floor(wx / TILE), ty = Math.floor(wy / TILE);
     const e = entities.at(tx, ty);
@@ -948,9 +948,12 @@ export function makeGameScene(services, opts) {
   // --------------------------------------------------------------- render
   function render(rtime) {
     frameLights = [];
-    drawSkyGradient(rtime);          // deep sky: gradient + stars
-    backdrop.draw(ctx, cam, env);    // the biome's hills continuing to the horizon
-    drawSunMoon(rtime);              // sun/moon/events ride OVER the hills
+    drawSkyGradient(rtime);          // deep sky: gradient + stars (screen space - infinitely far)
+    ctx.save();
+    ctx.scale(VIEW_ZOOM, VIEW_ZOOM); // hills live in the zoomed world window so they meet the terrain
+    backdrop.draw(ctx, cam, env);
+    ctx.restore();
+    drawSunMoon(rtime);              // sun/moon/events ride OVER the hills (screen space)
 
     ctx.save();
     cam.apply(ctx);
@@ -988,7 +991,7 @@ export function makeGameScene(services, opts) {
     const stormDark = env.precip01() * 0.3;
     const ambientDark = Math.max(depthDark, nightDark, stormDark);
     const emitter = { x: player.cx() + player.facing * 7, y: player.y + BEAM_Y };
-    const aim = Math.atan2((mouse.y + cam.y) - emitter.y, (mouse.x + cam.x) - emitter.x);
+    const aim = Math.atan2(cam.wy(mouse.y) - emitter.y, cam.wx(mouse.x) - emitter.x);
     // god-ray shear follows the sun's arc - morning light leans right, noon
     // straight, evening left
     const dayArc = Math.max(0, Math.min(1, (env.t01 + 0.05) / 0.7));
@@ -997,8 +1000,11 @@ export function makeGameScene(services, opts) {
       warm: env.night01() > 0.3 ? 0 : Math.max(0, 0.5 - Math.abs(env.t01 - 0.35)),
       shear: (1 - dayArc * 2) * 0.85,
     };
+    ctx.save();
+    ctx.scale(VIEW_ZOOM, VIEW_ZOOM);   // the darkness mask is composed in window space
     lightPoly = lighting.apply(ctx, world, cam, emitter, aim, ambientDark,
       frameLights.concat(ambient.glowLights()), sunlight);
+    ctx.restore();
 
     // lightning flash over everything
     if (env.lightning > 0) {
@@ -1908,7 +1914,7 @@ export function makeGameScene(services, opts) {
   // scanner reticle at the mouse; the resolved target gets its OWN bracket +
   // name chip so you always see exactly what will be catalogued.
   function drawReticle(rtime) {
-    const wx = mouse.x + cam.x, wy = mouse.y + cam.y;
+    const wx = cam.wx(mouse.x), wy = cam.wy(mouse.y);
     const tgt = scanTarget;
     const has = !!tgt;
     ctx.strokeStyle = has ? '#4BE3E8' : 'rgba(75,227,232,0.4)';
@@ -2357,11 +2363,11 @@ export function makeGameScene(services, opts) {
     if (minigame || overlay || collectionOpen || inventoryOpen) {
       return { mode: 'direct', chips: true, scroll: !!collectionOpen };
     }
-    const ax = player.cx() - cam.x, ay = player.cy() - cam.y;
+    const ax = cam.sx(player.cx()), ay = cam.sy(player.cy());
     return {
       mode: 'game', chips: true,
       anchor: { x: ax, y: ay },
-      idle: { x: ax + player.facing * 44, y: ay - 8 },
+      idle: { x: cam.sx(player.cx() + player.facing * 28), y: ay - 16 },
       cursor: (build.active || player.tool === 'deconstruct') ? 'absolute' : 'relative',
       context: touchContext(),
     };

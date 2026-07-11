@@ -16,9 +16,17 @@ export let VIEW_W = 960;
 export const VIEW_H = 540;
 export const VIEW_W_MIN = 720;      // 4:3 tablets
 export const VIEW_W_MAX = 1280;     // ~21:9, wider gets letterboxed
+// v5.1: the camera rides 2.5x closer to the rover. The world renders into a
+// WINDOW of WIN_W x WIN_H world px, scaled up to the VIEW stage; HUD, cards
+// and menus keep the full stage. World-facing modules (camera, ambient,
+// lighting, backdrop) think in WIN dims; screen furniture thinks in VIEW.
+export const VIEW_ZOOM = 2.5;
+export let WIN_W = VIEW_W / VIEW_ZOOM;
+export const WIN_H = VIEW_H / VIEW_ZOOM;
 /** resize the stage width (clamped landscape range). Returns the applied width. */
 export function setView(w) {
   VIEW_W = Math.max(VIEW_W_MIN, Math.min(VIEW_W_MAX, Math.round(w)));
+  WIN_W = VIEW_W / VIEW_ZOOM;
   return VIEW_W;
 }
 // v4.7: the world is 4x bigger on BOTH axes - each biome 4x wider, the geologic

@@ -28,8 +28,22 @@
 // touchcancel ≡ touchend and releases ONLY touch-owned inputs - never
 // releaseAll(), a hybrid device may be holding real keys.
 
-import { VIEW_W, VIEW_H, TILE, DIG_REACH } from '../config.js';
+import { VIEW_W, VIEW_H, TILE, DIG_REACH, VIEW_ZOOM } from '../config.js';
 import { keys, mouse, pointer, humanPress, hold } from './input.js';
+
+/** is the Fullscreen API around? (iPhone Safari: no - the chip hides itself) */
+export function fsAvailable() {
+  if (typeof document === 'undefined' || !document.documentElement) return false;
+  const el = document.documentElement;
+  return !!(el.requestFullscreen || el.webkitRequestFullscreen);
+}
+export function toggleFullscreen() {
+  if (!fsAvailable()) return;
+  const el = document.documentElement;
+  const cur = document.fullscreenElement || document.webkitFullscreenElement;
+  if (cur) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+  else (el.requestFullscreen || el.webkitRequestFullscreen).call(el);
+}
 
 const TAP_SLOP = 14;          // px of drift before a touch stops being a tap
 const TAP_TIME = 0.3;         // seconds before a still touch becomes a hold
@@ -58,6 +72,7 @@ export const touch = {
     const b = this._buttonAt(x, y);
     if (b) {
       this._touches.set(id, { zone: 'btn', btn: b.id, x, y, sx: x, sy: y, t: 0 });
+      if (b.action) { b.action(); return; }          // e.g. fullscreen: fire, no key
       humanPress(b.code);
       if (b.holdable) { hold(b.code, true); this._held.add(b.code); }
       return;
@@ -147,7 +162,9 @@ export const touch = {
     if (this._st.mode === 'game') {
       const a = this._st.anchor;
       if (aim && a) {
-        const R = DIG_REACH * 0.95;    // full extension still lands a dig (inReach is strict)
+        // stage px: dig reach is world px, the cursor lives zoomed. Clamp just
+        // inside reach so a full-extension drag still lands a dig (inReach is strict)
+        const R = DIG_REACH * VIEW_ZOOM * 0.95;
         let vx = (aim.x - aim.sx) * AIM_GAIN, vy = (aim.y - aim.sy) * AIM_GAIN;
         const d = Math.hypot(vx, vy);
         if (d > R) { vx *= R / d; vy *= R / d; }
@@ -186,27 +203,26 @@ export const touch = {
   _inStickZone(x, y) {
     if (x > VIEW_W * 0.38) return false;
     if (y < 64) return false;                           // notch + quest ticker
-    if (y > VIEW_H - 76 && x < 150) return false;       // mode toggles live here
+    if (y > VIEW_H - 116 && x < 260) return false;      // mode toggles (2x under thumbs) live here
     return true;
   },
 
   _buttons() {
     const st = this._st;
     const R = VIEW_W - this._insets.r, B = VIEW_H - this._insets.b;
-    if (st.mode !== 'game') {
-      return st.chips ? [
-        { id: 'pause', code: 'Escape', holdable: true, x: R - 28, y: 56, r: 19, label: '❚❚' },
-        { id: 'journal', code: 'Tab', x: R - 74, y: 56, r: 19, label: '≡' },
-      ] : [];
-    }
+    // chips live along the top edge, fullscreen in the very corner
+    const chips = [];
+    if (fsAvailable()) chips.push({ id: 'fs', action: toggleFullscreen, x: R - 46, y: 72, r: 38, label: '⛶' });
+    chips.push({ id: 'pause', code: 'Escape', holdable: true, x: R - (fsAvailable() ? 134 : 46), y: 72, r: 38, label: '❚❚' });
+    chips.push({ id: 'journal', code: 'Tab', x: R - (fsAvailable() ? 222 : 134), y: 72, r: 38, label: '≡' });
+    if (st.mode !== 'game') return st.chips ? chips : (fsAvailable() ? [chips[0]] : []);
     const list = [
-      { id: 'jump', code: 'Space', holdable: true, x: R - 64, y: B - 76, r: 37, label: 'JUMP' },
-      { id: 'act', code: 'KeyE', x: R - 152, y: B - 58, r: 28, label: 'E' },
-      { id: 'winch', code: 'KeyK', x: R - 66, y: B - 172, r: 24, label: 'K' },
-      { id: 'pause', code: 'Escape', holdable: true, x: R - 28, y: 56, r: 19, label: '❚❚' },
-      { id: 'journal', code: 'Tab', x: R - 74, y: 56, r: 19, label: '≡' },
+      { id: 'jump', code: 'Space', holdable: true, x: R - 92, y: B - 104, r: 74, label: 'JUMP' },
+      { id: 'act', code: 'KeyE', x: R - 254, y: B - 78, r: 56, label: 'E' },
+      { id: 'winch', code: 'KeyK', x: R - 98, y: B - 254, r: 48, label: 'K' },
+      ...chips,
     ];
-    if (st.context) list.push({ id: 'ctx', code: st.context.code, x: R - 158, y: B - 132, r: 25, label: st.context.label });
+    if (st.context) list.push({ id: 'ctx', code: st.context.code, x: R - 268, y: B - 216, r: 50, label: st.context.label });
     return list;
   },
 
@@ -232,11 +248,11 @@ export const touch = {
     if (st.mode === 'game') {
       for (const t of this._touches.values()) {
         if (t.zone !== 'stick') continue;
-        ctx.strokeStyle = 'rgba(75,227,232,0.35)'; ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.arc(t.sx, t.sy, 34, 0, Math.PI * 2); ctx.stroke();
+        ctx.strokeStyle = 'rgba(75,227,232,0.35)'; ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.arc(t.sx, t.sy, 62, 0, Math.PI * 2); ctx.stroke();
         ctx.fillStyle = 'rgba(75,227,232,0.4)';
-        const dx = Math.max(-34, Math.min(34, t.x - t.sx)), dy = Math.max(-34, Math.min(34, t.y - t.sy));
-        ctx.beginPath(); ctx.arc(t.sx + dx, t.sy + dy, 13, 0, Math.PI * 2); ctx.fill();
+        const dx = Math.max(-62, Math.min(62, t.x - t.sx)), dy = Math.max(-62, Math.min(62, t.y - t.sy));
+        ctx.beginPath(); ctx.arc(t.sx + dx, t.sy + dy, 24, 0, Math.PI * 2); ctx.fill();
       }
     }
     for (const b of this._buttons()) {
@@ -247,7 +263,7 @@ export const touch = {
       ctx.strokeStyle = heldNow ? 'rgba(246,232,200,0.9)' : 'rgba(75,227,232,0.45)';
       ctx.stroke();
       ctx.fillStyle = heldNow ? '#2A1F10' : 'rgba(246,232,200,0.85)';
-      ctx.font = `bold ${b.r > 30 ? 13 : 11}px ui-monospace, monospace`;
+      ctx.font = `bold ${b.r > 60 ? 26 : b.r > 44 ? 22 : 18}px ui-monospace, monospace`;
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.fillText(b.label, b.x, b.y + 1);
     }

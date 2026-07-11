@@ -41,7 +41,7 @@ let latched = null;          // {tx, ty} | null
 let wasHeld = false;
 
 function mouseTarget(p, world, cam) {
-  const tx = Math.floor((mouse.x + cam.x) / TILE), ty = Math.floor((mouse.y + cam.y) / TILE);
+  const tx = Math.floor(cam.wx(mouse.x) / TILE), ty = Math.floor(cam.wy(mouse.y) / TILE);
   const fresh = !wasHeld;
   wasHeld = true;
   const stale = latched && (!world.diggable(latched.tx, latched.ty) || !inReach(p, latched.tx, latched.ty));
@@ -60,7 +60,7 @@ function digTarget(p, world, cam, noMouse) {
 /** the tile the NEXT pulse would cut (render-only; no state advance) */
 export function peekTarget(p, world, cam) {
   const aim = mouse.left && latched ? latched
-    : mouse.left ? { tx: Math.floor((mouse.x + cam.x) / TILE), ty: Math.floor((mouse.y + cam.y) / TILE) }
+    : mouse.left ? { tx: Math.floor(cam.wx(mouse.x) / TILE), ty: Math.floor(cam.wy(mouse.y) / TILE) }
     : keys.KeyS ? { tx: p.tx(), ty: Math.floor((p.y + p.h + 1) / TILE) }
     : keys.KeyJ ? keyboardTarget(p, world)
     : wallTarget(p, world);

@@ -7,7 +7,7 @@
 // day/night sky shows through. Missing art falls back to procedural ridges, so
 // the game never blocks on assets.
 
-import { VIEW_W, VIEW_H, TILE, WORLD_W, SURFACE_BASE } from '../config.js';
+import { WIN_W, WIN_H, TILE, WORLD_W, SURFACE_BASE } from '../config.js';
 import { BIOMES, biomeAtX } from '../content/biomes.js';
 import { getSprite } from './sprites.js';
 
@@ -47,13 +47,13 @@ export function makeBackdrop(makeCanvas = null) {
     const ridge = (rgb, amp, base, para, ph, alpha) => {
       ctx.globalAlpha = alpha;
       ctx.fillStyle = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
-      ctx.beginPath(); ctx.moveTo(0, VIEW_H);
-      for (let sx = 0; sx <= VIEW_W; sx += 8) {
+      ctx.beginPath(); ctx.moveTo(0, WIN_H);
+      for (let sx = 0; sx <= WIN_W; sx += 8) {
         const wx = (sx + cam.x * para) / P * Math.PI * 2;
         const y = bottomY - base - (Math.sin(wx * 3 + ph) + Math.sin(wx * 7 + 1.3) * 0.5) * amp;
         ctx.lineTo(sx, y);
       }
-      ctx.lineTo(VIEW_W, VIEW_H); ctx.closePath(); ctx.fill();
+      ctx.lineTo(WIN_W, WIN_H); ctx.closePath(); ctx.fill();
     };
     const haze = rgb => rgb.map((c, i) => Math.round(c * 0.5 + [150, 162, 178][i] * 0.5));
     ridge(haze(hx(biome.surfaceTint)), 22, 70, PARA * 0.6, 1.7, 0.5);
@@ -71,7 +71,7 @@ export function makeBackdrop(makeCanvas = null) {
       const iw = (img.width || 256) * SCALE, ih = (img.height || 128) * SCALE;
       const off = -(((cam.x * PARA) % iw) + iw) % iw;
       const prevSmooth = ctx.imageSmoothingEnabled; ctx.imageSmoothingEnabled = false;
-      for (let x = off; x < VIEW_W; x += iw) ctx.drawImage(src, x, bottomY - ih, iw, ih);
+      for (let x = off; x < WIN_W; x += iw) ctx.drawImage(src, x, bottomY - ih, iw, ih);
       ctx.imageSmoothingEnabled = prevSmooth;
     } else {
       drawProcedural(ctx, cam, biomeId, bottomY);

@@ -9,7 +9,7 @@
 // (bounded neighbour-spread over the camera window only), so overhangs cast
 // real shade and shallow grottoes glow by day. Scaled by daylight & weather.
 
-import { VIEW_W, VIEW_H, TILE, WORLD_W, WORLD_H } from '../config.js';
+import { WIN_W, WIN_H, TILE, WORLD_W, WORLD_H } from '../config.js';
 
 const RAYS = 30;
 const CONE_HALF = 0.62;         // ~71° cone
@@ -19,7 +19,7 @@ const SKY_SPREAD = 3;           // neighbour-spread passes (≈ tiles of spill)
 const SKY_DECAY = 0.68;         // per-spread falloff
 
 export function makeLighting(makeCanvas) {
-  const cv = makeCanvas(VIEW_W, VIEW_H);
+  const cv = makeCanvas(WIN_W, WIN_H);
   const c = cv.getContext('2d');
   const skyCv = makeCanvas(1, 1);              // 1px per tile; upscaled smooth
   const skyC = skyCv.getContext('2d');
@@ -174,7 +174,7 @@ export function makeLighting(makeCanvas) {
     apply(ctx, world, cam, emitter, aimAngle, ambient, lights = [], sun = null) {
       // the stage can resize mid-session (v5.0 dynamic width) - the darkness
       // buffer follows lazily (assigning width also clears it)
-      if (cv.width !== VIEW_W || cv.height !== VIEW_H) { cv.width = VIEW_W; cv.height = VIEW_H; }
+      if (cv.width !== WIN_W || cv.height !== WIN_H) { cv.width = WIN_W; cv.height = WIN_H; }
       // daytime surface shade: even with no darkness mask, overhangs get a soft
       // shadow so the sun reads as directional light
       if (sun && sun.strength > 0.15 && ambient < 0.02) {
@@ -187,9 +187,9 @@ export function makeLighting(makeCanvas) {
         return null;
       }
       if (ambient < 0.02) return null;
-      c.clearRect(0, 0, VIEW_W, VIEW_H);
+      c.clearRect(0, 0, WIN_W, WIN_H);
       c.fillStyle = `rgba(16,11,20,${Math.min(0.97, ambient)})`;
-      c.fillRect(0, 0, VIEW_W, VIEW_H);
+      c.fillRect(0, 0, WIN_W, WIN_H);
 
       const sx = emitter.x - cam.x, sy = emitter.y - cam.y;
       c.globalCompositeOperation = 'destination-out';
@@ -224,7 +224,7 @@ export function makeLighting(makeCanvas) {
       // static lights (lamps, beacon, mushrooms)
       for (const L of lights) {
         const lx = L.x - cam.x, ly = L.y - cam.y;
-        if (lx < -L.r || lx > VIEW_W + L.r || ly < -L.r || ly > VIEW_H + L.r) continue;
+        if (lx < -L.r || lx > WIN_W + L.r || ly < -L.r || ly > WIN_H + L.r) continue;
         const g = c.createRadialGradient(lx, ly, 0, lx, ly, L.r);
         g.addColorStop(0, 'rgba(0,0,0,0.9)');
         g.addColorStop(1, 'rgba(0,0,0,0)');

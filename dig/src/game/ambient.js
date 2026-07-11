@@ -4,7 +4,7 @@
 // trickles after digs, deep crystal twinkles, one-shot bat bursts from caverns.
 // (Grass/canopy sway is drawn by the scenery layer using time - no state here.)
 
-import { TILE, WORLD_W, WORLD_H, VIEW_W, VIEW_H, T_AIR, T_WATER } from '../config.js';
+import { TILE, WORLD_W, WORLD_H, WIN_W, WIN_H, T_AIR, T_WATER } from '../config.js';
 import { PALETTE } from '../render/palette.js';
 import { sfx } from '../core/audio.js';
 import { pickFauna, FAUNA_BY_ID } from '../content/fauna.js';
@@ -90,19 +90,19 @@ export function makeAmbient() {
           const dir = Math.random() < 0.5 ? 1 : -1;
           const y = 40 + Math.random() * 110;
           birds.push({
-            x: dir > 0 ? cam.x - 60 : cam.x + VIEW_W + 60, y, vx: dir * (26 + Math.random() * 14),
+            x: dir > 0 ? cam.x - 60 : cam.x + WIN_W + 60, y, vx: dir * (26 + Math.random() * 14),
             members: Array.from({ length: 3 + (Math.random() * 4 | 0) }, (_, i) => ({ ox: -i * 12 * dir + (Math.random() - 0.5) * 8, oy: (i % 2 ? 7 : -5) + (Math.random() - 0.5) * 4, ph: Math.random() * 6 })),
           });
         }
         // butterflies: only bright, dry days
         if (isDay && clearish && !raining && butterflies.length < MAX.butterflies && Math.random() < 0.006) {
-          const tx = Math.max(0, Math.min(WORLD_W - 1, Math.floor(cam.x / TILE) + (Math.random() * (VIEW_W / TILE) | 0)));
+          const tx = Math.max(0, Math.min(WORLD_W - 1, Math.floor(cam.x / TILE) + (Math.random() * (WIN_W / TILE) | 0)));
           butterflies.push({ x: tx * TILE, y: world.surface[tx] * TILE - 8 - Math.random() * 24, t: Math.random() * 10, life: 12 + Math.random() * 10, age: 0.1 + Math.random() * 0.5 });
         }
         // a critter scurries by (rare, one at a time)
         if (critters.length < MAX.critters && Math.random() < 0.0008) {
           const dir = Math.random() < 0.5 ? 1 : -1;
-          critters.push({ x: dir > 0 ? cam.x - 20 : cam.x + VIEW_W + 20, dir, t: 0, life: 14 });
+          critters.push({ x: dir > 0 ? cam.x - 20 : cam.x + WIN_W + 20, dir, t: 0, life: 14 });
         }
         // surface fauna: whoever the registry says is out in this time & weather.
         // A Lure Beacon in view calls them out faster + spawns them near it.
@@ -110,7 +110,7 @@ export function makeAmbient() {
         const spawnP = 0.0016 * (lureNear ? 4 : 1);
         if (fauna.length < MAX.fauna && fauna.filter(f => f.zone === 'surface').length < 3 && Math.random() < spawnP) {
           const dir = Math.random() < 0.5 ? 1 : -1;
-          const spawnX = dir > 0 ? cam.x - 30 : cam.x + VIEW_W + 30;
+          const spawnX = dir > 0 ? cam.x - 30 : cam.x + WIN_W + 30;
           const spawnTx = Math.max(0, Math.min(WORLD_W - 1, Math.floor(spawnX / TILE)));
           const biomeId = biomeAtX(spawnTx, WORLD_W).id;
           const spec = surfaceIsWater(spawnTx) ? null : pickFauna('surface', { isDay, weather, depth: 0, biomeId });   // never on a pond
@@ -120,7 +120,7 @@ export function makeAmbient() {
         }
         // fireflies drift over the surface on warm nights
         if (night > 0.5 && !raining && fireflies.length < 14 && Math.random() < 0.03) {
-          const tx = Math.max(0, Math.min(WORLD_W - 1, Math.floor(cam.x / TILE) + (Math.random() * (VIEW_W / TILE) | 0)));
+          const tx = Math.max(0, Math.min(WORLD_W - 1, Math.floor(cam.x / TILE) + (Math.random() * (WIN_W / TILE) | 0)));
           fireflies.push({ x: tx * TILE, y: world.surface[tx] * TILE - 6 - Math.random() * 40, t: Math.random() * 7, life: 8 + Math.random() * 8, age: 0.1 + Math.random() * 0.5 });
         }
         // luna moths: ANY light in the dark pulls them out - lamps, the pod, a
@@ -180,7 +180,7 @@ export function makeAmbient() {
       }
 
       for (const f of birds) { f.x += f.vx * dt; }
-      for (let i = birds.length - 1; i >= 0; i--) if (birds[i].x < cam.x - 300 || birds[i].x > cam.x + VIEW_W + 300) birds.splice(i, 1);
+      for (let i = birds.length - 1; i >= 0; i--) if (birds[i].x < cam.x - 300 || birds[i].x > cam.x + WIN_W + 300) birds.splice(i, 1);
 
       for (const bf of butterflies) { bf.t += dt; bf.life -= dt; bf.age = Math.min(1, (bf.age ?? 0.5) + dt / 14); bf.x += Math.sin(bf.t * 2.2) * 18 * dt; bf.y += Math.cos(bf.t * 3.1) * 12 * dt; }
       for (let i = butterflies.length - 1; i >= 0; i--) if (butterflies[i].life <= 0) butterflies.splice(i, 1);
