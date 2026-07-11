@@ -6,7 +6,7 @@
 import { PALETTE } from './palette.js';
 import { FAUNA_ART } from './fauna.js';
 import { FAUNA_BY_ID } from '../content/fauna.js';
-import { drawSprite, hasSprite } from './sprites.js';
+import { drawSprite, hasSprite, getFaunaSprite } from './sprites.js';
 import { STRATA, STRATA_BY_ID } from '../content/strata.js';
 
 const N = 24;   // nominal box
@@ -34,9 +34,22 @@ export function drawCodexArt(ctx, entry, x, y, size, time = 0) {
   ctx.restore();
 }
 
-// ---- creatures: registry art where it exists, inline for the ambient-only kinds
+// ---- creatures: real sprite where one exists (matches the world), else the
+// registry vector art, else inline for the ambient-only kinds
 function drawCreature(ctx, id, time) {
   const spec = FAUNA_BY_ID[id];
+  // prefer the actual PNG the world draws, so the card can never diverge from it
+  const spr = getFaunaSprite(spec?.draw || id);
+  if (spr && spr.box) {
+    ctx.strokeStyle = 'rgba(74,52,33,0.35)'; ctx.lineWidth = 0.8;
+    ctx.beginPath(); ctx.moveTo(2, 20.5); ctx.lineTo(22, 20.5); ctx.stroke();
+    const b = spr.box;
+    let dh = 19, dw = dh * (b.sw / b.sh);
+    if (dw > 20) { dw = 20; dh = dw * (b.sh / b.sw); }
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(spr.img, b.sx, b.sy, b.sw, b.sh, 12 - dw / 2, 20 - dh, dw, dh);
+    return;
+  }
   if (spec || FAUNA_ART[id]) {
     // feet on a little ground line, posed mid-walk
     ctx.strokeStyle = 'rgba(74,52,33,0.35)'; ctx.lineWidth = 0.8;
@@ -103,9 +116,9 @@ function drawCreature(ctx, id, time) {
 
 // ---- features + flora: same shapes drawCaveProps/drawScenery use
 function drawFeatureOrFlora(ctx, id, time) {
-  if (id.startsWith('tree-') || id === 'reeds' || id === 'shard') {
-    if (hasSprite('scenery', id)) { drawSprite(ctx, 'scenery', id, 12, 23, 20, 22); return; }
-  }
+  // any scenery object the world draws from a sprite (trees, reeds, shard, bush,
+  // boulder, flowers, ...) uses that same sprite here so the card matches
+  if (hasSprite('scenery', id)) { drawSprite(ctx, 'scenery', id, 12, 23, 20, 22); return; }
   switch (id) {
     case 'mushroom': {
       ctx.fillStyle = '#4A3A2C'; ctx.fillRect(0, 20, N, 4);   // cave floor

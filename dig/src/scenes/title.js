@@ -29,6 +29,7 @@ export function makeTitleScene(services) {
   const start = () => {
     sfx.ui();
     releaseAll();   // take the autopilot's hands off the controls before handover
+    reel.dispose?.();   // free the reel's ~4MB demo world now, not at GC's whim
     // new game: the record fades into the awakening (last frame as backdrop);
     // returning player: straight in
     services.go(services.save ? 'game' : 'intro', services.save ? undefined : { overlay: true });

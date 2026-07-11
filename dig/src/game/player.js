@@ -67,7 +67,7 @@ export function updatePlayer(p, world, dt) {
     // buoyancy: gentle sink, strong drag, jump = swim stroke upward
     p.vy = Math.min(p.vy + GRAVITY * 0.18 * dt, 90);
     p.vx *= 0.86; p.vy *= 0.9;
-    if (p.jumpBuf > 0) { p.vy = -140; p.jumpBuf = 0; }
+    if (p.jumpBuf > 0) { p.vy = -270; p.jumpBuf = 0; }   // swim stroke (v5.7: +~1 tile of rise)
   } else if (p.inBrine) {
     // hypersaline = dense: you barely sink and pop out with one stroke
     p.vy = Math.min(p.vy + GRAVITY * 0.08 * dt, 36);

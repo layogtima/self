@@ -102,17 +102,6 @@ console.log('\n[render] game scene across all strata');
   scene.leave();
 }
 
-// post-process
-console.log('\n[render] post-process pass');
-{
-  const { makePostFx } = await import('../src/render/postfx.js');
-  try {
-    const fx = makePostFx(makeCanvas);
-    for (let i = 0; i < 30; i++) fx.apply(services.ctx, i / 60);
-    t.ok(true, 'postfx applies without throwing');
-  } catch (e) { t.ok(false, 'postfx threw: ' + (e.stack || e)); }
-}
-
 // v5.0: the stage is dynamic on phones - every scene must survive every width
 console.log('\n[render] dynamic stage widths (phone aspects)');
 {

@@ -29,7 +29,8 @@ function entry(id, category, fallback = {}) {
 
 const CREATURES = ['grazer', 'hopper', 'lizard', 'salamander', 'spider', 'glowworm',
   'firefly', 'butterfly', 'bird', 'bat', 'wader', 'dustmole', 'cindercrab',
-  'prismfly', 'gleamback', 'moth', 'ashworm', 'pupfish', 'mudskipper'];
+  'prismfly', 'gleamback', 'moth', 'ashworm', 'pupfish', 'mudskipper',
+  'stalker', 'lurker'];   // v5.7 predators
 const FLORA = ['tree-badlands', 'tree-conifer', 'tree-palm', 'tree-mangrove',
   'tree-acacia', 'tree-deadsnag', 'mushroom', 'vines'];
 const FEATURES = ['tree-shardspire', 'stalactite', 'stalagmite', 'roots', 'crystal', 'obsidian'];

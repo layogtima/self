@@ -356,6 +356,43 @@ export function hasSprite(dir, id) { return !!spriteImages[`${dir}/${id}`]; }
 /** raw image access (texture tiling etc.); null until loaded */
 export function getSprite(dir, id) { return spriteImages[`${dir}/${id}`] || null; }
 
+// A fauna sprite is either a STATIC single frame (64x64, alpha-trimmed to its
+// bounds so feet sit on the ground) or an ANIMATED walk sheet (a grid of 64px
+// frames, e.g. 4x4 = 16, played in order). We detect which by dimensions once.
+const FRAME = 64;
+const faunaMeta = {};   // id -> {animated,cols,rows,frames,frameW,frameH,box} | null
+export function getFaunaSprite(id) {
+  const img = getSprite('fauna', id);
+  if (!img || !img.complete || !img.naturalWidth) return null;
+  if (faunaMeta[id] === undefined) faunaMeta[id] = computeFaunaMeta(img);
+  return faunaMeta[id] ? { img, ...faunaMeta[id] } : null;
+}
+function computeFaunaMeta(img) {
+  const w = img.naturalWidth, h = img.naturalHeight;
+  const cols = Math.max(1, Math.round(w / FRAME)), rows = Math.max(1, Math.round(h / FRAME));
+  if (cols * rows > 1) {
+    const frameW = Math.round(w / cols), frameH = Math.round(h / rows);
+    // box = alpha-trim of frame 0, so the codex can draw a tight representative
+    // pose (the walk-cycle draw path ignores box and steps whole frames)
+    return { animated: true, cols, rows, frames: cols * rows, frameW, frameH, box: trimAlphaBox(img, 0, 0, frameW, frameH) };
+  }
+  return { animated: false, cols: 1, rows: 1, frames: 1, frameW: w, frameH: h, box: trimAlphaBox(img) };
+}
+function trimAlphaBox(img, rx = 0, ry = 0, rw = img.naturalWidth, rh = img.naturalHeight) {
+  try {
+    const w = img.naturalWidth, h = img.naturalHeight;
+    const cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+    const c = cv.getContext('2d'); c.drawImage(img, 0, 0);
+    const d = c.getImageData(0, 0, w, h).data;
+    let x0 = rx + rw, y0 = ry + rh, x1 = -1, y1 = -1;
+    for (let y = ry; y < ry + rh; y++) for (let x = rx; x < rx + rw; x++) {
+      if (d[(y * w + x) * 4 + 3] > 24) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+    }
+    if (x1 < x0) return { sx: rx, sy: ry, sw: rw, sh: rh };
+    return { sx: x0, sy: y0, sw: x1 - x0 + 1, sh: y1 - y0 + 1 };
+  } catch { return { sx: rx, sy: ry, sw: rw, sh: rh }; }
+}
+
 // ---------------------------------------------------------------- spritesheet player
 // Groundwork for API-animated fauna (M4): RetroDiffusion's animation styles can
 // return a PNG spritesheet (`return_spritesheet: true`) - a horizontal strip of

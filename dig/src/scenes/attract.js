@@ -261,7 +261,7 @@ const BEATS = [
 export function makeAttractScene(services) {
   let demo = makeGameScene(services, { demo: true });
   const rig = demo._rig;
-  let beat = 0, tBeat = 0, cutT = 0, started = false;
+  let beat = 0, tBeat = 0, cutT = 0, started = false, disposed = false;
   const hopSt = { stall: 0 };
 
   function startBeat(i) {
@@ -277,9 +277,17 @@ export function makeAttractScene(services) {
     get _beat() { return beat; },
     get _rig() { return rig; },
     /** screen-space y of the ground line under the rover (the title parks its buttons below it) */
-    get _groundY() { return rig.cam.sy(rig.player.y + 16); },
+    get _groundY() { return disposed ? VIEW_H - 175 : rig.cam.sy(rig.player.y + 16); },
+
+    /** free the reel's demo world (~4MB) deterministically on hand-off to the game */
+    dispose() {
+      disposed = true;
+      demo = null;
+      if (rig) { rig.world = rig.ambient = rig.entities = rig.env = rig.player = null; }
+    },
 
     update(dt) {
+      if (disposed) return;
       if (!started) { started = true; startBeat(0); }
       if (cutT > 0) {
         cutT -= dt;
@@ -306,6 +314,7 @@ export function makeAttractScene(services) {
     },
 
     render(time) {
+      if (disposed) return;
       demo.render(time);
       const ctx = services.ctx;
 

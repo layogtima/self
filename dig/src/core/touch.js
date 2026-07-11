@@ -28,7 +28,7 @@
 // touchcancel ≡ touchend and releases ONLY touch-owned inputs - never
 // releaseAll(), a hybrid device may be holding real keys.
 
-import { VIEW_W, VIEW_H, TILE, DIG_REACH, VIEW_ZOOM } from '../config.js';
+import { VIEW_W, VIEW_H, TILE, DIG_REACH, VIEW_ZOOM, setZoom } from '../config.js';
 import { keys, mouse, pointer, humanPress, hold } from './input.js';
 
 /** is the Fullscreen API around? (iPhone Safari: no - the chip hides itself) */
@@ -61,6 +61,7 @@ export const touch = {
   _pulse: false,              // mouse.left is a 1-frame tap pulse
   _held: new Set(),           // key codes this layer is currently holding
   _wheelAcc: 0,
+  _pinchBase: null,           // {dist, zoom} when a two-finger pinch is live
   _st: { mode: 'direct' },    // last scene state (render uses it)
   _insets: { t: 0, r: 0, b: 0, l: 0 },
 
@@ -76,6 +77,19 @@ export const touch = {
       humanPress(b.code);
       if (b.holdable) { hold(b.code, true); this._held.add(b.code); }
       return;
+    }
+    // a second finger in the play area (not the joystick) - pinch to zoom.
+    // The stick lives on the left, so stick+aim stays twin-stick, never a pinch.
+    if (!this._inStickZone(x, y)) {
+      const play = [...this._touches.values()].find(o =>
+        o.zone === 'aim' || o.zone === 'pend' || o.zone === 'drag' || o.zone === 'ghost' || o.zone === 'pinch');
+      if (play) {
+        play.zone = 'pinch';
+        this._touches.set(id, { zone: 'pinch', x, y, sx: x, sy: y, t: 0 });
+        this._pinchBase = { dist: Math.max(1, Math.hypot(x - play.x, y - play.y)), zoom: VIEW_ZOOM };
+        mouse.left = false;                 // cancel any aim/drag the first finger began
+        return;
+      }
     }
     const zone = st.mode === 'game' && this._inStickZone(x, y) ? 'stick' : 'pend';
     this._touches.set(id, { zone, x, y, sx: x, sy: y, t: 0 });
@@ -96,6 +110,11 @@ export const touch = {
     if (t.zone === 'btn') {
       const b = this._buttons().find(b2 => b2.id === t.btn);
       if (b?.holdable) { hold(b.code, false); this._held.delete(b.code); }
+      return;
+    }
+    if (t.zone === 'pinch') {                // lift one pincer: end the gesture
+      mouse.left = false;
+      if ([...this._touches.values()].filter(o => o.zone === 'pinch').length < 2) this._pinchBase = null;
       return;
     }
     if (t.zone === 'stick') { this._releaseStick(); return; }
@@ -129,6 +148,7 @@ export const touch = {
     this._st = typeof st === 'string' ? { mode: st } : st;
 
     let stick = null, aim = null, ghost = null, wheel = null, drag = null;
+    const pinch = [];
     for (const t of this._touches.values()) {
       t.t += dt;
       if (t.zone === 'pend' && t.t > TAP_TIME) this._classify(t);
@@ -137,6 +157,13 @@ export const touch = {
       if (t.zone === 'ghost') ghost = t;
       if (t.zone === 'wheel') wheel = t;
       if (t.zone === 'drag') drag = t;
+      if (t.zone === 'pinch') pinch.push(t);
+    }
+
+    // pinch to zoom: the finger separation, relative to where the pinch began
+    if (pinch.length >= 2 && this._pinchBase) {
+      const d = Math.hypot(pinch[0].x - pinch[1].x, pinch[0].y - pinch[1].y);
+      setZoom(this._pinchBase.zoom * (d / this._pinchBase.dist));
     }
 
     // one clean tap per frame: coords + press land together, atomically -

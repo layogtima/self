@@ -779,6 +779,66 @@
       "cost": 0.022,
       "created_at": 1783734091,
       "remaining_balance": 13.98
+    },
+    {
+      "id": "grazer",
+      "cat": "fauna",
+      "file": "assets/gen/fauna/grazer_v001.png",
+      "version": 1,
+      "prompt": "a small deer-like herbivore creature, tan and soft brown fur, slender legs, tiny nub antlers, standing side view, cute storybook game creature sprite, facing right",
+      "cost": 0.017,
+      "created_at": 1783785999,
+      "remaining_balance": 13.963
+    },
+    {
+      "id": "wader",
+      "cat": "fauna",
+      "file": "assets/gen/fauna/wader_v001.png",
+      "version": 1,
+      "prompt": "a tall wading stilt bird, pale blue-grey plumage, long thin legs, long slender neck, small head, standing side view, storybook game creature sprite, facing right",
+      "cost": 0.017,
+      "created_at": 1783786043,
+      "remaining_balance": 13.946
+    },
+    {
+      "id": "lizard",
+      "cat": "fauna",
+      "file": "assets/gen/fauna/lizard_v001.png",
+      "version": 1,
+      "prompt": "a small basking lizard, smooth muted green scales, four splayed legs, long tail, side view, storybook game creature sprite, facing right",
+      "cost": 0.017,
+      "created_at": 1783786066,
+      "remaining_balance": 13.929
+    },
+    {
+      "id": "hopper",
+      "cat": "fauna",
+      "file": "assets/gen/fauna/hopper_v001.png",
+      "version": 1,
+      "prompt": "a small round frog, olive and moss green, big eyes, mid-hop crouch, side view, storybook game creature sprite, facing right",
+      "cost": 0.017,
+      "created_at": 1783786103,
+      "remaining_balance": 13.912
+    },
+    {
+      "id": "spider",
+      "cat": "fauna",
+      "file": "assets/gen/fauna/spider_v001.png",
+      "version": 1,
+      "prompt": "a tailless whip spider amblypygid, dark charcoal flat body, two long thin feeler front legs, side view, eerie but harmless, storybook game creature sprite, facing right",
+      "cost": 0.017,
+      "created_at": 1783786128,
+      "remaining_balance": 13.895
+    },
+    {
+      "id": "mudskipper",
+      "cat": "fauna",
+      "file": "assets/gen/fauna/mudskipper_v001.png",
+      "version": 1,
+      "prompt": "a mudskipper fish perched on mud with front fins like little arms, olive-tan, big top eyes, side view, storybook game creature sprite, facing right",
+      "cost": 0.017,
+      "created_at": 1783786151,
+      "remaining_balance": 13.878
     }
   ]
 }

@@ -16,18 +16,29 @@ export let VIEW_W = 960;
 export const VIEW_H = 540;
 export const VIEW_W_MIN = 720;      // 4:3 tablets
 export const VIEW_W_MAX = 1280;     // ~21:9, wider gets letterboxed
-// v5.1: the camera rides 2.5x closer to the rover. The world renders into a
-// WINDOW of WIN_W x WIN_H world px, scaled up to the VIEW stage; HUD, cards
-// and menus keep the full stage. World-facing modules (camera, ambient,
-// lighting, backdrop) think in WIN dims; screen furniture thinks in VIEW.
-export const VIEW_ZOOM = 2.5;
+// v5.1: the camera rides closer to the rover. The world renders into a WINDOW
+// of WIN_W x WIN_H world px, scaled up to the VIEW stage; HUD, cards and menus
+// keep the full stage. World-facing modules (camera, ambient, lighting,
+// backdrop) think in WIN dims; screen furniture thinks in VIEW.
+// v5.2: the zoom is adjustable - mouse wheel (desktop) / pinch (touch) - between
+// ZOOM_MIN (the pre-zoom default view + 50%) and ZOOM_MAX (the close v5.1 frame).
+export const ZOOM_MIN = 1.5;        // widest: old 1:1 view zoomed in 50%
+export const ZOOM_MAX = 2.5;        // closest: the v5.1 framing
+export let VIEW_ZOOM = ZOOM_MIN;    // opens wide; the player wheels/pinches in
 export let WIN_W = VIEW_W / VIEW_ZOOM;
-export const WIN_H = VIEW_H / VIEW_ZOOM;
+export let WIN_H = VIEW_H / VIEW_ZOOM;
 /** resize the stage width (clamped landscape range). Returns the applied width. */
 export function setView(w) {
   VIEW_W = Math.max(VIEW_W_MIN, Math.min(VIEW_W_MAX, Math.round(w)));
   WIN_W = VIEW_W / VIEW_ZOOM;
   return VIEW_W;
+}
+/** set the camera zoom (clamped ZOOM_MIN..ZOOM_MAX). Returns the applied zoom. */
+export function setZoom(z) {
+  VIEW_ZOOM = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, z));
+  WIN_W = VIEW_W / VIEW_ZOOM;
+  WIN_H = VIEW_H / VIEW_ZOOM;
+  return VIEW_ZOOM;
 }
 // v4.7: the world is 4x bigger on BOTH axes - each biome 4x wider, the geologic
 // section 4x deeper. Strata bands + worldgen depth literals scale with WORLD_SCALE.
@@ -83,7 +94,7 @@ export const MOVE_SPEED = 132;
 export const GROUND_ACCEL = 1700;
 export const AIR_ACCEL = 1000;
 export const FRICTION = 2000;
-export const JUMP_V = 340;          // apex ~2.26 tiles: clears a 2-tile step, 1-tile hops feel deliberate
+export const JUMP_V = 408;          // apex ~2.6 tiles: clears a 3-tile step (v5.7 +1 tile), 1-tile hops feel deliberate
 export const COYOTE_TIME = 0.1;
 export const JUMP_BUFFER = 0.1;
 export const PLAYER_W = 12;

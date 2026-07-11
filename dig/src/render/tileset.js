@@ -20,8 +20,7 @@ const COMP = 256;                 // composite size (4×4 macro cells)
 
 export function buildTileset(makeCanvas, makeImage) {
   const front = {};   // stratumId -> composite canvas
-  const back = {};
-  let padCv = null;
+  let padCv = null;   // (v5.3: the back-wall composites were dropped - back = front + a dark overlay)
   let masterReady = false;
 
   // procedural atlas fallback
@@ -72,11 +71,10 @@ export function buildTileset(makeCanvas, makeImage) {
     for (let i = 0; i < lum.length; i++) {
       lum[i] = (0.299 * src.data[i * 4] + 0.587 * src.data[i * 4 + 1] + 0.114 * src.data[i * 4 + 2]) / 255;
     }
-    // 3) ramp per stratum (front + back) + the landing pad (grey)
-    for (const s of STRATA) {
-      front[s.id] = ramp(s.colors, lum, 1);
-      back[s.id] = ramp(s.colors, lum, 0.48);
-    }
+    // 3) ramp per stratum + the landing pad (grey). The back wall is the front
+    // composite darkened at draw time (a ~0.52 overlay ≈ the old 0.48 multiply),
+    // saving 10 × 256×256×4 ≈ 2.5MB of resident canvas.
+    for (const s of STRATA) front[s.id] = ramp(s.colors, lum, 1);
     padCv = ramp({ speckle: '#4E4A52', band: '#615C66', alt: '#736D79', base: '#847E8B' }, lum, 1);
   }
 
@@ -130,7 +128,12 @@ export function buildTileset(makeCanvas, makeImage) {
 
     drawBack(ctx, strataIndex, tx, ty, dx, dy) {
       const s = STRATA[strataIndex];
-      if (masterReady && back[s.id]) { crop(ctx, back[s.id], tx, ty, dx, dy); return; }
+      if (masterReady && front[s.id]) {
+        crop(ctx, front[s.id], tx, ty, dx, dy);          // the front composite...
+        ctx.fillStyle = 'rgba(14,10,20,0.54)';           // ...pushed back into shadow
+        ctx.fillRect(dx, dy, TILE, TILE);
+        return;
+      }
       const variant = ((Math.imul(tx, 92083) ^ Math.imul(ty, 47059)) >>> 0) % VARIANTS;
       ctx.drawImage(atlas, variant * TILE, strataIndex * TILE, TILE, TILE, dx, dy, TILE, TILE);
       ctx.fillStyle = 'rgba(20,16,26,0.52)';

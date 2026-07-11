@@ -158,25 +158,54 @@ function laserZap(f0, f1, dur, vol) {
 // Ambient loops prefer a decoded sample; a synthesized fallback covers the gap
 // before a sample loads (or if a file is missing). One-shots (thunder/drip) use
 // samples when available.
-const samples = {};        // name -> AudioBuffer
+// Decoded PCM is huge (a 50s stereo loop ≈ 20 MB). v5.3: decode LAZILY - only
+// when a loop actually becomes audible - and keep at most MAX_DECODED resident,
+// evicting the least-recently-heard SILENT loop. A session that never nears lava
+// or a cave never pays for those beds; the surface set stays bounded.
+const samples = {};        // name -> AudioBuffer (currently decoded + resident)
+const sampleUsed = {};     // name -> monotonic tick of last time its loop was audible
+const sampleLoading = {};  // name -> true while a fetch/decode is in flight
+let useTick = 0;
+const MAX_DECODED = 4;
 const loopSample = {       // loop id -> sample name
   rain: 'rain-loop', wind: 'wind-loop', crickets: 'crickets-night',
   surfpad: 'forest-day', cave: 'cave-ambience', water: 'water-stream', lava: 'lava-bubbling',
 };
+const idForSample = name => Object.keys(loopSample).find(id => loopSample[id] === name);
 
-/** decode assets/sounds/<name>.mp3 into a buffer; upgrades any running loop */
-export async function loadSamples(names) {
-  if (!AC) return;
-  await Promise.all(names.map(async name => {
-    try {
-      const res = await fetch(`assets/sounds/${name}.mp3`);
-      if (!res.ok) return;
+/** decode one loop's sample on demand, upgrade its running loop, then trim resident PCM */
+async function ensureSample(name) {
+  if (!AC || samples[name] || sampleLoading[name]) return;
+  sampleLoading[name] = true;
+  try {
+    const res = await fetch(`assets/sounds/${name}.mp3`);
+    if (res.ok) {
       samples[name] = await AC.decodeAudioData(await res.arrayBuffer());
-      // if a synth loop is already running for this sample, swap it in seamlessly
-      for (const [id, sn] of Object.entries(loopSample)) if (sn === name && loops[id] && !loops[id].usingSample) upgradeLoop(id);
-    } catch { /* keep the synth fallback */ }
-  }));
+      const id = idForSample(name);
+      if (id && loops[id] && !loops[id].usingSample) upgradeLoop(id);   // swap synth → sample seamlessly
+      evictExcessSamples();
+    }
+  } catch { /* keep the synth fallback */ }
+  finally { delete sampleLoading[name]; }
 }
+
+/** keep resident decoded buffers bounded: drop the oldest SILENT loops' PCM */
+function evictExcessSamples() {
+  const decoded = Object.keys(samples);
+  if (decoded.length <= MAX_DECODED) return;
+  const silent = decoded
+    .filter(n => { const id = idForSample(n); return !id || (loops[id]?.level ?? 0) < 0.02; })
+    .sort((a, b) => (sampleUsed[a] || 0) - (sampleUsed[b] || 0));
+  while (Object.keys(samples).length > MAX_DECODED && silent.length) {
+    const n = silent.shift();
+    const id = idForSample(n);
+    if (id && loops[id]?.usingSample) { loops[id].stopSource?.(); loops[id].usingSample = false; }   // silent, so no gap
+    delete samples[n];   // re-decoded on demand if we come back
+  }
+}
+
+/** manual prefetch (unused at boot now - loops decode lazily on first audible use) */
+export async function loadSamples(names) { for (const n of names) ensureSample(n); }
 
 const LOWPASS = { cave: 900, water: 1100 };   // damp the harsher beds
 function upgradeLoop(id) {
@@ -205,7 +234,16 @@ function ensureLoop(name, build) {
   const g = AC.createGain();
   g.gain.value = 0;
   g.connect(sfxBus);
-  const loop = { gain: g, usingSample: false, set(v) { g.gain.setTargetAtTime(Math.max(0, v), AC.currentTime, 0.5); } };
+  const loop = {
+    gain: g, usingSample: false, level: 0,
+    set(v) {
+      loop.level = v;
+      // audible for the first time → decode its sample lazily (and mark it heard for LRU)
+      const sn = loopSample[name];
+      if (sn && v > 0.005) { sampleUsed[sn] = ++useTick; ensureSample(sn); }
+      g.gain.setTargetAtTime(Math.max(0, v), AC.currentTime, 0.5);
+    },
+  };
   loops[name] = loop;
   // prefer the real sample if it's already decoded; else build the synth fallback
   if (loopSample[name] && samples[loopSample[name]]) { loop.usingSample = true; upgradeLoop(name); }

@@ -5,7 +5,7 @@ import { VIEW_W, VIEW_H, setView } from './config.js';
 import { attachInput, endFrame } from './core/input.js';
 import { touch, attachTouch } from './core/touch.js';
 import { text } from './render/text.js';
-import { initAudio, setVolume, setMusicVolume, loadSamples } from './core/audio.js';
+import { initAudio, setVolume, setMusicVolume } from './core/audio.js';
 import { startMusic } from './core/music.js';
 import { loadSave, DEFAULT_SETTINGS } from './core/save.js';
 import { installLore } from './core/lore.js';
@@ -91,6 +91,7 @@ loadSprites(makeImage, 'scenery', [
   'bush', 'boulder', 'flowers', 'reeds', 'shard',
 ]);
 loadSprites(makeImage, 'stations', ['station-clean', 'station-analyze', 'station-prep', 'station-showcase']);
+loadSprites(makeImage, 'fauna', ['grazer', 'wader', 'lizard', 'hopper', 'spider']);   // hero-species art (procedural fallback); mudskipper dropped v5.7 - its PNG bakes in a mud mound, procedural fish is clean
 loadSprites(makeImage, 'ui', ['table-wood']);
 loadSprites(makeImage, 'backdrops', ['tundra', 'wetland', 'badlands', 'savanna', 'ashflats', 'crystal', 'coast']);
 
@@ -124,8 +125,8 @@ function ensureAudio() {
   setVolume(settings.volume);
   setMusicVolume(settings.music);
   startMusic();
-  // load the real Freesound ambience (decodes in the background; synth covers the gap)
-  loadSamples(['rain-loop', 'wind-loop', 'crickets-night', 'forest-day', 'cave-ambience', 'water-stream', 'lava-bubbling']);
+  // v5.3: the Freesound beds now decode lazily on first audible use (a synth loop
+  // covers the gap), so the tab doesn't hold ~77MB of PCM it may never play.
   audioReady = true;
 }
 attachInput(canvas, ensureAudio);

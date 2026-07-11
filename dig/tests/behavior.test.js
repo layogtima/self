@@ -472,7 +472,7 @@ console.log('\n[fauna] population stays bounded');
   const amb = makeAmbient();
   for (let i = 0; i < 3000; i++) amb.update(1 / 60, w, p, camStub, 1, null);
   const c = amb.counts();
-  t.ok(c.fauna <= 6, `fauna globally bounded across all zones (${c.fauna})`);
+  t.ok(c.fauna <= 64, `fauna globally bounded across all zones (${c.fauna})`);   // v5.7b: bigger roster cap (64), far-cull keeps density near the rover
   const total = Object.values(c).reduce((a, b2) => a + b2, 0);
   t.ok(total < 160, `total ambient population bounded (${total})`);
 }
@@ -566,6 +566,51 @@ console.log('\n[features] scan names ONLY what the render draws (shared ground t
   t.ok(found.mushroom > 0 && found.stalactite > 0, `features exist to scan (${found.mushroom} mushrooms, ${found.stalactite} stalactites)`);
 }
 
+// ===================================================================== v5.3: scan candidates (tap-to-cycle)
+console.log('\n[scan-cycle] overlapping targets become reachable; creatures rank first');
+{
+  const { resolveScan, resolveScanCandidates } = await import('../src/game/scan.js');
+  const w = makeWorld(5);
+  // a clear-air point above the surface: no tile candidate, pure creatures
+  const px = 200 * cfg.TILE, py = (w.surface[200] - 4) * cfg.TILE;
+  // two creatures stacked near the point, one slightly nearer
+  const near = { kind: 'grazer', x: px + 4, y: py, size: [16, 13], ref: { a: 1 } };
+  const far = { kind: 'lizard', x: px + 10, y: py + 2, size: [14, 6], ref: { b: 2 } };
+  const cands = resolveScanCandidates(px, py, w, [far, near]);
+  t.ok(cands.length >= 2, `both stacked creatures are candidates (${cands.length})`);
+  t.eq(cands[0].id, 'grazer', 'the nearer creature ranks first');
+  t.eq(cands[1].id, 'lizard', 'the farther creature is reachable as candidate 2 (was unreachable before)');
+  t.ok(cands.every((c, i) => i === 0 || cands[i - 1]._d === undefined), 'candidates are a flat ordered list');
+  // resolveScan (top candidate) still matches candidates[0] for back-compat
+  t.eq(resolveScan(px, py, w, [far, near]).id, cands[0].id, 'resolveScan == candidates[0]');
+  // creatures outrank the tile under them: aim into solid rock with a creature on top
+  const rx = 200 * cfg.TILE, ry = (w.surface[200] + 6) * cfg.TILE;   // underground rock
+  const onRock = { kind: 'salamander', x: rx, y: ry, size: [12, 5], ref: null };
+  const rc = resolveScanCandidates(rx, ry, w, [onRock]);
+  t.eq(rc[0].kind, 'creature', 'a creature outranks the tile beneath it');
+  t.ok(rc.length >= 2 && rc[rc.length - 1].kind === 'rock', 'the rock is still reachable as the last candidate');
+  // empty point (no creatures, open sky) yields just the tile or nothing
+  const sky = resolveScanCandidates(px, (w.surface[200] - 30) * cfg.TILE, w, []);
+  t.ok(sky.length <= 1, 'open sky has at most one (tile) candidate');
+}
+
+// ===================================================================== v5.3: memory
+console.log('\n[mem] audio decodes lazily; the ambient level setters stay safe with no context');
+{
+  // No AudioContext in the harness: ensureLoop returns null, so every level
+  // setter must no-op cleanly and loadSamples must not decode anything up front.
+  const audio = await import('../src/core/audio.js');
+  let threw = false;
+  try {
+    for (const fn of ['setRainLevel', 'setWindLevel', 'setCricketLevel', 'setSurfacePad', 'setCaveLevel', 'setWaterLevel', 'setLavaLevel']) {
+      audio[fn](0.8); audio[fn](0);
+    }
+    await audio.loadSamples(['rain-loop', 'cave-ambience']);   // manual prefetch is a safe no-op without a context
+  } catch { threw = true; }
+  t.ok(!threw, 'ambient level setters + loadSamples never throw without an AudioContext (lazy path)');
+  t.ok(typeof audio.loadSamples === 'function', 'loadSamples is still exported (manual prefetch)');
+}
+
 console.log('\n[fauna] registry is well-formed and covers the codex');
 {
   const { FAUNA, FAUNA_BY_ID, eligibleFauna } = await import('../src/content/fauna.js');
@@ -583,10 +628,11 @@ console.log('\n[fauna] registry is well-formed and covers the codex');
   const ids = ctx => eligibleFauna('surface', { biomeId: 'tundra', ...ctx }).map(o => o.item.id).sort().join(',');
   t.eq(ids({ isDay: true, weather: 'clear', depth: 0 }), 'grazer,lizard', 'clear day: grazer + lizard');
   t.eq(ids({ isDay: true, weather: 'rain', depth: 0 }), 'grazer,hopper', 'rainy day: grazer + hopper');
-  t.eq(ids({ isDay: false, weather: 'rain', depth: 0 }), 'hopper', 'rainy night: hopper only');
-  t.eq(ids({ isDay: false, weather: 'clear', depth: 0 }), '', 'clear night: nobody out');
+  t.eq(ids({ isDay: false, weather: 'rain', depth: 0 }), 'hopper,moth', 'rainy night: the frog + the moth');
+  t.eq(ids({ isDay: false, weather: 'clear', depth: 0 }), 'moth', 'clear night: the luna moth flies (nocturnal)');
+  t.ok(FAUNA_BY_ID.moth.nocturnal && FAUNA_BY_ID.moth.aerial, 'the moth is a nocturnal flier');
   const cave = eligibleFauna('cave', { isDay: true, weather: 'clear', depth: 200, biomeId: 'tundra' }).map(o => o.item.id).sort().join(',');
-  t.eq(cave, 'salamander,spider', 'shallow-deep cave: salamander + spider');
+  t.eq(cave, 'lurker,salamander,spider', 'shallow-deep cave: salamander + spider + the lurking predator');
   // biome gating works: the wetland fields waders, the ash flats only crabs move
   const wet = eligibleFauna('surface', { isDay: true, weather: 'clear', depth: 0, biomeId: 'wetland' }).map(o => o.item.id);
   t.ok(wet.includes('wader'), 'wetland fields the stilt wader');
@@ -1236,8 +1282,9 @@ console.log('\n[lifecycle] creatures grow, hunt, feed, and fade of old age');
   const cam2 = { x: (col - 30) * cfg.TILE, bounds: () => ({ x0: col - 40, x1: col + 20, y0: surf - 10, y1: surf + 24 }) };
   const envStub = { night01: () => 0.8, weather: 'clear', precip01: () => 0, wind01: () => 0.3 };
 
-  // hunt: a hungry adult spider planted beside a firefly eats it
-  const spider = { kind: 'spider', spec: FAUNA_BY_ID.spider, zone: 'surface', x: col * cfg.TILE, y: surf * cfg.TILE, dir: 1, state: 'walk', t: 0, life: 999, ph: 0, age: 0.8, fade: 0 };
+  // hunt: a hungry adult spider planted beside a firefly eats it (hunger now
+  // drives the hunt, so plant it famished)
+  const spider = { kind: 'spider', spec: FAUNA_BY_ID.spider, zone: 'surface', x: col * cfg.TILE, y: surf * cfg.TILE, dir: 1, state: 'walk', t: 0, life: 999, ph: 0, age: 0.8, fade: 0, hunger: 0.95, energy: 1 };
   amb._fauna.push(spider);
   amb._fireflies.push({ x: col * cfg.TILE + 30, y: surf * cfg.TILE - 4, t: 0, life: 999 });
   let ate = false;
@@ -1257,6 +1304,74 @@ console.log('\n[lifecycle] creatures grow, hunt, feed, and fade of old age');
 
   // registry lint: every fauna entry has a lifespan
   t.ok(FAUNA.every(f => f.lifespan > 30), 'every creature has a lifespan');
+}
+
+// ===================================================================== v5.7: the food chain
+console.log('\n[ecosystem] needs-driven predator/prey cycle (v5.7)');
+{
+  const { makeAmbient } = await import('../src/game/ambient.js');
+  const { FAUNA_BY_ID } = await import('../src/content/fauna.js');
+  const w = makeWorld(41);
+  const col = w.spawnCol + 30, surf = w.surface[col];
+  const far = { tx: () => col - 40, cy: () => surf * cfg.TILE, cx: () => (col - 40) * cfg.TILE };   // rover out of range
+  const cam = { x: (col - 40) * cfg.TILE, bounds: () => ({ x0: col - 50, x1: col + 20, y0: surf - 10, y1: surf + 24 }) };
+  const env = { night01: () => 0.1, weather: 'clear', precip01: () => 0, wind01: () => 0.1 };   // clear day
+  const mk = (kind, tx, over = {}) => ({ kind, spec: FAUNA_BY_ID[kind], zone: FAUNA_BY_ID[kind].zone, x: tx * cfg.TILE, y: surf * cfg.TILE, dir: 1, state: 'walk', t: 0, life: 999, ph: 0, age: 0.6, fade: 0, hunger: 0.2, energy: 1, ...over });
+  // the v5.7b spawner is lively - strip any wild spawns each frame so these tests
+  // exercise the planted actors, not whatever wandered in
+  const keepOnly = (amb, ...actors) => { for (let j = amb._fauna.length - 1; j >= 0; j--) if (!actors.includes(amb._fauna[j])) amb._fauna.splice(j, 1); };
+
+  // 1) hunger drives the hunt: a famished stalker runs down a grazer and eats it
+  {
+    const amb = makeAmbient();
+    const stalker = mk('stalker', col, { hunger: 0.95 });
+    const grazer = mk('grazer', col + 3, { hunger: 0 });
+    amb._fauna.push(stalker, grazer);
+    let caught = false;
+    for (let i = 0; i < 60 * 30 && !caught; i++) {
+      amb.update(1 / 60, w, far, cam, 1, null, env);
+      keepOnly(amb, stalker, grazer);
+      stalker.life = 999; if (amb._fauna.includes(grazer)) grazer.life = 999;
+      if (stalker.state === 'eat' || !amb._fauna.includes(grazer)) caught = true;
+    }
+    t.ok(caught, 'a hungry stalker ran down and ate the grazer');
+  }
+
+  // 2) the missing half: prey bolts from an ACTIVE hunter (not just the rover)
+  {
+    const amb = makeAmbient();
+    const grazer = mk('grazer', col + 3);
+    const stalker = mk('stalker', col, { state: 'hunt' });
+    stalker.quarry = { ref: grazer, arr: amb._fauna, x: grazer.x, y: grazer.y };
+    amb._fauna.push(stalker, grazer);
+    let fled = false;
+    for (let i = 0; i < 30 && !fled; i++) { amb.update(1 / 60, w, far, cam, 1, null, env); keepOnly(amb, stalker, grazer); stalker.state = 'hunt'; stalker.x = col * cfg.TILE; if (grazer.state === 'flee') fled = true; }
+    t.ok(fled, 'a grazer bolts from a hunting predator, not only the rover');
+  }
+
+  // 3) herd startle cascade: a grazer out of the predator's reach still scatters
+  //    because its neighbour did (proves the cascade, not a direct spook)
+  {
+    const amb = makeAmbient();
+    const a = mk('grazer', col + 3);     // inside the predator's flee radius
+    const b = mk('grazer', col + 7);     // outside it, inside A's herd radius
+    const stalker = mk('stalker', col, { state: 'hunt' });
+    stalker.quarry = { ref: a, arr: amb._fauna, x: a.x, y: a.y };
+    amb._fauna.push(stalker, a, b);
+    let cascaded = false;
+    for (let i = 0; i < 20 && !cascaded; i++) { amb.update(1 / 60, w, far, cam, 1, null, env); keepOnly(amb, stalker, a, b); stalker.state = 'hunt'; stalker.x = col * cfg.TILE; if (b.state === 'flee') cascaded = true; }
+    t.ok(cascaded, 'a startled grazer scatters its whole herd');
+  }
+
+  // 4) starvation culls the unfed: a predator with no prey fades before old age
+  //    (age 0.3 → old age needs ~126s; starvation ends it far sooner)
+  {
+    const amb = makeAmbient();
+    const starving = mk('stalker', col, { hunger: 1, age: 0.3 });
+    amb._fauna.push(starving);
+    for (let i = 0; i < 60 * 120 && amb._fauna.includes(starving); i++) { amb.update(1 / 60, w, far, cam, 1, null, env); keepOnly(amb, starving); starving.life = 999; starving.hunger = 1; }
+    t.ok(!amb._fauna.includes(starving), 'a predator that never eats starves and despawns');
+  }
 }
 
 // ===================================================================== v4.4: bio-optics
@@ -1298,17 +1413,96 @@ console.log('\n[bio-optics] scanning unlocks lamps; harsh light drives fireflies
   amb._fireflies.push(planted2);
   for (let i = 0; i < 90; i++) { amb.update(1 / 60, w, px2, cam2, 1, null, envStub, [lampAt]); planted2.life = 99; planted2.x = lampAt.x + 20; planted2.y = lampAt.y; }
   t.ok(amb._fireflies.includes(planted2), 'the amber dark-sky lamp coexists with fireflies');
-  // moths come to any emitter (keyed), and DISPERSE when it's gone
+  // v5.4: luna moths are a REAL nocturnal species now - registry fauna that live
+  // at night near the surface WITH OR WITHOUT any lamp (eligibility is asserted
+  // in [fauna]). Here: injected with NO light present, it survives + flies aerially.
+  const { FAUNA_BY_ID: FBI } = await import('../src/content/fauna.js');
+  amb.release(FBI.moth, lampAt.x - 120, lampAt.y - 20);
+  const moth = amb._fauna.find(f => f.kind === 'moth');
+  t.ok(moth && moth.spec.aerial, 'the moth is aerial fauna (flies, not ground-snapped)');
+  for (let i = 0; i < 60 * 2; i++) amb.update(1 / 60, w, px2, cam2, 0, null, envStub, []);   // no lamp at all
+  t.ok(amb._fauna.includes(moth), 'the moth persists at night with NO artificial light present');
+  // a nearby lamp LURES it: over a few seconds its x drifts toward the light
+  moth.x = lampAt.x - 120; moth.y = lampAt.y - 20; moth.state = 'walk';
   const em = { key: 'L1', x: lampAt.x, y: lampAt.y, amber: true };
-  let gotMoth = false;
-  for (let i = 0; i < 60 * 30 && !gotMoth; i++) { amb.update(1 / 60, w, px2, cam2, 1, null, envStub, [em]); if (amb._moths.length) gotMoth = true; }
-  t.ok(gotMoth, 'a luna moth found the emitter');
-  const moth = amb._moths[0];
-  // remove the emitter: the moth must survive and start dispersing, not vanish
-  amb.update(1 / 60, w, px2, cam2, 1, null, envStub, []);
-  t.ok(amb._moths.includes(moth) && moth.disperse, 'losing the light disperses the moth (it does not just vanish)');
-  for (let i = 0; i < 60 * 3; i++) amb.update(1 / 60, w, px2, cam2, 1, null, envStub, []);
-  t.ok(!amb._moths.includes(moth), 'the dispersed moth fades out after a couple seconds');
+  const startDx = Math.abs(moth.x - lampAt.x);
+  for (let i = 0; i < 60 * 4; i++) amb.update(1 / 60, w, px2, cam2, 0, null, envStub, [em]);
+  t.ok(Math.abs(moth.x - lampAt.x) < startDx, 'a lamp lures the moth toward it (light attraction is a bias, not its reason to exist)');
+}
+
+// ===================================================================== v5.4: living fauna
+console.log('\n[living-fauna] residents shelter at dusk, stand their ground, and persist reload');
+{
+  const { makeAmbient } = await import('../src/game/ambient.js');
+  const { FAUNA_BY_ID } = await import('../src/content/fauna.js');
+  const { findShelter } = await import('../src/game/features.js');
+  const w = makeWorld(31);
+  let col = w.spawnCol + 60;
+  for (let c = w.spawnCol + 40; c < w.spawnCol + 300; c++) {
+    if (findShelter(w, c * cfg.TILE) != null && !w.fluidAt(c, w.surface[c])) { col = c; break; }
+  }
+  t.ok(findShelter(w, col * cfg.TILE) != null, 'findShelter locates a tree/bush/rock column');
+  const player = { tx: () => 0, cx: () => -9e9, cy: () => 0 };
+  const cam = { x: (col - 15) * cfg.TILE, bounds: () => ({ x0: col - 20, x1: col + 20, y0: w.surface[col] - 10, y1: w.surface[col] + 20 }) };
+
+  // A) dusk → seek shelter → sleep; dawn → wake
+  const amb = makeAmbient();
+  const g = { kind: 'grazer', spec: FAUNA_BY_ID.grazer, zone: 'surface', x: (col + 8) * cfg.TILE, y: w.surface[col + 8] * cfg.TILE, home: (col + 8) * cfg.TILE, dir: 1, state: 'walk', t: 0, life: 1e9, ph: 1, age: 0.7, fade: 0, mateCd: 99 };
+  amb._fauna.push(g);
+  const night = { v: 0.7 };
+  const env = { night01: () => night.v, weather: 'clear', precip01: () => 0, wind01: () => 0.1 };
+  let sought = false, slept = false;
+  for (let i = 0; i < 60 * 30 && !slept; i++) { amb.update(1 / 60, w, player, cam, 0, null, env, []); if (g.state === 'seekShelter') sought = true; if (g.state === 'sleep') slept = true; }
+  t.ok(sought && slept, 'at dusk a diurnal creature seeks a shelter and sleeps under it');
+  night.v = 0.2;
+  let woke = false;
+  for (let i = 0; i < 60 * 10 && !woke; i++) { amb.update(1 / 60, w, player, cam, 0, null, env, []); if (['walk', 'idle', 'feed'].includes(g.state)) woke = true; }
+  t.ok(woke, 'at dawn it wakes and forages again (not stuck asleep)');
+
+  // B) intimidate before flee (a brave kind)
+  const amb2 = makeAmbient();
+  const lz = { kind: 'lizard', spec: FAUNA_BY_ID.lizard, zone: 'surface', x: col * cfg.TILE, y: w.surface[col] * cfg.TILE, home: col * cfg.TILE, dir: 1, state: 'walk', t: 0, life: 1e9, ph: 1, age: 0.8, fade: 0, mateCd: 99 };
+  amb2._fauna.push(lz);
+  const rover = { x: col * cfg.TILE + cfg.TILE * 4.5, y: w.surface[col] * cfg.TILE };
+  const player2 = { tx: () => col, cx: () => rover.x, cy: () => rover.y };
+  const env2 = { night01: () => 0.1, weather: 'clear', precip01: () => 0, wind01: () => 0.1 };
+  let displayed = false, fled = false;
+  for (let i = 0; i < 60 * 4; i++) { amb2.update(1 / 60, w, player2, cam, 0, null, env2, []); if (lz.state === 'intimidate') displayed = true; }
+  rover.x = col * cfg.TILE + cfg.TILE * 2;   // the rover keeps coming
+  for (let i = 0; i < 60 * 2; i++) { amb2.update(1 / 60, w, player2, cam, 0, null, env2, []); if (lz.state === 'flee') fled = true; }
+  t.ok(displayed, 'a brave creature stands and DISPLAYS when the rover nears');
+  t.ok(fled, '...then flees when the rover keeps closing in');
+
+  // C) moths are real nocturnal fliers (stay airborne)
+  const amb3 = makeAmbient();
+  const mo = { kind: 'moth', spec: FAUNA_BY_ID.moth, zone: 'surface', x: col * cfg.TILE, y: (w.surface[col] - 3) * cfg.TILE, home: col * cfg.TILE, dir: 1, state: 'walk', t: 0, life: 1e9, ph: 1, age: 0.6, fade: 0, mateCd: 99 };
+  amb3._fauna.push(mo);
+  const envN = { night01: () => 0.7, weather: 'clear', precip01: () => 0, wind01: () => 0.1 };
+  for (let i = 0; i < 60 * 3; i++) amb3.update(1 / 60, w, player, cam, 0, null, envN, []);
+  t.ok(mo.y < w.surface[Math.floor(mo.x / cfg.TILE)] * cfg.TILE - 4, 'a moth flutters above the ground (aerial, never ground-snapped)');
+
+  // D) persistence: serialize → restore rebuilds specs, drops unknown kinds
+  const data = amb.serialize();
+  data.fauna.push({ kind: 'ghostbeast', x: 0, y: 0 });   // a kind the registry no longer knows
+  const amb4 = makeAmbient();
+  amb4.restore(data);
+  t.eq(amb4._fauna.length, data.fauna.length - 1, 'restore drops creatures whose species left the registry');
+  t.ok(amb4._fauna.every(f => f.spec && f.kind !== 'ghostbeast'), 'every restored resident has its spec rebuilt from the id');
+
+  // E) the flying critters got lifecycles too (glasswing butterfly, firefly):
+  // two adults near each other breed, and they age toward old age (not a timer)
+  const amb5 = makeAmbient();
+  const sfy = w.surface[col] * cfg.TILE - 12;
+  amb5._fireflies.push({ x: col * cfg.TILE, y: sfy, t: 1, life: 999, age: 0.6, fade: 0, mateCd: 0 });
+  amb5._fireflies.push({ x: col * cfg.TILE + 4, y: sfy, t: 1, life: 999, age: 0.6, fade: 0, mateCd: 0 });
+  const nightClear = { night01: () => 0.8, weather: 'clear', precip01: () => 0, wind01: () => 0 };
+  let bred = false;
+  for (let i = 0; i < 60 * 60 && !bred; i++) {   // wide window: firefly mating is a low per-frame roll (de-flake)
+    for (const ff of amb5._fireflies) { if (ff.age >= 0.6) { ff.x = ff === amb5._fireflies[0] ? col * cfg.TILE : col * cfg.TILE + 4; ff.y = sfy; ff.mateCd = 0; } }
+    amb5.update(1 / 60, w, player, cam, 0, null, nightClear, []);
+    if (amb5._fireflies.some(f => (f.age ?? 1) < 0.1)) bred = true;
+  }
+  t.ok(bred, 'fireflies breed - two adults kindle a new spark (a real lifecycle, not a spawn timer)');
 }
 
 // ===================================================================== v3.6.1: parachute
@@ -1693,9 +1887,13 @@ console.log('\n[mating] two adults of a kind bear a juvenile; per-species cap ho
   let born = false;
   const sy = w.surface[col] * cfg.TILE;
   for (let i = 0; i < 60 * 40 && !born; i++) {
-    // hold the pair adjacent + young so we exercise the mating LOGIC, not the walk
-    if (!born) { a.x = col * cfg.TILE; b.x = col * cfg.TILE + 6; a.y = b.y = sy; a.age = b.age = 0.7; }
+    // hold the pair adjacent + young + fertile (and FED - breeding is gated on
+    // hunger/energy now) so we exercise the mating LOGIC, not the walk
+    if (!born) { a.x = col * cfg.TILE; b.x = col * cfg.TILE + 6; a.y = b.y = sy; a.age = b.age = 0.7; a.mateCd = b.mateCd = 0; a.hunger = b.hunger = 0.1; a.energy = b.energy = 1; }
     amb.update(1 / 60, w, player, cam, 0, null, env, []);
+    // the livelier v5.7b spawner would fill the mating kin-cap (3) before the pair
+    // breeds - strip stray ADULT grazers each frame, but keep any newborn
+    for (let j = amb._fauna.length - 1; j >= 0; j--) { const f = amb._fauna[j]; if (f !== a && f !== b && (f.age ?? 1) >= 0.1) amb._fauna.splice(j, 1); }
     if (amb._fauna.some(f => f.kind === 'grazer' && (f.age ?? 1) < 0.1)) born = true;
   }
   t.ok(born, 'a grazer pair produced a juvenile (age < 0.1)');
@@ -1703,10 +1901,14 @@ console.log('\n[mating] two adults of a kind bear a juvenile; per-species cap ho
   for (let i = 0; i < 60 * 120; i++) {
     a.x = col * cfg.TILE; b.x = col * cfg.TILE + 6; a.y = b.y = sy;
     a.age = b.age = 0.7; a.mateCd = b.mateCd = 0; a.life = b.life = 999;
+    a.hunger = b.hunger = 0.1; a.energy = b.energy = 1;
     amb.update(1 / 60, w, player, cam, 0, null, env, []);
   }
   const grazers = amb._fauna.filter(f => f.kind === 'grazer').length;
-  t.ok(grazers <= 4, `grazer population stays bounded by the mating cap (${grazers})`);
+  // residents persist, so a family plus the livelier v5.7b day-spawns coexist -
+  // but the mating kin-cap + surface zone cap (38) + far-cull keep it from running
+  // away (observed ~10; the bound just proves it's not unbounded)
+  t.ok(grazers <= 30, `grazer population stays bounded, no runaway (${grazers})`);
   // universal aging: ambient fireflies carry an age too
   amb._fireflies.push({ x: 0, y: 0, t: 0, life: 5, age: 0.05 });
   const ff = amb._fireflies[amb._fireflies.length - 1];
@@ -1939,6 +2141,49 @@ console.log('\n[mobile] dynamic stage + the touch cockpit');
   t.ok(rects.length >= 5, 'touch buttons register as UI hot zones');
   touch.active = false;
   t.eq(touch.hotRects().length, 0, 'no thumb zones when touch is away');
+  releaseAll(); mouse.x = 0; mouse.y = 0; mouse.wheel = 0;
+
+  // -- v5.2: adjustable zoom --------------------------------------------------
+  const { setZoom, ZOOM_MIN, ZOOM_MAX } = cfg;
+  t.eq(setZoom(999), ZOOM_MAX, 'zoom clamps to the close end');
+  t.eq(setZoom(0), ZOOM_MIN, 'zoom clamps to the wide end');
+  setZoom(2.0);
+  t.ok(Math.abs(cfg.WIN_W - cfg.VIEW_W / 2.0) < 0.001 && Math.abs(cfg.WIN_H - cfg.VIEW_H / 2.0) < 0.001, 'the render window tracks the zoom');
+
+  // pinch: two non-stick fingers, separation drives the zoom
+  touch.active = true;
+  setZoom(2.0);
+  touch.frame(1 / 60, gameScene);
+  touch.start(30, 600, 300);                  // first finger, play area
+  touch.frame(1 / 60, gameScene);
+  touch.start(31, 700, 300);                  // second finger, play area -> pinch
+  const z0 = cfg.VIEW_ZOOM;
+  touch.move(30, 560, 300); touch.move(31, 760, 300);   // spread apart
+  touch.frame(1 / 60, gameScene);
+  t.ok(cfg.VIEW_ZOOM > z0, `pinch apart zooms in (${z0.toFixed(2)} -> ${cfg.VIEW_ZOOM.toFixed(2)})`);
+  t.ok(!mouse.left, 'a pinch never fires the laser');
+  touch.move(30, 650, 300); touch.move(31, 660, 300);   // squeeze together
+  touch.frame(1 / 60, gameScene);
+  t.ok(cfg.VIEW_ZOOM < z0, 'pinch together zooms out');
+  touch.end(30);
+  t.eq(touch._pinchBase, null, 'lifting a pincer ends the gesture');
+  touch.end(31);
+  touch.frame(1 / 60, gameScene);
+
+  // a left-stick + right-aim is twin-stick, NOT a pinch (zoom stays put)
+  setZoom(2.0);
+  touch.start(32, 150, 300);                  // left: joystick
+  touch.move(32, 200, 300);
+  touch.start(33, 700, 300);                  // right: aim
+  touch.move(33, 740, 330);
+  touch.frame(1 / 60, gameScene);
+  t.eq(cfg.VIEW_ZOOM, 2.0, 'stick + aim does not pinch-zoom');
+  t.ok(keys.KeyD, 'the joystick still steers while the other thumb aims');
+  touch.end(32); touch.end(33);
+  touch.frame(1 / 60, gameScene);
+
+  touch.active = false;
+  setZoom(ZOOM_MIN);                          // leave the stage as later tests expect
   releaseAll(); mouse.x = 0; mouse.y = 0; mouse.wheel = 0;
 }
 

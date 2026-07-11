@@ -222,6 +222,25 @@ function buildJobs() {
     });
   }
 
+  // fauna (v5.5): bespoke creature sprites for the hero species - a clean
+  // side-view critter, transparent bg, in-palette; the renderer flips + scales
+  // + bobs it and layers reaction emojis, so one crisp frame reads as alive.
+  // (generic-drawn kinds + revenant stay procedural.)
+  for (const [id, prompt] of [
+    ['grazer', 'a small deer-like herbivore creature, tan and soft brown fur, slender legs, tiny nub antlers, standing side view, cute storybook game creature sprite, facing right'],
+    ['wader', 'a tall wading stilt bird, pale blue-grey plumage, long thin legs, long slender neck, small head, standing side view, storybook game creature sprite, facing right'],
+    ['lizard', 'a small basking lizard, smooth muted green scales, four splayed legs, long tail, side view, storybook game creature sprite, facing right'],
+    ['hopper', 'a small round frog, olive and moss green, big eyes, mid-hop crouch, side view, storybook game creature sprite, facing right'],
+    ['spider', 'a tailless whip spider amblypygid, dark charcoal flat body, two long thin feeler front legs, side view, eerie but harmless, storybook game creature sprite, facing right'],
+    ['mudskipper', 'a mudskipper fish with front fins like little arms, olive-tan, big top eyes, side view, no ground, plain transparent background, storybook game creature sprite, facing right'],
+  ]) {
+    jobs.push({
+      cat: 'fauna', id,
+      livePath: join(ROOT, 'assets/sprites/fauna', `${id}.png`),
+      payload: { prompt, width: 64, height: 64, num_images: 1, prompt_style: 'rd_fast__game_asset', remove_bg: true, input_palette: PALETTE_B64 },
+    });
+  }
+
   // biome backdrops (v4.8): SIMPLE, seamlessly HORIZONTALLY-TILING horizon
   // silhouettes - a low band of distant terrain that repeats forever behind the
   // ground. Minimal + transparent-topped so the sky owns the upper screen.

@@ -4,7 +4,7 @@
 // Placement is a seed-independent positional hash (core/rng.js hashCol), so it
 // is stable across saves and identical for render + scan by construction.
 
-import { T_AIR, WORLD_W } from '../config.js';
+import { T_AIR, WORLD_W, TILE } from '../config.js';
 import { STRATA } from '../content/strata.js';
 import { biomeAtX } from '../content/biomes.js';
 import { hashCol } from '../core/rng.js';
@@ -68,5 +68,69 @@ export function sceneryAt(tx, world = null) {
   const sc = biomeAtX(tx, WORLD_W).scenery;
   if (hashCol(tx, 55) > sc.treeP) return 'tree';
   if (hashCol(tx, 40) > sc.dressP) return 'dressing';
+  return null;
+}
+
+/** the SPECIFIC dressing at a column ('bush'|'boulder'|'reeds'|'flowers'|'shard'),
+ *  or null. One source of truth for the renderer, scanner AND sheltering fauna. */
+export function dressingAt(tx, world = null) {
+  if (sceneryAt(tx, world) !== 'dressing') return null;
+  const pool = biomeAtX(tx, WORLD_W).scenery.dressings || ['bush', 'boulder', 'flowers'];
+  return pool[Math.floor(hashCol(tx, 71) * pool.length) % pool.length];
+}
+
+/** the kinds a creature will bed down under */
+const SHELTERS = new Set(['tree', 'bush', 'boulder', 'shard']);
+/**
+ * Nearest surface shelter (a tree/bush/rock) to a world x, as a world x - what a
+ * creature walks to at dusk (or a nocturnal roost by day). Scans columns outward.
+ * @returns {number|null} shelter centre world-x, or null if none within range
+ */
+export function findShelter(world, fromX, range = 44) {
+  const c0 = Math.floor(fromX / TILE);
+  for (let d = 0; d <= range; d++) {
+    for (const tx of (d === 0 ? [c0] : [c0 - d, c0 + d])) {
+      if (tx < 2 || tx >= WORLD_W - 2) continue;
+      const s = sceneryAt(tx, world);
+      const kind = s === 'tree' ? 'tree' : s === 'dressing' ? dressingAt(tx, world) : null;
+      if (kind && SHELTERS.has(kind)) return tx * TILE + TILE / 2;
+    }
+  }
+  return null;
+}
+
+// ---- forage: the flora a herbivore actually eats -------------------------------
+// A grazer only crops where food GROWS: the edible dressings (flowers/reeds/bush -
+// boulders/shards are not food) or the staple, a grass tuft. So herds gather at
+// the green and go hungry on bare ground. One source of truth for feed + spawn.
+export const FORAGE = new Set(['flowers', 'reeds', 'bush']);
+
+/** does this column carry a grass tuft? (ground cover, not scannable - same hash
+ *  the renderer uses at game.js drawScenery, minus water) */
+export function hasTuft(tx, world = null) {
+  if (world) {
+    const surf = world.surface[Math.max(0, Math.min(WORLD_W - 1, tx))];
+    if (world.fluidAt?.(tx, surf - 1) || world.fluidAt?.(tx, surf)) return false;   // no grass on a pond
+  }
+  return hashCol(tx, 88) < biomeAtX(tx, WORLD_W).scenery.tuftP;
+}
+
+/** grazing flora at a surface column: an edible dressing kind, 'grass', or null */
+export function forageAt(tx, world = null) {
+  const s = sceneryAt(tx, world);
+  if (s === 'dressing') { const d = dressingAt(tx, world); return FORAGE.has(d) ? d : null; }
+  return hasTuft(tx, world) ? 'grass' : null;   // trees + bare ground can still carry grass
+}
+
+/** nearest surface grazing flora to a world x, as a world x (what a hungry
+ *  herbivore ambles toward). Scans columns outward, like findShelter. */
+export function findForage(world, fromX, range = 40) {
+  const c0 = Math.floor(fromX / TILE);
+  for (let d = 0; d <= range; d++) {
+    for (const tx of (d === 0 ? [c0] : [c0 - d, c0 + d])) {
+      if (tx < 2 || tx >= WORLD_W - 2) continue;
+      if (forageAt(tx, world)) return tx * TILE + TILE / 2;
+    }
+  }
   return null;
 }

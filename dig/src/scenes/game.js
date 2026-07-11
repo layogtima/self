@@ -5,7 +5,7 @@
 // creatures, and the genome path to resurrection.
 
 import {
-  VIEW_W, VIEW_H, WIN_W, VIEW_ZOOM, TILE, WORLD_W, WORLD_H, PLAYER_H, BEAM_Y, DIG_REACH, DIG_COOLDOWN,
+  VIEW_W, VIEW_H, WIN_W, VIEW_ZOOM, setZoom, TILE, WORLD_W, WORLD_H, PLAYER_H, BEAM_Y, DIG_REACH, DIG_COOLDOWN,
   T_AIR, T_PLACED, T_BEDROCK, T_WATER, T_LAVA, T_ROOF, T_BRINE, T_TAR, T_RUBBLE, T_OBSIDIAN, FLUID_SPECS, AUTOSAVE_SECONDS, CAMP_HALF_L, CAMP_HALF_R,
   POWER_DIG, POWER_SCAN,
 } from '../config.js';
@@ -22,7 +22,7 @@ import { drawProbe, drawFossil, drawBoneNub, drawSprite, hasSprite, softCloud } 
 import { drawSpeciesCard, drawMiniCard, drawCodexCard } from '../render/cards.js';
 import { drawCodexArt } from '../render/codexart.js';
 import { makeHud } from '../render/hud.js';
-import { resolveScan } from '../game/scan.js';
+import { resolveScanCandidates } from '../game/scan.js';
 import { caveFeaturesAt, sceneryAt } from '../game/features.js';
 import { makeInventory } from '../game/inventory.js';
 import { hashCol } from '../core/rng.js';
@@ -78,6 +78,7 @@ export function makeGameScene(services, opts) {
   const lighting = makeLighting(makeCanvas);
   const backdrop = makeBackdrop(makeCanvas);
   const ambient = makeAmbient();
+  if (!demoMode && save?.ambient) ambient.restore(save.ambient);   // the residents you left behind
   const env = makeEnvironment();
   ambient.setEnvironment(env);
   env.onThunder = () => { thunder(); cam.addShake(2, settings.shake); };
@@ -98,8 +99,8 @@ export function makeGameScene(services, opts) {
   let journalScroll = 0;              // wheel scroll offset in the journal grid
   let inventoryOpen = false;          // I - the hold manifest
   let overlay = null;
-  let scanning = null;                // {id, t} while holding a scan
-  let scanTarget = null;              // resolveScan() result this frame (reticle + harvest)
+  let scanning = null;                // {cands, idx, t, ax, ay} - a LOCKED target auto-charging
+  let scanTarget = null;              // what the reticle brackets: the locked target, else the hover candidate
   let deconTarget = null;             // deconstructor hover: {kind, tx, ty, e?, spec}
   let umbilical = null;               // machine uid the rover is feeding power (G)
   let codexTally = { size: -1, creatures: 0, junk: 0 };   // cached codex category counts
@@ -184,6 +185,7 @@ export function makeGameScene(services, opts) {
       quests: { ...quests.export(), stats: { garbageDug, matsExtracted, netsDug, entoRewarded } },
       power: power.export(), status: status.export(),
       home: { ...home }, laserMk: player.laserMk,
+      ambient: ambient.serialize(),         // the resident creature roster + glow patches
       settings: { ...settings }, session,
     };
     writeSave(data);
@@ -403,6 +405,9 @@ export function makeGameScene(services, opts) {
     if (pressed('KeyX')) switchMode(player.tool === 'deconstruct' ? 'laser' : 'deconstruct');
     if (pressed('KeyQ') && !build.active && player.tool === 'laser' && stunT <= 0) tryQuickSoil();
     if (pressed('KeyU') && entities.nearest(player, e => e.type === 'pod', 2.6 * TILE)) tryUpgradeLaser();
+    // mouse-wheel zoom (desktop): scroll up = closer. Build mode keeps the
+    // wheel for cycling the bar, so only zoom when we're not building.
+    if (!build.active && mouse.wheel) setZoom(VIEW_ZOOM - mouse.wheel * 0.15);
     if (pressed('KeyH')) {
       home = { x: player.cx(), y: player.y + player.h };
       particles.burst(home.x, home.y, PALETTE.amber, 10, 120);
@@ -618,29 +623,44 @@ export function makeGameScene(services, opts) {
     return 'idle';
   }
 
-  // hold the mouse over a scannable to catalogue it (mod 12)
+  // TAP TO LOCK, then it charges itself (no cramped hold). Tapping the same
+  // spot again cycles through overlapping/stacked targets; MouseRight cycles
+  // without moving. Works identically for a desktop click and a phone tap.
+  const SCAN_T = 0.8;                 // seconds a locked target takes to catalogue
   function updateScan(dt, overUi = false) {
     player.beam = null;
     const wx = cam.wx(mouse.x), wy = cam.wy(mouse.y);
-    const targets = ambient.scanTargets(wx, wy);
-    scanTarget = overUi ? null : resolveScan(wx, wy, world, targets);
-    const id = scanTarget?.id ?? null;
-    if (mouse.left && id) {
-      if (!scanning || scanning.id !== id) scanning = { id, t: 0 };
+    const cands = overUi ? [] : resolveScanCandidates(wx, wy, world, ambient.scanTargets(wx, wy));
+
+    // press: lock the nearest here - or, pressing the same spot again, cycle
+    if (pressed('MouseLeft') && cands.length) {
+      const sameSpot = scanning && Math.abs(wx - scanning.ax) < TILE && Math.abs(wy - scanning.ay) < TILE;
+      if (sameSpot && scanning.cands.length > 1) { scanning.idx = (scanning.idx + 1) % scanning.cands.length; scanning.t = 0; }
+      else scanning = { cands, idx: 0, t: 0, ax: wx, ay: wy };
+      sfx.ui();
+    } else if (pressed('MouseRight') && scanning && scanning.cands.length > 1) {
+      scanning.idx = (scanning.idx + 1) % scanning.cands.length; scanning.t = 0;   // desktop: cycle in place
+      sfx.ui();
+    }
+
+    if (scanning) {
+      const locked = scanning.cands[scanning.idx];
+      scanTarget = locked;
       if (!power.spend(POWER_SCAN * dt)) { scanning = null; return; }   // scanner browns out
       scanning.t += dt;
-      if (scanning.t >= 1) {
+      if (scanning.t >= SCAN_T) {
+        const id = locked.id;
         const isNew = !codex.has(id);
         codex.add(id);
         quests.emit(`scanned:${id}`);
         rerollLore();   // fresh flavor variant per scan
-        overlay = { type: 'codex', codexId: id, t: 0, live: snapshotLive(scanTarget.ref) };
+        overlay = { type: 'codex', codexId: id, t: 0, live: snapshotLive(locked.ref) };
         sfx[isNew ? 'reveal' : 'ui']();
         scanning = null;
         persist();
       }
     } else {
-      scanning = null;
+      scanTarget = cands[0] || null;   // hover preview for the reticle + E-harvest
     }
   }
 
@@ -1914,12 +1934,16 @@ export function makeGameScene(services, opts) {
   // scanner reticle at the mouse; the resolved target gets its OWN bracket +
   // name chip so you always see exactly what will be catalogued.
   function drawReticle(rtime) {
-    const wx = cam.wx(mouse.x), wy = cam.wy(mouse.y);
+    // while a lock is charging the reticle rides the LOCKED anchor, not the
+    // drifting cursor (you tapped it, you can look away); else it tracks the cursor
+    const wx = scanning ? scanning.ax : cam.wx(mouse.x);
+    const wy = scanning ? scanning.ay : cam.wy(mouse.y);
+    const chg = scanning ? Math.min(1, scanning.t / SCAN_T) : 0;   // 0..1 charge
     const tgt = scanTarget;
     const has = !!tgt;
     ctx.strokeStyle = has ? '#4BE3E8' : 'rgba(75,227,232,0.4)';
     ctx.lineWidth = 1.6;
-    const r = 12 - (scanning ? scanning.t * 4 : 0);
+    const r = 12 - chg * 4;
     for (const [sx, sy] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) {
       ctx.beginPath();
       ctx.moveTo(wx + sx * r, wy + sy * r - sy * 5);
@@ -1930,7 +1954,7 @@ export function makeGameScene(services, opts) {
     if (scanning) {
       ctx.strokeStyle = '#4BE3E8';
       ctx.lineWidth = 2.4;
-      ctx.beginPath(); ctx.arc(wx, wy, 16, -Math.PI / 2, -Math.PI / 2 + scanning.t * Math.PI * 2); ctx.stroke();
+      ctx.beginPath(); ctx.arc(wx, wy, 16, -Math.PI / 2, -Math.PI / 2 + chg * Math.PI * 2); ctx.stroke();
     } else if (has) {
       ctx.fillStyle = 'rgba(75,227,232,0.9)';
       ctx.beginPath(); ctx.arc(wx, wy, 1.6, 0, Math.PI * 2); ctx.fill();
@@ -1938,7 +1962,7 @@ export function makeGameScene(services, opts) {
     if (!tgt) return;
 
     // target brackets: pulse gently, tighten while the scan charges
-    const pad = 3 - (scanning ? scanning.t * 2 : 0);
+    const pad = 3 - chg * 2;
     const bx = tgt.x - pad, by = tgt.y - pad, bw = tgt.w + pad * 2, bh = tgt.h + pad * 2;
     const arm = Math.min(5, bw * 0.3);
     ctx.strokeStyle = `rgba(75,227,232,${(0.6 + Math.sin(rtime * 6) * 0.25).toFixed(2)})`;
@@ -1958,7 +1982,9 @@ export function makeGameScene(services, opts) {
       const isNew = !codex.has(tgt.id);
       const canPick = tgt.harvest && codex.has(tgt.id)
         && Math.hypot(tgt.x + tgt.w / 2 - player.cx(), tgt.y + tgt.h / 2 - player.cy()) <= DIG_REACH;
-      const label = canPick ? `${entry.name} · E - HARVEST` : isNew ? `${entry.name} · NEW` : entry.name;
+      // "▸ 2/3" when more than one thing is stacked here - tap again to cycle
+      const stack = scanning && scanning.cands.length > 1 ? `▸ ${scanning.idx + 1}/${scanning.cands.length}  ` : '';
+      const label = stack + (canPick ? `${entry.name} · E - HARVEST` : isNew ? `${entry.name} · NEW` : entry.name);
       const lw = measure(ctx, label, 9, true) + 10;
       const lx = tgt.x + tgt.w / 2 - lw / 2, lyy = by + bh + 5;
       ctx.fillStyle = 'rgba(14,26,30,0.82)';
@@ -2375,9 +2401,10 @@ export function makeGameScene(services, opts) {
   if (demoMode) {
     // the attract reel's puppet strings - demo only, never present in real play
     scene._rig = {
-      player, cam, env, world, entities, ambient, inventory, collection, quests,
+      player, cam, env, world, entities, ambient, inventory, collection, quests, codex,
       switchMode, spawnCol, tryResurrect, revived,
       skipBoot() { bootT = Infinity; },
+      scanState() { return scanning ? { idx: scanning.idx, n: scanning.cands.length, id: scanning.cands[scanning.idx].id } : null; },
     };
   }
   return scene;

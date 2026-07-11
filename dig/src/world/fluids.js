@@ -10,7 +10,9 @@ import { WORLD_W, WORLD_H, T_AIR, T_WATER, T_LAVA, T_BRINE, T_OBSIDIAN, FLUID_SP
 
 export function makeFluids(world) {
   const tiles = world.tiles;
-  const active = new Set();            // packed indices to (re)check
+  let active = new Set();              // packed indices to (re)check
+  let scratch = new Set();             // reused next-frame set (swapped, not re-allocated)
+  const cellBuf = [];                  // reused on-camera cell list (v5.3: no per-frame array churn)
 
   const isFluid = t => FLUID_SPECS[t] !== undefined;
 
@@ -59,19 +61,18 @@ export function makeFluids(world) {
     step(bounds, dt) {
       if (!active.size) return;
       const { x0, x1, y0, y1 } = bounds;
-      const next = new Set();
-      // process bottom-up so a column of fluid falls in one pass
-      const cells = [...active].filter(i => {
-        const x = i % WORLD_W, y = (i / WORLD_W) | 0;
-        return x >= x0 - 2 && x <= x1 + 2 && y >= y0 - 2 && y <= y1 + 2;
-      }).sort((a, b) => b - a);
-      // carry the un-processed (off-screen) actives forward so they resume later
+      const next = scratch; next.clear();   // reused, not re-allocated
+      // one pass: on-camera cells get simulated (bottom-up), off-camera cells
+      // carry forward so they resume when you pan back
+      cellBuf.length = 0;
       for (const i of active) {
         const x = i % WORLD_W, y = (i / WORLD_W) | 0;
-        if (!(x >= x0 - 2 && x <= x1 + 2 && y >= y0 - 2 && y <= y1 + 2)) next.add(i);
+        if (x >= x0 - 2 && x <= x1 + 2 && y >= y0 - 2 && y <= y1 + 2) cellBuf.push(i);
+        else next.add(i);
       }
+      cellBuf.sort((a, b) => b - a);   // process bottom-up so a column falls in one pass
 
-      for (const i of cells) {
+      for (const i of cellBuf) {
         const t = tiles[i];
         if (!isFluid(t)) continue;
         const x = i % WORLD_W, y = (i / WORLD_W) | 0;
@@ -104,8 +105,8 @@ export function makeFluids(world) {
           next.add(i);
         }
       }
-      active.clear();
-      for (const i of next) active.add(i);
+      active.clear();               // old actives consumed; swap the filled scratch in
+      [active, scratch] = [next, active];
       // cap the active set, but evict the cells FARTHEST from the camera so the
       // fluid you're looking at always keeps simulating (Set-order eviction used
       // to freeze on-screen pools on the big world)

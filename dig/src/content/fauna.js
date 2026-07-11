@@ -24,11 +24,17 @@
  * @property {{temp:'any'|'warm'|'cold', space:number}} [habitatNeeds]
  * @property {string} [ancestor]      fossil id (study grants genome, M4)
  * @property {number} [lifespan]       seconds from juvenile to old age (default 150)
+ * @property {number} [satiety]        seconds from fed to hungry (default 90; predators run higher)
  * @property {string[]} [prey]         fauna/ambient ids this one hunts
  * @property {boolean} [grazes]        pauses to feed at grass tufts
  * @property {'herd'|'solitary'} [social]  herd = drifts toward its own kind
  * @property {boolean} [basks]         long sun-bathing idles on clear days
  * @property {boolean} [amphibious]    may skim a pond's edge (mudskipper)
+ * @property {boolean} [nocturnal]     active at night, roosts by day (moth)
+ * @property {boolean} [aerial]        flies (free x/y drift; no ground-snap)
+ * @property {boolean} [intimidates]   stands its ground and displays before it flees
+ * @property {boolean} [attracted]     diverts toward artificial light at night (moth)
+ * @property {'canopy'} [shelters]     what it roosts under/in when resting
  */
 
 /** @type {FaunaSpec[]} */
@@ -48,8 +54,17 @@ export const FAUNA = [
   {
     id: 'lizard', zone: 'surface', activity: { day: true, weather: ['clear'] },
     depth: [0, 0], speed: { walk: 24, flee: 110 }, size: [14, 6],
-    palette: '#6E8A72', draw: 'lizard', rarity: 1, lifespan: 160, basks: true,
+    palette: '#6E8A72', draw: 'lizard', rarity: 1, lifespan: 160, basks: true, intimidates: true,
     capturable: true, diet: ['mushroom'], habitatNeeds: { temp: 'warm', space: 1 },
+  },
+  {
+    // luna moth: a REAL night flier. It lives near canopy after dark whether or
+    // not a lamp is lit; artificial light merely LURES it (males navigate by the
+    // moon and mistake a bright thing for it). Roosts folded on a leaf by day.
+    id: 'moth', zone: 'surface', activity: { night: true },
+    depth: [0, 0], speed: { walk: 22, flee: 40 }, size: [10, 7],
+    palette: '#BEEBB4', draw: 'moth', rarity: 1.4, lifespan: 60,
+    nocturnal: true, aerial: true, attracted: true, shelters: 'canopy',
   },
   {
     id: 'salamander', zone: 'cave', activity: {},
@@ -67,7 +82,7 @@ export const FAUNA = [
   {
     id: 'wader', zone: 'surface', activity: { day: true },
     depth: [0, 0], speed: { walk: 30, flee: 95 }, size: [12, 16],
-    palette: '#B8C4CE', draw: 'wader', rarity: 1, lifespan: 170, prey: ['butterfly'],
+    palette: '#B8C4CE', draw: 'wader', rarity: 1, lifespan: 170, prey: ['butterfly'], intimidates: true,
     biomes: { wetland: 3, coast: 1.2, tundra: 0, badlands: 0, savanna: 0, ashflats: 0, crystal: 0 },
     capturable: true, diet: ['mushroom'], habitatNeeds: { temp: 'any', space: 2 },
   },
@@ -81,7 +96,7 @@ export const FAUNA = [
   {
     id: 'cindercrab', zone: 'surface', activity: {},
     depth: [0, 0], speed: { walk: 10, flee: 28 }, size: [10, 6],
-    palette: '#8A6A62', draw: 'cindercrab', rarity: 0.9, lifespan: 220, grazes: true,
+    palette: '#8A6A62', draw: 'cindercrab', rarity: 0.9, lifespan: 220, grazes: true, intimidates: true,
     biomes: { ashflats: 4, tundra: 0, wetland: 0, badlands: 0, savanna: 0, crystal: 0.4, coast: 0.4 },
     capturable: true, diet: ['crystal'], habitatNeeds: { temp: 'warm', space: 1 },
   },
@@ -115,6 +130,23 @@ export const FAUNA = [
     depth: [800, 9999], speed: { walk: 14, flee: 40 }, size: [16, 5],
     palette: '#7A5A52', draw: 'generic', rarity: 0.8, lifespan: 200,
     biomes: { ashflats: 3 },
+  },
+
+  // -- predators (v5.7): scarce hunters that close the food chain. They hunt on
+  // HUNGER (not a dice roll), prey flee them, and starvation culls the ones that
+  // spawn where prey is thin. Procedural art for now (no sprites yet).
+  {
+    id: 'stalker', zone: 'surface', activity: {},
+    depth: [0, 0], speed: { walk: 26, flee: 120 }, size: [16, 9],
+    palette: '#6E5A44', draw: 'stalker', rarity: 0.45, lifespan: 180, satiety: 55,
+    prey: ['grazer', 'dustmole', 'hopper'], social: 'solitary', intimidates: true,
+    biomes: { savanna: 2, badlands: 1.5, tundra: 0, wetland: 0, crystal: 0, coast: 0, ashflats: 0 },   // scarce vs prey, but hunts often
+  },
+  {
+    id: 'lurker', zone: 'cave', activity: {},
+    depth: [60, 9999], speed: { walk: 16, flee: 70 }, size: [14, 7],
+    palette: '#3A3040', draw: 'lurker', rarity: 0.8, lifespan: 200, satiety: 55,
+    prey: ['salamander', 'gleamback', 'ashworm'], social: 'solitary',
   },
 ];
 
