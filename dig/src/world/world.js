@@ -4,7 +4,7 @@
 
 import {
   WORLD_W, WORLD_H, SURFACE_BASE, TILE,
-  T_AIR, T_ROCK, T_PLACED, T_BEDROCK, T_WATER, T_LAVA, T_ROOF,
+  T_AIR, T_ROCK, T_PLACED, T_BEDROCK, T_WATER, T_LAVA, T_ROOF, T_RUBBLE, FLUID_SPECS,
   CAMP_HALF_L, CAMP_HALF_R, CAMP_DEPTH,
 } from '../config.js';
 import { generateWorld } from './worldgen.js';
@@ -41,13 +41,13 @@ export function makeWorld(seed) {
       if (ty < 0) return false;
       if (tx < 0 || tx >= WORLD_W || ty >= WORLD_H) return true;
       const t = tiles[ty * WORLD_W + tx];
-      return t !== T_AIR && t !== T_WATER && t !== T_LAVA;   // fluids don't block
+      return t !== T_AIR && FLUID_SPECS[t] === undefined;   // fluids don't block
     },
-    /** T_WATER | T_LAVA | 0 (none) */
+    /** fluid tile id (water/brine/tar/lava) | 0 (none) */
     fluidAt(tx, ty) {
       if (!inBounds(tx, ty)) return 0;
       const t = tiles[ty * WORLD_W + tx];
-      return (t === T_WATER || t === T_LAVA) ? t : 0;
+      return FLUID_SPECS[t] !== undefined ? t : 0;
     },
     depthAt(tx) {
       const c = Math.max(0, Math.min(WORLD_W - 1, tx));
@@ -101,15 +101,33 @@ export function makeWorld(seed) {
 
     hpAt(tx, ty) {
       const t = this.tileAt(tx, ty);
-      if (t === T_PLACED || t === T_ROOF) return 1;
+      if (t === T_RUBBLE) return 1;
       if (t === T_ROCK) return this.stratumAt(tx, ty).hp;
       return Infinity;
     },
 
+    /** the laser cuts geology (rock, cave-in rubble) - never what you built */
     diggable(tx, ty) {
       if (this.inCampZone(tx, ty)) return false;
       const t = this.tileAt(tx, ty);
-      return t === T_ROCK || t === T_PLACED || t === T_ROOF;
+      return t === T_ROCK || t === T_RUBBLE;
+    },
+
+    /**
+     * Deconstruct a built tile (T_PLACED soil / T_ROOF panel). Returns the tile
+     * id removed, or 0 if there was nothing built here. Natural rock and rubble
+     * are untouched - those belong to the laser.
+     */
+    removePlaced(tx, ty) {
+      if (!inBounds(tx, ty)) return 0;
+      const idx = ty * WORLD_W + tx;
+      const t = tiles[idx];
+      if (t !== T_PLACED && t !== T_ROOF) return 0;
+      tiles[idx] = T_AIR;
+      placed.delete(idx);
+      damage.delete(idx);
+      fluids.wake(tx, ty);
+      return t;
     },
 
     /**
@@ -128,7 +146,7 @@ export function makeWorld(seed) {
       if (hits < hp) { damage.set(idx, hits); return { broke: false }; }
 
       damage.delete(idx);
-      const wasPlaced = tiles[idx] === T_PLACED || tiles[idx] === T_ROOF;
+      const wasPlaced = tiles[idx] === T_RUBBLE;   // rubble was "placed" by the cave-in
       tiles[idx] = T_AIR;
       if (wasPlaced) placed.delete(idx); else dug.add(idx);
       fluids.wake(tx, ty);   // a fluid neighbour may now pour into this cell

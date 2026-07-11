@@ -6,7 +6,7 @@
 
 import {
   VIEW_W, VIEW_H, TILE, WORLD_W, WORLD_H, PLAYER_H, BEAM_Y, DIG_REACH, DIG_COOLDOWN,
-  T_AIR, T_PLACED, T_BEDROCK, T_WATER, T_LAVA, T_ROOF, AUTOSAVE_SECONDS, CAMP_HALF_L, CAMP_HALF_R,
+  T_AIR, T_PLACED, T_BEDROCK, T_WATER, T_LAVA, T_ROOF, T_BRINE, T_TAR, T_RUBBLE, FLUID_SPECS, AUTOSAVE_SECONDS, CAMP_HALF_L, CAMP_HALF_R,
   POWER_DIG, POWER_SCAN,
 } from '../config.js';
 import { keys, mouse, pressed } from '../core/input.js';
@@ -19,34 +19,37 @@ import { PALETTE, RARITY_COLORS } from '../render/palette.js';
 import { text, chip, blueprintPanel, measure, roundRect } from '../render/text.js';
 import { drawProbe, drawFossil, drawBoneNub, drawSprite, hasSprite, softCloud } from '../render/sprites.js';
 import { drawSpeciesCard, drawMiniCard, drawCodexCard } from '../render/cards.js';
+import { drawCodexArt } from '../render/codexart.js';
+import { makeHud } from '../render/hud.js';
 import { resolveScan } from '../game/scan.js';
 import { caveFeaturesAt, sceneryAt } from '../game/features.js';
 import { makeInventory } from '../game/inventory.js';
 import { hashCol } from '../core/rng.js';
 import { CODEX, codexEntry } from '../content/codex.js';
+import { rerollLore } from '../core/lore.js';
 import { makeLighting } from '../render/lighting.js';
+import { makeBackdrop } from '../render/backdrop.js';
 import { makeWorld } from '../world/world.js';
 import { makePlayer, updatePlayer } from '../game/player.js';
-import { updateDigging } from '../game/digging.js';
+import { updateDigging, peekTarget } from '../game/digging.js';
 import { makePulley } from '../game/pulley.js';
 import { makeMinigame } from '../game/minigames.js';
-import { makeAmbient } from '../game/ambient.js';
+import { makeAmbient, snapshotLive } from '../game/ambient.js';
 import { makeEnvironment } from '../game/environment.js';
 import { makeSatchel, makeFragment, pickBoneDecoys } from '../game/fossils.js';
 import { makeCollection } from '../game/collection.js';
 import { makePower } from '../game/power.js';
 import { makeStatus } from '../game/status.js';
-import { makeEntities, RECLAIM_STAGES } from '../game/entities.js';
+import { makeEntities, RECLAIM_STAGES, MACHINE_BATT_CAP } from '../game/entities.js';
 import { makeBuild } from '../game/build.js';
 import { makeQuests } from '../game/quests.js';
 import { makeHazards } from '../game/hazards.js';
 import { MATERIALS_BY_ID, GARBAGE_BY_ID } from '../content/materials.js';
-import { BUILDABLES_BY_ID } from '../content/buildables.js';
+import { BUILDABLES, BUILDABLES_BY_ID } from '../content/buildables.js';
 import { STATIONS, STATIONS_BY_ID } from '../content/stations.js';
-import { STRATA, realDepthAt, formatDepth, formatAge } from '../content/strata.js';
+import { STRATA, formatAge } from '../content/strata.js';
 import { biomeAtX } from '../content/biomes.js';
 import { FOSSILS, FOSSILS_BY_ID } from '../content/fossils.js';
-import { SPECIMEN_STATES } from '../content/stations.js';
 
 export function makeGameScene(services, opts) {
   const { ctx, tileset, makeCanvas, settings, save } = services;
@@ -66,6 +69,7 @@ export function makeGameScene(services, opts) {
   const collection = makeCollection(save?.collected || {}, save?.genome || {});
   const pulley = makePulley();
   const lighting = makeLighting(makeCanvas);
+  const backdrop = makeBackdrop(makeCanvas);
   const ambient = makeAmbient();
   const env = makeEnvironment();
   ambient.setEnvironment(env);
@@ -84,16 +88,18 @@ export function makeGameScene(services, opts) {
 
   let time = 0, autosaveT = AUTOSAVE_SECONDS;
   let collectionOpen = false, journalTab = 'fossils';
+  let inventoryOpen = false;          // I - the hold manifest
   let overlay = null;
   let scanning = null;                // {id, t} while holding a scan
   let scanTarget = null;              // resolveScan() result this frame (reticle + harvest)
+  let deconTarget = null;             // deconstructor hover: {kind, tx, ty, e?, spec}
+  let umbilical = null;               // machine uid the rover is feeding power (G)
   const codex = new Set(save?.codex || []);
   const inventory = makeInventory(save?.materials, save?.garbage);
   let birdT = 8 + Math.random() * 10;
   let minigame = null;
   let lastStratumIndex = world.stratumIndexAt(player.tx(), Math.floor(player.cy() / TILE));
   let banner = null;
-  let resultBanner = null;            // {done, next, t} - station "done" feedback
   let rumbleT = 14 + Math.random() * 10;
   let idleT = 0, findT = 0, escHold = 0;
   let lightPoly = null;
@@ -107,7 +113,9 @@ export function makeGameScene(services, opts) {
   let regolithCounter = 0;                 // every 3rd broken tile pays out spoil
   let stunT = 0;                           // gas stun: input lock, green wobble
   let garbageDug = save?.quests?.stats?.garbageDug ?? 0;       // scavenge-quest counter
-  let matsExtracted = save?.quests?.stats?.matsExtracted ?? 0; // processing-quest counter
+  let matsExtracted = save?.quests?.stats?.matsExtracted ?? 0; // machine-quest counter
+  let netsDug = save?.quests?.stats?.netsDug ?? 0;             // ghost-net recoveries
+  let entoRewarded = save?.quests?.stats?.entoRewarded ?? false;
   const droppedItems = [];                 // {frag, x, y, vy} soaked-dropped bones (walk over to recover)
 
   const fx = { shake: m => cam.addShake(m, settings.shake) };
@@ -123,6 +131,7 @@ export function makeGameScene(services, opts) {
   const build = makeBuild({
     world, player, inventory, entities,
     isQuestUnlocked: id => quests.isDone(id) || quests.isActive(id),
+    hasScanned: id => codex.has(id),
     onBuilt: id => {
       quests.emit(`built:${id}`);
       if (id === 'beacon') {   // planting a beacon re-homes you
@@ -159,7 +168,7 @@ export function makeGameScene(services, opts) {
       collected: collection.export(), genome: collection.exportGenome(), codex: [...codex],
       materials: inventory.export(), garbage: inventory.exportGarbage(),
       ...entities.export(),                 // entities + nextUid
-      quests: { ...quests.export(), stats: { garbageDug, matsExtracted } },
+      quests: { ...quests.export(), stats: { garbageDug, matsExtracted, netsDug, entoRewarded } },
       power: power.export(), status: status.export(),
       home: { ...home }, laserMk: player.laserMk,
       settings: { ...settings }, session,
@@ -169,6 +178,24 @@ export function makeGameScene(services, opts) {
   }
 
   cam.follow(player.cx(), player.cy(), 0, true);
+
+  function mouseOverUi() {
+    return hud.uiHotRects().some(r => mouse.x >= r.x && mouse.x <= r.x + r.w && mouse.y >= r.y && mouse.y <= r.y + r.h);
+  }
+
+  /** the four visor toggles: laser | scan | build | deconstruct - always exits clean */
+  function switchMode(mode) {
+    if (mode === 'build') {
+      player.tool = 'laser';
+      if (!build.active) build.toggle();
+    } else {
+      if (build.active) build.exit();
+      player.tool = mode;
+      scanning = null; scanTarget = null;
+    }
+    if (mode !== 'deconstruct') deconTarget = null;
+    sfx.ui();
+  }
 
   // is anything solid anywhere above this tile? (cheap column scan - caves,
   // overhangs and built roofs all count as rain cover for free)
@@ -191,7 +218,6 @@ export function makeGameScene(services, opts) {
     time += dt;
     if (bootT < 3.5) { bootT += dt; if (bootT < 1.2) { env.update(dt); return; } }   // controls unlock at 1.2s
     env.update(dt);
-    if (resultBanner) { resultBanner.t += dt; if (resultBanner.t > 2) resultBanner = null; }
     updateMusic(dt);
     decayToasts(dt);
     for (const mc of miniCards) mc.t += dt;
@@ -201,6 +227,7 @@ export function makeGameScene(services, opts) {
 
     const depth = Math.max(0, world.depthOfRow(player.tx(), Math.floor(player.cy() / TILE)));
     const onSurface = depth < 2;
+    backdrop.update(dt, player.tx());
 
     // -- v4 systems: power, wetness, quests, weather events ---------------------
     const sun01 = onSurface ? (1 - env.night01()) * (1 - 0.8 * env.precip01()) : 0;
@@ -238,13 +265,37 @@ export function makeGameScene(services, opts) {
     if ((env.incoming === 'rain' || env.incoming === 'storm') && env.weather !== env.incoming) quests.emit('rain-soon');
     if (env.precip01() > 0.3) quests.emit('rain-start');
 
+    const creaturesScanned = [...codex].filter(id => codexEntry(id)?.category === 'creature').length;
+    const junkTypesScanned = [...codex].filter(id => codexEntry(id)?.category === 'salvage').length;
+    if (creaturesScanned >= 5) quests.emit('creatures-5');
+    if (junkTypesScanned >= 4) quests.emit('junk-4-scanned');
     quests.update(dt, {
       player, pulley, codex, env, power, inventory,
       builtCount, exposedNow,
-      stats: { garbageDug, matsExtracted },
-      procQueued: entities.list.reduce((s, e) => s + (e.type === 'processor' ? (e.queue?.length || 0) : 0), 0),
+      lampsBuilt: ['lamp-green', 'lamp-blue', 'lamp-teal', 'lamp-amber'].reduce((s2, id) => s2 + builtCount(id), 0),
+      stats: { garbageDug, matsExtracted, netsDug, creaturesScanned, junkTypesScanned },
+      procQueued: entities.list.reduce((s, e) => s + (e.queue?.length || 0), 0),
     }, toast);
-    entities.update(dt, { sun01, wind01: env.wind01() });
+    // field notes reward: living anatomy informs the dead kind
+    if (!entoRewarded && quests.isDone('entomologist')) {
+      entoRewarded = true;
+      const started = FOSSILS.filter(f => collection.started(f.id) && !collection.isComplete(f.id));
+      const pick = started[(Math.random() * started.length) | 0] || FOSSILS[(Math.random() * FOSSILS.length) | 0];
+      const g2 = collection.addGenome(pick.id, 0.15);
+      toast(`field notes → ${pick.name} genome ${Math.round(g2 * 100)}%`, '#7FC4A8');
+    }
+    entities.update(dt, { sun01, wind01: env.wind01(), speed: quests.isDone('anthropocene-codex') ? 1.2 : 1 });
+    // the umbilical: the rover as power plant - it only flows while you stand there
+    if (umbilical !== null) {
+      const m = entities.list.find(e2 => e2.uid === umbilical);
+      const near = m && Math.abs(player.cx() - entities.centerX(m)) < 2.6 * TILE
+        && Math.abs(player.cy() - m.ty * TILE) < TILE * 4;
+      if (!near) { if (m) toast('umbilical detached'); umbilical = null; }
+      else if (m.enabled !== false && power.frac() > 0.10 && (m.battery || 0) < MACHINE_BATT_CAP) {
+        const amt = Math.min(4 * dt, MACHINE_BATT_CAP - m.battery);
+        if (power.spend(amt)) m.battery = Math.min(MACHINE_BATT_CAP, m.battery + amt);
+      }
+    }
     stunT = Math.max(0, stunT - dt);
     const hz = hazards.update(dt, player);
     if (hz.stun) {
@@ -269,7 +320,9 @@ export function makeGameScene(services, opts) {
     let nearWater = 0, nearLava = 0;
     for (let ox = -3; ox <= 3; ox++) for (let oy = -2; oy <= 2; oy++) {
       const f = world.fluidAt(player.tx() + ox, Math.floor(player.cy() / TILE) + oy);
-      if (f === T_WATER) nearWater = 1; else if (f === T_LAVA) nearLava = 1;
+      if (f === T_WATER || f === T_BRINE) nearWater = 1;
+      else if (f === T_TAR) nearWater = Math.max(nearWater, 0.35);   // sluggish gloop, low bed
+      else if (f === T_LAVA) nearLava = 1;
     }
     setWaterLevel(nearWater);
     setLavaLevel(nearLava);
@@ -293,15 +346,21 @@ export function makeGameScene(services, opts) {
     if (quests.isActive('boot')) {
       if (keys.Escape) { escHold += dt; if (escHold > 0.8) { quests.skipBoot(); escHold = 0; } } else escHold = 0;
     } else if (pressed('Escape')) {
-      if (build.active) { build.exit(); }
+      if (build.active || player.tool !== 'laser') switchMode('laser');   // modes always exit to the mining laser
       else { persist(); services.go('settings', { overlay: true, back: 'game' }); return; }
     }
-    if (pressed('Tab')) { collectionOpen = !collectionOpen; sfx.ui(); }
+    if (pressed('Tab')) { collectionOpen = !collectionOpen; inventoryOpen = false; sfx.ui(); }
     if (collectionOpen) { updateCollectionInput(); return; }
+    if (pressed('KeyI')) { inventoryOpen = !inventoryOpen; sfx.ui(); }
+    if (inventoryOpen) {
+      if (pressed('Escape')) { inventoryOpen = false; sfx.uiBack(); }
+      return;
+    }
 
     // B toggles build mode; H marks home; U at the pod upgrades the laser;
     // Q flicks a soil block under the cursor (support pillars, quick stairs)
-    if (pressed('KeyB')) build.toggle();
+    if (pressed('KeyB')) { if (build.active) switchMode('laser'); else switchMode('build'); }
+    if (pressed('KeyX')) switchMode(player.tool === 'deconstruct' ? 'laser' : 'deconstruct');
     if (pressed('KeyQ') && !build.active && player.tool === 'laser' && stunT <= 0) tryQuickSoil();
     if (pressed('KeyU') && entities.nearest(player, e => e.type === 'pod', 2.6 * TILE)) tryUpgradeLaser();
     if (pressed('KeyH')) {
@@ -315,11 +374,16 @@ export function makeGameScene(services, opts) {
     const anyInput = keys.KeyA || keys.KeyD || keys.KeyS || keys.KeyW || keys.Space || keys.KeyE || keys.KeyK || mouse.left;
     idleT = anyInput ? 0 : idleT + dt;
 
-    // Ctrl toggles the active tool (laser ↔ scanner)
+    // Ctrl toggles the active tool (laser ↔ scanner); clicking a visor toggle
+    // switches modes directly
     if (pressed('ControlLeft') || pressed('ControlRight')) {
-      player.tool = player.tool === 'scan' ? 'laser' : 'scan';
-      scanning = null; scanTarget = null; sfx.ui();
+      switchMode(player.tool === 'scan' ? 'laser' : 'scan');
     }
+    if (pressed('MouseLeft')) {
+      const m = hud.modeToggleAt(mouse.x, mouse.y);
+      if (m) switchMode(m);
+    }
+    const overUi = mouseOverUi();
 
     if (pulley.active) {
       const ride = pulley.updateReel(player, world, dt);
@@ -337,13 +401,15 @@ export function makeGameScene(services, opts) {
         player.beam = null;   // reeling - no tools
       } else if (build.active) {
         player.beam = null;
-        build.update(dt, cam);
+        build.update(dt, cam, hud.buildBarRect());
       } else if (player.tool === 'scan') {
-        updateScan(dt);
+        updateScan(dt, overUi);
+      } else if (player.tool === 'deconstruct') {
+        updateDeconstruct(overUi);
       } else if (power.state() === 'reserve') {
         player.beam = null;   // tools offline - crawl to the sun
       } else {
-        const digEv = stunT > 0 ? {} : updateDigging(player, world, cam, particles, fx, dt);
+        const digEv = stunT > 0 ? {} : updateDigging(player, world, cam, particles, fx, dt, overUi);
         if (digEv.brokeAt) {
           ambient.onDig(digEv.brokeAt.x, digEv.brokeAt.y);
           power.spend(POWER_DIG);
@@ -374,14 +440,30 @@ export function makeGameScene(services, opts) {
 
       if (pressed('KeyE') && !build.active) {
         if (player.tool !== 'scan' || !tryHarvest()) {
-          const proc = entities.nearest(player, e => e.type === 'processor', 2.4 * TILE);
+          const proc = entities.nearest(player, e => !!BUILDABLES_BY_ID[e.type]?.accepts, 2.4 * TILE);
           const stEnt = entities.nearest(player, e => !!BUILDABLES_BY_ID[e.type]?.station, 2.2 * TILE);
-          if (proc) interactProcessor(proc);
+          if (proc) interactMachine(proc);
           else if (stEnt) openStation({ spec: STATIONS_BY_ID[BUILDABLES_BY_ID[stEnt.type].station] });
           else {
             const podNear = entities.nearest(player, e => e.type === 'pod', 2.6 * TILE);
             if (podNear) openPodLab();
           }
+        }
+      }
+
+      // per-machine power controls: P is the machine's own switch, G plugs the
+      // rover in as an umbilical power plant (you stand there; your bar drains)
+      if (pressed('KeyP') || pressed('KeyG')) {
+        const m = entities.nearest(player, e => !!BUILDABLES_BY_ID[e.type]?.accepts, 2.4 * TILE);
+        if (m && pressed('KeyP')) {
+          m.enabled = m.enabled === false;
+          toast(`${BUILDABLES_BY_ID[m.type].name} switched ${m.enabled ? 'ON' : 'OFF'}`);
+          sfx.ui();
+          persist();
+        } else if (m) {
+          umbilical = umbilical === m.uid ? null : m.uid;
+          toast(umbilical ? 'umbilical connected - hold position' : 'umbilical unplugged');
+          (sfx.place || sfx.ui)();
         }
       }
     }
@@ -407,7 +489,10 @@ export function makeGameScene(services, opts) {
     cam.decay(dt);
     particles.update(dt);
     world.stepFluids(cam.bounds(), dt);
-    ambient.update(dt, world, player, cam, depth, lightPoly, env);
+    const lampsLit = (env.night01() > 0.2) ? entities.list
+      .filter(e2 => e2.type.startsWith('lamp-'))
+      .map(e2 => ({ x: entities.centerX(e2), y: (e2.ty + 1) * TILE - 23, amber: e2.type === 'lamp-amber' })) : [];
+    ambient.update(dt, world, player, cam, depth, lightPoly, env, lampsLit);
 
     const si = world.stratumIndexAt(player.tx(), Math.floor(player.cy() / TILE));
     if (si !== lastStratumIndex && player.cy() > world.surface[player.tx()] * TILE) {
@@ -466,11 +551,11 @@ export function makeGameScene(services, opts) {
   }
 
   // hold the mouse over a scannable to catalogue it (mod 12)
-  function updateScan(dt) {
+  function updateScan(dt, overUi = false) {
     player.beam = null;
     const wx = mouse.x + cam.x, wy = mouse.y + cam.y;
     const targets = ambient.scanTargets(wx, wy);
-    scanTarget = resolveScan(wx, wy, world, targets);
+    scanTarget = overUi ? null : resolveScan(wx, wy, world, targets);
     const id = scanTarget?.id ?? null;
     if (mouse.left && id) {
       if (!scanning || scanning.id !== id) scanning = { id, t: 0 };
@@ -479,7 +564,9 @@ export function makeGameScene(services, opts) {
       if (scanning.t >= 1) {
         const isNew = !codex.has(id);
         codex.add(id);
-        overlay = { type: 'codex', codexId: id, t: 0 };
+        quests.emit(`scanned:${id}`);
+        rerollLore();   // fresh flavor variant per scan
+        overlay = { type: 'codex', codexId: id, t: 0, live: snapshotLive(scanTarget.ref) };
         sfx[isNew ? 'reveal' : 'ui']();
         scanning = null;
         persist();
@@ -528,11 +615,21 @@ export function makeGameScene(services, opts) {
     findT = 2;
   }
 
+  // hand-salvage: crude direct yields so the first machine is always reachable
+  // (the Reclaimer extracts 2-3x more from the same junk - that's its pitch)
+  const HAND_SALVAGE = { 'scrap-metal': 'metal', 'aluminium-can': 'metal', 'bottle-cluster': 'plastic', 'lego-brick': 'plastic' };
   function onGarbage(deposit) {
     inventory.addGarbage(deposit.type);
     garbageDug += 1;
     quests.emit('garbage-first');
-    toast(`+1 ${GARBAGE_BY_ID[deposit.type]?.name.toLowerCase() ?? 'junk'} (raw)`, '#8FA3B8');
+    if (deposit.type === 'fishing-net') { netsDug += 1; quests.emit('ghost-net-first'); }
+    const crude = HAND_SALVAGE[deposit.type];
+    if (crude) {
+      inventory.add(crude, 1);
+      toast(`+1 ${MATERIALS_BY_ID[crude].name.toLowerCase()} - hand-salvaged (+1 raw junk)`, MATERIALS_BY_ID[crude].color);
+    } else {
+      toast(`+1 ${codexEntry(deposit.type)?.name ?? 'junk'} (raw)`, '#8FA3B8');
+    }
     (sfx.pickup || sfx.ui)();
   }
 
@@ -553,8 +650,48 @@ export function makeGameScene(services, opts) {
     (sfx.place || sfx.ui)();
   }
 
-  // laser tiers: deep rock is chewy until you upgrade (crafted from cave harvests)
-  const LASER_COSTS = { 2: { crystal: 6, mushroom: 4 }, 3: { crystal: 14, regolith: 6 } };
+  /** what the deconstructor would reclaim under the cursor (built tile or machine) */
+  function resolveDecon(overUi) {
+    if (overUi) return null;
+    const wx = mouse.x + cam.x, wy = mouse.y + cam.y;
+    if (Math.hypot(wx - player.cx(), wy - player.cy()) > DIG_REACH) return null;
+    const tx = Math.floor(wx / TILE), ty = Math.floor(wy / TILE);
+    const e = entities.at(tx, ty);
+    if (e && e.type !== 'pod') return { kind: 'machine', tx: e.tx, ty: e.ty, e, spec: BUILDABLES_BY_ID[e.type] };
+    const t = world.tileAt(tx, ty);
+    if (t === T_PLACED || t === T_ROOF) {
+      return { kind: 'tile', tx, ty, tile: t, spec: BUILDABLES.find(b => b.kind === 'tile' && b.tile === t) };
+    }
+    return null;
+  }
+
+  /** deconstruct mode: click a built thing, get its full cost back */
+  function updateDeconstruct(overUi) {
+    player.beam = null;
+    deconTarget = resolveDecon(overUi);
+    if (!deconTarget || !pressed('MouseLeft')) return;
+    const { kind, spec } = deconTarget;
+    if (kind === 'machine') {
+      if (spec?.accepts && (deconTarget.e.queue?.length || Object.values(deconTarget.e.outBuffer || {}).some(n => n > 0))) {
+        toast('empty the machine first (E collects)', PALETTE.creamDim);
+        sfx.uiBack();
+        return;
+      }
+      entities.remove(deconTarget.e.uid);
+    } else {
+      world.removePlaced(deconTarget.tx, deconTarget.ty);
+    }
+    for (const [id, n] of Object.entries(spec?.cost || {})) inventory.add(id, n);
+    toast(`${spec?.name || 'structure'} reclaimed`);
+    particles.burst((deconTarget.tx + 0.5) * TILE, (deconTarget.ty + 0.5) * TILE, '#E8A06A', 10, 140);
+    sfx.uiBack();
+    deconTarget = null;
+    persist();
+  }
+
+  // laser tiers: deep rock is chewy until you upgrade (minerals only - biology
+  // is never an ingredient)
+  const LASER_COSTS = { 2: { crystal: 6, regolith: 6 }, 3: { crystal: 14, regolith: 6 } };
   function laserUpgradeCost() { return LASER_COSTS[player.laserMk + 1] || null; }
 
   function tryUpgradeLaser() {
@@ -572,12 +709,13 @@ export function makeGameScene(services, opts) {
     persist();
   }
 
-  /** E at the Reclaimer: load raw garbage, or collect the output tray */
-  function interactProcessor(e) {
-    const raw = inventory.garbageCount();
-    if (raw > 0) {
-      e.queue.push(...inventory.takeAllGarbage());
-      toast(`${raw} junk loaded into the Reclaimer`);
+  /** E at a processing machine: load the junk IT accepts, or collect the tray */
+  function interactMachine(e) {
+    const spec = BUILDABLES_BY_ID[e.type];
+    const matching = inventory.takeGarbageMatching(spec.accepts);
+    if (matching.length) {
+      e.queue.push(...matching);
+      toast(`${matching.length} junk loaded into the ${spec.name}`);
       sfx.station();
       persist();
       return;
@@ -586,13 +724,14 @@ export function makeGameScene(services, opts) {
     if (out.length) {
       let total = 0;
       for (const [id, n] of out) { inventory.add(id, n); matsExtracted += n; total += n; e.outBuffer[id] = 0; }
-      toast(`+${total} materials collected`, '#7FC46E');
-      particles.burst(entities.centerX(e), e.ty * TILE - 14, '#9FBE9A', 10, 130);
+      toast(`+${total} materials from the ${spec.name}`, '#7FC46E');
+      particles.burst(entities.centerX(e), (e.ty + 1) * TILE - 14, '#9FBE9A', 10, 130);
       (sfx.pickup || sfx.complete)();
       persist();
       return;
     }
-    toast(e.queue.length ? 'reclaiming…' : 'feed me garbage', PALETTE.creamDim);
+    if (inventory.garbageCount() > 0) toast(`the ${spec.name} doesn't take that junk`, PALETTE.creamDim);
+    else toast(e.queue.length ? 'processing…' : `feed me ${spec.accepts.map(a => GARBAGE_BY_ID[a]?.name.toLowerCase()).slice(0, 2).join(', ')}…`, PALETTE.creamDim);
     sfx.uiBack();
   }
 
@@ -639,9 +778,9 @@ export function makeGameScene(services, opts) {
 
   function finishStation({ station, fragment }) {
     fragment.state = station.spec.output;
-    // "done" feedback: a 2s banner naming what happened + the next station (mod 8)
+    // "done" feedback rides the toast stack (visor discipline: no centre pop)
     const next = STATIONS.find(s => s.input === station.spec.output);
-    resultBanner = { done: station.spec.output, next: next ? next.name : null, t: 0 };
+    toast(next ? `${station.spec.output} ✓ → ${next.name}` : `${station.spec.output} ✓`, PALETTE.good);
     if (station.spec.output === 'identified') { fragment.identified = true; sfx.complete(); }
     if (station.spec.output === 'mounted') {
       satchel.remove(fragment.uid);
@@ -650,7 +789,6 @@ export function makeGameScene(services, opts) {
       findT = 1.2;
       if (complete) {
         overlay = { type: 'dex', spec: f, t: 0 };
-        resultBanner = null;      // the dossier reveal is enough
         quests.emit('species-complete');
         sfx.reveal();
       }
@@ -684,7 +822,7 @@ export function makeGameScene(services, opts) {
       if (tab) { journalTab = tab; sfx.ui(); return; }
       if (journalTab === 'codex') {
         const e = codexCellAt(mouse.x, mouse.y);
-        if (e && codex.has(e.id)) { overlay = { type: 'codex', codexId: e.id, t: 0 }; collectionOpen = false; sfx.ui(); }
+        if (e && codex.has(e.id)) { rerollLore(); overlay = { type: 'codex', codexId: e.id, t: 0 }; collectionOpen = false; sfx.ui(); }
       } else {
         const cell = collectionCellAt(mouse.x, mouse.y);
         if (cell && collection.isComplete(cell.id)) { overlay = { type: 'dex', spec: FOSSILS_BY_ID[cell.id], t: 0 }; collectionOpen = false; sfx.ui(); }
@@ -696,6 +834,7 @@ export function makeGameScene(services, opts) {
   function render(rtime) {
     frameLights = [];
     drawSky(rtime);
+    backdrop.draw(ctx, cam, env);   // the biome's horizon, behind the world
 
     ctx.save();
     cam.apply(ctx);
@@ -713,8 +852,10 @@ export function makeGameScene(services, opts) {
     hazards.draw(ctx, rtime);
     drawPrecip();
     drawBeam(rtime);
+    drawDigTarget(rtime);
     if (build.active) drawBuildGhost(rtime);
     else if (player.tool === 'scan' && !pulley.active) drawReticle(rtime);
+    else if (player.tool === 'deconstruct' && !pulley.active) drawDeconTarget(rtime);
     if (player.chute && !pulley.active) drawChute(player.cx(), player.y, rtime);
     drawProbe(ctx, player.x + player.w / 2, player.y, player.facing, rtime,
       player.swingT, player.swingAim, player.vx, player.walkT,
@@ -729,8 +870,9 @@ export function makeGameScene(services, opts) {
     const ambientDark = Math.max(depthDark, nightDark, stormDark);
     const emitter = { x: player.cx() + player.facing * 7, y: player.y + BEAM_Y };
     const aim = Math.atan2((mouse.y + cam.y) - emitter.y, (mouse.x + cam.x) - emitter.x);
+    const sunlight = { strength: (1 - env.night01()) * (1 - 0.5 * env.precip01()), warm: env.night01() > 0.3 ? 0 : Math.max(0, 0.5 - Math.abs(env.t01 - 0.35)) };
     lightPoly = lighting.apply(ctx, world, cam, emitter, aim, ambientDark,
-      frameLights.concat(ambient.glowLights()));
+      frameLights.concat(ambient.glowLights()), sunlight);
 
     // lightning flash over everything
     if (env.lightning > 0) {
@@ -747,17 +889,14 @@ export function makeGameScene(services, opts) {
       ctx.fillRect(0, 0, VIEW_W, VIEW_H);
     }
 
-    drawHUD();
+    hud.draw(rtime);
     if (banner && banner.life > 0) drawBanner();
-    if (resultBanner) drawResultBanner();
-    quests.draw(ctx, rtime);
-    if (build.active) drawBuildBar();
-    drawToasts();
     drawMiniCards(rtime);
     if (collectionOpen) drawCollection();
+    if (inventoryOpen) hud.drawInventoryOverlay(rtime);
     if (overlay) drawOverlay(rtime);
     if (minigame) minigame.game.render(ctx, rtime);
-    if (bootT < 3.5) drawBootOverlay(rtime);
+    if (bootT < 3.5) hud.drawBootOverlay(rtime);
   }
 
   // ---- sky: day/night gradient + sun/moon + stars + weather clouds ----
@@ -825,7 +964,7 @@ export function makeGameScene(services, opts) {
           if (depth >= 0 && ty < WORLD_H - 3) tileset.drawBack(ctx, world.stratumIndexAt(tx, ty), tx, ty, dx, dy);
           continue;
         }
-        if (t === T_WATER || t === T_LAVA) {
+        if (FLUID_SPECS[t] !== undefined) {
           // fluids sit over the darkened back wall
           if (depth >= 0) tileset.drawBack(ctx, world.stratumIndexAt(tx, ty), tx, ty, dx, dy);
           const surface = world.tileAt(tx, ty - 1) !== t;   // top row of the body
@@ -833,6 +972,25 @@ export function makeGameScene(services, opts) {
             ctx.fillStyle = 'rgba(70,130,170,0.55)';
             ctx.fillRect(dx, dy, TILE, TILE);
             if (surface) { ctx.fillStyle = 'rgba(180,220,240,0.5)'; ctx.fillRect(dx, dy + (Math.sin(rt * 2 + tx) * 1.2 | 0), TILE, 2); }
+          } else if (t === T_BRINE) {
+            // hypersaline: denser teal-green, slow swell, salt-crust top line
+            ctx.fillStyle = 'rgba(90,150,140,0.62)';
+            ctx.fillRect(dx, dy, TILE, TILE);
+            if (surface) {
+              ctx.fillStyle = 'rgba(210,225,210,0.7)';
+              ctx.fillRect(dx, dy + (Math.sin(rt * 1.1 + tx) * 0.8 | 0), TILE, 1.6);
+            }
+          } else if (t === T_TAR) {
+            // natural asphalt: near-black with a slow travelling sheen
+            ctx.fillStyle = 'rgba(24,20,24,0.92)';
+            ctx.fillRect(dx, dy, TILE, TILE);
+            if (surface) {
+              ctx.fillStyle = 'rgba(90,80,100,0.35)';
+              const sx2 = ((rt * 4 + tx * 3) % 24) - 4;
+              ctx.fillRect(dx + Math.max(0, Math.min(TILE - 5, sx2)), dy + 1, 5, 1.6);
+              // an occasional fat bubble
+              if (Math.sin(rt * 0.7 + tx * 2.3) > 0.96) { ctx.fillStyle = 'rgba(60,54,64,0.8)'; ctx.beginPath(); ctx.arc(dx + 8, dy + 3, 2, 0, Math.PI * 2); ctx.fill(); }
+            }
           } else {
             const glow = 0.7 + Math.sin(rt * 3 + tx * 1.5) * 0.3;
             ctx.fillStyle = `rgba(${210 + glow * 40 | 0},${90 + glow * 40 | 0},30,0.9)`;
@@ -846,7 +1004,8 @@ export function makeGameScene(services, opts) {
 
         const inPad = ty === world.surface[tx] && tx >= spawnCol - CAMP_HALF_L && tx <= spawnCol + CAMP_HALF_R;
         if (t === T_ROOF) { tileset.drawRoof(ctx, tx, ty, dx, dy); continue; }   // thin panel, no grass/shadow pass
-        if (t === T_PLACED) tileset.drawPlaced(ctx, (tx ^ ty) & 7, dx, dy);
+        if (t === T_RUBBLE) tileset.drawRubble(ctx, (tx ^ ty) & 7, dx, dy);
+        else if (t === T_PLACED) tileset.drawPlaced(ctx, (tx ^ ty) & 7, dx, dy);
         else if (inPad) tileset.drawPad(ctx, tx, ty, dx, dy);
         else {
           let si = world.stratumIndexAt(tx, ty);
@@ -958,6 +1117,78 @@ export function makeGameScene(services, opts) {
     }
   }
 
+  // per-type junk glints: tell scrap from bottles from toys at a glance
+  function drawDepositGlint(type, dx, dy) {
+    switch (type) {
+      case 'scrap-metal':      // metallic strips + rust fleck
+        ctx.fillStyle = 'rgba(170,180,195,0.9)';
+        ctx.fillRect(dx + 3, dy + 8, 8, 2); ctx.fillRect(dx + 7, dy + 4, 2, 8);
+        ctx.fillStyle = 'rgba(150,90,60,0.8)'; ctx.fillRect(dx + 10, dy + 9, 2, 2);
+        break;
+      case 'aluminium-can':    // silver cylinder
+        ctx.fillStyle = 'rgba(200,208,218,0.9)';
+        ctx.fillRect(dx + 5, dy + 6, 5, 8);
+        ctx.fillStyle = 'rgba(240,245,250,0.9)'; ctx.fillRect(dx + 5, dy + 6, 1.4, 8);
+        ctx.fillStyle = 'rgba(120,60,60,0.8)'; ctx.fillRect(dx + 6.4, dy + 8, 2.4, 2);
+        break;
+      case 'stainless-cutlery': // crossed fork+spoon shine
+        ctx.strokeStyle = 'rgba(215,222,230,0.95)'; ctx.lineWidth = 1.6;
+        ctx.beginPath(); ctx.moveTo(dx + 4, dy + 12); ctx.lineTo(dx + 12, dy + 5); ctx.moveTo(dx + 4, dy + 5); ctx.lineTo(dx + 12, dy + 12); ctx.stroke();
+        ctx.fillStyle = 'rgba(215,222,230,0.95)';
+        ctx.beginPath(); ctx.ellipse(dx + 12, dy + 5, 2, 2.8, 0.8, 0, 7); ctx.fill();
+        break;
+      case 'rebar-chunk':      // ribbed bar
+        ctx.fillStyle = 'rgba(130,110,100,0.95)';
+        ctx.fillRect(dx + 3, dy + 8, 10, 2.4);
+        ctx.fillStyle = 'rgba(90,70,60,0.9)';
+        for (let i = 0; i < 4; i++) ctx.fillRect(dx + 4 + i * 2.6, dy + 7.4, 1, 3.6);
+        break;
+      case 'bottle-cluster':   // pale blue translucent glint
+        ctx.fillStyle = 'rgba(150,200,230,0.75)';
+        ctx.fillRect(dx + 5, dy + 6, 3, 7); ctx.fillRect(dx + 9, dy + 8, 3, 5);
+        ctx.fillStyle = 'rgba(230,245,255,0.9)'; ctx.fillRect(dx + 5, dy + 6, 1.2, 4);
+        break;
+      case 'lego-brick': {     // impossible cheerful primaries
+        ctx.fillStyle = '#C4432E'; ctx.fillRect(dx + 4, dy + 9, 5, 4);
+        ctx.fillStyle = '#4E6E96'; ctx.fillRect(dx + 9, dy + 7, 4, 3);
+        ctx.fillStyle = '#E8B23A'; ctx.fillRect(dx + 5, dy + 8, 1.6, 1.4); ctx.fillRect(dx + 10, dy + 6, 1.6, 1.4);
+        break;
+      }
+      case 'tyre-chunk':       // dark arc
+        ctx.strokeStyle = 'rgba(40,38,44,0.95)'; ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.arc(dx + 8, dy + 12, 5, Math.PI * 1.05, Math.PI * 1.95); ctx.stroke();
+        break;
+      case 'fishing-net':      // teal mesh
+        ctx.strokeStyle = 'rgba(110,170,170,0.8)'; ctx.lineWidth = 0.9;
+        for (let i = 0; i < 3; i++) {
+          ctx.beginPath(); ctx.moveTo(dx + 3 + i * 4, dy + 5); ctx.lineTo(dx + 6 + i * 4, dy + 13); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(dx + 12 - i * 4, dy + 5); ctx.lineTo(dx + 9 - i * 4, dy + 13); ctx.stroke();
+        }
+        break;
+      case 'glass-bottle':     // green glass shine
+        ctx.fillStyle = 'rgba(120,180,140,0.8)';
+        ctx.fillRect(dx + 6, dy + 6, 4, 8);
+        ctx.fillRect(dx + 7, dy + 4, 2, 3);
+        ctx.fillStyle = 'rgba(220,255,230,0.9)'; ctx.fillRect(dx + 6, dy + 6, 1.2, 6);
+        break;
+      case 'ceramic-shards':   // white curved shards
+        ctx.fillStyle = 'rgba(235,232,225,0.92)';
+        ctx.beginPath(); ctx.moveTo(dx + 4, dy + 12); ctx.quadraticCurveTo(dx + 8, dy + 6, dx + 12, dy + 11); ctx.lineTo(dx + 10, dy + 13); ctx.quadraticCurveTo(dx + 8, dy + 9, dx + 6, dy + 13); ctx.closePath(); ctx.fill();
+        ctx.fillStyle = 'rgba(90,120,160,0.7)'; ctx.fillRect(dx + 7, dy + 9, 2, 1);   // a blue glaze line
+        break;
+      case 'smartphone':       // black slab + gold vein
+        ctx.fillStyle = 'rgba(20,20,26,0.95)';
+        ctx.fillRect(dx + 5, dy + 6, 6, 9);
+        ctx.fillStyle = 'rgba(220,180,80,0.9)'; ctx.fillRect(dx + 7.4, dy + 8, 1.2, 5);
+        break;
+      default:                 // e-waste: green board + gold pins
+        ctx.fillStyle = 'rgba(70,130,80,0.9)';
+        ctx.fillRect(dx + 4, dy + 7, 8, 5);
+        ctx.fillStyle = 'rgba(220,180,80,0.9)';
+        ctx.fillRect(dx + 6, dy + 8, 1.4, 3); ctx.fillRect(dx + 9, dy + 8, 1.4, 3);
+    }
+  }
+
   function drawPockets(b) {
     for (const p of world.pockets) {
       if (p.tx < b.x0 || p.tx > b.x1 || p.ty < b.y0 || p.ty > b.y1) continue;
@@ -966,16 +1197,12 @@ export function makeGameScene(services, opts) {
         world.tileAt(p.tx, p.ty - 1) === T_AIR || world.tileAt(p.tx, p.ty + 1) === T_AIR;
       drawBoneNub(ctx, p, p.tx * TILE, p.ty * TILE, exposed);
     }
-    // garbage deposits: dull junk glints in the anthropocene band
+    // garbage deposits: per-type glints so scrap reads different from bottles
     for (const g of world.garbage || []) {
       if (g.tx < b.x0 || g.tx > b.x1 || g.ty < b.y0 || g.ty > b.y1) continue;
       if (!world.garbageAt(g.tx, g.ty)) continue;
       const dx = g.tx * TILE, dy = g.ty * TILE;
-      ctx.fillStyle = 'rgba(143,163,184,0.75)';
-      ctx.fillRect(dx + 4, dy + 8, 6, 3);
-      ctx.fillRect(dx + 8, dy + 5, 3, 3);
-      ctx.fillStyle = 'rgba(60,66,78,0.6)';
-      ctx.fillRect(dx + 5, dy + 9, 3, 1.4);
+      drawDepositGlint(g.type, dx, dy);
     }
     // soaked-dropped bones waiting to be recovered
     for (const d of droppedItems) {
@@ -1038,33 +1265,75 @@ export function makeGameScene(services, opts) {
     ctx.moveTo((spawnCol + 5) * TILE + 12, awnY); ctx.lineTo((spawnCol + 5) * TILE + 12, gy);
     ctx.stroke();
 
-    // E keycap + label when the rover is at the pod with lab work to do
+    // proximity glow when the pod has something for you (the visor's context
+    // line does the talking - no floating text)
     const near = entities.nearest(player, e => e.type === 'pod', 2.6 * TILE);
     if (near && !build.active) {
       const hasWork = STATIONS.some(s => satchel.firstAtState(s.input));
-      drawKeycap(ctx, lx + 22, gy - 78, hasWork);
-      const label = hasWork ? 'FIELD LAB' : 'POD';
-      const tw = measure(ctx, label, 9, true);
-      chip(ctx, lx + 22 - tw / 2 - 7, gy - 66, tw + 14, 14, { r: 7, fill: PALETTE.frameDark, border: null });
-      text(ctx, label, lx + 22, gy - 63, { size: 9, bold: true, align: 'center', color: PALETTE.parchment });
-      // laser upgrade offer when the parts are in the hold
-      const cost = laserUpgradeCost();
-      if (cost && inventory.canAfford(cost)) {
-        const ul = `U - LASER MK${player.laserMk + 1}`;
-        const uw = measure(ctx, ul, 9, true);
-        chip(ctx, lx + 22 - uw / 2 - 7, gy - 96, uw + 14, 14, { r: 7, fill: PALETTE.frameDark, border: null });
-        text(ctx, ul, lx + 22, gy - 93, { size: 9, bold: true, align: 'center', color: PALETTE.amber });
-      }
+      const glow2 = ctx.createRadialGradient(lx + 22, gy - 28, 6, lx + 22, gy - 28, 44);
+      glow2.addColorStop(0, `rgba(224,162,74,${hasWork ? 0.18 : 0.08})`);
+      glow2.addColorStop(1, 'rgba(224,162,74,0)');
+      ctx.fillStyle = glow2;
+      ctx.beginPath(); ctx.arc(lx + 22, gy - 28, 44, 0, Math.PI * 2); ctx.fill();
     }
   }
 
   // ---- built machines: solar, wind vane, Reclaimer, storage, beacon ----------
+  // power cables: a sagging line from each generator to every machine it feeds,
+  // with a travelling spark while the machine is actually powered
+  function drawPowerCables(rtime) {
+    const gens = entities.list.filter(e => e.type === 'solar' || e.type === 'wind-vane');
+    const sinks = entities.list.filter(e => !!BUILDABLES_BY_ID[e.type]?.accepts);
+    ctx.lineWidth = 1.4;
+    for (const g of gens) {
+      const gx = entities.centerX(g), gy2 = (g.ty + 1) * TILE - (g.type === 'solar' ? 12 : 26);
+      for (const m of sinks) {
+        const mx = entities.centerX(m);
+        if (Math.abs(mx - entities.centerX(g)) >= TILE * 6) continue;   // out of feed range
+        const my = (m.ty + 1) * TILE - 24;
+        const midX = (gx + mx) / 2, sag = 8 + Math.abs(mx - gx) * 0.08;
+        const midY = Math.max(gy2, my) + sag;
+        ctx.strokeStyle = 'rgba(38,34,46,0.9)';
+        ctx.beginPath(); ctx.moveTo(gx, gy2); ctx.quadraticCurveTo(midX, midY, mx, my); ctx.stroke();
+        if (m.powered && m.enabled !== false) {
+          // spark rides the wire while the source is feeding the battery
+          const t2 = (rtime * 0.8 + (g.uid * 7 + m.uid) * 0.13) % 1;
+          const it = 1 - t2;
+          const px2 = it * it * gx + 2 * it * t2 * midX + t2 * t2 * mx;
+          const py2 = it * it * gy2 + 2 * it * t2 * midY + t2 * t2 * my;
+          ctx.fillStyle = 'rgba(255,233,150,0.95)';
+          ctx.fillRect(px2 - 1.2, py2 - 1.2, 2.4, 2.4);
+        }
+      }
+    }
+
+    // the rover umbilical: a live cable from your hull to the plugged machine
+    if (umbilical !== null) {
+      const m = entities.list.find(e2 => e2.uid === umbilical);
+      if (m) {
+        const px0 = player.cx(), py0 = player.y + 9;
+        const mx = entities.centerX(m), my = (m.ty + 1) * TILE - 20;
+        const midX = (px0 + mx) / 2, midY = Math.max(py0, my) + 10 + Math.abs(mx - px0) * 0.06;
+        ctx.strokeStyle = 'rgba(224,162,74,0.9)'; ctx.lineWidth = 1.6;
+        ctx.beginPath(); ctx.moveTo(px0, py0); ctx.quadraticCurveTo(midX, midY, mx, my); ctx.stroke();
+        for (let k = 0; k < 2; k++) {   // charge pulses flowing rover → machine
+          const t2 = (rtime * 1.6 + k * 0.5) % 1, it = 1 - t2;
+          const qx = it * it * px0 + 2 * it * t2 * midX + t2 * t2 * mx;
+          const qy = it * it * py0 + 2 * it * t2 * midY + t2 * t2 * my;
+          ctx.fillStyle = 'rgba(255,233,150,0.95)';
+          ctx.fillRect(qx - 1.4, qy - 1.4, 2.8, 2.8);
+        }
+      }
+    }
+  }
+
   function drawEntities(rtime) {
-    const nearProc = entities.nearest(player, e => e.type === 'processor', 2.4 * TILE);
+    drawPowerCables(rtime);
     for (const e of entities.list) {
       if (e.type === 'pod') continue;   // drawPod owns it
       const [w] = entities.sizeOf(e);
-      const cx = entities.centerX(e), gy = e.ty * TILE;
+      // e.ty = bottom-most occupied AIR row; feet rest on the row below it
+      const cx = entities.centerX(e), gy = (e.ty + 1) * TILE;
 
       if (e.type === 'solar') {
         ctx.strokeStyle = '#4E4956'; ctx.lineWidth = 2;
@@ -1095,16 +1364,88 @@ export function makeGameScene(services, opts) {
           ctx.stroke();
         }
 
-      } else if (e.type === 'processor') {
-        const x0 = e.tx * TILE, bw = w * TILE;   // 2x2 body
-        const dim = e.powered === false ? 0.55 : 1;
+      } else if (BUILDABLES_BY_ID[e.type]?.accepts) {
+        const x0 = e.tx * TILE, bw = w * TILE;   // 2x2 footprint
+        const dim = e.enabled === false ? 0.4 : (e.battery || 0) <= 0 ? 0.6 : 1;
+        const working = e.queue?.length > 0 && e.enabled !== false && (e.battery || 0) > 0;
         ctx.save();
         ctx.globalAlpha = dim;
-        // body + feet
-        ctx.fillStyle = '#3A363F';
-        ctx.fillRect(x0, gy - 26, bw, 26);
-        ctx.fillStyle = '#2B2733';
-        ctx.fillRect(x0 + 1, gy - 3, 4, 3); ctx.fillRect(x0 + bw - 5, gy - 3, 4, 3);
+        // ---- bespoke bodies: each machine echoes its build-menu icon ----------
+        if (e.type === 'smelter') {
+          // rammed-earth induction furnace: brick courses, chimney, ember mouth
+          ctx.fillStyle = '#4A3A34'; ctx.fillRect(x0, gy - 26, bw, 26);
+          ctx.fillStyle = '#3A2C28';
+          for (let r = 0; r < 3; r++) for (let b2 = 0; b2 < 4; b2++)
+            ctx.fillRect(x0 + 1 + b2 * 8 + (r % 2) * 4, gy - 24 + r * 8, 6, 1.4);
+          ctx.fillStyle = '#574840'; ctx.fillRect(x0 - 1, gy - 28, bw - 8, 3);       // lip
+          ctx.fillStyle = '#4E4956'; ctx.fillRect(x0 + bw - 10, gy - 40, 7, 15);     // chimney
+          ctx.fillStyle = '#2B2733'; ctx.fillRect(x0 + bw - 11, gy - 42, 9, 3);
+          const mg = working ? 0.7 + Math.sin(rtime * 6) * 0.3 : 0.15;               // breathing mouth
+          ctx.fillStyle = `rgba(224,105,42,${mg.toFixed(2)})`;
+          ctx.fillRect(x0 + 9, gy - 6, bw - 18, 4);
+          if (working) {                                                             // heat shimmer
+            ctx.fillStyle = 'rgba(255,200,140,0.14)';
+            for (let hh = 0; hh < 3; hh++) {
+              const sx2 = x0 + bw - 7 + Math.sin(rtime * 5 + hh * 2.1) * 1.6;
+              ctx.fillRect(sx2, gy - 46 - hh * 4 - ((rtime * 20) % 4), 2, 3);
+            }
+          }
+        } else if (e.type === 'pyrolysis') {
+          // sealed vat on legs: rounded tank, top pipe, bubbling sight-glass
+          ctx.fillStyle = '#2B2733';
+          ctx.fillRect(x0 + 3, gy - 5, 3, 5); ctx.fillRect(x0 + bw - 6, gy - 5, 3, 5);
+          ctx.fillStyle = '#39423B';
+          roundRect(ctx, x0 + 1, gy - 27, bw - 2, 23, 8); ctx.fill();
+          ctx.strokeStyle = '#2E362F'; ctx.lineWidth = 1;                            // weld seams
+          ctx.beginPath(); ctx.moveTo(x0 + 4, gy - 21); ctx.lineTo(x0 + bw - 4, gy - 21);
+          ctx.moveTo(x0 + 4, gy - 9); ctx.lineTo(x0 + bw - 4, gy - 9); ctx.stroke();
+          ctx.fillStyle = '#4E4956'; ctx.fillRect(x0 + bw / 2 - 3, gy - 35, 6, 9);   // top pipe
+          ctx.fillRect(x0 + bw / 2 - 3, gy - 36, 10, 3);                             // elbow
+          if (working && Math.sin(rtime * 2.4) > 0.4) {                              // condensate drip
+            ctx.fillStyle = 'rgba(150,220,170,0.7)';
+            ctx.fillRect(x0 + bw / 2 + 6, gy - 33 + ((rtime * 30) % 26), 1.4, 3);
+          }
+          const sgx = x0 + bw - 9, sgy = gy - 15;                                    // sight-glass
+          ctx.fillStyle = '#16201A';
+          ctx.beginPath(); ctx.arc(sgx, sgy, 4.6, 0, Math.PI * 2); ctx.fill();
+          ctx.strokeStyle = '#9FBE9A'; ctx.lineWidth = 1.4;
+          ctx.beginPath(); ctx.arc(sgx, sgy, 4.6, 0, Math.PI * 2); ctx.stroke();
+          if (working) {
+            ctx.fillStyle = 'rgba(150,220,170,0.85)';
+            for (let bb = 0; bb < 3; bb++) {
+              const bt = (rtime * 0.9 + bb * 0.37) % 1;
+              ctx.fillRect(sgx - 2 + bb * 2, sgy + 3 - bt * 6, 1.2, 1.2);
+            }
+          }
+        } else {
+          // ash kiln: layered brick dome, top vent puffing, silica slot glow
+          ctx.fillStyle = '#5A4A42';
+          ctx.beginPath();
+          ctx.moveTo(x0, gy);
+          ctx.quadraticCurveTo(x0 + 2, gy - 26, x0 + bw / 2, gy - 30);
+          ctx.quadraticCurveTo(x0 + bw - 2, gy - 26, x0 + bw, gy);
+          ctx.closePath(); ctx.fill();
+          ctx.strokeStyle = '#4A3A34'; ctx.lineWidth = 1;                            // brick courses
+          for (let r = 1; r <= 3; r++) {
+            ctx.beginPath();
+            ctx.moveTo(x0 + r * 2.4, gy);
+            ctx.quadraticCurveTo(x0 + bw / 2, gy - 30 + r * 7, x0 + bw - r * 2.4, gy);
+            ctx.stroke();
+          }
+          ctx.fillStyle = '#3A322E'; ctx.fillRect(x0 + bw / 2 - 3, gy - 34, 6, 6);   // vent stub
+          const kg = working ? 0.55 + Math.sin(rtime * 5) * 0.35 : 0.12;             // silica slot
+          ctx.fillStyle = `rgba(179,155,192,${kg.toFixed(2)})`;
+          ctx.fillRect(x0 + bw / 2 - 2.5, gy - 9, 5, 8);
+          if (working) {                                                             // pale ash puffs
+            for (let a2 = 0; a2 < 2; a2++) {
+              const at = (rtime * 0.5 + a2 * 0.5) % 1;
+              ctx.fillStyle = `rgba(200,195,185,${(0.4 * (1 - at)).toFixed(2)})`;
+              ctx.beginPath();
+              ctx.arc(x0 + bw / 2 + Math.sin(at * 5 + a2) * 3, gy - 36 - at * 14, 1.6 + at * 2.6, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+        }
         // hopper (top-left) with visible junk lumps
         ctx.fillStyle = '#4E4956';
         ctx.beginPath();
@@ -1115,7 +1456,6 @@ export function makeGameScene(services, opts) {
           ctx.fillRect(x0 + 2 + q * 3, gy - 35 + (q % 2), 2.6, 2.6);
         }
         // three stage bays with live tells
-        const working = e.queue?.length > 0 && e.powered !== false;
         for (let s = 0; s < 3; s++) {
           const bx = x0 + 3 + s * 9;
           const active = working && e.stage === s;
@@ -1145,13 +1485,30 @@ export function makeGameScene(services, opts) {
           ctx.fillStyle = MATERIALS_BY_ID[id]?.color || '#9AA4B2';
           ctx.fillRect(x0 + bw - 1 + (i2 % 2) * 3.4, gy - 10 - Math.floor(i2 / 2) * 4, 3, 3);
         });
-        // powered lamp
-        ctx.fillStyle = e.powered === false ? '#5A2A24' : (Math.sin(rtime * 3) > 0 ? '#7FC46E' : '#4A7A44');
+        // status lamp: green = charged, red = flat battery, dark = switched off
+        ctx.fillStyle = e.enabled === false ? '#33302E'
+          : (e.battery || 0) <= 0 ? '#B0402E'
+          : (Math.sin(rtime * 3) > 0 ? '#7FC46E' : '#4A7A44');
         ctx.beginPath(); ctx.arc(x0 + bw - 4, gy - 23, 1.8, 0, Math.PI * 2); ctx.fill();
+        // battery pips: three cells on the chassis edge
+        const b01 = Math.max(0, Math.min(1, (e.battery || 0) / MACHINE_BATT_CAP));
+        for (let p = 0; p < 3; p++) {
+          ctx.fillStyle = b01 > (p + 0.34) / 3 ? '#E0C86A' : 'rgba(0,0,0,0.45)';
+          ctx.fillRect(x0 + bw - 12, gy - 20 + p * 4, 6, 2.6);
+        }
+        // progress strip built into the chassis: the machine IS its own display
+        if (e.queue?.length) {
+          const frac2 = Math.min(1, e.t / RECLAIM_STAGES[e.stage]);
+          ctx.fillStyle = 'rgba(0,0,0,0.4)';
+          ctx.fillRect(x0 + 3, gy - 8, bw - 12, 2.4);
+          ctx.fillStyle = '#7FC4A8';
+          ctx.fillRect(x0 + 3, gy - 8, (bw - 12) * ((e.stage + frac2) / 3), 2.4);
+        }
         ctx.restore();
-        if (working) frameLights.push({ x: cx, y: gy - 16, r: 34, warmth: 0.5 });
-        // peek panel when standing here
-        if (nearProc === e && !build.active) drawPeekPanel(e, cx, gy - 44, rtime);
+        if (working) {
+          const tint = { pyrolysis: '150,220,170', kiln: '190,160,210' }[e.type];   // smelter stays ember-amber
+          frameLights.push({ x: cx, y: gy - 16, r: 34, warmth: 0.5, ...(tint ? { tint } : {}) });
+        }
 
       } else if (BUILDABLES_BY_ID[e.type]?.station) {
         const spec = STATIONS_BY_ID[BUILDABLES_BY_ID[e.type].station];
@@ -1168,12 +1525,25 @@ export function makeGameScene(services, opts) {
         ctx.fillRect(cx - 14, gy - 4, 28, 4);
         if (hasSprite('stations', spec.sprite)) drawSprite(ctx, 'stations', spec.sprite, cx, gy - 3, 38, 38);
         else chip(ctx, cx - 15, gy - 25, 30, 21, { fill: spec.tint, r: 5 });
-        if (isNear) {
-          drawKeycap(ctx, cx, gy - 56, hasInput);
-          const tw2 = measure(ctx, spec.name, 9, true);
-          chip(ctx, cx - tw2 / 2 - 7, gy - 44, tw2 + 14, 14, { r: 7, fill: PALETTE.frameDark, border: null });
-          text(ctx, spec.name, cx, gy - 41, { size: 9, bold: true, align: 'center', color: PALETTE.parchment });
-          if (!hasInput) text(ctx, `needs ${spec.input}`, cx, gy - 30, { size: 8, align: 'center', color: PALETTE.creamDim });
+
+      } else if (e.type.startsWith('lamp-')) {
+        const L = {
+          'lamp-green': { orb: '#96DCAA', tint: '150,220,170' },
+          'lamp-blue': { orb: '#7FB8E8', tint: '120,180,235' },
+          'lamp-teal': { orb: '#7FE8D8', tint: '120,230,215' },
+          'lamp-amber': { orb: '#FFD27A', tint: '255,210,120' },
+        }[e.type];
+        const lit = env.night01() > 0.2 || world.depthOfRow(e.tx, e.ty) > 4;
+        ctx.strokeStyle = '#4E4956'; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(cx, gy); ctx.lineTo(cx, gy - 20); ctx.stroke();
+        ctx.fillStyle = lit ? L.orb : '#3A363F';
+        ctx.beginPath(); ctx.arc(cx, gy - 23, 3.6, 0, Math.PI * 2); ctx.fill();
+        if (lit) {
+          const pulse = 0.8 + Math.sin(rtime * 2 + e.uid) * 0.2;
+          ctx.globalAlpha = 0.3 * pulse;
+          ctx.beginPath(); ctx.arc(cx, gy - 23, 7, 0, Math.PI * 2); ctx.fill();
+          ctx.globalAlpha = 1;
+          frameLights.push({ x: cx, y: gy - 23, r: 110, warmth: 1, tint: L.tint });
         }
 
       } else if (e.type === 'storage') {
@@ -1194,31 +1564,6 @@ export function makeGameScene(services, opts) {
     }
   }
 
-  // the Reclaimer's little status window - peeking a 3D printer mid-print
-  function drawPeekPanel(e, cx, topY, rtime) {
-    const pw = 118, ph = 46;
-    const px = cx - pw / 2, py = topY - ph;
-    chip(ctx, px, py, pw, ph, { r: 8, fill: PALETTE.frameDark });
-    // powered lamp + label
-    ctx.fillStyle = e.powered === false ? PALETTE.danger : '#7FC46E';
-    ctx.beginPath(); ctx.arc(px + 10, py + 9, 2.6, 0, Math.PI * 2); ctx.fill();
-    text(ctx, e.powered === false ? 'NO POWER - needs sun or wind' : 'RECLAIMING', px + 17, py + 5, { size: 8, bold: true, color: e.powered === false ? PALETTE.danger : PALETTE.parchment });
-    // queue icons
-    const qn = e.queue?.length || 0;
-    for (let q = 0; q < Math.min(8, qn); q++) { ctx.fillStyle = '#8FA3B8'; ctx.fillRect(px + 8 + q * 6, py + 17, 4, 4); }
-    if (qn > 8) text(ctx, `+${qn - 8}`, px + 58, py + 15, { size: 8, color: PALETTE.creamDim });
-    if (qn === 0) text(ctx, 'hopper empty', px + 8, py + 15, { size: 8, color: PALETTE.creamDim });
-    // stage progress bar
-    const labels = ['WASH', 'SHRED', 'EXTRACT'];
-    const frac = qn ? Math.min(1, e.t / RECLAIM_STAGES[e.stage]) : 0;
-    ctx.fillStyle = 'rgba(0,0,0,0.3)'; ctx.fillRect(px + 8, py + 27, 70, 6);
-    ctx.fillStyle = '#7FC4A8'; ctx.fillRect(px + 8, py + 27, 70 * ((qn ? e.stage : 0) + frac) / 3, 6);
-    text(ctx, qn ? labels[e.stage] : '-', px + 82, py + 25, { size: 8, bold: true, color: PALETTE.amberSoft });
-    // buffer summary
-    const outs = Object.entries(e.outBuffer || {}).filter(([, n]) => n > 0);
-    text(ctx, outs.length ? outs.map(([id, n]) => `${n} ${id}`).join(' · ') : 'tray empty', px + 8, py + 36, { size: 7, color: outs.length ? '#9FBE9A' : PALETTE.creamDim });
-  }
-
   // tiny double-helix progress pip (journal genome indicator)
   function drawDnaPip(x, y, frac, rtime) {
     ctx.save();
@@ -1235,31 +1580,6 @@ export function makeGameScene(services, opts) {
       ctx.stroke();
     }
     ctx.restore();
-  }
-
-  function drawKeycap(ctx2, x, y, active = true) {
-    const bobY = y + Math.sin(time * 4) * 2;
-    ctx2.globalAlpha = active ? 1 : 0.5;
-    ctx2.fillStyle = active ? PALETTE.parchment : '#9A9088';
-    if (ctx2.roundRect) { ctx2.beginPath(); ctx2.roundRect(x - 8, bobY - 8, 16, 16, 4); ctx2.fill(); } else ctx2.fillRect(x - 8, bobY - 8, 16, 16);
-    ctx2.strokeStyle = PALETTE.frameDark;
-    ctx2.lineWidth = 2;
-    if (ctx2.roundRect) { ctx2.beginPath(); ctx2.roundRect(x - 8, bobY - 8, 16, 16, 4); ctx2.stroke(); }
-    text(ctx2, 'E', x, bobY - 6, { size: 12, bold: true, align: 'center' });
-    ctx2.globalAlpha = 1;
-  }
-
-  // "done" feedback after a station: check + produced state + next station (mod 8)
-  function drawResultBanner() {
-    const a = Math.min(1, resultBanner.t * 3) * Math.min(1, (2 - resultBanner.t) * 2);
-    ctx.globalAlpha = a;
-    const label = resultBanner.next ? `${resultBanner.done.toUpperCase()} ✓  →  ${resultBanner.next}` : `${resultBanner.done.toUpperCase()} ✓`;
-    const tw = measure(ctx, label, 15, true);
-    chip(ctx, VIEW_W / 2 - tw / 2 - 20, 120, tw + 40, 34, { r: 12, fill: PALETTE.frameDark });
-    ctx.fillStyle = PALETTE.good;
-    ctx.beginPath(); ctx.arc(VIEW_W / 2 - tw / 2 - 4, 137, 4, 0, Math.PI * 2); ctx.fill();
-    text(ctx, label, VIEW_W / 2 + 8, 130, { size: 15, bold: true, align: 'center', color: PALETTE.parchment });
-    ctx.globalAlpha = 1;
   }
 
   function drawPrecip() {
@@ -1359,6 +1679,17 @@ export function makeGameScene(services, opts) {
     for (const sx of [-0.5, 0, 0.5]) { ctx.beginPath(); ctx.moveTo(cx + sx * aw + sway, ay - 6); ctx.lineTo(cx + sx * aw * 0.7 + sway, ay + 7); ctx.stroke(); }
   }
 
+  // thin amber outline on the exact tile the next laser pulse will cut - the
+  // precision cue that makes hand-sculpted stairs possible
+  function drawDigTarget(rtime) {
+    if (build.active || pulley.active || stunT > 0 || player.tool !== 'laser') return;
+    const aim = peekTarget(player, world, cam);
+    if (!aim) return;
+    ctx.strokeStyle = `rgba(224,162,74,${(0.55 + Math.sin(rtime * 8) * 0.2).toFixed(2)})`;
+    ctx.lineWidth = 1.4;
+    ctx.strokeRect(aim.tx * TILE + 1, aim.ty * TILE + 1, TILE - 2, TILE - 2);
+  }
+
   function drawBeam(rtime) {
     if (!player.beam) return;
     const lx = player.cx() + player.facing * 7, ly = player.y + BEAM_Y;
@@ -1424,166 +1755,82 @@ export function makeGameScene(services, opts) {
     } else { ctx.fillStyle = id === 'flowers' ? '#C98BA8' : (biome?.grass.deep ?? PALETTE.grassDeep); ctx.beginPath(); ctx.arc(px, baseY - 5, 6, 0, Math.PI * 2); ctx.fill(); }
   }
 
-  // --------------------------------------------------------------- HUD
-  // The probe's FPV: power · depth · satchel · materials · status · home arrow.
-  // Elements flicker on in sequence during the boot (bootOn gates each).
-  function hudOn(at) { return bootT >= at; }
+  // --------------------------------------------------------------- HUD v3
+  // All screen furniture lives in render/hud.js (four fixed regions, no
+  // collisions). Only the world-space build ghost stays here.
+  const hud = makeHud({
+    ctx, player, world, power, status, inventory, satchel, collection,
+    build, hazards, cam, toasts,
+    state: () => ({
+      time, bootT, stunT, home, findT,
+      quest: quests.activeStep(),
+      biome: biomeAtX(player.tx(), WORLD_W).name,
+      context: interactContext(),
+    }),
+  });
 
-  function drawHUD() {
-    const depth = Math.max(0, world.depthOfRow(player.tx(), Math.floor((player.y + player.h) / TILE)));
-    const stratum = world.stratumAt(player.tx(), Math.floor(player.cy() / TILE));
-
-    // -- power bar (top-left, first thing to come online) -----------------------
-    if (hudOn(0.4)) {
-      const frac = power.frac();
-      const state = power.state();
-      const blink = state !== 'ok' && Math.sin(time * (state === 'reserve' ? 10 : 6)) > 0;
-      chip(ctx, 12, 12, 186, 24, { r: 8 });
-      // lightning glyph
-      ctx.fillStyle = blink ? PALETTE.danger : PALETTE.amber;
-      ctx.beginPath();
-      ctx.moveTo(26, 17); ctx.lineTo(21, 25); ctx.lineTo(25, 25); ctx.lineTo(22, 31); ctx.lineTo(29, 23); ctx.lineTo(25, 23); ctx.lineTo(28, 17);
-      ctx.closePath(); ctx.fill();
-      // bar
-      ctx.fillStyle = 'rgba(0,0,0,0.25)';
-      ctx.fillRect(36, 18, 130, 12);
-      ctx.fillStyle = state === 'reserve' ? PALETTE.danger : state === 'low' ? '#E0A24A' : '#7FC46E';
-      ctx.fillRect(36, 18, 130 * frac, 12);
-      ctx.strokeStyle = PALETTE.frameDark; ctx.lineWidth = 1.4;
-      ctx.strokeRect(36, 18, 130, 12);
-      text(ctx, `${Math.round(frac * 100)}`, 172, 18, { size: 11, bold: true, color: blink ? PALETTE.danger : PALETTE.cream });
-      if (state === 'reserve') text(ctx, 'RESERVE - tools offline, find sun', 12, 40, { size: 9, bold: true, color: PALETTE.danger });
+  // the ONE line the visor's bottom bar speaks when something is in reach
+  function interactContext() {
+    if (build.active || collectionOpen || inventoryOpen || minigame || overlay) return null;
+    if (player.tool === 'deconstruct') {
+      if (!deconTarget) return 'DECONSTRUCTOR · click a built thing to reclaim its materials';
+      const refund = Object.entries(deconTarget.spec?.cost || {}).map(([id, n]) => `${n} ${id}`).join(' + ');
+      return `DECONSTRUCTOR · ${(deconTarget.spec?.name || 'structure').toUpperCase()} · click to reclaim ${refund}`;
     }
-
-    // -- depth chip --------------------------------------------------------------
-    if (hudOn(0.9)) {
-      chip(ctx, 12, 44, 186, 44, { r: 10 });
-      text(ctx, formatDepth(realDepthAt(depth)), 26, 50, { size: 18, bold: true, color: PALETTE.amber });
-      text(ctx, depth > 0 ? formatAge(stratum) : 'surface', 26, 71, { size: 10, color: PALETTE.creamDim });
-      ctx.fillStyle = stratum.colors.base;
-      ctx.fillRect(176, 52, 12, 26);
+    const proc = entities.nearest(player, e2 => !!BUILDABLES_BY_ID[e2.type]?.accepts, 2.4 * TILE);
+    if (proc) {
+      const spec = BUILDABLES_BY_ID[proc.type];
+      const NAME = spec.name.toUpperCase();
+      const qn = proc.queue?.length || 0;
+      const outs = Object.entries(proc.outBuffer || {}).filter(([, n]) => n > 0);
+      const tray = outs.length ? outs.map(([id, n]) => `${n} ${id}`).join(' ') : 'empty';
+      const stage = qn ? ['WASH', 'SHRED', 'EXTRACT'][proc.stage] : null;
+      const feedN = inventory.garbage.filter(t2 => spec.accepts.includes(t2)).length;
+      const batt = `pwr ${Math.round(((proc.battery || 0) / MACHINE_BATT_CAP) * 100)}%`;
+      const plug = umbilical === proc.uid ? 'G unplug' : 'G plug rover in';
+      if (proc.enabled === false) return `${NAME} · SWITCHED OFF · P on`;
+      if ((proc.battery || 0) <= 0.01 && !proc.powered) return `${NAME} · ${batt} · dead - no sun/wind · ${plug}`;
+      if (umbilical === proc.uid) return `${NAME} · ${batt} · feeding from rover · ${plug}`;
+      if (feedN > 0) return `${NAME} · ${batt} · E load ${feedN} junk · tray ${tray}`;
+      if (outs.length) return `${NAME} · ${batt} · ${stage ? stage + ' · ' : ''}E collect tray (${tray})`;
+      return qn ? `${NAME} · ${batt} · ${stage} · queue ${qn}` : `${NAME} · ${batt} · feed me ${spec.accepts.map(a => GARBAGE_BY_ID[a]?.name.toLowerCase())[0]}s`;
     }
-
-    // -- status icon row (wet = blinking droplet) --------------------------------
-    if (hudOn(1.8) && status.tier() !== 'dry') {
-      const soaked = status.tier() === 'soaked';
-      const show = !soaked || Math.sin(time * 8) > -0.2;   // soaked blinks red
-      if (show) {
-        chip(ctx, 204, 12, 64, 24, { r: 8, fill: PALETTE.frameDark });
-        ctx.fillStyle = soaked ? PALETTE.danger : '#7FB2DE';
-        ctx.beginPath();
-        ctx.moveTo(216, 16); ctx.quadraticCurveTo(222, 26, 216, 30); ctx.quadraticCurveTo(210, 26, 216, 16);
-        ctx.fill();
-        text(ctx, soaked ? 'SOAKED' : 'WET', 226, 17, { size: 9, bold: true, color: soaked ? PALETTE.danger : '#7FB2DE' });
-      }
+    const stEnt = entities.nearest(player, e2 => !!BUILDABLES_BY_ID[e2.type]?.station, 2.2 * TILE);
+    if (stEnt) {
+      const spec = STATIONS_BY_ID[BUILDABLES_BY_ID[stEnt.type].station];
+      const frag = satchel.firstAtState(spec.input);
+      return frag ? `${spec.name.toUpperCase()} · E ${spec.verb.toLowerCase()} ${frag.bone}` : `${spec.name.toUpperCase()} · needs a ${spec.input} bone`;
     }
-
-    // -- home marker: edge arrow + distance when home is off-screen --------------
-    if (hudOn(0.9)) drawHomeArrow();
-
-    if (!hudOn(1.4)) return;
-    const frags = satchel.items;
-    const shown = Math.min(frags.length, 6);
-    const sw = 26 + shown * 15 + (frags.length > 6 ? 26 : 0);
-    chip(ctx, VIEW_W - sw - 12, 12, sw, 28, { r: 8 });
-    for (let i = 0; i < shown; i++) {
-      const f = frags[i];
-      const lvl = SPECIMEN_STATES.indexOf(f.state);
-      const col = ['#8A7355', '#CFC5A9', '#E0A24A', '#6C9A54'][Math.min(3, lvl)] || '#8A7355';
-      const bx = VIEW_W - sw - 12 + 14 + i * 15, by = 26;
-      ctx.save(); ctx.translate(bx, by); ctx.rotate(-0.5);
-      ctx.fillStyle = col;
-      ctx.fillRect(-5, -1.5, 10, 3);
-      ctx.beginPath(); ctx.arc(-5, 0, 2.2, 0, 7); ctx.arc(5, 0, 2.2, 0, 7); ctx.fill();
-      ctx.restore();
+    const podNear = entities.nearest(player, e2 => e2.type === 'pod', 2.6 * TILE);
+    if (podNear) {
+      const cost = laserUpgradeCost();
+      if (cost && inventory.canAfford(cost)) return `POD · U upgrade laser mk${player.laserMk + 1} · E field lab`;
+      const spec = STATIONS.find(s2 => satchel.firstAtState(s2.input));
+      const owned = spec && entities.list.some(e2 => BUILDABLES_BY_ID[e2.type]?.station === spec.id);
+      if (spec && !owned) return `FIELD LAB · E ${spec.verb.toLowerCase()} ${satchel.firstAtState(spec.input).bone}`;
+      return 'POD · home sweet pod';
     }
-    if (frags.length > 6) text(ctx, `+${frags.length - 6}`, VIEW_W - 24, 19, { size: 11, bold: true, align: 'right', color: PALETTE.cream });
-
-    // materials chip (regolith, glow caps, crystals, refined mats) under the satchel
-    const mats = inventory.entries();
-    if (mats.length) {
-      const mw = 14 + mats.length * 34;
-      chip(ctx, VIEW_W - mw - 12, 46, mw, 24, { r: 8 });
-      mats.forEach(([id, n], i) => {
-        const mx = VIEW_W - mw - 12 + 10 + i * 34;
-        const spec = MATERIALS_BY_ID[id];
-        ctx.fillStyle = spec?.color || PALETTE.amberSoft;
-        if (spec?.glyph === 'shard') {
-          ctx.beginPath(); ctx.moveTo(mx + 4, 64); ctx.lineTo(mx + 7, 52); ctx.lineTo(mx + 10, 64); ctx.closePath(); ctx.fill();
-        } else if (spec?.glyph === 'cap') {
-          ctx.fillRect(mx + 6, 58, 2, 6);
-          ctx.beginPath(); ctx.arc(mx + 7, 58, 4, Math.PI, 0); ctx.fill();
-        } else if (spec?.glyph === 'clod') {
-          ctx.beginPath(); ctx.ellipse(mx + 7, 60, 5, 3.4, 0.2, 0, Math.PI * 2); ctx.fill();
-        } else {
-          ctx.fillRect(mx + 3, 55, 8, 8);
-          ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.fillRect(mx + 3, 55, 8, 2);
-        }
-        text(ctx, `${n}`, mx + 14, 53, { size: 11, bold: true, color: PALETTE.cream });
-      });
-    }
-    // raw garbage hold (junk waiting for the Reclaimer)
-    const rawN = inventory.garbageCount();
-    if (rawN > 0) {
-      const gy2 = mats.length ? 74 : 46;
-      chip(ctx, VIEW_W - 84 - 12, gy2, 84, 22, { r: 8, fill: PALETTE.frameDark });
-      ctx.fillStyle = '#8FA3B8';
-      ctx.fillRect(VIEW_W - 86, gy2 + 7, 6, 4); ctx.fillRect(VIEW_W - 82, gy2 + 4, 4, 4);
-      text(ctx, `junk ×${rawN}`, VIEW_W - 74, gy2 + 5, { size: 10, bold: true, color: '#8FA3B8' });
-    }
-
-    chip(ctx, 12, VIEW_H - 40, 86, 28, { r: 8 });
-    ctx.fillStyle = PALETTE.parchment;
-    ctx.beginPath(); ctx.arc(30, VIEW_H - 27, 5.5, 0, Math.PI * 2); ctx.fill();
-    ctx.fillRect(26, VIEW_H - 25, 8, 5);
-    ctx.fillStyle = PALETTE.frameDark;
-    ctx.fillRect(27.5, VIEW_H - 29, 2, 2); ctx.fillRect(31.5, VIEW_H - 29, 2, 2);
-    text(ctx, `${collection.completedCount()}/${collection.total()}`, 44, VIEW_H - 33, { size: 13, bold: true, color: PALETTE.cream });
-
-    // -- active-tool chip, bottom-centre-left (Ctrl to switch; B to build) -------
-    if (hudOn(2.9)) {
-      const scan = player.tool === 'scan';
-      chip(ctx, 108, VIEW_H - 40, 118, 28, { r: 8 });
-      ctx.fillStyle = scan ? '#4BE3E8' : PALETTE.amber;
-      if (scan) { ctx.strokeStyle = '#4BE3E8'; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.arc(124, VIEW_H - 26, 5, 0, Math.PI * 2); ctx.stroke(); ctx.fillRect(123, VIEW_H - 27, 2, 2); }
-      else { ctx.fillRect(118, VIEW_H - 27, 12, 2); }
-      text(ctx, build.active ? 'BUILD' : scan ? 'SCAN' : 'LASER', 136, VIEW_H - 33, { size: 12, bold: true, color: build.active ? '#9FBE9A' : scan ? '#4BE3E8' : PALETTE.amber });
-      text(ctx, build.active ? 'B' : 'CTRL', 200, VIEW_H - 32, { size: 9, color: PALETTE.creamDim });
-    }
+    return null;
   }
 
-  // amber edge arrow + distance pointing home when it's off-screen
-  function drawHomeArrow() {
-    const dx = home.x - (cam.x + VIEW_W / 2), dy = home.y - (cam.y + VIEW_H / 2);
-    const sx = home.x - cam.x, sy = home.y - cam.y;
-    const onScreen = sx > 20 && sx < VIEW_W - 20 && sy > 20 && sy < VIEW_H - 20;
-    if (onScreen) {
-      // subtle marker over the spot
-      const bob = Math.sin(time * 3) * 2;
-      ctx.fillStyle = 'rgba(224,162,74,0.85)';
-      ctx.beginPath();
-      ctx.moveTo(sx, sy - 26 + bob); ctx.lineTo(sx - 4, sy - 33 + bob); ctx.lineTo(sx + 4, sy - 33 + bob);
-      ctx.closePath(); ctx.fill();
-      return;
+  // -- deconstruct mode: red brackets on the built thing under the cursor --------
+  function drawDeconTarget(rtime) {
+    if (!deconTarget) return;
+    const [w, h] = deconTarget.kind === 'machine' ? entities.sizeOf(deconTarget.e) : [1, 1];
+    const px = deconTarget.tx * TILE, py = (deconTarget.ty - (deconTarget.kind === 'machine' ? h - 1 : 0)) * TILE;
+    const pulse = 0.55 + Math.sin(rtime * 6) * 0.25;
+    ctx.strokeStyle = `rgba(232,91,74,${pulse.toFixed(2)})`;
+    ctx.lineWidth = 1.6;
+    ctx.strokeRect(px + 0.5, py + 0.5, w * TILE - 1, h * TILE - 1);
+    // corner pry-marks
+    ctx.beginPath();
+    for (const [cx2, cy2, sx2, sy2] of [[px, py, 1, 1], [px + w * TILE, py, -1, 1], [px, py + h * TILE, 1, -1], [px + w * TILE, py + h * TILE, -1, -1]]) {
+      ctx.moveTo(cx2 + sx2 * 5, cy2); ctx.lineTo(cx2, cy2); ctx.lineTo(cx2, cy2 + sy2 * 5);
     }
-    // clamp to the screen border along the home direction
-    const ang = Math.atan2(dy, dx);
-    const px = Math.max(26, Math.min(VIEW_W - 26, VIEW_W / 2 + Math.cos(ang) * VIEW_W));
-    const py = Math.max(56, Math.min(VIEW_H - 56, VIEW_H / 2 + Math.sin(ang) * VIEW_H));
-    const dist = Math.round(Math.hypot(home.x - player.cx(), home.y - player.cy()) / TILE);
-    ctx.save();
-    ctx.translate(px, py);
-    ctx.rotate(ang);
-    ctx.fillStyle = PALETTE.amber;
-    ctx.beginPath(); ctx.moveTo(10, 0); ctx.lineTo(-2, -6); ctx.lineTo(-2, 6); ctx.closePath(); ctx.fill();
-    ctx.restore();
-    // house glyph + metres
-    ctx.fillStyle = 'rgba(20,16,22,0.6)';
-    roundRect(ctx, px - 20, py + 8, 40, 13, 4); ctx.fill();
-    text(ctx, `⌂ ${dist}m`, px, py + 10, { size: 9, bold: true, align: 'center', color: PALETTE.amberSoft });
+    ctx.stroke();
   }
 
-  // -- build mode: world-space ghost + screen-space palette bar ------------------
+  // -- build mode: world-space ghost --------------------------------------------
   function drawBuildGhost(rtime) {
     const g = build.ghost(cam);
     if (!g) return;
@@ -1597,57 +1844,15 @@ export function makeGameScene(services, opts) {
     ctx.strokeRect(px + 0.5, py + 0.5, g.w * TILE - 1, g.h * TILE - 1);
   }
 
-  function drawBuildBar() {
-    const items = build.unlocked();
-    const cur = build.current();
-    const bw = items.length * 92 + 16;
-    chip(ctx, VIEW_W / 2 - bw / 2, VIEW_H - 64, bw, 52, { r: 10, fill: PALETTE.frameDark });
-    items.forEach((b2, i) => {
-      const x = VIEW_W / 2 - bw / 2 + 8 + i * 92;
-      const isSel = b2 === cur;
-      const afford = inventory.canAfford(b2.cost);
-      if (isSel) { ctx.fillStyle = 'rgba(224,162,74,0.18)'; roundRect(ctx, x, VIEW_H - 60, 88, 44, 6); ctx.fill(); }
-      text(ctx, b2.name, x + 44, VIEW_H - 56, { size: 10, bold: isSel, align: 'center', color: afford ? (isSel ? PALETTE.amber : PALETTE.parchment) : 'rgba(150,140,130,0.6)' });
-      const cost = Object.entries(b2.cost).map(([id, n]) => `${n} ${MATERIALS_BY_ID[id]?.name.toLowerCase() ?? id}`).join(' · ');
-      text(ctx, cost, x + 44, VIEW_H - 42, { size: 8, align: 'center', color: afford ? PALETTE.creamDim : 'rgba(200,90,70,0.8)' });
-      if (isSel) text(ctx, 'click to place · right-click reclaims', x + 44, VIEW_H - 30, { size: 7, align: 'center', color: PALETTE.creamDim });
-    });
-    text(ctx, 'Q / wheel to cycle · B to exit', VIEW_W / 2, VIEW_H - 76, { size: 9, align: 'center', color: PALETTE.creamDim });
-  }
-
-  // -- boot: scanline iris + elements flickering on -----------------------------
-  function drawBootOverlay(rtime) {
-    const p = Math.min(1, bootT / 3.5);
-    // dark iris pulling back
-    ctx.fillStyle = `rgba(5,7,12,${(0.85 * (1 - p)).toFixed(2)})`;
-    ctx.fillRect(0, 0, VIEW_W, VIEW_H);
-    // rolling scanlines
-    ctx.fillStyle = `rgba(75,227,232,${(0.05 * (1 - p)).toFixed(3)})`;
-    for (let y = (rtime * 60 | 0) % 3; y < VIEW_H; y += 3) ctx.fillRect(0, y, VIEW_W, 1);
-    if (bootT < 1.2) {
-      text(ctx, 'OPTICS ONLINE', VIEW_W / 2, VIEW_H / 2 - 8, { size: 13, bold: true, align: 'center', color: '#4BE3E8' });
-    }
-  }
-
   function drawBanner() {
     const a = Math.min(1, banner.life) * Math.min(1, (3 - banner.life) * 3);
     ctx.globalAlpha = a;
     const str = formatAge(banner.stratum).toUpperCase();
-    const tw = measure(ctx, str, 17, true);
-    blueprintPanel(ctx, VIEW_W / 2 - tw / 2 - 26, 74, tw + 52, 44, { frameW: 6, r: 12, deep: true, grid: false });
-    text(ctx, str, VIEW_W / 2, 96, { size: 17, bold: true, align: 'center', baseline: 'middle', color: PALETTE.cream });
+    const tw = measure(ctx, str, 15, true);
+    const by = VIEW_H - 22 - 56;   // flush above the visor's bottom bar
+    blueprintPanel(ctx, VIEW_W / 2 - tw / 2 - 24, by, tw + 48, 38, { frameW: 5, r: 10, deep: true, grid: false });
+    text(ctx, str, VIEW_W / 2, by + 19, { size: 15, bold: true, align: 'center', baseline: 'middle', color: PALETTE.cream });
     ctx.globalAlpha = 1;
-  }
-  function drawToasts() {
-    toasts.forEach((t, i) => {
-      ctx.globalAlpha = Math.min(1, t.life * 1.5);
-      const tw = measure(ctx, t.text, 12, true);
-      const y = 132 + i * 28;
-      chip(ctx, VIEW_W / 2 - tw / 2 - 14, y, tw + 28, 22, { r: 11 });
-      ctx.fillStyle = t.color; ctx.fillRect(VIEW_W / 2 - tw / 2 - 7, y + 6, 4, 10);
-      text(ctx, t.text, VIEW_W / 2 + 2, y + 5, { size: 12, bold: true, align: 'center' });
-      ctx.globalAlpha = 1;
-    });
   }
   function drawMiniCards(rtime) {
     const W = 290, H = 92;
@@ -1665,9 +1870,10 @@ export function makeGameScene(services, opts) {
     ctx.fillRect(0, 0, VIEW_W, VIEW_H);
     const p = Math.min(1, overlay.t / 0.22), ease = 1 - Math.pow(1 - p, 3);
     if (overlay.type === 'codex') {
-      const cw = 460, chh = 300, cx = VIEW_W / 2 - cw / 2, cy = VIEW_H / 2 - chh / 2 + (1 - ease) * 40;
+      const cw = 500, chh = 330, cx = VIEW_W / 2 - cw / 2, cy = VIEW_H / 2 - chh / 2 + (1 - ease) * 40;
       ctx.globalAlpha = ease;
-      drawCodexCard(ctx, codexEntry(overlay.codexId), cx, cy, cw, chh);
+      drawCodexCard(ctx, codexEntry(overlay.codexId), cx, cy, cw, chh, drawCodexArt, rtime,
+        { live: overlay.live || null, openT: overlay.t });
       if (overlay.t > 0.6) text(ctx, 'press any key', VIEW_W / 2, cy + chh + 14, { size: 11, align: 'center', color: PALETTE.creamDim });
       ctx.globalAlpha = 1;
       return;
@@ -1752,8 +1958,9 @@ export function makeGameScene(services, opts) {
       ctx.fillStyle = known ? 'rgba(75,180,190,0.12)' : 'rgba(0,0,0,0.10)';
       ctx.fill();
       if (known) { ctx.lineWidth = 2; ctx.strokeStyle = '#4BE3E8'; ctx.stroke(); }
-      text(ctx, e.category, cx + 12, cy + 10, { size: 8, color: PALETTE.creamDim });
-      text(ctx, known ? e.name : '????????', cx + 12, cy + 24, { size: 12, bold: known, color: known ? PALETTE.cream : PALETTE.creamDim });
+      if (known) drawCodexArt(ctx, e, cx + 8, cy + 10, 30, time);
+      text(ctx, e.category, cx + 44, cy + 10, { size: 8, color: PALETTE.creamDim });
+      text(ctx, known ? e.name : '????????', cx + 44, cy + 22, { size: 11, bold: known, color: known ? PALETTE.cream : PALETTE.creamDim });
     });
   }
   function codexCellAt(mx, my) {

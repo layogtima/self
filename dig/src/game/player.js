@@ -19,7 +19,7 @@ export function makePlayer(spawnX, spawnY) {
     beam: null,               // {x,y} world target while the laser fires this frame
     tool: 'laser',            // 'laser' | 'scan' (Ctrl toggles)
     laserMk: 1,               // 1 | 2 | 3 - dig power 1/2/4 (upgrade at the pod)
-    inWater: false, inLava: false,
+    inWater: false, inLava: false, inBrine: false, inTar: false,
 
     cx() { return this.x + this.w / 2; },
     cy() { return this.y + this.h / 2; },
@@ -59,13 +59,25 @@ export function updatePlayer(p, world, dt) {
 
   // fluids: sample what the rover is submerged in (chassis centre)
   const fluid = world.fluidAt ? world.fluidAt(p.tx(), Math.floor(p.cy() / TILE)) : 0;
-  p.inWater = fluid === 4;
-  p.inLava = fluid === 5;
+  p.inWater = fluid === 4;   // T_WATER
+  p.inLava = fluid === 5;    // T_LAVA
+  p.inBrine = fluid === 7;   // T_BRINE
+  p.inTar = fluid === 8;     // T_TAR
   if (p.inWater) {
     // buoyancy: gentle sink, strong drag, jump = swim stroke upward
     p.vy = Math.min(p.vy + GRAVITY * 0.18 * dt, 90);
     p.vx *= 0.86; p.vy *= 0.9;
     if (p.jumpBuf > 0) { p.vy = -140; p.jumpBuf = 0; }
+  } else if (p.inBrine) {
+    // hypersaline = dense: you barely sink and pop out with one stroke
+    p.vy = Math.min(p.vy + GRAVITY * 0.08 * dt, 36);
+    p.vx *= 0.84; p.vy *= 0.86;
+    if (p.jumpBuf > 0) { p.vy = -175; p.jumpBuf = 0; }
+  } else if (p.inTar) {
+    // asphalt seep: everything is slow, strokes barely help - wade out shallow
+    p.vy = Math.min(p.vy + GRAVITY * 0.12 * dt, 24);
+    p.vx *= 0.7; p.vy *= 0.8;
+    if (p.jumpBuf > 0) { p.vy = -62; p.jumpBuf = 0; }
   } else if (p.chute || (!p.onGround && p.fastFallT > 0.35)) {
     // parachute: a long fast fall auto-deploys a canopy that eases you down
     p.chute = true;
@@ -77,9 +89,10 @@ export function updatePlayer(p, world, dt) {
   moveAndCollide(p, world, dt);
 
   // parachute bookkeeping: accumulate fast-fall time; stow the chute on landing
-  if (!p.onGround && !p.inWater && p.vy > 520) p.fastFallT += dt;
-  else if (p.vy < 200 || p.inWater) p.fastFallT = 0;
-  if (p.onGround || p.inWater) p.chute = false;
+  const inLiquid = p.inWater || p.inBrine || p.inTar;
+  if (!p.onGround && !inLiquid && p.vy > 520) p.fastFallT += dt;
+  else if (p.vy < 200 || inLiquid) p.fastFallT = 0;
+  if (p.onGround || inLiquid) p.chute = false;
 
   p.digCd = Math.max(0, p.digCd - dt);
   p.swingT = Math.max(0, p.swingT - dt);

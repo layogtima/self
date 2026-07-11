@@ -1,17 +1,18 @@
-// Flowing fluids - a bounded cellular automaton over the tile grid. Water and
-// lava spread DOWN, then sideways into adjacent AIR. Only tiles within a window
-// around the camera are processed, and only cells flagged "active" (recently
-// touched), so the whole world never simulates at once. Conserves volume: fluid
-// moves, it doesn't multiply, so a breached pool drains and settles.
+// Flowing fluids - a bounded cellular automaton over the tile grid. Water,
+// brine, tar and lava spread DOWN, then sideways into adjacent AIR, each at its
+// own VISCOSITY (config FLUID_SPECS: water pours, brine sloshes, lava creeps,
+// tar barely moves). Only tiles within a window around the camera are
+// processed, and only cells flagged "active" (recently touched), so the whole
+// world never simulates at once. Conserves volume: fluid moves, it doesn't
+// multiply, so a breached pool drains and settles.
 
-import { WORLD_W, WORLD_H, T_AIR, T_WATER, T_LAVA } from '../config.js';
+import { WORLD_W, WORLD_H, T_AIR, FLUID_SPECS } from '../config.js';
 
 export function makeFluids(world) {
   const tiles = world.tiles;
   const active = new Set();            // packed indices to (re)check
-  const lavaSpeed = 0.35;              // lava flows slower (checked prob per frame)
 
-  const isFluid = t => t === T_WATER || t === T_LAVA;
+  const isFluid = t => FLUID_SPECS[t] !== undefined;
 
   /** mark a cell + neighbours active (call when something changes near it) */
   function wake(tx, ty) {
@@ -51,7 +52,7 @@ export function makeFluids(world) {
         const t = tiles[i];
         if (!isFluid(t)) continue;
         const x = i % WORLD_W, y = (i / WORLD_W) | 0;
-        if (t === T_LAVA && Math.random() > lavaSpeed) { next.add(i); continue; }
+        if (Math.random() > FLUID_SPECS[t].visc) { next.add(i); continue; }   // viscosity gate
 
         // 1) fall straight down
         const below = (y + 1) * WORLD_W + x;

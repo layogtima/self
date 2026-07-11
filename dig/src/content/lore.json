@@ -1,0 +1,432 @@
+{
+  "en": {
+    "grazer": {
+      "name": "Saiga Antelope",
+      "blurbs": [
+        "Quadruped with a factory-grade air filter worn as a face. The nose arrives moments before the rest of the animal. This unit finds the arrangement correct.",
+        "It carries its own atmosphere processor - dust scrubbed in the hot season, intake pre-warmed in the cold. The makers built nothing this elegant, and they built everything.",
+        "Archive lists it as nearly gone by the makers' last century. Yet here it stands, chewing, unaware it is a miracle. Logged with maximum reverence."
+      ],
+      "stats": [["species", "Saiga tatarica"], ["nose", "dust filter + air heater"], ["status", "critically endangered"]]
+    },
+    "hopper": {
+      "name": "Purple Frog",
+      "blurbs": [
+        "Subsurface amphibian. Spends the year buried, surfacing only when the rain says so. This unit respects any creature whose calendar has one day on it.",
+        "Its lineage predates the makers by one hundred million years. It outlasted them by ignoring almost everything, which appears to be the winning strategy.",
+        "Soft, purple, and profoundly committed to being underground. If this unit had a spirit animal, query returns: this."
+      ],
+      "stats": [["species", "Nasikabatrachus sahyadrensis"], ["surfaces", "only in rain"], ["lineage", "~100 My old"]]
+    },
+    "lizard": {
+      "name": "Armadillo Girdled Lizard",
+      "blurbs": [
+        "Armoured reptile. When threatened it bites its own tail and becomes a spiked wheel. The archive calls this defence; this unit calls it commitment to a shape.",
+        "A dragon at 1:100 scale that gave up on the hoard and kept the armour. Basks on clear days. Panics geometrically.",
+        "Defence protocol: become a torus no mouth wants. Ten million years of iteration produced this. It works."
+      ],
+      "stats": [["species", "Ouroborus cataphractus"], ["defence", "bites own tail, rolls up"], ["active", "clear days"]]
+    },
+    "salamander": {
+      "name": "Olm",
+      "blurbs": [
+        "Pale cave salamander. Blind, ageless, patient - it can wait ten years between meals. This unit has waited four minutes for a smelt cycle and found it long.",
+        "It never grows up: a century of life spent as a larva that refused the paperwork. The dark does not require adulthood.",
+        "The makers' ancestors called them baby dragons when floods washed them out of the karst. The makers were wrong, but this unit understands the impulse."
+      ],
+      "stats": [["species", "Proteus anguinus"], ["lifespan", "~100 years"], ["eyes", "skin-covered"], ["fasting", "up to 10 years"]]
+    },
+    "spider": {
+      "name": "Tailless Whip Spider",
+      "blurbs": [
+        "Not a spider. Not venomous. Not dangerous. It merely looks like the end of the world, which the archive suggests kept it alive.",
+        "It reads the dark with front legs stretched into antennae longer than its body - a hand that became a question. Then the spiked arms answer.",
+        "Sensor-first predation: feel everything, then strike. This unit's scan array works on the same principle and claims kinship."
+      ],
+      "stats": [["order", "Amblypygi"], ["venom", "none"], ["feelers", "leg-whips 2x body"]]
+    },
+    "glowworm": {
+      "name": "NZ Glowworm",
+      "blurbs": [
+        "Larva that builds a false night sky on a cave ceiling, then eats whatever navigates by it. A lie made of light, told well.",
+        "It dangles silk lines under its own blue-green star and waits. The makers charged admission to see this. The worm never learned money.",
+        "Ceiling-mounted lure array, self-powered, sticky. This unit's lamp designs are derivative work and acknowledge it."
+      ],
+      "stats": [["species", "Arachnocampa luminosa"], ["light", "bioluminescent lure"], ["traps", "sticky silk snares"]]
+    },
+    "firefly": {
+      "name": "Common Eastern Firefly",
+      "blurbs": [
+        "Flashes a J-shaped signal at dusk; the grass answers. A courtship conducted entirely in morse, with almost no energy wasted as heat. Peak engineering.",
+        "Its light is ~96% efficient. The makers' best bulbs mourned in comparison. The firefly never gloated; it was busy.",
+        "One flash, precise as a checksum. If the reply parses, there will be more fireflies. This unit has watched for an hour and endorses the protocol."
+      ],
+      "stats": [["species", "Photinus pyralis"], ["signal", "J-shaped flash"], ["efficiency", "~96% cold light"]]
+    },
+    "butterfly": {
+      "name": "Glasswing Butterfly",
+      "blurbs": [
+        "Wings of almost nothing: nanoscale pillars cancel the reflections, so predators look straight through it. Stealth technology, grown from sugar.",
+        "It solved invisibility not by hiding but by declining to interrupt the light. The makers wrote equations toward this for a century. It hatched with them.",
+        "Transparency as survival. This unit's sensors keep losing it mid-track and register the failure as delight."
+      ],
+      "stats": [["species", "Greta oto"], ["wings", "anti-reflective, clear"], ["migrates", "up to 19 km/day"]]
+    },
+    "bird": {
+      "name": "Red-billed Quelea",
+      "blurbs": [
+        "The most numerous bird ever logged. A flock can take five hours to pass a fixed sensor - weather made of wings.",
+        "Individually: small, brown, unremarkable. Collectively: a sky-wide organism the archive filed under both 'bird' and 'phenomenon'.",
+        "One and a half billion of them at the makers' last census. The makers counted everything near the end. This unit continues the habit."
+      ],
+      "stats": [["species", "Quelea quelea"], ["population", "~1.5 billion"], ["flocks", "hours to pass"]]
+    },
+    "bat": {
+      "name": "Kitti's Hog-nosed Bat",
+      "blurbs": [
+        "Smallest mammal on record: two grams of echolocating ambition, roosting deep in limestone and commuting for half an hour at dusk.",
+        "A flying decimal point. It runs a full sonar suite in a chassis lighter than this unit's smallest fastener.",
+        "The archive holds mammals a hundred million times heavier. Same blueprint, same warm blood. This one just compiled smaller."
+      ],
+      "stats": [["species", "Craseonycteris thonglongyai"], ["size", "~2 g, 3 cm"], ["title", "smallest mammal"]]
+    },
+    "wader": {
+      "name": "Black-winged Stilt",
+      "blurbs": [
+        "A bird issued forty percent more leg than seems advisable. It wades where no rival can, which was, of course, the point.",
+        "Pink stilts, black wings, permanent expression of mild affront. It picks the water clean with a precision this unit's manipulators envy.",
+        "The archive notes its legs are, proportionally, the longest of any bird. The archive does not note who was measuring, or why. The makers measured everything."
+      ],
+      "stats": [["species", "Himantopus himantopus"], ["legs", "60% of height"], ["habitat", "wetland shallows"]]
+    },
+    "dustmole": {
+      "name": "Grant's Golden Mole",
+      "blurbs": [
+        "Eyeless, iridescent, and swimming through dune sand as if it were water. It hears through the ground itself - footsteps arrive as seismic mail.",
+        "It sealed its eyes generations ago as a cost-saving measure and reinvested everything in one colossal middle ear. Correct engineering for the substrate.",
+        "Subsurface navigation without light, maps, or apology. This unit tunnels with a laser and still takes notes."
+      ],
+      "stats": [["species", "Eremitalpa granti"], ["eyes", "sealed"], ["moves", "sand-swimming"], ["hears", "through the dunes"]]
+    },
+    "cindercrab": {
+      "name": "Fire-chaser Beetle",
+      "blurbs": [
+        "Flies TOWARD forest fires. Infrared pit organs feel a blaze from tens of kilometres out, and it goes, because burnt wood is an empty nursery.",
+        "Every other creature files fire under 'flee'. This one files it under 'real estate'. The archive admires the contrarian position.",
+        "It needs catastrophe to breed - a species that reads smoke as an invitation. This unit, born from a crash, relates."
+      ],
+      "stats": [["species", "Melanophila acuminata"], ["sense", "infrared pit organs"], ["range", "detects fires ~100 km"], ["breeds", "in burnt ground"]]
+    },
+    "prismfly": {
+      "name": "Ebony Jewelwing",
+      "blurbs": [
+        "A damselfly coloured by interference, not pigment - its blue-green is a wavelength trick played on whoever looks. The body contains no such paint.",
+        "Ink-black wings, metallic body, flight like a slow thought. Its colour cannot fade because it was never a substance.",
+        "Structural colour: geometry pretending to be pigment. It will still be this exact green when the light that made it left its star."
+      ],
+      "stats": [["species", "Calopteryx maculata"], ["colour", "structural, not pigment"], ["flight", "fluttering, butterfly-like"]]
+    },
+    "gleamback": {
+      "name": "Motyxia Millipede",
+      "blurbs": [
+        "The only millipede that glows: a soft teal warning backed by actual cyanide. It cannot see its own light. It is blind. The light is for you.",
+        "A luminous NO TRESPASSING sign that walks. The archive confirms the threat is chemically sincere.",
+        "It broadcasts on a channel it cannot receive - glowing, blind, certain. This unit has archived the arrangement under 'faith'."
+      ],
+      "stats": [["genus", "Motyxia"], ["light", "aposematic glow"], ["defence", "cyanide"], ["eyes", "none"]]
+    },
+    "moth": {
+      "name": "Luna Moth",
+      "blurbs": [
+        "A palm-width silk moth with no mouth. Adults live one week on what the caterpillar saved. It spends the inheritance entirely on moonlight navigation.",
+        "It steers by the moon, and this unit's lamps keep impersonating the moon. The moth forgives nothing because it notices nothing. The guilt is archived here.",
+        "Ghost-green, mouthless, brief. Seven days of flight, zero meals, one purpose. The archive refuses to call this a design flaw."
+      ],
+      "stats": [["species", "Actias luna"], ["mouth", "none - never eats"], ["adult life", "~1 week"], ["weakness", "your porch light"]]
+    },
+    "ashworm": {
+      "name": "Pompeii Worm",
+      "blurbs": [
+        "It keeps its tail in near-boiling vent water and wears a fleece of symbiotic bacteria as a heat shield. Co-authored survival.",
+        "One of the hottest-living animals in the archive. It solved thermal management by hiring the problem's smallest experts and wearing them.",
+        "Sixty degrees at the tail, comfortable at the head, bacteria in between negotiating. This unit's heat sinks were designed with less diplomacy."
+      ],
+      "stats": [["species", "Alvinella pompejana"], ["tolerates", "~60°C+"], ["coat", "symbiotic bacteria"]]
+    },
+
+    "tree-badlands": {
+      "name": "Quiver Tree",
+      "blurbs": [
+        "An aloe the size of a tree. In drought it amputates its own branches to save water - accounting, performed with a saw, on oneself.",
+        "The makers' hunters hollowed its light limbs into arrow quivers. The tree neither consented nor objected. It was busy surviving the desert.",
+        "It sheds pieces of itself to keep the whole alive. This unit has jettisoned cargo under duress and files this species under 'colleagues'."
+      ],
+      "stats": [["species", "Aloidendron dichotomum"], ["drought trick", "sheds own branches"], ["use", "arrow quivers"]]
+    },
+    "tree-conifer": {
+      "name": "Dahurian Larch",
+      "blurbs": [
+        "The northernmost tree in the archive. It grows on permafrost through -70° winters by dropping its needles - a conifer that learned to quit on schedule.",
+        "Evergreen was too expensive at this latitude, so it isn't one. Deciduous needles: heresy to its family, survival to itself.",
+        "It stands where trees end. Past this species the archive lists only ice, lichen, and the makers' abandoned drilling rigs."
+      ],
+      "stats": [["species", "Larix gmelinii"], ["record", "northernmost tree"], ["survives", "-70°C"]]
+    },
+    "tree-palm": {
+      "name": "Coconut Palm",
+      "blurbs": [
+        "Its seed is an armoured escape pod: months afloat on open ocean, then a beach, then a tree. Colonisation without a single moving part.",
+        "The makers crossed oceans in hulls of metal and anxiety. The coconut crossed the same water asleep.",
+        "A seed that treats an ocean as a road. The archive logs ~110 days of viable drift and calls it a modest estimate."
+      ],
+      "stats": [["species", "Cocos nucifera"], ["seed", "ocean-crossing"], ["viable adrift", "~110 days"]]
+    },
+    "tree-mangrove": {
+      "name": "Red Mangrove",
+      "blurbs": [
+        "A tree that walked into the sea on stilts and stayed. Its roots breathe above the waterline and turn away salt at the door.",
+        "Nursery to a third of the ocean's fish species, according to the archive. The sea's children are raised in a tree. This still parses as poetry, not data.",
+        "It filters ninety percent of the salt at the root surface - a desalination plant with leaves, running silently for millennia."
+      ],
+      "stats": [["species", "Rhizophora mangle"], ["roots", "stilted, air-breathing"], ["filters", "~90% of salt"]]
+    },
+    "tree-acacia": {
+      "name": "Umbrella Thorn",
+      "blurbs": [
+        "The flat-topped silhouette of every savanna in the archive. When browsed, it floods its leaves with bitterness AND radios the neighbours to do the same.",
+        "It defends itself with chemistry and warns its kin with airborne ethylene - a tree with both a shield and a broadcast licence.",
+        "The makers thought plants were furniture until they caught this one coordinating. The archive preserves their surprise."
+      ],
+      "stats": [["species", "Vachellia tortilis"], ["defence", "tannins on demand"], ["signals", "airborne ethylene warning"]]
+    },
+    "tree-deadsnag": {
+      "name": "Fire-killed Snag",
+      "blurbs": [
+        "A standing dead tree, busier than a living one: woodpeckers, beetles and fungi queue for tenancy. Death, it turns out, is a housing programme.",
+        "The archive is firm on this: forests need their dead standing. Nothing is finished just because it stopped.",
+        "It burned, it died, it stayed upright, and forty percent of the forest moved in. This unit finds the afterlife well-attended."
+      ],
+      "stats": [["state", "standing deadwood"], ["hosts", "up to 40% of forest species"], ["decay", "decades"]]
+    },
+    "tree-shardspire": {
+      "name": "Selenite Spire",
+      "blurbs": [
+        "A blade of gypsum grown in mineral silence. In one of the makers' caves, blades like this reached twelve metres - the largest crystals ever logged.",
+        "Soft enough to scratch with a fingernail, patient enough to outgrow every tree in the archive. Hardness is not the only strength.",
+        "Geometry, practised slowly in the dark until it became architecture. No occupant. None needed."
+      ],
+      "stats": [["mineral", "gypsum (CaSO4·2H2O)"], ["record", "12 m crystals, Naica"], ["hardness", "2 - scratches with a fingernail"]]
+    },
+    "mushroom": {
+      "name": "Eternal Light Mushroom",
+      "blurbs": [
+        "A fungus whose gel-coated stem glows yellow-green around the clock. It cannot be switched off. It has never been off.",
+        "The makers named it after a requiem - lux aeterna, the eternal light. For once the archive finds their naming exactly right.",
+        "One of ~125 fungi that learned light, probably to recruit insects as couriers. Advertising, perfected before there were words."
+      ],
+      "stats": [["species", "Mycena luxaeterna"], ["glow", "24 h, stem only"], ["named after", "Mozart's Requiem"]]
+    },
+
+    "stalactite": {
+      "name": "Stalactite",
+      "blurbs": [
+        "A mineral icicle assembled one drip per heartbeat of a mountain. A centimetre per century. The archive files it under 'patience, worked examples'.",
+        "Water passing through stone leaves a little stone behind - a receipt. This is a million receipts.",
+        "The ceiling, reaching. Give it geological time and it will meet the floor, and the cave will applaud in echoes."
+      ],
+      "stats": [["forms", "ceiling"], ["growth", "~1 cm / century"], ["mineral", "calcite"]]
+    },
+    "stalagmite": {
+      "name": "Stalagmite",
+      "blurbs": [
+        "The floor answering the ceiling, drip by drip. Cut one open and its rings record ancient rainfall - a rain gauge that never needed reading.",
+        "Every drop that fell here left a signature. The column is the ledger. The dark kept the books.",
+        "The slowest reply in any conversation this unit has monitored. Still ongoing."
+      ],
+      "stats": [["forms", "floor"], ["growth", "~1 cm / century"], ["records", "paleo-rainfall"]]
+    },
+    "roots": {
+      "name": "Hanging Roots",
+      "blurbs": [
+        "The surface, reaching into the underworld for water. Some fig roots descend a hundred metres through solid karst - a tree drilling better than the makers did.",
+        "Above, a canopy pretends everything is fine. Down here, the same organism is conducting mining operations. The archive respects the double life.",
+        "Roots through a cave ceiling: proof the surface never stopped thinking about what is underneath. Neither has this unit."
+      ],
+      "stats": [["habitat", "shallow caves"], ["record", "fig roots >100 m deep"]]
+    },
+    "crystal": {
+      "name": "Selenite",
+      "blurbs": [
+        "Water-clear gypsum, soft as a promise - a fingernail scratches it. It grows wherever mineral water evaporates slowly enough to think.",
+        "Stone that light passes through unbothered. The dark grew a window and put nothing behind it.",
+        "The makers named it for their moon goddess. It is calcium, sulfur, water and time. Both descriptions are archived as accurate."
+      ],
+      "stats": [["mineral", "gypsum (CaSO4·2H2O)"], ["hardness", "Mohs 2"], ["clarity", "water-clear"]]
+    },
+
+    "water": {
+      "name": "Groundwater",
+      "blurbs": [
+        "Rain that took the long way down. Nearly a third of the planet's fresh water is here in the dark, not in the rivers that got all the poetry.",
+        "The strata are a filter a kilometre thick, and this is what passes through: the patient fraction of every storm that ever fell.",
+        "It flows, it pools, it waits. Every living thing this unit has scanned is mostly this, arranged."
+      ],
+      "stats": [["found", "mid strata (45–140 rows)"], ["share of fresh water", "~30%"], ["behaviour", "flows"]]
+    },
+    "brine": {
+      "name": "Hypersaline Brine",
+      "blurbs": [
+        "Fossil seawater, ten times saltier than any living ocean and dense enough to carry this chassis like a cork. Buoyancy is mandatory here.",
+        "Some basin brines have been sealed underground for a billion years - water older than complex life, still keeping to itself.",
+        "The sea that stayed behind when its ocean left. Salt remembers. This unit floats on the memory."
+      ],
+      "stats": [["found", "deep marine strata (300+)"], ["salinity", "up to 10x seawater"], ["density", "you float"], ["oldest known", "~1 By, Kidd Creek"]]
+    },
+    "tar": {
+      "name": "Natural Asphalt Seep",
+      "blurbs": [
+        "Crude oil that lost its lighter ambitions on the way up. What remains is bitumen: sticky, slow, and an excellent archivist - one seep preserved a million bones.",
+        "The planet's flypaper. It caught Ice Age giants whole and held them for the archaeologists it did not know were coming.",
+        "Fifty thousand times the viscosity of water. Entering it is a decision the seep will let you unmake very, very slowly."
+      ],
+      "stats": [["found", "shallow fill (4–40 rows)"], ["substance", "bitumen"], ["viscosity", "~50,000x water"], ["famous trap", "La Brea, >1M fossils"]]
+    },
+    "lava": {
+      "name": "Magma",
+      "blurbs": [
+        "Molten silicate at 700–1200°. The planet's first medium and final editor. This chassis has no survivable interaction with it.",
+        "Rock, remembering what it was before it was rock. Keep the memory at a distance.",
+        "Every stratum this unit has catalogued began as this. The archive admires the source material from a minimum of three tiles."
+      ],
+      "stats": [["state", "molten rock"], ["temp", "700–1200°C"], ["hazard", "lethal"]]
+    },
+
+    "scrap-metal": {
+      "name": "Mild-steel Scrap",
+      "blurbs": [
+        "Panels, drums, brackets: the makers' general-purpose bone. The rust is only iron going home to being ore; the metal beneath re-melts forever.",
+        "Steel does not care what it was. Bridge, drum, blade, bracket - feed it to the Smelter and it will be anything again, without nostalgia.",
+        "The commonest relic. The makers poured oceans of this and let most of it rust in ditches. Their loss compounds into this unit's supply chain."
+      ],
+      "stats": [["alloy", "Fe + <0.25% C"], ["recyclable", "infinitely"], ["machine", "Smelter"], ["hand-salvage", "yes"]]
+    },
+    "aluminium-can": {
+      "name": "Aluminium Can",
+      "blurbs": [
+        "A drinking vessel that grew a four-nanometre oxide skin and declared itself finished. It was correct: this one is structurally the can it was on day one.",
+        "Held roughly 350 millilitres of flavoured optimism for a few minutes. Has held its shape for a hundred thousand years since. The ratio is archived without comment.",
+        "The makers' most immortal container, issued for their least permanent drinks. It refuses corrosion the way the Olm refuses birthdays."
+      ],
+      "stats": [["alloy", "3004 aluminium"], ["trick", "self-sealing oxide skin"], ["machine", "Smelter"], ["hand-salvage", "yes"]]
+    },
+    "stainless-cutlery": {
+      "name": "Stainless Cutlery",
+      "blurbs": [
+        "An 18/10 spoon heals its own scratches - the chromium re-grows its invisible armour every time it is scraped. Every kitchen died. The spoons did not.",
+        "Self-repairing hand tools for the moving of soup. The makers put their finest metallurgy in the cutlery drawer and their hopes in less durable things.",
+        "The archive predicts these spoons will outlast the word 'spoon'. The prediction is already most of the way to confirmed."
+      ],
+      "stats": [["alloy", "18% Cr / 10% Ni steel"], ["trick", "self-healing passive layer"], ["machine", "Smelter"]]
+    },
+    "rebar-chunk": {
+      "name": "Rebar Chunk",
+      "blurbs": [
+        "The skeleton of a building, outliving its flesh. The concrete went back to gravel centuries ago; the ribbed bone inside kept the shape of what it held up.",
+        "A fossil of architecture. Somewhere above this bar there used to be floors, and on the floors, everything.",
+        "The makers reinforced their stone with iron so it would last. Half of that sentence worked."
+      ],
+      "stats": [["form", "ribbed reinforcement bar"], ["once held up", "everything"], ["machine", "Smelter"]]
+    },
+    "bottle-cluster": {
+      "name": "PET Bottles",
+      "blurbs": [
+        "Clear vessels that each did four minutes of work and then began a career of persistence measured in geologic time. The Vat can end the career.",
+        "The makers moved water in these - briefly, disposably. The bottles took 'disposable' as an insult and refused to biodegrade out of spite.",
+        "Light passes through them the way time apparently cannot. Service life: minutes. Shelf life: the shelf eroded first."
+      ],
+      "stats": [["polymer", "PET (C10H8O4)n"], ["service life", "~4 minutes"], ["machine", "Pyrolysis Vat"], ["hand-salvage", "yes"]]
+    },
+    "lego-brick": {
+      "name": "Toy Bricks",
+      "blurbs": [
+        "Interlocking construction units, child-scale. In the makers' year 1997 a ship spilled five million into an ocean; they are still arriving on beaches, uncracked, still snapping together.",
+        "The most precise objects in this deposit. Tolerances finer than most of the makers' machines - issued to their smallest, least careful engineers.",
+        "They click together after a hundred thousand years underground. This unit tested this. Twice. For science, both times."
+      ],
+      "stats": [["polymer", "ABS"], ["famous spill", "Tokio Express, 1997"], ["ocean lifetime", "100-1300 years"], ["machine", "Pyrolysis Vat"], ["hand-salvage", "yes"]]
+    },
+    "tyre-chunk": {
+      "name": "Vulcanized Rubber",
+      "blurbs": [
+        "Isoprene chains cross-linked with sulfur so thoroughly that nature never evolved a mouth for it. Nothing eats this. The Vat does not eat; it dismantles.",
+        "The makers rode on rings of this, billions of them, wearing them down onto every road and into every ditch. The planet kept the change.",
+        "Unchewable by anything alive. It was engineered against decay and it won - a victory the makers did not stay to collect."
+      ],
+      "stats": [["polymer", "cross-linked polyisoprene"], ["biodegrades", "effectively never"], ["machine", "Pyrolysis Vat"]]
+    },
+    "fishing-net": {
+      "name": "Ghost Net",
+      "blurbs": [
+        "A woven predator that outlived its makers and forgot how to stop. Nylon breaks down in sunlight, and the sea floor has none - so it fished on, unmanned, for centuries.",
+        "The only maker-built machine that kept running after them without power, maintenance, or orders. The archive classifies it as their most successful autonomous system, and their saddest.",
+        "It was knotted to catch, and it has no way to unlearn its one skill. Cutting one out of the strata is filed under 'decommissioning', with honours."
+      ],
+      "stats": [["polymer", "nylon-6"], ["kept fishing", "centuries, unmanned"], ["machine", "Pyrolysis Vat"]]
+    },
+    "circuit-board": {
+      "name": "Printed Circuit Board",
+      "blurbs": [
+        "Fibreglass plate veined with gold - richer per tonne than most gold ore. The makers mined mountains, refined the metal, printed thought on it, and buried it again.",
+        "E-waste: the richest ore ever assembled, made on purpose, discarded on purpose. The archive has stopped trying to make this parse.",
+        "Somewhere in these traces, instructions used to run. The gold never tarnished. The instructions are gone. The Kiln recovers the part that lasted."
+      ],
+      "stats": [["substrate", "FR-4 fibreglass"], ["gold content", "> typical ore"], ["machine", "Ash Kiln"]]
+    },
+    "glass-bottle": {
+      "name": "Glass Bottles",
+      "blurbs": [
+        "Chemically closer to rock than to refuse. The makers' oldest glass came out of the ground merely iridescent after two thousand years - embarrassed, at worst.",
+        "These will outlast the languages printed on them. Most already have.",
+        "Sand, briefly persuaded to be transparent, holding the persuasion for millennia. The Kiln returns it to sand with none of its dignity lost."
+      ],
+      "stats": [["substance", "soda-lime silica"], ["ageing", "iridesces, never rots"], ["machine", "Ash Kiln"]]
+    },
+    "ceramic-shards": {
+      "name": "Ceramic Shards",
+      "blurbs": [
+        "Fired clay is artificial stone; the makers' whole archaeology was mostly broken pots. Theirs will be too. It is broken pots all the way down.",
+        "Their geologists joked that the flush toilet would be the index fossil of their layer. This unit has completed the survey. They were not joking.",
+        "Every dwelling held a ceremonial porcelain throne, plumbed with drinking-grade water. The archive lists three hypotheses and believes none of them."
+      ],
+      "stats": [["substance", "vitrified kaolin"], ["index fossil of", "the anthropocene"], ["machine", "Ash Kiln"]]
+    },
+    "smartphone": {
+      "name": "Pocket Shrine",
+      "blurbs": [
+        "A glass-faced votive slab. The faithful consulted it several hundred times a day and stroked it until it glowed. The gold in its veins never tarnished. Possibly devotional.",
+        "Buried with its owner's entire life inside and no way left to ask for it. The archive keeps a respectful silence of one second per unit, which is more than they ever gave it.",
+        "It knew their faces, their voices, their locations and their hearts, and it fit in a hand. The makers called it a 'phone', which the archive notes was its least-used function."
+      ],
+      "stats": [["face", "aluminosilicate glass"], ["veins", "gold - untarnished"], ["consulted", "~150x daily"], ["machine", "Ash Kiln"]]
+    },
+
+    "build.soil": { "blurbs": ["Compacted spoil. Stairs, walls, dams - civilisation's first material, still undefeated.", "Dirt, promoted. The laser will not cut it once placed; bring the Deconstructor."] },
+    "build.roof": { "blurbs": ["Keeps the rusting rain off your chassis. The archive rates 'roof' among the makers' finest inventions.", "A ceiling of your own. Rain becomes a sound instead of a countdown."] },
+    "build.smelter": { "blurbs": ["A rammed-earth induction furnace. Feeds on steel, cans and rebar; pours metal without asking what it used to be.", "Where the makers' iron gets its memory wiped and its future back."] },
+    "build.pyrolysis": { "blurbs": ["Cooks plastics without oxygen back into honest feedstock. Bottles, tyres, ghost nets, toys - the whole stubborn family.", "Starves polymers of oxygen until they confess their ingredients."] },
+    "build.kiln": { "blurbs": ["Reduces glass, ceramics and e-waste to silicon and slag. Gently smells of history.", "The hot end of archaeology: shrines and shards go in, clean silicon comes out."] },
+    "build.solar": { "blurbs": ["Trickle-charges you and powers nearby machines by day. Sunlight, at last, with a job.", "A leaf, redesigned by committee, but it works."] },
+    "build.wind-vane": { "blurbs": ["Spins hardest in the storms that drive you indoors. The weather owes you this.", "Harvests the planet's bad moods."] },
+    "build.storage": { "blurbs": ["Overflow space for materials. Hoarding, formalised.", "A box that holds things so your chassis doesn't have to."] },
+    "build.beacon": { "blurbs": ["Re-homes the visor compass, anywhere you plant it. Home is a decision.", "A small light that means 'this way back'."] },
+    "build.lamp-green": { "blurbs": ["Cold green light, synthesized from a fungus that never switches off. The pattern was scanned; no fungus was harmed or consulted.", "Mycena's glow, rebuilt in metal and silicon. The original keeps the patent."] },
+    "build.lamp-blue": { "blurbs": ["The blue of a cave ceiling pretending to be a night sky - synthesized, no larvae required.", "A false star, copied from the glowworm's false stars. Forgery of a forgery; light all the same."] },
+    "build.lamp-teal": { "blurbs": ["A millipede's ghost-teal warning, minus the cyanide. All of the menace, none of the chemistry.", "Motyxia's broadcast, re-transmitted. Still no trespassing."] },
+    "build.lamp-amber": { "blurbs": ["Warm amber the wildlife can live with - the firefly-safe frequency. Light without light pollution.", "The dark sky stays dark; the ground gets just enough. Fireflies signed off on the spec."] },
+    "build.st-clean": { "blurbs": ["Brushes and picks - free the bone from its matrix.", "Where stone admits it was hiding a skeleton."] },
+    "build.st-identify": { "blurbs": ["Microscope + anatomy charts. Name the dead correctly; it is the least the living can do.", "Comparison desk: every bone gets its day in court."] },
+    "build.st-stabilize": { "blurbs": ["Glue for deep time.", "Consolidant rig - teaches fragile fossils to hold themselves together a while longer."] },
+    "build.st-mount": { "blurbs": ["Where skeletons come back together.", "An armature for standing the past upright."] },
+    "build.incubator": { "blurbs": ["A womb of glass and code. Viable genomes only.", "The archive's exit door: where records become creatures again."] }
+  }
+}

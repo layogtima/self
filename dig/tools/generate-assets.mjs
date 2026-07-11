@@ -222,6 +222,24 @@ function buildJobs() {
     });
   }
 
+  // biome parallax backdrops (v4.5): wide horizon paintings the sky wears per
+  // biome, crossfaded as you cross borders (render/backdrop.js)
+  for (const [id, prompt] of [
+    ['tundra', 'wide pixel art landscape background, distant view: snowy jagged mountain range behind a dark larch conifer treeline and a cold still lake, pale sky, layered depth, no characters'],
+    ['wetland', 'wide pixel art landscape background, distant view: misty mangrove marsh flats with standing water channels and reed banks under a soft green-grey sky, layered depth, no characters'],
+    ['badlands', 'wide pixel art landscape background, distant view: striped sedimentary mesa buttes and dry canyons in warm terracotta and tan bands, hazy distance, layered depth, no characters'],
+    ['savanna', 'wide pixel art landscape background, distant view: golden grass plain with scattered flat-top acacia tree silhouettes and distant blue hills, warm sky, layered depth, no characters'],
+    ['ashflats', 'wide pixel art landscape background, distant view: grey volcanic ash plain with bleached dead tree snags and one distant smoking cinder cone, muted sky, layered depth, no characters'],
+    ['crystal', 'wide pixel art landscape background, distant view: pale gypsum dune field with clusters of tall translucent violet selenite crystal spires, soft lilac sky, layered depth, no characters'],
+    ['coast', 'wide pixel art landscape background, distant view: green coastal headlands stepping down to a calm sea horizon with scattered palm tree silhouettes, bright sky, layered depth, no characters'],
+  ]) {
+    jobs.push({
+      cat: 'backdrops', id: `backdrop-${id}`,
+      livePath: join(ROOT, 'assets/sprites/backdrops', `${id}.png`),
+      payload: { prompt, width: 384, height: 216, num_images: 1, prompt_style: 'rd_fast__game_asset', input_palette: PALETTE_B64 },
+    });
+  }
+
   // lab station machines
   for (const [id, prompt] of [
     ['station-clean', 'small wooden workbench with brushes, dental picks and a fossil tray, side view game asset'],
@@ -235,6 +253,18 @@ function buildJobs() {
       payload: { prompt, width: 64, height: 64, num_images: 1, prompt_style: 'rd_fast__game_asset', remove_bg: true, input_palette: PALETTE_B64 },
     });
   }
+
+  // UI textures
+  jobs.push({
+    cat: 'ui', id: 'table-wood',
+    livePath: join(ROOT, 'assets/sprites/ui/table-wood.png'),
+    payload: {
+      prompt: 'seamless dark walnut wood plank texture, deep espresso brown, fine horizontal wood grain lines, one subtle knot',
+      width: 64, height: 64, num_images: 1,
+      prompt_style: 'rd_fast__texture', tile_x: true, tile_y: true,
+      input_palette: PALETTE_B64,
+    },
+  });
 
   // social share card (Open Graph / Twitter). Wide 16:9 pixel scene.
   jobs.push({

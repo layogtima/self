@@ -23,9 +23,21 @@ export const T_AIR = 0;
 export const T_ROCK = 1;            // stratum rock - which stratum comes from depth
 export const T_PLACED = 2;          // player-placed soil
 export const T_BEDROCK = 3;
-export const T_WATER = 4;           // flowing water (buoyant)
+export const T_WATER = 4;           // flowing groundwater (buoyant)
 export const T_LAVA = 5;            // glowing lava (deadly, knocks you back to base)
 export const T_ROOF = 6;            // player-built roof panel (solid; stops rain; counts as cover)
+export const T_BRINE = 7;           // hypersaline groundwater (deep aquifers; extra buoyant)
+export const T_TAR = 8;             // natural asphalt seep (La Brea-style; barely flows, grips)
+export const T_RUBBLE = 9;          // cave-in debris: diggable loose fill (built tiles are NOT -
+                                    // T_PLACED/T_ROOF only come down via the Deconstructor)
+
+// per-fluid viscosity: probability a cell advances each CA frame (1 = watery)
+export const FLUID_SPECS = {
+  [T_WATER]: { visc: 1.0 },
+  [T_BRINE]: { visc: 0.8 },
+  [T_LAVA]: { visc: 0.3 },
+  [T_TAR]: { visc: 0.12 },
+};
 
 // -- power (the probe's battery; traversal is always free - never a hard death)
 export const POWER_CAP = 100;

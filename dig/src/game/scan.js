@@ -4,7 +4,7 @@
 // feature (game/features.js is the ground truth - scan never names something
 // the render doesn't draw), a fluid tile, surface flora, or the rock itself.
 
-import { TILE, T_WATER, T_LAVA, T_AIR, T_ROCK } from '../config.js';
+import { TILE, T_WATER, T_LAVA, T_BRINE, T_TAR, T_AIR, T_ROCK } from '../config.js';
 import { biomeAtX } from '../content/biomes.js';
 import { caveFeaturesAt, sceneryAt, HARVESTABLE } from './features.js';
 
@@ -26,7 +26,7 @@ export function resolveScan(wx, wy, world, creatures) {
   }
   if (best) {
     const [sw, sh] = best.size || [14, 12];
-    return { id: best.kind, kind: 'creature', x: best.x - sw / 2 - 3, y: best.y - sh - 3, w: sw + 6, h: sh + 6 };
+    return { id: best.kind, kind: 'creature', ref: best.ref || null, x: best.x - sw / 2 - 3, y: best.y - sh - 3, w: sw + 6, h: sh + 6 };
   }
 
   const tx = Math.floor(wx / TILE), ty = Math.floor(wy / TILE);
@@ -36,6 +36,8 @@ export function resolveScan(wx, wy, world, creatures) {
   // 2) fluids under the reticle
   if (t === T_WATER) return { id: 'water', kind: 'fluid', ...tileRect };
   if (t === T_LAVA) return { id: 'lava', kind: 'fluid', ...tileRect };
+  if (t === T_BRINE) return { id: 'brine', kind: 'fluid', ...tileRect };
+  if (t === T_TAR) return { id: 'tar', kind: 'fluid', ...tileRect };
 
   // 3) cave decorations - EXACTLY what the render draws (features.js)
   const f = caveFeaturesAt(world, tx, ty);
@@ -62,8 +64,12 @@ export function resolveScan(wx, wy, world, creatures) {
     return null;
   }
 
-  // 5) the rock sample itself
-  if (t === T_ROCK) return { id: `rock-${world.stratumAt(tx, ty).id}`, kind: 'rock', ...tileRect };
+  // 5) a buried garbage deposit reads through the rock (tell scrap from bottles)
+  if (t === T_ROCK) {
+    const g = world.garbageAt?.(tx, ty);
+    if (g) return { id: g.type, kind: 'salvage', ...tileRect };
+    return { id: `rock-${world.stratumAt(tx, ty).id}`, kind: 'rock', ...tileRect };
+  }
   return null;
 }
 

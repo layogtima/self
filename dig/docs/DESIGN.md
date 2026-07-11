@@ -150,3 +150,25 @@ resurrection - released species joining the living world.
   **cave-ins** drop wide unsupported ceilings as rubble (paying out regolith) -
   a 1-tile pillar (Q = flick a soil block) splits the span. Creaks telegraph.
   No weapons, only engineering.
+
+## v4.2 - precision, real liquids, real science
+
+- **Click-lock digging**: a mouse press latches ONE tile; the beam stays on it
+  until it breaks (game/digging.js). An amber outline (peekTarget) always shows
+  the next cut. Wall auto-dig unchanged - tunnels are 1-tall, stairs are yours.
+- **Liquids**: FLUID_SPECS viscosity gates the flow CA per fluid. Water pours,
+  brine (deep hypersaline aquifers - you float) sloshes, lava creeps, tar
+  (natural asphalt seeps) barely moves and grips the treads. The basement below
+  ~depth 380 is stamped with magma chambers.
+- **Science pass**: internal ids stay, names went real - Saiga, Purple Frog,
+  Olm, Fire-chaser Beetle, Motyxia, Pompeii Worm, Mycena luxaeterna, selenite
+  (Gypsum Barrens), PET/mild steel/vulcanized rubber/PCB salvage. Codex stats
+  carry true facts; the journal grid is now an illustrated bestiary
+  (render/codexart.js draws every entry from in-world primitives).
+- **HUD v3** (render/hud.js): four fixed regions - STATUS (TL), QUEST (TC,
+  measure()-sized banner + centred checklist), CARGO (TR), TOOL + BUILD bar
+  (bottom). Build bar uses procedural icons + material-glyph costs. I opens the
+  hold manifest (materials with uses, junk with reclaim yields, satchel states).
+- **Bootstrap fix**: scrap-metal and bottle deposits hand-salvage +1 crude unit
+  on dig, so the first Reclaimer is always reachable; the scanner reads deposit
+  types through rock.

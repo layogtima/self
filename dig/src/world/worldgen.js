@@ -54,6 +54,7 @@ export function generateWorld(seed) {
   }
 
   carveWormCaves(rng, tiles, surface);
+  carveShallowCaves(rng, tiles, surface);
   carveCaverns(rng, tiles, surface);
   seedFluids(rng, tiles, surface);
 
@@ -167,13 +168,17 @@ function carveWormCaves(rng, tiles, surface) {
 }
 
 /**
- * Seed fluids into cave basins: WATER in the mid strata (depth 22–130), glowing
- * LAVA deep down (depth > 236). We flood-fill a cave pocket from a seed, then
- * fill its lowest ~4 rows so it reads as a settled pool. The flow CA
- * (world/fluids.js) takes over once the player breaches one.
+ * Seed fluids into cave basins - real substances in strict geological order:
+ *   TAR     4–40    petroleum seeps in the anthropocene/quaternary fill
+ *   WATER   45–140  fresh aquifers in the permeable sedimentary strata
+ *   BRINE   300–400 evaporite-basin brines (Devonian–Cambrian)
+ *   LAVA    380+    the molten basement (magma chambers stamped below)
+ * We flood-fill a cave pocket from a seed, then fill its lowest ~4 rows so it
+ * reads as a settled pool. The flow CA (world/fluids.js) takes over once the
+ * player breaches one - each fluid at its own viscosity.
  */
 function seedFluids(rng, tiles, surface) {
-  const T_WATER = 4, T_LAVA = 5;
+  const T_WATER = 4, T_LAVA = 5, T_BRINE = 7, T_TAR = 8;
   const at = (x, y) => (x < 0 || x >= WORLD_W || y < 0 || y >= WORLD_H) ? T_ROCK : tiles[y * WORLD_W + x];
   const depthAt = (x, y) => y - surface[Math.max(0, Math.min(WORLD_W - 1, x))];
 
@@ -211,8 +216,79 @@ function seedFluids(rng, tiles, surface) {
     }
   };
 
-  pools(10, 22, 130, T_WATER, 70);
-  pools(8, 236, 999, T_LAVA, 90);
+  // strict geological order, surface -> core: tar (petroleum seeps in the loose
+  // anthropocene/quaternary fill) -> fresh groundwater (permeable sedimentary
+  // strata) -> evaporite brines (Devonian-Cambrian marine basins) -> magma.
+  pools(5, 4, 40, T_TAR, 24);
+  pools(10, 45, 140, T_WATER, 70);
+  pools(6, 300, 400, T_BRINE, 60);
+
+  // the basement runs MOLTEN: below ~depth 380 the caves thin out, so stamp
+  // magma chambers straight into the rock (elliptical, brim-full of lava)
+  for (let n = 0; n < 20; n++) {
+    const cx = 5 + Math.floor(rng.next() * (WORLD_W - 10));
+    const cy = surface[cx] + 380 + Math.floor(rng.next() * 60);
+    if (cy >= WORLD_H - 6) continue;
+    const rx = 3 + rng.next() * 5, ry = 2 + rng.next() * 2.5;
+    for (let dy = -Math.ceil(ry); dy <= Math.ceil(ry); dy++) {
+      for (let dx = -Math.ceil(rx); dx <= Math.ceil(rx); dx++) {
+        if ((dx * dx) / (rx * rx) + (dy * dy) / (ry * ry) > 1) continue;
+        const x = cx + dx, y = cy + dy;
+        if (x < 1 || x >= WORLD_W - 1 || y >= WORLD_H - 4) continue;
+        const i = y * WORLD_W + x;
+        if (tiles[i] === T_ROCK || tiles[i] === T_AIR) tiles[i] = T_LAVA;
+      }
+    }
+  }
+}
+
+/**
+ * Shallow grottoes: strings of small CHAMBERS linked by 2-tall crawls, just
+ * under the grass (depth 5-25). At most TWO skylight wells in the whole world,
+ * and each keeps the grass lip intact - a hole under an overhang, not a sliced
+ * lawn. These are the sunlit front-porch caves the early fauna lives in.
+ */
+function carveShallowCaves(rng, tiles, surface) {
+  let wells = 0;
+  for (let c = 0; c < 6; c++) {
+    let x = 8 + rng.next() * (WORLD_W - 16);
+    let y = surface[Math.floor(x)] + 8 + rng.next() * 10;
+    let heading = rng.next() < 0.5 ? 0 : Math.PI;   // mostly lateral
+    const steps = 40 + Math.floor(rng.next() * 40);
+    let sinceChamber = 3 + Math.floor(rng.next() * 4);
+    for (let s2 = 0; s2 < steps; s2++) {
+      const cx = Math.round(x), cy = Math.round(y);
+      // corridor: 2-tall crawl
+      carveAt(tiles, surface, cx, cy);
+      carveAt(tiles, surface, cx, cy + 1);
+      // every ~7 steps, blow out a proper room
+      if (--sinceChamber <= 0) {
+        sinceChamber = 6 + Math.floor(rng.next() * 4);
+        const rx = 2 + rng.next() * 2, ry = 1.5 + rng.next();
+        for (let dy = -Math.ceil(ry); dy <= Math.ceil(ry); dy++)
+          for (let dx = -Math.ceil(rx); dx <= Math.ceil(rx); dx++)
+            if ((dx * dx) / (rx * rx) + (dy * dy) / (ry * ry) <= 1) carveAt(tiles, surface, cx + dx, cy + dy);
+      }
+      heading += (rng.next() - 0.5) * 0.7;
+      x += Math.cos(heading);
+      y += Math.sin(heading) * 0.35;                 // stay shallow
+      const sRef = surface[Math.max(0, Math.min(WORLD_W - 1, Math.round(x)))];
+      const d = y - sRef;
+      if (d < 6) y = sRef + 6;
+      if (d > 25) y -= 1.5;
+      if (x < 4 || x > WORLD_W - 4) break;
+      // skylight well: RARE (2 per world max), 1-wide, grass lip kept
+      if (wells < 2 && rng.next() < 0.012) {
+        wells += 1;
+        const sx = Math.round(x);
+        const surfRow = surface[Math.max(0, Math.min(WORLD_W - 1, sx))];
+        for (let yy = surfRow + 1; yy <= Math.round(y) + 1; yy++) {
+          const i = yy * WORLD_W + sx;
+          if (yy < WORLD_H - 3 && tiles[i] === T_ROCK) tiles[i] = T_AIR;
+        }
+      }
+    }
+  }
 }
 
 /** occasional large caverns in the deeper half - pause, look around, feel small */

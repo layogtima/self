@@ -12,6 +12,14 @@ export function makeInventory(saved, savedGarbage) {
     garbage,
     addGarbage(type) { garbage.push(type); },
     takeAllGarbage() { return garbage.splice(0, garbage.length); },
+    /** pull only the junk types a given machine accepts; the rest stays aboard */
+    takeGarbageMatching(types) {
+      const taken = [];
+      for (let i = garbage.length - 1; i >= 0; i--) {
+        if (types.includes(garbage[i])) taken.push(garbage.splice(i, 1)[0]);
+      }
+      return taken;
+    },
     garbageCount() { return garbage.length; },
     exportGarbage() { return [...garbage]; },
     add(id, n = 1) { materials[id] = (materials[id] || 0) + n; return materials[id]; },

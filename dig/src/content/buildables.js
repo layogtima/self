@@ -16,30 +16,39 @@ import { T_PLACED, T_ROOF } from '../config.js';
  * @property {Object<string,number>} cost  material id -> units
  * @property {string|null} unlock   quest id gate (null = always)
  * @property {string} [station]     content/stations.js id (lab machines)
- * @property {string} blurb
+ * (flavor blurbs live in content/lore.json under `build.<id>`)
  */
 
 /** @type {Buildable[]} */
 export const BUILDABLES = [
   // -- M1: shelter, costed in dig spoil (never depends on the Reclaimer) ------
-  { id: 'soil', name: 'Soil Block', kind: 'tile', tile: T_PLACED, cost: { regolith: 1 }, unlock: null, blurb: 'Compacted spoil. Stairs, walls, dams.' },
-  { id: 'roof', name: 'Roof Panel', kind: 'tile', tile: T_ROOF, cost: { regolith: 2 }, unlock: null, blurb: 'Keeps the rain off your chassis.' },
+  { id: 'soil', name: 'Soil Block', kind: 'tile', tile: T_PLACED, cost: { regolith: 1 }, unlock: null },
+  { id: 'roof', name: 'Roof Panel', kind: 'tile', tile: T_ROOF, cost: { regolith: 2 }, unlock: null },
 
-  // -- M2: the garbage economy ------------------------------------------------
-  { id: 'processor', name: 'Reclaimer', kind: 'machine', size: [2, 2], cost: { metal: 4, plastic: 2 }, unlock: 'scavenge', blurb: 'Washes, shreds and extracts raw garbage into pure materials. Runs on sun or wind.' },
-  { id: 'solar', name: 'Solar Panel', kind: 'machine', size: [2, 1], cost: { metal: 3, silicon: 2 }, unlock: 'power-up', blurb: 'Trickle-charges you and powers nearby machines by day.' },
-  { id: 'wind-vane', name: 'Wind Vane', kind: 'machine', size: [1, 2], cost: { metal: 2, plastic: 1 }, unlock: 'power-up', blurb: 'Spins hardest in the storms that drive you indoors.' },
-  { id: 'storage', name: 'Storage Crate', kind: 'machine', size: [2, 1], cost: { metal: 2, plastic: 2 }, unlock: 'processing', blurb: 'Overflow space for materials.' },
-  { id: 'beacon', name: 'Home Beacon', kind: 'machine', size: [1, 2], cost: { metal: 1, plastic: 1 }, unlock: 'processing', blurb: 'Marks home for the HUD arrow, anywhere you plant it.' },
+  // -- the garbage economy: one machine per material family --------------------
+  { id: 'smelter', name: 'Smelter', kind: 'machine', size: [2, 2], cost: { regolith: 8 }, unlock: 'furnace', accepts: ['scrap-metal', 'aluminium-can', 'stainless-cutlery', 'rebar-chunk'] },
+  { id: 'pyrolysis', name: 'Pyrolysis Vat', kind: 'machine', size: [2, 2], cost: { metal: 3, regolith: 4 }, unlock: 'pyrolysis', accepts: ['bottle-cluster', 'tyre-chunk', 'fishing-net', 'lego-brick'] },
+  { id: 'kiln', name: 'Ash Kiln', kind: 'machine', size: [2, 2], cost: { metal: 4, plastic: 2 }, unlock: 'kiln', accepts: ['circuit-board', 'glass-bottle', 'ceramic-shards', 'smartphone'] },
+  { id: 'solar', name: 'Solar Panel', kind: 'machine', size: [2, 1], cost: { metal: 3, silicon: 2 }, unlock: 'power-up' },
+  { id: 'wind-vane', name: 'Wind Vane', kind: 'machine', size: [1, 2], cost: { metal: 2, plastic: 1 }, unlock: 'power-up' },
+  { id: 'storage', name: 'Storage Crate', kind: 'machine', size: [2, 1], cost: { metal: 2, plastic: 2 }, unlock: 'pyrolysis' },
+  { id: 'beacon', name: 'Home Beacon', kind: 'machine', size: [1, 2], cost: { metal: 1, plastic: 1 }, unlock: 'pyrolysis' },
+
+  // -- bio-optics: lights LEARNED from living things (unlocked by SCANNING
+  // them) but SYNTHESIZED from processed materials - biology is never a cost
+  { id: 'lamp-green', name: 'Mycena Lamp', kind: 'machine', size: [1, 2], cost: { metal: 1, silicon: 1 }, unlock: null, unlockScan: 'mushroom' },
+  { id: 'lamp-blue', name: 'Glowworm Lamp', kind: 'machine', size: [1, 2], cost: { metal: 1, crystal: 1 }, unlock: null, unlockScan: 'glowworm' },
+  { id: 'lamp-teal', name: 'Motyxia Lamp', kind: 'machine', size: [1, 2], cost: { metal: 1, crystal: 1 }, unlock: null, unlockScan: 'gleamback' },
+  { id: 'lamp-amber', name: 'Dark-sky Lamp', kind: 'machine', size: [1, 2], cost: { metal: 1, silicon: 2 }, unlock: 'dark-sky', unlockScan: 'firefly' },
 
   // -- M3: the field laboratory ------------------------------------------------
-  { id: 'st-clean', name: 'Prep Bench', kind: 'machine', size: [2, 1], station: 'clean', cost: { metal: 3, plastic: 2 }, unlock: 'field-lab', blurb: 'Brushes and picks - free the bone from its matrix.' },
-  { id: 'st-identify', name: 'Comparison Desk', kind: 'machine', size: [2, 1], station: 'identify', cost: { metal: 2, silicon: 2 }, unlock: 'field-lab', blurb: 'Microscope + anatomy charts.' },
-  { id: 'st-stabilize', name: 'Consolidant Rig', kind: 'machine', size: [2, 1], station: 'stabilize', cost: { metal: 2, polymer: 2 }, unlock: 'field-lab', blurb: 'Glue for deep time.' },
-  { id: 'st-mount', name: 'Mount Armature', kind: 'machine', size: [2, 1], station: 'mount', cost: { metal: 4, plastic: 2 }, unlock: 'field-lab', blurb: 'Where skeletons come back together.' },
+  { id: 'st-clean', name: 'Prep Bench', kind: 'machine', size: [2, 1], station: 'clean', cost: { metal: 3, plastic: 2 }, unlock: 'field-lab' },
+  { id: 'st-identify', name: 'Comparison Desk', kind: 'machine', size: [2, 1], station: 'identify', cost: { metal: 2, silicon: 2 }, unlock: 'field-lab' },
+  { id: 'st-stabilize', name: 'Consolidant Rig', kind: 'machine', size: [2, 1], station: 'stabilize', cost: { metal: 2, polymer: 2 }, unlock: 'field-lab' },
+  { id: 'st-mount', name: 'Mount Armature', kind: 'machine', size: [2, 1], station: 'mount', cost: { metal: 4, plastic: 2 }, unlock: 'field-lab' },
 
   // -- M4: genesis --------------------------------------------------------------
-  { id: 'incubator', name: 'Incubator', kind: 'machine', size: [2, 2], cost: { metal: 6, silicon: 4, polymer: 4, plastic: 2 }, unlock: 'genesis', blurb: 'A womb of glass and code. Viable genomes only.' },
+  { id: 'incubator', name: 'Incubator', kind: 'machine', size: [2, 2], cost: { metal: 6, silicon: 4, polymer: 4, plastic: 2 }, unlock: 'genesis' },
 ];
 
 export const BUILDABLES_BY_ID = Object.fromEntries(BUILDABLES.map(b => [b.id, b]));

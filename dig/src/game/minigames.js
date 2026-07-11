@@ -18,6 +18,7 @@ import { keys, mouse, pressed } from '../core/input.js';
 import { sfx, setBrushLevel } from '../core/audio.js';
 import { PALETTE, RARITY_COLORS } from '../render/palette.js';
 import { blueprintPanel, text, roundRect } from '../render/text.js';
+import { getSprite } from '../render/sprites.js';
 import { drawFossil } from '../render/sprites.js';
 import { drawBone, boneFootprint, boneCategory } from '../render/bones.js';
 
@@ -32,27 +33,39 @@ export function makeMinigame(kind, spec, makeCanvas, extra = {}) {
       ctx.fillStyle = 'rgba(20,16,12,0.6)';
       ctx.fillRect(0, 0, VIEW_W, VIEW_H);
       blueprintPanel(ctx, this.px, this.py, PW, PH, { frameW: 10, r: 16 });
-      // WORKBENCH dressing: wood tabletop band across the lower half
-      const ty0 = this.py + PH * 0.42;
-      ctx.fillStyle = 'rgba(110,79,51,0.28)';
-      ctx.fillRect(this.px + 10, ty0, PW - 20, PH - (ty0 - this.py) - 10);
-      ctx.strokeStyle = 'rgba(74,52,33,0.35)';
-      ctx.lineWidth = 1;
-      for (let i = 0; i < 4; i++) {
-        const gy = ty0 + 8 + i * ((PH - (ty0 - this.py)) / 4.5);
-        ctx.beginPath(); ctx.moveTo(this.px + 12, gy);
-        ctx.bezierCurveTo(this.px + PW * 0.3, gy + 2, this.px + PW * 0.7, gy - 2, this.px + PW - 12, gy + 1);
-        ctx.stroke();
+      // DARK WALNUT work surface: the whole bench is deep wood so cream bones
+      // pop hard (tiled RetroDiffusion texture; procedural grain fallback)
+      const wx0 = this.px + 12, wy0 = this.py + 50, ww = PW - 24, wh = PH - 88;
+      const wood = getSprite('ui', 'table-wood');
+      ctx.save();
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(wx0, wy0, ww, wh, 8); else ctx.rect(wx0, wy0, ww, wh);
+      ctx.clip();
+      if (wood) {
+        for (let yy = wy0; yy < wy0 + wh; yy += 64)
+          for (let xx = wx0; xx < wx0 + ww; xx += 64) ctx.drawImage(wood, xx, yy, 64, 64);
+      } else {
+        ctx.fillStyle = '#31221A';
+        ctx.fillRect(wx0, wy0, ww, wh);
+        ctx.strokeStyle = 'rgba(90,62,40,0.55)';
+        ctx.lineWidth = 1;
+        for (let i = 0; i < 9; i++) {
+          const gy = wy0 + 8 + i * (wh / 9);
+          ctx.beginPath(); ctx.moveTo(wx0, gy);
+          ctx.bezierCurveTo(wx0 + ww * 0.3, gy + 2, wx0 + ww * 0.7, gy - 2, wx0 + ww, gy + 1);
+          ctx.stroke();
+        }
       }
-      // canvas work cloth in the centre
-      ctx.fillStyle = 'rgba(240,232,210,0.45)';
-      if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(this.px + PW / 2 - 190, this.py + 70, 380, 230, 6); ctx.fill(); }
-      // inner vignette
-      const vg = ctx.createRadialGradient(this.px + PW / 2, this.py + PH / 2, PH * 0.3, this.px + PW / 2, this.py + PH / 2, PH * 0.75);
-      vg.addColorStop(0, 'rgba(0,0,0,0)');
-      vg.addColorStop(1, 'rgba(60,40,20,0.18)');
-      ctx.fillStyle = vg;
-      ctx.fillRect(this.px, this.py, PW, PH);
+      // soft edge shadow so the surface reads recessed
+      const eg = ctx.createRadialGradient(this.px + PW / 2, wy0 + wh / 2, wh * 0.35, this.px + PW / 2, wy0 + wh / 2, wh * 0.95);
+      eg.addColorStop(0, 'rgba(0,0,0,0)');
+      eg.addColorStop(1, 'rgba(0,0,0,0.34)');
+      ctx.fillStyle = eg;
+      ctx.fillRect(wx0, wy0, ww, wh);
+      ctx.restore();
+      ctx.strokeStyle = 'rgba(30,20,14,0.8)';
+      ctx.lineWidth = 2;
+      if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(wx0, wy0, ww, wh, 8); ctx.stroke(); }
       text(ctx, title, this.px + 24, this.py + 16, { size: 13, bold: true, color: PALETTE.amber });
       if (purpose) text(ctx, purpose, this.px + 24, this.py + 34, { size: 10, color: PALETTE.creamDim });
       text(ctx, hint, this.px + PW / 2, this.py + PH - 26, { size: 12, align: 'center', color: PALETTE.creamDim });

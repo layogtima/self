@@ -2,7 +2,14 @@
 // can be imported and driven under node. Rendering is stubbed to no-ops; logic
 // runs for real.
 
+import { readFileSync } from 'node:fs';
+import { installLore } from '../src/core/lore.js';
+
 export function installStubs() {
+  // flavor text: the browser fetches lore.json at boot; tests read it off disk
+  try {
+    installLore(JSON.parse(readFileSync(new URL('../src/content/lore.json', import.meta.url), 'utf8')));
+  } catch { /* lore accessors degrade gracefully */ }
   const noop = () => {};
 
   // a chainable canvas 2D context stub

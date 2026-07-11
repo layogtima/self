@@ -353,6 +353,8 @@ export function drawSprite(ctx, dir, id, x, baseY, w, h) {
 }
 
 export function hasSprite(dir, id) { return !!spriteImages[`${dir}/${id}`]; }
+/** raw image access (texture tiling etc.); null until loaded */
+export function getSprite(dir, id) { return spriteImages[`${dir}/${id}`] || null; }
 
 // ---------------------------------------------------------------- spritesheet player
 // Groundwork for API-animated fauna (M4): RetroDiffusion's animation styles can

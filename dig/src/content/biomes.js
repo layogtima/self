@@ -55,7 +55,7 @@ export const BIOMES = [
     envWeights: { terrestrial: 0.8, marine: 0.4, freshwater: 0.5, any: 1 },
   },
   {
-    id: 'crystal', name: 'Crystal Barrens', range: [5 / 7, 6 / 7],
+    id: 'crystal', name: 'Gypsum Barrens', range: [5 / 7, 6 / 7],
     foliage: 'crystal', surfaceTint: '#E8E0F0', snow: false,
     grass: { cap: '#B0A2C4', deep: '#77689A', tuft: '#A08FC0' },
     scenery: { tree: 'tree-shardspire', treeP: 0.94, dressP: 0.9, tuftP: 0.25, dressings: ['shard', 'boulder'] },

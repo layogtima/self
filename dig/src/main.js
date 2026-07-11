@@ -6,6 +6,7 @@ import { attachInput, endFrame } from './core/input.js';
 import { initAudio, setVolume, setMusicVolume, loadSamples } from './core/audio.js';
 import { startMusic } from './core/music.js';
 import { loadSave, DEFAULT_SETTINGS } from './core/save.js';
+import { installLore } from './core/lore.js';
 import { buildTileset } from './render/tileset.js';
 import { loadFossilSprites, loadSprites } from './render/sprites.js';
 import { makeTitleScene } from './scenes/title.js';
@@ -33,6 +34,11 @@ const services = {
   go(name, opts) { switchScene(name, opts); },
 };
 
+// all flavor text (codex blurbs, buildable lore) - accessors fall back
+// gracefully until this lands, so nothing blocks on it
+fetch('src/content/lore.json').then(r => r.ok ? r.json() : null)
+  .then(d => d && installLore(d)).catch(() => {});
+
 // sound credits (Freesound attribution) for the Credits panel
 services.credits = [];
 fetch('assets/sounds/credits.json').then(r => r.ok ? r.json() : {}).then(m => {
@@ -46,6 +52,8 @@ loadSprites(makeImage, 'scenery', [
   'bush', 'boulder', 'flowers', 'reeds', 'shard',
 ]);
 loadSprites(makeImage, 'stations', ['station-clean', 'station-analyze', 'station-prep', 'station-showcase']);
+loadSprites(makeImage, 'ui', ['table-wood']);
+loadSprites(makeImage, 'backdrops', ['tundra', 'wetland', 'badlands', 'savanna', 'ashflats', 'crystal', 'coast']);
 
 
 // -- scenes -------------------------------------------------------------------

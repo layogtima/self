@@ -95,11 +95,13 @@ export const FAUNA_ART = {
 
 function gait(f) { return Math.abs(Math.sin(f.t * (f.state === 'flee' ? 16 : 8))); }
 
-/** draw one creature (world space, feet at f.y) */
+/** draw one creature (world space, feet at f.y): juveniles small, elders fade */
 export function drawFauna(ctx, f, time) {
   ctx.save();
   ctx.translate(f.x, f.y);
-  ctx.scale(f.dir, 1);
+  const grow = 0.65 + Math.min(1, f.age ?? 1) * 0.45;   // 0.65x juvenile → 1.1x adult
+  ctx.scale(f.dir * grow, grow);
+  if (f.fade > 0) ctx.globalAlpha = Math.max(0, 1 - f.fade / 2);
   (FAUNA_ART[f.spec?.draw || f.kind] || FAUNA_ART.generic)(ctx, f, time);
   ctx.restore();
 }

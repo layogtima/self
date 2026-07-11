@@ -23,7 +23,8 @@ not opened as `file://`.)
 `A`/`D` (or arrows) move · `Space` jump · **walk into a wall to laser it** ·
 `S` dig down · `K` winch home · **`Ctrl` swaps tool (laser ↔ scanner)** ·
 mouse = aim · `E` interact / harvest · **`B` build** · `Q` flick a soil block ·
-`H` mark home · `U` upgrade the laser (at the pod) · `Tab` field journal · `Esc` pause.
+`H` mark home · `U` upgrade the laser (at the pod) · **`I` hold manifest** ·
+`Tab` field journal · `Esc` pause.
 
 You **awaken** beside the pod you came down in, on a bare planet. **Rain rusts
 you** - sparks, sluggish treads - so your first job is cover: dig dirt for

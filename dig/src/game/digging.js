@@ -34,11 +34,38 @@ function wallTarget(p, world) {
   return null;
 }
 
-function digTarget(p, world, cam) {
-  if (mouse.left) return { tx: Math.floor((mouse.x + cam.x) / TILE), ty: Math.floor((mouse.y + cam.y) / TILE) };
+// mouse click-lock: one press latches ONE tile; the beam stays on it until it
+// breaks (or leaves reach), then re-latches to whatever is now under the cursor.
+// Precision = stairs: click the step's head tile, hop, click the next.
+let latched = null;          // {tx, ty} | null
+let wasHeld = false;
+
+function mouseTarget(p, world, cam) {
+  const tx = Math.floor((mouse.x + cam.x) / TILE), ty = Math.floor((mouse.y + cam.y) / TILE);
+  const fresh = !wasHeld;
+  wasHeld = true;
+  const stale = latched && (!world.diggable(latched.tx, latched.ty) || !inReach(p, latched.tx, latched.ty));
+  if (fresh || !latched || stale) latched = { tx, ty };
+  return latched;
+}
+
+function digTarget(p, world, cam, noMouse) {
+  if (!noMouse && mouse.left) return mouseTarget(p, world, cam);
+  wasHeld = false; latched = null;
   if (keys.KeyS) return { tx: p.tx(), ty: Math.floor((p.y + p.h + 1) / TILE) };
   if (keys.KeyJ) return keyboardTarget(p, world);
   return wallTarget(p, world);
+}
+
+/** the tile the NEXT pulse would cut (render-only; no state advance) */
+export function peekTarget(p, world, cam) {
+  const aim = mouse.left && latched ? latched
+    : mouse.left ? { tx: Math.floor((mouse.x + cam.x) / TILE), ty: Math.floor((mouse.y + cam.y) / TILE) }
+    : keys.KeyS ? { tx: p.tx(), ty: Math.floor((p.y + p.h + 1) / TILE) }
+    : keys.KeyJ ? keyboardTarget(p, world)
+    : wallTarget(p, world);
+  if (!aim || !world.diggable(aim.tx, aim.ty) || !inReach(p, aim.tx, aim.ty) || world.inCampZone(aim.tx, aim.ty)) return null;
+  return aim;
 }
 
 function inReach(p, tx, ty) {
@@ -52,11 +79,11 @@ function inReach(p, tx, ty) {
  * frame and clears it when idle.
  * @returns {{bone?:object, nearBone?:object, camp?:boolean}}
  */
-export function updateDigging(p, world, cam, particles, fx, dt) {
+export function updateDigging(p, world, cam, particles, fx, dt, noMouse = false) {
   const out = {};
   p.beam = null;
   if (p.digCd > 0) return out;
-  const aim = digTarget(p, world, cam);
+  const aim = digTarget(p, world, cam, noMouse);
   if (!aim) return out;
 
   // camp guard: the beam won't fire near homebase

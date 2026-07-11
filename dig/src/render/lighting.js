@@ -1,21 +1,112 @@
-// Wall-clipped directional headlights v2. The cone AIMS WHERE THE MOUSE POINTS
-// (full 360°), rays raymarch the tile grid and stop at solid walls. Darkness is
-// depth- OR night-driven, so the same system lights caves and the surface after
-// dusk. Extra static lights (deck lamps, beacon, glow mushrooms) punch soft
-// holes in the dark.
+// Wall-clipped directional headlights v2 + SKY LIGHT v1. The cone AIMS WHERE
+// THE MOUSE POINTS (full 360°), rays raymarch the tile grid and stop at solid
+// walls. Darkness is depth- OR night-driven, so the same system lights caves
+// and the surface after dusk. Extra static lights (deck lamps, beacon, glow
+// mushrooms) punch soft holes in the dark.
+//
+// Sky light: per visible column, everything open to the sky is sunlit; light
+// spills a few tiles sideways/down into cave mouths and skylight shafts
+// (bounded neighbour-spread over the camera window only), so overhangs cast
+// real shade and shallow grottoes glow by day. Scaled by daylight & weather.
 
-import { VIEW_W, VIEW_H, TILE } from '../config.js';
+import { VIEW_W, VIEW_H, TILE, WORLD_W, WORLD_H } from '../config.js';
 
 const RAYS = 30;
 const CONE_HALF = 0.62;         // ~71° cone
 const RANGE = TILE * 10;
 const STEP = TILE / 3;
+const SKY_SPREAD = 3;           // neighbour-spread passes (≈ tiles of spill)
+const SKY_DECAY = 0.68;         // per-spread falloff
 
 export function makeLighting(makeCanvas) {
   const cv = makeCanvas(VIEW_W, VIEW_H);
   const c = cv.getContext('2d');
+  const skyCv = makeCanvas(1, 1);              // 1px per tile; upscaled smooth
+  const skyC = skyCv.getContext('2d');
+  let lastSky = null;             // {x0,y0,w,h,grid} - test hook + shade pass
+  let usedSkyBlit = false;        // test hook: seamless path exercised
+
+  /**
+   * Paint per-tile alphas at 1px/tile and upscale in ONE smoothed drawImage.
+   * Per-tile fillRects overlapped and double-punched their seams, which read
+   * as a glowing grid at night - a single blit has no seams to show.
+   * @param {(x:number,y:number,v:number)=>number} alphaAt  0..1 per tile
+   * @param {[number,number,number]} rgb  pixel colour (alpha does the work)
+   */
+  function blitSkyGrid(target, sky, cam, alphaAt, rgb = [0, 0, 0]) {
+    if (skyCv.width !== sky.w || skyCv.height !== sky.h) { skyCv.width = sky.w; skyCv.height = sky.h; }
+    const img = skyC.createImageData(sky.w, sky.h);
+    for (let y = 0; y < sky.h; y++) {
+      for (let x = 0; x < sky.w; x++) {
+        const i = y * sky.w + x;
+        const a = alphaAt(sky.x0 + x, sky.y0 + y, sky.grid[i]);
+        if (a <= 0) continue;
+        img.data[i * 4] = rgb[0]; img.data[i * 4 + 1] = rgb[1]; img.data[i * 4 + 2] = rgb[2];
+        img.data[i * 4 + 3] = Math.min(255, a * 255) | 0;
+      }
+    }
+    skyC.putImageData(img, 0, 0);
+    const prev = target.imageSmoothingEnabled;
+    target.imageSmoothingEnabled = true;
+    target.drawImage(skyCv, 0, 0, sky.w, sky.h,
+      sky.x0 * TILE - cam.x, sky.y0 * TILE - cam.y, sky.w * TILE, sky.h * TILE);
+    target.imageSmoothingEnabled = prev;
+    usedSkyBlit = true;
+  }
+
+  /** per-tile sky illumination over the camera window (0..1) */
+  function computeSky(world, bounds) {
+    const x0 = Math.max(0, bounds.x0 - 2), x1 = Math.min(WORLD_W - 1, bounds.x1 + 2);
+    const y0 = Math.max(0, bounds.y0 - 2), y1 = Math.min(WORLD_H - 1, bounds.y1 + 2);
+    const w = x1 - x0 + 1, h = y1 - y0 + 1;
+    const grid = new Float32Array(w * h);
+    const at = (x, y) => grid[(y - y0) * w + (x - x0)];
+    const set = (x, y, v) => { grid[(y - y0) * w + (x - x0)] = v; };
+
+    // seed: every air cell with an unbroken line to the sky is fully lit
+    // (start above the natural surface to catch built roofs/awnings)
+    for (let x = x0; x <= x1; x++) {
+      const start = Math.max(0, Math.min(world.surface[x] - 9, y0));
+      let open = true;
+      for (let y = start; y <= y1; y++) {
+        if (open && world.solidAt(x, y)) open = false;
+        if (y >= y0 && open && !world.solidAt(x, y)) set(x, y, 1);
+      }
+    }
+    // spread: light spills into adjacent air (cave mouths, shaft bottoms)
+    for (let pass = 0; pass < SKY_SPREAD; pass++) {
+      for (let y = y0; y <= y1; y++) {
+        for (let x = x0; x <= x1; x++) {
+          if (world.solidAt(x, y)) continue;
+          const cur = at(x, y);
+          if (cur >= 1) continue;
+          let best = 0;
+          if (x > x0) best = Math.max(best, at(x - 1, y));
+          if (x < x1) best = Math.max(best, at(x + 1, y));
+          if (y > y0) best = Math.max(best, at(x, y - 1));
+          if (y < y1) best = Math.max(best, at(x, y + 1));
+          const v = best * SKY_DECAY;
+          if (v > cur) set(x, y, v);
+        }
+      }
+    }
+    lastSky = { x0, y0, w, h, grid };
+    return lastSky;
+  }
 
   return {
+    /** test hook: sky illumination 0..1 at a tile (after the last apply) */
+    _skyAt(tx, ty) {
+      if (!lastSky) return 0;
+      const { x0, y0, w, h, grid } = lastSky;
+      if (tx < x0 || tx >= x0 + w || ty < y0 || ty >= y0 + h) return 0;
+      return grid[(ty - y0) * w + (tx - x0)];
+    },
+    /** direct compute for tests */
+    _computeSky: computeSky,
+    /** test hook: the seamless 1px-per-tile blit ran (no per-rect grid seams) */
+    get _usedSkyBlit() { return usedSkyBlit; },
+
     /** March the cone around aimAngle; returns the light polygon (world coords). */
     castCone(world, ox, oy, aimAngle) {
       const pts = [{ x: ox, y: oy }];
@@ -37,8 +128,20 @@ export function makeLighting(makeCanvas) {
      * @param {number} aimAngle  radians, where the cone points (mouse-driven)
      * @param {number} ambient   0..1 darkness (max of depth-dark and night-dark)
      * @param {Array<{x,y,r,warmth?}>} lights  extra static lights (world coords)
+     * @param {{strength:number, warm:number}} [sun]  daylight 0..1 + dusk warmth
      */
-    apply(ctx, world, cam, emitter, aimAngle, ambient, lights = []) {
+    apply(ctx, world, cam, emitter, aimAngle, ambient, lights = [], sun = null) {
+      // daytime surface shade: even with no darkness mask, overhangs get a soft
+      // shadow so the sun reads as directional light
+      if (sun && sun.strength > 0.15 && ambient < 0.02) {
+        const sky = computeSky(world, cam.bounds());
+        blitSkyGrid(ctx, sky, cam, (x, y, v) => {
+          if (world.solidAt(x, y)) return 0;
+          const nearSurface = y - world.surface[Math.max(0, Math.min(WORLD_W - 1, x))] < 8;
+          return (v < 0.35 && nearSurface) ? 0.15 * sun.strength : 0;
+        }, [24, 18, 30]);
+        return null;
+      }
       if (ambient < 0.02) return null;
       c.clearRect(0, 0, VIEW_W, VIEW_H);
       c.fillStyle = `rgba(16,11,20,${Math.min(0.94, ambient)})`;
@@ -46,6 +149,13 @@ export function makeLighting(makeCanvas) {
 
       const sx = emitter.x - cam.x, sy = emitter.y - cam.y;
       c.globalCompositeOperation = 'destination-out';
+
+      // SKY LIGHT: the sun pours into everything open to it - cave mouths,
+      // skylight shafts, the surface at dusk - and spills a few tiles in
+      if (sun && sun.strength > 0.02) {
+        const sky = computeSky(world, cam.bounds());
+        blitSkyGrid(c, sky, cam, (x, y, v) => v < 0.06 ? 0 : v * sun.strength * 0.92);
+      }
 
       // ambient bubble around the rover
       const bub = c.createRadialGradient(sx, sy, 0, sx, sy, TILE * 3.2);
@@ -91,13 +201,15 @@ export function makeLighting(makeCanvas) {
       ctx.closePath();
       ctx.fill();
       ctx.restore();
-      // warm glow on static warm lights
+      // coloured glow on static warm lights (L.tint overrides the default amber:
+      // bio-lamps pour green/blue/teal pools into the night)
       for (const L of lights) {
         if (!L.warmth) continue;
         const lx = L.x - cam.x, ly = L.y - cam.y;
+        const tint = L.tint || '255,220,150';
         const g = ctx.createRadialGradient(lx, ly, 0, lx, ly, L.r * 0.7);
-        g.addColorStop(0, `rgba(255,220,150,${0.12 * ambient * L.warmth})`);
-        g.addColorStop(1, 'rgba(255,220,150,0)');
+        g.addColorStop(0, `rgba(${tint},${(L.tint ? 0.2 : 0.12) * ambient * L.warmth})`);
+        g.addColorStop(1, `rgba(${tint},0)`);
         ctx.fillStyle = g;
         ctx.beginPath(); ctx.arc(lx, ly, L.r * 0.7, 0, Math.PI * 2); ctx.fill();
       }

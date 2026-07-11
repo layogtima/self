@@ -619,6 +619,96 @@
       "cost": 0.017,
       "created_at": 1783717665,
       "remaining_balance": 14.378
+    },
+    {
+      "id": "table-wood",
+      "cat": "ui",
+      "file": "assets/gen/ui/table-wood_v001.png",
+      "version": 1,
+      "prompt": "dark walnut wood table top texture, rich deep brown woodgrain with fine parallel grain lines and subtle knots, polished workbench surface",
+      "cost": 0.017,
+      "created_at": 1783721184,
+      "remaining_balance": 14.361
+    },
+    {
+      "id": "table-wood",
+      "cat": "ui",
+      "file": "assets/gen/ui/table-wood_v002.png",
+      "version": 2,
+      "prompt": "seamless dark walnut wood plank texture, deep espresso brown, fine horizontal wood grain lines, one subtle knot",
+      "cost": 0.017,
+      "created_at": 1783721218,
+      "remaining_balance": 14.344
+    },
+    {
+      "id": "backdrop-tundra",
+      "cat": "backdrops",
+      "file": "assets/gen/backdrops/backdrop-tundra_v001.png",
+      "version": 1,
+      "prompt": "wide pixel art landscape background, distant view: snowy jagged mountain range behind a dark larch conifer treeline and a cold still lake, pale sky, layered depth, no characters",
+      "cost": 0.03,
+      "created_at": 1783727374,
+      "remaining_balance": 14.314
+    },
+    {
+      "id": "backdrop-wetland",
+      "cat": "backdrops",
+      "file": "assets/gen/backdrops/backdrop-wetland_v001.png",
+      "version": 1,
+      "prompt": "wide pixel art landscape background, distant view: misty mangrove marsh flats with standing water channels and reed banks under a soft green-grey sky, layered depth, no characters",
+      "cost": 0.03,
+      "created_at": 1783727402,
+      "remaining_balance": 14.284
+    },
+    {
+      "id": "backdrop-badlands",
+      "cat": "backdrops",
+      "file": "assets/gen/backdrops/backdrop-badlands_v001.png",
+      "version": 1,
+      "prompt": "wide pixel art landscape background, distant view: striped sedimentary mesa buttes and dry canyons in warm terracotta and tan bands, hazy distance, layered depth, no characters",
+      "cost": 0.03,
+      "created_at": 1783727421,
+      "remaining_balance": 14.254
+    },
+    {
+      "id": "backdrop-savanna",
+      "cat": "backdrops",
+      "file": "assets/gen/backdrops/backdrop-savanna_v001.png",
+      "version": 1,
+      "prompt": "wide pixel art landscape background, distant view: golden grass plain with scattered flat-top acacia tree silhouettes and distant blue hills, warm sky, layered depth, no characters",
+      "cost": 0.03,
+      "created_at": 1783727440,
+      "remaining_balance": 14.224
+    },
+    {
+      "id": "backdrop-ashflats",
+      "cat": "backdrops",
+      "file": "assets/gen/backdrops/backdrop-ashflats_v001.png",
+      "version": 1,
+      "prompt": "wide pixel art landscape background, distant view: grey volcanic ash plain with bleached dead tree snags and one distant smoking cinder cone, muted sky, layered depth, no characters",
+      "cost": 0.03,
+      "created_at": 1783727456,
+      "remaining_balance": 14.194
+    },
+    {
+      "id": "backdrop-crystal",
+      "cat": "backdrops",
+      "file": "assets/gen/backdrops/backdrop-crystal_v001.png",
+      "version": 1,
+      "prompt": "wide pixel art landscape background, distant view: pale gypsum dune field with clusters of tall translucent violet selenite crystal spires, soft lilac sky, layered depth, no characters",
+      "cost": 0.03,
+      "created_at": 1783727475,
+      "remaining_balance": 14.164
+    },
+    {
+      "id": "backdrop-coast",
+      "cat": "backdrops",
+      "file": "assets/gen/backdrops/backdrop-coast_v001.png",
+      "version": 1,
+      "prompt": "wide pixel art landscape background, distant view: green coastal headlands stepping down to a calm sea horizon with scattered palm tree silhouettes, bright sky, layered depth, no characters",
+      "cost": 0.03,
+      "created_at": 1783727493,
+      "remaining_balance": 14.134
     }
   ]
 }

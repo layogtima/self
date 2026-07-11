@@ -142,6 +142,20 @@ export function buildTileset(makeCanvas, makeImage) {
       ctx.drawImage(atlas, (variant % VARIANTS) * TILE, STRATA.length * TILE, TILE, TILE, dx, dy, TILE, TILE);
     },
 
+    /** cave-in rubble: loose broken fill - reads as diggable, not built */
+    drawRubble(ctx, variant, dx, dy) {
+      ctx.drawImage(atlas, (variant % VARIANTS) * TILE, STRATA.length * TILE, TILE, TILE, dx, dy, TILE, TILE);
+      ctx.fillStyle = 'rgba(30,24,18,0.35)';
+      // jagged settled top + a few tumbled chunks (hashed, stable per tile)
+      const j = (n) => ((variant * 31 + n * 17) % 5);
+      ctx.fillRect(dx, dy, TILE, 2 + (variant & 1));
+      ctx.fillRect(dx + 2 + j(1), dy + 4 + j(2), 4, 3);
+      ctx.fillRect(dx + 8 + (j(3) >> 1), dy + 9, 3, 3);
+      ctx.fillStyle = 'rgba(240,230,210,0.14)';
+      ctx.fillRect(dx + 3 + j(4), dy + 3, 3, 1.5);
+      ctx.fillRect(dx + 9, dy + 8 + (j(1) >> 1), 3, 1.5);
+    },
+
     /** player-built roof panel: thin plate + strut, air showing beneath */
     drawRoof(ctx, tx, ty, dx, dy) {
       ctx.fillStyle = '#6E4F33';                       // wood frame

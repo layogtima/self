@@ -25,6 +25,7 @@ export function makeAmbient() {
   //   surface: grazer | hopper | lizard   caves: salamander | spider
   const fauna = [];
   const fireflies = [];    // {x,y,t,life} night-only glowers
+  const moths = [];        // {lampI,ang,r,t,life} luna moths orbiting lit lamps
   const glowSpots = [];   // discovered glowworm ceiling patches {x,y,n,seed}
   const litCaverns = new Set();
   let dripScan = 0;
@@ -41,7 +42,7 @@ export function makeAmbient() {
       }
     },
 
-    update(dt, world, player, cam, depth, lightPoly, env) {
+    update(dt, world, player, cam, depth, lightPoly, env, lamps = []) {
       const b = cam.bounds();
       const above = depth < 2;
       // time & weather drive who is out and how they behave (mod 14)
@@ -80,13 +81,19 @@ export function makeAmbient() {
           const biomeId = biomeAtX(Math.floor(spawnX / TILE), WORLD_W).id;
           const spec = pickFauna('surface', { isDay, weather, depth: 0, biomeId });
           if (spec) {
-            fauna.push({ kind: spec.id, spec, zone: 'surface', x: spawnX, y: 0, dir, state: 'walk', t: 0, life: 40 + Math.random() * 30, ph: Math.random() * 7 });
+            fauna.push({ kind: spec.id, spec, zone: 'surface', x: spawnX, y: 0, dir, state: 'walk', t: 0, life: 40 + Math.random() * 30, ph: Math.random() * 7, age: 0.15 + Math.random() * 0.6, fade: 0 });
           }
         }
         // fireflies drift over the surface on warm nights
         if (night > 0.5 && !raining && fireflies.length < 14 && Math.random() < 0.03) {
           const tx = Math.max(0, Math.min(WORLD_W - 1, Math.floor(cam.x / TILE) + (Math.random() * (VIEW_W / TILE) | 0)));
           fireflies.push({ x: tx * TILE, y: world.surface[tx] * TILE - 6 - Math.random() * 40, t: Math.random() * 7, life: 8 + Math.random() * 8 });
+        }
+        // luna moths: your lit lamps pull them out of the dark (real: males
+        // navigate by the moon and mistake lamps for it)
+        if (night > 0.3 && lamps.length && moths.length < 6 && Math.random() < 0.02) {
+          const li = (Math.random() * lamps.length) | 0;
+          moths.push({ lampI: li, ang: Math.random() * 7, r: 16 + Math.random() * 14, t: Math.random() * 7, life: 20 + Math.random() * 15 });
         }
       }
 
@@ -99,7 +106,7 @@ export function makeAmbient() {
           const tx = player.tx() + ((Math.random() * 16 - 8) | 0);
           const ty = Math.floor(player.cy() / TILE) + ((Math.random() * 10 - 5) | 0);
           if (world.tileAt(tx, ty) === T_AIR && world.solidAt(tx, ty + 1)) {
-            fauna.push({ kind: spec.id, spec, zone: 'cave', x: (tx + 0.5) * TILE, y: (ty + 1) * TILE, dir: Math.random() < 0.5 ? 1 : -1, state: 'walk', t: 0, life: 30, ph: Math.random() * 7 });
+            fauna.push({ kind: spec.id, spec, zone: 'cave', x: (tx + 0.5) * TILE, y: (ty + 1) * TILE, dir: Math.random() < 0.5 ? 1 : -1, state: 'walk', t: 0, life: 30, ph: Math.random() * 7, age: 0.15 + Math.random() * 0.6, fade: 0 });
             break;
           }
         }
@@ -176,11 +183,64 @@ export function makeAmbient() {
         }
       }
 
-      // fauna brains: wander/idle, flee the rover, sleep at night, bolt in storms
+      // fauna brains: wander/idle/feed/hunt/fight, flee the rover, sleep at
+      // night, bolt in storms, grow up, and eventually fade of old age
       const diurnal = f => !!(f.spec?.activity?.day && !f.spec?.activity?.night);
       for (const f of fauna) {
         f.spec = f.spec || FAUNA_BY_ID[f.kind];   // tolerate registry-less spawns (tests)
         f.t += dt; f.life -= dt;
+
+        // -- lifecycle: age up; the old fade out where they stand ---------------
+        f.age = Math.min(1, (f.age ?? 0.5) + dt / (f.spec?.lifespan || 150));
+        if (f.age >= 1) { f.fade = (f.fade || 0) + dt; if (f.fade > 2) f.life = 0; }
+
+        // -- hunt: predators stalk their prey (fireflies/butterflies/other fauna)
+        if (f.spec?.prey && f.state !== 'flee' && f.state !== 'eat' && f.age > 0.35 && Math.random() < 0.01) {
+          let best = null, bd2 = (TILE * 7) ** 2;
+          const pool = [];
+          if (f.spec.prey.includes('firefly')) for (const ff of fireflies) pool.push({ ref: ff, arr: fireflies, x: ff.x, y: ff.y });
+          if (f.spec.prey.includes('butterfly')) for (const bf of butterflies) pool.push({ ref: bf, arr: butterflies, x: bf.x, y: bf.y });
+          if (f.spec.prey.includes('prismfly')) for (const o of fauna) if (o.kind === 'prismfly' && o !== f) pool.push({ ref: o, arr: fauna, x: o.x, y: o.y });
+          for (const c2 of pool) {
+            const d2 = (c2.x - f.x) ** 2 + (c2.y - f.y) ** 2;
+            if (d2 < bd2) { bd2 = d2; best = c2; }
+          }
+          if (best) { f.state = 'hunt'; f.quarry = best; f.t = 0; }
+        }
+        if (f.state === 'hunt') {
+          const q = f.quarry;
+          const gone = !q || !q.arr.includes(q.ref);
+          if (gone || f.t > 5) { f.state = 'walk'; f.quarry = null; f.t = 0; }
+          else {
+            f.dir = q.ref.x >= f.x ? 1 : -1;
+            if (Math.abs(q.ref.x - f.x) < 7 && Math.abs((q.ref.y ?? f.y) - f.y) < 12) {
+              q.arr.splice(q.arr.indexOf(q.ref), 1);           // caught
+              f.state = 'eat'; f.t = 0; f.quarry = null;
+            }
+          }
+        }
+        if (f.state === 'eat' && f.t > 2) { f.state = 'walk'; f.t = 0; }
+
+        // -- feed: grazers pause to crop the grass -------------------------------
+        if (f.spec?.grazes && f.state === 'walk' && f.zone === 'surface' && Math.random() < 0.004) { f.state = 'feed'; f.t = 0; }
+        if (f.state === 'feed' && f.t > 2.5) { f.state = 'walk'; f.t = 0; }
+
+        // -- fight: two adults of a kind, nose to nose - brief territorial shove -
+        if (f.state === 'walk' && f.age > 0.5 && Math.random() < 0.02) {
+          for (const o of fauna) {
+            if (o === f || o.kind !== f.kind || (o.age ?? 0) < 0.5 || o.state === 'fight') continue;
+            if (Math.abs(o.x - f.x) < 14 && Math.abs((o.y || 0) - (f.y || 0)) < 10) {
+              f.state = 'fight'; o.state = 'fight'; f.t = 0; o.t = 0;
+              f.dir = o.x >= f.x ? 1 : -1; o.dir = -f.dir;
+              break;
+            }
+          }
+        }
+        if (f.state === 'fight') {
+          f.x -= f.dir * 8 * dt;   // push apart, facing off
+          if (f.t > 1.5) { f.state = 'walk'; f.t = 0; f.dir *= -1; }
+        }
+
         // weather/time overrides
         if (f.zone === 'surface' && diurnal(f)) {
           if (storm && f.state !== 'flee') { f.state = 'flee'; f.dir = f.x < player.cx() ? -1 : 1; }
@@ -192,8 +252,9 @@ export function makeAmbient() {
         if (near && f.state !== 'flee') { f.state = 'flee'; f.dir = f.x < player.cx() ? -1 : 1; f.t = 0; }
         const fleeMul = storm ? 1.4 : 1;
         const sp = f.spec?.speed || { walk: 24, flee: 50 };
-        const speed = f.state === 'sleep' ? 0
+        const speed = f.state === 'sleep' || f.state === 'feed' || f.state === 'eat' || f.state === 'fight' ? 0
           : f.state === 'flee' ? sp.flee * fleeMul
+          : f.state === 'hunt' ? sp.flee * 0.85
           : f.state === 'walk' ? sp.walk : 0;
         if (f.state === 'flee' && f.t > 2.5) f.state = 'walk';
         if (f.state === 'walk' && f.t > 3 + (f.ph % 3)) { f.state = Math.random() < 0.5 ? 'idle' : 'walk'; f.t = 0; if (Math.random() < 0.3) f.dir *= -1; }
@@ -215,8 +276,29 @@ export function makeAmbient() {
       }
       for (let i = fauna.length - 1; i >= 0; i--) if (fauna[i].life <= 0) fauna.splice(i, 1);
 
-      for (const ff of fireflies) { ff.t += dt; ff.life -= dt; ff.x += Math.sin(ff.t * 1.3) * 12 * dt; ff.y += Math.cos(ff.t * 1.7) * 8 * dt; }
+      for (const ff of fireflies) {
+        ff.t += dt; ff.life -= dt;
+        ff.x += Math.sin(ff.t * 1.3) * 12 * dt; ff.y += Math.cos(ff.t * 1.7) * 8 * dt;
+        // light pollution is real: harsh lamps drown the courtship code -
+        // fireflies clear out. Amber (dark-sky) lamps they can live with.
+        for (const L of lamps) {
+          if (L.amber) continue;
+          if ((ff.x - L.x) ** 2 + (ff.y - L.y) ** 2 < (TILE * 6) ** 2) { ff.life = Math.min(ff.life, 0.4); break; }
+        }
+      }
       for (let i = fireflies.length - 1; i >= 0; i--) if (fireflies[i].life <= 0 || (env && env.night01() < 0.3)) fireflies.splice(i, 1);
+
+      // moths spiral their chosen lamp, wobbling closer and further
+      for (const mo of moths) {
+        mo.t += dt; mo.life -= dt;
+        mo.ang += dt * (1.4 + Math.sin(mo.t * 2.2) * 0.5);
+        mo.r += Math.sin(mo.t * 3.1) * 6 * dt;
+      }
+      for (let i = moths.length - 1; i >= 0; i--) {
+        const mo = moths[i];
+        if (mo.life <= 0 || !lamps[mo.lampI] || (env && env.night01() < 0.25)) moths.splice(i, 1);
+      }
+      this._lamps = lamps;   // for draw + scanTargets
       for (const m of motes) { m.x += m.vx * dt; m.y += m.vy * dt; m.life -= dt; }
       for (let i = motes.length - 1; i >= 0; i--) if (motes[i].life <= 0) motes.splice(i, 1);
 
@@ -265,6 +347,18 @@ export function makeAmbient() {
         ctx.fillStyle = `rgba(255,210,90,${pulse.toFixed(2)})`;
         ctx.fillRect(ff.x, ff.y, 2, 2);
       }
+      // luna moths: pale green wings beating around the lamps
+      const lamps2 = this._lamps || [];
+      for (const mo of moths) {
+        const L = lamps2[mo.lampI];
+        if (!L) continue;
+        const mx = L.x + Math.cos(mo.ang) * mo.r, my = L.y + Math.sin(mo.ang) * mo.r * 0.6;
+        const open = Math.abs(Math.sin(mo.t * 9));
+        ctx.fillStyle = 'rgba(190,235,180,0.85)';
+        ctx.beginPath(); ctx.ellipse(mx - 1.5 - open * 1.6, my, 2.6, 1.6, -0.4, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.ellipse(mx + 1.5 + open * 1.6, my, 2.6, 1.6, 0.4, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#5A6A50'; ctx.fillRect(mx - 0.8, my - 1.4, 1.6, 3.4);
+      }
       // critters: a scooting dark blob with legs
       ctx.fillStyle = '#3A3028';
       for (const cr of critters) {
@@ -310,16 +404,60 @@ export function makeAmbient() {
     scanTargets(wx, wy, radius = TILE * 8) {
       const out = [];
       const r2 = radius * radius;
-      for (const f of fauna) if ((f.x - wx) ** 2 + ((f.y || 0) - wy) ** 2 < r2) out.push({ kind: f.kind, x: f.x, y: f.y || 0, size: (f.spec || FAUNA_BY_ID[f.kind])?.size });
+      for (const f of fauna) if ((f.x - wx) ** 2 + ((f.y || 0) - wy) ** 2 < r2) out.push({ kind: f.kind, x: f.x, y: f.y || 0, size: (f.spec || FAUNA_BY_ID[f.kind])?.size, ref: f });
       for (const ff of fireflies) if ((ff.x - wx) ** 2 + (ff.y - wy) ** 2 < r2) out.push({ kind: 'firefly', x: ff.x, y: ff.y });
       for (const bf of butterflies) if ((bf.x - wx) ** 2 + (bf.y - wy) ** 2 < r2) out.push({ kind: 'butterfly', x: bf.x, y: bf.y });
       for (const bt of bats) if ((bt.x - wx) ** 2 + (bt.y - wy) ** 2 < r2) out.push({ kind: 'bat', x: bt.x, y: bt.y });
+      const lamps3 = this._lamps || [];
+      for (const mo of moths) {
+        const L = lamps3[mo.lampI];
+        if (!L) continue;
+        const mx = L.x + Math.cos(mo.ang) * mo.r, my = L.y + Math.sin(mo.ang) * mo.r * 0.6;
+        if ((mx - wx) ** 2 + (my - wy) ** 2 < r2) out.push({ kind: 'moth', x: mx, y: my, size: [9, 6] });
+      }
       for (const g of glowSpots) if ((g.x - wx) ** 2 + (g.y - wy) ** 2 < r2) out.push({ kind: 'glowworm', x: g.x + 10, y: g.y });
       return out;
     },
     /** glowworm patches as light sources for the lighting pass */
     glowLights() { return glowSpots.map(g => ({ x: g.x + 10, y: g.y + 4, r: 34, warmth: 0 })); },
+    /** test hooks: inject/inspect the living arrays directly */
+    _fauna: fauna,
+    _fireflies: fireflies,
+    _moths: moths,
   };
 }
 
 // fauna art lives in render/fauna.js (FAUNA_ART), keyed by the registry's `draw` field.
+
+// ---- live telemetry (the scanner reads the INDIVIDUAL, not just the species) --
+
+/** human label for a brain state */
+export const STATE_LABELS = {
+  walk: 'ranging', idle: 'at rest', flee: 'fleeing', sleep: 'sleeping',
+  feed: 'grazing', hunt: 'hunting', eat: 'feeding', fight: 'sparring',
+};
+
+/** emotional read, derived from state + age - what the visor calls a mood */
+export function moodOf(f) {
+  if ((f.age ?? 0.5) >= 1) return 'FADING';
+  switch (f.state) {
+    case 'flee': return 'TERRIFIED';
+    case 'hunt': return 'LOCKED ON';
+    case 'eat': case 'feed': return 'CONTENT';
+    case 'fight': return 'TERRITORIAL';
+    case 'sleep': return 'DORMANT';
+    case 'idle': return (f.age ?? 0.5) < 0.35 ? 'CURIOUS' : 'CALM';
+    default: return 'CALM';
+  }
+}
+
+/** freeze one creature's vitals for a card (the entity may despawn after) */
+export function snapshotLive(f) {
+  if (!f || f.age === undefined) return null;
+  return {
+    age: f.age ?? 0.5,
+    lifespan: f.spec?.lifespan || 150,
+    state: STATE_LABELS[f.state] || f.state || 'observed',
+    mood: moodOf(f),
+  };
+}

@@ -30,12 +30,8 @@
 export const FOSSILS = [
   // - Anthropocene (the humans' layer - we catalogue them now) - 
   { id: 'human', lengthM: 1.7, bones: ['skull', 'spine', 'ribs', 'pelvis', 'femur'], name: 'Human', latin: 'Homo sapiens', period: 'anthropocene', environment: 'terrestrial', rarity: 'legendary', footprint: [2, 3], value: 100, blurb: 'The layer\u2019s architect. Built everything around it, including the reasons it\u2019s down here.' },
-  { id: 'smartphone', lengthM: 0.15, bones: ['device'], name: 'Smartphone', latin: 'Telephonum sapiens', period: 'anthropocene', environment: 'any', rarity: 'common', footprint: [1, 1], value: 12, blurb: 'Handheld slab. Carried everywhere; consulted several hundred times daily. Possibly devotional.' },
-  { id: 'plastic-bottle', lengthM: 0.25, bones: ['bottle'], name: 'Plastic Bottle', latin: 'Polyethylenus eternus', period: 'anthropocene', environment: 'any', rarity: 'common', footprint: [1, 1], value: 8, blurb: 'Held water for approximately four minutes. Will outlast the mountain above you.' },
-  { id: 'sneaker', lengthM: 0.3, bones: ['shoe'], name: 'Sneaker', latin: 'Calceus pneumaticus', period: 'anthropocene', environment: 'terrestrial', rarity: 'uncommon', footprint: [1, 1], value: 18, blurb: 'Foot armour with air inside. Traded for extraordinary sums while supplies lasted.' },
   { id: 'house-cat', lengthM: 0.5, bones: ['skull', 'spine', 'ribs', 'tail'], name: 'House Cat', latin: 'Felis catus', period: 'anthropocene', environment: 'terrestrial', rarity: 'uncommon', footprint: [2, 1], value: 35, blurb: 'Small predator. Evidence suggests it domesticated the humans, not the reverse.' },
   { id: 'pigeon', lengthM: 0.35, bones: ['skull', 'wing', 'spine'], name: 'Pigeon', latin: 'Columba livia', period: 'anthropocene', environment: 'any', rarity: 'common', footprint: [1, 1], value: 10, blurb: 'Urban survivor. Thrived on discarded carbohydrates and window ledges.' },
-  { id: 'car-tyre', lengthM: 0.7, bones: ['tyre'], name: 'Car Tyre', latin: 'Rotundum vulcanisatum', period: 'anthropocene', environment: 'any', rarity: 'uncommon', footprint: [2, 2], value: 20, blurb: 'One quarter of an automobile\u2019s grip on reality. Found in rivers, mostly.' },
 
   // - Quaternary (ice age) - 
   { id: 'mammoth', lengthM: 5.5, bones: ['skull', 'tusks', 'spine', 'ribs', 'pelvis', 'femur'], name: 'Woolly Mammoth', latin: 'Mammuthus primigenius', period: 'quaternary', environment: 'terrestrial', rarity: 'uncommon', footprint: [4, 3], value: 40, blurb: 'Shaggy tusked giant of the ice-age steppe; humans knew it well.' },

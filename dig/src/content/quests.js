@@ -62,20 +62,39 @@ export const QUESTS = [
         check: c => (c.stats?.garbageDug || 0) >= 3 },
     ],
   },
+  // -- the machine chain: one furnace per material family -----------------------
   {
-    id: 'processing', title: 'Reclamation', trigger: { after: 'scavenge' },
-    brief: 'Raw junk in, pure materials out. Build the machine.',
+    id: 'furnace', title: 'The Furnace', trigger: { after: 'scavenge' },
+    brief: 'Steel remembers how to be metal. Build it a fire.',
     steps: [
-      { id: 'build-proc', label: 'Reclaimer', line: 'Press B and build a Reclaimer (4 metal 2 plastic - dig more junk if short)',
-        check: c => c.builtCount('processor') >= 1 },
-      { id: 'load', label: 'Feed it', line: 'E at the Reclaimer to load your raw junk',
-        check: c => (c.stats?.matsExtracted || 0) > 0 || c.procQueued > 0 },
-      { id: 'extract', label: 'Extract', line: 'Let it wash, shred and extract - collect 6 materials from the tray',
-        check: c => (c.stats?.matsExtracted || 0) >= 6 },
+      { id: 'build-smelter', label: 'Smelter', line: 'Press B and build a Smelter (8 regolith) - it eats scrap, cans, cutlery, rebar',
+        check: c => c.builtCount('smelter') >= 1 },
+      { id: 'smelt', label: 'Smelt', line: 'Feed it metal junk (E) and collect 4 metal from the tray',
+        check: c => (c.inventory?.count('metal') || 0) >= 4 },
     ],
   },
   {
-    id: 'field-lab', title: 'Field Laboratory', trigger: { after: 'processing' },
+    id: 'pyrolysis', title: 'The Vat', trigger: { after: 'furnace' },
+    brief: 'Plastic never learned to rot. Cook it back into something useful.',
+    steps: [
+      { id: 'build-vat', label: 'Pyrolysis Vat', line: 'Build a Pyrolysis Vat - bottles, tyres, ghost nets, toy bricks',
+        check: c => c.builtCount('pyrolysis') >= 1 },
+      { id: 'cook', label: 'Cook', line: 'Extract 4 plastics or polymers from junk',
+        check: c => (c.inventory?.count('plastic') || 0) + (c.inventory?.count('polymer') || 0) >= 4 },
+    ],
+  },
+  {
+    id: 'kiln', title: 'The Kiln', trigger: { after: 'pyrolysis' },
+    brief: 'Glass, ceramic, circuit boards: silica all the way down.',
+    steps: [
+      { id: 'build-kiln', label: 'Ash Kiln', line: 'Build an Ash Kiln - e-waste, bottles, broken porcelain',
+        check: c => c.builtCount('kiln') >= 1 },
+      { id: 'reduce', label: 'Reduce', line: 'Extract 2 silicon',
+        check: c => (c.inventory?.count('silicon') || 0) >= 2 },
+    ],
+  },
+  {
+    id: 'field-lab', title: 'Field Laboratory', trigger: { after: 'kiln' },
     brief: 'The pod lab is cramped. Build real benches where you want them.',
     steps: [
       { id: 'bench', label: 'Prep Bench', line: 'Build a Prep Bench (B) - clean fossils without trudging to the pod',
@@ -85,13 +104,55 @@ export const QUESTS = [
     ],
   },
   {
-    id: 'power-up', title: 'The Grid', trigger: { after: 'processing' },
+    id: 'power-up', title: 'The Grid', trigger: { after: 'furnace' },
     brief: 'Machines want power of their own. Sun for calm days, wind for storms.',
     steps: [
       { id: 'gen', label: 'Generator', line: 'Build a Solar Panel or a Wind Vane near your machines',
         check: c => c.builtCount('solar') + c.builtCount('wind-vane') >= 1 },
       { id: 'full', label: 'Top up', line: 'Charge your own battery to 90%',
         check: c => c.power.frac() >= 0.9 },
+    ],
+  },
+
+  // -- nature-tech: what the living world teaches the machine -------------------
+  {
+    id: 'bio-optics', title: 'Bio-optics', trigger: { event: 'scanned:mushroom' },
+    brief: 'The mushroom makes light without heat. Steal the trick.',
+    steps: [
+      { id: 'lamp', label: 'Bio-lamp', line: 'The Mycena scan unlocked a lamp blueprint - build one (B)',
+        check: c => c.builtCount('lamp-green') + c.builtCount('lamp-blue') + c.builtCount('lamp-teal') + c.builtCount('lamp-amber') >= 1 },
+    ],
+  },
+  {
+    id: 'dark-sky', title: 'Dark Sky', trigger: { predicate: c => c.lampsBuilt > 0 && c.codex?.has('firefly') },
+    brief: 'Your floodlight drowns the fireflies’ courtship code. Amber does not.',
+    steps: [
+      { id: 'amber', label: 'Amber lamp', line: 'Build a Dark-sky Lamp - warm amber, the wildlife-safe frequency (real: turtle-safe LEDs)',
+        check: c => c.builtCount('lamp-amber') >= 1 },
+    ],
+  },
+  {
+    id: 'entomologist', title: 'Field Notes', trigger: { event: 'creatures-5' },
+    brief: 'Living anatomy teaches dead anatomy.',
+    steps: [
+      { id: 'scan8', label: 'Observe', line: 'Catalogue 8 living creatures - observation informs reconstruction',
+        check: c => (c.stats?.creaturesScanned || 0) >= 8 },
+    ],
+  },
+  {
+    id: 'ghost-nets', title: 'Ghost Nets', trigger: { event: 'ghost-net-first' },
+    brief: 'Somewhere down there, nets are still fishing.',
+    steps: [
+      { id: 'nets3', label: 'Recover', line: 'Dig up 3 ghost nets - every one recovered stops fishing forever',
+        check: c => (c.stats?.netsDug || 0) >= 3 },
+    ],
+  },
+  {
+    id: 'anthropocene-codex', title: 'The Anthropocene Codex', trigger: { event: 'junk-4-scanned' },
+    brief: 'Catalogue everything they left behind.',
+    steps: [
+      { id: 'all-junk', label: 'Complete it', line: 'Scan every junk type in the field - know the waste, work it faster (+20% machine speed)',
+        check: c => (c.stats?.junkTypesScanned || 0) >= 12 },
     ],
   },
 ];

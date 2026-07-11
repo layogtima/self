@@ -55,7 +55,8 @@ console.log('\n[content] schema validation');
   t.ok(ok.bones, 'every fossil has a 1..6 bones list of strings');
   t.ok(STRATA.every(s => Number.isInteger(s.hp) && s.hp >= 1), 'every stratum hp is an integer ≥ 1');
   t.ok(STRATA.every((s, i) => i === 0 || s.hp >= STRATA[i - 1].hp), 'hp never decreases with depth (deep rock is chewier)');
-  t.ok(FOSSILS.length >= 30, `registry has ${FOSSILS.length} species`);
+  t.ok(FOSSILS.length >= 28, `registry has ${FOSSILS.length} species`);
+  t.ok(!FOSSILS.some(f => ['smartphone', 'plastic-bottle', 'sneaker', 'car-tyre'].includes(f.id)), 'artifacts left the museum (they are junk now)');
   t.ok(STRATA.every(s => FOSSILS.some(f => f.period === s.id)), 'every stratum has a fossil');
   // stations: 4 known minigames, contiguous pipeline
   const kinds = new Set(['prep', 'identify', 'stabilize', 'mount']);
@@ -584,23 +585,25 @@ console.log('\n[fauna] registry is well-formed and covers the codex');
   t.ok(FAUNA_BY_ID.hopper.rarity === 2, 'hopper keeps its double rain weight');
 }
 
-console.log('\n[harvest] picking a mushroom updates inventory, save, and the feature is gone');
+console.log('\n[harvest] picking a crystal updates inventory, save, and the feature is gone');
 {
-  const { caveFeaturesAt } = await import('../src/game/features.js');
+  const { caveFeaturesAt, HARVESTABLE } = await import('../src/game/features.js');
   const { makeInventory } = await import('../src/game/inventory.js');
   const w = makeWorld(5);
-  // find a mushroom tile
+  // minerals only: mushrooms are scan targets, never resources
+  t.ok(!HARVESTABLE.mushroom && HARVESTABLE.crystal === 'crystal', 'only the mineral is harvestable');
+  // find a crystal tile
   let spot = null;
   for (let ty = 0; ty < w.WORLD_H - 4 && !spot; ty++)
     for (let tx = 0; tx < w.WORLD_W && !spot; tx++) {
       const f = caveFeaturesAt(w, tx, ty);
-      if (f?.floor === 'mushroom') spot = { tx, ty };
+      if (f?.floor === 'crystal') spot = { tx, ty };
     }
-  t.ok(!!spot, 'found a glow mushroom in the seeded world');
+  t.ok(!!spot, 'found a selenite crystal in the seeded world');
   const inv = makeInventory();
   t.ok(w.harvest(spot.tx, spot.ty), 'harvest marks the tile');
-  inv.add('mushroom');
-  t.eq(inv.count('mushroom'), 1, 'inventory counts the pick');
+  inv.add('crystal');
+  t.eq(inv.count('crystal'), 1, 'inventory counts the pick');
   t.eq(caveFeaturesAt(w, spot.tx, spot.ty)?.floor ?? null, null, 'harvested feature no longer reported (render + scan agree it is gone)');
   t.ok(!w.harvest(spot.tx, spot.ty), 'double-harvest refused');
   // round-trip through deltas
@@ -609,8 +612,19 @@ console.log('\n[harvest] picking a mushroom updates inventory, save, and the fea
   t.eq(caveFeaturesAt(w2, spot.tx, spot.ty)?.floor ?? null, null, 'harvest persists through save deltas');
   // inventory export/import
   const inv2 = makeInventory(inv.export());
-  t.eq(inv2.count('mushroom'), 1, 'materials persist');
-  t.ok(inv2.pay({ mushroom: 1 }) && inv2.count('mushroom') === 0 && !inv2.pay({ mushroom: 1 }), 'pay() spends and refuses overdraft');
+  t.eq(inv2.count('crystal'), 1, 'materials persist');
+  t.ok(inv2.pay({ crystal: 1 }) && inv2.count('crystal') === 0 && !inv2.pay({ crystal: 1 }), 'pay() spends and refuses overdraft');
+}
+
+console.log('\n[synthesize] biology is never an ingredient - every cost is a processed material');
+{
+  const { BUILDABLES } = await import('../src/content/buildables.js');
+  const { MATERIALS_BY_ID } = await import('../src/content/materials.js');
+  for (const b of BUILDABLES) {
+    const bad = Object.keys(b.cost).filter(id => !MATERIALS_BY_ID[id]);
+    t.ok(bad.length === 0, `${b.id} costs only processed/mineral materials${bad.length ? ` (BAD: ${bad})` : ''}`);
+  }
+  t.ok(!MATERIALS_BY_ID.mushroom, 'the material registry holds no living things');
 }
 
 // ===================================================================== v3.6: fluids
@@ -776,55 +790,123 @@ console.log('\n[garbage] the anthropocene is full of junk; digging it fills the 
   t.ok(!w2.garbageAt(g.tx, g.ty), 'scavenged state survives save deltas');
 }
 
-console.log('\n[reclaimer] powered wash→shred→extract cycle fills the tray');
+console.log('\n[machines] each furnace takes its own junk; powered cycles fill the tray');
 {
   const { RECLAIM_STAGES } = await import('../src/game/entities.js');
+  const { BUILDABLES_BY_ID } = await import('../src/content/buildables.js');
+  const { GARBAGE } = await import('../src/content/materials.js');
+  // every junk type has exactly one machine that accepts it
+  const machines = Object.values(BUILDABLES_BY_ID).filter(b => b.accepts);
+  t.eq(machines.length, 3, 'three processing machines (Smelter, Vat, Kiln)');
+  for (const g of GARBAGE) {
+    const takers = machines.filter(m => m.accepts.includes(g.id));
+    t.eq(takers.length, 1, `${g.id} is accepted by exactly one machine (${takers[0]?.name})`);
+  }
   const ents = makeEntities(null, { podTx: 10, podTy: 20 });
-  const e = ents.add('processor', 30, 20);
-  e.queue.push('bottle-cluster', 'scrap-metal');
-  // unpowered night, no wind: frozen
+  const smelter = ents.add('smelter', 30, 20);
+  smelter.queue.push('scrap-metal', 'aluminium-can');
+  smelter.battery = 0;   // drained flat: nothing to run on
+  // dead battery + unpowered night, no wind: frozen
   for (let i = 0; i < 60 * 3; i++) ents.update(1 / 60, { sun01: 0, wind01: 0 });
-  t.eq(e.queue.length, 2, 'no power (night, still air) = no progress');
-  t.ok(e.powered === false, 'machine reports unpowered');
-  // storm wind powers it
+  t.eq(smelter.queue.length, 2, 'flat battery + no source = no progress');
+  t.eq(smelter.stage, 0, '...stage frozen too');
+  // storm wind powers it through both items
   const total = RECLAIM_STAGES.reduce((a, b) => a + b, 0);
   for (let i = 0; i < Math.ceil((total * 2 + 1) * 60); i++) ents.update(1 / 60, { sun01: 0, wind01: 0.8 });
-  t.eq(e.queue.length, 0, 'storm wind ran both items through the cycle');
-  t.ok((e.outBuffer.plastic || 0) >= 2 && (e.outBuffer.metal || 0) >= 2, `tray holds yields (${JSON.stringify(e.outBuffer)})`);
-  // an adjacent wind vane powers it under a light breeze
-  const e2 = ents.add('processor', 40, 20);
-  e2.queue.push('tyre-chunk');
-  ents.add('wind-vane', 43, 20);
-  for (let i = 0; i < Math.ceil((total + 1) * 60); i++) ents.update(1 / 60, { sun01: 0, wind01: 0.2 });
-  t.eq(e2.queue.length, 0, 'adjacent wind vane powers the machine in a breeze');
+  t.eq(smelter.queue.length, 0, 'storm wind smelted both items');
+  t.ok((smelter.outBuffer.metal || 0) >= 3, `tray holds metal (${JSON.stringify(smelter.outBuffer)})`);
+  // routing: the Vat only takes its own junk from a mixed hold
+  const { makeInventory } = await import('../src/game/inventory.js');
+  const inv = makeInventory({}, ['scrap-metal', 'bottle-cluster', 'tyre-chunk', 'ceramic-shards']);
+  const taken = inv.takeGarbageMatching(BUILDABLES_BY_ID.pyrolysis.accepts);
+  t.eq(taken.sort().join(','), 'bottle-cluster,tyre-chunk', 'Vat pulls only plastics/polymer junk');
+  t.eq(inv.garbageCount(), 2, 'the rest stays in the hold');
+  // quest-bonus speed: 1.2x finishes a cycle faster
+  const e2 = ents.add('kiln', 40, 20);
+  e2.queue.push('glass-bottle');
+  let ticks = 0;
+  while (e2.queue.length && ticks < 600) { ents.update(1 / 60, { sun01: 1, wind01: 0, speed: 1.2 }); ticks++; }
+  t.ok(ticks < Math.ceil(total * 60), `codex bonus runs the kiln faster (${ticks} ticks)`);
 }
 
-console.log('\n[quests] M2 chain: scavenge → processing → power-up');
+console.log('\n[machine-power] batteries drain, recharge, obey the switch, accept a top-up');
+{
+  const { MACHINE_BATT_CAP } = await import('../src/game/entities.js');
+  const ents = makeEntities(null, { podTx: 10, podTy: 20 });
+  const vat = ents.add('pyrolysis', 30, 20);
+  t.eq(vat.battery, MACHINE_BATT_CAP / 2, 'a new machine ships half-charged');
+  vat.queue.push('tyre-chunk');
+  const b0 = vat.battery;
+  for (let i = 0; i < 60; i++) ents.update(1 / 60, { sun01: 0, wind01: 0 });   // running in the dark
+  t.ok(vat.battery < b0, `cycling drains the battery (${vat.battery.toFixed(1)})`);
+  // sun recharges an idle machine toward the cap
+  const idle = ents.add('kiln', 40, 20);
+  idle.battery = 1;
+  for (let i = 0; i < 60 * 5; i++) ents.update(1 / 60, { sun01: 1, wind01: 0 });
+  t.ok(idle.battery > 10, `sun recharges an idle machine (${idle.battery.toFixed(1)})`);
+  // the P switch: OFF = inert - no charge draw, no drain, no work
+  const off = ents.add('smelter', 50, 20);
+  off.enabled = false; off.battery = 5; off.queue.push('scrap-metal');
+  for (let i = 0; i < 60 * 4; i++) ents.update(1 / 60, { sun01: 1, wind01: 0 });
+  t.eq(off.battery, 5, 'a switched-off machine neither charges nor drains');
+  t.eq(off.queue.length, 1, '...and does no work');
+  // a flat battery freezes mid-job; a top-up (what the G umbilical feeds) resumes it
+  const dead = ents.add('smelter', 60, 20);
+  dead.battery = 0; dead.queue.push('aluminium-can');
+  for (let i = 0; i < 60 * 2; i++) ents.update(1 / 60, { sun01: 0, wind01: 0 });
+  t.eq(dead.queue.length, 1, 'flat + dark = frozen');
+  dead.battery = MACHINE_BATT_CAP;   // the umbilical, distilled: rover charge in
+  for (let i = 0; i < 60 * 9; i++) ents.update(1 / 60, { sun01: 0, wind01: 0 });
+  t.eq(dead.queue.length, 0, 'a battery top-up finishes the job with no sky power at all');
+  // battery + switch survive the save round-trip; old saves get retrofitted
+  const again = makeEntities(ents.export(), { podTx: 10, podTy: 20 });
+  t.ok(again.list.find(e => e.uid === off.uid).enabled === false, 'the OFF switch persists');
+  const legacy = makeEntities({ nextUid: 5, entities: [{ uid: 2, type: 'kiln', tx: 30, ty: 20, queue: [], stage: 0, t: 0, outBuffer: {} }] }, { podTx: 10, podTy: 20 });
+  t.eq(legacy.list.find(e => e.type === 'kiln').battery, MACHINE_BATT_CAP / 2, 'pre-battery saves get a half charge');
+}
+
+console.log('\n[quests] the machine chain: scavenge → furnace → vat → kiln (+ grid, + bio)');
 {
   const { makeQuests } = await import('../src/game/quests.js');
   const q = makeQuests(null);
-  let procs = 0, gens = 0;
+  const built = {};
+  const mats = { metal: 0, plastic: 0, polymer: 0, silicon: 0 };
   const ctx = {
     player: { beam: null, tool: 'laser' }, pulley: { active: false }, codex: new Set(),
     env: { precip01: () => 0 }, power: { frac: () => 0.95 },
-    builtCount: type => type === 'processor' ? procs : (type === 'solar' || type === 'wind-vane') ? gens : 0,
-    exposedNow: false, stats: { garbageDug: 0, matsExtracted: 0 }, procQueued: 0,
+    inventory: { count: id => mats[id] || 0 },
+    builtCount: type => built[type] || 0,
+    exposedNow: false, lampsBuilt: 0,
+    stats: { garbageDug: 0, matsExtracted: 0, netsDug: 0, creaturesScanned: 0, junkTypesScanned: 0 },
+    procQueued: 0,
   };
   q.emit('garbage-first');
   q.update(1 / 60, ctx);
   t.ok(q.isActive('scavenge'), 'first junk activates the survey');
   ctx.stats.garbageDug = 3; q.update(1 / 60, ctx);
-  t.ok(q.isDone('scavenge'), 'three deposits complete the survey');
   q.update(1 / 60, ctx);
-  t.ok(q.isActive('processing'), 'reclamation chains from the survey');
-  procs = 1; q.update(1 / 60, ctx);
-  ctx.procQueued = 3; q.update(1 / 60, ctx);
-  ctx.stats.matsExtracted = 6; q.update(1 / 60, ctx);
-  t.ok(q.isDone('processing'), 'build + feed + extract completes reclamation');
+  t.ok(q.isActive('furnace'), 'the Furnace chains from the survey');
+  built.smelter = 1; q.update(1 / 60, ctx);
+  mats.metal = 4; q.update(1 / 60, ctx);
+  t.ok(q.isDone('furnace'), 'smelter + 4 metal completes the Furnace');
   q.update(1 / 60, ctx);
-  t.ok(q.isActive('power-up'), 'the grid chains from reclamation');
-  gens = 1; q.update(1 / 60, ctx); q.update(1 / 60, ctx);
-  t.ok(q.isDone('power-up'), 'generator + full battery completes the grid');
+  t.ok(q.isActive('pyrolysis') && q.isActive('power-up'), 'the Vat and the Grid both open after the Furnace');
+  built.pyrolysis = 1; mats.plastic = 4; q.update(1 / 60, ctx); q.update(1 / 60, ctx);
+  t.ok(q.isDone('pyrolysis'), 'vat + 4 plastics completes');
+  q.update(1 / 60, ctx);
+  built.kiln = 1; mats.silicon = 2; q.update(1 / 60, ctx); q.update(1 / 60, ctx);
+  t.ok(q.isDone('kiln'), 'kiln + 2 silicon completes');
+  q.update(1 / 60, ctx);
+  t.ok(q.isActive('field-lab'), 'the field lab opens after the kiln');
+  // bio quests
+  q.emit('scanned:mushroom'); q.update(1 / 60, ctx);
+  t.ok(q.isActive('bio-optics'), 'scanning the Mycena opens Bio-optics');
+  built['lamp-green'] = 1; ctx.lampsBuilt = 1; q.update(1 / 60, ctx);
+  t.ok(q.isDone('bio-optics'), 'building a lamp completes Bio-optics');
+  ctx.codex.add('firefly'); q.update(1 / 60, ctx);
+  t.ok(q.isActive('dark-sky'), 'lamp + firefly scan opens Dark Sky');
+  built['lamp-amber'] = 1; q.update(1 / 60, ctx);
+  t.ok(q.isDone('dark-sky'), 'the amber lamp completes Dark Sky');
 }
 
 // ===================================================================== v4 M3: dig power tiers
@@ -845,6 +927,86 @@ console.log('\n[laser] hp curve + mk tiers: deep rock is chewy until you upgrade
   let ty2 = w.surface[col2] + 260;   // carboniferous: hp 4
   while (w.tileAt(col2, ty2) !== cfg.T_ROCK && ty2 < w.surface[col2] + 309) ty2++;
   t.eq(w.dig(col2, ty2, 4).broke, true, 'mk3 (power 4) one-shots carboniferous rock');
+}
+
+// ===================================================================== v4.2: click-locked digging
+console.log('\n[dig] mouse digging latches one tile - no seam-sweeping 2-tall channels');
+{
+  clearKeys();
+  const w = makeWorld(500);
+  const col = w.spawnCol + 50, surf = w.surface[col];
+  const p = makePlayer(col * cfg.TILE + 2, surf * cfg.TILE - cfg.PLAYER_H);
+  const particles = makeParticles(); const cam = { x: 0, y: 0 }, fx = { shake: () => {} };
+  for (let i = 0; i < 30; i++) updatePlayer(p, w, 1 / 60);
+  // hold the cursor ON a tile seam while walking - the old repro
+  mouse.left = true;
+  keys.KeyD = true;
+  const cleared = new Map();
+  for (let i = 0; i < 60 * 6; i++) {
+    mouse.x = p.cx() + 40 - cam.x;
+    mouse.y = surf * cfg.TILE - 0.5;   // straddling two rows
+    updatePlayer(p, w, 1 / 60);
+    const ev = updateDigging(p, w, cam, particles, fx, 1 / 60);
+    if (ev.brokeTile) cleared.set(ev.brokeTile.tx, (cleared.get(ev.brokeTile.tx) || []).concat(ev.brokeTile.ty));
+  }
+  mouse.left = false; clearKeys();
+  const twoTall = [...cleared.values()].filter(tys => new Set(tys).size > 1).length;
+  t.ok(cleared.size >= 3, `held mouse still tunnels (${cleared.size} columns)`);
+  t.eq(twoTall, 0, 'no column lost more than one row (click-lock holds the seam)');
+}
+
+// ===================================================================== v4.2: liquids + salvage + science
+console.log('\n[liquids] four real fluids: seeded, conserved, viscosity-ordered');
+{
+  const { FLUID_SPECS } = cfg;
+  t.ok(FLUID_SPECS[cfg.T_TAR].visc < FLUID_SPECS[cfg.T_LAVA].visc, 'tar creeps slower than lava');
+  t.ok(FLUID_SPECS[cfg.T_LAVA].visc < FLUID_SPECS[cfg.T_BRINE].visc, 'lava slower than brine');
+  t.ok(FLUID_SPECS[cfg.T_BRINE].visc < FLUID_SPECS[cfg.T_WATER].visc, 'brine slower than water');
+  const w = makeWorld(600);
+  const count = id => { let n = 0; for (const t2 of w.tiles) if (t2 === id) n++; return n; };
+  const before = { water: count(cfg.T_WATER), brine: count(cfg.T_BRINE), tar: count(cfg.T_TAR), lava: count(cfg.T_LAVA) };
+  t.ok(before.brine > 0, `brine pools seeded (${before.brine})`);
+  t.ok(before.tar > 0, `tar seeps seeded (${before.tar})`);
+  t.ok(before.lava > 250, `the basement runs molten (${before.lava} lava tiles)`);
+  // let everything flow for a while over the whole map: volume conserved per fluid
+  const bounds = { x0: 0, x1: w.WORLD_W - 1, y0: 0, y1: w.WORLD_H - 1 };
+  for (let i = 0; i < 400; i++) w.stepFluids(bounds, 1 / 60);
+  t.eq(count(cfg.T_WATER), before.water, 'water conserved');
+  t.eq(count(cfg.T_BRINE), before.brine, 'brine conserved');
+  t.eq(count(cfg.T_TAR), before.tar, 'tar conserved');
+  t.eq(count(cfg.T_LAVA), before.lava, 'lava conserved');
+  const { CODEX_BY_ID } = await import('../src/content/codex.js');
+  t.ok(CODEX_BY_ID.brine && CODEX_BY_ID.tar, 'codex covers the new fluids');
+}
+
+console.log('\n[salvage] the junk museum: 12 storied types, all reachable, all scannable');
+{
+  const { BUILDABLES_BY_ID } = await import('../src/content/buildables.js');
+  const { CODEX_BY_ID } = await import('../src/content/codex.js');
+  const { GARBAGE } = await import('../src/content/materials.js');
+  t.ok(GARBAGE.length >= 12, `junk ecosystem is rich (${GARBAGE.length} types)`);
+  t.ok(GARBAGE.every(g => CODEX_BY_ID[g.id]), 'every junk type has a storied codex entry');
+  // the Smelter (first machine, regolith-only) must be pre-metal buildable
+  t.ok(Object.keys(BUILDABLES_BY_ID.smelter.cost).every(id2 => id2 === 'regolith'), 'the Smelter costs only dig spoil - no bootstrap paradox');
+  for (const seed of [1, 77, 4242]) {
+    const w = makeWorld(seed);
+    const byType = {};
+    for (const g of w.garbage) byType[g.type] = (byType[g.type] || 0) + 1;
+    const metalJunk = (byType['scrap-metal'] || 0) + (byType['aluminium-can'] || 0) + (byType['rebar-chunk'] || 0) + (byType['stainless-cutlery'] || 0);
+    t.ok(metalJunk >= 6, `seed ${seed}: plenty of metal junk for the Smelter (${metalJunk})`);
+  }
+  // scanning a buried deposit names its type
+  const { scanTargetAt } = await import('../src/game/scan.js');
+  const w2 = makeWorld(1);
+  const g0 = w2.garbage.find(g => w2.garbageAt(g.tx, g.ty));
+  t.eq(scanTargetAt((g0.tx + 0.5) * cfg.TILE, (g0.ty + 0.5) * cfg.TILE, w2, []), g0.type, 'scanner reads deposits through the rock');
+}
+
+console.log('\n[science] every codex creature/flora entry names a real taxon');
+{
+  const { CODEX } = await import('../src/content/codex.js');
+  const withTaxon = CODEX.filter(e => e.category === 'creature');
+  t.ok(withTaxon.every(e => e.stats.some(([k]) => ['species', 'genus', 'order'].includes(k))), 'every creature entry carries a species/genus/order row');
 }
 
 // ===================================================================== v4 M3: hazards
@@ -884,7 +1046,8 @@ console.log('\n[cave-in] wide unsupported spans can drop; a pillar splits them')
     const res = hz.onDig(col + 5, cy);
     t.ok(res.collapsed.length >= 2, `10-span ceiling collapsed (${res.collapsed.length} tiles of rubble)`);
     t.ok(res.payout >= res.collapsed.length, 'cave-in pays out regolith');
-    t.ok(res.collapsed.every(c => w.tileAt(c.tx, c.ty) === cfg.T_PLACED), 'debris piles as placed soil');
+    t.ok(res.collapsed.every(c => w.tileAt(c.tx, c.ty) === cfg.T_RUBBLE), 'debris piles as loose rubble');
+    t.ok(res.collapsed.every(c => w.diggable(c.tx, c.ty)), 'rubble stays diggable by the laser');
 
     // same room shape, but with a support pillar mid-span: no collapse
     const w2 = makeWorld(46);
@@ -898,6 +1061,198 @@ console.log('\n[cave-in] wide unsupported spans can drop; a pillar splits them')
     const res2 = hz2.onDig(col2 + 2, cy2);
     t.eq(res2.collapsed.length, 0, 'a mid-span pillar splits the ceiling - no collapse');
   } finally { Math.random = oldRandom; }
+}
+
+// ===================================================================== v4.3: geology + grounding + sky
+console.log('\n[liquids] every pool sits in its geological band, in order');
+{
+  const BANDS = { [cfg.T_TAR]: [4, 40], [cfg.T_WATER]: [45, 140], [cfg.T_BRINE]: [300, 400], [cfg.T_LAVA]: [330, 99999] };
+  let out = 0, counts = {};
+  for (const seed of [11, 909]) {
+    const w = makeWorld(seed);
+    for (let ty = 0; ty < w.WORLD_H; ty++) for (let tx = 0; tx < w.WORLD_W; tx++) {
+      const t2 = w.tileAt(tx, ty);
+      if (!BANDS[t2]) continue;
+      counts[t2] = (counts[t2] || 0) + 1;
+      const d = ty - w.surface[tx];
+      // pools flood-fill up to 4 rows above their seed and spread a little - allow slack
+      if (d < BANDS[t2][0] - 8 || d > BANDS[t2][1] + 8) out++;
+    }
+  }
+  t.eq(out, 0, 'no fluid tile strays outside its band (±8 slack)');
+  t.ok([cfg.T_TAR, cfg.T_WATER, cfg.T_BRINE, cfg.T_LAVA].every(id2 => counts[id2] > 0), 'all four fluids present');
+}
+
+console.log('\n[machines] built machines stand ON the ground (no hovering)');
+{
+  const w = makeWorld(31);
+  const ents = makeEntities(null, { podTx: 1, podTy: 10 });
+  const col = w.spawnCol + 40, surf = w.surface[col];
+  // as placed by the ghost: ty = bottom-most occupied AIR row = surf - 1
+  const e = ents.add('processor', col, surf - 1);
+  t.eq(e.ty + 1, surf, 'entity feet row (ty+1) is the ground row');
+  t.ok(w.solidAt(col, e.ty + 1), 'there is actual ground under the feet');
+}
+
+console.log('\n[sky] sunlight pours down shafts, spills into cave mouths, misses the deeps');
+{
+  const { makeLighting } = await import('../src/render/lighting.js');
+  const { makeCanvas } = { makeCanvas: (w2, h2) => ({ width: w2, height: h2, getContext: () => new Proxy({}, { get: () => () => ({ addColorStop: () => {} }) }) }) };
+  const L = makeLighting((w2, h2) => globalThis.document.createElement('canvas'));
+  const w = makeWorld(7);
+  const col = w.spawnCol + 50, surf = w.surface[col];
+  for (let d = 0; d < 10; d++) if (w.diggable(col, surf + d)) w.dig(col, surf + d, 999);   // shaft
+  for (let o = 1; o <= 4; o++) if (w.diggable(col + o, surf + 9)) w.dig(col + o, surf + 9, 999);   // pocket
+  const sky = L._computeSky(w, { x0: col - 20, x1: col + 20, y0: surf - 6, y1: surf + 30 });
+  const at = (x, y) => sky.grid[(y - sky.y0) * sky.w + (x - sky.x0)];
+  t.eq(at(col, surf + 9), 1, 'shaft bottom is a god-ray (open to the sky)');
+  t.ok(at(col + 2, surf + 9) > 0.3 && at(col + 2, surf + 9) < 0.7, `light spills 2 tiles into the pocket (${at(col + 2, surf + 9).toFixed(2)})`);
+  t.ok(at(col + 4, surf + 9) < at(col + 2, surf + 9), 'and dimmer further in');
+}
+
+console.log('\n[deconstructor] the laser never cuts built tiles; the deconstructor reclaims them');
+{
+  const w = makeWorld(51);
+  const col = w.spawnCol + 30, surf = w.surface[col];
+  t.ok(w.place(col, surf - 2, cfg.T_PLACED), 'wall block placed');
+  t.ok(w.place(col + 1, surf - 4, cfg.T_ROOF), 'roof panel placed');
+  t.ok(!w.diggable(col, surf - 2), 'a built wall is NOT laser-diggable');
+  t.ok(!w.diggable(col + 1, surf - 4), 'a built roof is NOT laser-diggable');
+  t.eq(w.dig(col, surf - 2, 999), null, 'dig() refuses the wall outright');
+  t.eq(w.removePlaced(col, surf - 2), cfg.T_PLACED, 'removePlaced reclaims the wall (returns its tile id)');
+  t.eq(w.tileAt(col, surf - 2), cfg.T_AIR, 'the wall is gone');
+  t.eq(w.removePlaced(col, surf - 2), 0, 'a second pass finds nothing built');
+  t.eq(w.removePlaced(col, surf + 3), 0, 'natural rock is never deconstructable');
+  t.ok(w.diggable(col, surf + 3), '...but stays laser-diggable');
+  // rubble round-trips: placed by cave-ins, cleared by the laser
+  t.ok(w.place(col + 2, surf - 1, cfg.T_RUBBLE), 'rubble placed (cave-in path)');
+  t.ok(w.diggable(col + 2, surf - 1), 'rubble is laser-diggable');
+  t.ok(w.dig(col + 2, surf - 1, 1)?.broke, 'and breaks in one hit');
+  // save round-trip: a placed wall survives, and stays deconstructable
+  t.ok(w.place(col + 3, surf - 2, cfg.T_PLACED), 'wall for the save test');
+  const deltas = w.exportDeltas();
+  const w2 = makeWorld(51);
+  w2.applyDeltas(deltas);
+  t.ok(!w2.diggable(col + 3, surf - 2), 'restored wall still refuses the laser');
+  t.eq(w2.removePlaced(col + 3, surf - 2), cfg.T_PLACED, 'restored wall still deconstructs');
+}
+
+console.log('\n[sky-blit] night + day sky passes use the seamless 1px-per-tile blit (no grid)');
+{
+  const { makeLighting } = await import('../src/render/lighting.js');
+  const w = makeWorld(7);
+  const col = w.spawnCol + 50, surf = w.surface[col];
+  const cam = { x: col * cfg.TILE - 200, y: surf * cfg.TILE - 100, bounds: () => ({ x0: col - 15, x1: col + 15, y0: surf - 8, y1: surf + 12 }) };
+  const ctx = globalThis.document.createElement('canvas').getContext('2d');
+  const emitter = { x: col * cfg.TILE, y: surf * cfg.TILE };
+  const night = makeLighting((w2, h2) => globalThis.document.createElement('canvas'));
+  night.apply(ctx, w, cam, emitter, 0, 0.8, [], { strength: 0.2, warm: 0 });
+  t.ok(night._usedSkyBlit, 'night sky light rendered via the single smoothed blit');
+  const day = makeLighting((w2, h2) => globalThis.document.createElement('canvas'));
+  day.apply(ctx, w, cam, emitter, 0, 0, [], { strength: 1, warm: 0 });
+  t.ok(day._usedSkyBlit, 'daytime overhang shade rendered via the single smoothed blit');
+}
+
+console.log('\n[shallow caves] roomy grottoes, barely any surface shafts');
+{
+  for (const seed of [3, 42]) {
+    const w = makeWorld(seed);
+    let pockets2 = 0, tall3 = 0, notches = 0;
+    for (let tx = 4; tx < w.WORLD_W - 4; tx++) {
+      const s2 = w.surface[tx];
+      if (w.tileAt(tx, s2) === cfg.T_AIR || w.tileAt(tx, s2 + 1) === cfg.T_AIR) notches++;
+      for (let d = 5; d <= 25; d++) {
+        if (w.tileAt(tx, s2 + d) === cfg.T_AIR) {
+          pockets2++;
+          if (w.tileAt(tx, s2 + d + 1) === cfg.T_AIR && w.tileAt(tx, s2 + d + 2) === cfg.T_AIR) tall3++;
+          break;
+        }
+      }
+    }
+    t.ok(pockets2 > 40, `seed ${seed}: plentiful shallow cave air (${pockets2} cols)`);
+    t.ok(tall3 >= 15, `seed ${seed}: real ROOMS, not cracks (${tall3} cols with 3-tall air)`);
+    t.ok(notches <= 3, `seed ${seed}: at most a couple of skylight wells cut the surface (${notches})`);
+  }
+}
+
+// ===================================================================== v4.4: lifecycles
+console.log('\n[lifecycle] creatures grow, hunt, feed, and fade of old age');
+{
+  const { makeAmbient } = await import('../src/game/ambient.js');
+  const { FAUNA_BY_ID, FAUNA } = await import('../src/content/fauna.js');
+  const w = makeWorld(9);
+  const amb = makeAmbient();
+  const col = w.spawnCol + 30, surf = w.surface[col];
+  const p2 = { tx: () => col - 30, cy: () => surf * cfg.TILE, cx: () => (col - 30) * cfg.TILE };   // far away
+  const cam2 = { x: (col - 30) * cfg.TILE, bounds: () => ({ x0: col - 40, x1: col + 20, y0: surf - 10, y1: surf + 24 }) };
+  const envStub = { night01: () => 0.8, weather: 'clear', precip01: () => 0, wind01: () => 0.3 };
+
+  // hunt: a hungry adult spider planted beside a firefly eats it
+  const spider = { kind: 'spider', spec: FAUNA_BY_ID.spider, zone: 'surface', x: col * cfg.TILE, y: surf * cfg.TILE, dir: 1, state: 'walk', t: 0, life: 999, ph: 0, age: 0.8, fade: 0 };
+  amb._fauna.push(spider);
+  amb._fireflies.push({ x: col * cfg.TILE + 30, y: surf * cfg.TILE - 4, t: 0, life: 999 });
+  let ate = false;
+  for (let i = 0; i < 60 * 30 && !ate; i++) {
+    amb.update(1 / 60, w, p2, cam2, 1, null, envStub);
+    amb._fireflies.forEach(ff => { ff.life = 999; ff.x = Math.min(Math.max(ff.x, col * cfg.TILE - 60), col * cfg.TILE + 60); });
+    spider.life = 999;
+    if (spider.state === 'eat' || amb._fireflies.length === 0) ate = true;
+  }
+  t.ok(ate, 'the whip spider hunted down the firefly');
+
+  // old age: an elder fades out and despawns
+  const elder = { kind: 'grazer', spec: FAUNA_BY_ID.grazer, zone: 'surface', x: (col + 4) * cfg.TILE, y: surf * cfg.TILE, dir: 1, state: 'walk', t: 0, life: 999, ph: 0, age: 0.999, fade: 0 };
+  amb._fauna.push(elder);
+  for (let i = 0; i < 60 * 4; i++) { amb.update(1 / 60, w, p2, cam2, 1, null, envStub); if (amb._fauna.includes(elder)) elder.life = Math.max(elder.life, 1); }
+  t.ok(!amb._fauna.includes(elder), 'the elder faded of old age and despawned');
+
+  // registry lint: every fauna entry has a lifespan
+  t.ok(FAUNA.every(f => f.lifespan > 30), 'every creature has a lifespan');
+}
+
+// ===================================================================== v4.4: bio-optics
+console.log('\n[bio-optics] scanning unlocks lamps; harsh light drives fireflies away');
+{
+  const { makeBuild } = await import('../src/game/build.js');
+  const { makeInventory } = await import('../src/game/inventory.js');
+  const w = makeWorld(31);
+  const p2 = makePlayer(w.spawnCol * cfg.TILE, 300);
+  const ents = makeEntities(null, { podTx: 1, podTy: 10 });
+  const inv = makeInventory({ metal: 5, silicon: 5, crystal: 5, regolith: 5 });
+  const scanned = new Set();
+  const build = makeBuild({
+    world: w, player: p2, inventory: inv, entities: ents,
+    isQuestUnlocked: () => false, hasScanned: id => scanned.has(id),
+    onBuilt: () => {}, toast: () => {},
+  });
+  t.ok(!build.unlocked().some(b => b.id === 'lamp-green'), 'Mycena lamp locked before the scan');
+  scanned.add('mushroom');
+  t.ok(build.unlocked().some(b => b.id === 'lamp-green'), 'scanning the Mycena unlocks its lamp blueprint');
+  t.ok(!build.unlocked().some(b => b.id === 'lamp-blue'), 'the glowworm lamp still needs its own scan');
+  scanned.add('firefly');
+  t.ok(build.unlocked().some(b => b.id === 'lamp-amber'), 'firefly scan unlocks the dark-sky amber lamp');
+
+  // fireflies flee harsh light, tolerate amber
+  const { makeAmbient } = await import('../src/game/ambient.js');
+  const amb = makeAmbient();
+  const col = w.spawnCol + 30, surf = w.surface[col];
+  const px2 = { tx: () => col - 30, cy: () => surf * cfg.TILE, cx: () => (col - 30) * cfg.TILE };
+  const cam2 = { x: (col - 30) * cfg.TILE, bounds: () => ({ x0: col - 40, x1: col + 20, y0: surf - 10, y1: surf + 24 }) };
+  const envStub = { night01: () => 0.8, weather: 'clear', precip01: () => 0, wind01: () => 0.1 };
+  const lampAt = { x: col * cfg.TILE, y: surf * cfg.TILE - 23, amber: false };
+  const planted = { x: lampAt.x + 20, y: lampAt.y, t: 0, life: 99 };
+  amb._fireflies.push(planted);
+  for (let i = 0; i < 90; i++) amb.update(1 / 60, w, px2, cam2, 1, null, envStub, [lampAt]);
+  t.ok(!amb._fireflies.includes(planted), 'a harsh lamp drives the firefly off (light pollution)');
+  lampAt.amber = true;
+  const planted2 = { x: lampAt.x + 20, y: lampAt.y, t: 0, life: 99 };
+  amb._fireflies.push(planted2);
+  for (let i = 0; i < 90; i++) { amb.update(1 / 60, w, px2, cam2, 1, null, envStub, [lampAt]); planted2.life = 99; planted2.x = lampAt.x + 20; planted2.y = lampAt.y; }
+  t.ok(amb._fireflies.includes(planted2), 'the amber dark-sky lamp coexists with fireflies');
+  // moths come to the light
+  let gotMoth = false;
+  for (let i = 0; i < 60 * 30 && !gotMoth; i++) { amb.update(1 / 60, w, px2, cam2, 1, null, envStub, [lampAt]); if (amb._moths.length) gotMoth = true; }
+  t.ok(gotMoth, 'a luna moth found the lamp');
 }
 
 // ===================================================================== v3.6.1: parachute
@@ -915,6 +1270,92 @@ console.log('\n[parachute] a long fast fall deploys + caps descent');
   }
   t.ok(deployed, 'parachute deployed during the long fall');
   t.ok(maxVy <= 160, `descent capped to a gentle rate under the chute (max ${Math.round(maxVy)}px/s)`);
+}
+
+// ===================================================================== v4.5: backdrops
+console.log('\n[backdrop] biome horizons crossfade at borders and never block on art');
+{
+  const { makeBackdrop } = await import('../src/render/backdrop.js');
+  const bd = makeBackdrop();
+  const txTundra = 5, txWetland = Math.floor(cfg.WORLD_W * 1.5 / 7);
+  bd.update(1 / 60, txTundra);
+  t.eq(bd._cur, 'tundra', 'first update locks the starting biome');
+  t.eq(bd._fade, 1, 'no fade on the first lock (nothing to fade from)');
+  bd.update(1 / 60, txWetland);
+  t.eq(bd._cur, 'wetland', 'border crossing switches the target');
+  t.eq(bd._prev, 'tundra', '...and keeps the old horizon to fade out');
+  t.ok(bd._fade < 1, 'crossfade in progress');
+  for (let i = 0; i < 60 * 2; i++) bd.update(1 / 60, txWetland);
+  t.eq(bd._fade, 1, 'crossfade completes in ~1.8s');
+  t.eq(bd._prev, null, 'old horizon released');
+  // draw smoke: procedural ridge fallback (no PNGs under node), day + night + rain
+  const ctx2 = globalThis.document.createElement('canvas').getContext('2d');
+  bd.draw(ctx2, { x: 100, y: 140 }, { night01: () => 0, precip01: () => 0 });
+  bd.draw(ctx2, { x: 100, y: 140 }, { night01: () => 1, precip01: () => 0.5 });
+  t.ok(true, 'backdrop draws (procedural fallback) without throwing');
+}
+
+// ===================================================================== v4.5: live scan cards
+console.log('\n[live-scan] the visor reads the individual: age class, state, mood');
+{
+  const { moodOf, snapshotLive, makeAmbient } = await import('../src/game/ambient.js');
+  const table = [
+    [{ state: 'flee', age: 0.5 }, 'TERRIFIED'],
+    [{ state: 'hunt', age: 0.5 }, 'LOCKED ON'],
+    [{ state: 'feed', age: 0.5 }, 'CONTENT'],
+    [{ state: 'fight', age: 0.6 }, 'TERRITORIAL'],
+    [{ state: 'sleep', age: 0.5 }, 'DORMANT'],
+    [{ state: 'idle', age: 0.2 }, 'CURIOUS'],
+    [{ state: 'idle', age: 0.6 }, 'CALM'],
+    [{ state: 'walk', age: 1 }, 'FADING'],
+  ];
+  for (const [f, want] of table) t.eq(moodOf(f), want, `mood(${f.state}, age ${f.age}) = ${want}`);
+  const snap = snapshotLive({ age: 0.2, state: 'feed', spec: { lifespan: 120 } });
+  t.eq(snap.state, 'grazing', 'state label reads like a field note');
+  t.eq(snap.lifespan, 120, 'lifespan rides along');
+  t.eq(snapshotLive(null), null, 'no entity, no telemetry');
+  t.eq(snapshotLive({ x: 1, y: 2 }), null, 'ageless ambients (fireflies) carry no telemetry');
+  // scanTargets exposes the entity ref so the card reads THIS creature
+  const amb = makeAmbient();
+  amb._fauna.push({ kind: 'grazer', x: 100, y: 100, dir: 1, state: 'feed', t: 0, life: 10, age: 0.2, fade: 0 });
+  const tgt = amb.scanTargets(100, 100)[0];
+  t.ok(tgt.ref === amb._fauna[0], 'scan target carries the live entity ref');
+  // two scans at different ages read differently
+  const young = snapshotLive(amb._fauna[0]);
+  amb._fauna[0].age = 0.9;
+  const old = snapshotLive(amb._fauna[0]);
+  t.ok(young.age < 0.35 && old.age >= 0.75, 'the same creature scans JUVENILE now, ELDER later');
+  // field-analysis card render smoke: live + archive profiles, stubbed ctx
+  const { drawCodexCard } = await import('../src/render/cards.js');
+  const { codexEntry } = await import('../src/content/codex.js');
+  const ctx2 = globalThis.document.createElement('canvas').getContext('2d');
+  drawCodexCard(ctx2, codexEntry('grazer'), 0, 0, 500, 330, null, 1, { live: young, openT: 0.2 });
+  drawCodexCard(ctx2, codexEntry('fishing-net'), 0, 0, 500, 330, null, 1, {});
+  t.ok(true, 'field-analysis card renders live + archive profiles without throwing');
+}
+
+// ===================================================================== v4.5: lore.json
+console.log('\n[lore] all flavor text lives in lore.json, with variants per entry');
+{
+  const { CODEX } = await import('../src/content/codex.js');
+  const { BUILDABLES } = await import('../src/content/buildables.js');
+  const { hasLore, pickBlurb, loreName } = await import('../src/core/lore.js');
+  const handWritten = CODEX.filter(e => e.category !== 'rock');
+  t.ok(handWritten.every(e => hasLore(e.id)), 'every non-rock codex id has a lore entry');
+  t.ok(handWritten.every(e => e.blurb.length > 10), 'every codex entry resolves a blurb');
+  t.ok(handWritten.every(e => e.name !== e.id), 'every codex entry resolves a real name');
+  t.ok(BUILDABLES.every(b => pickBlurb(`build.${b.id}`)), 'every buildable has build.<id> lore');
+  // variants: different epochs reach different blurbs for a multi-variant entry
+  const seen = new Set();
+  for (let s = 0; s < 6; s++) seen.add(pickBlurb('fishing-net', '', s));
+  t.ok(seen.size >= 2, `pickBlurb cycles flavor variants (${seen.size} seen)`);
+  // rock samples keep their generated fallback text
+  const rock = CODEX.find(e => e.category === 'rock');
+  t.ok(rock.name.includes('Rock') && rock.blurb.includes('core sample'), 'rock entries fall back to generated text');
+  t.eq(loreName('no-such-id', null), 'no-such-id', 'missing lore degrades to the id, never crashes');
+  // the probe voice never leans on the makers' calendar
+  const allBlurbs = handWritten.flatMap(e => [0, 1, 2].map(s => pickBlurb(e.id, '', s)));
+  t.ok(allBlurbs.every(b => !/\btoday\b|\bnowadays\b/i.test(b)), 'no present-day framing in the archive');
 }
 
 t.done();

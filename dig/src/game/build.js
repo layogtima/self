@@ -1,23 +1,29 @@
 // Build mode. B toggles it; a palette bar lists what you can afford, the mouse
-// ghosts a placement, left-click builds (drag-paint via player.placeCd),
-// right-click deconstructs a machine for a full refund - experimentation is
-// free. Tiles go through world.place; machines through entities.add.
+// ghosts a placement, left-click builds (drag-paint via player.placeCd).
+// Taking things DOWN is the Deconstructor's job (X - its own visor mode, full
+// refund), so this mode only ever adds. Tiles go through world.place; machines
+// through entities.add.
 
-import { TILE, DIG_REACH } from '../config.js';
+import { TILE } from '../config.js';
 import { keys, mouse, pressed } from '../core/input.js';
-import { BUILDABLES, BUILDABLES_BY_ID } from '../content/buildables.js';
+import { BUILDABLES } from '../content/buildables.js';
 import { sfx } from '../core/audio.js';
 
 const BUILD_REACH = 4 * TILE;
 
-export function makeBuild({ world, player, inventory, entities, isQuestUnlocked, onBuilt, toast }) {
+export function makeBuild({ world, player, inventory, entities, isQuestUnlocked, hasScanned, onBuilt }) {
   let active = false;
   let sel = 0;                       // index into unlocked()
+  let hoverIndex = -1;               // bar cell under the mouse (-1 = none)
 
-  // a buildable unlocks the moment its gating quest ACTIVATES (the quest asks
-  // you to build it - it can't require its own completion)
+  // a buildable unlocks when its gating quest ACTIVATES, or - for bio-tech -
+  // when you've SCANNED the organism it's copied from (unlockScan)
   function unlocked() {
-    return BUILDABLES.filter(b => !b.unlock || isQuestUnlocked(b.unlock));
+    return BUILDABLES.filter(b => {
+      const questOk = b.unlock ? isQuestUnlocked(b.unlock) : !b.unlockScan;
+      const scanOk = b.unlockScan && hasScanned?.(b.unlockScan);
+      return questOk || scanOk;
+    });
   }
   function current() {
     const u = unlocked();
@@ -31,7 +37,8 @@ export function makeBuild({ world, player, inventory, entities, isQuestUnlocked,
     const spec = current();
     if (!spec) return null;
     const wx = mouse.x + cam.x, wy = mouse.y + cam.y;
-    const tx = Math.floor(wx / TILE), ty = Math.floor(wy / TILE);
+    const tx = Math.floor(wx / TILE);
+    let ty = Math.floor(wy / TILE);
     const inReach = Math.hypot(wx - player.cx(), wy - player.cy()) <= BUILD_REACH;
     let ok = inReach && inventory.canAfford(spec.cost);
 
@@ -43,8 +50,13 @@ export function makeBuild({ world, player, inventory, entities, isQuestUnlocked,
       if (entities.at(tx, ty)) ok = false;
       return { spec, tx, ty, w: 1, h: 1, ok };
     }
-    // machine: footprint of air with solid ground under every column
+    // machine: snap the cursor column DOWN to the floor (point anywhere near
+    // the ground and the machine plants ON it), then check the footprint
     const [w, h] = spec.size;
+    if (world.tileAt(tx, ty) === 0) {
+      let drop = 0;
+      while (drop < 6 && !world.solidAt(tx, ty + 1) && world.tileAt(tx, ty + 1) === 0) { ty += 1; drop += 1; }
+    }
     for (let ox = 0; ox < w && ok; ox++) {
       if (!world.solidAt(tx + ox, ty + 1)) ok = false;                       // ground under
       for (let oy = 0; oy < h && ok; oy++) {
@@ -57,18 +69,32 @@ export function makeBuild({ world, player, inventory, entities, isQuestUnlocked,
 
   return {
     get active() { return active; },
+    get hoverIndex() { return hoverIndex; },
     current,
     unlocked,
     ghost,
 
-    toggle() { active = !active; sfx.ui(); return active; },
+    toggle() { active = !active; hoverIndex = -1; sfx.ui(); return active; },
     exit() { active = false; },
 
-    update(dt, cam) {
+    /** @param {{x,y,w,h,cell}} [barRect] the HUD's build-bar geometry: cursor
+     *  inside it hovers/selects cells instead of placing blocks */
+    update(dt, cam, barRect = null) {
       if (!active) return;
       // cycle: wheel or Q
       if (mouse.wheel) { sel += Math.sign(mouse.wheel); sfx.ui(); }
       if (pressed('KeyQ')) { sel += keys.ShiftLeft || keys.ShiftRight ? -1 : 1; sfx.ui(); }
+
+      // the bar is a menu, not the world: hovering shows a tooltip, clicking selects
+      hoverIndex = -1;
+      if (barRect && mouse.x >= barRect.x && mouse.x <= barRect.x + barRect.w &&
+          mouse.y >= barRect.y - 60 && mouse.y <= barRect.y + barRect.h) {
+        if (mouse.y >= barRect.y) {
+          hoverIndex = Math.max(0, Math.min(unlocked().length - 1, Math.floor((mouse.x - barRect.x - 6) / barRect.cell)));
+          if (pressed('MouseLeft')) { sel = hoverIndex; sfx.ui(); }
+        }
+        return;   // never place through the menu
+      }
 
       const g = ghost(cam);
       if (!g) return;
@@ -85,19 +111,6 @@ export function makeBuild({ world, player, inventory, entities, isQuestUnlocked,
         }
         (sfx.place || sfx.ui)();
         onBuilt?.(g.spec.id);
-      }
-
-      // deconstruct a machine under the mouse: full refund
-      if (pressed('MouseRight')) {
-        const tx = Math.floor((mouse.x + cam.x) / TILE), ty = Math.floor((mouse.y + cam.y) / TILE);
-        const e = entities.at(tx, ty);
-        if (e && e.type !== 'pod') {
-          const spec = BUILDABLES_BY_ID[e.type];
-          entities.remove(e.uid);
-          for (const [id, n] of Object.entries(spec?.cost || {})) inventory.add(id, n);
-          toast?.(`${spec?.name || e.type} reclaimed`);
-          sfx.uiBack();
-        }
       }
     },
   };

@@ -9,7 +9,7 @@
 // of the span as rubble. A 1-2 tile pillar (Q places soil) splits the span.
 // Cave-ins pay out regolith - the danger literally hands you the fix.
 
-import { TILE, WORLD_W, WORLD_H, T_AIR, T_PLACED } from '../config.js';
+import { TILE, WORLD_W, WORLD_H, T_AIR, T_RUBBLE } from '../config.js';
 
 const MAX_CLOUDS = 3;
 const MAX_CELLS = 40;
@@ -86,10 +86,11 @@ export function makeHazards(world) {
         const cy = ty - 1;
         if (!world.solidAt(x, cy) || !world.diggable(x, cy)) continue;
         world.dig(x, cy, 999);                        // ceiling tile shears off
-        // debris falls to the lowest air cell of the column, piling as soil
+        // debris falls to the lowest air cell of the column, piling as loose
+        // rubble (diggable - unlike built tiles, which need the Deconstructor)
         let fy = cy;
         while (fy + 1 < WORLD_H - 3 && isAir(x, fy + 1)) fy++;
-        if (world.place(x, fy, T_PLACED)) out.collapsed.push({ tx: x, ty: fy });
+        if (world.place(x, fy, T_RUBBLE)) out.collapsed.push({ tx: x, ty: fy });
         out.payout += 1;
       }
       return out;

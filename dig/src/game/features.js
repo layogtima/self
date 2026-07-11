@@ -32,14 +32,16 @@ export function caveFeaturesAt(world, tx, ty) {
     const crystalBiome = biomeAtX(tx, WORLD_W).id === 'crystal';
     const crystalDepthOk = si >= STRATA.length - 2 || (crystalBiome && depth > 20);
     if (h > 0.9 && h < 0.94) floor = 'stalagmite';
-    else if (depth > 14 && h > 0.965) floor = world.isHarvested?.(tx, ty) ? null : 'mushroom';
+    else if (depth > 8 && h > 0.965) floor = world.isHarvested?.(tx, ty) ? null : 'mushroom';   // shallow grottoes glow too
     else if (crystalDepthOk && h > 0.93 && h <= 0.965) floor = world.isHarvested?.(tx, ty) ? null : 'crystal';
   }
   return (ceiling || floor) ? { ceiling, floor, h, si, depth } : null;
 }
 
-/** which features can be harvested (E with the scanner) → material id */
-export const HARVESTABLE = { mushroom: 'mushroom', crystal: 'crystal' };
+/** which features can be harvested (E with the scanner) → material id.
+ *  Minerals only: living things (mushrooms) are scan targets, never resources -
+ *  their patterns unlock blueprints and DG-3 synthesizes the rest. */
+export const HARVESTABLE = { crystal: 'crystal' };
 
 /**
  * Surface scenery at a column: 'tree' | 'dressing' | null (grass tufts are

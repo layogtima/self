@@ -12,25 +12,121 @@ import { drawFossil } from './sprites.js';
 import { drawBone, boneFootprint } from './bones.js';
 import { STRATA, STRATA_BY_ID } from '../content/strata.js';
 
+// visor chrome shared with render/hud.js (THE VISOR v5)
+const V = { chrome: '#241C16', deep: '#171210', cyan: '#4BE3E8', line: 'rgba(233,220,188,0.14)' };
+const CATEGORY_GLYPH = { creature: '§', flora: '¥', feature: '¤', fluid: '≈', rock: '≡', salvage: '¶' };
+
 /**
- * Codex card for a scanned creature/flora/feature/rock. Parchment panel with a
- * category tab, a name, a blurb, and a stat table.
+ * Codex card v2 - DG-3 FIELD ANALYSIS. A visor-native plate (chamfered chrome,
+ * corner brackets, scanline sweep) instead of parchment: header band, big name,
+ * framed illustration, LIVE TELEMETRY for a scanned individual (age gauge /
+ * state / mood), the science in a readout grid, and the archive's flavor line
+ * (lore.json, one variant per opening) as a quote block.
+ * @param {(ctx,entry,x,y,size,time)=>void} [drawArt]  render/codexart.js hook
+ * @param {{live?:{age,lifespan,state,mood}|null, openT?:number}} [opts]
  */
-export function drawCodexCard(ctx, entry, x, y, w, h) {
-  const { ix, iy, iw, ih } = blueprintPanel(ctx, x, y, w, h, { frameW: 8, r: 16 });
-  text(ctx, 'FIELD SCAN', ix + 14, iy + 10, { size: 11, bold: true, color: PALETTE.creamDim });
-  text(ctx, entry.category.toUpperCase(), ix + iw - 14, iy + 10, { size: 11, bold: true, color: PALETTE.amberSoft, align: 'right' });
-  text(ctx, entry.name, ix + 14, iy + 32, { size: 22, bold: true, color: PALETTE.amber });
-  let ry = iy + 66;
-  for (const line of wrap(ctx, entry.blurb, iw - 28, 14)) { text(ctx, line, ix + 14, ry, { size: 14 }); ry += 20; }
-  ry += 8;
-  for (const [label, val] of entry.stats || []) {
-    text(ctx, label, ix + 16, ry, { size: 12, color: PALETTE.creamDim });
-    text(ctx, val, ix + iw - 16, ry, { size: 12, bold: true, align: 'right' });
-    ctx.strokeStyle = 'rgba(74,52,33,0.15)'; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(ix + 16, ry + 16); ctx.lineTo(ix + iw - 16, ry + 16); ctx.stroke();
-    ry += 22;
+export function drawCodexCard(ctx, entry, x, y, w, h, drawArt, time = 0, opts = {}) {
+  const { live = null, openT = 1 } = opts;
+  const CUT = 26;
+  ctx.save();
+  // plate: dark chrome, one chamfered corner - the visor's own material
+  ctx.beginPath();
+  ctx.moveTo(x, y); ctx.lineTo(x + w - CUT, y); ctx.lineTo(x + w, y + CUT);
+  ctx.lineTo(x + w, y + h); ctx.lineTo(x, y + h); ctx.closePath();
+  ctx.fillStyle = V.chrome; ctx.fill();
+  ctx.strokeStyle = 'rgba(240,169,59,0.6)'; ctx.lineWidth = 2; ctx.stroke();
+  ctx.clip();
+  // faint plotting grid
+  ctx.strokeStyle = 'rgba(233,220,188,0.04)'; ctx.lineWidth = 1;
+  ctx.beginPath();
+  for (let gx = x + 24; gx < x + w; gx += 24) { ctx.moveTo(gx, y); ctx.lineTo(gx, y + h); }
+  for (let gy = y + 24; gy < y + h; gy += 24) { ctx.moveTo(x, gy); ctx.lineTo(x + w, gy); }
+  ctx.stroke();
+
+  // header band
+  ctx.fillStyle = V.deep; ctx.fillRect(x, y, w, 22);
+  ctx.fillStyle = V.cyan; ctx.fillRect(x, y + 22, w, 1);
+  text(ctx, 'DG-3 · FIELD ANALYSIS', x + 12, y + 6, { size: 10, bold: true, color: V.cyan });
+  text(ctx, `${CATEGORY_GLYPH[entry.category] || '·'} ${entry.category.toUpperCase()}`, x + w - CUT - 8, y + 6,
+    { size: 10, bold: true, color: PALETTE.amberSoft, align: 'right' });
+
+  // name plate
+  text(ctx, entry.name, x + 14, y + 32, { size: 21, bold: true, color: PALETTE.amber });
+
+  // illustration inset (top-right): framed, with scanner corner brackets
+  const as = 76, ax2 = x + w - as - 18, ay2 = y + 34;
+  if (drawArt) {
+    ctx.fillStyle = 'rgba(0,0,0,0.35)';
+    ctx.fillRect(ax2 - 4, ay2 - 4, as + 8, as + 8);
+    drawArt(ctx, entry, ax2, ay2, as, time);
+    ctx.strokeStyle = V.cyan; ctx.lineWidth = 1.4;
+    ctx.beginPath();
+    for (const [bx, by2, sx, sy] of [[ax2 - 4, ay2 - 4, 1, 1], [ax2 + as + 4, ay2 - 4, -1, 1], [ax2 - 4, ay2 + as + 4, 1, -1], [ax2 + as + 4, ay2 + as + 4, -1, -1]]) {
+      ctx.moveTo(bx + sx * 7, by2); ctx.lineTo(bx, by2); ctx.lineTo(bx, by2 + sy * 7);
+    }
+    ctx.stroke();
+    // idle scan line drifting over the specimen
+    const sy2 = ay2 + ((time * 18) % (as + 4)) - 2;
+    ctx.fillStyle = 'rgba(75,227,232,0.14)';
+    ctx.fillRect(ax2 - 3, sy2, as + 6, 1.6);
   }
+
+  // ---- left column ------------------------------------------------------
+  const lx = x + 16, colW = w - as - 56;
+  let ry = y + 60;
+  if (live) {
+    // LIVE TELEMETRY: this individual, right now
+    text(ctx, 'LIVE TELEMETRY', lx, ry, { size: 9, bold: true, color: V.cyan }); ry += 14;
+    const ageClass = live.age < 0.35 ? 'JUVENILE' : live.age < 0.75 ? 'ADULT' : live.age < 1 ? 'ELDER' : 'FADING';
+    // age gauge: pixel cells filled to lived fraction
+    text(ctx, 'AGE', lx, ry, { size: 10, color: PALETTE.creamDim });
+    const gx0 = lx + 44, cells = 10;
+    for (let c = 0; c < cells; c++) {
+      ctx.fillStyle = live.age > (c + 0.5) / cells ? PALETTE.amber : 'rgba(0,0,0,0.5)';
+      ctx.fillRect(gx0 + c * 8, ry + 1, 6, 7);
+    }
+    text(ctx, ageClass, gx0 + cells * 8 + 8, ry, { size: 10, bold: true, color: PALETTE.parchment });
+    ry += 15;
+    for (const [label, val, col] of [['STATE', live.state.toUpperCase(), PALETTE.parchment], ['MOOD', live.mood, live.mood === 'TERRIFIED' || live.mood === 'TERRITORIAL' ? '#E88A6A' : '#9FBE9A']]) {
+      text(ctx, label, lx, ry, { size: 10, color: PALETTE.creamDim });
+      text(ctx, val, lx + 44, ry, { size: 10, bold: true, color: col });
+      ry += 15;
+    }
+    ctx.fillStyle = V.line; ctx.fillRect(lx, ry + 2, colW, 1);
+    ry += 10;
+  }
+  // the science: label/value readout rows
+  for (const [label, val] of (entry.stats || []).slice(0, live ? 4 : 6)) {
+    text(ctx, label.toUpperCase(), lx, ry, { size: 9, color: PALETTE.creamDim });
+    text(ctx, val, lx + colW, ry, { size: 10, bold: true, align: 'right', color: PALETTE.parchment });
+    ctx.fillStyle = V.line; ctx.fillRect(lx, ry + 12, colW, 1);
+    ry += 17;
+  }
+
+  // ---- the archive speaks: flavor quote block (anchored to the bottom) ----
+  const qLines = wrap(ctx, entry.blurb, w - 56, 11).slice(0, 4);
+  const qH = qLines.length * 15 + 16;
+  const qy = y + h - qH - 24;
+  ctx.fillStyle = 'rgba(0,0,0,0.28)';
+  roundRect(ctx, x + 14, qy, w - 28, qH, 6); ctx.fill();
+  ctx.fillStyle = PALETTE.amberSoft; ctx.fillRect(x + 14, qy, 2, qH);
+  let qly = qy + 8;
+  for (const line of qLines) { text(ctx, line, x + 26, qly, { size: 11, italic: true, color: PALETTE.cream }); qly += 15; }
+
+  // footer strip
+  ctx.fillStyle = V.deep; ctx.fillRect(x, y + h - 16, w, 16);
+  text(ctx, `ARCHIVE ${entry.id.toUpperCase()}`, x + 12, y + h - 12, { size: 8, color: PALETTE.creamDim });
+  text(ctx, live ? 'PATTERN STORED · SPECIMEN UNHARMED' : 'PATTERN STORED', x + w - 12, y + h - 12, { size: 8, color: PALETTE.creamDim, align: 'right' });
+
+  // boot sweep: a bright scanline crosses the plate as the analysis lands
+  if (openT < 0.5) {
+    const sw = (openT / 0.5) * h;
+    ctx.fillStyle = 'rgba(75,227,232,0.22)';
+    ctx.fillRect(x, y + sw, w, 2.4);
+    ctx.fillStyle = `rgba(75,227,232,${(0.08 * (1 - openT / 0.5)).toFixed(3)})`;
+    ctx.fillRect(x, y, w, sw);
+  }
+  ctx.restore();
 }
 
 /**
