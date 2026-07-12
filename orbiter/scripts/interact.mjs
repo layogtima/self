@@ -7,7 +7,7 @@ const page = await browser.newPage({ viewport: { width: 1600, height: 900 } });
 const errors = [];
 page.on('pageerror', (e) => errors.push(e.message));
 
-await page.goto('http://localhost:5173/', { waitUntil: 'networkidle' });
+await page.goto('http://localhost:5173/ships/monolith/', { waitUntil: 'networkidle' });
 await page.waitForTimeout(2500);
 
 // skip the cinematic

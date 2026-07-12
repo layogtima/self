@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ORBITER — Wondervoid Orbital Amusement Carrier</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --ink: #dfe9f5;
+    --gold: #ffc466;
+    --holo: #7ee0ff;
+  }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #030308; }
+  canvas { display: block; }
+  #app { position: fixed; inset: 0; }
+
+  /* film vignette + letterbox during cinematic */
+  #vignette {
+    position: fixed; inset: 0; pointer-events: none; z-index: 5;
+    box-shadow: inset 0 0 32vmin 6vmin rgba(0,0,0,0.55);
+  }
+  .bar {
+    position: fixed; left: 0; right: 0; height: 0; background: #000; z-index: 6;
+    transition: height 1.2s cubic-bezier(.7,0,.3,1); pointer-events: none;
+  }
+  #bar-top { top: 0; } #bar-bottom { bottom: 0; }
+  body.cinematic #bar-top, body.cinematic #bar-bottom { height: 9vh; }
+
+  #ui { position: fixed; inset: 0; z-index: 10; pointer-events: none;
+    font-family: "Avenir Next", "Futura", "Trebuchet MS", sans-serif; color: var(--ink); }
+
+  /* title card */
+  #title {
+    position: absolute; left: 50%; top: 62%; transform: translateX(-50%);
+    text-align: center; opacity: 0; transition: opacity 2.5s ease;
+  }
+  #title.show { opacity: 1; }
+  #title h1 {
+    margin: 0; font-size: clamp(28px, 6vw, 72px); letter-spacing: 0.42em;
+    font-weight: 700; text-indent: 0.42em;
+    color: #fff; text-shadow: 0 0 24px rgba(126,224,255,0.6), 0 2px 18px rgba(0,0,0,0.8);
+  }
+  #title p {
+    margin: 10px 0 0; font-size: clamp(11px, 1.6vw, 16px); letter-spacing: 0.34em;
+    text-indent: 0.34em; color: var(--gold); text-transform: uppercase;
+  }
+
+  #skip {
+    position: absolute; right: 24px; bottom: 24px; font-size: 12px; letter-spacing: 0.2em;
+    color: rgba(223,233,245,0.7); text-transform: uppercase; display: none;
+  }
+  body.cinematic #skip { display: block; }
+
+  /* HUD */
+  #hud {
+    position: absolute; left: 0; right: 0; top: 0; padding: 16px 22px;
+    display: none; align-items: center; gap: 26px;
+    background: linear-gradient(rgba(3,5,12,0.75), transparent);
+  }
+  body.manage #hud, body.fly #hud, body.walk #hud { display: flex; }
+
+  /* first-person crosshair */
+  #crosshair {
+    position: absolute; left: 50%; top: 50%; width: 5px; height: 5px;
+    margin: -3px 0 0 -3px; border-radius: 50%; z-index: 9; display: none;
+    background: rgba(255,255,255,0.6); box-shadow: 0 0 4px rgba(0,0,0,0.9);
+    pointer-events: none;
+  }
+  body.walk #crosshair { display: block; }
+  #hud { flex-wrap: nowrap; white-space: nowrap; }
+  #hud .park-name { font-size: 15px; letter-spacing: 0.28em; text-transform: uppercase; color: #fff; white-space: nowrap; }
+  #hud .park-name em { color: var(--gold); font-style: normal; }
+  #hud .stat { font-size: 13px; letter-spacing: 0.12em; color: rgba(223,233,245,0.9); }
+  #hud .stat b { color: var(--gold); font-weight: 600; }
+  #hud .spacer { flex: 1; }
+  #hud .hint { font-size: 11px; letter-spacing: 0.14em; color: rgba(223,233,245,0.55); text-transform: uppercase; }
+
+  #build-btn {
+    pointer-events: auto; cursor: pointer; user-select: none;
+    border: 1px solid rgba(126,224,255,0.5); border-radius: 3px;
+    padding: 7px 14px; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--holo); background: rgba(10,25,40,0.6);
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  #build-btn:hover { background: rgba(30,70,100,0.7); box-shadow: 0 0 14px rgba(126,224,255,0.35); }
+  #build-btn.active { background: rgba(126,224,255,0.25); box-shadow: 0 0 18px rgba(126,224,255,0.5); color: #fff; }
+
+  /* advisor */
+  #advisor {
+    position: absolute; left: 26px; bottom: 26px; width: min(430px, 82vw);
+    display: none; gap: 14px; align-items: flex-end;
+    opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  #advisor.show { display: flex; opacity: 1; transform: translateY(0); }
+  #advisor .portrait {
+    width: 92px; height: 92px; flex: 0 0 auto; border-radius: 6px;
+    border: 1px solid rgba(126,224,255,0.55);
+    background: radial-gradient(circle at 50% 35%, rgba(30,80,110,0.9), rgba(5,15,28,0.95));
+    box-shadow: 0 0 22px rgba(126,224,255,0.35), inset 0 0 18px rgba(126,224,255,0.2);
+    overflow: hidden;
+  }
+  #advisor .portrait svg { width: 100%; height: 100%; animation: holoflicker 4s infinite; }
+  @keyframes holoflicker {
+    0%, 100% { opacity: 0.95; } 92% { opacity: 0.95; } 93% { opacity: 0.55; } 94% { opacity: 0.9; }
+    96% { opacity: 0.65; } 97% { opacity: 0.95; }
+  }
+  #advisor .bubble {
+    flex: 1; pointer-events: auto; cursor: pointer;
+    border: 1px solid rgba(126,224,255,0.4); border-radius: 6px;
+    background: linear-gradient(rgba(8,20,34,0.92), rgba(5,12,22,0.92));
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5), 0 0 20px rgba(126,224,255,0.12);
+    padding: 12px 16px 10px;
+  }
+  #advisor .who { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--holo); margin-bottom: 6px; }
+  #advisor .line { font-size: 14px; line-height: 1.55; color: var(--ink); min-height: 44px; }
+  #advisor .next { margin-top: 8px; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(223,233,245,0.45); text-align: right; }
+
+  /* toast for placement feedback */
+  #toast {
+    position: absolute; left: 50%; top: 16%; transform: translateX(-50%);
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold);
+    text-shadow: 0 0 16px rgba(255,196,102,0.5); opacity: 0; transition: opacity 0.4s ease;
+  }
+  #toast.show { opacity: 1; }
+
+  /* build palette */
+  #build-palette {
+    position: absolute; left: 50%; top: 58px; transform: translateX(-50%) translateY(-8px);
+    display: none; gap: 8px; padding: 10px 12px;
+    border: 1px solid rgba(126,224,255,0.35); border-radius: 8px;
+    background: linear-gradient(rgba(8,20,34,0.93), rgba(5,12,22,0.93));
+    box-shadow: 0 10px 36px rgba(0,0,0,0.55);
+    pointer-events: auto; opacity: 0; transition: opacity 0.25s, transform 0.25s;
+  }
+  #build-palette.show { display: flex; opacity: 1; transform: translateX(-50%) translateY(0); }
+  .build-item {
+    cursor: pointer; user-select: none; text-align: center; width: 96px;
+    border: 1px solid rgba(126,224,255,0.25); border-radius: 6px; padding: 9px 6px 7px;
+    background: rgba(15,35,55,0.5); transition: background 0.15s, box-shadow 0.15s, border-color 0.15s;
+  }
+  .build-item:hover { background: rgba(40,90,130,0.55); }
+  .build-item.sel { border-color: var(--holo); box-shadow: 0 0 14px rgba(126,224,255,0.35); background: rgba(50,110,150,0.5); }
+  .build-item .ic { font-size: 20px; color: var(--holo); line-height: 1.2; }
+  .build-item .nm { font-size: 10px; letter-spacing: 0.08em; color: var(--ink); margin-top: 3px; }
+  .build-item .pr { font-size: 10px; color: var(--gold); margin-top: 2px; }
+
+  /* Nova console */
+  #nova-console {
+    position: absolute; right: 22px; top: 64px; width: min(300px, 80vw);
+    display: none; flex-direction: column; gap: 10px;
+    border: 1px solid rgba(126,224,255,0.4); border-radius: 8px;
+    background: linear-gradient(rgba(8,20,34,0.93), rgba(5,12,22,0.93));
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 0 24px rgba(126,224,255,0.14);
+    padding: 14px; pointer-events: auto;
+    opacity: 0; transform: translateX(16px); transition: opacity 0.3s, transform 0.3s;
+  }
+  #nova-console.show { display: flex; opacity: 1; transform: translateX(0); }
+  #nova-console .head { display: flex; gap: 10px; align-items: center; }
+  #nova-portrait {
+    width: 52px; height: 52px; flex: 0 0 auto; border-radius: 5px;
+    border: 1px solid rgba(126,224,255,0.55); overflow: hidden;
+    background: radial-gradient(circle at 50% 35%, rgba(30,80,110,0.9), rgba(5,15,28,0.95));
+  }
+  #nova-console .head .title { font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--holo); }
+  #nova-line { font-size: 12.5px; line-height: 1.5; color: var(--ink); min-height: 38px; }
+  #nova-powers { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .nova-chip {
+    cursor: pointer; user-select: none; font-size: 11px; letter-spacing: 0.06em;
+    border: 1px solid rgba(126,224,255,0.3); border-radius: 4px; padding: 7px 8px;
+    color: var(--ink); background: rgba(15,35,55,0.5); transition: background 0.15s, box-shadow 0.15s;
+  }
+  .nova-chip b { color: var(--gold); margin-right: 4px; }
+  .nova-chip:hover { background: rgba(40,90,130,0.6); box-shadow: 0 0 10px rgba(126,224,255,0.3); }
+  #nova-console .foot { font-size: 9.5px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(223,233,245,0.4); text-align: right; }
+
+  #loading {
+    position: fixed; inset: 0; z-index: 20; background: #030308;
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Avenir Next", sans-serif; color: rgba(223,233,245,0.6);
+    font-size: 12px; letter-spacing: 0.4em; text-transform: uppercase;
+    transition: opacity 1s ease; pointer-events: none;
+  }
+</style>
+</head>
+<body>
+  <div id="app"></div>
+  <div id="vignette"></div>
+  <div class="bar" id="bar-top"></div>
+  <div class="bar" id="bar-bottom"></div>
+
+  <div id="crosshair"></div>
+  <div id="ui">
+    <div id="title">
+      <h1>WONDERVOID</h1>
+      <p>an interplanetary amusement park</p>
+    </div>
+    <div id="skip">space / click — skip</div>
+
+    <div id="hud">
+      <div class="park-name"><em>◇</em> Wondervoid <em>Orbital Amusement Carrier</em></div>
+      <div class="stat">⬡ <b id="credits">48,200</b></div>
+      <div class="stat">guests <b id="guest-count">0</b></div>
+      <div id="build-btn">＋ Build</div>
+      <div id="nova-btn" class="stat" style="pointer-events:auto; cursor:pointer; color: var(--holo);">◈ Nova (N)</div>
+      <div class="spacer"></div>
+      <div class="hint" id="mode-hint">drag orbit · scroll zoom · F free-fly · B build</div>
+    </div>
+
+    <div id="advisor">
+      <div class="portrait" id="advisor-portrait"></div>
+      <div class="bubble" id="advisor-bubble">
+        <div class="who">NOVA — Resident Infinity</div>
+        <div class="line" id="advisor-line"></div>
+        <div class="next">click to continue ▸</div>
+      </div>
+    </div>
+
+    <div id="build-palette"></div>
+
+    <div id="nova-console">
+      <div class="head">
+        <div id="nova-portrait"></div>
+        <div>
+          <div class="title">Nova Console</div>
+          <div class="title" style="color: rgba(223,233,245,0.4)">resident infinity</div>
+        </div>
+      </div>
+      <div id="nova-line"></div>
+      <div id="nova-powers"></div>
+      <div class="foot">N — close · numbers fire</div>
+    </div>
+
+    <div id="toast"></div>
+  </div>
+
+  <div id="loading">igniting fusion torches…</div>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

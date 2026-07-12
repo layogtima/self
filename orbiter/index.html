@@ -2,171 +2,132 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>ORBITER — Wondervoid Orbital Amusement Carrier</title>
+<title>WONDERVOID — Ship Registry</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-  :root {
-    --ink: #dfe9f5;
-    --gold: #ffc466;
-    --holo: #7ee0ff;
+  :root { --ink:#dfe9f5; --gold:#ffc466; --holo:#7ee0ff; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; background: #04060c; color: var(--ink);
+    font-family: "Avenir Next", "Futura", "Trebuchet MS", sans-serif; }
+  body {
+    background:
+      radial-gradient(1200px 700px at 70% -10%, rgba(40,70,110,0.35), transparent),
+      radial-gradient(900px 600px at 10% 110%, rgba(90,40,90,0.25), transparent),
+      #04060c;
   }
-  html, body { margin: 0; height: 100%; overflow: hidden; background: #030308; }
-  canvas { display: block; }
-  #app { position: fixed; inset: 0; }
+  /* drifting starfield */
+  #stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+  header { position: relative; z-index: 1; text-align: center; padding: 8vh 20px 2vh; }
+  header .kicker { font-size: 12px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--gold); }
+  header h1 {
+    margin: 12px 0 6px; font-size: clamp(34px, 8vw, 84px); letter-spacing: 0.34em; text-indent: 0.34em;
+    font-weight: 700; color: #fff; text-shadow: 0 0 30px rgba(126,224,255,0.5);
+  }
+  header p { margin: 0 auto; max-width: 620px; font-size: 14px; line-height: 1.7; color: rgba(223,233,245,0.7); }
 
-  /* film vignette + letterbox during cinematic */
-  #vignette {
-    position: fixed; inset: 0; pointer-events: none; z-index: 5;
-    box-shadow: inset 0 0 32vmin 6vmin rgba(0,0,0,0.55);
-  }
-  .bar {
-    position: fixed; left: 0; right: 0; height: 0; background: #000; z-index: 6;
-    transition: height 1.2s cubic-bezier(.7,0,.3,1); pointer-events: none;
-  }
-  #bar-top { top: 0; } #bar-bottom { bottom: 0; }
-  body.cinematic #bar-top, body.cinematic #bar-bottom { height: 9vh; }
+  main { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding: 4vh 20px 8vh;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; }
 
-  #ui { position: fixed; inset: 0; z-index: 10; pointer-events: none;
-    font-family: "Avenir Next", "Futura", "Trebuchet MS", sans-serif; color: var(--ink); }
+  .ship { display: block; text-decoration: none; color: inherit; border-radius: 12px; overflow: hidden;
+    border: 1px solid rgba(126,224,255,0.22); background: linear-gradient(rgba(10,20,34,0.7), rgba(6,12,22,0.7));
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s; }
+  .ship:hover { transform: translateY(-4px); border-color: rgba(126,224,255,0.6);
+    box-shadow: 0 18px 50px rgba(0,0,0,0.55), 0 0 26px rgba(126,224,255,0.18); }
+  .ship .poster { aspect-ratio: 16/10; background: #0a1220 center/cover no-repeat; position: relative; }
+  .ship .poster::after { content: ""; position: absolute; inset: 0;
+    background: linear-gradient(transparent 55%, rgba(6,12,22,0.9)); }
+  .ship .body { padding: 16px 18px 20px; }
+  .ship .name { font-size: 17px; letter-spacing: 0.14em; text-transform: uppercase; color: #fff; }
+  .ship .slice { font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); margin-top: 3px; }
+  .ship .desc { font-size: 13px; line-height: 1.6; color: rgba(223,233,245,0.72); margin-top: 10px; }
+  .ship .tags { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .ship .tag { font-size: 10px; letter-spacing: 0.08em; padding: 3px 8px; border-radius: 20px;
+    color: var(--holo); border: 1px solid rgba(126,224,255,0.28); }
+  .ship .go { margin-top: 14px; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--holo); }
 
-  /* title card */
-  #title {
-    position: absolute; left: 50%; top: 62%; transform: translateX(-50%);
-    text-align: center; opacity: 0; transition: opacity 2.5s ease;
-  }
-  #title.show { opacity: 1; }
-  #title h1 {
-    margin: 0; font-size: clamp(28px, 6vw, 72px); letter-spacing: 0.42em;
-    font-weight: 700; text-indent: 0.42em;
-    color: #fff; text-shadow: 0 0 24px rgba(126,224,255,0.6), 0 2px 18px rgba(0,0,0,0.8);
-  }
-  #title p {
-    margin: 10px 0 0; font-size: clamp(11px, 1.6vw, 16px); letter-spacing: 0.34em;
-    text-indent: 0.34em; color: var(--gold); text-transform: uppercase;
-  }
+  .ghost { border-style: dashed; opacity: 0.6; }
+  .ghost .poster { background: repeating-linear-gradient(45deg, #0a1220, #0a1220 12px, #0d1626 12px, #0d1626 24px); }
+  .ghost .go { color: rgba(223,233,245,0.4); }
 
-  #skip {
-    position: absolute; right: 24px; bottom: 24px; font-size: 12px; letter-spacing: 0.2em;
-    color: rgba(223,233,245,0.7); text-transform: uppercase; display: none;
-  }
-  body.cinematic #skip { display: block; }
-
-  /* HUD */
-  #hud {
-    position: absolute; left: 0; right: 0; top: 0; padding: 16px 22px;
-    display: none; align-items: center; gap: 26px;
-    background: linear-gradient(rgba(3,5,12,0.75), transparent);
-  }
-  body.manage #hud, body.fly #hud, body.walk #hud { display: flex; }
-
-  /* first-person crosshair */
-  #crosshair {
-    position: absolute; left: 50%; top: 50%; width: 5px; height: 5px;
-    margin: -3px 0 0 -3px; border-radius: 50%; z-index: 9; display: none;
-    background: rgba(255,255,255,0.6); box-shadow: 0 0 4px rgba(0,0,0,0.9);
-    pointer-events: none;
-  }
-  body.walk #crosshair { display: block; }
-  #hud .park-name { font-size: 15px; letter-spacing: 0.28em; text-transform: uppercase; color: #fff; }
-  #hud .park-name em { color: var(--gold); font-style: normal; }
-  #hud .stat { font-size: 13px; letter-spacing: 0.12em; color: rgba(223,233,245,0.9); }
-  #hud .stat b { color: var(--gold); font-weight: 600; }
-  #hud .spacer { flex: 1; }
-  #hud .hint { font-size: 11px; letter-spacing: 0.14em; color: rgba(223,233,245,0.55); text-transform: uppercase; }
-
-  #build-btn {
-    pointer-events: auto; cursor: pointer; user-select: none;
-    border: 1px solid rgba(126,224,255,0.5); border-radius: 3px;
-    padding: 7px 14px; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--holo); background: rgba(10,25,40,0.6);
-    transition: background 0.2s, box-shadow 0.2s;
-  }
-  #build-btn:hover { background: rgba(30,70,100,0.7); box-shadow: 0 0 14px rgba(126,224,255,0.35); }
-  #build-btn.active { background: rgba(126,224,255,0.25); box-shadow: 0 0 18px rgba(126,224,255,0.5); color: #fff; }
-
-  /* advisor */
-  #advisor {
-    position: absolute; left: 26px; bottom: 26px; width: min(430px, 82vw);
-    display: none; gap: 14px; align-items: flex-end;
-    opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease;
-  }
-  #advisor.show { display: flex; opacity: 1; transform: translateY(0); }
-  #advisor .portrait {
-    width: 92px; height: 92px; flex: 0 0 auto; border-radius: 6px;
-    border: 1px solid rgba(126,224,255,0.55);
-    background: radial-gradient(circle at 50% 35%, rgba(30,80,110,0.9), rgba(5,15,28,0.95));
-    box-shadow: 0 0 22px rgba(126,224,255,0.35), inset 0 0 18px rgba(126,224,255,0.2);
-    overflow: hidden;
-  }
-  #advisor .portrait svg { width: 100%; height: 100%; animation: holoflicker 4s infinite; }
-  @keyframes holoflicker {
-    0%, 100% { opacity: 0.95; } 92% { opacity: 0.95; } 93% { opacity: 0.55; } 94% { opacity: 0.9; }
-    96% { opacity: 0.65; } 97% { opacity: 0.95; }
-  }
-  #advisor .bubble {
-    flex: 1; pointer-events: auto; cursor: pointer;
-    border: 1px solid rgba(126,224,255,0.4); border-radius: 6px;
-    background: linear-gradient(rgba(8,20,34,0.92), rgba(5,12,22,0.92));
-    box-shadow: 0 8px 30px rgba(0,0,0,0.5), 0 0 20px rgba(126,224,255,0.12);
-    padding: 12px 16px 10px;
-  }
-  #advisor .who { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--holo); margin-bottom: 6px; }
-  #advisor .line { font-size: 14px; line-height: 1.55; color: var(--ink); min-height: 44px; }
-  #advisor .next { margin-top: 8px; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(223,233,245,0.45); text-align: right; }
-
-  /* toast for placement feedback */
-  #toast {
-    position: absolute; left: 50%; top: 16%; transform: translateX(-50%);
-    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold);
-    text-shadow: 0 0 16px rgba(255,196,102,0.5); opacity: 0; transition: opacity 0.4s ease;
-  }
-  #toast.show { opacity: 1; }
-
-  #loading {
-    position: fixed; inset: 0; z-index: 20; background: #030308;
-    display: flex; align-items: center; justify-content: center;
-    font-family: "Avenir Next", sans-serif; color: rgba(223,233,245,0.6);
-    font-size: 12px; letter-spacing: 0.4em; text-transform: uppercase;
-    transition: opacity 1s ease; pointer-events: none;
-  }
+  footer { position: relative; z-index: 1; text-align: center; padding: 0 20px 6vh;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(223,233,245,0.35); }
 </style>
 </head>
 <body>
-  <div id="app"></div>
-  <div id="vignette"></div>
-  <div class="bar" id="bar-top"></div>
-  <div class="bar" id="bar-bottom"></div>
+  <canvas id="stars"></canvas>
 
-  <div id="crosshair"></div>
-  <div id="ui">
-    <div id="title">
-      <h1>WONDERVOID</h1>
-      <p>an interplanetary amusement park</p>
-    </div>
-    <div id="skip">space / click — skip</div>
+  <header>
+    <div class="kicker">Wondervoid Fleet Registry</div>
+    <h1>SHIPYARD</h1>
+    <p>Every hull the Wondervoid has worn. Two survive as living builds; the
+       iterations between them live on only in the design log. Pick a ship.</p>
+  </header>
 
-    <div id="hud">
-      <div class="park-name"><em>◇</em> Wondervoid <em>Orbital Amusement Carrier</em></div>
-      <div class="stat">⬡ <b id="credits">48,200</b></div>
-      <div class="stat">guests <b id="guest-count">0</b></div>
-      <div id="build-btn">＋ Build · Gravity Whirl (⬡ 6,000)</div>
-      <div class="spacer"></div>
-      <div class="hint" id="mode-hint">drag orbit · scroll zoom · F free-fly · B build</div>
-    </div>
+  <main id="fleet"></main>
 
-    <div id="advisor">
-      <div class="portrait" id="advisor-portrait"></div>
-      <div class="bubble" id="advisor-bubble">
-        <div class="who">Auntie Nova — Holographic Concierge</div>
-        <div class="line" id="advisor-line"></div>
-        <div class="next">click to continue ▸</div>
-      </div>
-    </div>
+  <footer>Wondervoid · orbiter · pick a hull and it flies</footer>
 
-    <div id="toast"></div>
-  </div>
+  <script>
+    const SHIPS = [
+      {
+        name: 'The Carrier', slice: 'Slice 1 · the original',
+        href: './ships/carrier/index.html', poster: './posters/carrier.png',
+        desc: 'The one that started it: a kilometre-scale Homeworld carrier with a whole amusement park — ferris wheel, coaster, carousel, 300 guests — glowing through a giant viewport.',
+        tags: ['Homeworld hull', 'live park', 'guests', 'cinematic dive'],
+      },
+      {
+        name: 'The Monolith', slice: 'Slice 6 · current',
+        href: './ships/monolith/index.html', poster: './posters/monolith.png',
+        desc: 'A brutalist Voronoi hull with light seams, one porcelain Atrium, and NOVA. Grow chambers and halls slot by slot until you reach the sealed bays. Alive universe, hyperspace, mushroom-Orokin.',
+        tags: ['voronoi hull', 'organic growth', 'NOVA', 'starmap floors', 'hyperspace'],
+      },
+      {
+        name: 'The Lost Iterations', slice: 'Slices 2–5 · in the log',
+        ghost: true,
+        desc: 'Hive Carrier · The Blossom · OCTAVE — four redesigns that were overwritten before they were committed. They survive as docs/DESIGN.md. Reconstructable on request.',
+        tags: ['design log only'],
+      },
+    ];
 
-  <div id="loading">igniting fusion torches…</div>
-  <script type="module" src="/src/main.js"></script>
+    const fleet = document.getElementById('fleet');
+    for (const s of SHIPS) {
+      const a = document.createElement(s.ghost ? 'div' : 'a');
+      a.className = 'ship' + (s.ghost ? ' ghost' : '');
+      if (!s.ghost) a.href = s.href;
+      a.innerHTML = `
+        <div class="poster" ${s.poster ? `style="background-image:url('${s.poster}')"` : ''}></div>
+        <div class="body">
+          <div class="name">${s.name}</div>
+          <div class="slice">${s.slice}</div>
+          <div class="desc">${s.desc}</div>
+          <div class="tags">${s.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+          <div class="go">${s.ghost ? 'archived' : 'launch ▸'}</div>
+        </div>`;
+      fleet.appendChild(a);
+    }
+
+    // cheap drifting starfield
+    const cv = document.getElementById('stars');
+    const ctx = cv.getContext('2d');
+    let stars = [];
+    function resize() {
+      cv.width = innerWidth; cv.height = innerHeight;
+      stars = Array.from({ length: 220 }, () => ({
+        x: Math.random() * cv.width, y: Math.random() * cv.height,
+        z: Math.random() * 0.8 + 0.2, r: Math.random() * 1.4 + 0.3,
+      }));
+    }
+    resize(); addEventListener('resize', resize);
+    (function tick() {
+      requestAnimationFrame(tick);
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      for (const s of stars) {
+        s.x -= s.z * 0.15;
+        if (s.x < 0) s.x = cv.width;
+        ctx.fillStyle = `rgba(200,220,245,${s.z * 0.7})`;
+        ctx.fillRect(s.x, s.y, s.r, s.r);
+      }
+    })();
+  </script>
 </body>
 </html>

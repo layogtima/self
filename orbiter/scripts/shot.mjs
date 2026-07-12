@@ -11,7 +11,7 @@ const errors = [];
 page.on('pageerror', (e) => errors.push(e.message));
 page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
 
-await page.goto('http://localhost:5173/', { waitUntil: 'networkidle' });
+await page.goto('http://localhost:5173/ships/monolith/', { waitUntil: 'networkidle' });
 // let the cinematic play to the requested moment
 await page.waitForTimeout(1500 + t * 1000);
 await page.screenshot({ path: out });

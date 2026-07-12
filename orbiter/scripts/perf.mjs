@@ -1,10 +1,15 @@
-// Measure FPS + renderer stats at three beats: exterior sweep, viewport
-// approach, park management view.
+// Measure FPS + renderer stats at three beats, at a given quality tier.
+// usage: node scripts/perf.mjs [tier]
 import { chromium } from 'playwright-core';
+
+const tier = process.argv[2];
+const url = 'http://localhost:5173/ships/monolith/' + (tier !== undefined ? `?quality=${tier}` : '');
 
 const browser = await chromium.launch({ args: ['--use-angle=metal'] });
 const page = await browser.newPage({ viewport: { width: 1600, height: 900 } });
-await page.goto('http://localhost:5173/', { waitUntil: 'networkidle' });
+const errors = [];
+page.on('pageerror', (e) => errors.push(e.message));
+await page.goto(url, { waitUntil: 'networkidle' });
 await page.waitForTimeout(2000);
 
 async function measure(label) {
@@ -31,10 +36,12 @@ async function measure(label) {
   console.log(label, '→ fps:', fps.toFixed(1), 'drawCalls:', info.calls, 'tris:', (info.triangles / 1e6).toFixed(2) + 'M');
 }
 
-await measure('exterior sweep ');
-await page.waitForTimeout(14000);
-await measure('viewport close ');
+await measure(`tier=${tier ?? 'auto'} exterior `);
 await page.keyboard.press('Space');
 await page.waitForTimeout(1200);
-await measure('management view');
+await measure(`tier=${tier ?? 'auto'} manage   `);
+await page.evaluate(() => window.__debug.walk(170, 30, 100, -10));
+await page.waitForTimeout(600);
+await measure(`tier=${tier ?? 'auto'} walk     `);
+if (errors.length) console.log('ERRORS:', errors);
 await browser.close();
