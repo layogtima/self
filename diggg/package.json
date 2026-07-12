@@ -1,0 +1,9 @@
+{
+  "name": "diggg",
+  "private": true,
+  "type": "module",
+  "description": "Barebones three.js voxel mock of dig - no build step, ES modules + CDN import map",
+  "scripts": {
+    "serve": "python3 -m http.server 8643"
+  }
+}

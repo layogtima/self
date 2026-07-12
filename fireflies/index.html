@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Fireflies — a game of light in the dark</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <!-- vignette + dark grade sit above the canvas -->
+  <div id="vignette"></div>
+
+  <!-- faint crosshair for aiming the beam -->
+  <div id="crosshair" class="hidden">·</div>
+
+  <!-- fade layer for seamless level transitions -->
+  <div id="fade"></div>
+
+  <!-- wordless start: a single breathing ring you click to descend -->
+  <div id="start">
+    <svg id="start-ring" viewBox="0 0 200 200" width="220" height="220">
+      <circle cx="100" cy="100" r="74" fill="none" stroke="rgba(255,205,130,0.85)" stroke-width="2" />
+      <circle cx="100" cy="100" r="74" fill="none" stroke="rgba(255,230,180,1)" stroke-width="3.5"
+              stroke-dasharray="8 340" stroke-linecap="round" id="start-spark" />
+    </svg>
+  </div>
+
+  <!-- boot-error surface (also handy for headless screenshots) -->
+  <div id="boot-error"></div>
+  <script>
+    window.addEventListener('error', (e) => {
+      const el = document.getElementById('boot-error');
+      if (!el) return;
+      el.style.display = 'block';
+      el.textContent = 'ERROR: ' + (e.message || e.error);
+    });
+  </script>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
