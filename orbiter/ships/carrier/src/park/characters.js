@@ -3,91 +3,145 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { clone as skeletonClone } from 'three/addons/utils/SkeletonUtils.js';
 import { makeRng } from '../rng.js';
 
-// Rigged, skeletally-animated park visitors. Loads one or more CC0/CC glTF
-// character models, clones each per visitor (SkeletonUtils → own skeleton),
-// and runs a small state machine on a per-character AnimationMixer:
-//   walk to a target → arrive → a random idle/emote action → walk on.
+// Rigged park crowd from the Creative Characters pack (modular mix-and-match,
+// ~1.1K tris) animated by a SHARED Mixamo clip library.
 //
-// Animation clips are matched HEURISTICALLY by name substring, so you can drop
-// in arbitrary Sketchfab/Mixamo models (their clips are named differently) and
-// it still finds the walk/idle/action loops. Add model types to `models`.
-//
-// Perf note: multi-mesh models cost ~N draws each — prefer single-mesh
-// (or merged) rigs for big crowds; use rigged hero visitors + the cheap
-// instanced box-crowd (guests.js) for the masses.
+// Two tricks make it work:
+//  1. Shared clips: every Mixamo rig uses the same bone names, so one library
+//     of clips plays on any character. The library's tracks are prefixed
+//     `mixamorig1:` while the pack's bones are bare (Hips, LeftFoot…), so we
+//     strip the prefix off the tracks once at load → they bind cleanly.
+//  2. Modular variety: the pack is 30 parts (Body/Hat/Costume/Pants/…) on one
+//     skeleton. Each cloned guest shows a randomly-assembled valid outfit by
+//     toggling part visibility — thousands of looks from a single glb.
 
 const BOUNDS = { x0: 26, x1: 314, z0: -76, z1: 76 };
-const WALK_KEYS = ['walk', 'run', 'move'];
-const IDLE_KEYS = ['idle', 'stand', 'breath'];
-const ACTION_KEYS = ['wave', 'dance', 'cheer', 'clap', 'talk', 'yes', 'no',
-  'thumb', 'jump', 'sit', 'point', 'laugh', 'look'];
+const LIBRARY_URL = '/assets/anims/mixamo-library.glb';
 
-// Soldier: a rigged human, ~2 skinned meshes (≈2 draws vs RobotExpressive's
-// 35), clips Idle/Walk/Run — cheap enough for a real crowd. Add more model
-// types (Mixamo/Quaternius) here for richer variety + emotes.
-// yaw = extra Y rotation so the model faces its travel direction (rigs differ:
-// Soldier's forward is -Z → needs PI; RobotExpressive's is +Z → 0).
-const DEFAULT_MODELS = [
-  { url: '/assets/characters/Soldier.glb', scale: 1.0, tint: true, yaw: Math.PI },
-];
+const DEFAULT_MODELS = [{
+  url: '/assets/characters/creative-character-free.glb',
+  texture: '/assets/characters/creative-texture.png',
+  scale: 1, yaw: 0, modular: true,
+}];
 
-// match by keyword PRIORITY (try keys[0] across all clips, then keys[1], …)
-// so 'walk' wins over 'run' rather than depending on clip order
-const findClip = (clips, keys) => {
-  for (const k of keys) {
-    const c = clips.find((cl) => cl.name.toLowerCase().includes(k));
-    if (c) return c;
-  }
-  return null;
-};
+// part node-name prefix → outfit category
+function categoryOf(name) {
+  const n = name.toLowerCase();
+  if (n.startsWith('body')) return 'body';
+  if (n.startsWith('male_emotion') || n.startsWith('female_emotion')) return 'face';
+  if (n.startsWith('costume')) return 'costume';
+  if (n.startsWith('t_shirt') || n.startsWith('t-shirt')) return 'top';
+  if (n.startsWith('outerwear') || n.startsWith('outwear')) return 'outerwear';
+  if (n.startsWith('pants') || n.startsWith('shorts')) return 'bottom';
+  if (n.startsWith('shoe')) return 'shoes';
+  if (n.startsWith('socks')) return 'socks';
+  if (n.startsWith('hairstyle')) return 'hair';
+  if (n.startsWith('hat')) return 'hat';
+  if (n.startsWith('glasses')) return 'glasses';
+  if (n.startsWith('moustache')) return 'moustache';
+  if (n.startsWith('gloves')) return 'gloves';
+  return 'accessory'; // clown_nose, headphones, pacifier
+}
 
-export function createCharacters(scene, { count = 28, models = DEFAULT_MODELS } = {}) {
+// state → library clip names (first present wins)
+const WALKS = ['walk', 'walk.happy'];
+const IDLES = ['idle', 'idle.happy', 'idle.5', 'idle.lookaround'];
+const EMOTES = ['wave', 'cheer', 'clap', 'laugh', 'excited', 'bow', 'drink', 'idle.4', 'idle.lookaround'];
+const ONESHOT = new Set(['wave', 'bow', 'excited', 'idle.4']);
+
+export function createCharacters(scene, { count = 90, models = DEFAULT_MODELS } = {}) {
   const rng = makeRng(777);
   const group = new THREE.Group();
   scene.add(group);
   const chars = [];
   const tmp = new THREE.Vector3();
   const loader = new GLTFLoader();
+  const texLoader = new THREE.TextureLoader();
 
-  Promise.all(models.map((m) => loader.loadAsync(m.url).then((gltf) => {
-    const clips = gltf.animations;
-    return {
-      ...m, gltf,
-      walk: findClip(clips, WALK_KEYS),
-      idle: findClip(clips, IDLE_KEYS) || clips[0] || null,
-      actions: clips.filter((c) => ACTION_KEYS.some((k) => c.name.toLowerCase().includes(k))),
-    };
-  }))).then((loaded) => {
-    const usable = loaded.filter((m) => m.gltf.scene);
-    for (let i = 0; i < count; i++) {
-      const src = rng.pick(usable);
-      const model = skeletonClone(src.gltf.scene);
-      const tint = src.tint ? new THREE.Color().setHSL(rng.next(), rng.range(0.3, 0.6), rng.range(0.42, 0.68)) : null;
-      model.traverse((o) => {
-        if (!o.isMesh) return;
-        o.castShadow = true; o.frustumCulled = false;
-        if (tint) { o.material = o.material.clone(); o.material.color.copy(tint); } // per-guest colour
+  // load the shared clip library + all character models in parallel
+  const libP = loader.loadAsync(LIBRARY_URL).then((g) => {
+    const map = {};
+    for (const clip of g.animations) {
+      for (const t of clip.tracks) t.name = t.name.replace(/mixamorig\d*:/i, ''); // strip prefix → bare bone names
+      map[clip.name] = clip;
+    }
+    return map;
+  });
+
+  const modelP = Promise.all(models.map((m) => loader.loadAsync(m.url).then((g) => {
+    if (m.texture) {
+      const tex = texLoader.load(m.texture);
+      tex.colorSpace = THREE.SRGBColorSpace;
+      tex.flipY = false; // glTF convention
+      g.scene.traverse((o) => {
+        if (o.isMesh && o.material && /color/i.test(o.material.name || '')) {
+          o.material.map = tex; o.material.needsUpdate = true;
+        }
       });
-      model.scale.setScalar((src.scale ?? 0.3) * rng.range(0.9, 1.1));
+    }
+    return { ...m, gltf: g };
+  })));
+
+  Promise.all([libP, modelP]).then(([clipMap, loaded]) => {
+    const pick = (names) => { for (const n of names) if (clipMap[n]) return clipMap[n]; return null; };
+    const walkClips = WALKS.map((n) => clipMap[n]).filter(Boolean);
+    const idleClips = IDLES.map((n) => clipMap[n]).filter(Boolean);
+    const emoteClips = EMOTES.map((n) => (clipMap[n] ? { name: n, clip: clipMap[n] } : null)).filter(Boolean);
+
+    for (let i = 0; i < count; i++) {
+      const src = rng.pick(loaded);
+      const model = skeletonClone(src.gltf.scene);
+      model.scale.setScalar((src.scale ?? 1) * rng.range(0.92, 1.08));
       const pos = new THREE.Vector3(rng.range(BOUNDS.x0, BOUNDS.x1), 0, rng.range(BOUNDS.z0, BOUNDS.z1));
       model.position.copy(pos);
+      if (src.modular) dressUp(model, rng);
+      model.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.frustumCulled = false; } });
       group.add(model);
 
       const mixer = new THREE.AnimationMixer(model);
-      const act = (clip) => (clip ? mixer.clipAction(clip) : null);
+      const walkClip = walkClips.length ? rng.pick(walkClips) : pick(['idle']);
+      const idleClip = idleClips.length ? rng.pick(idleClips) : pick(['idle']);
       const ch = {
         model, mixer, pos, heading: rng.next() * Math.PI * 2, yaw: src.yaw ?? 0,
-        target: new THREE.Vector3(), speed: rng.range(1.3, 2.1),
+        target: new THREE.Vector3(), speed: rng.range(1.2, 2.0),
         state: 'walk', dwell: 0, current: null,
-        walk: act(src.walk), idle: act(src.idle),
-        actions: src.actions.map(act),
+        walk: walkClip ? mixer.clipAction(walkClip) : null,
+        idle: idleClip ? mixer.clipAction(idleClip) : null,
+        emotes: emoteClips.map((e) => ({ once: ONESHOT.has(e.name), action: mixer.clipAction(e.clip) })),
       };
-      mixer.addEventListener('finished', () => { if (ch.state === 'dwell') fadeTo(ch, ch.idle); });
+      mixer.addEventListener('finished', () => { if (ch.state === 'dwell' && ch.idle) fadeTo(ch, ch.idle); });
       pickTarget(ch);
-      fadeTo(ch, ch.walk || ch.idle);
+      if (ch.walk) fadeTo(ch, ch.walk);
       chars.push(ch);
     }
   }).catch((e) => console.error('[characters] load failed:', e));
+
+  // — assemble a random valid outfit by toggling part visibility —
+  function dressUp(model, rng) {
+    const cats = {};
+    model.traverse((o) => {
+      if (!o.isMesh) return;
+      o.visible = false;
+      (cats[categoryOf(o.name)] ||= []).push(o);
+    });
+    const show = (arr) => arr && arr.forEach((o) => (o.visible = true));
+    const one = (cat) => cats[cat] && (cats[cat][rng.int(0, cats[cat].length - 1)].visible = true);
+    show(cats.body);
+    one('face');
+    one('shoes');
+    if (rng.chance(0.25) && cats.costume) { one('costume'); }
+    else {
+      one('bottom'); if (cats.top) one('top');
+      if (rng.chance(0.35)) one('outerwear');
+      if (rng.chance(0.4)) one('socks');
+    }
+    if (rng.chance(0.7)) one('hair');
+    if (rng.chance(0.32)) one('hat');
+    if (rng.chance(0.3)) one('glasses');
+    if (rng.chance(0.22)) one('moustache');
+    if (rng.chance(0.15)) one('gloves');
+    if (rng.chance(0.12)) one('accessory');
+  }
 
   function fadeTo(ch, next, dur = 0.3, once = false) {
     if (!next || next === ch.current) return;
@@ -100,7 +154,6 @@ export function createCharacters(scene, { count = 28, models = DEFAULT_MODELS } 
   }
 
   function pickTarget(ch) {
-    // 55% short hop near where they are (so they stop & act often), else roam
     if (rng.chance(0.55)) {
       ch.target.set(
         THREE.MathUtils.clamp(ch.pos.x + rng.range(-24, 24), BOUNDS.x0, BOUNDS.x1), 0,
@@ -113,8 +166,10 @@ export function createCharacters(scene, { count = 28, models = DEFAULT_MODELS } 
   function startDwell(ch) {
     ch.state = 'dwell';
     ch.dwell = rng.range(2.5, 7);
-    if (ch.actions.length && rng.chance(0.6)) fadeTo(ch, rng.pick(ch.actions), 0.3, true);
-    else fadeTo(ch, ch.idle);
+    if (ch.emotes.length && rng.chance(0.7)) {
+      const e = rng.pick(ch.emotes);
+      fadeTo(ch, e.action, 0.3, e.once);
+    } else if (ch.idle) fadeTo(ch, ch.idle);
   }
 
   function update(dt) {
@@ -130,10 +185,10 @@ export function createCharacters(scene, { count = 28, models = DEFAULT_MODELS } 
           ch.heading = Math.atan2(tmp.x, tmp.z);
         }
       } else if ((ch.dwell -= dt) <= 0) {
-        pickTarget(ch); ch.state = 'walk'; fadeTo(ch, ch.walk || ch.idle);
+        pickTarget(ch); ch.state = 'walk'; if (ch.walk) fadeTo(ch, ch.walk);
       }
       ch.model.position.set(ch.pos.x, 0, ch.pos.z);
-      const want = ch.heading + ch.yaw; // per-model forward-axis offset
+      const want = ch.heading + ch.yaw;
       let dy = want - ch.model.rotation.y;
       dy = Math.atan2(Math.sin(dy), Math.cos(dy));
       ch.model.rotation.y += dy * Math.min(1, dt * 8);
