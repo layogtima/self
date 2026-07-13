@@ -18,13 +18,6 @@ import { makeRng } from '../rng.js';
 const BOUNDS = { x0: 26, x1: 314, z0: -76, z1: 76 };
 const LIBRARY_URL = '/assets/anims/mixamo-library.glb';
 
-// The Mixamo clips' root (Hips) frame is offset from the pack rig's bind by a
-// fixed rotation (a Blender FBX up-axis quirk) — uncorrected it lays the body
-// flat. Correct the Hips track by this so the body stands + hips still animate.
-// Tunable via ?rootfix=<deg> for calibration.
-const ROOTFIX_DEG = new URLSearchParams(location.search).has('rootfix')
-  ? +new URLSearchParams(location.search).get('rootfix') : 90;
-
 const DEFAULT_MODELS = [{
   url: '/assets/characters/creative-character-free.glb',
   texture: '/assets/characters/creative-texture.png',
@@ -66,33 +59,25 @@ export function createCharacters(scene, { count = 90, models = DEFAULT_MODELS } 
   const texLoader = new THREE.TextureLoader();
 
   // load the shared clip library + all character models in parallel
+  const strip = (n) => n.replace(/^mixamorig\d*:?/i, '');
   const libP = loader.loadAsync(LIBRARY_URL).then((g) => {
-    const map = {};
+    // ROTATIONS ONLY. Mixamo clips are authored at cm scale; their position/
+    // scale tracks would force the source rig's huge bone offsets onto our
+    // small character (skinning explosion). Rotations are scale-independent;
+    // positions come from the target bind. Dropping Hips.position also removes
+    // root motion (In-Place; we move via code). Strip the Mixamo prefix — the
+    // GLTFLoader sanitizes the ':' away, so the name reads "mixamorig1Hips".
+    const clips = {};
     for (const clip of g.animations) {
-      // ROTATIONS ONLY. Mixamo clips are authored at cm scale and their
-      // position/scale tracks would force the source rig's (huge) bone offsets
-      // onto our small character → skinning explosion. Bone rotations are
-      // scale-independent; positions come from the target bind pose. Dropping
-      // Hips.position also removes root motion (In-Place, we move via code).
-      // Then strip the Mixamo prefix (GLTFLoader sanitizes the ':' away, so
-      // the track reads "mixamorig1Hips" — colon optional).
       clip.tracks = clip.tracks
         .filter((t) => /\.quaternion$/i.test(t.name))
-        .map((t) => { t.name = t.name.replace(/^mixamorig\d*:?/i, ''); return t; });
-      // correct the Hips-track keyframes by the fixed root-frame offset
-      const hips = clip.tracks.find((t) => t.name === 'Hips.quaternion');
-      if (hips) {
-        const fix = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), ROOTFIX_DEG * Math.PI / 180);
-        const q = new THREE.Quaternion();
-        const v = hips.values;
-        for (let i = 0; i < v.length; i += 4) {
-          q.set(v[i], v[i + 1], v[i + 2], v[i + 3]).premultiply(fix);
-          v[i] = q.x; v[i + 1] = q.y; v[i + 2] = q.z; v[i + 3] = q.w;
-        }
-      }
-      map[clip.name] = clip;
+        .map((t) => { t.name = strip(t.name); return t; });
+      clips[clip.name] = clip;
     }
-    return map;
+    // source (Mixamo) bind-pose local rotations, for retargeting
+    const srcBind = {};
+    g.scene.traverse((o) => { if (o.isBone) srcBind[strip(o.name)] = o.quaternion.clone(); });
+    return { clips, srcBind };
   });
 
   const modelP = Promise.all(models.map((m) => loader.loadAsync(m.url).then((g) => {
@@ -109,12 +94,28 @@ export function createCharacters(scene, { count = 90, models = DEFAULT_MODELS } 
     return { ...m, gltf: g };
   })));
 
-  Promise.all([libP, modelP]).then(([clipMap, loaded]) => {
-    // prune tracks for bones the pack rig lacks (Spine2/Head/fingers) so
-    // PropertyBinding doesn't spam "no target node" warnings
-    const boneSet = new Set();
-    loaded[0].gltf.scene.traverse((o) => { if (o.isBone) boneSet.add(o.name); });
-    for (const n in clipMap) clipMap[n].tracks = clipMap[n].tracks.filter((t) => boneSet.has(t.name.split('.')[0]));
+  Promise.all([libP, modelP]).then(([{ clips: clipMap, srcBind }, loaded]) => {
+    // target (pack) bind-pose local rotations
+    const tgtBind = {};
+    loaded[0].gltf.scene.traverse((o) => { if (o.isBone) tgtBind[o.name] = o.quaternion.clone(); });
+
+    // per-bone bind-difference correction C = tgtBind · srcBind⁻¹, applied
+    // (left-multiplied) onto every keyframe. This is real retargeting: it maps
+    // the Mixamo pose onto the pack rig's differently-oriented bind, so arms/
+    // shoulders/root all sit correctly instead of just the root.
+    const C = {}, inv = new THREE.Quaternion();
+    for (const b in tgtBind) if (srcBind[b]) C[b] = tgtBind[b].clone().multiply(inv.copy(srcBind[b]).invert());
+    const q = new THREE.Quaternion();
+    for (const n in clipMap) {
+      clipMap[n].tracks = clipMap[n].tracks.filter((t) => C[t.name.split('.')[0]]); // bones present in both rigs
+      for (const t of clipMap[n].tracks) {
+        const c = C[t.name.split('.')[0]], v = t.values;
+        for (let i = 0; i < v.length; i += 4) {
+          q.set(v[i], v[i + 1], v[i + 2], v[i + 3]).premultiply(c);
+          v[i] = q.x; v[i + 1] = q.y; v[i + 2] = q.z; v[i + 3] = q.w;
+        }
+      }
+    }
 
     const pick = (names) => { for (const n of names) if (clipMap[n]) return clipMap[n]; return null; };
     const walkClips = WALKS.map((n) => clipMap[n]).filter(Boolean);
