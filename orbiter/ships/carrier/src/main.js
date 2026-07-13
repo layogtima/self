@@ -8,6 +8,7 @@ import { createCoaster } from './park/coaster.js';
 import { createCarousel } from './park/carousel.js';
 import { createProps } from './park/props.js';
 import { createGuests } from './park/guests.js';
+import { createCharacters } from './park/characters.js';
 import { createLights } from './lights.js';
 import { createAtmosphere } from './atmosphere.js';
 import { createInterior } from './interior.js';
@@ -57,7 +58,10 @@ const coaster = createCoaster(scene);
 const carousel = createCarousel(scene);
 const props = createProps(scene);
 const guests = createGuests(scene);
+guests.mesh.visible = false; // replaced by the rigged crowd; toggle in the O panel
+const characters = createCharacters(scene, { count: 120 }); // rigged, animated visitors
 const interior = createInterior(scene);
+interior.group.visible = false; // empty concourses — not used; toggle in the O panel
 const lights = createLights(scene);
 const atmosphere = createAtmosphere(scene, lights.accents);
 
@@ -204,6 +208,7 @@ window.__debug = {
     fly.setEnabled(true); // re-sync yaw/pitch from the aimed camera
   },
   pos: () => camera.position.toArray().map((n) => +n.toFixed(1)),
+  characters,
   mode: () => mode,
   setMode,
   wireframe(on) {
@@ -226,7 +231,7 @@ window.addEventListener('keydown', (e) => {
 const renderFlags = { usePost: true };
 createDebugPanel({
   renderer, scene, post, flags: renderFlags,
-  groups: { space, ship, habitat, deck, ferris, coaster, carousel, props, guests, interior, atmosphere },
+  groups: { space, ship, habitat, deck, ferris, coaster, carousel, props, guests, characters, interior, atmosphere },
 });
 
 // ── loop ────────────────────────────────────────────────────────────────────
@@ -246,6 +251,7 @@ function tick() {
   carousel.update(dt, elapsed);
   props.update(dt, elapsed);
   guests.update(dt, elapsed);
+  characters.update(dt);
   atmosphere.update(dt, elapsed);
   build.update(dt);
   post.update(dt, elapsed);
