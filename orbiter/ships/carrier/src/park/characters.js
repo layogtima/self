@@ -18,6 +18,13 @@ import { makeRng } from '../rng.js';
 const BOUNDS = { x0: 26, x1: 314, z0: -76, z1: 76 };
 const LIBRARY_URL = '/assets/anims/mixamo-library.glb';
 
+// The Mixamo clips' root (Hips) frame is offset from the pack rig's bind by a
+// fixed rotation (a Blender FBX up-axis quirk) — uncorrected it lays the body
+// flat. Correct the Hips track by this so the body stands + hips still animate.
+// Tunable via ?rootfix=<deg> for calibration.
+const ROOTFIX_DEG = new URLSearchParams(location.search).has('rootfix')
+  ? +new URLSearchParams(location.search).get('rootfix') : 90;
+
 const DEFAULT_MODELS = [{
   url: '/assets/characters/creative-character-free.glb',
   texture: '/assets/characters/creative-texture.png',
@@ -71,11 +78,18 @@ export function createCharacters(scene, { count = 90, models = DEFAULT_MODELS } 
       // the track reads "mixamorig1Hips" — colon optional).
       clip.tracks = clip.tracks
         .filter((t) => /\.quaternion$/i.test(t.name))
-        .map((t) => { t.name = t.name.replace(/^mixamorig\d*:?/i, ''); return t; })
-        // also drop the Hips(root) rotation: the clip's root orientation is
-        // relative to Mixamo's bind and lays our differently-bound rig flat.
-        // Keep the character upright via its own root; animate everything below.
-        .filter((t) => t.name.split('.')[0] !== 'Hips');
+        .map((t) => { t.name = t.name.replace(/^mixamorig\d*:?/i, ''); return t; });
+      // correct the Hips-track keyframes by the fixed root-frame offset
+      const hips = clip.tracks.find((t) => t.name === 'Hips.quaternion');
+      if (hips) {
+        const fix = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), ROOTFIX_DEG * Math.PI / 180);
+        const q = new THREE.Quaternion();
+        const v = hips.values;
+        for (let i = 0; i < v.length; i += 4) {
+          q.set(v[i], v[i + 1], v[i + 2], v[i + 3]).premultiply(fix);
+          v[i] = q.x; v[i + 1] = q.y; v[i + 2] = q.z; v[i + 3] = q.w;
+        }
+      }
       map[clip.name] = clip;
     }
     return map;
