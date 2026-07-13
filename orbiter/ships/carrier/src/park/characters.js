@@ -62,7 +62,20 @@ export function createCharacters(scene, { count = 90, models = DEFAULT_MODELS } 
   const libP = loader.loadAsync(LIBRARY_URL).then((g) => {
     const map = {};
     for (const clip of g.animations) {
-      for (const t of clip.tracks) t.name = t.name.replace(/mixamorig\d*:/i, ''); // strip prefix → bare bone names
+      // ROTATIONS ONLY. Mixamo clips are authored at cm scale and their
+      // position/scale tracks would force the source rig's (huge) bone offsets
+      // onto our small character → skinning explosion. Bone rotations are
+      // scale-independent; positions come from the target bind pose. Dropping
+      // Hips.position also removes root motion (In-Place, we move via code).
+      // Then strip the Mixamo prefix (GLTFLoader sanitizes the ':' away, so
+      // the track reads "mixamorig1Hips" — colon optional).
+      clip.tracks = clip.tracks
+        .filter((t) => /\.quaternion$/i.test(t.name))
+        .map((t) => { t.name = t.name.replace(/^mixamorig\d*:?/i, ''); return t; })
+        // also drop the Hips(root) rotation: the clip's root orientation is
+        // relative to Mixamo's bind and lays our differently-bound rig flat.
+        // Keep the character upright via its own root; animate everything below.
+        .filter((t) => t.name.split('.')[0] !== 'Hips');
       map[clip.name] = clip;
     }
     return map;
@@ -83,6 +96,12 @@ export function createCharacters(scene, { count = 90, models = DEFAULT_MODELS } 
   })));
 
   Promise.all([libP, modelP]).then(([clipMap, loaded]) => {
+    // prune tracks for bones the pack rig lacks (Spine2/Head/fingers) so
+    // PropertyBinding doesn't spam "no target node" warnings
+    const boneSet = new Set();
+    loaded[0].gltf.scene.traverse((o) => { if (o.isBone) boneSet.add(o.name); });
+    for (const n in clipMap) clipMap[n].tracks = clipMap[n].tracks.filter((t) => boneSet.has(t.name.split('.')[0]));
+
     const pick = (names) => { for (const n of names) if (clipMap[n]) return clipMap[n]; return null; };
     const walkClips = WALKS.map((n) => clipMap[n]).filter(Boolean);
     const idleClips = IDLES.map((n) => clipMap[n]).filter(Boolean);
