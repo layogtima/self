@@ -16,6 +16,7 @@ import { createCinematic } from './cinematic.js';
 import { createManageControls, createFlyControls, createWalkControls } from './controls.js';
 import { createBuildMode } from './build.js';
 import { createAdvisor } from './advisor.js';
+import { createDebugPanel } from './debug.js';
 
 // ── renderer ────────────────────────────────────────────────────────────────
 // Cap DPR hard: on a Retina panel devicePixelRatio is 2, which quadruples every
@@ -28,6 +29,7 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.12;
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFShadowMap; // cheaper than PCFSoft, negligible visual diff here
+renderer.info.autoReset = false; // count all composer passes per frame; reset manually
 document.getElementById('app').appendChild(renderer.domElement);
 
 // survive a GPU context loss instead of hard-crashing the tab
@@ -49,7 +51,7 @@ camera.position.set(-1500, 130, 680);
 const space = createSpace(scene);
 const ship = createShip(scene);
 const habitat = createHabitat(scene);
-createDeck(scene);
+const deck = createDeck(scene);
 const ferris = createFerris(scene);
 const coaster = createCoaster(scene);
 const carousel = createCarousel(scene);
@@ -172,7 +174,19 @@ renderer.domElement.addEventListener('pointerdown', () => {
 document.body.className = 'cinematic';
 refreshHud();
 
-// dev hook: jump straight into walk mode at a given spot (for screenshots)
+// ── dev / debug tools ────────────────────────────────────────────────────────
+const dev = {
+  root: document.getElementById('dev'),
+  draws: document.getElementById('dev-draws'),
+  mode: document.getElementById('dev-mode'),
+  cam: document.getElementById('dev-cam'),
+  tris: document.getElementById('dev-tris'),
+  guests: document.getElementById('dev-guests'),
+  fpsB: document.querySelector('#dev .fps b'),
+  ms: document.getElementById('dev-ms'),
+  wire: false,
+};
+
 window.__debug = {
   walk(sx, sz, lx, lz) {
     if (mode === 'cinematic') cinematic.skip();
@@ -181,11 +195,44 @@ window.__debug = {
       look: new THREE.Vector3(lx ?? sx, 1.75, lz ?? sz - 10),
     });
   },
+  // free camera placement for art shots: position + look-at, any angle
+  fly(x, y, z, lx = 0, ly = 0, lz = 0) {
+    if (mode === 'cinematic') cinematic.skip();
+    setMode('fly');
+    camera.position.set(x, y, z);
+    camera.lookAt(lx, ly, lz);
+    fly.setEnabled(true); // re-sync yaw/pitch from the aimed camera
+  },
+  pos: () => camera.position.toArray().map((n) => +n.toFixed(1)),
+  mode: () => mode,
+  setMode,
+  wireframe(on) {
+    dev.wire = on ?? !dev.wire;
+    scene.traverse((o) => { if (o.isMesh) {
+      const m = Array.isArray(o.material) ? o.material : [o.material];
+      m.forEach((mat) => { if (mat) mat.wireframe = dev.wire; });
+    } });
+  },
+  scene, camera, renderer,
 };
+
+// keyboard: ` toggles the stat panel, P toggles wireframe
+window.addEventListener('keydown', (e) => {
+  if (e.code === 'Backquote') dev.root.classList.toggle('open');
+  else if (e.code === 'KeyP' && mode !== 'cinematic') window.__debug.wireframe();
+});
+
+// perf bisection panel (O key) — toggle subsystems, watch the fps readout
+const renderFlags = { usePost: true };
+createDebugPanel({
+  renderer, scene, post, flags: renderFlags,
+  groups: { space, ship, habitat, deck, ferris, coaster, carousel, props, guests, interior, atmosphere },
+});
 
 // ── loop ────────────────────────────────────────────────────────────────────
 const clock = new THREE.Clock();
 let firstFrame = true;
+let fpsAccum = 0, fpsFrames = 0, renderMs = 0;
 
 function tick() {
   requestAnimationFrame(tick);
@@ -214,7 +261,31 @@ function tick() {
     if (Math.floor(elapsed * 2) % 2 === 0) refreshHud();
   }
 
-  post.composer.render();
+  renderer.info.reset();
+  const rt0 = performance.now();
+  if (renderFlags.usePost) post.composer.render();
+  else renderer.render(scene, camera); // bypass bloom/grade to isolate post cost
+  renderMs += performance.now() - rt0;
+
+  // dev overlay — fps (twice/sec), draws, cpu-side render time, stat panel.
+  // If render ms is LOW but fps is stuck (e.g. 30), the cap is external
+  // (display refresh / power throttle), not the scene.
+  fpsAccum += dt; fpsFrames++;
+  if (fpsAccum >= 0.5) {
+    const fps = Math.round(fpsFrames / fpsAccum);
+    dev.fpsB.textContent = fps;
+    dev.draws.textContent = renderer.info.render.calls;
+    dev.ms.textContent = (renderMs / fpsFrames).toFixed(1);
+    renderMs = 0;
+    dev.root.className = fps >= 50 ? '' : fps >= 30 ? 'warn' : 'bad';
+    if (dev.root.classList.contains('open')) {
+      dev.mode.textContent = mode;
+      dev.cam.textContent = camera.position.toArray().map((n) => Math.round(n)).join(', ');
+      dev.tris.textContent = renderer.info.render.triangles.toLocaleString();
+      dev.guests.textContent = guests.count + ridesPlaced * 47;
+    }
+    fpsAccum = 0; fpsFrames = 0;
+  }
 
   if (firstFrame) {
     firstFrame = false;

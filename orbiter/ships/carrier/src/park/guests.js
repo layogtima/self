@@ -103,5 +103,5 @@ export function createGuests(scene) {
     for (const g of guests) if (g.target.lengthSq() === 0) pickTarget(g);
   }
 
-  return { update, addAttraction, count: COUNT };
+  return { update, addAttraction, count: COUNT, mesh: inst };
 }

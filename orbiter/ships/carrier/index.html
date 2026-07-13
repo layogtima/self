@@ -74,6 +74,19 @@
   #hud .spacer { flex: 1; }
   #hud .hint { font-size: 11px; letter-spacing: 0.14em; color: rgba(223,233,245,0.55); text-transform: uppercase; }
 
+  /* dev overlay: fps + draws + a live stat panel (toggle with the ` key) */
+  #dev {
+    position: absolute; right: 14px; top: 12px; z-index: 12;
+    font-family: "SF Mono", Menlo, monospace; font-size: 11px; line-height: 1.5;
+    text-align: right; color: rgba(223,233,245,0.6); pointer-events: none;
+    font-variant-numeric: tabular-nums;
+  }
+  #dev .fps b { color: #7effa0; font-weight: 600; }
+  #dev.warn .fps b { color: #ffd166; } #dev.bad .fps b { color: #ff6a6a; }
+  #dev .panel { display: none; margin-top: 6px; color: rgba(223,233,245,0.45); }
+  #dev.open .panel { display: block; }
+  #dev .panel span { color: var(--holo); }
+
   #build-btn {
     pointer-events: auto; cursor: pointer; user-select: none;
     border: 1px solid rgba(126,224,255,0.5); border-radius: 3px;
@@ -152,6 +165,16 @@
       <div id="build-btn">＋ Build · Gravity Whirl (⬡ 6,000)</div>
       <div class="spacer"></div>
       <div class="hint" id="mode-hint">drag orbit · scroll zoom · F free-fly · B build</div>
+    </div>
+
+    <div id="dev">
+      <div class="fps"><b>––</b> fps · <span id="dev-draws">–</span> draws · <span id="dev-ms">–</span>ms gpu</div>
+      <div class="panel">
+        mode <span id="dev-mode">–</span><br>
+        cam <span id="dev-cam">–</span><br>
+        tris <span id="dev-tris">–</span> · guests <span id="dev-guests">–</span><br>
+        <span style="color:rgba(223,233,245,0.3)">` panel · P wireframe</span>
+      </div>
     </div>
 
     <div id="advisor">
