@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>WARMTH</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: { ash:'#0b0026', ember:'#fe9f6d', mag:'#de4968', hotw:'#fcfdbf', plum:'#3b0f70' },
+        fontFamily: { mono: ['ui-monospace','SFMono-Regular','Menlo','Consolas','monospace'] },
+      }
+    }
+  }
+</script>
+<style>
+  html,body{margin:0;padding:0;background:#020109;overflow:hidden;overscroll-behavior:none;}
+  #cv{touch-action:none;-webkit-user-select:none;user-select:none;}
+  .scan{background:repeating-linear-gradient(to bottom, rgba(255,255,255,.55) 0 1px, transparent 1px 2px);opacity:.06;}
+  .vig{background:radial-gradient(ellipse at center, transparent 52%, rgba(0,0,0,.62) 100%);}
+  .flashwhite{background:#fff;animation:flash .7s ease-out forwards;}
+  @keyframes flash{0%{opacity:.95}100%{opacity:0}}
+  .fadein{animation:fadein .8s ease-out both;}
+  @keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .pulse{animation:pulse 2.2s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
+</style>
+</head>
+<body>
+<!-- The sim lives outside Vue's reach: Vue mounting on #app replaces its
+     children, which would detach the canvas the game draws into. -->
+<canvas id="cv" class="fixed inset-0"></canvas>
+<div class="scan pointer-events-none fixed inset-0"></div>
+<div class="vig pointer-events-none fixed inset-0"></div>
+
+<div id="app" class="fixed inset-0 overflow-hidden font-mono text-hotw pointer-events-none">
+
+  <!-- HUD : soup charges · level flames | sound · restart -->
+  <div v-if="screen==='playing'" class="absolute top-0 inset-x-0 flex items-start justify-between p-4 pointer-events-none" style="padding-top:max(1rem,env(safe-area-inset-top))">
+    <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2">
+        <span v-for="n in 2" :key="n"
+              class="inline-block w-3.5 h-3.5 rounded-full border border-ember transition-all duration-300"
+              :class="n<=decoys ? 'bg-ember shadow-[0_0_8px_#fe9f6d]' : 'bg-transparent opacity-40'"></span>
+      </div>
+      <span class="text-xs opacity-50 select-none">{{ ['🔥','🔥🔥','🔥🔥🔥'][level] }}</span>
+    </div>
+    <div class="flex items-center gap-1">
+      <button @click="toggleSound" aria-label="sound" class="pointer-events-auto text-ember/80 hover:text-hotw text-lg leading-none px-2 py-1">{{ muted ? '🔇' : '🔊' }}</button>
+      <button @click="restart" aria-label="restart" class="pointer-events-auto text-ember/80 hover:text-hotw text-xl leading-none px-2 py-1">&#8635;</button>
+    </div>
+  </div>
+
+  <!-- START : icons only -->
+  <div v-if="screen==='start'" class="pointer-events-auto absolute inset-0 flex items-center justify-center bg-black/55">
+    <div class="fadein text-center px-8">
+      <h1 class="text-5xl sm:text-6xl font-bold tracking-[0.35em] text-transparent bg-clip-text bg-gradient-to-b from-hotw via-ember to-mag mr-[-0.35em] select-none">WARMTH</h1>
+      <div class="mt-9 mb-9 space-y-4 text-2xl leading-none select-none">
+        <p>👆 <span class="text-ember/70 text-xl align-middle">→</span> 🔥👣</p>
+        <p>👆👆 <span class="text-ember/70 text-xl align-middle">→</span> 🍜</p>
+        <p>📷🔥 <span class="text-ember/70 text-xl align-middle">→</span> ⚠️</p>
+      </div>
+      <div class="flex justify-center items-center gap-3 mb-9 select-none">
+        <button v-for="(f,i) in ['🔥','🔥🔥','🔥🔥🔥']" :key="i" @click="pick(i)"
+                :aria-label="'level'+(i+1)"
+                class="pointer-events-auto px-3 py-2 rounded border text-base leading-none transition-all"
+                :class="i<=unlocked
+                  ? (i===level ? 'border-ember bg-ember/20 shadow-[0_0_12px_rgba(254,159,109,.4)]' : 'border-ember/40 opacity-80')
+                  : 'border-white/10 opacity-30'">
+          <span v-if="i<=unlocked">{{ f }}</span><span v-else>🔒</span>
+        </button>
+      </div>
+      <button @click="start" aria-label="start"
+        class="px-14 py-4 text-2xl leading-none font-bold text-black rounded bg-gradient-to-r from-ember to-mag shadow-[0_0_30px_rgba(254,159,109,.45)] active:scale-95 transition-transform">
+        ▶
+      </button>
+    </div>
+  </div>
+
+  <!-- CAUGHT : the camera got you -->
+  <div v-if="screen==='caught'" class="pointer-events-auto absolute inset-0">
+    <div class="flashwhite absolute inset-0 pointer-events-none"></div>
+    <div class="absolute inset-0 flex items-center justify-center">
+      <div class="fadein text-center px-8 select-none">
+        <div class="text-6xl drop-shadow-[0_0_24px_rgba(222,73,104,.9)]">📷⚠️</div>
+        <div class="mt-10 flex justify-center gap-4">
+          <button @click="home" aria-label="home" class="px-6 py-3 text-xl rounded border border-ember/50 text-ember active:scale-95 transition-transform">⏮</button>
+          <button @click="restart" aria-label="restart" class="px-10 py-3 text-2xl leading-none font-bold text-black rounded bg-gradient-to-r from-ember to-mag active:scale-95 transition-transform">&#8635;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESCAPED : gone cold -->
+  <div v-if="screen==='escaped'" class="pointer-events-auto absolute inset-0 flex items-center justify-center">
+    <div class="fadein text-center px-8 select-none">
+      <div class="text-6xl">{{ level===2 ? '🏆' : '❄️' }}</div>
+      <p class="mt-4 text-ember/80 text-lg">⏱ {{ finalTime }}</p>
+      <div class="mt-10 flex justify-center gap-4">
+        <button @click="home" aria-label="home" class="px-6 py-3 text-xl rounded border border-ember/50 text-ember active:scale-95 transition-transform">⏮</button>
+        <button @click="restart" aria-label="replay" class="px-6 py-3 text-xl rounded border border-ember/50 text-ember active:scale-95 transition-transform">&#8635;</button>
+        <button v-if="level<2" @click="next" aria-label="next"
+          class="px-10 py-3 text-2xl leading-none font-bold text-black rounded bg-gradient-to-r from-ember to-mag shadow-[0_0_24px_rgba(254,159,109,.4)] active:scale-95 transition-transform">▶▶</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+<script>
+'use strict';
+/* ============================================================
+   WARMTH — MVP v0.2
+   One system: a 2D heat-diffusion field seen through a thermal
+   camera. v0.2: three levels, icons-only UI, WebAudio sfx,
+   visible exit (lock/arrow glyphs + pad hint ring).
+   ============================================================ */
+
+/* ---- Tuning constants (all knobs live here) ----------------- */
+const TUNE = {
+  SIM_HZ: 30,
+  DECAY: 0.995,            // global heat fade per tick
+  PLAYER_HEAT: 0.9,        // deposit peak
+  PLAYER_SPEED: 14,        // cells / sec
+  GUARD_SPEED: 8,
+  ALERT_MULT: 1.5,
+  DETECT_RADIUS: 24,       // cells
+  DETECT_THRESHOLD: 0.35,
+  SENSOR_THRESHOLD: 0.55,
+  DECOY_HEAT: 1.6,
+  DECOY_CHARGES: 2,
+  CATCH_DIST: 3,
+  // secondary knobs
+  PLAYER_R: 2.5, GUARD_R: 2.5, DECOY_R: 3,
+  COPPER_DECAY: 0.9997,    // polished strip barely radiates
+  COPPER_PASSES: 12,       // extra relaxation passes on copper+sensor per tick
+  VENT_T: -0.15, VENT_PULL: 0.15,
+  ALERT_COOLDOWN: 4,       // s below threshold before guard stands down
+  PERCEIVE_EVERY: 15,      // ticks (0.5 s)
+  PATH_EVERY: 5,           // ticks between own-path samples
+  PATH_LEN: 40,            // ring buffer size (~6.7 s of trail)
+  PATH_EXCLUDE: 4,         // cells; ignore heat this close to own path
+};
+
+/* ---- The levels ---------------------------------------------
+   Authored at 48×80, each char becomes a 2×2 block of the
+   96×160 sim grid. One char per material — edit freely.
+   .=floor  #=wall  ==thin metal  c=copper  X=insulator
+   v=cold vent  S=sensor plate  E=exit door
+   guards: one waypoint loop (sim coords) per guard.
+--------------------------------------------------------------- */
+const LEVELS = [
+{ /* 🔥 — learn the wake, the soup, the wire */
+spawn: [48,149],
+guards: [ [[11,117],[87,117],[87,89],[13,89]] ],
+rows: [
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"X###################EEEEEEEE###################X",
+"X..............................................X",
+"X..............................................X",
+"X.XXXXXXXXX....................................X",
+"X.XXXXXXXXX....................................X",
+"X.XXXXXXSSXXXXXXXcc............................X",
+"X.XXXXXXSSccccccccc............................X",
+"X.XXXXXXXXXXXXXXXcc............................X",
+"X.XXXXXXXXX....................................X",
+"X.XXXXXXXXX....................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X###################........###################X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X#############.....##########.....#############X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X###.....################################.....#X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X=.....========================================X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X.....vvvvvvv..................................X",
+"X.....vvvvvvv..................................X",
+"X.....vvvvvvv..................................X",
+"X.....vvvvvvv..................................X",
+"X.....vvvvvvv..................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+]},
+{ /* 🔥🔥 — two smears, longer road */
+spawn: [49,151],
+guards: [
+  [[8,117],[88,117]],
+  [[17,77],[79,77],[49,77],[49,59],[49,77]],
+],
+rows: [
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"X#################################EEEEEEEE#####X",
+"X..............................................X",
+"X..............................................X",
+"X....................................XXXXXXXXX.X",
+"X....................................XXXXXXXXX.X",
+"X.............................ccXXXXXXSSXXXXXX.X",
+"X.............................ccccccccSSXXXXXX.X",
+"X.............................ccXXXXXXSSXXXXXX.X",
+"X....................................XXXXXXXXX.X",
+"X....................................XXXXXXXXX.X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X#####........#################################X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X#####################.....####################X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X======....==========================....======X",
+"X..............................................X",
+"X..............................................X",
+"X.............vvvvvv...........................X",
+"X.............vvvvvv...........................X",
+"X.............vvvvvv...........................X",
+"X.............vvvvvv...........................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X#.....###############.....####################X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X========================================.....=X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X.......vvvvvv.................................X",
+"X.......vvvvvv.................................X",
+"X.......vvvvvv.................................X",
+"X.......vvvvvv.................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+]},
+{ /* 🔥🔥🔥 — the pad is watched */
+spawn: [49,151],
+guards: [
+  [[68,9],[90,9],[90,46],[68,46]],
+  [[10,61],[86,61]],
+  [[86,81],[10,81]],
+],
+rows: [
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"X#####EEEEEEEE#################################X",
+"X..............................................X",
+"X..............................................X",
+"X...............XXXXXXXXX......................X",
+"X...............XXXXXXXXX......................X",
+"X...............XXXXXXSSXXXXXXcc...............X",
+"X...............XXXXXXSScccccccc...............X",
+"X...............XXXXXXXXXXXXXXcc...............X",
+"X...............XXXXXXXXX......................X",
+"X...............XXXXXXXXX......................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X====================================.....=====X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X###.....######################################X",
+"X..............................................X",
+"X..............................................X",
+"X.....................vvvvvv...................X",
+"X.....................vvvvvv...................X",
+"X.....................vvvvvv...................X",
+"X.....................vvvvvv...................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X####################.....#####################X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X#.....#################################.....##X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X====================.....=====================X",
+"X..............................................X",
+"X..............................................X",
+"X...vvvvvv.....................................X",
+"X...vvvvvv.....................................X",
+"X...vvvvvv.....................................X",
+"X...vvvvvv.....................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+]},
+];/*END-LEVELS*/
+
+/* ---- Simulation state --------------------------------------- */
+const W = 96, H = 160, N = W*H, SCALE_MAP = 2;
+const CHAR2MAT = {'.':0,'#':1,'=':2,'c':3,'X':4,'v':5,'S':6,'E':7};
+// conductivity per material (door handled dynamically)
+const K = [0.02, 0.002, 0.25, 0.45, 0.0, 0.02, 0.3, 0.002];
+
+const mat = new Uint8Array(N);
+let cur = new Float32Array(N);
+let nxt = new Float32Array(N);
+let hotWire = [];        // copper + sensor cell indices (fast conduction)
+let sensorCells = [];
+let doorCells = [];
+let doorBounds = {minX:0, maxX:0};
+let padCenter = [0,0];   // exposed copper = where to stand
+
+function buildLevel(idx){
+  const rows = LEVELS[idx].rows;
+  if (rows.length !== H/SCALE_MAP) throw new Error('L'+idx+' row count '+rows.length);
+  hotWire = []; sensorCells = []; doorCells = [];
+  for (let ry=0; ry<rows.length; ry++){
+    const row = rows[ry];
+    if (row.length !== W/SCALE_MAP) throw new Error('L'+idx+' row '+ry+' width '+row.length);
+    for (let rx=0; rx<row.length; rx++){
+      const m = CHAR2MAT[row[rx]];
+      if (m === undefined) throw new Error('L'+idx+' bad char "'+row[rx]+'" at '+rx+','+ry);
+      for (let dy=0; dy<SCALE_MAP; dy++) for (let dx=0; dx<SCALE_MAP; dx++){
+        const i = (ry*SCALE_MAP+dy)*W + rx*SCALE_MAP+dx;
+        mat[i] = m;
+        if (m===3 || m===6) hotWire.push(i);
+        if (m===6) sensorCells.push(i);
+        if (m===7) doorCells.push(i);
+      }
+    }
+  }
+  let mnx = W, mxx = 0;
+  for (const i of doorCells){ const x = i%W; if (x<mnx) mnx=x; if (x>mxx) mxx=x; }
+  doorBounds = {minX:mnx, maxX:mxx};
+  // pad = copper cells touching plain floor (the strip is insulator-trimmed)
+  let px=0, py=0, pn=0;
+  for (const i of hotWire){
+    if (mat[i]!==3) continue;
+    const x=i%W, y=(i/W)|0;
+    if ((x>0&&mat[i-1]===0)||(x<W-1&&mat[i+1]===0)||(y>0&&mat[i-W]===0)||(y<H-1&&mat[i+W]===0)){
+      px+=x+0.5; py+=y+0.5; pn++;
+    }
+  }
+  padCenter = pn ? [px/pn, py/pn] : [0,0];
+}
+
+let doorOpen = false;
+function walkable(m){ return m===0 || m===3 || m===5 || (m===7 && doorOpen); }
+
+/* heat deposits land on walkable surfaces only */
+function stamp(cx, cy, rad, peak, cap){
+  const x0 = Math.max(0, Math.floor(cx-rad)), x1 = Math.min(W-1, Math.ceil(cx+rad));
+  const y0 = Math.max(0, Math.floor(cy-rad)), y1 = Math.min(H-1, Math.ceil(cy+rad));
+  for (let y=y0; y<=y1; y++) for (let x=x0; x<=x1; x++){
+    const i = y*W+x, m = mat[i];
+    if (m!==0 && m!==3 && m!==5) continue;
+    const d = Math.hypot(x+0.5-cx, y+0.5-cy);
+    if (d >= rad) continue;
+    const add = peak * (1 - d/rad);
+    const t = cur[i] + add;
+    cur[i] = t > cap ? Math.max(cur[i], cap) : t;
+  }
+}
+
+/* the entire physics engine */
+let decayNow = TUNE.DECAY;
+function diffuse(){
+  const A = cur, B = nxt;
+  for (let y=0; y<H; y++){
+    const row = y*W;
+    for (let x=0; x<W; x++){
+      const i = row+x, m = mat[i];
+      if (m===4){ B[i]=0; continue; }               // insulator: dead, adiabatic
+      const t = A[i];
+      const k = m===7 ? (doorOpen ? 0.3 : 0.002) : K[m];
+      const l = (x>0     && mat[i-1]!==4) ? A[i-1] : t;
+      const r = (x<W-1   && mat[i+1]!==4) ? A[i+1] : t;
+      const u = (y>0     && mat[i-W]!==4) ? A[i-W] : t;
+      const d = (y<H-1   && mat[i+W]!==4) ? A[i+W] : t;
+      let v = t + k*((l+r+u+d)*0.25 - t);
+      v *= (m===3 || m===6) ? TUNE.COPPER_DECAY : decayNow;
+      if (m===5) v += (TUNE.VENT_T - v) * TUNE.VENT_PULL;
+      B[i] = v;
+    }
+  }
+  const tmp = cur; cur = nxt; nxt = tmp;
+}
+
+/* copper conducts fast ALONG the metal: extra Gauss-Seidel passes that
+   only exchange copper<->copper/sensor. Metal-to-air loss stays at the
+   normal diffusion rate, so the strip races while the pad holds heat. */
+function metal(i){ const m = mat[i]; return m===3 || m===6; }
+function relaxCopper(){
+  for (let p=0; p<TUNE.COPPER_PASSES; p++){
+    const back = p & 1;                 // alternate sweep direction
+    for (let s=0; s<hotWire.length; s++){
+      const n = back ? hotWire.length-1-s : s;
+      const i = hotWire[n], x = i%W, y = (i/W)|0, t = cur[i];
+      const l = (x>0   && metal(i-1)) ? cur[i-1] : t;
+      const r = (x<W-1 && metal(i+1)) ? cur[i+1] : t;
+      const u = (y>0   && metal(i-W)) ? cur[i-W] : t;
+      const d = (y<H-1 && metal(i+W)) ? cur[i+W] : t;
+      cur[i] = t + 0.45*((l+r+u+d)*0.25 - t);
+    }
+  }
+}
+
+/* ---- Sound: tiny WebAudio synth, no assets ------------------- */
+const SFX = (function(){
+  let ac = null, master = null;
+  let muted = false;
+  try { muted = localStorage.getItem('warmth_muted') === '1'; } catch(e){}
+  function ensure(){
+    try {
+      if (!ac){
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        ac = new AC();
+        master = ac.createGain();
+        master.gain.value = muted ? 0 : 0.22;
+        master.connect(ac.destination);
+      }
+      if (ac.state === 'suspended') ac.resume();
+    } catch(e){ ac = null; }
+  }
+  function tone(f0, f1, dur, type, g0, delay){
+    if (!ac || muted) return;
+    try {
+      const t = ac.currentTime + (delay || 0);
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.type = type; o.frequency.setValueAtTime(f0, t);
+      o.frequency.exponentialRampToValueAtTime(Math.max(f1, 1), t + dur);
+      g.gain.setValueAtTime(g0, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(g); g.connect(master);
+      o.start(t); o.stop(t + dur + 0.03);
+    } catch(e){}
+  }
+  function hiss(dur, g0, fc){
+    if (!ac || muted) return;
+    try {
+      const t = ac.currentTime;
+      const len = (ac.sampleRate * dur) | 0;
+      const buf = ac.createBuffer(1, len, ac.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i=0; i<len; i++) d[i] = Math.random()*2 - 1;
+      const src = ac.createBufferSource(); src.buffer = buf;
+      const f = ac.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = fc;
+      const g = ac.createGain();
+      g.gain.setValueAtTime(g0, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      src.connect(f); f.connect(g); g.connect(master);
+      src.start(t);
+    } catch(e){}
+  }
+  return {
+    unlock: ensure,
+    get muted(){ return muted; },
+    toggle(){
+      muted = !muted;
+      try { localStorage.setItem('warmth_muted', muted ? '1' : '0'); } catch(e){}
+      if (master) master.gain.value = muted ? 0 : 0.22;
+      return muted;
+    },
+    start(){ ensure(); tone(180, 420, 0.28, 'sine', 0.5); tone(90, 210, 0.28, 'sine', 0.3); },
+    decoy(){ tone(420, 90, 0.22, 'sine', 0.6); hiss(0.18, 0.25, 900); },
+    alert(){ tone(760, 1150, 0.09, 'square', 0.28); tone(760, 1150, 0.09, 'square', 0.28, 0.13); },
+    door(){ tone(392, 392, 0.5, 'triangle', 0.4); tone(523, 523, 0.5, 'triangle', 0.35, 0.12); tone(784, 784, 0.7, 'triangle', 0.3, 0.24); },
+    caught(){ tone(160, 40, 0.7, 'sawtooth', 0.7); hiss(0.6, 0.5, 500); },
+    escaped(){ tone(660, 660, 0.3, 'sine', 0.4); tone(495, 495, 0.35, 'sine', 0.35, 0.22); tone(330, 165, 0.9, 'sine', 0.3, 0.44); },
+  };
+})();
+
+/* ---- Entities ------------------------------------------------ */
+function hitsSolid(x, y, r){
+  const x0 = Math.floor(x-r), x1 = Math.floor(x+r);
+  const y0 = Math.floor(y-r), y1 = Math.floor(y+r);
+  for (let cy=y0; cy<=y1; cy++) for (let cx=x0; cx<=x1; cx++){
+    if (cx<0 || cy<0 || cx>=W || cy>=H) return true;
+    if (walkable(mat[cy*W+cx])) continue;
+    const nx = Math.max(cx, Math.min(x, cx+1));
+    const ny = Math.max(cy, Math.min(y, cy+1));
+    const dx = x-nx, dy = y-ny;
+    if (dx*dx + dy*dy < r*r) return true;
+  }
+  return false;
+}
+function slide(e, dx, dy){
+  if (!hitsSolid(e.x+dx, e.y, e.r)) e.x += dx;
+  if (!hitsSolid(e.x, e.y+dy, e.r)) e.y += dy;
+}
+
+const player = { x:0, y:0, r:TUNE.PLAYER_R };
+let guards = [];
+let decoys = TUNE.DECOY_CHARGES;
+let simTime = 0, playTime = 0, tickN = 0, lastAlertSfx = -9;
+
+function makeGuard(wps){
+  return {
+    x:wps[0][0], y:wps[0][1], r:TUNE.GUARD_R,
+    wps, wp: wps.length > 1 ? 1 : 0,
+    alert:false, hotX:0, hotY:0, lastHot:-99,
+    path:[[wps[0][0], wps[0][1]]],
+  };
+}
+function nearestWaypoint(g){
+  let best = 0, bd = Infinity;
+  for (let i=0; i<g.wps.length; i++){
+    const d = Math.hypot(g.wps[i][0]-g.x, g.wps[i][1]-g.y);
+    if (d < bd){ bd = d; best = i; }
+  }
+  return best;
+}
+
+function perceive(g){
+  const R = TUNE.DETECT_RADIUS, R2 = R*R, EX2 = TUNE.PATH_EXCLUDE*TUNE.PATH_EXCLUDE;
+  const gx = g.x, gy = g.y;
+  const x0 = Math.max(0, Math.floor(gx-R)), x1 = Math.min(W-1, Math.ceil(gx+R));
+  const y0 = Math.max(0, Math.floor(gy-R)), y1 = Math.min(H-1, Math.ceil(gy+R));
+  let best = TUNE.DETECT_THRESHOLD, bx = -1, by = -1;
+  for (let y=y0; y<=y1; y++) for (let x=x0; x<=x1; x++){
+    const i = y*W+x;
+    if (!walkable(mat[i])) continue;
+    const t = cur[i];
+    if (t <= best) continue;
+    const cx = x+0.5, cy = y+0.5;
+    const ddx = cx-gx, ddy = cy-gy;
+    if (ddx*ddx + ddy*ddy > R2) continue;
+    let own = false;                 // any guard's wake reads as routine
+    for (let og=0; og<guards.length && !own; og++){
+      const path = guards[og].path;
+      for (let p=0; p<path.length; p++){
+        const pt = path[p], ex = cx-pt[0], ey = cy-pt[1];
+        if (ex*ex + ey*ey < EX2){ own = true; break; }
+      }
+    }
+    if (own) continue;
+    best = t; bx = cx; by = cy;
+  }
+  if (bx >= 0){
+    if (!g.alert && simTime - lastAlertSfx > 0.8){ SFX.alert(); lastAlertSfx = simTime; }
+    g.alert = true;
+    g.hotX = bx; g.hotY = by;
+    g.lastHot = simTime;
+  }
+}
+
+function tickGuard(g, gi, dt){
+  // remember own wake
+  if (tickN % TUNE.PATH_EVERY === 0){
+    g.path.push([g.x, g.y]);
+    if (g.path.length > TUNE.PATH_LEN) g.path.shift();
+  }
+  if ((tickN + gi*5) % TUNE.PERCEIVE_EVERY === 0) perceive(g);   // stagger scans
+  if (g.alert && simTime - g.lastHot > TUNE.ALERT_COOLDOWN){
+    g.alert = false;
+    g.wp = nearestWaypoint(g);
+  }
+  let tx, ty, spd = TUNE.GUARD_SPEED;
+  if (g.alert){ tx = g.hotX; ty = g.hotY; spd *= TUNE.ALERT_MULT; }
+  else { tx = g.wps[g.wp][0]; ty = g.wps[g.wp][1]; }
+  const dx = tx-g.x, dy = ty-g.y, d = Math.hypot(dx,dy);
+  if (d > 0.5){
+    const s = Math.min(spd*dt, d) / d;
+    slide(g, dx*s, dy*s);
+  } else if (!g.alert){
+    g.wp = (g.wp+1) % g.wps.length;
+  }
+  stamp(g.x, g.y, g.r, TUNE.PLAYER_HEAT, 1.0);
+}
+
+/* ---- Input ---------------------------------------------------- */
+const input = { held:false, px:0, py:0, keys:{}, lastTapT:0, lastTapX:0, lastTapY:0 };
+function pointerSim(e){
+  return [ (e.clientX - view.offX) / view.scale, (e.clientY - view.offY) / view.scale ];
+}
+function tickPlayer(dt){
+  let dx = 0, dy = 0;
+  const k = input.keys;
+  if (k.ArrowLeft || k.a) dx -= 1;
+  if (k.ArrowRight || k.d) dx += 1;
+  if (k.ArrowUp || k.w) dy -= 1;
+  if (k.ArrowDown || k.s) dy += 1;
+  if (dx || dy){
+    const n = Math.hypot(dx,dy);
+    slide(player, dx/n*TUNE.PLAYER_SPEED*dt, dy/n*TUNE.PLAYER_SPEED*dt);
+  } else if (input.held){
+    const tx = input.px - player.x, ty = input.py - player.y, d = Math.hypot(tx,ty);
+    if (d > 0.6){
+      const s = Math.min(TUNE.PLAYER_SPEED*dt, d) / d;
+      slide(player, tx*s, ty*s);
+    }
+  }
+  stamp(player.x, player.y, player.r, TUNE.PLAYER_HEAT, 1.0);
+}
+function dropDecoy(){
+  if (ui.screen !== 'playing' || decoys <= 0) return;
+  decoys--; ui.decoys = decoys;
+  SFX.decoy();
+  stamp(player.x, player.y, TUNE.DECOY_R, TUNE.DECOY_HEAT, 1.8);
+}
+
+/* ---- Game state machine --------------------------------------- */
+function resetLevel(){
+  buildLevel(ui.level);
+  cur.fill(0); nxt.fill(0);
+  doorOpen = false;
+  const L = LEVELS[ui.level];
+  player.x = L.spawn[0]; player.y = L.spawn[1];
+  guards = L.guards.map(makeGuard);
+  decoys = TUNE.DECOY_CHARGES;
+  playTime = 0; tickN = 0; decayNow = TUNE.DECAY;
+  input.held = false; input.keys = {};
+  ui.decoys = decoys; ui.tracking = false; ui.door = false;
+}
+function begin(){ SFX.unlock(); resetLevel(); ui.screen = 'playing'; SFX.start(); }
+
+function tick(dt){
+  simTime += dt; tickN++;
+  const s = ui.screen;
+  if (s === 'caught') return;                      // freeze-frame
+  if (s === 'playing'){
+    tickPlayer(dt);
+    for (let gi=0; gi<guards.length; gi++) tickGuard(guards[gi], gi, dt);
+    playTime += dt;
+  } else if (s === 'start'){
+    stamp(player.x, player.y, player.r, TUNE.PLAYER_HEAT, 1.0);  // idle glow
+    for (let gi=0; gi<guards.length; gi++){ tickGuard(guards[gi], gi, dt); guards[gi].alert = false; }
+  } else if (s === 'escaped'){
+    decayNow = 0.985;                               // field fades to cold
+  }
+  diffuse();
+  relaxCopper();
+  if (doorOpen){
+    const glow = 1.25 + 0.25*Math.sin(simTime*5);
+    for (let n=0; n<doorCells.length; n++) cur[doorCells[n]] = glow;
+  }
+  // sensor plate: any cell crossing threshold unseals the exit (latched)
+  if (!doorOpen){
+    for (let n=0; n<sensorCells.length; n++){
+      if (cur[sensorCells[n]] > TUNE.SENSOR_THRESHOLD){
+        doorOpen = true; ui.door = true; SFX.door(); break;
+      }
+    }
+  }
+  if (s === 'playing'){
+    let anyAlert = false;
+    for (const g of guards){
+      if (g.alert) anyAlert = true;
+      if (Math.hypot(g.x-player.x, g.y-player.y) < TUNE.CATCH_DIST){
+        ui.screen = 'caught';
+        SFX.caught();
+        return;
+      }
+    }
+    ui.tracking = anyAlert;
+    if (doorOpen && player.y < 6.5 && player.x > doorBounds.minX-1.5 && player.x < doorBounds.maxX+2.5){
+      ui.finalTime = playTime.toFixed(1);
+      if (ui.level < 2 && ui.unlocked < ui.level+1){
+        ui.unlocked = ui.level+1;
+        try { localStorage.setItem('warmth_unlocked', String(ui.unlocked)); } catch(e){}
+      }
+      ui.screen = 'escaped';
+      SFX.escaped();
+    }
+  }
+}
+
+/* ---- Rendering ------------------------------------------------ */
+// ironbow LUT: 256 entries over t = 0 .. 1.15
+const LUT = new Uint8Array(256*3);
+(function buildLUT(){
+  const S = [[0x0b,0x00,0x26],[0x3b,0x0f,0x70],[0x8c,0x29,0x81],[0xde,0x49,0x68],[0xfe,0x9f,0x6d],[0xfc,0xfd,0xbf]];
+  for (let i=0; i<256; i++){
+    const p = i/255 * (S.length-1), s = Math.min(S.length-2, Math.floor(p)), f = p-s;
+    LUT[i*3  ] = S[s][0] + (S[s+1][0]-S[s][0])*f;
+    LUT[i*3+1] = S[s][1] + (S[s+1][1]-S[s][1])*f;
+    LUT[i*3+2] = S[s][2] + (S[s+1][2]-S[s][2])*f;
+  }
+})();
+
+const cvs = document.getElementById('cv');
+const ctx = cvs.getContext('2d');
+const off = document.createElement('canvas'); off.width = W; off.height = H;
+const octx = off.getContext('2d');
+const img = octx.createImageData(W, H);
+
+// ambient void noise (letterbox = part of the camera feed)
+const noiseCv = document.createElement('canvas'); noiseCv.width = 64; noiseCv.height = 64;
+(function(){
+  const nc = noiseCv.getContext('2d'), id = nc.createImageData(64,64);
+  for (let i=0; i<64*64; i++){
+    const v = Math.random()*22;
+    id.data[i*4] = 4+v*0.5; id.data[i*4+1] = 2+v*0.2; id.data[i*4+2] = 12+v; id.data[i*4+3] = 255;
+  }
+  nc.putImageData(id,0,0);
+})();
+
+const view = { scale:4, offX:0, offY:0, w:0, h:0, dpr:1 };
+function resize(){
+  view.w = window.innerWidth; view.h = window.innerHeight;
+  view.dpr = Math.min(window.devicePixelRatio || 1, 2);
+  cvs.width = view.w * view.dpr; cvs.height = view.h * view.dpr;
+  cvs.style.width = view.w+'px'; cvs.style.height = view.h+'px';
+  view.scale = Math.max(3, Math.min(view.w / W, view.h / H));
+  view.offX = (view.w - W*view.scale) / 2;
+  view.offY = (view.h - H*view.scale) / 2;
+}
+window.addEventListener('resize', resize);
+resize();
+
+function render(ts){
+  const d = img.data;
+  for (let i=0; i<N; i++){
+    const m = mat[i], t = cur[i];
+    let r, g, b;
+    if (m === 4){ r=5; g=3; b=11; }
+    else if (m === 7 && !doorOpen){
+      const pu = 6 + 5*Math.sin(ts*0.004);          // sealed door: dim red pulse
+      r = 34+pu; g = 10; b = 26;
+    }
+    else {
+      if (t <= 0){
+        const f = Math.min(1, -t/0.2);       // sub-ambient: shade to near-black
+        r = 11 + (2-11)*f; g = 0 + (1-0)*f; b = 38 + (10-38)*f;
+      } else {
+        const idx = Math.min(255, (t*221.7)|0) * 3;
+        r = LUT[idx]; g = LUT[idx+1]; b = LUT[idx+2];
+      }
+      if (m === 1){ r = r*0.3+7; g = g*0.3+3; b = b*0.3+13; }        // thick wall: near-dead
+      else if (m === 2){ r = r*0.85+24; g = g*0.85+20; b = b*0.85+26; } // thin metal: lighter
+      else if (m === 3){ r += 26; g += 15; b += 6; }                  // copper sheen
+      else if (m === 6){ r += 8; g += 20; b += 16; }                  // sensor plate
+      else if (m === 5){ g += 8; b += 20; }                           // vent chill
+    }
+    const o = i*4;
+    d[o] = r; d[o+1] = g; d[o+2] = b; d[o+3] = 255;
+  }
+  // single-pixel thermal noise on ~1% of cells
+  for (let n=0; n<160; n++){
+    const o = ((Math.random()*N)|0) * 4;
+    const j = (Math.random()*28-14)|0;
+    d[o] += j; d[o+1] += j; d[o+2] += j;
+  }
+  octx.putImageData(img, 0, 0);
+
+  ctx.setTransform(view.dpr, 0, 0, view.dpr, 0, 0);
+  // cold void + drifting murk
+  ctx.fillStyle = '#020109';
+  ctx.fillRect(0, 0, view.w, view.h);
+  ctx.globalAlpha = 0.14;
+  ctx.imageSmoothingEnabled = true;
+  const dr = (ts*0.004) % 64;
+  ctx.drawImage(noiseCv, -dr, -dr*0.6, view.w+128, view.h+128);
+  ctx.globalAlpha = 0.10;
+  ctx.drawImage(noiseCv, dr-64, dr*0.4-64, view.w+128, view.h+128);
+  ctx.globalAlpha = 1;
+
+  // the field, upscaled with smoothing = free thermal bloom
+  ctx.drawImage(off, view.offX, view.offY, W*view.scale, H*view.scale);
+
+  const sc = view.scale, ox = view.offX, oy = view.offY;
+  const doorCx = ox + (doorBounds.minX + doorBounds.maxX + 1) / 2 * sc;
+
+  // exit glyph: sealed = pulsing lock, unsealed = blinking up-arrow
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.font = Math.round(4.5*sc) + 'px serif';
+  if (!doorOpen){
+    ctx.globalAlpha = 0.4 + 0.18*Math.sin(ts*0.003);
+    ctx.fillText('🔒', doorCx, oy + 8*sc);
+    // hint ring on the copper pad
+    if (ui.screen === 'playing' || ui.screen === 'start'){
+      ctx.globalAlpha = 0.10 + 0.06*Math.sin(ts*0.0025);
+      ctx.strokeStyle = '#fcfdbf';
+      ctx.lineWidth = Math.max(1, sc*0.35);
+      ctx.beginPath();
+      ctx.arc(ox + padCenter[0]*sc, oy + padCenter[1]*sc, (3.4 + 0.5*Math.sin(ts*0.0025))*sc, 0, 6.2832);
+      ctx.stroke();
+    }
+  } else if ((ts % 900) < 600){
+    ctx.globalAlpha = 0.85;
+    ctx.fillText('⬆', doorCx, oy + 8*sc);
+  }
+  ctx.globalAlpha = 1;
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+
+  // camera chrome: symbols and numbers only
+  ctx.strokeStyle = 'rgba(254,159,109,.22)';
+  ctx.strokeRect(ox+0.5, oy+0.5, W*sc-1, H*sc-1);
+  ctx.font = '11px ui-monospace, Menlo, monospace';
+  ctx.fillStyle = 'rgba(252,253,191,.6)';
+  const rec = (ts % 1400) < 900 ? '●' : ' ';
+  ctx.fillText(rec + '  96×160  ∿30', ox+8, oy+16);
+  if (ui.tracking){
+    ctx.fillStyle = 'rgba(222,73,104,' + (0.55+0.4*Math.sin(ts*0.02)) + ')';
+    ctx.fillText('▲▲', ox + W*sc - 28, oy+16);
+  }
+}
+
+/* ---- Main loop: 30 Hz sim / rAF render ------------------------ */
+const STEP = 1 / TUNE.SIM_HZ;
+let acc = 0, lastTs = 0;
+function frame(ts){
+  const dt = Math.min(0.1, (ts - lastTs) / 1000 || 0);
+  lastTs = ts;
+  acc += dt;
+  while (acc >= STEP){ tick(STEP); acc -= STEP; }
+  render(ts);
+  requestAnimationFrame(frame);
+}
+
+/* ---- Pointer + keyboard (one scheme, two sources) -------------- */
+cvs.addEventListener('pointerdown', e => {
+  e.preventDefault();
+  SFX.unlock();
+  cvs.setPointerCapture(e.pointerId);
+  const now = performance.now();
+  const dx = e.clientX - input.lastTapX, dy = e.clientY - input.lastTapY;
+  if (now - input.lastTapT < 320 && dx*dx + dy*dy < 900) dropDecoy();
+  input.lastTapT = now; input.lastTapX = e.clientX; input.lastTapY = e.clientY;
+  const p = pointerSim(e);
+  input.held = true; input.px = p[0]; input.py = p[1];
+});
+cvs.addEventListener('pointermove', e => {
+  if (!input.held) return;
+  const p = pointerSim(e);
+  input.px = p[0]; input.py = p[1];
+});
+['pointerup','pointercancel'].forEach(ev => cvs.addEventListener(ev, () => { input.held = false; }));
+
+window.addEventListener('keydown', e => {
+  if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key)) e.preventDefault();
+  SFX.unlock();
+  if (e.key === ' '){ if (!e.repeat) dropDecoy(); return; }
+  input.keys[e.key.length === 1 ? e.key.toLowerCase() : e.key] = true;
+});
+window.addEventListener('keyup', e => {
+  input.keys[e.key.length === 1 ? e.key.toLowerCase() : e.key] = false;
+});
+
+/* ---- Vue owns the DOM around the canvas, nothing inside -------- */
+let savedUnlock = 0;
+try { savedUnlock = Math.min(2, parseInt(localStorage.getItem('warmth_unlocked') || '0', 10) || 0); } catch(e){}
+const ui = Vue.reactive({
+  screen: 'start',
+  decoys: TUNE.DECOY_CHARGES,
+  tracking: false,
+  door: false,
+  finalTime: '0.0',
+  level: 0,
+  unlocked: savedUnlock,
+  muted: SFX.muted,
+});
+Vue.createApp({
+  setup(){
+    return Object.assign(Vue.toRefs(ui), {
+      start(){ begin(); },
+      restart(){ begin(); },
+      next(){ if (ui.level < 2){ ui.level++; begin(); } },
+      pick(i){ if (i <= ui.unlocked){ ui.level = i; begin(); } },
+      home(){ ui.screen = 'start'; resetLevel(); },
+      toggleSound(){ ui.muted = SFX.toggle(); },
+    });
+  }
+}).mount('#app');
+
+resetLevel();
+requestAnimationFrame(frame);
+
+// exposed for tinkering & headless tests
+window.GAME = {
+  TUNE, ui, mat, player, LEVELS, SFX,
+  get guards(){ return guards; },
+  get cur(){ return cur; },
+  get doorOpen(){ return doorOpen; },
+  get doorBounds(){ return doorBounds; },
+  get padCenter(){ return padCenter; },
+  get playTime(){ return playTime; },
+  begin, resetLevel, dropDecoy,
+  setLevel(i){ ui.level = i; },
+};
+</script>
+</body>
+</html>
