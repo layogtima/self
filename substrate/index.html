@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SUBSTRATE — six toys about a forgotten dimension</title>
+  <meta name="description" content="Six live, touchable canvas toys demonstrating what 2D does better than 3D. No engine, no bundler, no images, no audio. The page is the argument." />
+  <meta property="og:title" content="SUBSTRATE" />
+  <meta property="og:description" content="Six toys about a forgotten dimension. Everything you touch is a text file." />
+  <meta name="theme-color" content="#0b0b0d" />
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { background: #0b0b0d; scroll-behavior: smooth; }
+    body { background: #0b0b0d; color: #d6d3cd; }
+    .serif { font-family: Georgia, 'Times New Roman', serif; }
+    .mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
+    canvas { touch-action: none; display: block; width: 100%; height: 100%; }
+    .hint { transition: opacity 0.8s ease; }
+    ::selection { background: #f2a93b; color: #0b0b0d; }
+  </style>
+</head>
+<body class="antialiased">
+<div id="app" v-cloak>
+
+  <!-- ======== header ======== -->
+  <header class="min-h-[72vh] flex flex-col justify-center px-6 md:px-16 max-w-5xl mx-auto">
+    <p class="mono text-[11px] tracking-[0.35em] text-neutral-500 uppercase mb-6">substrate · v0.1</p>
+    <h1 class="serif text-6xl md:text-8xl tracking-tight text-neutral-100">SUBSTRATE</h1>
+    <p class="serif text-xl md:text-2xl italic text-neutral-400 mt-4">Six toys about a forgotten dimension.</p>
+    <p class="serif text-base md:text-lg text-neutral-400 mt-8 max-w-2xl leading-relaxed">
+      The most tactile interactions in games were orphaned during the 3D migration.
+      Each scene below demonstrates one mechanic that a flat array of numbers does better
+      than a mesh ever will — playable within three seconds, running live in this tab.
+      A browser is where these games live now.
+    </p>
+    <p class="mono text-[11px] text-neutral-500 mt-10 leading-relaxed">
+      {{ totalKB !== null ? totalKB + ' KB' : '…' }} of hand-written code — shell + six scenes.<br/>
+      no engine · no bundler · no images · no audio · no WebGL — Canvas&nbsp;2D only.<br/>
+      <span class="text-neutral-600">(Vue + Tailwind arrive via CDN to run the chrome, not the toys.)</span>
+    </p>
+    <p class="mono text-[11px] text-neutral-600 mt-14 animate-pulse">scroll ↓</p>
+  </header>
+
+  <!-- ======== scenes ======== -->
+  <section v-for="(s, i) in scenes" :key="s.id" class="mb-24 md:mb-32">
+    <div class="relative w-full h-[70vh] bg-black overflow-hidden select-none"
+         :ref="el => cards[i] = el">
+      <canvas :ref="el => canvases[i] = el"></canvas>
+      <!-- scene label -->
+      <div class="absolute top-3 left-4 mono text-[10px] tracking-[0.25em] text-white/50 uppercase pointer-events-none">
+        {{ s.num }} · {{ s.name }}
+      </div>
+      <!-- the engineer HUD: always on; this is the flex -->
+      <div class="absolute top-3 right-4 mono text-[10px] text-white/60 bg-black/30 px-2 py-1 rounded pointer-events-none text-right leading-relaxed">
+        {{ hud[i] || '—' }}
+      </div>
+      <!-- idle hint -->
+      <div class="hint absolute bottom-5 left-1/2 -translate-x-1/2 mono text-[11px] text-white/70 bg-black/40 px-3 py-1.5 rounded-full pointer-events-none whitespace-nowrap"
+           :style="{ opacity: hintOn[i] ? 1 : 0 }">
+        {{ s.hint }}
+      </div>
+    </div>
+    <!-- the caption bridge: this is the actual pitch deck -->
+    <div class="max-w-2xl mx-auto px-6 mt-8 text-center">
+      <p class="serif text-lg md:text-xl text-neutral-200 leading-relaxed">{{ s.cap1 }}</p>
+      <p class="serif text-base md:text-lg italic text-neutral-500 mt-2 leading-relaxed">{{ s.cap2 }}</p>
+    </div>
+  </section>
+
+  <!-- ======== footer / CTA ======== -->
+  <footer class="min-h-[50vh] flex flex-col justify-center items-center text-center px-6 pb-24">
+    <p class="serif text-2xl md:text-3xl text-neutral-200 max-w-xl leading-relaxed">
+      Everything you just touched is a text file.
+    </p>
+    <p class="mono text-[11px] text-neutral-500 mt-6">
+      {{ totalKB !== null ? totalKB + ' KB' : '…' }} total · view source, it's all there
+    </p>
+    <div class="mono text-[12px] mt-12 flex gap-8">
+      <a href="mailto:hello@codeuncode.com" class="text-neutral-300 border-b border-neutral-600 hover:text-amber-400 hover:border-amber-400 transition-colors pb-0.5">say hi</a>
+      <a href="https://github.com/layogtima/self/tree/main/substrate" class="text-neutral-300 border-b border-neutral-600 hover:text-amber-400 hover:border-amber-400 transition-colors pb-0.5">read the source</a>
+    </div>
+    <p class="mono text-[10px] text-neutral-700 mt-16 tracking-[0.3em] uppercase">substrate · the flat earth society for game mechanics</p>
+  </footer>
+</div>
+
+<script type="module">
+const { createApp, ref, reactive, onMounted } = Vue;
+
+const SCENES = [
+  {
+    id: 'dig', num: '01', name: 'DIG', file: 'dig.js',
+    hint: 'drag to dig — water follows · second finger / right-drag dams',
+    cap1: 'Terrain you can actually destroy — an array, not a mesh.',
+    cap2: 'Lemmings, Worms, and every irrigation empire ever dreamed: unoccupied since the 90s.',
+  },
+  {
+    id: 'ink', num: '02', name: 'INK', file: 'ink.js',
+    hint: 'draw a line — catch the rain in the bucket',
+    cap1: 'Freehand geometry as physics — a UX war crime in 3D, a weekend in 2D.',
+    cap2: 'The Incredible Machine has had no heir for thirty years.',
+  },
+  {
+    id: 'warmth', num: '03', name: 'WARMTH', file: 'warmth.js',
+    hint: 'touch — it remembers you · find the copper pad',
+    cap1: 'One diffusion field is simultaneously the renderer, the stealth model, and the puzzle.',
+    cap2: 'Thermal stealth: a genre of one, waiting.',
+  },
+  {
+    id: 'swarm', num: '04', name: 'SWARM', file: 'swarm.js',
+    hint: 'drag to tempt the swarm · double-tap to drop food',
+    cap1: 'Indirect control: you don’t command the swarm, you tempt it.',
+    cap2: 'Lemmings died so pathfinding could live. It was a mistake. (Also: this is how an actual slime mould solves mazes.)',
+  },
+  {
+    id: 'lens', num: '05', name: 'LENS', file: 'lens.js',
+    hint: 'move the lens · heal the bridge · tap the door through it',
+    cap1: 'Layered realities cost one clipping mask in 2D and a shader team in 3D.',
+    cap2: 'Gorogoa proved panel-space is a genre. Almost nobody followed.',
+  },
+  {
+    id: 'words', num: '06', name: 'WORDS', file: 'words.js',
+    hint: 'drag the letters · type a word, hit enter',
+    cap1: 'Typography with mass — canvas renders text natively; 3D engines fear it.',
+    cap2: 'Baba Is You opened the door to language-as-object. The room behind it is empty.',
+  },
+];
+
+createApp({
+  setup() {
+    const cards = ref([]);
+    const canvases = ref([]);
+    const hud = reactive({});
+    const hintOn = reactive({});
+    const totalKB = ref(null);
+    const sizes = {};          // per-scene KB for the HUD
+    const modules = {};        // loaded scene modules by index
+    const ratios = {};         // visibility ratio per card
+    const interacted = {};     // has this scene ever been touched
+    const hintTimers = {};
+    let activeIdx = -1;
+
+    // ---- payload counter: the number is part of the pitch ----
+    async function measurePayload() {
+      const files = ['index.html', ...SCENES.map(s => 'scenes/' + s.file)];
+      let total = 0;
+      await Promise.all(files.map(async (f, idx) => {
+        try {
+          const t = await (await fetch(f)).text();
+          const bytes = new Blob([t]).size;
+          total += bytes;
+          if (idx > 0) sizes[idx - 1] = (bytes / 1024).toFixed(1);
+        } catch { /* file:// etc. — the toys still run */ }
+      }));
+      if (total > 0) totalKB.value = (total / 1024).toFixed(0);
+    }
+
+    async function ensureLoaded(i) {
+      if (modules[i]) return modules[i];
+      const mod = await import('./scenes/' + SCENES[i].file);
+      modules[i] = mod;
+      mod.init(canvases.value[i]);
+      // first real touch kills the hint for good
+      canvases.value[i].addEventListener('pointerdown', () => {
+        interacted[i] = true;
+        hintOn[i] = false;
+        clearTimeout(hintTimers[i]);
+      });
+      return mod;
+    }
+
+    // only the visible scene runs — never two sims ticking at once
+    async function retarget() {
+      let best = -1, bestR = 0.25;
+      for (const k in ratios) if (ratios[k] > bestR) { bestR = ratios[k]; best = +k; }
+      if (best === activeIdx) return;
+      if (activeIdx >= 0 && modules[activeIdx]) {
+        modules[activeIdx].stop();
+        clearTimeout(hintTimers[activeIdx]);
+        hintOn[activeIdx] = false;
+      }
+      activeIdx = best;
+      if (best < 0) return;
+      const mod = await ensureLoaded(best);
+      if (activeIdx !== best) return; // scrolled on while loading
+      mod.start();
+      if (!interacted[best]) {
+        clearTimeout(hintTimers[best]);
+        hintTimers[best] = setTimeout(() => { if (activeIdx === best && !interacted[best]) hintOn[best] = true; }, 5000);
+      }
+    }
+
+    onMounted(() => {
+      measurePayload();
+      const io = new IntersectionObserver(entries => {
+        for (const e of entries) {
+          const i = cards.value.indexOf(e.target);
+          if (i >= 0) ratios[i] = e.isIntersecting ? e.intersectionRatio : 0;
+        }
+        retarget();
+      }, { threshold: [0, 0.25, 0.4, 0.6, 0.8, 1] });
+      cards.value.forEach(el => io.observe(el));
+
+      let rt;
+      window.addEventListener('resize', () => {
+        clearTimeout(rt);
+        rt = setTimeout(() => { for (const k in modules) modules[k].resize(); }, 150);
+      });
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) { if (activeIdx >= 0 && modules[activeIdx]) modules[activeIdx].stop(); }
+        else if (activeIdx >= 0 && modules[activeIdx]) modules[activeIdx].start();
+      });
+
+      // the engineer HUD: fps · entities · sim Hz · scene KB
+      setInterval(() => {
+        if (activeIdx < 0 || !modules[activeIdx]) return;
+        const m = modules[activeIdx], s = m.stats(), i = activeIdx;
+        const unit = m.meta.unit || 'entities';
+        hud[i] = `${s.fps} fps · ${s.entities.toLocaleString()} ${unit} · ${s.simHz} Hz · ${sizes[i] || '?'} KB`;
+      }, 500);
+    });
+
+    return { scenes: SCENES, cards, canvases, hud, hintOn, totalKB };
+  },
+}).mount('#app');
+</script>
+</body>
+</html>
