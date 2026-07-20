@@ -100,11 +100,13 @@ export function creaturePass(w) {
       }
     }
 
-    // ---- wander ----
-    a.heading[g] += (rnd(w) - 0.5) * 0.6;
+    // ---- wander: fed grazers dawdle; hungry ones range in near-straight
+    // lines (a diffusive random walk starves before it finds the next stand) ----
+    const hungry = a.energy[g] < cfg.GRAZER_HUNGRY;
+    a.heading[g] += (rnd(w) - 0.5) * (hungry ? 0.1 : 0.5);
     let dir = Math.cos(a.heading[g]) + steerX;
     dir = Math.max(-1, Math.min(1, dir));
-    a.vx[g] = dir * cfg.GRAZER_SPEED;
+    a.vx[g] = dir * cfg.GRAZER_SPEED * (hungry ? 1.35 : 1);
 
     // ---- movement: gravity, ground walk, 1-cell step climb, float in water ----
     const inWater = material[ci] === M.WATER;
@@ -132,7 +134,7 @@ export function creaturePass(w) {
     }
 
     // ---- reproduce ----
-    if (a.energy[g] > cfg.GRAZER_REPRO_AT && !ate) {
+    if (a.energy[g] > cfg.GRAZER_REPRO_AT) {
       const child = spawnGrazer(w, x, y, a.energy[g] / 2);
       if (child >= 0) a.energy[g] /= 2;
     }
