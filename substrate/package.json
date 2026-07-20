@@ -1,0 +1,10 @@
+{
+  "name": "jar",
+  "version": "0.1.0",
+  "description": "A terrarium in a text file — closed-loop Canvas 2D ecosystem testbed",
+  "type": "module",
+  "scripts": {
+    "bench": "node bench.js",
+    "longevity": "node bench.js --longevity"
+  }
+}
