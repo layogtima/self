@@ -68,7 +68,7 @@ export const DEFAULTS = {
   GRAZER_COMFORT: 0.38,  // centre of the temperature comfort band
   GRAZER_BAND: 0.30,     // half-width; outside it they follow the gradient
   GRAZER_LETHAL: 0.55,   // beyond comfort±this, temperature does damage
-  GRAZER_SENSE: 7,       // half-window (cells) for food search
+  GRAZER_SENSE: 9,       // half-window (cells) for food search
 };
 
 // slider metadata for the config panel — [key, min, max, step, group]
