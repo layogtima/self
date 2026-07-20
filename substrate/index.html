@@ -3,225 +3,364 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SUBSTRATE — six toys about a forgotten dimension</title>
-  <meta name="description" content="Six live, touchable canvas toys demonstrating what 2D does better than 3D. No engine, no bundler, no images, no audio. The page is the argument." />
-  <meta property="og:title" content="SUBSTRATE" />
-  <meta property="og:description" content="Six toys about a forgotten dimension. Everything you touch is a text file." />
+  <title>JAR — a terrarium in a text file</title>
+  <meta name="description" content="One sealed 2D world: matter falls, heat diffuses, water cycles, things grow, things eat, things die, and death feeds growth. A closed-loop Canvas 2D simulation testbed." />
   <meta name="theme-color" content="#0b0b0d" />
   <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    html { background: #0b0b0d; scroll-behavior: smooth; }
-    body { background: #0b0b0d; color: #d6d3cd; }
-    .serif { font-family: Georgia, 'Times New Roman', serif; }
+    html, body { background: #0b0b0d; color: #cfccc6; }
     .mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
-    canvas { touch-action: none; display: block; width: 100%; height: 100%; }
-    .hint { transition: opacity 0.8s ease; }
-    ::selection { background: #f2a93b; color: #0b0b0d; }
+    .serif { font-family: Georgia, 'Times New Roman', serif; }
+    canvas.jar { touch-action: none; image-rendering: pixelated; }
+    input[type=range] { accent-color: #8a9a5b; }
+    ::selection { background: #8a9a5b; color: #0b0b0d; }
+    [v-cloak] { display: none; }
   </style>
 </head>
 <body class="antialiased">
-<div id="app" v-cloak>
+<div id="app" v-cloak class="min-h-screen flex flex-col">
 
-  <!-- ======== header ======== -->
-  <header class="min-h-[72vh] flex flex-col justify-center px-6 md:px-16 max-w-5xl mx-auto">
-    <p class="mono text-[11px] tracking-[0.35em] text-neutral-500 uppercase mb-6">substrate · v0.1</p>
-    <h1 class="serif text-6xl md:text-8xl tracking-tight text-neutral-100">SUBSTRATE</h1>
-    <p class="serif text-xl md:text-2xl italic text-neutral-400 mt-4">Six toys about a forgotten dimension.</p>
-    <p class="serif text-base md:text-lg text-neutral-400 mt-8 max-w-2xl leading-relaxed">
-      The most tactile interactions in games were orphaned during the 3D migration.
-      Each scene below demonstrates one mechanic that a flat array of numbers does better
-      than a mesh ever will — playable within three seconds, running live in this tab.
-      A browser is where these games live now.
+  <header class="px-4 py-3 flex items-baseline gap-4 border-b border-neutral-800">
+    <h1 class="serif text-2xl text-neutral-100">JAR</h1>
+    <p class="serif italic text-sm text-neutral-500">a terrarium in a text file — v0.1 testbed</p>
+    <p class="mono text-[10px] text-neutral-600 ml-auto hidden md:block">
+      sealed world · mass never leaves · <a href="https://github.com/layogtima/self/tree/main/substrate" class="underline hover:text-neutral-400">source</a>
     </p>
-    <p class="mono text-[11px] text-neutral-500 mt-10 leading-relaxed">
-      {{ totalKB !== null ? totalKB + ' KB' : '…' }} of hand-written code — shell + six scenes.<br/>
-      no engine · no bundler · no images · no audio · no WebGL — Canvas&nbsp;2D only.<br/>
-      <span class="text-neutral-600">(Vue + Tailwind arrive via CDN to run the chrome, not the toys.)</span>
-    </p>
-    <p class="mono text-[11px] text-neutral-600 mt-14 animate-pulse">scroll ↓</p>
   </header>
 
-  <!-- ======== scenes ======== -->
-  <section v-for="(s, i) in scenes" :key="s.id" class="mb-24 md:mb-32">
-    <div class="relative w-full h-[70vh] bg-black overflow-hidden select-none"
-         :ref="el => cards[i] = el">
-      <canvas :ref="el => canvases[i] = el"></canvas>
-      <!-- scene label -->
-      <div class="absolute top-3 left-4 mono text-[10px] tracking-[0.25em] text-white/50 uppercase pointer-events-none">
-        {{ s.num }} · {{ s.name }}
-      </div>
-      <!-- the engineer HUD: always on; this is the flex -->
-      <div class="absolute top-3 right-4 mono text-[10px] text-white/60 bg-black/30 px-2 py-1 rounded pointer-events-none text-right leading-relaxed">
-        {{ hud[i] || '—' }}
-      </div>
-      <!-- idle hint -->
-      <div class="hint absolute bottom-5 left-1/2 -translate-x-1/2 mono text-[11px] text-white/70 bg-black/40 px-3 py-1.5 rounded-full pointer-events-none whitespace-nowrap"
-           :style="{ opacity: hintOn[i] ? 1 : 0 }">
-        {{ s.hint }}
-      </div>
-    </div>
-    <!-- the caption bridge: this is the actual pitch deck -->
-    <div class="max-w-2xl mx-auto px-6 mt-8 text-center">
-      <p class="serif text-lg md:text-xl text-neutral-200 leading-relaxed">{{ s.cap1 }}</p>
-      <p class="serif text-base md:text-lg italic text-neutral-500 mt-2 leading-relaxed">{{ s.cap2 }}</p>
-    </div>
-  </section>
+  <div class="flex flex-col lg:flex-row flex-1 min-h-0">
 
-  <!-- ======== footer / CTA ======== -->
-  <footer class="min-h-[50vh] flex flex-col justify-center items-center text-center px-6 pb-24">
-    <p class="serif text-2xl md:text-3xl text-neutral-200 max-w-xl leading-relaxed">
-      Everything you just touched is a text file.
-    </p>
-    <p class="mono text-[11px] text-neutral-500 mt-6">
-      {{ totalKB !== null ? totalKB + ' KB' : '…' }} total · view source, it's all there
-    </p>
-    <div class="mono text-[12px] mt-12 flex gap-8">
-      <a href="mailto:hello@codeuncode.com" class="text-neutral-300 border-b border-neutral-600 hover:text-amber-400 hover:border-amber-400 transition-colors pb-0.5">say hi</a>
-      <a href="https://github.com/layogtima/self/tree/main/substrate" class="text-neutral-300 border-b border-neutral-600 hover:text-amber-400 hover:border-amber-400 transition-colors pb-0.5">read the source</a>
-    </div>
-    <p class="mono text-[10px] text-neutral-700 mt-16 tracking-[0.3em] uppercase">substrate · the flat earth society for game mechanics</p>
-  </footer>
+    <!-- ======== the jar ======== -->
+    <main class="flex-1 flex items-center justify-center p-3 relative min-h-[60vh]">
+      <div class="relative h-[80vh] max-w-full" :style="{ aspectRatio: gridW + ' / ' + gridH }">
+        <canvas ref="jar" class="jar w-full h-full rounded-sm border border-neutral-800"
+                @pointerdown="onDown" @pointermove="onMove" @pointerup="onUp" @pointercancel="onUp"></canvas>
+        <!-- perf HUD: always on; ms/tick per pass is the whole point -->
+        <div class="absolute top-2 left-2 mono text-[10px] leading-relaxed text-white/70 bg-black/50 px-2 py-1.5 rounded pointer-events-none">
+          <div>{{ fps }} fps · tick {{ tickCount.toLocaleString() }} · {{ simClock }}</div>
+          <div class="text-white/50">heat {{ pf.heat }} · state {{ pf.state }} · matter {{ pf.matter }}</div>
+          <div class="text-white/50">life {{ pf.life }} · creatures {{ pf.creatures }} · Σ {{ pf.total }} ms</div>
+          <div class="mt-0.5">{{ counts }}</div>
+        </div>
+        <div v-if="paused" class="absolute top-2 right-2 mono text-[10px] text-amber-300/90 bg-black/50 px-2 py-1 rounded pointer-events-none">PAUSED</div>
+      </div>
+    </main>
+
+    <!-- ======== the lab bench ======== -->
+    <aside class="w-full lg:w-[21rem] border-t lg:border-t-0 lg:border-l border-neutral-800 p-3 space-y-4 overflow-y-auto lg:h-[calc(100vh-53px)] mono text-[11px]">
+
+      <!-- time -->
+      <section>
+        <h2 class="text-[10px] tracking-[0.25em] text-neutral-500 uppercase mb-1.5">time</h2>
+        <div class="flex gap-1.5 flex-wrap">
+          <button @click="togglePause" class="px-2.5 py-1 rounded bg-neutral-800 hover:bg-neutral-700">{{ paused ? '▶ run' : '⏸ pause' }} <span class="text-neutral-500">spc</span></button>
+          <button @click="step" class="px-2.5 py-1 rounded bg-neutral-800 hover:bg-neutral-700">step <span class="text-neutral-500">.</span></button>
+          <button v-for="s in [1,4,16]" :key="s" @click="speed = s"
+                  :class="['px-2.5 py-1 rounded', speed === s ? 'bg-[#8a9a5b] text-black' : 'bg-neutral-800 hover:bg-neutral-700']">{{ s }}×</button>
+        </div>
+      </section>
+
+      <!-- layer views -->
+      <section>
+        <h2 class="text-[10px] tracking-[0.25em] text-neutral-500 uppercase mb-1.5">view</h2>
+        <div class="flex gap-1.5 flex-wrap">
+          <button v-for="(v, k) in views" :key="v.id" @click="view = v.id"
+                  :class="['px-2.5 py-1 rounded', view === v.id ? 'bg-[#8a9a5b] text-black' : 'bg-neutral-800 hover:bg-neutral-700']">
+            {{ v.label }} <span class="text-neutral-500">{{ k + 1 }}</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- brushes -->
+      <section>
+        <h2 class="text-[10px] tracking-[0.25em] text-neutral-500 uppercase mb-1.5">brush · size {{ brushSize }}</h2>
+        <input type="range" min="1" max="14" v-model.number="brushSize" class="w-full mb-1.5" />
+        <div class="flex gap-1 flex-wrap">
+          <button v-for="b in brushes" :key="b.id" @click="brush = b.id"
+                  :class="['px-2 py-1 rounded', brush === b.id ? 'bg-[#8a9a5b] text-black' : 'bg-neutral-800 hover:bg-neutral-700']">{{ b.label }}</button>
+        </div>
+      </section>
+
+      <!-- scenarios -->
+      <section>
+        <h2 class="text-[10px] tracking-[0.25em] text-neutral-500 uppercase mb-1.5">scenario · seed
+          <input v-model.number="seed" type="number" class="w-20 bg-neutral-900 border border-neutral-700 rounded px-1 py-0.5 ml-1" />
+          <button @click="seed = (Math.random() * 1e9) | 0" class="px-1.5 py-0.5 rounded bg-neutral-800 hover:bg-neutral-700 ml-1">🎲</button>
+        </h2>
+        <div class="flex gap-1 flex-wrap">
+          <button v-for="(p, id) in presets" :key="id" @click="build(id)"
+                  :class="['px-2 py-1 rounded', activePreset === id ? 'bg-[#8a9a5b] text-black' : 'bg-neutral-800 hover:bg-neutral-700']"
+                  :title="p.blurb">{{ p.label }}</button>
+        </div>
+        <p class="text-neutral-600 mt-1 leading-snug">{{ presets[activePreset].blurb }}</p>
+      </section>
+
+      <!-- sparklines -->
+      <section>
+        <h2 class="text-[10px] tracking-[0.25em] text-neutral-500 uppercase mb-1.5">ecosystem <span class="text-neutral-600">(a graph, not a vibe)</span></h2>
+        <canvas ref="spark" class="w-full h-28 bg-neutral-900 rounded"></canvas>
+        <div class="flex gap-2.5 flex-wrap mt-1 text-[10px]">
+          <span v-for="c in sparkChannels" :key="c.key"><span :style="{color: c.color}">■</span> {{ c.key }}</span>
+        </div>
+        <div class="flex gap-1.5 mt-1.5">
+          <button @click="exportCSV" class="px-2 py-1 rounded bg-neutral-800 hover:bg-neutral-700">export CSV</button>
+          <button @click="exportConfig" class="px-2 py-1 rounded bg-neutral-800 hover:bg-neutral-700">export config</button>
+          <label class="px-2 py-1 rounded bg-neutral-800 hover:bg-neutral-700 cursor-pointer">import config
+            <input type="file" accept=".json" @change="importConfig" class="hidden" />
+          </label>
+        </div>
+      </section>
+
+      <!-- config sliders -->
+      <section>
+        <h2 class="text-[10px] tracking-[0.25em] text-neutral-500 uppercase mb-1.5">tuning <span class="text-neutral-600">(live — every collapse is data)</span></h2>
+        <details v-for="(items, group) in schemaGroups" :key="group" class="mb-1" open>
+          <summary class="cursor-pointer text-neutral-400 py-0.5">{{ group }}</summary>
+          <div v-for="s in items" :key="s.key" class="flex items-center gap-2 py-0.5">
+            <span class="w-40 text-neutral-500 truncate" :title="s.key">{{ s.key }}</span>
+            <input type="range" :min="s.min" :max="s.max" :step="s.step" v-model.number="cfgLive[s.key]" class="flex-1" />
+            <span class="w-12 text-right text-neutral-300">{{ fmt(cfgLive[s.key]) }}</span>
+          </div>
+        </details>
+      </section>
+
+      <p class="serif italic text-neutral-600 text-xs leading-relaxed pt-2 border-t border-neutral-800">
+        Leave it running. Come back in an hour. If something happened that you didn't place,
+        can explain from the rules, and want to screenshot — the jar is working.
+      </p>
+    </aside>
+  </div>
 </div>
 
 <script type="module">
-const { createApp, ref, reactive, onMounted } = Vue;
+import { DEFAULTS, SCHEMA, M } from './sim/config.js';
+import { paint, injectHeat, spawnGrazer, hashWorld } from './sim/world.js';
+import { tick } from './sim/tick.js';
+import { render } from './sim/render.js';
+import { PRESETS } from './sim/presets.js';
+import { seriesOf, toCSV } from './sim/stats.js';
 
-const SCENES = [
-  {
-    id: 'dig', num: '01', name: 'DIG', file: 'dig.js',
-    hint: 'drag to dig — water follows · second finger / right-drag dams',
-    cap1: 'Terrain you can actually destroy — an array, not a mesh.',
-    cap2: 'Lemmings, Worms, and every irrigation empire ever dreamed: unoccupied since the 90s.',
-  },
-  {
-    id: 'ink', num: '02', name: 'INK', file: 'ink.js',
-    hint: 'draw a line — catch the rain in the bucket',
-    cap1: 'Freehand geometry as physics — a UX war crime in 3D, a weekend in 2D.',
-    cap2: 'The Incredible Machine has had no heir for thirty years.',
-  },
-  {
-    id: 'warmth', num: '03', name: 'WARMTH', file: 'warmth.js',
-    hint: 'touch — it remembers you · find the copper pad',
-    cap1: 'One diffusion field is simultaneously the renderer, the stealth model, and the puzzle.',
-    cap2: 'Thermal stealth: a genre of one, waiting.',
-  },
-  {
-    id: 'swarm', num: '04', name: 'SWARM', file: 'swarm.js',
-    hint: 'drag to tempt the swarm · double-tap to drop food',
-    cap1: 'Indirect control: you don’t command the swarm, you tempt it.',
-    cap2: 'Lemmings died so pathfinding could live. It was a mistake. (Also: this is how an actual slime mould solves mazes.)',
-  },
-  {
-    id: 'lens', num: '05', name: 'LENS', file: 'lens.js',
-    hint: 'move the lens · heal the bridge · tap the door through it',
-    cap1: 'Layered realities cost one clipping mask in 2D and a shader team in 3D.',
-    cap2: 'Gorogoa proved panel-space is a genre. Almost nobody followed.',
-  },
-  {
-    id: 'words', num: '06', name: 'WORDS', file: 'words.js',
-    hint: 'drag the letters · type a word, hit enter',
-    cap1: 'Typography with mass — canvas renders text natively; 3D engines fear it.',
-    cap2: 'Baba Is You opened the door to language-as-object. The room behind it is empty.',
-  },
-];
+const { createApp, ref, reactive, computed, onMounted, watch } = Vue;
+
+let world = null; // deliberately NOT reactive — 98k-cell typed arrays stay raw
 
 createApp({
   setup() {
-    const cards = ref([]);
-    const canvases = ref([]);
-    const hud = reactive({});
-    const hintOn = reactive({});
-    const totalKB = ref(null);
-    const sizes = {};          // per-scene KB for the HUD
-    const modules = {};        // loaded scene modules by index
-    const ratios = {};         // visibility ratio per card
-    const interacted = {};     // has this scene ever been touched
-    const hintTimers = {};
-    let activeIdx = -1;
+    const jar = ref(null), spark = ref(null);
+    const paused = ref(false), speed = ref(1), view = ref('normal');
+    const brush = ref('soil'), brushSize = ref(5);
+    const seed = ref(1), activePreset = ref('genesis');
+    const fps = ref(0), tickCount = ref(0);
+    const pf = reactive({ heat: '0.0', state: '0.0', matter: '0.0', life: '0.0', creatures: '0.0', total: '0.0' });
+    const counts = ref('—');
+    const cfgLive = reactive({ ...DEFAULTS });
 
-    // ---- payload counter: the number is part of the pitch ----
-    async function measurePayload() {
-      const files = ['index.html', ...SCENES.map(s => 'scenes/' + s.file)];
-      let total = 0;
-      await Promise.all(files.map(async (f, idx) => {
-        try {
-          const t = await (await fetch(f)).text();
-          const bytes = new Blob([t]).size;
-          total += bytes;
-          if (idx > 0) sizes[idx - 1] = (bytes / 1024).toFixed(1);
-        } catch { /* file:// etc. — the toys still run */ }
-      }));
-      if (total > 0) totalKB.value = (total / 1024).toFixed(0);
-    }
-
-    async function ensureLoaded(i) {
-      if (modules[i]) return modules[i];
-      const mod = await import('./scenes/' + SCENES[i].file);
-      modules[i] = mod;
-      mod.init(canvases.value[i]);
-      // first real touch kills the hint for good
-      canvases.value[i].addEventListener('pointerdown', () => {
-        interacted[i] = true;
-        hintOn[i] = false;
-        clearTimeout(hintTimers[i]);
-      });
-      return mod;
-    }
-
-    // only the visible scene runs — never two sims ticking at once
-    async function retarget() {
-      let best = -1, bestR = 0.25;
-      for (const k in ratios) if (ratios[k] > bestR) { bestR = ratios[k]; best = +k; }
-      if (best === activeIdx) return;
-      if (activeIdx >= 0 && modules[activeIdx]) {
-        modules[activeIdx].stop();
-        clearTimeout(hintTimers[activeIdx]);
-        hintOn[activeIdx] = false;
-      }
-      activeIdx = best;
-      if (best < 0) return;
-      const mod = await ensureLoaded(best);
-      if (activeIdx !== best) return; // scrolled on while loading
-      mod.start();
-      if (!interacted[best]) {
-        clearTimeout(hintTimers[best]);
-        hintTimers[best] = setTimeout(() => { if (activeIdx === best && !interacted[best]) hintOn[best] = true; }, 5000);
-      }
-    }
-
-    onMounted(() => {
-      measurePayload();
-      const io = new IntersectionObserver(entries => {
-        for (const e of entries) {
-          const i = cards.value.indexOf(e.target);
-          if (i >= 0) ratios[i] = e.isIntersecting ? e.intersectionRatio : 0;
-        }
-        retarget();
-      }, { threshold: [0, 0.25, 0.4, 0.6, 0.8, 1] });
-      cards.value.forEach(el => io.observe(el));
-
-      let rt;
-      window.addEventListener('resize', () => {
-        clearTimeout(rt);
-        rt = setTimeout(() => { for (const k in modules) modules[k].resize(); }, 150);
-      });
-
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) { if (activeIdx >= 0 && modules[activeIdx]) modules[activeIdx].stop(); }
-        else if (activeIdx >= 0 && modules[activeIdx]) modules[activeIdx].start();
-      });
-
-      // the engineer HUD: fps · entities · sim Hz · scene KB
-      setInterval(() => {
-        if (activeIdx < 0 || !modules[activeIdx]) return;
-        const m = modules[activeIdx], s = m.stats(), i = activeIdx;
-        const unit = m.meta.unit || 'entities';
-        hud[i] = `${s.fps} fps · ${s.entities.toLocaleString()} ${unit} · ${s.simHz} Hz · ${sizes[i] || '?'} KB`;
-      }, 500);
+    const views = [
+      { id: 'normal', label: 'normal' }, { id: 'temp', label: 'temp' },
+      { id: 'nutrient', label: 'nutrient' }, { id: 'light', label: 'light' }, { id: 'id', label: 'mat-id' },
+    ];
+    const brushes = [
+      { id: 'soil', label: 'soil' }, { id: 'sand', label: 'sand' }, { id: 'water', label: 'water' },
+      { id: 'rock', label: 'rock' }, { id: 'ice', label: 'ice' }, { id: 'fire', label: 'fire' },
+      { id: 'heat', label: '+heat' }, { id: 'chill', label: '−heat' },
+      { id: 'seed', label: 'seed' }, { id: 'myc', label: 'myc' }, { id: 'grazer', label: 'grazer' },
+      { id: 'erase', label: 'erase' },
+    ];
+    const sparkChannels = [
+      { key: 'plant', color: '#5ec95e', scale: null },
+      { key: 'grazers', color: '#f2b03c', scale: null },
+      { key: 'myc', color: '#e8dfc8', scale: null },
+      { key: 'water', color: '#4d9fd6', scale: null },
+      { key: 'dead', color: '#9a8468', scale: null },
+      { key: 'meanTemp', color: '#e0524d', scale: null },
+    ];
+    const schemaGroups = computed(() => {
+      const g = {};
+      for (const [key, min, max, step, group] of SCHEMA)
+        (g[group] = g[group] || []).push({ key, min, max, step });
+      return g;
+    });
+    const gridW = ref(DEFAULTS.GRID_W), gridH = ref(DEFAULTS.GRID_H);
+    const simClock = computed(() => {
+      const s = tickCount.value / (world ? world.cfg.SIM_HZ : 30);
+      return `${(s / 60) | 0}m${String((s | 0) % 60).padStart(2, '0')}s sim`;
     });
 
-    return { scenes: SCENES, cards, canvases, hud, hintOn, totalKB };
+    function build(presetId) {
+      activePreset.value = presetId;
+      world = PRESETS[presetId].make(seed.value | 0, { ...cfgLive });
+      // preset overrides (e.g. drought's AMBIENT) win — reflect them back into the sliders
+      for (const k in cfgLive) if (world.cfg[k] !== undefined) cfgLive[k] = world.cfg[k];
+      gridW.value = world.W; gridH.value = world.H;
+      tickCount.value = 0;
+      sizeCanvas();
+    }
+
+    watch(cfgLive, v => { if (world) Object.assign(world.cfg, v); });
+
+    function sizeCanvas() {
+      const c = jar.value;
+      if (!c) return;
+      const d = Math.min(2, window.devicePixelRatio || 1);
+      c.width = Math.max(2, Math.round(c.clientWidth * d));
+      c.height = Math.max(2, Math.round(c.clientHeight * d));
+    }
+
+    // ---- main loop: sim at SIM_HZ×speed, render every frame ----
+    let acc = 0, last = 0, frames = 0, fpsAt = 0;
+    function frame(now) {
+      requestAnimationFrame(frame);
+      if (!world) return;
+      if (!paused.value) {
+        acc += Math.min(200, now - last);
+        const stepMs = 1000 / (world.cfg.SIM_HZ * speed.value);
+        // run as many ticks as fit in ~26ms of real time — at 16× the sim eats
+        // most of the frame but the render never drops below ~25fps
+        const budget = performance.now() + 26;
+        let n = 0;
+        while (acc >= stepMs && n++ < 40) {
+          tick(world); acc -= stepMs;
+          if (performance.now() > budget) { acc = Math.min(acc, stepMs); break; }
+        }
+      }
+      last = now;
+      render(world, jar.value, view.value);
+      tickCount.value = world.tick;
+      frames++;
+      if (now - fpsAt >= 1000) {
+        fps.value = Math.round(frames * 1000 / (now - fpsAt));
+        frames = 0; fpsAt = now;
+        for (const k in pf) pf[k] = world.perf[k].toFixed(k === 'total' ? 1 : 2);
+        const s = world.lastSnapshot;
+        if (s) counts.value =
+          `${world.N.toLocaleString()} cells · ${s.grazers} grazers · ${s.counts[M.PLANT]} plant · ${s.counts[M.WATER]} water`;
+        drawSparks();
+      }
+    }
+
+    function drawSparks() {
+      const c = spark.value;
+      if (!c || !world || !world.series) return;
+      const d = Math.min(2, window.devicePixelRatio || 1);
+      c.width = c.clientWidth * d; c.height = c.clientHeight * d;
+      const g = c.getContext('2d');
+      g.clearRect(0, 0, c.width, c.height);
+      for (const ch of sparkChannels) {
+        const data = seriesOf(world, ch.key);
+        if (data.length < 2) continue;
+        let max = 1;
+        for (const v of data) if (v > max) max = v;
+        g.strokeStyle = ch.color; g.lineWidth = 1 * d; g.globalAlpha = 0.9;
+        g.beginPath();
+        for (let k = 0; k < data.length; k++) {
+          const px = k / (data.length - 1) * c.width;
+          const py = c.height - 2 - (data[k] / max) * (c.height - 6);
+          k ? g.lineTo(px, py) : g.moveTo(px, py);
+        }
+        g.stroke();
+      }
+      g.globalAlpha = 1;
+    }
+
+    // ---- brushes ----
+    let painting = false;
+    function gridPos(e) {
+      const r = jar.value.getBoundingClientRect();
+      return {
+        x: (e.clientX - r.left) / r.width * world.W,
+        y: (e.clientY - r.top) / r.height * world.H,
+      };
+    }
+    function applyBrush(x, y) {
+      const b = brush.value, r = brushSize.value;
+      if (b === 'heat') injectHeat(world, x, y, r + 2, 0.25);
+      else if (b === 'chill') injectHeat(world, x, y, r + 2, -0.25);
+      else if (b === 'grazer') spawnGrazer(world, x, y, 90);
+      else if (b === 'erase') paint(world, x, y, r, M.AIR);
+      else if (b === 'seed') paint(world, x, y, Math.min(r, 2), M.SEED, { onlyInto: M.AIR });
+      else if (b === 'myc') { paint(world, x, y, Math.min(r, 3), M.MYC); }
+      else if (b === 'fire') { paint(world, x, y, Math.min(r, 3), M.FIRE); markFire(x, y, Math.min(r, 3)); }
+      else paint(world, x, y, r, M[b.toUpperCase()]);
+    }
+    function markFire(cx, cy, r) {
+      for (let y = Math.max(0, cy - r | 0); y <= Math.min(world.H - 1, cy + r | 0); y++)
+        for (let x = Math.max(0, cx - r | 0); x <= Math.min(world.W - 1, cx + r | 0); x++) {
+          const i = y * world.W + x;
+          if (world.material[i] === M.FIRE) world.meta[i] = world.cfg.FIRE_TTL;
+        }
+    }
+    let lastP = null;
+    function onDown(e) {
+      painting = true;
+      jar.value.setPointerCapture(e.pointerId);
+      const p = gridPos(e);
+      lastP = p;
+      applyBrush(p.x, p.y);
+    }
+    function onMove(e) {
+      if (!painting) return;
+      const p = gridPos(e);
+      const dxy = Math.hypot(p.x - lastP.x, p.y - lastP.y), steps = Math.max(1, dxy / 2 | 0);
+      for (let s = 1; s <= steps; s++)
+        applyBrush(lastP.x + (p.x - lastP.x) * s / steps, lastP.y + (p.y - lastP.y) * s / steps);
+      lastP = p;
+    }
+    function onUp() { painting = false; }
+
+    // ---- time controls ----
+    function togglePause() { paused.value = !paused.value; }
+    function step() { paused.value = true; if (world) { tick(world); render(world, jar.value, view.value); tickCount.value = world.tick; } }
+
+    // ---- exports ----
+    function download(name, text, type) {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([text], { type }));
+      a.download = name;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+    function exportCSV() {
+      download(`jar-${activePreset.value}-seed${world.seed}-tick${world.tick}.csv`, toCSV(world), 'text/csv');
+    }
+    function exportConfig() {
+      const out = { preset: activePreset.value, seed: world.seed, tick: world.tick, hash: hashWorld(world), config: world.cfg };
+      download(`jar-config-${world.seed}.json`, JSON.stringify(out, null, 2), 'application/json');
+    }
+    function importConfig(e) {
+      const f = e.target.files[0];
+      if (!f) return;
+      f.text().then(t => {
+        const j = JSON.parse(t);
+        const c = j.config || j;
+        for (const k in cfgLive) if (c[k] !== undefined) cfgLive[k] = c[k];
+        if (j.seed !== undefined) seed.value = j.seed;
+        if (j.preset && PRESETS[j.preset]) build(j.preset);
+      });
+      e.target.value = '';
+    }
+
+    const fmt = v => typeof v === 'number' ? (v >= 10 ? v.toFixed(0) : v >= 1 ? v.toFixed(2) : v.toFixed(3)) : v;
+
+    onMounted(() => {
+      build('genesis');
+      window.addEventListener('resize', sizeCanvas);
+      window.addEventListener('keydown', e => {
+        if (e.target.tagName === 'INPUT') return;
+        if (e.key === ' ') { togglePause(); e.preventDefault(); }
+        else if (e.key === '.') step();
+        else if (e.key >= '1' && e.key <= '5') view.value = views[+e.key - 1].id;
+      });
+      requestAnimationFrame(t => { last = t; fpsAt = t; requestAnimationFrame(frame); });
+    });
+
+    return {
+      jar, spark, paused, speed, view, views, brush, brushes, brushSize,
+      seed, activePreset, presets: PRESETS, fps, tickCount, pf, counts,
+      cfgLive, schemaGroups, sparkChannels, gridW, gridH, simClock,
+      build, togglePause, step, onDown, onMove, onUp,
+      exportCSV, exportConfig, importConfig, fmt,
+    };
   },
 }).mount('#app');
 </script>
