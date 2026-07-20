@@ -24,6 +24,8 @@
   @keyframes flash{0%{opacity:.95}100%{opacity:0}}
   .fadein{animation:fadein .8s ease-out both;}
   @keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .pulse{animation:pulse 2.2s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
 </style>
 </head>
 <body>
@@ -35,52 +37,73 @@
 
 <div id="app" class="fixed inset-0 overflow-hidden font-mono text-hotw pointer-events-none">
 
-  <!-- HUD -->
+  <!-- HUD : soup charges · level flames | sound · restart -->
   <div v-if="screen==='playing'" class="absolute top-0 inset-x-0 flex items-start justify-between p-4 pointer-events-none" style="padding-top:max(1rem,env(safe-area-inset-top))">
-    <div class="flex items-center gap-2" title="soup decoys">
-      <span v-for="n in 2" :key="n"
-            class="inline-block w-3.5 h-3.5 rounded-full border border-ember transition-all duration-300"
-            :class="n<=decoys ? 'bg-ember shadow-[0_0_8px_#fe9f6d]' : 'bg-transparent opacity-40'"></span>
+    <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2">
+        <span v-for="n in 2" :key="n"
+              class="inline-block w-3.5 h-3.5 rounded-full border border-ember transition-all duration-300"
+              :class="n<=decoys ? 'bg-ember shadow-[0_0_8px_#fe9f6d]' : 'bg-transparent opacity-40'"></span>
+      </div>
+      <span class="text-xs opacity-50 select-none">{{ ['🔥','🔥🔥','🔥🔥🔥'][level] }}</span>
     </div>
-    <button @click="restart" class="pointer-events-auto text-ember/80 hover:text-hotw text-xl leading-none px-2 py-1" aria-label="restart">&#8635;</button>
+    <div class="flex items-center gap-1">
+      <button @click="toggleSound" aria-label="sound" class="pointer-events-auto text-ember/80 hover:text-hotw text-lg leading-none px-2 py-1">{{ muted ? '🔇' : '🔊' }}</button>
+      <button @click="restart" aria-label="restart" class="pointer-events-auto text-ember/80 hover:text-hotw text-xl leading-none px-2 py-1">&#8635;</button>
+    </div>
   </div>
 
-  <!-- START -->
+  <!-- START : icons only -->
   <div v-if="screen==='start'" class="pointer-events-auto absolute inset-0 flex items-center justify-center bg-black/55">
-    <div class="fadein text-center px-8 max-w-sm">
-      <h1 class="text-5xl sm:text-6xl font-bold tracking-[0.35em] text-transparent bg-clip-text bg-gradient-to-b from-hotw via-ember to-mag mr-[-0.35em]">WARMTH</h1>
-      <p class="mt-4 text-ember/90 text-sm">You are warm. Everything remembers you.</p>
-      <div class="mt-8 mb-8 space-y-2 text-[13px] text-hotw/80 text-left inline-block">
-        <p>&#9757;&nbsp; Hold to move</p>
-        <p>&#127858;&nbsp; Double-tap / Space: soup decoy</p>
-        <p>&#128246;&nbsp; Stay off the cameras' heat</p>
+    <div class="fadein text-center px-8">
+      <h1 class="text-5xl sm:text-6xl font-bold tracking-[0.35em] text-transparent bg-clip-text bg-gradient-to-b from-hotw via-ember to-mag mr-[-0.35em] select-none">WARMTH</h1>
+      <div class="mt-9 mb-9 space-y-4 text-2xl leading-none select-none">
+        <p>👆 <span class="text-ember/70 text-xl align-middle">→</span> 🔥👣</p>
+        <p>👆👆 <span class="text-ember/70 text-xl align-middle">→</span> 🍜</p>
+        <p>📷🔥 <span class="text-ember/70 text-xl align-middle">→</span> ⚠️</p>
       </div>
-      <div>
-        <button @click="start"
-          class="px-12 py-4 text-lg tracking-[0.3em] mr-[-0.3em] font-bold text-black rounded bg-gradient-to-r from-ember to-mag shadow-[0_0_30px_rgba(254,159,109,.45)] active:scale-95 transition-transform">
-          START
+      <div class="flex justify-center items-center gap-3 mb-9 select-none">
+        <button v-for="(f,i) in ['🔥','🔥🔥','🔥🔥🔥']" :key="i" @click="pick(i)"
+                :aria-label="'level'+(i+1)"
+                class="pointer-events-auto px-3 py-2 rounded border text-base leading-none transition-all"
+                :class="i<=unlocked
+                  ? (i===level ? 'border-ember bg-ember/20 shadow-[0_0_12px_rgba(254,159,109,.4)]' : 'border-ember/40 opacity-80')
+                  : 'border-white/10 opacity-30'">
+          <span v-if="i<=unlocked">{{ f }}</span><span v-else>🔒</span>
         </button>
       </div>
+      <button @click="start" aria-label="start"
+        class="px-14 py-4 text-2xl leading-none font-bold text-black rounded bg-gradient-to-r from-ember to-mag shadow-[0_0_30px_rgba(254,159,109,.45)] active:scale-95 transition-transform">
+        ▶
+      </button>
     </div>
   </div>
 
-  <!-- CAUGHT -->
+  <!-- CAUGHT : the camera got you -->
   <div v-if="screen==='caught'" class="pointer-events-auto absolute inset-0">
     <div class="flashwhite absolute inset-0 pointer-events-none"></div>
     <div class="absolute inset-0 flex items-center justify-center">
-      <div class="fadein text-center px-8">
-        <h2 class="text-3xl sm:text-4xl font-bold tracking-[0.3em] mr-[-0.3em] text-mag drop-shadow-[0_0_18px_rgba(222,73,104,.8)]">SIGNATURE&nbsp;ACQUIRED</h2>
-        <button @click="restart" class="mt-10 px-10 py-3 tracking-[0.25em] mr-[-0.25em] font-bold text-black rounded bg-gradient-to-r from-ember to-mag active:scale-95 transition-transform">RESTART</button>
+      <div class="fadein text-center px-8 select-none">
+        <div class="text-6xl drop-shadow-[0_0_24px_rgba(222,73,104,.9)]">📷⚠️</div>
+        <div class="mt-10 flex justify-center gap-4">
+          <button @click="home" aria-label="home" class="px-6 py-3 text-xl rounded border border-ember/50 text-ember active:scale-95 transition-transform">⏮</button>
+          <button @click="restart" aria-label="restart" class="px-10 py-3 text-2xl leading-none font-bold text-black rounded bg-gradient-to-r from-ember to-mag active:scale-95 transition-transform">&#8635;</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- ESCAPED -->
+  <!-- ESCAPED : gone cold -->
   <div v-if="screen==='escaped'" class="pointer-events-auto absolute inset-0 flex items-center justify-center">
-    <div class="fadein text-center px-8">
-      <h2 class="text-3xl sm:text-4xl font-bold tracking-[0.3em] mr-[-0.3em] text-hotw/90">GONE&nbsp;COLD</h2>
-      <p class="mt-4 text-ember/80 text-sm">signature lost after {{ finalTime }}</p>
-      <button @click="restart" class="mt-10 px-10 py-3 tracking-[0.25em] mr-[-0.25em] font-bold text-black rounded bg-gradient-to-r from-ember to-mag active:scale-95 transition-transform">AGAIN</button>
+    <div class="fadein text-center px-8 select-none">
+      <div class="text-6xl">{{ level===2 ? '🏆' : '❄️' }}</div>
+      <p class="mt-4 text-ember/80 text-lg">⏱ {{ finalTime }}</p>
+      <div class="mt-10 flex justify-center gap-4">
+        <button @click="home" aria-label="home" class="px-6 py-3 text-xl rounded border border-ember/50 text-ember active:scale-95 transition-transform">⏮</button>
+        <button @click="restart" aria-label="replay" class="px-6 py-3 text-xl rounded border border-ember/50 text-ember active:scale-95 transition-transform">&#8635;</button>
+        <button v-if="level<2" @click="next" aria-label="next"
+          class="px-10 py-3 text-2xl leading-none font-bold text-black rounded bg-gradient-to-r from-ember to-mag shadow-[0_0_24px_rgba(254,159,109,.4)] active:scale-95 transition-transform">▶▶</button>
+      </div>
     </div>
   </div>
 
@@ -90,13 +113,13 @@
 <script>
 'use strict';
 /* ============================================================
-   WARMTH — MVP v0.1
-   One level. One system. A 2D heat-diffusion field rendered
-   through a thermal camera. Everything below Vue's overlays is
-   vanilla JS + Canvas 2D; the game loop never touches reactivity.
+   WARMTH — MVP v0.2
+   One system: a 2D heat-diffusion field seen through a thermal
+   camera. v0.2: three levels, icons-only UI, WebAudio sfx,
+   visible exit (lock/arrow glyphs + pad hint ring).
    ============================================================ */
 
-/* ---- 9. Tuning constants (all knobs live here) ------------- */
+/* ---- Tuning constants (all knobs live here) ----------------- */
 const TUNE = {
   SIM_HZ: 30,
   DECAY: 0.995,            // global heat fade per tick
@@ -122,13 +145,18 @@ const TUNE = {
   PATH_EXCLUDE: 4,         // cells; ignore heat this close to own path
 };
 
-/* ---- 5. The one level --------------------------------------
+/* ---- The levels ---------------------------------------------
    Authored at 48×80, each char becomes a 2×2 block of the
    96×160 sim grid. One char per material — edit freely.
    .=floor  #=wall  ==thin metal  c=copper  X=insulator
    v=cold vent  S=sensor plate  E=exit door
+   guards: one waypoint loop (sim coords) per guard.
 --------------------------------------------------------------- */
-const MAP = [
+const LEVELS = [
+{ /* 🔥 — learn the wake, the soup, the wire */
+spawn: [48,149],
+guards: [ [[11,117],[87,117],[87,89],[13,89]] ],
+rows: [
 "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
 "X###################EEEEEEEE###################X",
 "X..............................................X",
@@ -209,12 +237,187 @@ const MAP = [
 "X..............................................X",
 "X..............................................X",
 "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-];
-// Guard patrol loop (sim coords): corridor L → corridor R → mid R → mid L
-const WAYPOINTS = [[11,117],[87,117],[87,89],[13,89]];
-const PLAYER_SPAWN = [48,149];
+]},
+{ /* 🔥🔥 — two smears, longer road */
+spawn: [49,151],
+guards: [
+  [[8,117],[88,117]],
+  [[17,77],[79,77],[49,77],[49,59],[49,77]],
+],
+rows: [
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"X#################################EEEEEEEE#####X",
+"X..............................................X",
+"X..............................................X",
+"X....................................XXXXXXXXX.X",
+"X....................................XXXXXXXXX.X",
+"X.............................ccXXXXXXSSXXXXXX.X",
+"X.............................ccccccccSSXXXXXX.X",
+"X.............................ccXXXXXXSSXXXXXX.X",
+"X....................................XXXXXXXXX.X",
+"X....................................XXXXXXXXX.X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X#####........#################################X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X#####################.....####################X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X======....==========================....======X",
+"X..............................................X",
+"X..............................................X",
+"X.............vvvvvv...........................X",
+"X.............vvvvvv...........................X",
+"X.............vvvvvv...........................X",
+"X.............vvvvvv...........................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X#.....###############.....####################X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X========================================.....=X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X.......vvvvvv.................................X",
+"X.......vvvvvv.................................X",
+"X.......vvvvvv.................................X",
+"X.......vvvvvv.................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+]},
+{ /* 🔥🔥🔥 — the pad is watched */
+spawn: [49,151],
+guards: [
+  [[68,9],[90,9],[90,46],[68,46]],
+  [[10,61],[86,61]],
+  [[86,81],[10,81]],
+],
+rows: [
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+"X#####EEEEEEEE#################################X",
+"X..............................................X",
+"X..............................................X",
+"X...............XXXXXXXXX......................X",
+"X...............XXXXXXXXX......................X",
+"X...............XXXXXXSSXXXXXXcc...............X",
+"X...............XXXXXXSScccccccc...............X",
+"X...............XXXXXXXXXXXXXXcc...............X",
+"X...............XXXXXXXXX......................X",
+"X...............XXXXXXXXX......................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X====================================.....=====X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X###.....######################################X",
+"X..............................................X",
+"X..............................................X",
+"X.....................vvvvvv...................X",
+"X.....................vvvvvv...................X",
+"X.....................vvvvvv...................X",
+"X.....................vvvvvv...................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X####################.....#####################X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X#.....#################################.....##X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X====================.....=====================X",
+"X..............................................X",
+"X..............................................X",
+"X...vvvvvv.....................................X",
+"X...vvvvvv.....................................X",
+"X...vvvvvv.....................................X",
+"X...vvvvvv.....................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"X..............................................X",
+"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+]},
+];/*END-LEVELS*/
 
-/* ---- 3. Simulation state ----------------------------------- */
+/* ---- Simulation state --------------------------------------- */
 const W = 96, H = 160, N = W*H, SCALE_MAP = 2;
 const CHAR2MAT = {'.':0,'#':1,'=':2,'c':3,'X':4,'v':5,'S':6,'E':7};
 // conductivity per material (door handled dynamically)
@@ -223,18 +426,22 @@ const K = [0.02, 0.002, 0.25, 0.45, 0.0, 0.02, 0.3, 0.002];
 const mat = new Uint8Array(N);
 let cur = new Float32Array(N);
 let nxt = new Float32Array(N);
-const hotWire = [];    // copper + sensor cell indices (extra relaxation)
-const sensorCells = [];
-const doorCells = [];
+let hotWire = [];        // copper + sensor cell indices (fast conduction)
+let sensorCells = [];
+let doorCells = [];
+let doorBounds = {minX:0, maxX:0};
+let padCenter = [0,0];   // exposed copper = where to stand
 
-(function buildMap(){
-  if (MAP.length !== H/SCALE_MAP) throw new Error('MAP row count '+MAP.length);
-  for (let ry=0; ry<MAP.length; ry++){
-    const row = MAP[ry];
-    if (row.length !== W/SCALE_MAP) throw new Error('MAP row '+ry+' width '+row.length);
+function buildLevel(idx){
+  const rows = LEVELS[idx].rows;
+  if (rows.length !== H/SCALE_MAP) throw new Error('L'+idx+' row count '+rows.length);
+  hotWire = []; sensorCells = []; doorCells = [];
+  for (let ry=0; ry<rows.length; ry++){
+    const row = rows[ry];
+    if (row.length !== W/SCALE_MAP) throw new Error('L'+idx+' row '+ry+' width '+row.length);
     for (let rx=0; rx<row.length; rx++){
       const m = CHAR2MAT[row[rx]];
-      if (m === undefined) throw new Error('MAP bad char "'+row[rx]+'" at '+rx+','+ry);
+      if (m === undefined) throw new Error('L'+idx+' bad char "'+row[rx]+'" at '+rx+','+ry);
       for (let dy=0; dy<SCALE_MAP; dy++) for (let dx=0; dx<SCALE_MAP; dx++){
         const i = (ry*SCALE_MAP+dy)*W + rx*SCALE_MAP+dx;
         mat[i] = m;
@@ -244,7 +451,20 @@ const doorCells = [];
       }
     }
   }
-})();
+  let mnx = W, mxx = 0;
+  for (const i of doorCells){ const x = i%W; if (x<mnx) mnx=x; if (x>mxx) mxx=x; }
+  doorBounds = {minX:mnx, maxX:mxx};
+  // pad = copper cells touching plain floor (the strip is insulator-trimmed)
+  let px=0, py=0, pn=0;
+  for (const i of hotWire){
+    if (mat[i]!==3) continue;
+    const x=i%W, y=(i/W)|0;
+    if ((x>0&&mat[i-1]===0)||(x<W-1&&mat[i+1]===0)||(y>0&&mat[i-W]===0)||(y<H-1&&mat[i+W]===0)){
+      px+=x+0.5; py+=y+0.5; pn++;
+    }
+  }
+  padCenter = pn ? [px/pn, py/pn] : [0,0];
+}
 
 let doorOpen = false;
 function walkable(m){ return m===0 || m===3 || m===5 || (m===7 && doorOpen); }
@@ -307,7 +527,73 @@ function relaxCopper(){
   }
 }
 
-/* ---- 4. Entities ------------------------------------------- */
+/* ---- Sound: tiny WebAudio synth, no assets ------------------- */
+const SFX = (function(){
+  let ac = null, master = null;
+  let muted = false;
+  try { muted = localStorage.getItem('warmth_muted') === '1'; } catch(e){}
+  function ensure(){
+    try {
+      if (!ac){
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        ac = new AC();
+        master = ac.createGain();
+        master.gain.value = muted ? 0 : 0.22;
+        master.connect(ac.destination);
+      }
+      if (ac.state === 'suspended') ac.resume();
+    } catch(e){ ac = null; }
+  }
+  function tone(f0, f1, dur, type, g0, delay){
+    if (!ac || muted) return;
+    try {
+      const t = ac.currentTime + (delay || 0);
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.type = type; o.frequency.setValueAtTime(f0, t);
+      o.frequency.exponentialRampToValueAtTime(Math.max(f1, 1), t + dur);
+      g.gain.setValueAtTime(g0, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(g); g.connect(master);
+      o.start(t); o.stop(t + dur + 0.03);
+    } catch(e){}
+  }
+  function hiss(dur, g0, fc){
+    if (!ac || muted) return;
+    try {
+      const t = ac.currentTime;
+      const len = (ac.sampleRate * dur) | 0;
+      const buf = ac.createBuffer(1, len, ac.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i=0; i<len; i++) d[i] = Math.random()*2 - 1;
+      const src = ac.createBufferSource(); src.buffer = buf;
+      const f = ac.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = fc;
+      const g = ac.createGain();
+      g.gain.setValueAtTime(g0, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      src.connect(f); f.connect(g); g.connect(master);
+      src.start(t);
+    } catch(e){}
+  }
+  return {
+    unlock: ensure,
+    get muted(){ return muted; },
+    toggle(){
+      muted = !muted;
+      try { localStorage.setItem('warmth_muted', muted ? '1' : '0'); } catch(e){}
+      if (master) master.gain.value = muted ? 0 : 0.22;
+      return muted;
+    },
+    start(){ ensure(); tone(180, 420, 0.28, 'sine', 0.5); tone(90, 210, 0.28, 'sine', 0.3); },
+    decoy(){ tone(420, 90, 0.22, 'sine', 0.6); hiss(0.18, 0.25, 900); },
+    alert(){ tone(760, 1150, 0.09, 'square', 0.28); tone(760, 1150, 0.09, 'square', 0.28, 0.13); },
+    door(){ tone(392, 392, 0.5, 'triangle', 0.4); tone(523, 523, 0.5, 'triangle', 0.35, 0.12); tone(784, 784, 0.7, 'triangle', 0.3, 0.24); },
+    caught(){ tone(160, 40, 0.7, 'sawtooth', 0.7); hiss(0.6, 0.5, 500); },
+    escaped(){ tone(660, 660, 0.3, 'sine', 0.4); tone(495, 495, 0.35, 'sine', 0.35, 0.22); tone(330, 165, 0.9, 'sine', 0.3, 0.44); },
+  };
+})();
+
+/* ---- Entities ------------------------------------------------ */
 function hitsSolid(x, y, r){
   const x0 = Math.floor(x-r), x1 = Math.floor(x+r);
   const y0 = Math.floor(y-r), y1 = Math.floor(y+r);
@@ -327,25 +613,30 @@ function slide(e, dx, dy){
 }
 
 const player = { x:0, y:0, r:TUNE.PLAYER_R };
-const guard = {
-  x:0, y:0, r:TUNE.GUARD_R, wp:1, alert:false,
-  hotX:0, hotY:0, lastHot:-99, path:[],
-};
+let guards = [];
 let decoys = TUNE.DECOY_CHARGES;
-let simTime = 0, playTime = 0, tickN = 0;
+let simTime = 0, playTime = 0, tickN = 0, lastAlertSfx = -9;
 
-function nearestWaypoint(){
+function makeGuard(wps){
+  return {
+    x:wps[0][0], y:wps[0][1], r:TUNE.GUARD_R,
+    wps, wp: wps.length > 1 ? 1 : 0,
+    alert:false, hotX:0, hotY:0, lastHot:-99,
+    path:[[wps[0][0], wps[0][1]]],
+  };
+}
+function nearestWaypoint(g){
   let best = 0, bd = Infinity;
-  for (let i=0; i<WAYPOINTS.length; i++){
-    const d = Math.hypot(WAYPOINTS[i][0]-guard.x, WAYPOINTS[i][1]-guard.y);
+  for (let i=0; i<g.wps.length; i++){
+    const d = Math.hypot(g.wps[i][0]-g.x, g.wps[i][1]-g.y);
     if (d < bd){ bd = d; best = i; }
   }
   return best;
 }
 
-function perceive(){
+function perceive(g){
   const R = TUNE.DETECT_RADIUS, R2 = R*R, EX2 = TUNE.PATH_EXCLUDE*TUNE.PATH_EXCLUDE;
-  const gx = guard.x, gy = guard.y;
+  const gx = g.x, gy = g.y;
   const x0 = Math.max(0, Math.floor(gx-R)), x1 = Math.min(W-1, Math.ceil(gx+R));
   const y0 = Math.max(0, Math.floor(gy-R)), y1 = Math.min(H-1, Math.ceil(gy+R));
   let best = TUNE.DETECT_THRESHOLD, bx = -1, by = -1;
@@ -357,46 +648,50 @@ function perceive(){
     const cx = x+0.5, cy = y+0.5;
     const ddx = cx-gx, ddy = cy-gy;
     if (ddx*ddx + ddy*ddy > R2) continue;
-    let own = false;                       // is this our own wake?
-    for (let p=0; p<guard.path.length; p++){
-      const pt = guard.path[p], ex = cx-pt[0], ey = cy-pt[1];
-      if (ex*ex + ey*ey < EX2){ own = true; break; }
+    let own = false;                 // any guard's wake reads as routine
+    for (let og=0; og<guards.length && !own; og++){
+      const path = guards[og].path;
+      for (let p=0; p<path.length; p++){
+        const pt = path[p], ex = cx-pt[0], ey = cy-pt[1];
+        if (ex*ex + ey*ey < EX2){ own = true; break; }
+      }
     }
     if (own) continue;
     best = t; bx = cx; by = cy;
   }
   if (bx >= 0){
-    guard.alert = true;
-    guard.hotX = bx; guard.hotY = by;
-    guard.lastHot = simTime;
+    if (!g.alert && simTime - lastAlertSfx > 0.8){ SFX.alert(); lastAlertSfx = simTime; }
+    g.alert = true;
+    g.hotX = bx; g.hotY = by;
+    g.lastHot = simTime;
   }
 }
 
-function tickGuard(dt){
+function tickGuard(g, gi, dt){
   // remember own wake
   if (tickN % TUNE.PATH_EVERY === 0){
-    guard.path.push([guard.x, guard.y]);
-    if (guard.path.length > TUNE.PATH_LEN) guard.path.shift();
+    g.path.push([g.x, g.y]);
+    if (g.path.length > TUNE.PATH_LEN) g.path.shift();
   }
-  if (tickN % TUNE.PERCEIVE_EVERY === 0) perceive();
-  if (guard.alert && simTime - guard.lastHot > TUNE.ALERT_COOLDOWN){
-    guard.alert = false;
-    guard.wp = nearestWaypoint();
+  if ((tickN + gi*5) % TUNE.PERCEIVE_EVERY === 0) perceive(g);   // stagger scans
+  if (g.alert && simTime - g.lastHot > TUNE.ALERT_COOLDOWN){
+    g.alert = false;
+    g.wp = nearestWaypoint(g);
   }
   let tx, ty, spd = TUNE.GUARD_SPEED;
-  if (guard.alert){ tx = guard.hotX; ty = guard.hotY; spd *= TUNE.ALERT_MULT; }
-  else { tx = WAYPOINTS[guard.wp][0]; ty = WAYPOINTS[guard.wp][1]; }
-  const dx = tx-guard.x, dy = ty-guard.y, d = Math.hypot(dx,dy);
+  if (g.alert){ tx = g.hotX; ty = g.hotY; spd *= TUNE.ALERT_MULT; }
+  else { tx = g.wps[g.wp][0]; ty = g.wps[g.wp][1]; }
+  const dx = tx-g.x, dy = ty-g.y, d = Math.hypot(dx,dy);
   if (d > 0.5){
     const s = Math.min(spd*dt, d) / d;
-    slide(guard, dx*s, dy*s);
-  } else if (!guard.alert){
-    guard.wp = (guard.wp+1) % WAYPOINTS.length;
+    slide(g, dx*s, dy*s);
+  } else if (!g.alert){
+    g.wp = (g.wp+1) % g.wps.length;
   }
-  stamp(guard.x, guard.y, guard.r, TUNE.PLAYER_HEAT, 1.0);
+  stamp(g.x, g.y, g.r, TUNE.PLAYER_HEAT, 1.0);
 }
 
-/* ---- 7. Input ----------------------------------------------- */
+/* ---- Input ---------------------------------------------------- */
 const input = { held:false, px:0, py:0, keys:{}, lastTapT:0, lastTapX:0, lastTapY:0 };
 function pointerSim(e){
   return [ (e.clientX - view.offX) / view.scale, (e.clientY - view.offY) / view.scale ];
@@ -423,23 +718,24 @@ function tickPlayer(dt){
 function dropDecoy(){
   if (ui.screen !== 'playing' || decoys <= 0) return;
   decoys--; ui.decoys = decoys;
+  SFX.decoy();
   stamp(player.x, player.y, TUNE.DECOY_R, TUNE.DECOY_HEAT, 1.8);
 }
 
-/* ---- Game state machine ------------------------------------ */
+/* ---- Game state machine --------------------------------------- */
 function resetLevel(){
+  buildLevel(ui.level);
   cur.fill(0); nxt.fill(0);
   doorOpen = false;
-  player.x = PLAYER_SPAWN[0]; player.y = PLAYER_SPAWN[1];
-  guard.x = WAYPOINTS[0][0]; guard.y = WAYPOINTS[0][1];
-  guard.wp = 1; guard.alert = false; guard.lastHot = -99;
-  guard.path = [[guard.x, guard.y]];
+  const L = LEVELS[ui.level];
+  player.x = L.spawn[0]; player.y = L.spawn[1];
+  guards = L.guards.map(makeGuard);
   decoys = TUNE.DECOY_CHARGES;
   playTime = 0; tickN = 0; decayNow = TUNE.DECAY;
   input.held = false; input.keys = {};
   ui.decoys = decoys; ui.tracking = false; ui.door = false;
 }
-function begin(){ resetLevel(); ui.screen = 'playing'; }
+function begin(){ SFX.unlock(); resetLevel(); ui.screen = 'playing'; SFX.start(); }
 
 function tick(dt){
   simTime += dt; tickN++;
@@ -447,12 +743,11 @@ function tick(dt){
   if (s === 'caught') return;                      // freeze-frame
   if (s === 'playing'){
     tickPlayer(dt);
-    tickGuard(dt);
+    for (let gi=0; gi<guards.length; gi++) tickGuard(guards[gi], gi, dt);
     playTime += dt;
   } else if (s === 'start'){
     stamp(player.x, player.y, player.r, TUNE.PLAYER_HEAT, 1.0);  // idle glow
-    tickGuard(dt);
-    guard.alert = false;                            // demo patrol only
+    for (let gi=0; gi<guards.length; gi++){ tickGuard(guards[gi], gi, dt); guards[gi].alert = false; }
   } else if (s === 'escaped'){
     decayNow = 0.985;                               // field fades to cold
   }
@@ -465,23 +760,35 @@ function tick(dt){
   // sensor plate: any cell crossing threshold unseals the exit (latched)
   if (!doorOpen){
     for (let n=0; n<sensorCells.length; n++){
-      if (cur[sensorCells[n]] > TUNE.SENSOR_THRESHOLD){ doorOpen = true; ui.door = true; break; }
+      if (cur[sensorCells[n]] > TUNE.SENSOR_THRESHOLD){
+        doorOpen = true; ui.door = true; SFX.door(); break;
+      }
     }
   }
   if (s === 'playing'){
-    ui.tracking = guard.alert;
-    if (Math.hypot(guard.x-player.x, guard.y-player.y) < TUNE.CATCH_DIST){
-      ui.screen = 'caught';
-      return;
+    let anyAlert = false;
+    for (const g of guards){
+      if (g.alert) anyAlert = true;
+      if (Math.hypot(g.x-player.x, g.y-player.y) < TUNE.CATCH_DIST){
+        ui.screen = 'caught';
+        SFX.caught();
+        return;
+      }
     }
-    if (doorOpen && player.y < 6.5 && player.x > 38 && player.x < 58){
-      ui.finalTime = playTime.toFixed(1) + 's';
+    ui.tracking = anyAlert;
+    if (doorOpen && player.y < 6.5 && player.x > doorBounds.minX-1.5 && player.x < doorBounds.maxX+2.5){
+      ui.finalTime = playTime.toFixed(1);
+      if (ui.level < 2 && ui.unlocked < ui.level+1){
+        ui.unlocked = ui.level+1;
+        try { localStorage.setItem('warmth_unlocked', String(ui.unlocked)); } catch(e){}
+      }
       ui.screen = 'escaped';
+      SFX.escaped();
     }
   }
 }
 
-/* ---- 6. Rendering ------------------------------------------ */
+/* ---- Rendering ------------------------------------------------ */
 // ironbow LUT: 256 entries over t = 0 .. 1.15
 const LUT = new Uint8Array(256*3);
 (function buildLUT(){
@@ -500,7 +807,7 @@ const off = document.createElement('canvas'); off.width = W; off.height = H;
 const octx = off.getContext('2d');
 const img = octx.createImageData(W, H);
 
-// ambient void noise (desktop letterbox = part of the camera feed)
+// ambient void noise (letterbox = part of the camera feed)
 const noiseCv = document.createElement('canvas'); noiseCv.width = 64; noiseCv.height = 64;
 (function(){
   const nc = noiseCv.getContext('2d'), id = nc.createImageData(64,64);
@@ -530,7 +837,10 @@ function render(ts){
     const m = mat[i], t = cur[i];
     let r, g, b;
     if (m === 4){ r=5; g=3; b=11; }
-    else if (m === 7 && !doorOpen){ r=26; g=13; b=38; }
+    else if (m === 7 && !doorOpen){
+      const pu = 6 + 5*Math.sin(ts*0.004);          // sealed door: dim red pulse
+      r = 34+pu; g = 10; b = 26;
+    }
     else {
       if (t <= 0){
         const f = Math.min(1, -t/0.2);       // sub-ambient: shade to near-black
@@ -571,24 +881,45 @@ function render(ts){
   // the field, upscaled with smoothing = free thermal bloom
   ctx.drawImage(off, view.offX, view.offY, W*view.scale, H*view.scale);
 
-  // camera chrome
+  const sc = view.scale, ox = view.offX, oy = view.offY;
+  const doorCx = ox + (doorBounds.minX + doorBounds.maxX + 1) / 2 * sc;
+
+  // exit glyph: sealed = pulsing lock, unsealed = blinking up-arrow
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.font = Math.round(4.5*sc) + 'px serif';
+  if (!doorOpen){
+    ctx.globalAlpha = 0.4 + 0.18*Math.sin(ts*0.003);
+    ctx.fillText('🔒', doorCx, oy + 8*sc);
+    // hint ring on the copper pad
+    if (ui.screen === 'playing' || ui.screen === 'start'){
+      ctx.globalAlpha = 0.10 + 0.06*Math.sin(ts*0.0025);
+      ctx.strokeStyle = '#fcfdbf';
+      ctx.lineWidth = Math.max(1, sc*0.35);
+      ctx.beginPath();
+      ctx.arc(ox + padCenter[0]*sc, oy + padCenter[1]*sc, (3.4 + 0.5*Math.sin(ts*0.0025))*sc, 0, 6.2832);
+      ctx.stroke();
+    }
+  } else if ((ts % 900) < 600){
+    ctx.globalAlpha = 0.85;
+    ctx.fillText('⬆', doorCx, oy + 8*sc);
+  }
+  ctx.globalAlpha = 1;
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+
+  // camera chrome: symbols and numbers only
   ctx.strokeStyle = 'rgba(254,159,109,.22)';
-  ctx.strokeRect(view.offX+0.5, view.offY+0.5, W*view.scale-1, H*view.scale-1);
+  ctx.strokeRect(ox+0.5, oy+0.5, W*sc-1, H*sc-1);
   ctx.font = '11px ui-monospace, Menlo, monospace';
   ctx.fillStyle = 'rgba(252,253,191,.6)';
-  const rec = (ts % 1400) < 900 ? '●' : ' ';
-  ctx.fillText(rec + ' REC   IRONBOW   96×160   30HZ', view.offX+8, view.offY+16);
+  const rec = (ts % 1400) < 900 ? '●' : ' ';
+  ctx.fillText(rec + '  96×160  ∿30', ox+8, oy+16);
   if (ui.tracking){
     ctx.fillStyle = 'rgba(222,73,104,' + (0.55+0.4*Math.sin(ts*0.02)) + ')';
-    ctx.fillText('▲ SIGNATURE TRACKING', view.offX+8, view.offY+30);
-  }
-  if (doorOpen && ui.screen === 'playing'){
-    ctx.fillStyle = 'rgba(252,253,191,.7)';
-    ctx.fillText('EXIT UNSEALED', view.offX+8, view.offY + H*view.scale - 8);
+    ctx.fillText('▲▲', ox + W*sc - 28, oy+16);
   }
 }
 
-/* ---- Main loop: 30 Hz sim / rAF render ---------------------- */
+/* ---- Main loop: 30 Hz sim / rAF render ------------------------ */
 const STEP = 1 / TUNE.SIM_HZ;
 let acc = 0, lastTs = 0;
 function frame(ts){
@@ -600,9 +931,10 @@ function frame(ts){
   requestAnimationFrame(frame);
 }
 
-/* ---- Pointer + keyboard (one scheme, two sources) ----------- */
+/* ---- Pointer + keyboard (one scheme, two sources) -------------- */
 cvs.addEventListener('pointerdown', e => {
   e.preventDefault();
+  SFX.unlock();
   cvs.setPointerCapture(e.pointerId);
   const now = performance.now();
   const dx = e.clientX - input.lastTapX, dy = e.clientY - input.lastTapY;
@@ -620,6 +952,7 @@ cvs.addEventListener('pointermove', e => {
 
 window.addEventListener('keydown', e => {
   if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key)) e.preventDefault();
+  SFX.unlock();
   if (e.key === ' '){ if (!e.repeat) dropDecoy(); return; }
   input.keys[e.key.length === 1 ? e.key.toLowerCase() : e.key] = true;
 });
@@ -627,19 +960,28 @@ window.addEventListener('keyup', e => {
   input.keys[e.key.length === 1 ? e.key.toLowerCase() : e.key] = false;
 });
 
-/* ---- 8. Vue owns the DOM around the canvas, nothing inside -- */
+/* ---- Vue owns the DOM around the canvas, nothing inside -------- */
+let savedUnlock = 0;
+try { savedUnlock = Math.min(2, parseInt(localStorage.getItem('warmth_unlocked') || '0', 10) || 0); } catch(e){}
 const ui = Vue.reactive({
   screen: 'start',
   decoys: TUNE.DECOY_CHARGES,
   tracking: false,
   door: false,
-  finalTime: '0.0s',
+  finalTime: '0.0',
+  level: 0,
+  unlocked: savedUnlock,
+  muted: SFX.muted,
 });
 Vue.createApp({
   setup(){
     return Object.assign(Vue.toRefs(ui), {
       start(){ begin(); },
       restart(){ begin(); },
+      next(){ if (ui.level < 2){ ui.level++; begin(); } },
+      pick(i){ if (i <= ui.unlocked){ ui.level = i; begin(); } },
+      home(){ ui.screen = 'start'; resetLevel(); },
+      toggleSound(){ ui.muted = SFX.toggle(); },
     });
   }
 }).mount('#app');
@@ -649,11 +991,15 @@ requestAnimationFrame(frame);
 
 // exposed for tinkering & headless tests
 window.GAME = {
-  TUNE, ui, mat, player, guard, WAYPOINTS,
+  TUNE, ui, mat, player, LEVELS, SFX,
+  get guards(){ return guards; },
   get cur(){ return cur; },
   get doorOpen(){ return doorOpen; },
+  get doorBounds(){ return doorBounds; },
+  get padCenter(){ return padCenter; },
   get playTime(){ return playTime; },
   begin, resetLevel, dropDecoy,
+  setLevel(i){ ui.level = i; },
 };
 </script>
 </body>
