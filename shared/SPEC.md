@@ -23,7 +23,9 @@ shared/
 scripts/
   check-durability.mjs   greps built output for CDN/http/TODO rot; resolves every local
                          src/href against the filesystem
-  build-manifest.mjs     walks the repo, cross-checks /data/projects.json, fails on drift
+  build-manifest.mjs     walks the repo, cross-checks /data/projects.json, fails on drift;
+                         reads a MANIFEST_EXCLUDE list (rigs, fixtures, vendor dirs —
+                         shared/demo/ is the first entry) so non-projects don't trip it
   og.mjs                 generates OG images from a template
   smoke.mjs              Playwright cold-load: zero console errors, zero 4xx/5xx,
                          no horizontal scroll at 375/1440, light + dark
@@ -155,6 +157,11 @@ MediaPipe Hands + Camera are **pinned, self-hosted vendor files** under
 
 Plus `a11y.css` (`:focus-visible`, `.sr-only`, skip link) and `reduced-motion.css`.
 Zero pages have a `prefers-reduced-motion` block today; this fixes it once.
+
+Also `theme.js`: the repo's one dark-mode mechanism, per CLAUDE.md §6 — reads the
+`color-theme` localStorage key, sets the `dark` class in a **blocking `<head>`
+script** so dark-mode users never see the white flash. Consumers inline or import
+it; nobody reimplements it.
 
 ## Screens
 
