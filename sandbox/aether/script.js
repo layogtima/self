@@ -822,6 +822,10 @@ function calculateThereminValues(handData) {
     let effectiveFrequency = 0;
     let effectiveVolume = 0;
 
+    // Frequency range shared by both hand modes
+    const minFreq = 65.41; // C2
+    const maxFreq = 1046.50; // C6
+
     // Process left hand (pitch control) if present
     if (handData.left && handData.left.length > 0 && (handMode === 'dual' || handMode === 'left-only')) {
         const leftHand = handData.left;
@@ -835,8 +839,6 @@ function calculateThereminValues(handData) {
         const boundedX = Math.max(0, Math.min(1, normalizedX));
 
         // Calculate frequency using X position
-        const minFreq = 65.41; // C2
-        const maxFreq = 1046.50; // C6
         const frequency = minFreq * Math.pow(maxFreq / minFreq, boundedX);
 
         // Calculate rotation for modulation
