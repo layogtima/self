@@ -1,0 +1,128 @@
+{
+  "irp2024": {
+    "title": "Global Resources Outlook 2024 / Global Material Flows Database",
+    "publisher": "UNEP International Resource Panel",
+    "year": 2024,
+    "url": "https://www.resourcepanel.org/global-material-flows-database",
+    "licence": "Cited with attribution"
+  },
+  "usgs-mcs2024": {
+    "title": "Mineral Commodity Summaries 2024",
+    "publisher": "U.S. Geological Survey",
+    "year": 2024,
+    "url": "https://doi.org/10.3133/mcs2024",
+    "licence": "Public domain"
+  },
+  "worldsteel2024": {
+    "title": "World Steel in Figures 2024",
+    "publisher": "World Steel Association",
+    "year": 2024,
+    "url": "https://worldsteel.org/data/world-steel-in-figures/",
+    "licence": "Cited with attribution"
+  },
+  "faostat": {
+    "title": "FAOSTAT Forestry & Crops production domains",
+    "publisher": "FAO",
+    "year": 2023,
+    "url": "https://www.fao.org/faostat/",
+    "licence": "CC BY 4.0"
+  },
+  "plasticseurope2024": {
+    "title": "Plastics — the fast Facts 2024",
+    "publisher": "Plastics Europe",
+    "year": 2024,
+    "url": "https://plasticseurope.org/knowledge-hub/",
+    "licence": "Cited with attribution"
+  },
+  "geyer2017": {
+    "title": "Production, use, and fate of all plastics ever made",
+    "publisher": "Science Advances 3(7)",
+    "year": 2017,
+    "url": "https://doi.org/10.1126/sciadv.1700782",
+    "licence": "CC BY-NC"
+  },
+  "elhacham2020": {
+    "title": "Global human-made mass exceeds all living biomass",
+    "publisher": "Nature 588",
+    "year": 2020,
+    "url": "https://doi.org/10.1038/s41586-020-3010-5",
+    "licence": "Cited with attribution"
+  },
+  "baron2018": {
+    "title": "The biomass distribution on Earth",
+    "publisher": "PNAS 115(25)",
+    "year": 2018,
+    "url": "https://doi.org/10.1073/pnas.1711842115",
+    "licence": "Cited with attribution"
+  },
+  "rudnickgao2003": {
+    "title": "Composition of the Continental Crust (Treatise on Geochemistry 3.01)",
+    "publisher": "Rudnick & Gao",
+    "year": 2003,
+    "url": "https://doi.org/10.1016/B0-08-043751-6/03016-4",
+    "licence": "Cited with attribution"
+  },
+  "pauliuk2013": {
+    "title": "The steel scrap age",
+    "publisher": "Environmental Science & Technology 47(7)",
+    "year": 2013,
+    "url": "https://doi.org/10.1021/es303149z",
+    "licence": "Cited with attribution"
+  },
+  "wgc2024": {
+    "title": "Gold Demand Trends / above-ground stocks",
+    "publisher": "World Gold Council",
+    "year": 2024,
+    "url": "https://www.gold.org/goldhub/data",
+    "licence": "Cited with attribution"
+  },
+  "iea-coal2024": {
+    "title": "Coal 2024 — Analysis and forecast to 2027",
+    "publisher": "International Energy Agency",
+    "year": 2024,
+    "url": "https://www.iea.org/reports/coal-2024",
+    "licence": "Cited with attribution"
+  },
+  "ei-review2024": {
+    "title": "Statistical Review of World Energy 2024",
+    "publisher": "Energy Institute",
+    "year": 2024,
+    "url": "https://www.energyinst.org/statistical-review",
+    "licence": "CC BY 4.0"
+  },
+  "gcca2024": {
+    "title": "Cement and Concrete around the World",
+    "publisher": "Global Cement and Concrete Association",
+    "year": 2024,
+    "url": "https://gccassociation.org/concretefuture/",
+    "licence": "Cited with attribution"
+  },
+  "unep-sand2022": {
+    "title": "Sand and Sustainability: 10 strategic recommendations",
+    "publisher": "UNEP",
+    "year": 2022,
+    "url": "https://www.unep.org/resources/report/sand-and-sustainability-10-strategic-recommendations",
+    "licence": "Cited with attribution"
+  },
+  "crc-handbook": {
+    "title": "CRC Handbook of Chemistry and Physics, 104th ed.",
+    "publisher": "CRC Press",
+    "year": 2023,
+    "url": "https://hbcp.chemnetbase.com/",
+    "licence": "Cited with attribution"
+  },
+  "matweb": {
+    "title": "Engineering property tables (typical values)",
+    "publisher": "MatWeb / Engineering ToolBox",
+    "year": 2024,
+    "url": "https://www.matweb.com/",
+    "licence": "Cited with attribution"
+  },
+  "wikidata": {
+    "title": "Wikidata",
+    "publisher": "Wikimedia Foundation",
+    "year": 2024,
+    "url": "https://www.wikidata.org/",
+    "licence": "CC0"
+  }
+}

@@ -1,0 +1,117 @@
+// App state, mirrored into the URL hash so every view is linkable, plus a little localStorage.
+
+const KEY = 'material.prefs';
+const DEFAULTS = { view: 'flow', q: '', sort: 'quantity', classes: [], detail: null, calm: false };
+
+const listeners = new Set();
+export const state = { ...DEFAULTS };
+
+let applying = false;
+
+export function subscribe(fn) {
+  listeners.add(fn);
+  return () => listeners.delete(fn);
+}
+
+function emit(changed) {
+  for (const fn of listeners) fn(state, changed);
+}
+
+export function set(patch, { silent = false } = {}) {
+  const changed = [];
+  for (const [k, v] of Object.entries(patch)) {
+    if (JSON.stringify(state[k]) === JSON.stringify(v)) continue;
+    state[k] = v;
+    changed.push(k);
+  }
+  if (!changed.length) return;
+  if (!silent) {
+    // Safari rate-limits replaceState; a throw here must not strand the UI mid-update.
+    try {
+      writeHash();
+    } catch (err) {
+      console.warn('MATERIAL: could not sync the URL.', err);
+    }
+    savePrefs();
+    emit(changed);
+  }
+}
+
+const VALID_VIEWS = ['crust', 'made', 'flow'];
+const VALID_SORTS = ['quantity', 'name', 'year'];
+
+/** Our state hash always contains '='. Plain anchors (#grid, #about) are not state. */
+function isStateHash() {
+  return location.hash.includes('=');
+}
+
+function parseHash() {
+  const raw = location.hash.replace(/^#/, '');
+  const out = {};
+  if (!raw) return out;
+  const params = new URLSearchParams(raw);
+  // Array membership, not `in` — `#view=constructor` would otherwise pass validation.
+  if (VALID_VIEWS.includes(params.get('view'))) out.view = params.get('view');
+  if (params.has('q')) out.q = params.get('q');
+  if (VALID_SORTS.includes(params.get('sort'))) out.sort = params.get('sort');
+  if (params.has('class')) out.classes = params.get('class').split(',').filter(Boolean);
+  out.detail = params.get('m') || null;
+  return out;
+}
+
+function writeHash() {
+  const params = new URLSearchParams();
+  if (state.view !== DEFAULTS.view) params.set('view', state.view);
+  if (state.q) params.set('q', state.q);
+  if (state.sort !== DEFAULTS.sort) params.set('sort', state.sort);
+  if (state.classes.length) params.set('class', state.classes.join(','));
+  if (state.detail) params.set('m', state.detail);
+  const hash = params.toString();
+  const next = hash ? `#${hash}` : location.pathname + location.search;
+  if (location.hash.replace(/^#/, '') !== hash) history.replaceState(null, '', next);
+}
+
+function savePrefs() {
+  try {
+    localStorage.setItem(KEY, JSON.stringify({ calm: state.calm, view: state.view }));
+  } catch {
+    /* private mode, storage full — preferences just don't persist */
+  }
+}
+
+function loadPrefs() {
+  try {
+    return JSON.parse(localStorage.getItem(KEY) || '{}');
+  } catch {
+    return {};
+  }
+}
+
+/** Read hash + storage into state once at boot, then keep listening for back/forward. */
+export function initState() {
+  const prefs = loadPrefs();
+  const prefersCalm = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+  Object.assign(state, DEFAULTS, {
+    calm: typeof prefs.calm === 'boolean' ? prefs.calm : prefersCalm,
+    view: prefs.view || DEFAULTS.view,
+  }, isStateHash() ? parseHash() : {});
+
+  window.addEventListener('hashchange', () => {
+    if (applying) return;
+    // In-page anchors ("Browse all materials", the wordmark) must not reset the filters.
+    if (!isStateHash()) return;
+    applying = true;
+    const from = parseHash();
+    const changed = [];
+    for (const [k, v] of Object.entries({ ...DEFAULTS, ...from, calm: state.calm })) {
+      if (JSON.stringify(state[k]) === JSON.stringify(v)) continue;
+      state[k] = v;
+      changed.push(k);
+    }
+    applying = false;
+    if (changed.length) emit(changed);
+  });
+
+  writeHash();
+  return state;
+}
