@@ -294,6 +294,40 @@ function buildGeometry(material, detail) {
         jitter: 0.9,
       });
 
+    // ---- growing things ----------------------------------------------
+    case 'berry': {
+      // A squashed sphere with a dimple where the stalk was: a tomato, not an egg.
+      const g = new THREE.SphereGeometry(1, 30, 22).scale(1, 0.86, 1);
+      const pos = g.attributes.position, v = new THREE.Vector3();
+      for (let i = 0; i < pos.count; i++) {
+        v.fromBufferAttribute(pos, i);
+        const t = Math.max(0, (v.y - 0.55) / 0.45);
+        pos.setXYZ(i, v.x, v.y - t * t * 0.22, v.z);
+      }
+      g.computeVertexNormals();
+      return g;
+    }
+    case 'tuber':
+      return chunkGeometry(seed, Math.min(3, detail + 1), 0.26, 0.07).scale(0.66, 1.35, 0.66);
+    case 'leaf': {
+      // A flat blade, tapered at both ends by the sphere itself, then curled.
+      const g = new THREE.SphereGeometry(1, 26, 16).scale(0.68, 0.05, 1.25);
+      const pos = g.attributes.position, v = new THREE.Vector3();
+      for (let i = 0; i < pos.count; i++) {
+        v.fromBufferAttribute(pos, i);
+        const rib = Math.max(0, 1 - Math.abs(v.x) / 0.68) * 0.03; // a raised midrib
+        pos.setXYZ(i, v.x, v.y + v.z * v.z * 0.16 + (v.y > 0 ? rib : -rib), v.z);
+      }
+      g.computeVertexNormals();
+      // The blade lies flat in the XZ plane, which the card camera sees edge-on. Stand it
+      // up so the leaf reads as a leaf rather than a sliver.
+      return g.rotateX(-Math.PI / 2 + 0.3);
+    }
+    case 'crescent':
+      return new THREE.TorusGeometry(0.78, 0.23, 14, 30, 2.4).rotateZ(-1.2);
+    case 'plug':
+      return new THREE.CylinderGeometry(0.58, 0.62, 1.15, 32);
+
     // ---- soft things -------------------------------------------------
     case 'egg':
       return taperedSphere(30, { top: 0.78, bottom: 0.92, point: 0.28 }).scale(0.78, 1.15, 0.78);
@@ -328,8 +362,11 @@ const DEFAULT_SHAPE = {
 
 /* ---- materials ------------------------------------------------------ */
 
+const BOX_SHAPES = new Set(['plank', 'block', 'slab', 'sheet', 'pane', 'stack', 'ingot', 'cube']);
+const ROUND_SHAPES = new Set(['log', 'roll', 'rod', 'plug', 'wafer', 'plate']);
+
 function buildMaterial(m) {
-  const { recipe, color, params = {} } = m.specimen;
+  const { recipe, color, params = {}, shape } = m.specimen;
   const base = { color: new THREE.Color(color), envMapIntensity: 1.1 };
 
   const make = (extra) => new THREE.MeshPhysicalMaterial({ ...base, ...extra, ...numericOverrides(params) });
@@ -367,12 +404,15 @@ function buildMaterial(m) {
       });
     case 'ceramic':
       return make({ metalness: 0, roughness: 0.32, clearcoat: 0.5, clearcoatRoughness: 0.15 });
-    case 'wood':
-      return [
-        make({ metalness: 0, roughness: 0.72, map: TEX.grain(), sheen: 0.2 }),
-        make({ metalness: 0, roughness: 0.8, map: TEX.endGrain() }),
-        make({ metalness: 0, roughness: 0.8, map: TEX.endGrain() }),
-      ];
+    // A cylinder has three groups (side, two caps); a box has six. Handing three
+    // materials to a six-group plank left half its faces with nothing to draw.
+    case 'wood': {
+      const side = () => make({ metalness: 0, roughness: 0.72, map: TEX.grain(), sheen: 0.2 });
+      const end = () => make({ metalness: 0, roughness: 0.8, map: TEX.endGrain() });
+      if (BOX_SHAPES.has(shape)) return [end(), end(), side(), side(), side(), side()];
+      if (ROUND_SHAPES.has(shape)) return [side(), end(), end()];
+      return side();
+    }
     case 'paper':
       return make({ metalness: 0, roughness: 0.92, map: TEX.fibre(), sheen: 0.3 });
     case 'polymer':
@@ -398,14 +438,16 @@ function buildMaterial(m) {
         iridescence: params.iridescence ?? 0,
         iridescenceIOR: 1.9,
       });
+    // Sheen at full strength with a white sheen colour washed every fibre to near-white,
+    // which is why tea, tobacco and coffee all came out as the same pale blob.
     case 'fibre':
       return make({
         metalness: 0,
         roughness: 1,
         map: TEX.fibre(),
-        sheen: 1,
-        sheenRoughness: 0.85,
-        sheenColor: new THREE.Color('#ffffff'),
+        sheen: 0.45,
+        sheenRoughness: 0.9,
+        sheenColor: new THREE.Color(color).lerp(new THREE.Color('#ffffff'), 0.35),
       });
     case 'crystal': {
       const t = params.translucency ?? 0.4;

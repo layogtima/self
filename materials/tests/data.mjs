@@ -13,7 +13,9 @@ const scales = read('data/scales.json');
 const CLASSES = new Set(['element', 'mineral', 'alloy', 'polymer', 'ceramic', 'composite', 'biomass', 'engineered', 'fossil']);
 const RECIPES = new Set(['metal', 'glass', 'stone', 'ceramic', 'wood', 'paper', 'polymer', 'rubber', 'carbon', 'fibre', 'crystal', 'semiconductor', 'gas', 'liquid']);
 const QUANTITY_UNITS = { crustalAbundance: 'ppm', anthropogenicStock: 't', annualProduction: 't/yr', reserves: 't' };
-const KINDS = new Set(['extraction', 'manufacture']);
+// `withdrawal` is deliberately not `extraction`: it keeps water out of the solids total
+// even in a build that has never heard of it.
+const KINDS = new Set(['extraction', 'manufacture', 'withdrawal']);
 
 const errors = [];
 const fail = (msg) => errors.push(msg);
@@ -43,7 +45,7 @@ for (const m of materials) {
     if (val == null) continue;
     if (!(key in QUANTITY_UNITS)) fail(`${at}: unknown quantity "${key}"`);
     checkQ(`${at}.${key}`, val, QUANTITY_UNITS[key]);
-    if (key === 'annualProduction' && !KINDS.has(val.kind)) fail(`${at}.annualProduction: kind must be "extraction" or "manufacture"`);
+    if (key === 'annualProduction' && !KINDS.has(val.kind)) fail(`${at}.annualProduction: kind must be one of ${[...KINDS].join(', ')}`);
     if (val.derived && !val.note) fail(`${at}.${key}: derived quantities must carry a note explaining the derivation`);
   }
   if (!q.crustalAbundance && !q.anthropogenicStock && !q.annualProduction) fail(`${at}: has no quantity in any of the three views`);
@@ -77,6 +79,9 @@ for (const m of materials) {
     if (!scaleIds.has(s.against)) fail(`${at}.scale: unknown comparison object "${s.against}"`);
     if (!m.quantities?.[s.quantity]) fail(`${at}.scale: references missing quantity "${s.quantity}"`);
   }
+  if (m.excludedFromTotal && !m.quantities?.annualProduction?.note) {
+    fail(`${at}: excludedFromTotal must carry a note saying why it is not in the headline figure`);
+  }
   if (m.subsetOf) {
     if (!materials.some((x) => x.id === m.subsetOf)) fail(`${at}.subsetOf: unknown parent "${m.subsetOf}"`);
     if (m.subsetOf === m.id) fail(`${at}.subsetOf: a material cannot be a subset of itself`);
@@ -96,7 +101,8 @@ const global = scales.globals.extraction.value;
 // own parents, or the tracked total silently double-counts.
 const tracked = materials.reduce((sum, m) => {
   const p = m.quantities?.annualProduction;
-  return sum + (p && p.kind === 'extraction' && !m.subsetOf ? p.value : 0);
+  const counts = p && p.kind === 'extraction' && !m.subsetOf && !m.excludedFromTotal;
+  return sum + (counts ? p.value : 0);
 }, 0);
 if (tracked > global) fail(`tracked extraction ${tracked.toExponential(2)} t/yr exceeds the global figure ${global.toExponential(2)} t/yr`);
 if (tracked < global / 10) fail(`tracked extraction ${tracked.toExponential(2)} t/yr is under a tenth of the global figure, coverage too thin to be honest about`);

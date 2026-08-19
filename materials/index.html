@@ -6,13 +6,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MATERIALS, everything the world is made of</title>
   <meta name="description" content="What the ground is made of, what we have built, and what is being dug up right now. Real numbers, real sources." />
-  <meta name="theme-color" content="#0b0c0e" />
+  <meta name="theme-color" content="#0b0c0e" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#eeeeec" media="(prefers-color-scheme: light)" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0c0e'/%3E%3Ccircle cx='16' cy='16' r='9' fill='%23f2f2f0'/%3E%3C/svg%3E" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./style.css?v=8" />
+
+  <script>
+    // Set the theme before first paint, or a light-mode reader gets a dark flash.
+    // main.js reads the same key and takes over from here.
+    (function () {
+      var t = 'auto';
+      try { t = (JSON.parse(localStorage.getItem('material.prefs') || '{}').theme) || 'auto'; } catch (e) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      document.documentElement.dataset.theme = t;
+      document.documentElement.style.colorScheme = t;
+    })();
+  </script>
 
   <script type="importmap">
     {
@@ -32,6 +47,7 @@
     <a class="wordmark" href="#" aria-label="MATERIALS, back to top">MATERIALS</a>
     <div class="nav-right">
       <span class="nav-total" id="nav-total" aria-hidden="true"></span>
+      <button id="theme-toggle" type="button" title="Switch between light and dark (t)">LIGHT</button>
       <button id="calm-toggle" type="button" aria-pressed="false" title="Stop the counter and the motion (c)">PAUSE</button>
     </div>
   </nav>
@@ -87,7 +103,7 @@
         <summary>Where the numbers come from</summary>
         <ul id="source-list"></ul>
         <p class="small">
-          Compiled by hand by <a href="https://layogtima.com">@layogtima</a>. Corrections welcome.
+          Collated by <a href="https://layogtima.com">@layogtima</a>. Corrections welcome.
         </p>
       </details>
     </section>
@@ -108,13 +124,12 @@
       <div class="card-body">
         <h3 class="card-name"></h3>
         <div class="card-figure"></div>
-        <div class="bar"><i></i></div>
         <div class="card-class"></div>
       </div>
     </li>
   </template>
 
-  <script type="module" src="./src/main.js"></script>
+  <script type="module" src="./src/main.js?v=8"></script>
   <noscript>
     <p class="noscript">MATERIALS needs JavaScript. The data is plain JSON at <code>data/materials.json</code>.</p>
   </noscript>

@@ -1,7 +1,7 @@
 // One list of everything we make, ranked by tonnes a year. What the crust holds and what is
 // still standing ride along as extra facts and as alternative sort orders.
 
-import { PRIMARY, SORTS, logFraction } from '../data.js';
+import { PRIMARY, SORTS } from '../data.js';
 import { fmtBig } from '../format.js';
 import { state, set } from '../state.js';
 
@@ -41,7 +41,6 @@ export function mountGrid(app, { thumbs } = {}) {
     const node = template.content.firstElementChild.cloneNode(true);
     node.dataset.id = m.id;
     node.style.setProperty('--swatch', m.specimen.color);
-    node.style.setProperty('--accent', m.specimen.color);
     node.querySelector('.card-name').textContent = m.name;
     node.setAttribute('aria-label', `${m.name}, ${m.class}`);
     node.addEventListener('click', () => set({ detail: m.id }));
@@ -115,6 +114,7 @@ export function mountGrid(app, { thumbs } = {}) {
   function extras(m) {
     const out = [m.class];
     if (m.subsetOf && app.byId.has(m.subsetOf)) out.push(`part of ${app.byId.get(m.subsetOf).name}`);
+    if (m.excludedFromTotal) out.push('counted separately');
     const stock = m.quantities.anthropogenicStock;
     const crust = m.quantities.crustalAbundance;
     if (stock) out.push(`${fmtBig(stock, 'made').num} bn t built`.replace('bn t', unitWord(stock.value)));
@@ -134,7 +134,6 @@ export function mountGrid(app, { thumbs } = {}) {
   function render() {
     const sort = SORTS[state.sort] || SORTS.made;
     const query = state.q.toLowerCase();
-    const extent = app.extents[PRIMARY];
     const ranks = app.ranks[PRIMARY];
 
     // Never write into the box the user is typing in: it breaks IME and jumps the caret.
@@ -177,7 +176,6 @@ export function mountGrid(app, { thumbs } = {}) {
       const est = q.derived ? ' <span class="est">EST</span>' : '';
       // The space matters to screen readers; the unit renders as its own line anyway.
       node.querySelector('.card-figure').innerHTML = `${num} <span class="unit">${words}${est}</span>`;
-      node.querySelector('.bar').style.setProperty('--bar', logFraction(q.value, extent).toFixed(3));
       node.querySelector('.card-class').textContent = extras(m);
     }
 

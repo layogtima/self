@@ -6,7 +6,7 @@ Live: <https://layogtima.com/materials/>
 
 ## One list
 
-Everything we dig up or make, biggest first, in tonnes a year. **118 materials.**
+Everything we dig up or make, biggest first, in tonnes a year. **179 materials.**
 
 It used to be three lists, crustal composition, built stock, annual production, which
 split the census three ways and left most rows saying "not on this list". Now there is one
@@ -16,12 +16,32 @@ list ranked by what we make, and the other two questions survive where they are 
 - as **extra facts on the card**, steel reads `alloy · 33 billion t built`, iron reads
   `element · 5.6% of rock`
 
+Cards carry no magnitude bar. The list spans eleven orders of magnitude, from 4 trillion
+tonnes of water to 55 tonnes of rhenium, so any bar has to be log-scaled, and a log bar
+sitting next to a figure whose unit changes from row to row invites exactly the comparison
+it cannot support. The number, its unit and the rank do that job honestly instead.
+
+**Water is first, by a factor of eighty.** Humans withdraw about 4 trillion tonnes of fresh
+water a year, more than every solid material put together several times over. It carries
+`excludedFromTotal`, because the 106 Gt headline counts solid materials only and adding the
+two would be comparing two different censuses. The card says "counted separately" and the
+panel explains why. Rows also say **Taken each year** rather than **Made each year** when
+the flow is extraction: nobody manufactures water, coal or iron ore.
+
 Materials that are part of a bigger entry (wheat inside cereal grain, sawnwood inside
 roundwood, PVC inside plastics) carry `subsetOf`, say so on the card, and are **never added
 to their parent** when totalling extraction. Six element records, oxygen, calcium, sodium,
 potassium, carbon, phosphorus, were retired: nobody produces them as elements, so they had
 no figure for a list of what we make. Their industrial forms are here instead as lime, soda
 ash, potash and carbon compounds.
+
+The roster covers the elements and commodities USGS and FAOSTAT track, the big bulk
+chemicals, the polymer family, engineered wood and insulation, the alloys people actually
+name (bronze, brass, stainless, solder), the industrial byproducts that are quietly enormous
+(fly ash, blast-furnace slag), and the crops and fibres that feed and clothe everyone. Known
+gap: the rock-forming minerals. Half the crust is feldspar, quartz, pyroxene and mica, and
+only feldspar and mica are here, because the minerals in this list were chosen the way a
+mining company chooses them, as things we dig up and sell.
 
 ## Rules the data follows
 
@@ -44,7 +64,7 @@ Institute, IEA, GCCA, World Gold Council, World Nuclear Association, CRC Handboo
 in `data/sources.json` and at the bottom of the page.
 
 Where a material has a genuine trade-off it also carries `pros` and `cons`, rendered in the
-panel as **Good at** and **Not so good**. Thirty-seven have them; the rest do not, because
+panel as **Good at** and **Not so good**. Eighty-five have them; the rest do not, because
 not every mineral has an interesting argument for and against it.
 
 Some commodities, bulk chemicals, a few polymers, have no free official statistic. Those
@@ -57,7 +77,7 @@ than no identifier, so those are left for a pass that can verify them.
 
 Every material has a 3D specimen, **generated procedurally at load time**, no textures, models
 or images are downloaded. `src/render/specimens.js` holds fourteen surface recipes (metal, glass,
-stone, wood, carbon weave, crystal, fibre…) and **28 shapes**, built from
+stone, wood, carbon weave, crystal, fibre…) and **33 shapes**, built from
 `MeshPhysicalMaterial`, noise-displaced icosahedra, and canvas-drawn grain/weave/speckle
 maps. Nothing is a generic blob: grain is a heap of grains, plastics are nurdles, cement is
 a powder pile, salt is a cube, eggs are eggs, gases are clusters of bubbles, gravel is
@@ -107,6 +127,29 @@ data/               materials.json, sources.json, scales.json
 tests/              data.mjs, format.mjs, smoke.mjs
 ```
 
+## Light and dark
+
+Two palettes, switched by `data-theme` on `<html>`. It starts on whatever the OS asks for
+and keeps following it, including if the OS flips mid-session, until the reader presses the
+toggle or `t`; from then on the choice is theirs and is remembered. An inline script in the
+`<head>` sets the attribute before first paint, so a light-mode reader never sees a dark
+flash. Every colour is a token defined in both palettes, with a test that fails if either
+palette leaves one undefined. Light mode also turns on a faint ground shadow under card
+specimens, because a pale specimen on a pale page has nothing to sit on.
+
+## Caching
+
+`style.css` and `src/main.js` carry a `?v=` stamp, and `loadData` versions its three JSON
+fetches with `DATA_VERSION`. Bump both when data or styling changes.
+
+The subtler protection is in the data itself. Water's flow is `kind: "withdrawal"`, not
+`"extraction"`, so a build that has never heard of it skips it rather than adding 4 trillion
+tonnes to a 106 Gt total and reporting a double-count that is not there. A stale cached
+script paired with fresh JSON did exactly that once; encoding the exclusion in the data
+rather than only in the code makes it structurally impossible. There is a test asserting
+that neither the current logic, nor logic without `excludedFromTotal`, nor logic without
+subset handling, can exceed the global figure.
+
 ## Dates
 
 Every material carries an approximate **first human use** date, not a geological one, and
@@ -116,7 +159,7 @@ sentinel value.
 
 ## Keyboard
 
-`/` search · `j` `k` move · `Enter` open · `Esc` close · `c` pause
+`/` search · `j` `k` move · `Enter` open · `Esc` close · `c` pause · `t` light or dark
 
 Clicking a floating specimen in the hero opens that material.
 
@@ -139,7 +182,7 @@ mkdir -p /tmp/matsmoke && (cd /tmp/matsmoke && npm i puppeteer-core@23)
 NODE_PATH=/tmp/matsmoke/node_modules node tests/smoke.mjs
 ```
 
-`tests/smoke.mjs` checks 35 things including that no list shows a material it cannot
+`tests/smoke.mjs` checks 42 things including that no list shows a material it cannot
 measure, that the tab labels and the About legend cannot drift apart, WebGL initialisation, that card specimens
 actually contain rendered pixels, **that scrolling the grid issues zero draw calls**, that
 no em dash survives anywhere in the rendered page, that the phone layout puts the bar at the

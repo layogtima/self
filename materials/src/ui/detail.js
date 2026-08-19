@@ -1,7 +1,7 @@
 // The detail panel. A real dialog: focus trapped, focus restored, Escape closes.
 
 import { PRIMARY, SORTS } from '../data.js';
-import { commas, fmtBig, fmtRate, fmtProperty, fmtYear, credit, esc, PROPERTY_LABELS, QUANTITY_LABELS } from '../format.js';
+import { commas, fmtBig, fmtRate, fmtProperty, fmtYear, credit, esc, quantityLabel, PROPERTY_LABELS, QUANTITY_LABELS } from '../format.js';
 import { since } from '../ticker.js';
 import { state, set } from '../state.js';
 
@@ -86,8 +86,9 @@ function render(m, app) {
   const q = m.quantities;
   const rows = Object.entries(QUANTITY_LABELS)
     .filter(([key]) => q[key])
-    .map(([key, label]) => {
+    .map(([key]) => {
       const v = q[key];
+      const label = quantityLabel(key, v);
       const est = v.derived ? ' <span class="est">EST</span>' : '';
       const note = v.note ? `<span class="src">${esc(v.note)}</span>` : '';
       const big = fmtBig(v, null);
@@ -142,14 +143,14 @@ function render(m, app) {
     .filter((s) => s.quantity)
     .map((s) => {
       const r = app.ranks[s.quantity]?.get(m.id);
-      return r ? `${ordinal(r)} ${s.label.replace(/^Most /, 'most ')}` : null;
+      return r ? `${ordinal(r)} ${s.rank}` : null;
     })
     .filter(Boolean)
     .join(' · ');
 
   const live = m.rateKgS > 0
     ? `<div class="detail-live">
-         <div class="counter-label">${esc(m.name)} made since you got here</div>
+         <div class="counter-label">${esc(m.name)} ${q.annualProduction.kind === 'manufacture' ? 'made' : 'taken'} since you got here</div>
          <div class="counter-value"><span id="detail-live-kg">0</span><span class="counter-unit">kg</span></div>
          <div class="counter-rate">${fmtRate(m.rateKgS)}</div>
          <p class="note">${plainAnnual(q.annualProduction)} · ${esc(credit(q.annualProduction, app.sources))}</p>

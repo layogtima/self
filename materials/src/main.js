@@ -56,6 +56,26 @@ if (app.warnings.length) {
   box.innerHTML = `<strong>Data warning.</strong> ${app.warnings.map((w) => `<div>${esc(w)}</div>`).join('')}`;
 }
 
+// theme: follow the OS until the reader picks a side, then remember the choice
+const themeBtn = document.getElementById('theme-toggle');
+const prefersLight = window.matchMedia?.('(prefers-color-scheme: light)');
+
+function resolvedTheme() {
+  if (state.theme === 'light' || state.theme === 'dark') return state.theme;
+  return prefersLight?.matches ? 'light' : 'dark';
+}
+
+function applyTheme() {
+  const theme = resolvedTheme();
+  document.documentElement.dataset.theme = theme;
+  // Tells the browser which scrollbars and form controls to draw.
+  document.documentElement.style.colorScheme = theme;
+  const next = theme === 'dark' ? 'light' : 'dark';
+  themeBtn.textContent = next.toUpperCase();
+  themeBtn.setAttribute('aria-label', `Switch to ${next} mode`);
+}
+themeBtn.addEventListener('click', () => set({ theme: resolvedTheme() === 'dark' ? 'light' : 'dark' }));
+
 // calm mode
 const calmBtn = document.getElementById('calm-toggle');
 function applyCalm() {
@@ -67,17 +87,24 @@ function applyCalm() {
 }
 calmBtn.addEventListener('click', () => set({ calm: !state.calm }));
 
-mountKeys({ grid, detail, toggleCalm: () => set({ calm: !state.calm }) });
+mountKeys({
+  grid,
+  detail,
+  toggleCalm: () => set({ calm: !state.calm }),
+  toggleTheme: () => set({ theme: resolvedTheme() === 'dark' ? 'light' : 'dark' }),
+});
 
 subscribe((_s, changed) => {
-  if (changed.some((c) => ['view', 'q', 'sort', 'classes'].includes(c))) grid.render();
+  if (changed.some((c) => ['q', 'sort', 'classes'].includes(c))) grid.render();
   if (changed.includes('detail')) detail.sync();
   if (changed.includes('calm')) applyCalm();
+  if (changed.includes('theme')) applyTheme();
 });
 
 grid.render();
 detail.sync();
 applyCalm();
+applyTheme();
 
 // One loop drives the counters; gl runs its own rAF for the specimens.
 function tick() {

@@ -109,6 +109,12 @@ export const QUANTITY_LABELS = {
   reserves: 'Left to dig',
 };
 
+/** Nobody makes water, coal or iron ore; they are taken. Say which. */
+export function quantityLabel(key, q) {
+  if (key === 'annualProduction' && (q?.kind === 'extraction' || q?.kind === 'withdrawal')) return 'Taken each year';
+  return QUANTITY_LABELS[key];
+}
+
 /** "USGS 2023", the credit shown beside every number. */
 export function credit(q, sources) {
   const s = sources[q.source_id];

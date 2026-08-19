@@ -79,7 +79,39 @@ try {
   check('live counter advances', kg1 !== kg2 && parsed > 0, `${kg1} → ${kg2} kg`);
 
   const first = () => page.evaluate(() => document.querySelector('#grid .card:not(.is-hidden) .card-name')?.textContent);
-  check('the list is topped by sand & gravel', /sand/i.test((await first()) || ''), `1st is ${await first()}`);
+  check('the list is topped by water', /water/i.test((await first()) || ''), `1st is ${await first()}`);
+
+  // Water is the largest flow by far and sits outside the 106 Gt headline, which counts
+  // solid materials. It must never be summed into the tracked total.
+  const totals = await page.evaluate(() => ({
+    tracked: window.__mat.app.global.trackedTonnes,
+    global: window.__mat.app.global.extraction.value,
+    water: window.__mat.app.byId.get('water')?.quantities.annualProduction.value,
+    flagged: !!window.__mat.app.byId.get('water')?.excludedFromTotal,
+  }));
+  check(
+    'water is excluded from the headline total',
+    totals.flagged && totals.tracked < totals.global && totals.water > totals.global,
+    `water ${(totals.water / 1e9).toExponential(1)} Gt/yr vs tracked ${(totals.tracked / 1e9).toFixed(0)} Gt/yr`
+  );
+
+  // A stale cached build pairing old code with new data raised a false "double-counted"
+  // alarm. Water's `withdrawal` kind means no build, however old, can sum it in.
+  const staleSafe = await page.evaluate(() => {
+    const mats = window.__mat.app.materials;
+    const sum = (fn) => mats.reduce((s, m) => s + (fn(m) ? m.quantities.annualProduction.value : 0), 0);
+    const isExtraction = (m) => m.quantities.annualProduction?.kind === 'extraction';
+    return {
+      global: window.__mat.app.global.extraction.value,
+      stale: sum((m) => isExtraction(m) && !m.subsetOf), // build with no excludedFromTotal
+      oldest: sum(isExtraction), // build with no subset handling either
+    };
+  });
+  check(
+    'no older build can raise a false double-count alarm',
+    staleSafe.stale < staleSafe.global && staleSafe.oldest < staleSafe.global,
+    `stale ${(staleSafe.stale / 1e9).toFixed(0)} / oldest ${(staleSafe.oldest / 1e9).toFixed(0)} vs ${(staleSafe.global / 1e9).toFixed(0)} Gt/yr`
+  );
 
   // The two retired lists survive as sort orders over the same single list.
   const sortTo = async (id) => {
@@ -124,7 +156,7 @@ try {
   const oldest = await page.evaluate(() =>
     [...document.querySelectorAll('#grid .card:not(.is-hidden)')].slice(0, 5).map((c) => c.querySelector('.card-name').textContent)
   );
-  check('oldest first starts with wood, not an ore', /wood/i.test(oldest[0] || ''), oldest.join(', '));
+  check('oldest first is water then wood, not an ore', /water/i.test(oldest[0] || '') && /wood/i.test(oldest[1] || ''), oldest.join(', '));
   check('no material is left undated', await page.evaluate(() => window.__mat.app.materials.every((m) => m.discovered?.year != null)));
   await page.select('#sort', 'made');
   await sleep(200);
@@ -135,6 +167,66 @@ try {
     return { distinct: s.size, missing: window.__mat.app.materials.filter((m) => !m.specimen.shape).length };
   });
   check('specimens use many distinct shapes', shapeSpread.distinct >= 20 && shapeSpread.missing === 0, `${shapeSpread.distinct} shapes`);
+
+  // A plank has six faces and the wood recipe handed it three materials, so half of every
+  // board drew nothing. Material count must match the geometry's group count.
+  const groupMismatch = await page.evaluate(async () => {
+    const sp = await import('./src/render/specimens.js');
+    const bad = [];
+    for (const m of window.__mat.app.materials) {
+      const mesh = sp.makeMesh(m, 'card');
+      const groups = mesh.geometry.groups.length;
+      const mats = Array.isArray(mesh.material) ? mesh.material.length : 1;
+      if (groups > 1 && mats > 1 && groups !== mats) bad.push(`${m.id}: ${groups} groups vs ${mats} materials`);
+      if (groups > 1 && mats === 1) continue;
+    }
+    return bad;
+  });
+  check('every geometry group has a material', groupMismatch.length === 0, groupMismatch.slice(0, 3).join(', '));
+
+  // Mod: light mode, defaulting to whatever the OS asks for.
+  const themeAuto = await page.evaluate(() => ({
+    applied: document.documentElement.dataset.theme,
+    state: window.__mat.state.theme,
+    osLight: matchMedia('(prefers-color-scheme: light)').matches,
+    label: document.getElementById('theme-toggle').textContent,
+  }));
+  check(
+    'theme follows the OS until asked otherwise',
+    themeAuto.state === 'auto' && themeAuto.applied === (themeAuto.osLight ? 'light' : 'dark'),
+    `OS light=${themeAuto.osLight}, applied=${themeAuto.applied}`
+  );
+  await page.evaluate(() => document.activeElement?.blur?.());
+  await page.keyboard.press('t');
+  await sleep(250);
+  const flipped = await page.evaluate(() => ({
+    applied: document.documentElement.dataset.theme,
+    stored: localStorage.getItem('material.prefs'),
+    bg: getComputedStyle(document.body).backgroundColor,
+    ink: getComputedStyle(document.body).color,
+    label: document.getElementById('theme-toggle').textContent,
+  }));
+  check(
+    'toggling flips the palette and is remembered',
+    flipped.applied !== themeAuto.applied && /"theme":"(light|dark)"/.test(flipped.stored) && flipped.label !== themeAuto.label,
+    `${themeAuto.applied} -> ${flipped.applied}, bg ${flipped.bg}`
+  );
+  // No token may be left undefined in either palette, or something renders transparent.
+  const tokens = await page.evaluate(() => {
+    const names = ['--paper', '--panel', '--panel-hover', '--ink', '--dim', '--faint', '--hair',
+      '--hair-strong', '--scrim', '--stage', '--ground', '--scroll-thumb', '--warn-line',
+      '--warn-bg', '--good', '--bad'];
+    const missing = [];
+    for (const theme of ['light', 'dark']) {
+      document.documentElement.dataset.theme = theme;
+      const cs = getComputedStyle(document.documentElement);
+      for (const n of names) if (!cs.getPropertyValue(n).trim()) missing.push(`${theme}${n}`);
+    }
+    return missing;
+  });
+  check('both palettes define every token', tokens.length === 0, tokens.join(', '));
+  await page.keyboard.press('t');
+  await sleep(200);
 
   // Mod: no em dashes anywhere the reader can see.
   const dashes = await page.evaluate(() => {
@@ -286,6 +378,21 @@ try {
   });
   check('no horizontal scroll at 375px', phone.overflow <= 1, `${phone.overflow}px overflow`);
   check('nav sits at the bottom on a phone', phone.atBottom && phone.fixed, JSON.stringify(phone));
+
+  // Android Chrome with "Desktop site" ticked reports a 980px viewport, which used to sail
+  // past the 880px breakpoint and leave a phone on the desktop layout.
+  const cdp = await page.createCDPSession();
+  await cdp.send('Emulation.setEmulatedMedia', {
+    features: [{ name: 'pointer', value: 'coarse' }, { name: 'hover', value: 'none' }],
+  });
+  await page.setViewport({ width: 980, height: 1200, isMobile: true, hasTouch: true });
+  await sleep(500);
+  const desktopSite = await page.evaluate(() => {
+    const n = document.getElementById('nav');
+    return { fixed: getComputedStyle(n).position === 'fixed', atBottom: Math.abs(n.getBoundingClientRect().bottom - innerHeight) < 3 };
+  });
+  check('phone in desktop-site mode still gets the app layout', desktopSite.fixed && desktopSite.atBottom, JSON.stringify(desktopSite));
+  await cdp.send('Emulation.setEmulatedMedia', { features: [] });
 
   await page.setViewport({ width: 1440, height: 900 });
   await sleep(600);

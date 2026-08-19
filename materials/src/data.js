@@ -8,19 +8,22 @@ const SECONDS_PER_YEAR = 31_556_952; // tropical year
 export const PRIMARY = 'annualProduction';
 
 export const SORTS = {
-  made: { id: 'made', label: 'Most made', quantity: 'annualProduction' },
-  stock: { id: 'stock', label: 'Most still standing', quantity: 'anthropogenicStock' },
-  crust: { id: 'crust', label: 'Most common in rock', quantity: 'crustalAbundance' },
+  made: { id: 'made', label: 'Most each year', quantity: 'annualProduction', rank: 'on the list' },
+  stock: { id: 'stock', label: 'Most still standing', quantity: 'anthropogenicStock', rank: 'most built' },
+  crust: { id: 'crust', label: 'Most common in rock', quantity: 'crustalAbundance', rank: 'most common in rock' },
   name: { id: 'name', label: 'A to Z' },
   year: { id: 'year', label: 'Oldest first' },
 };
 
 export const DEFAULT_SORT = 'made';
 
+// Bump when the data changes, so a cached JSON can never be paired with newer code.
+export const DATA_VERSION = '8';
+
 export async function loadData(base = './') {
   const [dataset, sources, scales] = await Promise.all(
     ['data/materials.json', 'data/sources.json', 'data/scales.json'].map(async (p) => {
-      const res = await fetch(base + p);
+      const res = await fetch(`${base}${p}?v=${DATA_VERSION}`);
       if (!res.ok) throw new Error(`${p}: ${res.status} ${res.statusText}`);
       return res.json();
     })
@@ -30,10 +33,8 @@ export async function loadData(base = './') {
   const materials = dataset.materials.map((m) => decorate(m, sources, warnings));
   const byId = new Map(materials.map((m) => [m.id, m]));
 
-  // Ranks and log-scale extents per quantity, so a card can show where it sits on any of
-  // them without the UI ever recomputing an ordering.
+  // A rank per quantity, so the UI never recomputes an ordering.
   const ranks = {};
-  const extents = {};
   for (const key of ['annualProduction', 'anthropogenicStock', 'crustalAbundance']) {
     const ranked = materials
       .filter((m) => m.quantities[key])
@@ -41,8 +42,6 @@ export async function loadData(base = './') {
       // display as rank 18 above rank 17.
       .sort((a, b) => b.quantities[key].value - a.quantities[key].value || a.name.localeCompare(b.name));
     ranks[key] = new Map(ranked.map((m, i) => [m.id, i + 1]));
-    const values = ranked.map((m) => m.quantities[key].value);
-    extents[key] = values.length ? { min: Math.min(...values), max: Math.max(...values) } : { min: 1, max: 1 };
   }
 
   // Live extraction: the global figure is the honest headline. What we track is shown beside it.
@@ -50,9 +49,14 @@ export async function loadData(base = './') {
   // inside cereals and sawnwood is inside roundwood, so a record marked `subsetOf` is
   // shown in the list but never added to its own parent.
   const globalExtraction = scales.globals.extraction;
+  // Only whole, independent *solid* extraction counts toward the tracked total.
+  // `withdrawal` is its own kind precisely so that any build which does not know about it,
+  // including a stale cached one, skips it rather than summing 4 trillion tonnes of water
+  // into a 106 Gt figure and reporting a double-count that is not there.
   const trackedTonnes = materials.reduce((sum, m) => {
     const p = m.quantities.annualProduction;
-    return sum + (p && p.kind === 'extraction' && !m.subsetOf ? p.value : 0);
+    const counts = p && p.kind === 'extraction' && !m.subsetOf && !m.excludedFromTotal;
+    return sum + (counts ? p.value : 0);
   }, 0);
 
   if (globalExtraction.value < 1e10 || globalExtraction.value > 3e11) {
@@ -61,7 +65,17 @@ export async function loadData(base = './') {
     );
   }
   if (trackedTonnes > globalExtraction.value) {
-    warnings.push('The materials tracked here add up to more than the global extraction total, which means something is double-counted.');
+    const worst = materials
+      .filter((m) => m.quantities.annualProduction?.kind === 'extraction' && !m.subsetOf && !m.excludedFromTotal)
+      .sort((a, b) => b.quantities.annualProduction.value - a.quantities.annualProduction.value)
+      .slice(0, 3)
+      .map((m) => `${m.name} (${(m.quantities.annualProduction.value / 1e9).toFixed(1)} Gt/yr)`)
+      .join(', ');
+    warnings.push(
+      `Tracked extraction is ${(trackedTonnes / 1e9).toFixed(0)} Gt/yr against a global figure of ` +
+        `${(globalExtraction.value / 1e9).toFixed(0)} Gt/yr, so something is counted twice. ` +
+        `Largest contributors: ${worst}.`
+    );
   }
 
   const classes = [...new Set(materials.map((m) => m.class))].sort();
@@ -72,7 +86,6 @@ export async function loadData(base = './') {
     sources,
     scales,
     ranks,
-    extents,
     classes,
     warnings,
     global: {
@@ -108,15 +121,6 @@ function decorate(m, sources, warnings) {
     haystack: [m.name, ...(m.aka || []), m.class, m.formula || '', m.id].join(' ').toLowerCase(),
     sortYear: m.discovered?.year ?? -1e6,
   };
-}
-
-/** Position of a value on a log scale between the view's smallest and largest, 0..1. */
-export function logFraction(value, extent) {
-  if (!(value > 0)) return 0;
-  const lo = Math.log10(Math.max(extent.min, Number.MIN_VALUE));
-  const hi = Math.log10(extent.max);
-  if (hi <= lo) return 1;
-  return Math.max(0.02, Math.min(1, (Math.log10(value) - lo) / (hi - lo)));
 }
 
 export { SECONDS_PER_YEAR };

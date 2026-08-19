@@ -1,20 +1,59 @@
 /* MATERIAL — a dark studio. Specimens are lit objects; everything else gets out of the way. */
 
-:root {
+/*
+ * Two palettes. `data-theme` on <html> decides; main.js sets it from the saved choice or
+ * from the OS, and keeps following the OS until the reader picks a side.
+ */
+:root,
+:root[data-theme="dark"] {
   --paper: #0b0c0e;
   --panel: #14161a;
+  --panel-hover: #1b1e24;
   --ink: #f3f3f1;
   --dim: #8d9199;
   --faint: #5a5f68;
   --hair: rgba(255, 255, 255, 0.13);
   --hair-strong: rgba(255, 255, 255, 0.3);
-  --accent: #f3f3f1;
+  --scrim: rgba(0, 0, 0, 0.75);
+  --stage: radial-gradient(circle at 50% 45%, #22262d, #0e1013 72%);
+  --ground: rgba(0, 0, 0, 0);
+  --scroll-thumb: #2c3038;
+  --warn-line: #b4652a;
+  --warn-bg: #1d1409;
+  --good: #6fbf8f;
+  --bad: #d4796b;
 
   --display: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --mono: "Space Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --nav-h: 3rem;
   --gutter: clamp(1rem, 4vw, 3.5rem);
+}
+
+:root[data-theme="light"] {
+  --paper: #eeeeec;
+  --panel: #ffffff;
+  --panel-hover: #f6f6f4;
+  --ink: #14161a;
+  --dim: #5c626c;
+  --faint: #8b919b;
+  --hair: rgba(0, 0, 0, 0.14);
+  --hair-strong: rgba(0, 0, 0, 0.34);
+  --scrim: rgba(20, 22, 26, 0.55);
+  --stage: radial-gradient(circle at 50% 45%, #ffffff, #e2e4e2 72%);
+  /* Pale specimens vanish against a pale page, so give them something to sit on. */
+  --ground: rgba(0, 0, 0, 0.07);
+  --scroll-thumb: #b8bcc2;
+  --warn-line: #b4652a;
+  --warn-bg: #fdf1e3;
+  --good: #2f8f5b;
+  --bad: #b8452f;
+}
+
+@media print {
+  :root {
+    color-scheme: light;
+  }
 }
 
 *,
@@ -65,7 +104,7 @@ input {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2c3038;
+  background: var(--scroll-thumb);
 }
 
 :focus-visible {
@@ -155,7 +194,8 @@ body.no-webgl #gl {
   font-variant-numeric: tabular-nums;
 }
 
-#calm-toggle {
+#calm-toggle,
+#theme-toggle {
   background: none;
   border: 1px solid var(--hair-strong);
   border-radius: 999px;
@@ -166,7 +206,8 @@ body.no-webgl #gl {
   color: var(--dim);
 }
 
-#calm-toggle:hover {
+#calm-toggle:hover,
+#theme-toggle:hover {
   color: var(--ink);
   border-color: var(--ink);
 }
@@ -285,8 +326,8 @@ body.no-webgl .hero-specimens {
 
 .warnings {
   margin: 0 var(--gutter) 1rem;
-  border: 1px solid #b4652a;
-  background: #1d1409;
+  border: 1px solid var(--warn-line);
+  background: var(--warn-bg);
   padding: 0.75rem 1rem;
   font-size: 0.8rem;
 }
@@ -396,7 +437,7 @@ body.no-webgl .hero-specimens {
 
 .card:hover,
 .card:focus-visible {
-  background: #1b1e24;
+  background: var(--panel-hover);
   border-color: var(--hair-strong);
 }
 
@@ -413,6 +454,7 @@ body.no-webgl .hero-specimens {
   width: 5rem;
   aspect-ratio: 1;
   contain: strict;
+  background: radial-gradient(closest-side, var(--ground), transparent 72%);
 }
 
 .specimen canvas {
@@ -460,23 +502,6 @@ body.no-webgl .specimen canvas {
   margin-top: 0.15rem;
 }
 
-.bar {
-  height: 4px;
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.09);
-  margin-top: 0.5rem;
-  overflow: hidden;
-}
-
-.bar i {
-  display: block;
-  height: 100%;
-  width: calc(var(--bar, 0) * 100%);
-  background: var(--accent);
-  border-radius: 2px;
-}
-
-/* class · still standing · share of all rock — the facts the retired lists used to hold */
 .card-class {
   font-size: 0.6rem;
   letter-spacing: 0.11em;
@@ -607,7 +632,7 @@ footer {
   position: fixed;
   inset: 0;
   z-index: 45;
-  background: rgba(0, 0, 0, 0.75);
+  background: var(--scrim);
   backdrop-filter: blur(3px);
 }
 
@@ -681,7 +706,7 @@ footer {
 .detail-specimen {
   aspect-ratio: 1;
   border-radius: 14px;
-  background: radial-gradient(circle at 50% 45%, #22262d, #0e1013 72%);
+  background: var(--stage);
   touch-action: none;
   pointer-events: auto;
   cursor: grab;
@@ -812,12 +837,12 @@ footer {
 
 .points.good li::before {
   content: "+";
-  color: #6fbf8f;
+  color: var(--good);
 }
 
 .points.bad li::before {
   content: "\2212";
-  color: #d4796b;
+  color: var(--bad);
 }
 
 .scales {
@@ -877,7 +902,13 @@ footer {
   margin: 0.5rem 0 0;
 }
 
-@media (max-width: 880px) {
+/*
+ * Phone layout. The second condition matters: Chrome on Android with "Desktop site"
+ * ticked reports a 980px viewport, which sails straight past an 880px breakpoint and
+ * leaves a phone showing the desktop layout. A coarse pointer on a smallish screen is a
+ * phone or tablet whatever it claims its width is.
+ */
+@media (max-width: 880px), (pointer: coarse) and (max-width: 1100px) {
   /* Phone layout is app-like: the bar lives at the bottom, under the thumb, and the
      filters take over the top of the screen. */
   #nav {

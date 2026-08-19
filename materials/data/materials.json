@@ -6890,7 +6890,7 @@
       ],
       "relations": {},
       "specimen": {
-        "recipe": "fibre",
+        "recipe": "wood",
         "color": "#a8b06a",
         "seed": 306,
         "shape": "rod"
@@ -7068,9 +7068,9 @@
       "relations": {},
       "specimen": {
         "recipe": "stone",
-        "color": "#c2a06a",
+        "color": "#b08a56",
         "seed": 310,
-        "shape": "egg"
+        "shape": "tuber"
       }
     },
     {
@@ -7381,7 +7381,7 @@
       "relations": {},
       "specimen": {
         "recipe": "fibre",
-        "color": "#5c3a22",
+        "color": "#4a2c18",
         "seed": 317,
         "shape": "grain"
       }
@@ -7658,6 +7658,3553 @@
       "cons": [
         "Tanning uses harsh chemicals",
         "Comes with the footprint of raising cattle"
+      ]
+    },
+    {
+      "id": "water",
+      "name": "Water",
+      "aka": [
+        "fresh water"
+      ],
+      "class": "mineral",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 4000000000000.0,
+          "unit": "t/yr",
+          "year": 2021,
+          "source_id": "fao-aquastat",
+          "kind": "withdrawal",
+          "note": "Fresh water withdrawn worldwide each year. The 106 Gt headline counts solid materials only, so this sits outside it; adding the two together would be comparing different censuses."
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1000,
+          "unit": "kg/m3",
+          "source_id": "crc-handbook"
+        },
+        "meltingPoint": {
+          "value": 273,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": -3000000,
+        "approx": true,
+        "era": "Longer ago than anything else here; our ancestors drank and carried it before they made a single thing",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "By weight humans move more water than every other material put together, roughly forty times over.",
+          "source_id": "fao-aquastat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "liquid",
+        "color": "#9fc7d8",
+        "seed": 401,
+        "shape": "droplet"
+      },
+      "formula": "H2O",
+      "excludedFromTotal": true,
+      "pros": [
+        "Dissolves more substances than any other liquid",
+        "Carries heat away better than almost anything",
+        "Free where it rains"
+      ],
+      "cons": [
+        "Heavy and expensive to move any distance",
+        "Most of the world's supply is salt or frozen",
+        "Farming takes seven litres of it for every ten used"
+      ]
+    },
+    {
+      "id": "stainless-steel",
+      "name": "Stainless Steel",
+      "aka": [],
+      "class": "alloy",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 58000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "part of the crude steel total; consensus estimate"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 8000,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 1723,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        },
+        "tensileStrength": {
+          "value": 520000000.0,
+          "unit": "Pa",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1913,
+        "era": "Harry Brearley notices a gun-barrel steel that will not rust",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Stainless steel does not resist rust so much as rust instantly: a chromium oxide skin forms in seconds and seals the surface.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "steel",
+          "chromium",
+          "nickel"
+        ],
+        "recycledInto": [
+          "steel"
+        ]
+      },
+      "specimen": {
+        "recipe": "metal",
+        "color": "#c3c8cc",
+        "seed": 402,
+        "shape": "plate"
+      },
+      "formula": "Fe + 10.5%+ Cr",
+      "subsetOf": "steel",
+      "pros": [
+        "Does not rust, stain or need painting",
+        "Safe for food and surgery",
+        "Recycled like any other steel"
+      ],
+      "cons": [
+        "Several times the price of plain steel",
+        "Needs chromium and nickel, both mined far away",
+        "Harder to cut and weld"
+      ]
+    },
+    {
+      "id": "cast-iron",
+      "name": "Cast Iron",
+      "aka": [],
+      "class": "alloy",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 75000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "iron castings only; consensus estimate"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 7200,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 1420,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": -500,
+        "era": "Poured in China, some 1,500 years before Europe managed it",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Cast iron holds so much carbon that it cannot be hammered into shape at all. It has to be poured.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "iron"
+        ],
+        "recycledInto": [
+          "steel"
+        ]
+      },
+      "specimen": {
+        "recipe": "metal",
+        "color": "#6f7176",
+        "seed": 403,
+        "shape": "block"
+      },
+      "formula": "Fe + 2–4% C",
+      "pros": [
+        "Pours into complicated shapes cheaply",
+        "Soaks up vibration",
+        "Wears extremely well"
+      ],
+      "cons": [
+        "Snaps rather than bends",
+        "Cannot be forged or easily welded",
+        "Very heavy"
+      ]
+    },
+    {
+      "id": "bronze",
+      "name": "Bronze",
+      "aka": [],
+      "class": "alloy",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 1000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "copper-tin alloy semis; consensus estimate"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 8800,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 1223,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        },
+        "tensileStrength": {
+          "value": 350000000.0,
+          "unit": "Pa",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -3300,
+        "era": "The alloy that named an age",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Bronze gave its name to an entire age because it was the first metal humans deliberately mixed rather than simply found.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "copper",
+          "tin"
+        ],
+        "recycledInto": [
+          "bronze"
+        ]
+      },
+      "specimen": {
+        "recipe": "metal",
+        "color": "#a9743c",
+        "seed": 404,
+        "shape": "nugget"
+      },
+      "formula": "Cu + Sn",
+      "pros": [
+        "Harder than either metal it is made from",
+        "Does not spark, and shrugs off seawater",
+        "Casts beautifully"
+      ],
+      "cons": [
+        "Tin is scarce and was traded across continents to get it",
+        "Heavy",
+        "Expensive next to steel"
+      ]
+    },
+    {
+      "id": "brass",
+      "name": "Brass",
+      "aka": [],
+      "class": "alloy",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 6000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "copper-zinc alloy semis; consensus estimate"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 8500,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 1203,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        },
+        "tensileStrength": {
+          "value": 300000000.0,
+          "unit": "Pa",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -500,
+        "era": "Made before anyone knew zinc was an element",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Brass was made for centuries before zinc was identified, by smelting copper with a zinc ore and hoping.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "copper",
+          "zinc"
+        ],
+        "recycledInto": [
+          "brass"
+        ]
+      },
+      "specimen": {
+        "recipe": "metal",
+        "color": "#c2a144",
+        "seed": 405,
+        "shape": "rod"
+      },
+      "formula": "Cu + Zn",
+      "pros": [
+        "Machines more easily than almost any metal",
+        "Kills bacteria on contact",
+        "Looks like gold for none of the price"
+      ],
+      "cons": [
+        "Tarnishes",
+        "Older brass can contain lead",
+        "Softens when hot"
+      ]
+    },
+    {
+      "id": "solder",
+      "name": "Solder",
+      "aka": [],
+      "class": "alloy",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 150000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "electronics solder; consensus estimate"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 7400,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 490,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": -3000,
+        "era": "Used to join gold in Mesopotamia",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Solder is the material that physically holds electronics together, and switching it away from lead in the 2000s forced every factory on Earth to retool.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "tin",
+          "silver"
+        ]
+      },
+      "specimen": {
+        "recipe": "metal",
+        "color": "#b8bcc0",
+        "seed": 406,
+        "shape": "coil"
+      },
+      "formula": "Sn + Ag + Cu",
+      "pros": [
+        "Melts far below the metals it joins",
+        "Conducts electricity across the joint",
+        "Repairable with a cheap iron"
+      ],
+      "cons": [
+        "Joints crack under vibration and thermal cycling",
+        "Lead-free versions need higher heat",
+        "Fumes are unpleasant"
+      ]
+    },
+    {
+      "id": "beryllium",
+      "name": "Beryllium",
+      "aka": [],
+      "class": "element",
+      "ids": {
+        "usgs": "beryllium"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 260.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1850,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 1560,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1798,
+        "era": "Isolated by Vauquelin from emerald",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Beryllium is stiffer than steel at a quarter the weight, and it is transparent to X-rays, which is why detector windows are made of it.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "metal",
+        "color": "#c9ccc4",
+        "seed": 407,
+        "shape": "nugget"
+      },
+      "formula": "Be",
+      "pros": [
+        "Stiffest metal there is for its weight",
+        "Lets X-rays straight through",
+        "Does not spark"
+      ],
+      "cons": [
+        "The dust causes an incurable lung disease",
+        "Very expensive",
+        "Hard to machine safely"
+      ]
+    },
+    {
+      "id": "germanium",
+      "name": "Germanium",
+      "aka": [],
+      "class": "element",
+      "ids": {
+        "usgs": "germanium"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 140.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "manufacture"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 5323,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 1211,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1886,
+        "era": "Found by Winkler, exactly where Mendeleev predicted a gap",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "The first transistor was germanium, not silicon. Silicon won because its oxide made a better insulator.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "semiconductor",
+        "color": "#9aa0a8",
+        "seed": 408,
+        "shape": "wafer"
+      },
+      "formula": "Ge",
+      "pros": [
+        "Sees infrared light that silicon cannot",
+        "Faster than silicon for some circuits"
+      ],
+      "cons": [
+        "Scarce, and only a by-product of zinc and coal",
+        "Leaks current when warm"
+      ]
+    },
+    {
+      "id": "tellurium",
+      "name": "Tellurium",
+      "aka": [],
+      "class": "element",
+      "ids": {
+        "usgs": "tellurium"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 640.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "manufacture"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 6240,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 723,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1782,
+        "era": "Found in Transylvanian gold ore",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Tellurium is rarer in the crust than platinum, and most of what we get comes from the sludge left at the bottom of copper refineries.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "crystal",
+        "color": "#9a938a",
+        "seed": 409,
+        "shape": "cluster"
+      },
+      "formula": "Te",
+      "pros": [
+        "Makes a thin-film solar cell that beats silicon on cost",
+        "Turns heat straight into electricity"
+      ],
+      "cons": [
+        "Rarer than platinum",
+        "Supply depends entirely on how much copper is refined"
+      ]
+    },
+    {
+      "id": "rhenium",
+      "name": "Rhenium",
+      "aka": [],
+      "class": "element",
+      "ids": {
+        "usgs": "rhenium"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 55.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "manufacture"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 21020,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 3459,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1925,
+        "era": "The last stable element to be discovered",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Rhenium was the last stable element found on Earth, and jet engine blades are the reason anyone bothers to extract it.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "metal",
+        "color": "#a3a8ad",
+        "seed": 410,
+        "shape": "nugget"
+      },
+      "formula": "Re",
+      "pros": [
+        "Keeps its strength almost to its melting point",
+        "Lets jet engines run hotter, so they burn less fuel"
+      ],
+      "cons": [
+        "One of the rarest elements in the crust",
+        "Extremely expensive"
+      ]
+    },
+    {
+      "id": "strontium",
+      "name": "Strontium",
+      "aka": [
+        "celestite"
+      ],
+      "class": "element",
+      "ids": {
+        "usgs": "strontium"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 350000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 2640,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 1050,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1790,
+        "era": "Named after Strontian, a village in Scotland",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Strontium is what makes fireworks red, and it is named after a Scottish village of about 300 people.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "crystal",
+        "color": "#d4cfc2",
+        "seed": 411,
+        "shape": "prism"
+      },
+      "formula": "Sr",
+      "pros": [
+        "The only cheap source of a true red flame",
+        "Blocks X-rays in glass"
+      ],
+      "cons": [
+        "Its radioactive isotope is a notorious fallout product",
+        "Few uses left since cathode-ray televisions died"
+      ]
+    },
+    {
+      "id": "arsenic",
+      "name": "Arsenic",
+      "aka": [],
+      "class": "element",
+      "ids": {
+        "usgs": "arsenic"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 60000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "manufacture"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 5727,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 1090,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1250,
+        "era": "Isolated by Albertus Magnus",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Arsenic is a by-product nobody wants: it comes out of copper and gold smelting whether or not there is a buyer.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "crystal",
+        "color": "#8e8b84",
+        "seed": 412,
+        "shape": "cluster"
+      },
+      "formula": "As",
+      "pros": [
+        "Hardens lead for shot and batteries",
+        "Makes semiconductors that are faster than silicon"
+      ],
+      "cons": [
+        "Poisonous in almost any dose",
+        "Contaminates groundwater for millions of people"
+      ]
+    },
+    {
+      "id": "neodymium",
+      "name": "Neodymium",
+      "aka": [],
+      "class": "element",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 35000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction",
+          "derived": true,
+          "note": "part of the rare earth total; consensus estimate"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 7010,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 1297,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1885,
+        "era": "Split from didymium by von Welsbach",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "A neodymium magnet the size of a coin can lift a small child, and every wind turbine and earbud depends on them.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "rare-earths"
+        ]
+      },
+      "specimen": {
+        "recipe": "metal",
+        "color": "#b0aca0",
+        "seed": 413,
+        "shape": "block"
+      },
+      "formula": "Nd",
+      "subsetOf": "rare-earths",
+      "pros": [
+        "By far the strongest permanent magnet known",
+        "Makes motors smaller and lighter"
+      ],
+      "cons": [
+        "Loses its magnetism when hot",
+        "Supply is concentrated in one country",
+        "Barely recycled"
+      ]
+    },
+    {
+      "id": "rhodium",
+      "name": "Rhodium",
+      "aka": [],
+      "class": "element",
+      "ids": {
+        "usgs": "platinum-group-metals"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 24.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 12410,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 2237,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1804,
+        "era": "Isolated by Wollaston from crude platinum",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Rhodium is the most expensive metal on Earth by weight, and almost all of it sits in car exhausts turning nitrogen oxides back into air.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "metal",
+        "color": "#dcdfe2",
+        "seed": 414,
+        "shape": "nugget"
+      },
+      "formula": "Rh",
+      "pros": [
+        "The best catalyst known for cleaning exhaust gases",
+        "Never tarnishes"
+      ],
+      "cons": [
+        "The priciest metal there is",
+        "Mined in only a couple of places on Earth"
+      ]
+    },
+    {
+      "id": "zirconium",
+      "name": "Zirconium",
+      "aka": [],
+      "class": "element",
+      "ids": {
+        "usgs": "zirconium-and-hafnium"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 7000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "manufacture"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 6520,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 2128,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1824,
+        "era": "Isolated by Berzelius",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Zirconium lets neutrons pass straight through it, which is why the fuel rods in almost every nuclear reactor are sheathed in it.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "zircon"
+        ]
+      },
+      "specimen": {
+        "recipe": "metal",
+        "color": "#b4b9be",
+        "seed": 415,
+        "shape": "rod"
+      },
+      "formula": "Zr",
+      "pros": [
+        "Nearly invisible to neutrons",
+        "Shrugs off hot water and acid",
+        "Accepted by the body as an implant"
+      ],
+      "cons": [
+        "Reacts violently with steam if a reactor overheats",
+        "Expensive to separate from hafnium"
+      ]
+    },
+    {
+      "id": "fly-ash",
+      "name": "Fly Ash",
+      "aka": [
+        "coal combustion residue",
+        "PFA"
+      ],
+      "class": "mineral",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 1200000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 2300,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1930,
+        "era": "First blended into concrete in the United States",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Fly ash is what is left in the chimney after burning coal, and stirring it into concrete both cuts cement use and hides the waste.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "coal"
+        ],
+        "uses": [
+          "concrete"
+        ]
+      },
+      "specimen": {
+        "recipe": "stone",
+        "color": "#a9a49b",
+        "seed": 501,
+        "shape": "powder"
+      },
+      "pros": [
+        "Replaces cement, which cuts a lot of carbon dioxide",
+        "Makes concrete denser and more durable",
+        "It is waste, so it is cheap"
+      ],
+      "cons": [
+        "Supply disappears as coal plants close",
+        "Quality varies from plant to plant",
+        "Contains heavy metals"
+      ]
+    },
+    {
+      "id": "slag",
+      "name": "Slag",
+      "aka": [
+        "blast furnace slag",
+        "GGBS"
+      ],
+      "class": "mineral",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 400000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 2400,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -1200,
+        "era": "As old as smelting itself, and thrown away for most of that time",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Every tonne of iron leaves about a third of a tonne of slag. It was spoil for three thousand years; now it is ground up and sold as cement.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "iron",
+          "steel"
+        ],
+        "uses": [
+          "cement",
+          "concrete"
+        ]
+      },
+      "specimen": {
+        "recipe": "stone",
+        "color": "#8d8d88",
+        "seed": 502,
+        "shape": "gravel"
+      },
+      "pros": [
+        "Replaces cement almost one for one",
+        "Makes concrete resist seawater",
+        "Turns a waste heap into a product"
+      ],
+      "cons": [
+        "Sets slowly in cold weather",
+        "Only exists where blast furnaces do"
+      ]
+    },
+    {
+      "id": "dimension-stone",
+      "name": "Dimension Stone",
+      "aka": [
+        "granite",
+        "marble",
+        "building stone"
+      ],
+      "class": "mineral",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 300000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "extraction",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 2700,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -2600,
+        "era": "Quarried in blocks for the pyramids and everything since",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Dimension stone is rock cut into shapes rather than crushed, and the saw does more damage than the quarry: over half the block ends up as dust.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "stone",
+        "color": "#c3bfb6",
+        "seed": 503,
+        "shape": "block"
+      },
+      "pros": [
+        "Lasts for thousands of years with no maintenance",
+        "Needs no processing beyond cutting",
+        "Every piece is different"
+      ],
+      "cons": [
+        "Very heavy to move",
+        "More than half the block is wasted in cutting",
+        "Expensive to fit"
+      ]
+    },
+    {
+      "id": "plywood",
+      "name": "Plywood",
+      "aka": [],
+      "class": "composite",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 80000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "faostat",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "converted from roughly 120 million cubic metres at about 0.65 t/m3"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 650,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "tensileStrength": {
+          "value": 30000000.0,
+          "unit": "Pa",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1905,
+        "era": "Rotary-peeled veneer makes it cheap",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Gluing thin sheets with their grain crossed cancels out wood's biggest weakness: plywood is nearly as strong across as along.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "roundwood"
+        ]
+      },
+      "specimen": {
+        "recipe": "wood",
+        "color": "#c9a874",
+        "seed": 504,
+        "shape": "plank"
+      },
+      "pros": [
+        "Strong in both directions, unlike plain wood",
+        "Comes in big flat sheets",
+        "Does not split when nailed near an edge"
+      ],
+      "cons": [
+        "The glue can release formaldehyde",
+        "Delaminates if it stays wet",
+        "Edges look unfinished"
+      ]
+    },
+    {
+      "id": "particleboard",
+      "name": "Particleboard & MDF",
+      "aka": [
+        "chipboard",
+        "MDF",
+        "fibreboard"
+      ],
+      "class": "composite",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 100000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "faostat",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "converted from roughly 150 million cubic metres of wood-based panels"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 700,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1940,
+        "era": "Developed to use sawmill waste during wartime shortages",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Particleboard was invented to use up sawdust, and most flat-pack furniture is still sawdust glued back into the shape of a plank.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "roundwood"
+        ]
+      },
+      "specimen": {
+        "recipe": "wood",
+        "color": "#c0a17a",
+        "seed": 505,
+        "shape": "plank"
+      },
+      "pros": [
+        "Made from offcuts and sawdust",
+        "Perfectly flat and cheap",
+        "Takes a printed finish well"
+      ],
+      "cons": [
+        "Swells and crumbles once water gets in",
+        "Will not hold a screw twice",
+        "Weak compared with solid wood"
+      ]
+    },
+    {
+      "id": "bamboo",
+      "name": "Bamboo",
+      "aka": [],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 30000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "faostat",
+          "kind": "extraction",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 700,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "tensileStrength": {
+          "value": 250000000.0,
+          "unit": "Pa",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -5000,
+        "era": "Built with across Asia for as long as there have been houses there",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Bamboo is a grass, not a tree, and some species grow nearly a metre a day. It is ready to cut in four years rather than forty.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "wood",
+        "color": "#b6bf72",
+        "seed": 506,
+        "shape": "rod"
+      },
+      "formula": "lignified grass",
+      "pros": [
+        "Grows back in years rather than decades",
+        "Stronger in tension than most timber",
+        "Needs no replanting after cutting"
+      ],
+      "cons": [
+        "Rots and gets eaten unless treated",
+        "Hollow, so joints are awkward",
+        "Splits along its length"
+      ]
+    },
+    {
+      "id": "mineral-wool",
+      "name": "Mineral Wool",
+      "aka": [
+        "rock wool",
+        "stone wool",
+        "insulation"
+      ],
+      "class": "ceramic",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 10000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 100,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1897,
+        "era": "Spun from molten slag in Wales",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Mineral wool is rock spun into candy floss. It is 98% trapped air, which is what actually does the insulating.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "slag",
+          "dimension-stone"
+        ]
+      },
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#c8b89a",
+        "seed": 507,
+        "shape": "tuft"
+      },
+      "pros": [
+        "Does not burn",
+        "Deadens sound as well as heat",
+        "Made partly from slag"
+      ],
+      "cons": [
+        "Itches badly to handle",
+        "Useless once it gets damp",
+        "Bulky to transport"
+      ]
+    },
+    {
+      "id": "glass-fibre",
+      "name": "Glass Fibre",
+      "aka": [
+        "fibreglass",
+        "GRP"
+      ],
+      "class": "composite",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 7000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 2550,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "tensileStrength": {
+          "value": 1700000000.0,
+          "unit": "Pa",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1932,
+        "era": "Drawn accidentally at Owens-Illinois",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Glass is brittle in a block and springy in a thread: drawn thin enough, the flaws that make it shatter simply are not there.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "silica-sand"
+        ]
+      },
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#dfe6e2",
+        "seed": 508,
+        "shape": "skein"
+      },
+      "pros": [
+        "Stronger than steel wire for its weight",
+        "A fraction of the price of carbon fibre",
+        "Does not rot or rust"
+      ],
+      "cons": [
+        "Bends much more easily than carbon fibre",
+        "The dust irritates skin and lungs",
+        "Hard to recycle once set in resin"
+      ]
+    },
+    {
+      "id": "titanium-dioxide",
+      "name": "Titanium Dioxide",
+      "aka": [
+        "titania",
+        "white pigment"
+      ],
+      "class": "engineered",
+      "ids": {
+        "usgs": "titanium"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 7000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "manufacture"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 4230,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 2116,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1916,
+        "era": "Replaces white lead in paint",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Titanium dioxide is the whitest thing there is. It is in paint, sunscreen, toothpaste and the icing on doughnuts.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "titanium"
+        ],
+        "uses": [
+          "paint"
+        ]
+      },
+      "specimen": {
+        "recipe": "ceramic",
+        "color": "#f4f4f2",
+        "seed": 509,
+        "shape": "powder"
+      },
+      "formula": "TiO2",
+      "pros": [
+        "Whiter and more opaque than any alternative",
+        "Blocks ultraviolet light",
+        "Replaced poisonous white lead"
+      ],
+      "cons": [
+        "Making it produces a lot of acidic waste",
+        "Being reassessed for safety as a food colour"
+      ]
+    },
+    {
+      "id": "carbon-black",
+      "name": "Carbon Black",
+      "aka": [
+        "soot",
+        "furnace black"
+      ],
+      "class": "engineered",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 15000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1800,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -3000,
+        "era": "Ground from lamp soot for ink",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Nearly a third of a car tyre by weight is carbon black. Without it rubber would wear out in a few hundred miles.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "crude-oil"
+        ],
+        "uses": [
+          "natural-rubber",
+          "synthetic-rubber"
+        ]
+      },
+      "specimen": {
+        "recipe": "rubber",
+        "color": "#141414",
+        "seed": 510,
+        "shape": "powder"
+      },
+      "formula": "C",
+      "pros": [
+        "Makes rubber last many times longer",
+        "The blackest cheap pigment there is",
+        "Blocks ultraviolet damage"
+      ],
+      "cons": [
+        "Made by burning oil in short supply of air",
+        "The dust is a workplace hazard",
+        "Makes rubber almost impossible to recycle cleanly"
+      ]
+    },
+    {
+      "id": "ethanol",
+      "name": "Ethanol",
+      "aka": [
+        "alcohol",
+        "bioethanol"
+      ],
+      "class": "engineered",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 80000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 789,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 159,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": -7000,
+        "era": "Fermented in China long before anyone distilled it",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Most ethanol made today is not drunk. It is burned in car engines, mostly from maize and sugarcane.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "maize",
+          "sugarcane"
+        ]
+      },
+      "specimen": {
+        "recipe": "liquid",
+        "color": "#e3ece9",
+        "seed": 511,
+        "shape": "droplet"
+      },
+      "formula": "C2H5OH",
+      "pros": [
+        "Made from crops rather than oil",
+        "Burns cleanly and boosts octane",
+        "Mixes straight into petrol"
+      ],
+      "cons": [
+        "Uses cropland that could grow food",
+        "Absorbs water, which corrodes fuel systems",
+        "Holds a third less energy than petrol"
+      ]
+    },
+    {
+      "id": "nitric-acid",
+      "name": "Nitric Acid",
+      "aka": [],
+      "class": "engineered",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 60000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1510,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 231,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 800,
+        "era": "Distilled by alchemists as aqua fortis",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Nitric acid made from ammonia is how nitrogen from the air becomes fertiliser, and also how it becomes explosives. The same plant can do either.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "ammonia"
+        ]
+      },
+      "specimen": {
+        "recipe": "liquid",
+        "color": "#e6dcb8",
+        "seed": 512,
+        "shape": "droplet"
+      },
+      "formula": "HNO3",
+      "pros": [
+        "Turns ammonia into fertiliser the soil can use",
+        "Dissolves most metals, which is how they are refined"
+      ],
+      "cons": [
+        "Burns skin instantly",
+        "Its production releases nitrous oxide, a very strong greenhouse gas"
+      ]
+    },
+    {
+      "id": "phosphoric-acid",
+      "name": "Phosphoric Acid",
+      "aka": [],
+      "class": "engineered",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 60000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1885,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 315,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1770,
+        "era": "First made by Scheele from bone ash",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "The tang in a cola is phosphoric acid, the same chemical that turns phosphate rock into fertiliser.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "phosphate-rock",
+          "sulfuric-acid"
+        ]
+      },
+      "specimen": {
+        "recipe": "liquid",
+        "color": "#ded6c2",
+        "seed": 513,
+        "shape": "droplet"
+      },
+      "formula": "H3PO4",
+      "pros": [
+        "The route from rock to usable fertiliser",
+        "Stops rust when brushed onto steel",
+        "Safe enough to drink in tiny amounts"
+      ],
+      "cons": [
+        "Leaves mountains of mildly radioactive phosphogypsum",
+        "Depends on a finite mineral"
+      ]
+    },
+    {
+      "id": "styrene",
+      "name": "Styrene",
+      "aka": [],
+      "class": "engineered",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 30000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 906,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 242,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1839,
+        "era": "Distilled from storax resin by Simon",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Styrene was first pulled out of tree resin, and it still smells sweet enough that people used to describe it as pleasant.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "benzene",
+          "ethylene"
+        ],
+        "uses": [
+          "polystyrene",
+          "abs"
+        ]
+      },
+      "specimen": {
+        "recipe": "liquid",
+        "color": "#e4e7e4",
+        "seed": 514,
+        "shape": "droplet"
+      },
+      "formula": "C8H8",
+      "pros": [
+        "Polymerises into a clear, rigid, cheap plastic",
+        "Easy to make from two commodity chemicals"
+      ],
+      "cons": [
+        "Classified as a probable carcinogen",
+        "Polymerises on its own if it is not kept cool"
+      ]
+    },
+    {
+      "id": "butadiene",
+      "name": "Butadiene",
+      "aka": [],
+      "class": "engineered",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 15000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1.87,
+          "unit": "kg/m3",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1863,
+        "era": "First prepared by Caventou",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Butadiene is the molecule that makes synthetic rubber possible, and building a supply of it was a wartime priority for both sides.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "crude-oil"
+        ],
+        "uses": [
+          "synthetic-rubber",
+          "abs"
+        ]
+      },
+      "specimen": {
+        "recipe": "gas",
+        "color": "#e2e6e6",
+        "seed": 515,
+        "shape": "bubbles"
+      },
+      "formula": "C4H6",
+      "pros": [
+        "The backbone of synthetic rubber",
+        "A by-product of making ethylene, so it is cheap"
+      ],
+      "cons": [
+        "Carcinogenic",
+        "Explosive, and it forms unstable peroxides in storage"
+      ]
+    },
+    {
+      "id": "paraxylene",
+      "name": "Paraxylene",
+      "aka": [
+        "PX",
+        "xylene"
+      ],
+      "class": "engineered",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 50000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 861,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 286,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1850,
+        "era": "Separated from coal tar",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Almost every polyester shirt and drinks bottle starts as paraxylene, a clear liquid that smells faintly of petrol.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "crude-oil"
+        ],
+        "uses": [
+          "pet",
+          "polyester-fibre"
+        ]
+      },
+      "specimen": {
+        "recipe": "liquid",
+        "color": "#e7e9e6",
+        "seed": 516,
+        "shape": "droplet"
+      },
+      "formula": "C8H10",
+      "pros": [
+        "The single feedstock behind all polyester",
+        "Separated cleanly by freezing its isomers out"
+      ],
+      "cons": [
+        "Entirely oil-derived",
+        "Separating it from its near-identical twins takes a lot of energy"
+      ]
+    },
+    {
+      "id": "formaldehyde",
+      "name": "Formaldehyde",
+      "aka": [],
+      "class": "engineered",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 30000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1.09,
+          "unit": "kg/m3",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1859,
+        "era": "Discovered by Butlerov",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Formaldehyde is the glue in most plywood and chipboard, which is why a new flat-pack wardrobe has a smell.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "methanol"
+        ],
+        "uses": [
+          "plywood",
+          "particleboard"
+        ]
+      },
+      "specimen": {
+        "recipe": "gas",
+        "color": "#e9ece9",
+        "seed": 517,
+        "shape": "bubbles"
+      },
+      "formula": "CH2O",
+      "pros": [
+        "The cheapest strong wood glue there is",
+        "Preserves biological tissue indefinitely"
+      ],
+      "cons": [
+        "A known carcinogen",
+        "Slowly leaks out of the boards it is glued into"
+      ]
+    },
+    {
+      "id": "acetic-acid",
+      "name": "Acetic Acid",
+      "aka": [
+        "vinegar"
+      ],
+      "class": "engineered",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 18000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1049,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 290,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": -3000,
+        "era": "Made by letting wine go sour",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Vinegar and industrial acetic acid are the same molecule; one is 5% in water and the other is nearly pure.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "methanol"
+        ]
+      },
+      "specimen": {
+        "recipe": "liquid",
+        "color": "#e8e6dd",
+        "seed": 518,
+        "shape": "droplet"
+      },
+      "formula": "CH3COOH",
+      "pros": [
+        "Safe enough to eat when diluted",
+        "The starting point for most polyester and paint"
+      ],
+      "cons": [
+        "Corrosive and flammable when concentrated",
+        "Mostly made from fossil methanol"
+      ]
+    },
+    {
+      "id": "surfactants",
+      "name": "Soap & Detergents",
+      "aka": [
+        "surfactants",
+        "soap"
+      ],
+      "class": "engineered",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 20000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1050,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -2800,
+        "era": "Boiled from fat and ash in Babylon",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Soap works because one end of the molecule likes water and the other likes grease, so it drags dirt into the rinse.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "palm-oil",
+          "crude-oil"
+        ]
+      },
+      "specimen": {
+        "recipe": "ceramic",
+        "color": "#e5e9ea",
+        "seed": 519,
+        "shape": "block"
+      },
+      "pros": [
+        "Hand washing with it is among the cheapest lifesavers ever found",
+        "Works in cold water"
+      ],
+      "cons": [
+        "Palm oil feedstock drives deforestation",
+        "Some kinds feed algal blooms in rivers"
+      ]
+    },
+    {
+      "id": "paint",
+      "name": "Paint & Coatings",
+      "aka": [],
+      "class": "engineered",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 50000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1300,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -40000,
+        "era": "Ochre handprints on cave walls",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Paint is mostly a way of stopping other materials from rotting. The colour is close to a side effect.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "titanium-dioxide",
+          "crude-oil"
+        ]
+      },
+      "specimen": {
+        "recipe": "liquid",
+        "color": "#c8d2cc",
+        "seed": 520,
+        "shape": "droplet"
+      },
+      "pros": [
+        "Adds decades to the life of steel and timber",
+        "Cheap protection per square metre"
+      ],
+      "cons": [
+        "Solvents evaporate into the air",
+        "Old layers can hide lead",
+        "Almost never recycled"
+      ]
+    },
+    {
+      "id": "polyester-fibre",
+      "name": "Polyester Fibre",
+      "aka": [
+        "PES",
+        "polyester textile"
+      ],
+      "class": "polymer",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 60000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "counted apart from the plastics total, which excludes textile fibres; consensus estimate"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1380,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "tensileStrength": {
+          "value": 600000000.0,
+          "unit": "Pa",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1941,
+        "era": "Spun by Whinfield and Dickson",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "More than half of all clothing made today is polyester, which means most wardrobes are mostly oil.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "paraxylene"
+        ]
+      },
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#dfe4e6",
+        "seed": 601,
+        "shape": "skein"
+      },
+      "formula": "(C10H8O4)n",
+      "pros": [
+        "Cheap, strong and does not crease",
+        "Dries fast and holds colour",
+        "Can be made from recycled bottles"
+      ],
+      "cons": [
+        "Sheds plastic microfibres in every wash",
+        "Traps sweat and smells",
+        "Barely biodegrades"
+      ]
+    },
+    {
+      "id": "viscose",
+      "name": "Viscose",
+      "aka": [
+        "rayon",
+        "lyocell",
+        "modal"
+      ],
+      "class": "polymer",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 7000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1500,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1892,
+        "era": "Patented by Cross, Bevan and Beadle",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Viscose is wood dissolved into syrup and squirted back out as thread. It is not synthetic and not natural.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "wood-pulp"
+        ]
+      },
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#e8e2d4",
+        "seed": 602,
+        "shape": "skein"
+      },
+      "formula": "regenerated cellulose",
+      "pros": [
+        "Feels like silk at a fraction of the price",
+        "Made from a crop that grows back",
+        "Biodegrades"
+      ],
+      "cons": [
+        "The classic process uses carbon disulfide, which poisoned generations of workers",
+        "Weak when wet",
+        "Some of the pulp comes from old-growth forest"
+      ]
+    },
+    {
+      "id": "polycarbonate",
+      "name": "Polycarbonate",
+      "aka": [
+        "PC",
+        "Lexan"
+      ],
+      "class": "polymer",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 5000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "part of the plastics total; consensus estimate"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1200,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "tensileStrength": {
+          "value": 65000000.0,
+          "unit": "Pa",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1953,
+        "era": "Found independently at Bayer and General Electric within a week",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Polycarbonate is glass-clear and nearly unbreakable, which is why riot shields and headlamps are made of it.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "polymer",
+        "color": "#dde6e8",
+        "seed": 603,
+        "shape": "pane"
+      },
+      "formula": "(C16H14O3)n",
+      "subsetOf": "plastics",
+      "pros": [
+        "Almost impossible to shatter",
+        "Clear as glass but far lighter",
+        "Survives being bent"
+      ],
+      "cons": [
+        "Scratches easily",
+        "Yellows in sunlight",
+        "Made using bisphenol A"
+      ]
+    },
+    {
+      "id": "ptfe",
+      "name": "PTFE",
+      "aka": [
+        "Teflon",
+        "fluoropolymer"
+      ],
+      "class": "polymer",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 250000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "part of the plastics total; consensus estimate"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 2200,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 600,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1938,
+        "era": "Found by accident by Roy Plunkett",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Nothing sticks to PTFE, including glue, which made getting it to stay on a frying pan a harder problem than inventing it.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "polymer",
+        "color": "#f1f2f0",
+        "seed": 604,
+        "shape": "plate"
+      },
+      "formula": "(C2F4)n",
+      "subsetOf": "plastics",
+      "pros": [
+        "The slipperiest solid known",
+        "Shrugs off almost every chemical",
+        "Works from deep cold to 260 degrees"
+      ],
+      "cons": [
+        "Belongs to the forever-chemical family",
+        "Gives off toxic fumes if overheated",
+        "Cannot be melted and reshaped"
+      ]
+    },
+    {
+      "id": "silicone",
+      "name": "Silicone",
+      "aka": [
+        "siloxane"
+      ],
+      "class": "polymer",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 2500000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1100,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1943,
+        "era": "Commercialised by Dow Corning",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Silicone has a backbone of silicon and oxygen rather than carbon, which is why it survives heat that destroys ordinary rubber.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "silicon"
+        ]
+      },
+      "specimen": {
+        "recipe": "rubber",
+        "color": "#e6e9e6",
+        "seed": 605,
+        "shape": "torus"
+      },
+      "formula": "(R2SiO)n",
+      "pros": [
+        "Stays flexible from freezing to baking",
+        "Does not react with the body",
+        "Repels water completely"
+      ],
+      "cons": [
+        "Tears easily once nicked",
+        "Not biodegradable",
+        "Costs many times more than rubber"
+      ]
+    },
+    {
+      "id": "acrylic",
+      "name": "Acrylic",
+      "aka": [
+        "PMMA",
+        "Perspex",
+        "plexiglass"
+      ],
+      "class": "polymer",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 2000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "part of the plastics total; consensus estimate"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1180,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "tensileStrength": {
+          "value": 70000000.0,
+          "unit": "Pa",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1933,
+        "era": "Marketed as Plexiglas",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Acrylic passes more light than glass and does not shatter, which is why aquarium walls holding whole whale sharks are made of it.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "polymer",
+        "color": "#e4eef0",
+        "seed": 606,
+        "shape": "pane"
+      },
+      "formula": "(C5O2H8)n",
+      "subsetOf": "plastics",
+      "pros": [
+        "Clearer than glass, and half the weight",
+        "Does not yellow outdoors",
+        "Cuts and bends easily"
+      ],
+      "cons": [
+        "Scratches far more easily than glass",
+        "Cracks under stress",
+        "Burns readily"
+      ]
+    },
+    {
+      "id": "pla",
+      "name": "PLA",
+      "aka": [
+        "polylactic acid",
+        "bioplastic"
+      ],
+      "class": "polymer",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 500000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "part of the plastics total; consensus estimate"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1250,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 423,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1990,
+        "era": "Commercialised from fermented starch",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "PLA is plastic made from maize sugar, and it is what most desktop 3D printers extrude.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "maize"
+        ]
+      },
+      "specimen": {
+        "recipe": "polymer",
+        "color": "#e9ead9",
+        "seed": 607,
+        "shape": "pellet"
+      },
+      "formula": "(C3H4O2)n",
+      "subsetOf": "plastics",
+      "pros": [
+        "Made from crops, not oil",
+        "Composts in an industrial digester",
+        "Prints and moulds at low heat"
+      ],
+      "cons": [
+        "Will not break down in a garden heap or the sea",
+        "Softens in a hot car",
+        "Contaminates ordinary plastic recycling"
+      ]
+    },
+    {
+      "id": "aramid",
+      "name": "Aramid Fibre",
+      "aka": [
+        "Kevlar",
+        "Nomex"
+      ],
+      "class": "polymer",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 100000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1440,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "tensileStrength": {
+          "value": 3600000000.0,
+          "unit": "Pa",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1965,
+        "era": "Invented by Stephanie Kwolek at DuPont",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Kevlar was discovered when a cloudy solution that any chemist would have thrown out was spun anyway, and came out five times stronger than steel.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#d7c98a",
+        "seed": 608,
+        "shape": "skein"
+      },
+      "formula": "aromatic polyamide",
+      "pros": [
+        "Five times the tensile strength of steel by weight",
+        "Does not melt or burn",
+        "Absorbs impact instead of shattering"
+      ],
+      "cons": [
+        "Weak when compressed or bent",
+        "Ultraviolet light destroys it",
+        "Very expensive"
+      ]
+    },
+    {
+      "id": "cassava",
+      "name": "Cassava",
+      "aka": [
+        "manioc",
+        "tapioca"
+      ],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 330000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1050,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -8000,
+        "era": "Domesticated in Brazil",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Cassava feeds around 800 million people and is poisonous until it is properly processed.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "stone",
+        "color": "#c3a77c",
+        "seed": 609,
+        "shape": "tuber"
+      },
+      "pros": [
+        "Grows on poor soil where little else will",
+        "Keeps in the ground until it is needed",
+        "Enormous calorie yield per hectare"
+      ],
+      "cons": [
+        "Contains cyanide compounds until prepared correctly",
+        "Almost no protein",
+        "Spoils within days of lifting"
+      ]
+    },
+    {
+      "id": "barley",
+      "name": "Barley",
+      "aka": [],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 150000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "extraction",
+          "note": "part of the cereals total"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 620,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -9000,
+        "era": "Domesticated in the Fertile Crescent alongside wheat",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Barley was the grain of the ancient world: workers on the pyramids were paid in bread and beer made from it.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#d6c48d",
+        "seed": 610,
+        "shape": "grain"
+      },
+      "subsetOf": "cereals"
+    },
+    {
+      "id": "sorghum",
+      "name": "Sorghum",
+      "aka": [],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 60000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "extraction",
+          "note": "part of the cereals total"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 700,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -6000,
+        "era": "Domesticated in Sudan",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Sorghum keeps growing when maize gives up: it can wait out a drought and start again when the rain comes.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#c9a06d",
+        "seed": 611,
+        "shape": "grain"
+      },
+      "subsetOf": "cereals"
+    },
+    {
+      "id": "tomato",
+      "name": "Tomato",
+      "aka": [],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 190000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1010,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -500,
+        "era": "Domesticated in Mesoamerica; reached Europe in the 1500s",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Europeans grew tomatoes as ornaments for two centuries before they trusted them enough to eat.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "rubber",
+        "color": "#c8341f",
+        "seed": 612,
+        "shape": "berry"
+      }
+    },
+    {
+      "id": "banana",
+      "name": "Banana",
+      "aka": [
+        "plantain"
+      ],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 140000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 950,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -8000,
+        "era": "Domesticated in New Guinea",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Almost every banana exported is a clone of one variety, which is why a single fungus can threaten the entire trade.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "rubber",
+        "color": "#e0c33c",
+        "seed": 613,
+        "shape": "crescent"
+      }
+    },
+    {
+      "id": "rapeseed",
+      "name": "Rapeseed",
+      "aka": [
+        "canola",
+        "colza"
+      ],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 88000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 700,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -2000,
+        "era": "Grown in India and China for lamp oil",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Rapeseed was a lamp oil and an engine lubricant long before plant breeders made a version that was pleasant to eat.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#c8bd55",
+        "seed": 614,
+        "shape": "grain"
+      }
+    },
+    {
+      "id": "sunflower",
+      "name": "Sunflower",
+      "aka": [],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 56000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 680,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -3000,
+        "era": "Domesticated in North America",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "A sunflower head is not one flower but up to two thousand, packed in the tightest spiral that geometry allows.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#b9a24e",
+        "seed": 615,
+        "shape": "grain"
+      }
+    },
+    {
+      "id": "coconut",
+      "name": "Coconut",
+      "aka": [
+        "copra",
+        "coir palm"
+      ],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 62000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 900,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -3000,
+        "era": "Carried across the Pacific by boat and by tide",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "A coconut can float across an ocean and still sprout when it lands, which is how it colonised most tropical coasts.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#7d5636",
+        "seed": 616,
+        "shape": "nugget"
+      }
+    },
+    {
+      "id": "cocoa",
+      "name": "Cocoa",
+      "aka": [
+        "cacao"
+      ],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 5500000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1100,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -1900,
+        "era": "Drunk in Mesoamerica, long before anyone made it sweet",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Cocoa beans were money in the Aztec world: a hundred of them bought a turkey.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#4a2a18",
+        "seed": 617,
+        "shape": "grain"
+      }
+    },
+    {
+      "id": "tea",
+      "name": "Tea",
+      "aka": [],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 7000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 350,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -2700,
+        "era": "Drunk in China",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Black, green and white tea all come from the same plant. The difference is entirely how long the leaf is allowed to oxidise.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#4e6b3a",
+        "seed": 618,
+        "shape": "leaf"
+      }
+    },
+    {
+      "id": "sugar",
+      "name": "Refined Sugar",
+      "aka": [
+        "sucrose"
+      ],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 180000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "manufacture"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1590,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 459,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 350,
+        "era": "Crystallised in India",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Sugar was a medicine sold by the spoonful in medieval Europe, and it stayed a luxury until slavery made it cheap.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "sugarcane"
+        ]
+      },
+      "specimen": {
+        "recipe": "crystal",
+        "color": "#f0eee6",
+        "seed": 619,
+        "shape": "grain"
+      },
+      "formula": "C12H22O11",
+      "pros": [
+        "Preserves food indefinitely",
+        "Pure, cheap energy",
+        "Keeps for years without spoiling"
+      ],
+      "cons": [
+        "Drives obesity and tooth decay",
+        "Its history is bound up with slavery",
+        "Cane growing drains wetlands"
+      ]
+    },
+    {
+      "id": "cheese",
+      "name": "Cheese",
+      "aka": [],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 25000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "manufacture",
+          "note": "made from part of the milk total"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1100,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -5500,
+        "era": "Strained in pottery sieves in Poland",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Cheese is a way of storing milk. Ten litres of it become one kilogram that keeps for months.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "milk"
+        ]
+      },
+      "specimen": {
+        "recipe": "ceramic",
+        "color": "#e5c46a",
+        "seed": 620,
+        "shape": "block"
+      },
+      "subsetOf": "milk"
+    },
+    {
+      "id": "tobacco",
+      "name": "Tobacco",
+      "aka": [],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 6000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 300,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -6000,
+        "era": "Cultivated in the Americas",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Tobacco funded the founding of several colonies, and it is the only widely sold crop that kills a large share of the people who use it as intended.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#7a5a2e",
+        "seed": 621,
+        "shape": "leaf"
+      },
+      "pros": [
+        "Grows on land too poor for food crops",
+        "Was a currency in colonial America"
+      ],
+      "cons": [
+        "Kills over seven million people a year",
+        "Exhausts the soil",
+        "Curing it burns a lot of firewood"
+      ]
+    },
+    {
+      "id": "hemp",
+      "name": "Hemp",
+      "aka": [
+        "industrial hemp"
+      ],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 300000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1480,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "tensileStrength": {
+          "value": 600000000.0,
+          "unit": "Pa",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -8000,
+        "era": "Spun into cord in China",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Sails, ropes and the first paper were hemp. The word canvas comes from cannabis.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#a8ac72",
+        "seed": 622,
+        "shape": "skein"
+      },
+      "pros": [
+        "Grows fast with little water and no pesticide",
+        "Very strong fibre",
+        "Improves the soil it grows in"
+      ],
+      "cons": [
+        "Banned for decades because of its relatives",
+        "Coarse against the skin",
+        "Processing it is labour intensive"
+      ]
+    },
+    {
+      "id": "flax",
+      "name": "Flax",
+      "aka": [
+        "linen",
+        "linseed"
+      ],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 800000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1500,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "tensileStrength": {
+          "value": 800000000.0,
+          "unit": "Pa",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -8000,
+        "era": "Woven in Georgia, the oldest known cloth",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "The oldest known fabric is linen, spun from wild flax about 34,000 years ago.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#c9bd96",
+        "seed": 623,
+        "shape": "skein"
+      }
+    },
+    {
+      "id": "sisal",
+      "name": "Sisal",
+      "aka": [
+        "agave fibre"
+      ],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 300000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1450,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "tensileStrength": {
+          "value": 500000000.0,
+          "unit": "Pa",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -1500,
+        "era": "Used by the Maya for rope",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Sisal comes from an agave, a cousin of the plant that makes tequila.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#c4b57e",
+        "seed": 624,
+        "shape": "skein"
+      }
+    },
+    {
+      "id": "coir",
+      "name": "Coir",
+      "aka": [
+        "coconut fibre"
+      ],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 1200000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1200,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -1000,
+        "era": "Twisted into rope by Indian Ocean sailors",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Coir is the hairy husk of a coconut, and it is one of the few natural fibres that does not rot in seawater.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "coconut"
+        ]
+      },
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#9a6f45",
+        "seed": 625,
+        "shape": "tuft"
+      }
+    },
+    {
+      "id": "cork",
+      "name": "Cork",
+      "aka": [],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 200000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "extraction",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 240,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -3000,
+        "era": "Stoppering amphorae in the Mediterranean",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Cork is bark, and the tree survives being stripped. A cork oak can be harvested every nine years for two centuries.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#c09462",
+        "seed": 626,
+        "shape": "plug"
+      },
+      "pros": [
+        "Harvested without felling the tree",
+        "Floats, insulates and seals at once",
+        "Fully biodegradable"
+      ],
+      "cons": [
+        "Only grows around the western Mediterranean",
+        "Nine years between harvests",
+        "Natural variation spoils some wine"
       ]
     }
   ]

@@ -139,5 +139,12 @@
     "url": "https://en.wikipedia.org/",
     "licence": "CC BY-SA 4.0",
     "caveat": "Consensus figures for commodities with no free official statistic. Every quantity using this source is marked as an estimate."
+  },
+  "fao-aquastat": {
+    "title": "AQUASTAT global water withdrawal database",
+    "publisher": "FAO AQUASTAT",
+    "year": 2021,
+    "url": "https://www.fao.org/aquastat/",
+    "licence": "CC BY-NC-SA 3.0 IGO"
   }
 }
