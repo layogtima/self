@@ -107,6 +107,15 @@ data/               materials.json, sources.json, scales.json
 tests/              data.mjs, format.mjs, smoke.mjs
 ```
 
+## The counter
+
+The headline figure is derived from one monotonic clock (`src/ticker.js`), never accumulated,
+so a missed frame can't make it drift. Repainting it every frame made the low digits
+unreadable, so the paint is throttled: **`counter.intervalMs` in `src/ticker.js`, 250ms by
+default**, is the only dial. Set it to 0 to repaint every frame; it is live-tweakable in the
+console as `__mat.counter.intervalMs`. Throttling the paint costs nothing in accuracy —
+every paint reads the clock, so a slower one is simply a later true figure.
+
 ## Dates
 
 Every material carries an approximate **first human use** date, not a geological one, and
