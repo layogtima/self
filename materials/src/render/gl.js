@@ -8,7 +8,10 @@ import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { makeMesh } from './specimens.js';
 
-const HERO_COUNT = 16; // a cloud, not an inventory
+const raycaster = new THREE.Raycaster();
+const pointerNDC = new THREE.Vector2();
+
+const HERO_COUNT = 20; // a cloud, not an inventory
 
 export function createRenderer() {
   const canvas = document.getElementById('gl');
@@ -44,6 +47,7 @@ export function createRenderer() {
   let calm = false;
   let dirty = true;
   let running = true;
+  let painted = false; // is there anything on the canvas right now?
 
   const io = new IntersectionObserver(
     (entries) => {
@@ -71,7 +75,7 @@ export function createRenderer() {
     dirty = true;
   }
 
-  function addHero(materials, el) {
+  function addHero(materials, el, onPick) {
     if (!el) return;
     const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
     camera.position.set(0, 0, 14);
@@ -80,7 +84,8 @@ export function createRenderer() {
     // Curated for texture and colour variety — a shop window, not a sample of the list.
     const WANTED = [
       'gold', 'concrete', 'roundwood', 'copper', 'glass', 'coal', 'iron-ore', 'cotton',
-      'steel', 'sulfur', 'brick', 'silicon', 'natural-rubber', 'bauxite', 'plastics', 'graphite',
+      'steel', 'sulfur', 'brick', 'silicon', 'natural-rubber', 'bauxite', 'fluorspar', 'graphite',
+      'mica', 'zircon', 'palm-oil', 'coffee',
     ];
     const byId = new Map(materials.map((m) => [m.id, m]));
     const picks = WANTED.map((id) => byId.get(id)).filter(Boolean);
@@ -90,31 +95,104 @@ export function createRenderer() {
     }
     picks.length = Math.min(picks.length, HERO_COUNT);
 
+    // Each piece keeps its own flattened orbit rather than being frozen onto one rotating
+    // shell. Different radii, speeds and directions make them drift past each other, so the
+    // cloud churns and changes shape instead of turning as a single rigid ball.
     const golden = Math.PI * (3 - Math.sqrt(5));
     picks.forEach((m, i) => {
       const mesh = makeMesh(m, 'card');
-      const y = 1 - (i / Math.max(1, picks.length - 1)) * 2;
-      const r = Math.sqrt(Math.max(0, 1 - y * y));
-      const theta = golden * i;
-      const shell = 2.6 + (i % 3) * 0.55;
-      mesh.position.set(Math.cos(theta) * r * shell, y * 3.1, Math.sin(theta) * r * shell - 1);
-      mesh.scale.setScalar(0.5 + (m.specimen.seed % 5) * 0.05);
-      mesh.userData.spin = 0.1 + (m.specimen.seed % 7) * 0.02;
+      const scale = 0.46 + (m.specimen.seed % 5) * 0.055;
+      mesh.scale.setScalar(scale);
+      mesh.userData.id = m.id;
+      mesh.userData.name = m.name;
+      mesh.userData.baseScale = scale;
+      mesh.userData.orbit = {
+        radius: 1.9 + (i % 5) * 0.52,
+        speed: (0.055 + (i % 4) * 0.028) * (i % 2 ? -1 : 1), // alternate direction
+        phase: golden * i,
+        squash: 0.42 + (i % 3) * 0.12, // flatten the orbit into an ellipse, for depth
+        tilt: ((i % 7) - 3) * 0.14, // incline each orbit so they do not share one plane
+        y0: (1 - (i / Math.max(1, picks.length - 1)) * 2) * 3.0,
+        yAmp: 0.22 + (i % 4) * 0.11,
+        ySpeed: 0.24 + (i % 6) * 0.07,
+        spinX: 0.0016 + (m.specimen.seed % 5) * 0.0011,
+        spinY: 0.0035 + (m.specimen.seed % 7) * 0.0016,
+      };
       group.add(mesh);
     });
+
+    let hovered = null;
+    let parallaxX = 0;
+    let parallaxY = 0;
+    let targetX = 0;
+    let targetY = 0;
 
     addView(el, {
       object: group,
       camera,
       layer: 'hero',
       update: (t) => {
-        group.rotation.y = t * 0.045;
-        group.rotation.x = Math.sin(t * 0.09) * 0.09;
+        parallaxX += (targetX - parallaxX) * 0.05;
+        parallaxY += (targetY - parallaxY) * 0.05;
+        group.rotation.y = parallaxX * 0.3;
+        group.rotation.x = parallaxY * 0.2 + Math.sin(t * 0.07) * 0.05;
+
         for (const mesh of group.children) {
-          mesh.rotation.y += mesh.userData.spin * 0.01;
-          mesh.rotation.x += mesh.userData.spin * 0.004;
+          const o = mesh.userData.orbit;
+          const a = o.phase + t * o.speed;
+          const depth = Math.sin(a) * o.radius * o.squash;
+          mesh.position.set(
+            Math.cos(a) * o.radius,
+            o.y0 + Math.sin(t * o.ySpeed + o.phase) * o.yAmp + depth * o.tilt,
+            depth - 1
+          );
+          mesh.rotation.x += o.spinX;
+          mesh.rotation.y += o.spinY;
+          const want = mesh === hovered ? mesh.userData.baseScale * 1.28 : mesh.userData.baseScale;
+          mesh.scale.setScalar(mesh.scale.x + (want - mesh.scale.x) * 0.18);
         }
       },
+    });
+
+    /** Which specimen is under the pointer, using the rect the camera last projected to. */
+    function pick(event) {
+      const v = views.get(el);
+      if (!v?.screen) return null;
+      const { left, top, width, height } = v.screen;
+      const x = event.clientX - left;
+      const y = event.clientY - top;
+      if (x < 0 || y < 0 || x > width || y > height) return null;
+      pointerNDC.set((x / width) * 2 - 1, -(y / height) * 2 + 1);
+      group.updateMatrixWorld(true);
+      raycaster.setFromCamera(pointerNDC, v.camera);
+      return raycaster.intersectObjects(group.children, false)[0]?.object ?? null;
+    }
+
+    el.addEventListener('pointermove', (e) => {
+      const rect = el.getBoundingClientRect();
+      targetX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      targetY = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+      const hit = calm ? null : pick(e);
+      if (hit !== hovered) {
+        hovered = hit;
+        el.style.cursor = hit ? 'pointer' : '';
+        el.title = hit ? hit.userData.name : '';
+        dirty = true;
+      }
+    });
+
+    el.addEventListener('pointerleave', () => {
+      targetX = 0;
+      targetY = 0;
+      hovered = null;
+      el.style.cursor = '';
+      el.title = '';
+      dirty = true;
+    });
+
+    el.addEventListener('click', (e) => {
+      const hit = pick(e);
+      if (hit) onPick?.(hit.userData.id);
     });
   }
 
@@ -150,6 +228,7 @@ export function createRenderer() {
   function removeDetail() {
     if (detailEl) removeView(detailEl);
     detailEl = null;
+    dirty = true;
   }
 
   function resize() {
@@ -185,8 +264,16 @@ export function createRenderer() {
       if (dialogOpen ? v.layer !== 'dialog' : v.layer === 'dialog') continue;
       active.push([el, v]);
     }
-    // Nothing on screen worth drawing: skip the frame entirely rather than clearing.
-    if (!active.length) return;
+    // Nothing on screen worth drawing. Clear once so the last specimen does not stay
+    // painted over the page after the dialog closes, then idle until something returns.
+    if (!active.length) {
+      if (painted) {
+        renderer.setScissorTest(false);
+        renderer.clear();
+        painted = false;
+      }
+      return;
+    }
     if (calm && !dirty) return;
     dirty = false;
 
@@ -212,11 +299,15 @@ export function createRenderer() {
       v.camera.updateProjectionMatrix();
       v.camera.setViewOffset(r.width, r.height, 0, top - r.top, r.width, h);
 
+      // Remembered for raycasting: this is the region the camera's projection maps to.
+      v.screen = { left: r.left, top, width: r.width, height: h };
+
       scene.add(v.object);
       renderer.setViewport(r.left, height - bottom, r.width, h);
       renderer.setScissor(r.left, height - bottom, r.width, h);
       renderer.render(scene, v.camera);
       scene.remove(v.object);
+      painted = true;
     }
     renderer.setScissorTest(false);
   }

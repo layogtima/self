@@ -3,7 +3,7 @@
 
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
-import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
+import { mergeVertices, mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { fbm, rng } from './noise.js';
 
 const geometryCache = new Map();
@@ -169,28 +169,141 @@ function chunkGeometry(seed, detail, silhouette = 0.3, micro = 0.05) {
   return geo;
 }
 
+/** Scatter copies of one shape into a shallow heap: grain, powder, pellets, bubbles. */
+function scatter(seed, count, make, { spread = 1.05, flatten = 0.42, jitter = 0.55 } = {}) {
+  const rand = rng(seed * 977 + 13);
+  const parts = [];
+  for (let i = 0; i < count; i++) {
+    const g = make(i, rand);
+    // Phyllotaxis keeps the heap even, the jitter stops it looking machined.
+    const a = i * 2.399963;
+    const r = Math.sqrt((i + 0.5) / count) * spread;
+    const m = new THREE.Matrix4()
+      .makeRotationFromEuler(new THREE.Euler(rand() * 6.28, rand() * 6.28, rand() * 6.28))
+      .setPosition(
+        Math.cos(a) * r + (rand() - 0.5) * jitter * 0.35,
+        (0.9 - r * 0.75) * flatten + (rand() - 0.5) * jitter * 0.3,
+        Math.sin(a) * r + (rand() - 0.5) * jitter * 0.35
+      );
+    parts.push(g.applyMatrix4(m));
+  }
+  const merged = mergeGeometries(parts, false);
+  parts.forEach((g) => g.dispose?.());
+  merged.computeVertexNormals();
+  return merged;
+}
+
+/** A sphere squeezed and tapered along Y: eggs, droplets, seeds. */
+function taperedSphere(seg, { top = 1, bottom = 1, point = 0 }) {
+  const geo = new THREE.SphereGeometry(1, seg, Math.round(seg * 0.75));
+  const pos = geo.attributes.position;
+  const v = new THREE.Vector3();
+  for (let i = 0; i < pos.count; i++) {
+    v.fromBufferAttribute(pos, i);
+    const t = (v.y + 1) / 2; // 0 at the bottom, 1 at the top
+    const k = bottom + (top - bottom) * t;
+    const pinch = point ? 1 - point * Math.pow(Math.max(0, t), 3) : 1;
+    pos.setXYZ(i, v.x * k * pinch, v.y, v.z * k * pinch);
+  }
+  geo.computeVertexNormals();
+  return geo;
+}
+
+/** A hexagonal crystal prism with a pointed cap. */
+function prism(sides = 6, height = 1.5, radius = 0.55, tip = 0.5) {
+  const body = new THREE.CylinderGeometry(radius, radius, height, sides);
+  const cap = new THREE.ConeGeometry(radius, tip, sides).translate(0, height / 2 + tip / 2, 0);
+  const base = new THREE.ConeGeometry(radius, tip * 0.6, sides).rotateX(Math.PI).translate(0, -height / 2 - tip * 0.3, 0);
+  return mergeGeometries([body, cap, base], false);
+}
+
 function buildGeometry(material, detail) {
   const { recipe, shape, seed } = material.specimen;
   const s = shape || DEFAULT_SHAPE[recipe] || 'nugget';
+  const lo = Math.max(0, detail - 2); // heaps and clusters carry many parts, so keep each cheap
   switch (s) {
+    // ---- solid stock -------------------------------------------------
     case 'ingot':
       return new RoundedBoxGeometry(1.5, 0.75, 0.95, 4, 0.09);
     case 'block':
       return new RoundedBoxGeometry(1.6, 0.8, 0.8, 2, 0.03);
+    case 'plank':
+      return new RoundedBoxGeometry(2.0, 0.22, 0.85, 2, 0.02);
+    case 'slab':
+      return new RoundedBoxGeometry(1.7, 0.4, 1.15, 3, 0.08);
     case 'sheet':
       return new RoundedBoxGeometry(1.7, 0.09, 1.1, 3, 0.04);
-    case 'torus':
-      return new THREE.TorusGeometry(0.78, 0.3, 20, Math.max(36, detail * 12));
-    case 'wafer':
-      return new THREE.CylinderGeometry(0.95, 0.95, 0.07, 48);
-    case 'log':
-      return new THREE.CylinderGeometry(0.6, 0.6, 1.7, 32);
+    case 'pane':
+      return new RoundedBoxGeometry(1.5, 0.07, 1.5, 2, 0.02);
     case 'stack':
       return new RoundedBoxGeometry(1.4, 0.5, 1.0, 2, 0.02);
-    case 'bubble':
-      return new THREE.SphereGeometry(1, 32, 24);
+    case 'flake':
+      return mergeVertices(new THREE.IcosahedronGeometry(1, 1)).scale(1.25, 0.1, 1.25);
+
+    // ---- round stock -------------------------------------------------
+    case 'torus':
+      return new THREE.TorusGeometry(0.78, 0.3, 20, Math.max(36, detail * 12));
+    case 'coil':
+      return new THREE.TorusKnotGeometry(0.66, 0.19, 96, 12, 2, 3);
+    case 'skein':
+      return new THREE.TorusKnotGeometry(0.62, 0.24, 110, 14, 3, 5);
+    case 'wafer':
+      return new THREE.CylinderGeometry(0.95, 0.95, 0.07, 48);
+    case 'plate':
+      return new THREE.CylinderGeometry(1.05, 1.05, 0.16, 40);
+    case 'log':
+      return new THREE.CylinderGeometry(0.6, 0.6, 1.7, 32);
+    case 'roll':
+      return new THREE.CylinderGeometry(0.62, 0.62, 1.4, 40).rotateZ(Math.PI / 2);
+    case 'rod':
+      return new THREE.CylinderGeometry(0.22, 0.22, 1.9, 20);
+
+    // ---- crystals ----------------------------------------------------
+    case 'prism':
+      return prism(6, 1.4, 0.5, 0.5);
+    case 'cube':
+      return new RoundedBoxGeometry(1.1, 1.1, 1.1, 2, 0.04);
+    case 'cluster':
+      return scatter(seed, 5, (i, rand) => prism(6, 0.8 + rand() * 0.7, 0.24 + rand() * 0.14, 0.3), {
+        spread: 0.62,
+        flatten: 0.5,
+        jitter: 0.5,
+      });
     case 'facet':
       return chunkGeometry(seed, 1, 0.34, 0);
+
+    // ---- heaps and scatters -----------------------------------------
+    case 'grain':
+      return scatter(seed, 26, (i, rand) => taperedSphere(8 + lo * 2, { top: 0.62, bottom: 0.78 })
+        .scale(0.2 + rand() * 0.07, 0.3 + rand() * 0.09, 0.2 + rand() * 0.07));
+    case 'powder':
+      return scatter(seed, 30, (i, rand) => new THREE.IcosahedronGeometry(0.13 + rand() * 0.07, lo ? 1 : 0), {
+        spread: 1.0,
+        flatten: 0.34,
+      });
+    case 'pellet':
+      return scatter(seed, 15, (i, rand) => new THREE.CapsuleGeometry(0.19, 0.16, 3, 10 + lo * 4)
+        .scale(1, 0.85 + rand() * 0.3, 1), { spread: 0.95, flatten: 0.46 });
+    case 'gravel':
+      return scatter(seed, 17, (i, rand) => chunkGeometry(seed + i * 3.1, Math.max(1, detail - 1), 0.34, 0.06)
+        .scale(0.24 + rand() * 0.16, 0.2 + rand() * 0.12, 0.24 + rand() * 0.16), { spread: 1.0, flatten: 0.4 });
+    case 'bubbles':
+      return scatter(seed, 9, (i, rand) => new THREE.SphereGeometry(0.24 + rand() * 0.2, 18, 14), {
+        spread: 0.95,
+        flatten: 0.85,
+        jitter: 0.9,
+      });
+
+    // ---- soft things -------------------------------------------------
+    case 'egg':
+      return taperedSphere(30, { top: 0.78, bottom: 0.92, point: 0.28 }).scale(0.78, 1.15, 0.78);
+    case 'droplet':
+      return taperedSphere(30, { top: 0.5, bottom: 1.0, point: 0.85 }).scale(0.92, 1.1, 0.92);
+    case 'tuft':
+      return chunkGeometry(seed, Math.min(4, detail + 1), 0.22, 0.3);
+    case 'bubble':
+      return new THREE.SphereGeometry(1, 32, 24);
+
     default:
       return chunkGeometry(seed, detail, recipe === 'fibre' ? 0.17 : 0.32, recipe === 'fibre' ? 0.12 : detail >= 4 ? 0.075 : 0.05);
   }
@@ -198,19 +311,19 @@ function buildGeometry(material, detail) {
 
 const DEFAULT_SHAPE = {
   metal: 'nugget',
-  glass: 'facet',
+  glass: 'pane',
   stone: 'nugget',
-  ceramic: 'nugget',
+  ceramic: 'plate',
   wood: 'log',
   paper: 'stack',
-  polymer: 'ingot',
+  polymer: 'pellet',
   rubber: 'nugget',
   carbon: 'sheet',
-  fibre: 'nugget',
-  crystal: 'facet',
+  fibre: 'tuft',
+  crystal: 'prism',
   semiconductor: 'wafer',
-  gas: 'bubble',
-  liquid: 'bubble',
+  gas: 'bubbles',
+  liquid: 'droplet',
 };
 
 /* ---- materials ------------------------------------------------------ */
@@ -334,10 +447,29 @@ function numericOverrides(params) {
  * A mesh for one material. `quality` picks the tessellation:
  * 'card' for the grid and hero, 'detail' for the panel.
  */
+// Flat forms present far less area than a lump of the same bounding radius, so they get a
+// little extra size to sit at the same visual weight in the frame.
+const FLAT_SHAPES = { pane: 1.3, sheet: 1.28, plank: 1.2, slab: 1.18, flake: 1.35, wafer: 1.2, plate: 1.18 };
+
+/** Normalise to a bounding radius of 1 so every specimen fills its frame the same way. */
+function normalise(geo, shape) {
+  geo.computeBoundingSphere();
+  const r = geo.boundingSphere?.radius;
+  if (r && Number.isFinite(r) && r > 0) {
+    geo.scale(1 / r, 1 / r, 1 / r);
+    const boost = FLAT_SHAPES[shape];
+    if (boost) geo.scale(boost, boost, boost);
+    geo.computeBoundingSphere();
+  }
+  return geo;
+}
+
 export function makeMesh(material, quality = 'card') {
   const detail = quality === 'detail' ? 4 : 2;
   const gkey = `${material.id}:${detail}`;
-  if (!geometryCache.has(gkey)) geometryCache.set(gkey, buildGeometry(material, detail));
+  if (!geometryCache.has(gkey)) {
+    geometryCache.set(gkey, normalise(buildGeometry(material, detail), material.specimen.shape));
+  }
   if (!materialCache.has(material.id)) materialCache.set(material.id, buildMaterial(material));
 
   const mesh = new THREE.Mesh(geometryCache.get(gkey), materialCache.get(material.id));

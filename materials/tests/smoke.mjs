@@ -1,5 +1,5 @@
 /**
- * Headless smoke test for MATERIAL.
+ * Headless smoke test for MATERIALS.
  *
  * Needs a Chrome and puppeteer-core:
  *   mkdir -p /tmp/matsmoke && cd /tmp/matsmoke && npm i puppeteer-core@23
@@ -18,7 +18,7 @@ const CHROME = process.env.CHROME || '/Applications/Google Chrome.app/Contents/M
 
 const failures = [];
 const check = (name, ok, detail = '') => {
-  console.log(`${ok ? 'PASS' : 'FAIL'}  ${name}${detail ? ' — ' + detail : ''}`);
+  console.log(`${ok ? 'PASS' : 'FAIL'}  ${name}${detail ? ' · ' + detail : ''}`);
   if (!ok) failures.push(name);
 };
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -57,7 +57,7 @@ try {
 
   check('dataset loads', info.materials >= 40, `${info.materials} materials`);
   check('every material has a card', info.cards === info.materials, `${info.cards} cards`);
-  check('FLOW shows only what it measures', info.visible === 47 && info.visible < info.cards, `${info.visible} of ${info.cards} shown`);
+  check('the list shows only what has a yearly figure', info.visible > 0 && info.visible <= info.cards, `${info.visible} of ${info.cards} shown`);
   check('WebGL context created', info.webgl && !info.noWebglClass);
   check('live 3D is limited to the hero', info.views <= 2, `${info.views} live view(s), ${info.cards} cards`);
   check('no data warnings', info.warnings.length === 0, info.warnings.join('; '));
@@ -78,27 +78,28 @@ try {
   const parsed = Number(kg2.replace(/,/g, ''));
   check('live counter advances', kg1 !== kg2 && parsed > 0, `${kg1} → ${kg2} kg`);
 
-  // views re-rank
-  await page.keyboard.press('2');
-  await sleep(150);
-  const made = await page.evaluate(() => {
-    const first = document.querySelector('#grid .card:not(.is-hidden)');
-    return {
-      hash: location.hash,
-      name: first?.querySelector('.card-name').textContent,
-      rank: first?.querySelector('.card-rank').textContent,
-      shown: document.querySelectorAll('#grid .card:not(.is-hidden)').length,
-      note: document.getElementById('grid-note').textContent,
-    };
-  });
-  check('view 2 switches to MADE', made.hash.includes('view=made'), made.hash);
-  check('MADE hides the 44 with no built stock', made.shown === 9, `${made.shown} shown, note: "${made.note}"`);
-  check('MADE is topped by concrete', /concrete/i.test(made.name || ''), `#1 is ${made.name} ${made.rank}`);
+  const first = () => page.evaluate(() => document.querySelector('#grid .card:not(.is-hidden) .card-name')?.textContent);
+  check('the list is topped by sand & gravel', /sand/i.test((await first()) || ''), `1st is ${await first()}`);
 
-  await page.keyboard.press('3');
+  // The two retired lists survive as sort orders over the same single list.
+  const sortTo = async (id) => {
+    await page.select('#sort', id);
+    await sleep(200);
+    return first();
+  };
+  check('sorting by built stock puts concrete first', /concrete/i.test((await sortTo('stock')) || ''), await first());
+  check('sorting by crustal share puts silicon first', /silicon/i.test((await sortTo('crust')) || ''), await first());
+  await sortTo('made');
+
+  // An old three-list link must still land somewhere sensible.
+  await page.evaluate(() => {
+    location.hash = 'view=made';
+  });
+  await sleep(250);
+  const migrated = await page.evaluate(() => window.__mat.state.sort);
+  check('old ?view= links migrate to the matching sort', migrated === 'stock', `view=made -> sort=${migrated}`);
+  await page.select('#sort', 'made');
   await sleep(150);
-  const flow = await page.evaluate(() => document.querySelector('#grid .card:not(.is-hidden) .card-name')?.textContent);
-  check('FLOW is topped by sand & gravel', /sand/i.test(flow || ''), `#1 is ${flow}`);
 
   // search
   await page.keyboard.press('/');
@@ -110,29 +111,56 @@ try {
   }));
   check('search filters', searched.n > 0 && searched.n <= 3, `${searched.n} results`);
 
-  // Relabelling regression: no list may show a row it has no number for.
-  const noBlanks = await page.evaluate(() => {
+  // Mod: first-use dates. Iron ore reading as older than wood was the symptom of every
+  // undated record tying on one sentinel value.
+  // Clear the search left over from the step above, or this only sorts the matches.
+  await page.evaluate(() => {
+    window.__mat.state.q = '';
+    document.getElementById('search').value = '';
+    window.__mat.grid.render();
+  });
+  await page.select('#sort', 'year');
+  await sleep(250);
+  const oldest = await page.evaluate(() =>
+    [...document.querySelectorAll('#grid .card:not(.is-hidden)')].slice(0, 5).map((c) => c.querySelector('.card-name').textContent)
+  );
+  check('oldest first starts with wood, not an ore', /wood/i.test(oldest[0] || ''), oldest.join(', '));
+  check('no material is left undated', await page.evaluate(() => window.__mat.app.materials.every((m) => m.discovered?.year != null)));
+  await page.select('#sort', 'made');
+  await sleep(200);
+
+  // Mod: nothing should be a generic blob any more.
+  const shapeSpread = await page.evaluate(() => {
+    const s = new Set(window.__mat.app.materials.map((m) => m.specimen.shape));
+    return { distinct: s.size, missing: window.__mat.app.materials.filter((m) => !m.specimen.shape).length };
+  });
+  check('specimens use many distinct shapes', shapeSpread.distinct >= 20 && shapeSpread.missing === 0, `${shapeSpread.distinct} shapes`);
+
+  // Mod: no em dashes anywhere the reader can see.
+  const dashes = await page.evaluate(() => {
     const bad = [];
-    for (const view of ['crust', 'made', 'flow']) {
-      location.hash = `view=${view}`;
-      window.__mat.grid.render();
-      for (const c of document.querySelectorAll('#grid .card:not(.is-hidden)')) {
-        if (!c.querySelector('.card-figure .unit')) bad.push(`${view}:${c.dataset.id}`);
-      }
-    }
+    const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    let node;
+    while ((node = walk.nextNode())) if (node.nodeValue.includes('\u2014')) bad.push(node.nodeValue.trim().slice(0, 40));
     return bad;
   });
-  check('no list shows a material it cannot measure', noBlanks.length === 0, noBlanks.slice(0, 3).join(', '));
+  check('no em dashes in the rendered page', dashes.length === 0, dashes.slice(0, 2).join(' | '));
 
-  const labels = await page.evaluate(() => ({
-    tabs: [...document.querySelectorAll('.views button')].map((b) => b.textContent.trim()),
-    legend: [...document.querySelectorAll('#legend dt')].map((d) => d.textContent.trim()),
-  }));
-  check(
-    'tab labels and the legend cannot drift apart',
-    labels.tabs.length === 3 && labels.tabs.join('|') === labels.legend.join('|'),
-    labels.tabs.join(' / ')
-  );
+  // Every visible row must carry a real figure, under every sort order.
+  const noBlanks = await page.evaluate(async () => {
+    const bad = [];
+    for (const id of ['made', 'stock', 'crust', 'name', 'year']) {
+      window.__mat.state.sort = id;
+      window.__mat.grid.render();
+      for (const c of document.querySelectorAll('#grid .card:not(.is-hidden)')) {
+        if (!c.querySelector('.card-figure .unit')) bad.push(`${id}:${c.dataset.id}`);
+      }
+    }
+    window.__mat.state.sort = 'made';
+    window.__mat.grid.render();
+    return bad;
+  });
+  check('no row is shown without a figure', noBlanks.length === 0, noBlanks.slice(0, 3).join(', '));
   check('search is in the URL', searched.hash.includes('q=alumin'), searched.hash);
 
   // deep link into the detail panel
@@ -154,6 +182,15 @@ try {
   check('detail is a real dialog with focus moved in', detail.dialog && detail.focusInside);
   check('detail shows sourced numbers', detail.sources >= 5, `${detail.sources} source credits`);
   check('detail has a live figure', detail.live);
+
+  // Mod: good/bad points where a material has a real trade-off.
+  const points = await page.evaluate(() => ({
+    good: [...document.querySelectorAll('#detail .points.good li')].length,
+    bad: [...document.querySelectorAll('#detail .points.bad li')].length,
+    headings: [...document.querySelectorAll('#detail h3')].map((h) => h.textContent),
+  }));
+  check('detail shows good and bad points', points.good >= 2 && points.bad >= 2, `${points.good} good, ${points.bad} bad`);
+  check('the panel has em-dash-free headings', !points.headings.join('').includes('\u2014'), points.headings.join(' / '));
 
   await page.keyboard.press('Escape');
   await sleep(200);
@@ -180,22 +217,24 @@ try {
 
   // Regression: an in-page anchor must not reset the filters (state hashes contain '=').
   await page.evaluate(() => {
-    location.hash = 'view=crust&q=iron';
+    location.hash = 'sort=crust&q=iron';
   });
   await sleep(200);
   await page.evaluate(() => document.querySelector('a.cta').click());
   await sleep(300);
-  const afterAnchor = await page.evaluate(() => ({ view: window.__mat.state.view, q: window.__mat.state.q }));
-  check('in-page anchors preserve filters', afterAnchor.view === 'crust' && afterAnchor.q === 'iron', JSON.stringify(afterAnchor));
+  const afterAnchor = await page.evaluate(() => ({ sort: window.__mat.state.sort, q: window.__mat.state.q }));
+  check('in-page anchors preserve filters', afterAnchor.sort === 'crust' && afterAnchor.q === 'iron', JSON.stringify(afterAnchor));
 
-  // Regression: a prototype key in the view param used to pass validation and throw.
-  const beforeBad = await page.evaluate(() => window.__mat.state.view);
+  // Regression: a prototype key in the sort param used to pass validation and throw.
   await page.evaluate(() => {
-    location.hash = 'view=constructor';
+    location.hash = 'sort=constructor';
   });
   await sleep(300);
-  const afterBad = await page.evaluate(() => ({ view: window.__mat.state.view, cards: document.querySelectorAll('#grid .card:not(.is-hidden)').length }));
-  check('a bogus view is rejected, not crashed on', afterBad.view !== 'constructor' && afterBad.cards > 0, `view=${afterBad.view} (was ${beforeBad}), ${afterBad.cards} cards`);
+  const afterBad = await page.evaluate(() => ({
+    sort: window.__mat.state.sort,
+    cards: document.querySelectorAll('#grid .card:not(.is-hidden)').length,
+  }));
+  check('a bogus sort is rejected, not crashed on', afterBad.sort !== 'constructor' && afterBad.cards > 0, `sort=${afterBad.sort}, ${afterBad.cards} cards`);
 
   // Card specimens are real renders, not empty canvases.
   const paintedPixels = await page.evaluate(() => {
@@ -211,7 +250,7 @@ try {
 
   // The point of the whole render rewrite: scrolling the list must cost no GPU at all.
   await page.evaluate(() => {
-    location.hash = 'view=flow';
+    location.hash = 'sort=made';
     document.getElementById('grid').scrollIntoView();
   });
   await sleep(600);
@@ -234,11 +273,19 @@ try {
   });
   check('scrolling the grid costs no GPU', drawCalls === 0, `${drawCalls} draw calls while scrolling`);
 
-  // narrow viewport, no horizontal scroll
+  // narrow viewport: no horizontal scroll, and the bar sits at the bottom like an app
   await page.setViewport({ width: 375, height: 780 });
-  await sleep(400);
-  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
-  check('no horizontal scroll at 375px', overflow <= 1, `${overflow}px overflow`);
+  await sleep(500);
+  const phone = await page.evaluate(() => {
+    const r = document.getElementById('nav').getBoundingClientRect();
+    return {
+      overflow: document.documentElement.scrollWidth - window.innerWidth,
+      atBottom: Math.abs(r.bottom - window.innerHeight) < 3,
+      fixed: getComputedStyle(document.getElementById('nav')).position === 'fixed',
+    };
+  });
+  check('no horizontal scroll at 375px', phone.overflow <= 1, `${phone.overflow}px overflow`);
+  check('nav sits at the bottom on a phone', phone.atBottom && phone.fixed, JSON.stringify(phone));
 
   await page.setViewport({ width: 1440, height: 900 });
   await sleep(600);

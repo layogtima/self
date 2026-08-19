@@ -10,74 +10,6 @@
   },
   "materials": [
     {
-      "id": "oxygen",
-      "name": "Oxygen",
-      "aka": [
-        "O2",
-        "dioxygen"
-      ],
-      "class": "element",
-      "formula": "O",
-      "ids": {
-        "wikidata": "Q629",
-        "cas": "7782-44-7"
-      },
-      "quantities": {
-        "crustalAbundance": {
-          "value": 461000,
-          "unit": "ppm",
-          "year": 2003,
-          "source_id": "rudnickgao2003"
-        }
-      },
-      "properties": {
-        "density": {
-          "value": 1.429,
-          "unit": "kg/m3",
-          "source_id": "crc-handbook",
-          "note": "gas at 0 °C, 1 atm"
-        },
-        "meltingPoint": {
-          "value": 54.4,
-          "unit": "K",
-          "source_id": "crc-handbook"
-        },
-        "thermalConductivity": {
-          "value": 0.0265,
-          "unit": "W/(m·K)",
-          "source_id": "crc-handbook"
-        }
-      },
-      "discovered": {
-        "year": 1774,
-        "era": "Priestley and Scheele, independently",
-        "source_id": "wikidata"
-      },
-      "facts": [
-        {
-          "text": "Almost half the mass of the Earth's crust is oxygen — it is locked into silicate rock, not floating in the air.",
-          "source_id": "rudnickgao2003"
-        },
-        {
-          "text": "By mass the crust is closer to a foam of oxygen atoms held apart by silicon than to anything metallic.",
-          "source_id": "rudnickgao2003"
-        }
-      ],
-      "relations": {
-        "madeFrom": [],
-        "uses": [
-          "silicon",
-          "iron"
-        ],
-        "recycledInto": []
-      },
-      "specimen": {
-        "recipe": "gas",
-        "color": "#dbe7ea",
-        "seed": 1
-      }
-    },
-    {
       "id": "silicon",
       "name": "Silicon",
       "aka": [
@@ -136,11 +68,15 @@
       },
       "facts": [
         {
-          "text": "Semiconductor-grade silicon is refined to 99.9999999% purity — nine nines, among the purest bulk materials ever made.",
+          "text": "Semiconductor-grade silicon is refined to 99.9999999% purity, nine nines, among the purest bulk materials ever made.",
           "source_id": "usgs-mcs2024"
         },
         {
           "text": "Second only to oxygen in the crust, and the two are usually found bonded to each other as silica.",
+          "source_id": "rudnickgao2003"
+        },
+        {
+          "text": "Oxygen and silicon alone are three-quarters of the crust by weight. The ground is mostly rusted glass.",
           "source_id": "rudnickgao2003"
         }
       ],
@@ -156,8 +92,17 @@
       "specimen": {
         "recipe": "semiconductor",
         "color": "#5c646e",
-        "seed": 2
-      }
+        "seed": 2,
+        "shape": "wafer"
+      },
+      "pros": [
+        "Can be made purer than almost anything else",
+        "Its electrical behaviour can be tuned atom by atom"
+      ],
+      "cons": [
+        "Brittle",
+        "Purifying it takes enormous energy"
+      ]
     },
     {
       "id": "aluminium",
@@ -258,6 +203,16 @@
           "quantity": "annualProduction",
           "against": "eiffel-tower"
         }
+      ],
+      "pros": [
+        "Light but still strong",
+        "Never really corrodes",
+        "Recycling it costs a twentieth of the energy"
+      ],
+      "cons": [
+        "Smelting it from ore is hugely power hungry",
+        "Weaker than steel for the same thickness",
+        "Hard to weld"
       ]
     },
     {
@@ -320,7 +275,7 @@
       },
       "facts": [
         {
-          "text": "Iron is the most abundant element in the Earth as a whole — most of it sank into the core while the planet was still molten.",
+          "text": "Iron is the most abundant element in the Earth as a whole, most of it sank into the core while the planet was still molten.",
           "source_id": "rudnickgao2003"
         },
         {
@@ -348,147 +303,6 @@
           "roughness": 0.62
         },
         "seed": 4
-      }
-    },
-    {
-      "id": "calcium",
-      "name": "Calcium",
-      "aka": [
-        "Ca"
-      ],
-      "class": "element",
-      "formula": "Ca",
-      "ids": {
-        "wikidata": "Q706",
-        "cas": "7440-70-2"
-      },
-      "quantities": {
-        "crustalAbundance": {
-          "value": 41500,
-          "unit": "ppm",
-          "year": 2003,
-          "source_id": "rudnickgao2003"
-        }
-      },
-      "properties": {
-        "density": {
-          "value": 1550,
-          "unit": "kg/m3",
-          "source_id": "crc-handbook"
-        },
-        "meltingPoint": {
-          "value": 1115,
-          "unit": "K",
-          "source_id": "crc-handbook"
-        },
-        "thermalConductivity": {
-          "value": 201,
-          "unit": "W/(m·K)",
-          "source_id": "crc-handbook"
-        }
-      },
-      "discovered": {
-        "year": 1808,
-        "era": "Isolated by Humphry Davy",
-        "source_id": "wikidata"
-      },
-      "facts": [
-        {
-          "text": "Calcium reaches the crust mostly as limestone — the compressed remains of shells and skeletons.",
-          "source_id": "rudnickgao2003"
-        },
-        {
-          "text": "Cement is essentially a way of un-making limestone with heat and then letting it set again.",
-          "source_id": "gcca2024"
-        }
-      ],
-      "relations": {
-        "madeFrom": [],
-        "uses": [
-          "cement",
-          "limestone"
-        ],
-        "recycledInto": []
-      },
-      "specimen": {
-        "recipe": "metal",
-        "shape": "nugget",
-        "color": "#b9b6ae",
-        "params": {
-          "roughness": 0.55
-        },
-        "seed": 5
-      }
-    },
-    {
-      "id": "sodium",
-      "name": "Sodium",
-      "aka": [
-        "Na"
-      ],
-      "class": "element",
-      "formula": "Na",
-      "ids": {
-        "wikidata": "Q658",
-        "cas": "7440-23-5"
-      },
-      "quantities": {
-        "crustalAbundance": {
-          "value": 23600,
-          "unit": "ppm",
-          "year": 2003,
-          "source_id": "rudnickgao2003"
-        }
-      },
-      "properties": {
-        "density": {
-          "value": 968,
-          "unit": "kg/m3",
-          "source_id": "crc-handbook"
-        },
-        "meltingPoint": {
-          "value": 371,
-          "unit": "K",
-          "source_id": "crc-handbook"
-        },
-        "thermalConductivity": {
-          "value": 142,
-          "unit": "W/(m·K)",
-          "source_id": "crc-handbook"
-        }
-      },
-      "discovered": {
-        "year": 1807,
-        "era": "Isolated by Humphry Davy",
-        "source_id": "wikidata"
-      },
-      "facts": [
-        {
-          "text": "Sodium is soft enough to cut with a knife and light enough to float on water — briefly, and violently.",
-          "source_id": "crc-handbook"
-        },
-        {
-          "text": "Nearly all the sodium humans handle arrives as salt, either mined or evaporated from the sea.",
-          "source_id": "usgs-mcs2024"
-        }
-      ],
-      "relations": {
-        "madeFrom": [
-          "halite"
-        ],
-        "uses": [
-          "glass"
-        ],
-        "recycledInto": []
-      },
-      "specimen": {
-        "recipe": "metal",
-        "shape": "nugget",
-        "color": "#c8c8c2",
-        "params": {
-          "roughness": 0.48
-        },
-        "seed": 6
       }
     },
     {
@@ -549,7 +363,7 @@
       },
       "facts": [
         {
-          "text": "Magnesium is the lightest structural metal in common use — about two-thirds the density of aluminium.",
+          "text": "Magnesium is the lightest structural metal in common use, about two-thirds the density of aluminium.",
           "source_id": "crc-handbook"
         },
         {
@@ -572,73 +386,6 @@
           "roughness": 0.5
         },
         "seed": 7
-      }
-    },
-    {
-      "id": "potassium",
-      "name": "Potassium",
-      "aka": [
-        "K"
-      ],
-      "class": "element",
-      "formula": "K",
-      "ids": {
-        "wikidata": "Q703",
-        "cas": "7440-09-7"
-      },
-      "quantities": {
-        "crustalAbundance": {
-          "value": 21000,
-          "unit": "ppm",
-          "year": 2003,
-          "source_id": "rudnickgao2003"
-        }
-      },
-      "properties": {
-        "density": {
-          "value": 856,
-          "unit": "kg/m3",
-          "source_id": "crc-handbook"
-        },
-        "meltingPoint": {
-          "value": 337,
-          "unit": "K",
-          "source_id": "crc-handbook"
-        },
-        "thermalConductivity": {
-          "value": 102.5,
-          "unit": "W/(m·K)",
-          "source_id": "crc-handbook"
-        }
-      },
-      "discovered": {
-        "year": 1807,
-        "era": "Isolated by Humphry Davy — the first metal won by electrolysis",
-        "source_id": "wikidata"
-      },
-      "facts": [
-        {
-          "text": "Potassium is mildly radioactive: about one atom in ten thousand is potassium-40, which is why bananas register on a sensitive detector.",
-          "source_id": "crc-handbook"
-        },
-        {
-          "text": "Most mined potassium becomes fertiliser — the K in NPK.",
-          "source_id": "usgs-mcs2024"
-        }
-      ],
-      "relations": {
-        "madeFrom": [],
-        "uses": [],
-        "recycledInto": []
-      },
-      "specimen": {
-        "recipe": "metal",
-        "shape": "nugget",
-        "color": "#c3bfb4",
-        "params": {
-          "roughness": 0.52
-        },
-        "seed": 8
       }
     },
     {
@@ -717,92 +464,23 @@
       },
       "specimen": {
         "recipe": "metal",
-        "shape": "ingot",
+        "shape": "rod",
         "color": "#9aa0a3",
         "params": {
           "roughness": 0.42,
           "brushed": true
         },
         "seed": 9
-      }
-    },
-    {
-      "id": "carbon",
-      "name": "Carbon",
-      "aka": [
-        "C"
+      },
+      "pros": [
+        "Strongest metal there is for its weight",
+        "Shrugs off seawater and acid",
+        "The body does not reject it"
       ],
-      "class": "element",
-      "formula": "C",
-      "ids": {
-        "wikidata": "Q623",
-        "cas": "7440-44-0"
-      },
-      "quantities": {
-        "crustalAbundance": {
-          "value": 200,
-          "unit": "ppm",
-          "year": 2003,
-          "source_id": "rudnickgao2003"
-        }
-      },
-      "properties": {
-        "density": {
-          "value": 2267,
-          "unit": "kg/m3",
-          "source_id": "crc-handbook",
-          "note": "graphite"
-        },
-        "meltingPoint": {
-          "value": 3915,
-          "unit": "K",
-          "source_id": "crc-handbook",
-          "note": "sublimes"
-        },
-        "thermalConductivity": {
-          "value": 140,
-          "unit": "W/(m·K)",
-          "source_id": "crc-handbook",
-          "note": "graphite, in-plane"
-        }
-      },
-      "discovered": {
-        "year": null,
-        "era": "Prehistoric — charcoal, soot and diamond all known to antiquity",
-        "source_id": "wikidata"
-      },
-      "facts": [
-        {
-          "text": "Carbon is a rounding error in the crust at 200 ppm, and simultaneously the backbone of every living thing.",
-          "source_id": "rudnickgao2003"
-        },
-        {
-          "text": "Graphite and diamond are the same element; the difference is entirely how the atoms are stacked.",
-          "source_id": "crc-handbook"
-        },
-        {
-          "text": "All living things together hold about 550 gigatonnes of carbon — and human-made mass now outweighs the lot.",
-          "source_id": "baron2018"
-        }
-      ],
-      "relations": {
-        "madeFrom": [],
-        "uses": [
-          "steel",
-          "graphite",
-          "graphene",
-          "carbon-fiber"
-        ],
-        "recycledInto": []
-      },
-      "specimen": {
-        "recipe": "crystal",
-        "color": "#2a2a2a",
-        "params": {
-          "translucency": 0.35
-        },
-        "seed": 10
-      }
+      "cons": [
+        "Very expensive to separate from its ore",
+        "Difficult to weld and machine"
+      ]
     },
     {
       "id": "hydrogen",
@@ -861,7 +539,7 @@
           "source_id": "rudnickgao2003"
         },
         {
-          "text": "Counting atoms rather than mass, hydrogen is roughly 15% of the crust — it is just extremely light.",
+          "text": "Counting atoms rather than mass, hydrogen is roughly 15% of the crust, it is just extremely light.",
           "source_id": "rudnickgao2003"
         }
       ],
@@ -875,76 +553,8 @@
       "specimen": {
         "recipe": "gas",
         "color": "#eef2f5",
-        "seed": 11
-      }
-    },
-    {
-      "id": "phosphorus",
-      "name": "Phosphorus",
-      "aka": [
-        "P"
-      ],
-      "class": "element",
-      "formula": "P",
-      "ids": {
-        "wikidata": "Q674",
-        "cas": "7723-14-0"
-      },
-      "quantities": {
-        "crustalAbundance": {
-          "value": 1050,
-          "unit": "ppm",
-          "year": 2003,
-          "source_id": "rudnickgao2003"
-        }
-      },
-      "properties": {
-        "density": {
-          "value": 1823,
-          "unit": "kg/m3",
-          "source_id": "crc-handbook",
-          "note": "white phosphorus"
-        },
-        "meltingPoint": {
-          "value": 317,
-          "unit": "K",
-          "source_id": "crc-handbook"
-        },
-        "thermalConductivity": {
-          "value": 0.236,
-          "unit": "W/(m·K)",
-          "source_id": "crc-handbook"
-        }
-      },
-      "discovered": {
-        "year": 1669,
-        "era": "Hennig Brand, by boiling down urine",
-        "source_id": "wikidata"
-      },
-      "facts": [
-        {
-          "text": "Phosphorus has no substitute in agriculture: there is no other element that does its job in DNA and ATP.",
-          "source_id": "usgs-mcs2024"
-        },
-        {
-          "text": "It was the first element discovered since antiquity, and it was found by a man searching urine for gold.",
-          "source_id": "wikidata"
-        }
-      ],
-      "relations": {
-        "madeFrom": [
-          "phosphate-rock"
-        ],
-        "uses": [],
-        "recycledInto": []
-      },
-      "specimen": {
-        "recipe": "crystal",
-        "color": "#e6d9a8",
-        "params": {
-          "translucency": 0.25
-        },
-        "seed": 12
+        "seed": 11,
+        "shape": "bubbles"
       }
     },
     {
@@ -1006,7 +616,7 @@
       },
       "facts": [
         {
-          "text": "Steel is the most recycled material on Earth by mass — around 90% of it comes back at end of life.",
+          "text": "Steel is the most recycled material on Earth by mass, around 90% of it comes back at end of life.",
           "source_id": "worldsteel2024"
         },
         {
@@ -1040,6 +650,16 @@
           "quantity": "annualProduction",
           "against": "eiffel-tower"
         }
+      ],
+      "pros": [
+        "Strong when pulled as well as squashed",
+        "Recycled endlessly without getting worse",
+        "Can be tuned by mixing in other metals"
+      ],
+      "cons": [
+        "Rusts unless it is coated or alloyed",
+        "Making it burns a lot of coal",
+        "Heavy"
       ]
     },
     {
@@ -1131,13 +751,23 @@
       },
       "specimen": {
         "recipe": "metal",
-        "shape": "nugget",
+        "shape": "coil",
         "color": "#c1743c",
         "params": {
           "roughness": 0.3
         },
         "seed": 14
-      }
+      },
+      "pros": [
+        "Carries electricity better than anything affordable",
+        "Kills bacteria on contact",
+        "Recycled without losing quality"
+      ],
+      "cons": [
+        "Heavy",
+        "The good ore is running out",
+        "The price swings wildly"
+      ]
     },
     {
       "id": "zinc",
@@ -1197,7 +827,7 @@
       },
       "facts": [
         {
-          "text": "Over half of all zinc goes into galvanising — a sacrificial skin that corrodes so the steel underneath does not.",
+          "text": "Over half of all zinc goes into galvanising, a sacrificial skin that corrodes so the steel underneath does not.",
           "source_id": "usgs-mcs2024"
         },
         {
@@ -1222,7 +852,15 @@
           "roughness": 0.4
         },
         "seed": 15
-      }
+      },
+      "pros": [
+        "Protects steel by corroding instead of it",
+        "Cheap"
+      ],
+      "cons": [
+        "Weak on its own",
+        "The coating eventually wears away"
+      ]
     },
     {
       "id": "lead",
@@ -1282,7 +920,7 @@
       },
       "facts": [
         {
-          "text": "Around 85% of lead now goes into batteries, and lead-acid batteries are recycled at over 95% — the highest rate of any consumer product.",
+          "text": "Around 85% of lead now goes into batteries, and lead-acid batteries are recycled at over 95%, the highest rate of any consumer product.",
           "source_id": "usgs-mcs2024"
         },
         {
@@ -1305,7 +943,15 @@
           "roughness": 0.55
         },
         "seed": 16
-      }
+      },
+      "pros": [
+        "Blocks radiation",
+        "Recycled at over 95% in batteries"
+      ],
+      "cons": [
+        "Poisonous, especially to children",
+        "Very heavy"
+      ]
     },
     {
       "id": "nickel",
@@ -1365,7 +1011,7 @@
       },
       "facts": [
         {
-          "text": "Nickel is what makes stainless steel stainless — most of it never appears as nickel at all.",
+          "text": "Nickel is what makes stainless steel stainless, most of it never appears as nickel at all.",
           "source_id": "usgs-mcs2024"
         },
         {
@@ -1390,7 +1036,15 @@
           "roughness": 0.35
         },
         "seed": 17
-      }
+      },
+      "pros": [
+        "Makes steel stainless",
+        "Holds its strength when very hot"
+      ],
+      "cons": [
+        "Refining it is dirty",
+        "Some people react to it on skin"
+      ]
     },
     {
       "id": "tin",
@@ -1445,7 +1099,7 @@
       },
       "discovered": {
         "year": -3000,
-        "era": "Bronze Age — tin plus copper started it",
+        "era": "Bronze Age, tin plus copper started it",
         "source_id": "wikidata"
       },
       "facts": [
@@ -1454,7 +1108,7 @@
           "source_id": "wikidata"
         },
         {
-          "text": "Almost half of today's tin is solder — the metal that physically holds electronics together.",
+          "text": "Almost half of today's tin is solder, the metal that physically holds electronics together.",
           "source_id": "usgs-mcs2024"
         }
       ],
@@ -1546,7 +1200,7 @@
       },
       "facts": [
         {
-          "text": "All the gold ever mined would fit in a cube about 22 metres on a side — a single suburban house, filled solid.",
+          "text": "All the gold ever mined would fit in a cube about 22 metres on a side: a single suburban house, filled solid.",
           "source_id": "wgc2024"
         },
         {
@@ -1573,7 +1227,17 @@
           "roughness": 0.22
         },
         "seed": 19
-      }
+      },
+      "pros": [
+        "Never tarnishes or corrodes",
+        "Beaten thinner than any other metal",
+        "Almost all of it gets reused"
+      ],
+      "cons": [
+        "Extremely expensive",
+        "Too soft to be useful pure",
+        "Mining it tears up a lot of ground for very little metal"
+      ]
     },
     {
       "id": "silver",
@@ -1632,7 +1296,7 @@
       },
       "facts": [
         {
-          "text": "Silver conducts heat and electricity better than any other element — copper only wins on price.",
+          "text": "Silver conducts heat and electricity better than any other element, copper only wins on price.",
           "source_id": "crc-handbook"
         },
         {
@@ -1719,7 +1383,7 @@
       },
       "facts": [
         {
-          "text": "Lithium is the least dense solid element — it floats on oil, let alone water.",
+          "text": "Lithium is the least dense solid element, it floats on oil, let alone water.",
           "source_id": "crc-handbook"
         },
         {
@@ -1736,13 +1400,22 @@
       },
       "specimen": {
         "recipe": "metal",
-        "shape": "nugget",
+        "shape": "ingot",
         "color": "#c9ccc8",
         "params": {
           "roughness": 0.6
         },
         "seed": 21
-      }
+      },
+      "pros": [
+        "Stores more energy per kilogram than any rival",
+        "Lightest solid element there is"
+      ],
+      "cons": [
+        "Extracting it drains water from dry places",
+        "Hard to recycle economically",
+        "Catches fire if damaged"
+      ]
     },
     {
       "id": "iron-ore",
@@ -1789,13 +1462,14 @@
         }
       },
       "discovered": {
-        "year": null,
-        "era": "Banded iron formations laid down 2.5 billion years ago",
-        "source_id": "wikidata"
+        "year": -1200,
+        "era": "Smelted at the start of the Iron Age, from rock laid down 2.5 billion years earlier",
+        "source_id": "wikidata",
+        "approx": true
       },
       "facts": [
         {
-          "text": "Most iron ore was deposited when the first photosynthesising microbes rusted the oceans — an atmospheric catastrophe we now mine.",
+          "text": "Most iron ore was deposited when the first photosynthesising microbes rusted the oceans, an atmospheric catastrophe we now mine.",
           "source_id": "wikidata"
         },
         {
@@ -1818,7 +1492,8 @@
           "roughness": 0.8,
           "metalness": 0.25
         },
-        "seed": 22
+        "seed": 22,
+        "shape": "nugget"
       },
       "scale": [
         {
@@ -1889,7 +1564,8 @@
         "params": {
           "roughness": 0.95
         },
-        "seed": 23
+        "seed": 23,
+        "shape": "nugget"
       }
     },
     {
@@ -1934,13 +1610,14 @@
         }
       },
       "discovered": {
-        "year": null,
-        "era": "Quarried since the Pyramids; formed from marine shells over hundreds of millions of years",
-        "source_id": "wikidata"
+        "year": -2600,
+        "era": "Quarried for the pyramids",
+        "source_id": "wikidata",
+        "approx": true
       },
       "facts": [
         {
-          "text": "Limestone is mostly the compressed bodies of sea creatures — the White Cliffs of Dover are a graveyard of plankton.",
+          "text": "Limestone is mostly the compressed bodies of sea creatures, the White Cliffs of Dover are a graveyard of plankton.",
           "source_id": "wikidata"
         },
         {
@@ -1963,7 +1640,8 @@
         "params": {
           "roughness": 0.9
         },
-        "seed": 24
+        "seed": 24,
+        "shape": "block"
       }
     },
     {
@@ -2008,9 +1686,10 @@
         }
       },
       "discovered": {
-        "year": null,
-        "era": "Mined and traded since the Neolithic",
-        "source_id": "wikidata"
+        "year": -6000,
+        "era": "Mined and traded across the Neolithic world",
+        "source_id": "wikidata",
+        "approx": true
       },
       "facts": [
         {
@@ -2035,7 +1714,8 @@
         "params": {
           "translucency": 0.45
         },
-        "seed": 25
+        "seed": 25,
+        "shape": "cube"
       }
     },
     {
@@ -2079,9 +1759,10 @@
         }
       },
       "discovered": {
-        "year": null,
-        "era": "Used as plaster at Çatalhöyük, ~7000 BCE",
-        "source_id": "wikidata"
+        "year": -7000,
+        "era": "Plastered onto the walls of Catalhoyuk",
+        "source_id": "wikidata",
+        "approx": true
       },
       "facts": [
         {
@@ -2108,7 +1789,8 @@
         "params": {
           "translucency": 0.3
         },
-        "seed": 26
+        "seed": 26,
+        "shape": "prism"
       }
     },
     {
@@ -2159,13 +1841,14 @@
         }
       },
       "discovered": {
-        "year": null,
-        "era": "Known to antiquity; named as an element by Lavoisier, 1777",
-        "source_id": "wikidata"
+        "year": -2000,
+        "era": "Known to antiquity as brimstone",
+        "source_id": "wikidata",
+        "approx": true
       },
       "facts": [
         {
-          "text": "Almost no sulfur is mined any more — it is stripped out of fossil fuels to stop acid rain, then sold.",
+          "text": "Almost no sulfur is mined any more, it is stripped out of fossil fuels to stop acid rain, then sold.",
           "source_id": "usgs-mcs2024"
         },
         {
@@ -2190,7 +1873,8 @@
         "params": {
           "translucency": 0.2
         },
-        "seed": 27
+        "seed": 27,
+        "shape": "cluster"
       }
     },
     {
@@ -2245,9 +1929,7 @@
       ],
       "relations": {
         "madeFrom": [],
-        "uses": [
-          "phosphorus"
-        ],
+        "uses": [],
         "recycledInto": []
       },
       "specimen": {
@@ -2256,7 +1938,8 @@
         "params": {
           "roughness": 0.92
         },
-        "seed": 28
+        "seed": 28,
+        "shape": "gravel"
       }
     },
     {
@@ -2305,9 +1988,10 @@
         }
       },
       "discovered": {
-        "year": null,
-        "era": "The ground itself",
-        "source_id": "wikidata"
+        "year": -7000,
+        "era": "Mixed into the first mud mortars",
+        "source_id": "wikidata",
+        "approx": true
       },
       "facts": [
         {
@@ -2315,7 +1999,7 @@
           "source_id": "unep-sand2022"
         },
         {
-          "text": "Desert sand is useless for concrete — wind-rounded grains will not lock together — which is why Dubai imports sand.",
+          "text": "Desert sand is useless for concrete, wind-rounded grains will not lock together, which is why Dubai imports sand.",
           "source_id": "unep-sand2022"
         },
         {
@@ -2338,13 +2022,23 @@
         "params": {
           "roughness": 1.0
         },
-        "seed": 29
+        "seed": 29,
+        "shape": "gravel"
       },
       "scale": [
         {
           "quantity": "annualProduction",
           "against": "great-pyramid"
         }
+      ],
+      "pros": [
+        "The cheapest bulk material there is",
+        "Needs almost no processing"
+      ],
+      "cons": [
+        "Dredging it wrecks rivers and coasts",
+        "Desert sand is useless for concrete",
+        "Barely regulated anywhere"
       ]
     },
     {
@@ -2390,7 +2084,7 @@
       },
       "facts": [
         {
-          "text": "Cement production is about 8% of global CO2 emissions — more than aviation and shipping together.",
+          "text": "Cement production is about 8% of global CO2 emissions, more than aviation and shipping together.",
           "source_id": "gcca2024"
         },
         {
@@ -2415,8 +2109,17 @@
         "params": {
           "roughness": 0.98
         },
-        "seed": 30
-      }
+        "seed": 30,
+        "shape": "powder"
+      },
+      "pros": [
+        "Turns loose rock into solid stone",
+        "Cheap and available almost everywhere"
+      ],
+      "cons": [
+        "About 8% of all carbon dioxide humans emit",
+        "Half those emissions come from the chemistry itself, not the fuel"
+      ]
     },
     {
       "id": "concrete",
@@ -2463,7 +2166,7 @@
           "value": 3000000.0,
           "unit": "Pa",
           "source_id": "matweb",
-          "note": "about a tenth of its compressive strength — hence rebar"
+          "note": "about a tenth of its compressive strength, hence rebar"
         },
         "thermalConductivity": {
           "value": 1.7,
@@ -2478,7 +2181,7 @@
       },
       "facts": [
         {
-          "text": "There is more concrete on Earth than there are trees, animals and people put together — by mass it outweighs all living things.",
+          "text": "There is more concrete on Earth than there are trees, animals and people put together, by mass it outweighs all living things.",
           "source_id": "elhacham2020"
         },
         {
@@ -2507,7 +2210,8 @@
         "params": {
           "roughness": 0.95
         },
-        "seed": 31
+        "seed": 31,
+        "shape": "block"
       },
       "scale": [
         {
@@ -2518,6 +2222,16 @@
           "quantity": "annualProduction",
           "against": "great-pyramid"
         }
+      ],
+      "pros": [
+        "Enormously strong when squashed",
+        "Cheap, and you can pour it into any shape",
+        "Does not burn, rot or rust"
+      ],
+      "cons": [
+        "Cracks easily when pulled or bent",
+        "Making the cement in it heats the planet",
+        "Very heavy to move"
       ]
     },
     {
@@ -2596,7 +2310,15 @@
           "roughness": 0.85
         },
         "seed": 32
-      }
+      },
+      "pros": [
+        "Lasts for thousands of years",
+        "Fireproof, and one hand can lift it"
+      ],
+      "cons": [
+        "Heavy and slow to lay",
+        "Firing the clay takes a lot of fuel"
+      ]
     },
     {
       "id": "glass",
@@ -2677,8 +2399,19 @@
       "specimen": {
         "recipe": "glass",
         "color": "#e6f0ee",
-        "seed": 33
-      }
+        "seed": 33,
+        "shape": "pane"
+      },
+      "pros": [
+        "Lets light through and keeps weather out",
+        "Recycled forever with no loss",
+        "Nothing sticks to it or leaks through it"
+      ],
+      "cons": [
+        "Shatters",
+        "Heavy, and hot to make",
+        "A poor insulator on its own"
+      ]
     },
     {
       "id": "ceramic",
@@ -2735,7 +2468,7 @@
       },
       "facts": [
         {
-          "text": "The oldest fired ceramic objects are not pots but figurines, made 26,000 years ago — art preceded tableware by fifteen millennia.",
+          "text": "The oldest fired ceramic objects are not pots but figurines, made 26,000 years ago, art preceded tableware by fifteen millennia.",
           "source_id": "wikidata"
         },
         {
@@ -2753,8 +2486,18 @@
       "specimen": {
         "recipe": "ceramic",
         "color": "#e6e1d7",
-        "seed": 34
-      }
+        "seed": 34,
+        "shape": "plate"
+      },
+      "pros": [
+        "Survives heat that melts metal",
+        "Chemically inert and very hard"
+      ],
+      "cons": [
+        "Brittle",
+        "Hard to machine",
+        "Difficult to recycle"
+      ]
     },
     {
       "id": "coal",
@@ -2799,9 +2542,10 @@
         }
       },
       "discovered": {
-        "year": null,
-        "era": "Burned in Bronze Age China and Roman Britain; industrialised from 1700s",
-        "source_id": "wikidata"
+        "year": -1000,
+        "era": "Burned in Bronze Age China, then Roman Britain",
+        "source_id": "wikidata",
+        "approx": true
       },
       "facts": [
         {
@@ -2809,7 +2553,7 @@
           "source_id": "wikidata"
         },
         {
-          "text": "Coal use hit an all-time record in 2023 — the decline everyone forecast has not started yet.",
+          "text": "Coal use hit an all-time record in 2023, the decline everyone forecast has not started yet.",
           "source_id": "iea-coal2024"
         }
       ],
@@ -2835,6 +2579,14 @@
           "quantity": "annualProduction",
           "against": "great-pyramid"
         }
+      ],
+      "pros": [
+        "Dense, cheap energy that needs no refining",
+        "Turns iron ore into iron"
+      ],
+      "cons": [
+        "The single largest source of carbon dioxide",
+        "Mining and burning it both kill people"
       ]
     },
     {
@@ -2884,7 +2636,7 @@
       },
       "facts": [
         {
-          "text": "Only about 4% of a barrel becomes plastic — but that 4% is where almost every synthetic material in your house comes from.",
+          "text": "Only about 4% of a barrel becomes plastic, but that 4% is where almost every synthetic material in your house comes from.",
           "source_id": "plasticseurope2024"
         },
         {
@@ -2905,8 +2657,18 @@
       "specimen": {
         "recipe": "liquid",
         "color": "#14100c",
-        "seed": 36
-      }
+        "seed": 36,
+        "shape": "droplet"
+      },
+      "pros": [
+        "Packs enormous energy into a liquid you can pump",
+        "The feedstock for nearly every synthetic material"
+      ],
+      "cons": [
+        "Burning it is the main driver of warming",
+        "Spills are catastrophic",
+        "Finite"
+      ]
     },
     {
       "id": "natural-gas",
@@ -2956,7 +2718,7 @@
       },
       "facts": [
         {
-          "text": "Nearly all industrial hydrogen — and therefore nearly all synthetic fertiliser — is made by tearing apart natural gas.",
+          "text": "Nearly all industrial hydrogen, and therefore nearly all synthetic fertiliser, is made by tearing apart natural gas.",
           "source_id": "ei-review2024"
         },
         {
@@ -2975,7 +2737,8 @@
       "specimen": {
         "recipe": "gas",
         "color": "#d8e2e6",
-        "seed": 37
+        "seed": 37,
+        "shape": "bubbles"
       }
     },
     {
@@ -3022,9 +2785,10 @@
         }
       },
       "discovered": {
-        "year": null,
-        "era": "Used to waterproof Mesopotamian boats and mummies",
-        "source_id": "wikidata"
+        "year": -4000,
+        "era": "Waterproofing Mesopotamian boats and sealing bricks",
+        "source_id": "wikidata",
+        "approx": true
       },
       "facts": [
         {
@@ -3032,7 +2796,7 @@
           "source_id": "wikidata"
         },
         {
-          "text": "Asphalt pavement is the most recycled material in the world by weight in several countries — old road is milled straight back into new road.",
+          "text": "Asphalt pavement is the most recycled material in the world by weight in several countries, old road is milled straight back into new road.",
           "source_id": "irp2024"
         }
       ],
@@ -3051,8 +2815,17 @@
         "params": {
           "roughness": 0.65
         },
-        "seed": 38
-      }
+        "seed": 38,
+        "shape": "slab"
+      },
+      "pros": [
+        "Waterproof and self-healing under traffic",
+        "Milled up and relaid as new road"
+      ],
+      "cons": [
+        "Softens in heat and cracks in cold",
+        "A fossil product"
+      ]
     },
     {
       "id": "roundwood",
@@ -3099,9 +2872,10 @@
         }
       },
       "discovered": {
-        "year": null,
-        "era": "Prehistoric — the first structural material",
-        "source_id": "wikidata"
+        "year": -400000,
+        "era": "Wooden tools and spears, long before anything else was made",
+        "source_id": "wikidata",
+        "approx": true
       },
       "facts": [
         {
@@ -3129,13 +2903,24 @@
       "specimen": {
         "recipe": "wood",
         "color": "#c39a63",
-        "seed": 39
+        "seed": 39,
+        "shape": "log"
       },
       "scale": [
         {
           "quantity": "annualProduction",
           "against": "great-pyramid"
         }
+      ],
+      "pros": [
+        "Grows back, and stores carbon while it does",
+        "Strong for its weight",
+        "Warm, quiet and easy to cut"
+      ],
+      "cons": [
+        "Rots, burns and feeds insects",
+        "Swells and shrinks with damp",
+        "Every plank is slightly different"
       ]
     },
     {
@@ -3204,8 +2989,17 @@
       "specimen": {
         "recipe": "paper",
         "color": "#efece2",
-        "seed": 40
-      }
+        "seed": 40,
+        "shape": "stack"
+      },
+      "pros": [
+        "Cheap, printable and compostable",
+        "Actually recycled, at high rates"
+      ],
+      "cons": [
+        "Fibres wear out after about five trips",
+        "Pulping uses a lot of water and energy"
+      ]
     },
     {
       "id": "cereals",
@@ -3245,7 +3039,7 @@
       },
       "facts": [
         {
-          "text": "Three grasses — wheat, rice and maize — supply about half of all calories eaten by humans.",
+          "text": "Three grasses, wheat, rice and maize, supply about half of all calories eaten by humans.",
           "source_id": "faostat"
         },
         {
@@ -3263,7 +3057,8 @@
       "specimen": {
         "recipe": "fibre",
         "color": "#d9c48a",
-        "seed": 41
+        "seed": 41,
+        "shape": "grain"
       }
     },
     {
@@ -3313,7 +3108,7 @@
       },
       "facts": [
         {
-          "text": "A single cotton fibre is stronger than steel of the same weight when wet — cotton gains strength as it soaks.",
+          "text": "A single cotton fibre is stronger than steel of the same weight when wet, cotton gains strength as it soaks.",
           "source_id": "matweb"
         },
         {
@@ -3331,8 +3126,19 @@
       "specimen": {
         "recipe": "fibre",
         "color": "#f4f1ea",
-        "seed": 42
-      }
+        "seed": 42,
+        "shape": "tuft"
+      },
+      "pros": [
+        "Soft, breathable and absorbent",
+        "Biodegrades",
+        "Gets stronger when wet"
+      ],
+      "cons": [
+        "Drinks about 10,000 litres of water per kilogram",
+        "Sprayed heavily unless grown organically",
+        "Creases and shrinks"
+      ]
     },
     {
       "id": "wool",
@@ -3383,7 +3189,7 @@
           "source_id": "matweb"
         },
         {
-          "text": "It is naturally flame-resistant — it chars and self-extinguishes rather than melting.",
+          "text": "It is naturally flame-resistant, it chars and self-extinguishes rather than melting.",
           "source_id": "matweb"
         }
       ],
@@ -3400,8 +3206,19 @@
         "params": {
           "fuzz": 1.0
         },
-        "seed": 43
-      }
+        "seed": 43,
+        "shape": "tuft"
+      },
+      "pros": [
+        "Warm even when damp",
+        "Naturally hard to set alight",
+        "Grows back every year"
+      ],
+      "cons": [
+        "Sheep belch a lot of methane",
+        "Shrinks and felts if washed hot",
+        "Itchy for some people"
+      ]
     },
     {
       "id": "natural-rubber",
@@ -3444,7 +3261,7 @@
       },
       "discovered": {
         "year": 1839,
-        "era": "Mesoamerican rubber ballgames by 1600 BCE; Goodyear vulcanises it in 1839",
+        "era": "Goodyear vulcanises it; Mesoamerican rubber ballgames by 1600 BCE",
         "source_id": "wikidata"
       },
       "facts": [
@@ -3472,14 +3289,24 @@
           "roughness": 0.85
         },
         "seed": 44
-      }
+      },
+      "pros": [
+        "Stretches and springs back better than any synthetic",
+        "Builds up less heat, so tyres last"
+      ],
+      "cons": [
+        "Only grows in the wet tropics",
+        "Perishes in sun, ozone and heat",
+        "Some people are allergic to the latex"
+      ]
     },
     {
       "id": "plastics",
-      "name": "Plastics (all)",
+      "name": "Plastics",
       "aka": [
         "polymers",
-        "resin"
+        "resin",
+        "all plastics"
       ],
       "class": "polymer",
       "formula": "various",
@@ -3552,13 +3379,24 @@
       "specimen": {
         "recipe": "polymer",
         "color": "#e8e9e4",
-        "seed": 45
+        "seed": 45,
+        "shape": "pellet"
       },
       "scale": [
         {
           "quantity": "anthropogenicStock",
           "against": "great-pyramid"
         }
+      ],
+      "pros": [
+        "Light, cheap and waterproof",
+        "Can be moulded into literally any shape",
+        "Tough for how little it weighs"
+      ],
+      "cons": [
+        "Almost none of it is actually recycled",
+        "Made from oil and gas",
+        "Breaks into fragments that never leave"
       ]
     },
     {
@@ -3636,7 +3474,8 @@
       "specimen": {
         "recipe": "polymer",
         "color": "#eef0ec",
-        "seed": 46
+        "seed": 46,
+        "shape": "pellet"
       }
     },
     {
@@ -3685,7 +3524,7 @@
       },
       "discovered": {
         "year": 1954,
-        "era": "Natta, using Ziegler catalysts — a Nobel followed",
+        "era": "Natta, using Ziegler catalysts, a Nobel followed",
         "source_id": "wikidata"
       },
       "facts": [
@@ -3694,7 +3533,7 @@
           "source_id": "matweb"
         },
         {
-          "text": "It floats — one of the few common plastics less dense than water, which is how recycling plants sort it.",
+          "text": "It floats, one of the few common plastics less dense than water, which is how recycling plants sort it.",
           "source_id": "matweb"
         }
       ],
@@ -3710,7 +3549,8 @@
       "specimen": {
         "recipe": "polymer",
         "color": "#e4e8e6",
-        "seed": 47
+        "seed": 47,
+        "shape": "pellet"
       }
     },
     {
@@ -3781,7 +3621,8 @@
       "specimen": {
         "recipe": "polymer",
         "color": "#dfe3e0",
-        "seed": 48
+        "seed": 48,
+        "shape": "pellet"
       }
     },
     {
@@ -3836,7 +3677,7 @@
       },
       "facts": [
         {
-          "text": "PET is the only plastic with a genuine bottle-to-bottle recycling loop at scale — and even that mostly ends up as fleece.",
+          "text": "PET is the only plastic with a genuine bottle-to-bottle recycling loop at scale, and even that mostly ends up as fleece.",
           "source_id": "geyer2017"
         },
         {
@@ -3859,8 +3700,17 @@
         "params": {
           "translucency": 0.6
         },
-        "seed": 49
-      }
+        "seed": 49,
+        "shape": "pellet"
+      },
+      "pros": [
+        "The one plastic with a real bottle-to-bottle loop",
+        "Clear, light and shatterproof"
+      ],
+      "cons": [
+        "Most of it still becomes fleece, not bottles",
+        "Made from oil"
+      ]
     },
     {
       "id": "synthetic-rubber",
@@ -3911,7 +3761,7 @@
           "source_id": "wikidata"
         },
         {
-          "text": "A car tyre is a composite of a dozen rubbers, steel cord and textile — which is exactly why tyres are so hard to recycle.",
+          "text": "A car tyre is a composite of a dozen rubbers, steel cord and textile, which is exactly why tyres are so hard to recycle.",
           "source_id": "matweb"
         }
       ],
@@ -3977,7 +3827,7 @@
       },
       "discovered": {
         "year": 1564,
-        "era": "Borrowdale deposit, England — the first pencils",
+        "era": "Borrowdale deposit, England, the first pencils",
         "source_id": "wikidata"
       },
       "facts": [
@@ -3988,12 +3838,14 @@
         {
           "text": "The anode of every lithium-ion battery is graphite, so there is more of it in an EV than there is lithium.",
           "source_id": "usgs-mcs2024"
+        },
+        {
+          "text": "Graphite and diamond are the same element; the difference is entirely how the atoms are stacked.",
+          "source_id": "crc-handbook"
         }
       ],
       "relations": {
-        "madeFrom": [
-          "carbon"
-        ],
+        "madeFrom": [],
         "uses": [
           "graphene"
         ],
@@ -4007,8 +3859,17 @@
           "roughness": 0.35,
           "translucency": 0.0
         },
-        "seed": 51
-      }
+        "seed": 51,
+        "shape": "flake"
+      },
+      "pros": [
+        "Slippery and heat-proof at once",
+        "The anode in every lithium battery"
+      ],
+      "cons": [
+        "Mining and shaping it is dusty work",
+        "Supply is concentrated in very few countries"
+      ]
     },
     {
       "id": "carbon-fiber",
@@ -4058,7 +3919,7 @@
       },
       "facts": [
         {
-          "text": "A single filament is about 6 micrometres across — roughly a tenth the width of a human hair.",
+          "text": "A single filament is about 6 micrometres across, roughly a tenth the width of a human hair.",
           "source_id": "matweb"
         },
         {
@@ -4072,7 +3933,6 @@
       ],
       "relations": {
         "madeFrom": [
-          "carbon",
           "crude-oil"
         ],
         "uses": [],
@@ -4081,8 +3941,18 @@
       "specimen": {
         "recipe": "carbon",
         "color": "#232326",
-        "seed": 52
-      }
+        "seed": 52,
+        "shape": "sheet"
+      },
+      "pros": [
+        "Stiffer and stronger than steel at a third the weight",
+        "Does not fatigue or rust"
+      ],
+      "cons": [
+        "Very expensive",
+        "Effectively impossible to recycle",
+        "Shatters rather than dents on impact"
+      ]
     },
     {
       "id": "graphene",
@@ -4132,7 +4002,7 @@
       },
       "facts": [
         {
-          "text": "A sheet of graphene as thin as cling film could support an elephant standing on a pencil point — if you could make one that big without a single flaw.",
+          "text": "A sheet of graphene as thin as cling film could support an elephant standing on a pencil point, if you could make one that big without a single flaw.",
           "source_id": "matweb"
         },
         {
@@ -4159,7 +4029,3636 @@
           "iridescence": 0.7
         },
         "seed": 53
+      },
+      "pros": [
+        "The strongest material ever measured",
+        "Conducts heat better than anything known",
+        "Transparent and flexible at once"
+      ],
+      "cons": [
+        "Nobody can make large flawless sheets",
+        "Still measured in tonnes, not megatonnes"
+      ]
+    },
+    {
+      "id": "manganese",
+      "name": "Manganese",
+      "aka": [],
+      "class": "element",
+      "ids": {
+        "usgs": "manganese"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 20000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 7210,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 1519,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1774,
+        "era": "Isolated by Gahn",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Steel without manganese is unworkably brittle; every tonne of it carries a few kilograms of the stuff.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {
+        "uses": [
+          "steel"
+        ]
+      },
+      "specimen": {
+        "recipe": "metal",
+        "color": "#9b9ea3",
+        "seed": 101,
+        "shape": "nugget"
+      },
+      "formula": "Mn"
+    },
+    {
+      "id": "chromium",
+      "name": "Chromium",
+      "aka": [
+        "chromite"
+      ],
+      "class": "element",
+      "ids": {
+        "usgs": "chromium"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 41000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction",
+          "note": "chromite ore, gross weight"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 7190,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 2180,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1797,
+        "era": "Isolated by Vauquelin",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Chromium is what makes stainless steel stainless: it grows an invisible oxide skin that heals itself.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {
+        "uses": [
+          "steel"
+        ]
+      },
+      "specimen": {
+        "recipe": "metal",
+        "color": "#b9c0c6",
+        "seed": 102,
+        "shape": "nugget"
+      },
+      "formula": "Cr"
+    },
+    {
+      "id": "cobalt",
+      "name": "Cobalt",
+      "aka": [],
+      "class": "element",
+      "ids": {
+        "usgs": "cobalt"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 230000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        },
+        "reserves": {
+          "value": 11000000.0,
+          "unit": "t",
+          "year": 2023,
+          "source_id": "usgs-mcs2024"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 8900,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 1768,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1735,
+        "era": "Isolated by Brandt",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Most cobalt is a by-product of copper and nickel mining, and about 70% of it comes from one country.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {
+        "recycledInto": [
+          "cobalt"
+        ]
+      },
+      "specimen": {
+        "recipe": "metal",
+        "color": "#8e9bb0",
+        "seed": 103,
+        "shape": "nugget"
+      },
+      "formula": "Co"
+    },
+    {
+      "id": "molybdenum",
+      "name": "Molybdenum",
+      "aka": [],
+      "class": "element",
+      "ids": {
+        "usgs": "molybdenum"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 260000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 10280,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 2896,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1781,
+        "era": "Isolated by Hjelm",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Adding a little molybdenum lets steel keep its strength red-hot, which is why jet engines and pipelines use it.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {
+        "uses": [
+          "steel"
+        ]
+      },
+      "specimen": {
+        "recipe": "metal",
+        "color": "#a8adb3",
+        "seed": 104,
+        "shape": "rod"
+      },
+      "formula": "Mo"
+    },
+    {
+      "id": "tungsten",
+      "name": "Tungsten",
+      "aka": [
+        "wolfram"
+      ],
+      "class": "element",
+      "ids": {
+        "usgs": "tungsten"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 81000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 19250,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 3695,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1783,
+        "era": "Isolated by the Elhuyar brothers",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Tungsten melts at 3,422 °C, higher than any other metal, it was the filament in every light bulb for a century.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "metal",
+        "color": "#93989e",
+        "seed": 105,
+        "shape": "rod"
+      },
+      "formula": "W"
+    },
+    {
+      "id": "vanadium",
+      "name": "Vanadium",
+      "aka": [],
+      "class": "element",
+      "ids": {
+        "usgs": "vanadium"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 100000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 6110,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 2183,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1830,
+        "era": "Rediscovered by Sefström",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "A few kilograms of vanadium per tonne doubles the strength of steel; the Ford Model T was built of it.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {
+        "uses": [
+          "steel"
+        ]
+      },
+      "specimen": {
+        "recipe": "metal",
+        "color": "#9fa6ae",
+        "seed": 106,
+        "shape": "nugget"
+      },
+      "formula": "V"
+    },
+    {
+      "id": "antimony",
+      "name": "Antimony",
+      "aka": [],
+      "class": "element",
+      "ids": {
+        "usgs": "antimony"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 83000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 6697,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 904,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": -3100,
+        "era": "Ground into kohl and painted around Egyptian eyes",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "Antimony has been painted around eyes since ancient Egypt; today most of it is a flame retardant.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "crystal",
+        "color": "#b9bcc0",
+        "seed": 107,
+        "shape": "cluster"
+      },
+      "formula": "Sb"
+    },
+    {
+      "id": "bismuth",
+      "name": "Bismuth",
+      "aka": [],
+      "class": "element",
+      "ids": {
+        "usgs": "bismuth"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 20000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 9780,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 545,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1753,
+        "era": "Finally told apart from lead",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Bismuth grows staircase crystals in rainbow colours, and it is the heaviest element that is not meaningfully radioactive.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "crystal",
+        "color": "#b9a8c6",
+        "seed": 108,
+        "shape": "cluster"
+      },
+      "formula": "Bi"
+    },
+    {
+      "id": "cadmium",
+      "name": "Cadmium",
+      "aka": [],
+      "class": "element",
+      "ids": {
+        "usgs": "cadmium"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 24000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "manufacture"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 8650,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 594,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1817,
+        "era": "Isolated by Stromeyer",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Cadmium is entirely a by-product of zinc smelting, nobody mines it on purpose.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {
+        "recycledInto": [
+          "cadmium"
+        ]
+      },
+      "specimen": {
+        "recipe": "metal",
+        "color": "#b6b3ad",
+        "seed": 109,
+        "shape": "ingot"
+      },
+      "formula": "Cd"
+    },
+    {
+      "id": "mercury",
+      "name": "Mercury",
+      "aka": [
+        "quicksilver"
+      ],
+      "class": "element",
+      "ids": {
+        "usgs": "mercury"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 2000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 13534,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 234,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": -1500,
+        "era": "Found sealed in Egyptian tombs",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "The only metal that is liquid at room temperature, and the only one banned by a treaty named after a city.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "liquid",
+        "color": "#c9ccd0",
+        "seed": 110,
+        "shape": "droplet"
+      },
+      "formula": "Hg"
+    },
+    {
+      "id": "rare-earths",
+      "name": "Rare Earths",
+      "aka": [
+        "lanthanides",
+        "REO"
+      ],
+      "class": "element",
+      "ids": {
+        "usgs": "rare-earths"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 350000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        },
+        "reserves": {
+          "value": 110000000.0,
+          "unit": "t",
+          "year": 2023,
+          "source_id": "usgs-mcs2024"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 7000,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1794,
+        "era": "The first of the seventeen; the last was not separated until 1945",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "They are not actually rare, they are just never concentrated, so separating the seventeen of them takes hundreds of chemical steps.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "stone",
+        "color": "#9d9a8c",
+        "seed": 111,
+        "shape": "powder"
+      },
+      "formula": "La–Lu, Sc, Y"
+    },
+    {
+      "id": "uranium",
+      "name": "Uranium",
+      "aka": [],
+      "class": "element",
+      "ids": {
+        "usgs": "uranium"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 49000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wna2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 19050,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 1405,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1789,
+        "era": "Isolated by Klaproth",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "A single kilogram of uranium holds as much energy as about 3,000 tonnes of coal.",
+          "source_id": "wna2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "metal",
+        "color": "#8a9678",
+        "seed": 112,
+        "shape": "ingot"
+      },
+      "formula": "U",
+      "pros": [
+        "A kilogram holds the energy of 3,000 tonnes of coal",
+        "Generates power without carbon dioxide"
+      ],
+      "cons": [
+        "The waste stays dangerous for a very long time",
+        "The same material can be made into weapons"
+      ]
+    },
+    {
+      "id": "platinum",
+      "name": "Platinum",
+      "aka": [],
+      "class": "element",
+      "ids": {
+        "usgs": "platinum-group-metals"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 180.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 21450,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 2041,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1748,
+        "era": "Named, though pre-Columbian Ecuador was working it long before",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Spanish colonists threw platinum away as 'little silver' that would not melt, their furnaces could not reach 1,768 °C.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {
+        "recycledInto": [
+          "platinum"
+        ]
+      },
+      "specimen": {
+        "recipe": "metal",
+        "color": "#d5d7d9",
+        "seed": 113,
+        "shape": "nugget"
+      },
+      "formula": "Pt"
+    },
+    {
+      "id": "palladium",
+      "name": "Palladium",
+      "aka": [],
+      "class": "element",
+      "ids": {
+        "usgs": "platinum-group-metals"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 210.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 12023,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 1828,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1802,
+        "era": "Isolated by Wollaston",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Palladium can soak up 900 times its own volume in hydrogen gas, like a metal sponge.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {
+        "recycledInto": [
+          "palladium"
+        ]
+      },
+      "specimen": {
+        "recipe": "metal",
+        "color": "#cfd2d5",
+        "seed": 114,
+        "shape": "nugget"
+      },
+      "formula": "Pd"
+    },
+    {
+      "id": "tantalum",
+      "name": "Tantalum",
+      "aka": [
+        "coltan"
+      ],
+      "class": "element",
+      "ids": {
+        "usgs": "tantalum"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 2100.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 16650,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 3290,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1802,
+        "era": "Isolated by Ekeberg",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Almost every phone holds a speck of tantalum: it makes the smallest capacitors that store the most charge.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "metal",
+        "color": "#9ba0a6",
+        "seed": 115,
+        "shape": "ingot"
+      },
+      "formula": "Ta"
+    },
+    {
+      "id": "niobium",
+      "name": "Niobium",
+      "aka": [
+        "columbium"
+      ],
+      "class": "element",
+      "ids": {
+        "usgs": "niobium"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 83000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 8570,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 2750,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1801,
+        "era": "Isolated by Hatchett",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "One country, Brazil, supplies about 90% of the world's niobium.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {
+        "uses": [
+          "steel"
+        ]
+      },
+      "specimen": {
+        "recipe": "metal",
+        "color": "#a5abb2",
+        "seed": 116,
+        "shape": "ingot"
+      },
+      "formula": "Nb"
+    },
+    {
+      "id": "zircon",
+      "name": "Zircon",
+      "aka": [
+        "zirconium"
+      ],
+      "class": "mineral",
+      "ids": {
+        "usgs": "zirconium-and-hafnium"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 1400000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 4650,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1789,
+        "era": "Identified by Klaproth; single grains of it are 4.4 billion years old",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "The oldest known piece of Earth is a zircon crystal from Australia, older than the oceans.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "crystal",
+        "color": "#b07a55",
+        "seed": 117,
+        "shape": "prism"
+      },
+      "formula": "ZrSiO4"
+    },
+    {
+      "id": "gallium",
+      "name": "Gallium",
+      "aka": [],
+      "class": "element",
+      "ids": {
+        "usgs": "gallium"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 750.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "manufacture"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 5910,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 303,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1875,
+        "era": "Isolated by Boisbaudran",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Gallium melts in your hand at 30 °C, a spoon made of it disappears into a hot drink.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "metal",
+        "color": "#c4c8cd",
+        "seed": 118,
+        "shape": "nugget"
+      },
+      "formula": "Ga"
+    },
+    {
+      "id": "indium",
+      "name": "Indium",
+      "aka": [],
+      "class": "element",
+      "ids": {
+        "usgs": "indium"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 900.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "manufacture"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 7310,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 430,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1863,
+        "era": "Discovered by its indigo spectral line",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Every touchscreen is coated in indium tin oxide, a metal film that conducts electricity and lets light through.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "metal",
+        "color": "#c6c9cc",
+        "seed": 119,
+        "shape": "ingot"
+      },
+      "formula": "In"
+    },
+    {
+      "id": "selenium",
+      "name": "Selenium",
+      "aka": [],
+      "class": "element",
+      "ids": {
+        "usgs": "selenium"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 3000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "manufacture"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 4810,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 494,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1817,
+        "era": "Isolated by Berzelius",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Selenium's electrical resistance drops in light, which is how the first photocopiers and light meters worked.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "crystal",
+        "color": "#8d6b52",
+        "seed": 120,
+        "shape": "cluster"
+      },
+      "formula": "Se"
+    },
+    {
+      "id": "lime",
+      "name": "Lime",
+      "aka": [
+        "quicklime",
+        "burnt lime"
+      ],
+      "class": "ceramic",
+      "ids": {
+        "usgs": "lime"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 430000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "manufacture"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 3340,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -4000,
+        "era": "Burned for mortar and plaster",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "Lime is limestone cooked until the carbon dioxide leaves; add water and it sets back into stone.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {
+        "uses": [
+          "steel",
+          "cement"
+        ]
+      },
+      "specimen": {
+        "recipe": "ceramic",
+        "color": "#e4e0d6",
+        "seed": 121,
+        "shape": "powder"
+      },
+      "formula": "CaO"
+    },
+    {
+      "id": "soda-ash",
+      "name": "Soda Ash",
+      "aka": [
+        "sodium carbonate",
+        "trona"
+      ],
+      "class": "mineral",
+      "ids": {
+        "usgs": "soda-ash"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 60000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "manufacture"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 2540,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1791,
+        "era": "Leblanc process; the Solvay process replaced it in 1861",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Soda ash is what lowers the melting point of sand enough to make glass in an ordinary furnace.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {
+        "uses": [
+          "glass"
+        ]
+      },
+      "specimen": {
+        "recipe": "crystal",
+        "color": "#e9e7e1",
+        "seed": 201,
+        "shape": "powder"
+      },
+      "formula": "Na2CO3"
+    },
+    {
+      "id": "potash",
+      "name": "Potash",
+      "aka": [
+        "muriate of potash",
+        "sylvite"
+      ],
+      "class": "mineral",
+      "ids": {
+        "usgs": "potash"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 40000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction",
+          "note": "K2O equivalent"
+        },
+        "reserves": {
+          "value": 3700000000.0,
+          "unit": "t",
+          "year": 2023,
+          "source_id": "usgs-mcs2024"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1990,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -1000,
+        "era": "Leached from wood ash in iron pots, which is where the name comes from",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "Potash is the K in NPK fertiliser, and it is mostly the dried remains of ancient inland seas.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "crystal",
+        "color": "#dcb98a",
+        "seed": 202,
+        "shape": "grain"
+      },
+      "formula": "KCl"
+    },
+    {
+      "id": "barite",
+      "name": "Barite",
+      "aka": [
+        "baryte"
+      ],
+      "class": "mineral",
+      "ids": {
+        "usgs": "barite"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 8500000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 4480,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1600,
+        "era": "Used as a smelting flux",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "Most barite goes down oil wells: it is heavy enough to hold back the pressure of the rock.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "crystal",
+        "color": "#dcd8cc",
+        "seed": 203,
+        "shape": "powder"
+      },
+      "formula": "BaSO4"
+    },
+    {
+      "id": "boron",
+      "name": "Boron",
+      "aka": [
+        "borates",
+        "borax"
+      ],
+      "class": "mineral",
+      "ids": {
+        "usgs": "boron"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 4500000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 2340,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1808,
+        "era": "Element isolated, borax had travelled the Silk Road for centuries",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Borosilicate glass survives a hot oven because boron shrinks how much it expands when heated.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {
+        "uses": [
+          "glass"
+        ]
+      },
+      "specimen": {
+        "recipe": "crystal",
+        "color": "#e3e6e2",
+        "seed": 204,
+        "shape": "powder"
+      },
+      "formula": "B"
+    },
+    {
+      "id": "fluorspar",
+      "name": "Fluorspar",
+      "aka": [
+        "fluorite"
+      ],
+      "class": "mineral",
+      "ids": {
+        "usgs": "fluorspar"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 8600000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 3180,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1530,
+        "era": "Described by Agricola as a flux that makes ore run",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "Fluorspar glows under ultraviolet light, and the word fluorescence is named after it.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "crystal",
+        "color": "#8f78bd",
+        "seed": 205,
+        "shape": "cube"
+      },
+      "formula": "CaF2"
+    },
+    {
+      "id": "kaolin",
+      "name": "Kaolin",
+      "aka": [
+        "china clay"
+      ],
+      "class": "mineral",
+      "ids": {
+        "usgs": "clays"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 45000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 2600,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 600,
+        "era": "Fired into the first true porcelain in China",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "The same white clay that makes porcelain also makes glossy magazine paper glossy.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {
+        "uses": [
+          "ceramic",
+          "paper"
+        ]
+      },
+      "specimen": {
+        "recipe": "stone",
+        "color": "#efece5",
+        "seed": 206,
+        "shape": "powder"
+      },
+      "formula": "Al2Si2O5(OH)4"
+    },
+    {
+      "id": "bentonite",
+      "name": "Bentonite",
+      "aka": [],
+      "class": "mineral",
+      "ids": {
+        "usgs": "clays"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 21000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 2400,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1898,
+        "era": "Named after Fort Benton, Wyoming",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Bentonite swells to many times its dry volume in water, which is why it seals landfills and cat litter alike.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "stone",
+        "color": "#b7a98d",
+        "seed": 207,
+        "shape": "powder"
+      },
+      "formula": "montmorillonite clay"
+    },
+    {
+      "id": "talc",
+      "name": "Talc",
+      "aka": [
+        "soapstone"
+      ],
+      "class": "mineral",
+      "ids": {
+        "usgs": "talc"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 7400000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 2750,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -3000,
+        "era": "Carved as soapstone",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "Talc is the softest mineral there is, it defines 1 on the hardness scale, and your fingernail beats it.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "stone",
+        "color": "#cdd6cc",
+        "seed": 208,
+        "shape": "powder"
+      },
+      "formula": "Mg3Si4O10(OH)2"
+    },
+    {
+      "id": "feldspar",
+      "name": "Feldspar",
+      "aka": [],
+      "class": "mineral",
+      "ids": {
+        "usgs": "feldspar"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 30000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 2560,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1747,
+        "era": "Named; it had been in pottery glazes for millennia",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "About half of the Earth's crust is feldspar, which makes it the most common material on the planet that almost nobody can name.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {
+        "uses": [
+          "glass",
+          "ceramic"
+        ]
+      },
+      "specimen": {
+        "recipe": "crystal",
+        "color": "#ded6c6",
+        "seed": 209,
+        "shape": "cluster"
+      },
+      "formula": "KAlSi3O8 – NaAlSi3O8 – CaAl2Si2O8"
+    },
+    {
+      "id": "silica-sand",
+      "name": "Silica Sand",
+      "aka": [
+        "industrial sand",
+        "quartz sand"
+      ],
+      "class": "mineral",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 350000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "extraction",
+          "derived": true,
+          "note": "industrial-grade silica sand only, separate from construction aggregate; consensus estimate"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 2650,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -3500,
+        "era": "Melted into the first glass in Mesopotamia",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "Glass, silicon chips and fracking all need sand far purer than the stuff on a beach.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "uses": [
+          "glass",
+          "silicon"
+        ]
+      },
+      "specimen": {
+        "recipe": "stone",
+        "color": "#ded3b6",
+        "seed": 210,
+        "shape": "grain"
+      },
+      "formula": "SiO2"
+    },
+    {
+      "id": "mica",
+      "name": "Mica",
+      "aka": [],
+      "class": "mineral",
+      "ids": {
+        "usgs": "mica"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 4000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 2880,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -200,
+        "era": "Split into windows for lanterns and furnaces",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "Mica splits into sheets a fraction of a millimetre thick that are transparent and will not burn.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "crystal",
+        "color": "#b79a63",
+        "seed": 211,
+        "shape": "flake"
+      },
+      "formula": "sheet silicates"
+    },
+    {
+      "id": "magnesite",
+      "name": "Magnesite",
+      "aka": [],
+      "class": "mineral",
+      "ids": {
+        "usgs": "magnesium-compounds"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 29000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 3000,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1808,
+        "era": "Named",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Burnt magnesite lines the inside of steel furnaces, because it does not melt until about 2,800 °C.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {
+        "uses": [
+          "steel",
+          "magnesium"
+        ]
+      },
+      "specimen": {
+        "recipe": "stone",
+        "color": "#d9d5c9",
+        "seed": 212,
+        "shape": "powder"
+      },
+      "formula": "MgCO3"
+    },
+    {
+      "id": "perlite",
+      "name": "Perlite",
+      "aka": [],
+      "class": "mineral",
+      "ids": {
+        "usgs": "perlite"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 4500000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1100,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1940,
+        "era": "Commercialised",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Heat perlite and the water trapped inside pops it like popcorn, to twenty times its volume.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "stone",
+        "color": "#f0f0ee",
+        "seed": 213,
+        "shape": "powder"
+      },
+      "formula": "volcanic glass"
+    },
+    {
+      "id": "diatomite",
+      "name": "Diatomite",
+      "aka": [
+        "diatomaceous earth"
+      ],
+      "class": "mineral",
+      "ids": {
+        "usgs": "diatomite"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 2500000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 2100,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1867,
+        "era": "Nobel used it to make nitroglycerine safe",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Diatomite is the glass skeletons of microscopic algae, piled up over millions of years. Dynamite is nitroglycerine soaked into it.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "stone",
+        "color": "#eceae2",
+        "seed": 214,
+        "shape": "powder"
+      },
+      "formula": "SiO2 (biogenic)"
+    },
+    {
+      "id": "vermiculite",
+      "name": "Vermiculite",
+      "aka": [],
+      "class": "mineral",
+      "ids": {
+        "usgs": "vermiculite"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 640000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1000,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1824,
+        "era": "Named for the worm shapes it makes when heated",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "Heated fast, vermiculite unrolls into worm-shaped strands, the name comes from the Latin for little worm.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "crystal",
+        "color": "#a8853f",
+        "seed": 215,
+        "shape": "powder"
+      },
+      "formula": "hydrated laminar silicate"
+    },
+    {
+      "id": "iodine",
+      "name": "Iodine",
+      "aka": [],
+      "class": "element",
+      "ids": {
+        "usgs": "iodine"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 37000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 4930,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 387,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1811,
+        "era": "Discovered in seaweed ash",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Adding iodine to table salt is one of the cheapest public-health measures ever invented.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "crystal",
+        "color": "#4a3550",
+        "seed": 216,
+        "shape": "cluster"
+      },
+      "formula": "I"
+    },
+    {
+      "id": "bromine",
+      "name": "Bromine",
+      "aka": [],
+      "class": "element",
+      "ids": {
+        "usgs": "bromine"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 600000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "manufacture"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 3100,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 266,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1826,
+        "era": "Isolated by Balard",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Bromine is the only non-metal that is liquid at room temperature, and it is drawn straight out of brine.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "liquid",
+        "color": "#7a2f1c",
+        "seed": 217,
+        "shape": "droplet"
+      },
+      "formula": "Br"
+    },
+    {
+      "id": "helium",
+      "name": "Helium",
+      "aka": [],
+      "class": "element",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 29000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "extraction",
+          "derived": true,
+          "note": "converted from about 160 million cubic metres a year at 0.1786 kg/m3; consensus estimate"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 0.1786,
+          "unit": "kg/m3",
+          "source_id": "crc-handbook"
+        },
+        "meltingPoint": {
+          "value": 1,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1868,
+        "era": "Found in the Sun's spectrum, before anyone found it on Earth",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Helium was discovered on the Sun before it was found on Earth, and once it escapes the atmosphere it is gone for good.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "gas",
+        "color": "#e8f0f4",
+        "seed": 218,
+        "shape": "bubbles"
+      },
+      "formula": "He",
+      "pros": [
+        "The coldest useful coolant there is",
+        "Chemically inert and non-flammable"
+      ],
+      "cons": [
+        "Once it escapes, it leaves the planet for good",
+        "Only found alongside natural gas"
+      ]
+    },
+    {
+      "id": "asbestos",
+      "name": "Asbestos",
+      "aka": [],
+      "class": "mineral",
+      "ids": {
+        "usgs": "asbestos"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 1300000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 2500,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -2500,
+        "era": "Woven into fireproof cloth by the ancients",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "Asbestos is a rock that can be spun into fireproof thread, and the same needle-fine fibres that make it useful make it deadly.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#b9c4bb",
+        "seed": 219,
+        "shape": "tuft"
+      },
+      "formula": "fibrous silicates",
+      "pros": [
+        "Fireproof, and it can be spun into cloth",
+        "Cheap and extremely durable"
+      ],
+      "cons": [
+        "The fibres cause fatal lung disease",
+        "Banned in most of the world",
+        "Expensive and dangerous to remove"
+      ]
+    },
+    {
+      "id": "ammonia",
+      "name": "Ammonia",
+      "aka": [
+        "fixed nitrogen"
+      ],
+      "class": "engineered",
+      "ids": {
+        "usgs": "nitrogen"
+      },
+      "quantities": {
+        "annualProduction": {
+          "value": 150000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "usgs-mcs2024",
+          "kind": "manufacture"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 0.73,
+          "unit": "kg/m3",
+          "source_id": "crc-handbook"
+        },
+        "meltingPoint": {
+          "value": 195,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1909,
+        "era": "Haber–Bosch process",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "About half the nitrogen atoms in your body were pulled out of the air by the Haber–Bosch process. Roughly half the world eats because of it.",
+          "source_id": "usgs-mcs2024"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "natural-gas",
+          "hydrogen"
+        ]
+      },
+      "specimen": {
+        "recipe": "gas",
+        "color": "#dfe8ea",
+        "seed": 220,
+        "shape": "bubbles"
+      },
+      "formula": "NH3",
+      "pros": [
+        "Feeds roughly half the people alive",
+        "Carries hydrogen in liquid form"
+      ],
+      "cons": [
+        "Made from fossil gas",
+        "Toxic to breathe",
+        "Run-off from fertiliser suffocates rivers"
+      ]
+    },
+    {
+      "id": "urea",
+      "name": "Urea",
+      "aka": [],
+      "class": "engineered",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 180000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1320,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 406,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1828,
+        "era": "First organic compound made from inorganic parts",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Urea was the first 'living' molecule made in a lab from dead chemicals, which quietly ended the idea of a life force.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "ammonia"
+        ]
+      },
+      "specimen": {
+        "recipe": "crystal",
+        "color": "#f0eee6",
+        "seed": 221,
+        "shape": "grain"
+      },
+      "formula": "CO(NH2)2"
+    },
+    {
+      "id": "sulfuric-acid",
+      "name": "Sulfuric Acid",
+      "aka": [],
+      "class": "engineered",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 260000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1830,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 283,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 800,
+        "era": "Distilled by alchemists as oil of vitriol",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "A country's sulfuric acid output was once used as a measure of how industrialised it was. Most of it goes into fertiliser.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "sulfur"
+        ]
+      },
+      "specimen": {
+        "recipe": "liquid",
+        "color": "#d9d3ae",
+        "seed": 222,
+        "shape": "droplet"
+      },
+      "formula": "H2SO4"
+    },
+    {
+      "id": "caustic-soda",
+      "name": "Caustic Soda",
+      "aka": [
+        "sodium hydroxide",
+        "lye"
+      ],
+      "class": "engineered",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 83000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 2130,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 596,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1890,
+        "era": "Made by electrolysing brine",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Caustic soda and chlorine come out of the same machine: split salt water and you get one of each, whether you wanted both or not.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "halite"
+        ]
+      },
+      "specimen": {
+        "recipe": "crystal",
+        "color": "#eeefe9",
+        "seed": 223,
+        "shape": "grain"
+      },
+      "formula": "NaOH"
+    },
+    {
+      "id": "chlorine",
+      "name": "Chlorine",
+      "aka": [],
+      "class": "element",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 75000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 3.2,
+          "unit": "kg/m3",
+          "source_id": "crc-handbook"
+        },
+        "meltingPoint": {
+          "value": 172,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1774,
+        "era": "Isolated by Scheele",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Chlorinating drinking water is reckoned to have added decades to average life expectancy.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "halite"
+        ],
+        "uses": [
+          "pvc"
+        ]
+      },
+      "specimen": {
+        "recipe": "gas",
+        "color": "#d8e4c4",
+        "seed": 224,
+        "shape": "bubbles"
+      },
+      "formula": "Cl2"
+    },
+    {
+      "id": "methanol",
+      "name": "Methanol",
+      "aka": [
+        "wood alcohol"
+      ],
+      "class": "engineered",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 110000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 792,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 176,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1661,
+        "era": "Made by distilling wood until the 1920s",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Methanol used to be made by roasting wood, which is why it is still called wood alcohol.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "natural-gas"
+        ]
+      },
+      "specimen": {
+        "recipe": "liquid",
+        "color": "#e9eef0",
+        "seed": 225,
+        "shape": "droplet"
+      },
+      "formula": "CH3OH"
+    },
+    {
+      "id": "ethylene",
+      "name": "Ethylene",
+      "aka": [
+        "ethene"
+      ],
+      "class": "engineered",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 200000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1.18,
+          "unit": "kg/m3",
+          "source_id": "crc-handbook"
+        },
+        "meltingPoint": {
+          "value": 104,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1920,
+        "era": "Cracked out of petroleum",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Ethylene is the most-made organic chemical on Earth, and it is also the gas ripening fruit gives off.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "crude-oil",
+          "natural-gas"
+        ],
+        "uses": [
+          "polyethylene",
+          "pvc"
+        ]
+      },
+      "specimen": {
+        "recipe": "gas",
+        "color": "#e4ebe8",
+        "seed": 226,
+        "shape": "bubbles"
+      },
+      "formula": "C2H4"
+    },
+    {
+      "id": "propylene",
+      "name": "Propylene",
+      "aka": [
+        "propene"
+      ],
+      "class": "engineered",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 130000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1.81,
+          "unit": "kg/m3",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1920,
+        "era": "By-product of petroleum cracking",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Propylene is mostly a leftover of making ethylene, and it becomes the plastic in bottle caps and car bumpers.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "crude-oil"
+        ],
+        "uses": [
+          "polypropylene"
+        ]
+      },
+      "specimen": {
+        "recipe": "gas",
+        "color": "#e6ebe6",
+        "seed": 227,
+        "shape": "bubbles"
+      },
+      "formula": "C3H6"
+    },
+    {
+      "id": "benzene",
+      "name": "Benzene",
+      "aka": [],
+      "class": "engineered",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 55000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 876,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 279,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1825,
+        "era": "Isolated by Faraday",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Kekulé said he worked out benzene's ring shape after dreaming of a snake biting its own tail.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "crude-oil"
+        ]
+      },
+      "specimen": {
+        "recipe": "liquid",
+        "color": "#dfe2e6",
+        "seed": 228,
+        "shape": "droplet"
+      },
+      "formula": "C6H6"
+    },
+    {
+      "id": "polystyrene",
+      "name": "Polystyrene",
+      "aka": [
+        "PS",
+        "styrofoam"
+      ],
+      "class": "polymer",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 15000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "plasticseurope2024",
+          "kind": "manufacture",
+          "note": "subset of the plastics total"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1050,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 513,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        }
+      },
+      "discovered": {
+        "year": 1931,
+        "era": "Made commercially",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Expanded polystyrene is 98% air, which is why a big block of it weighs almost nothing.",
+          "source_id": "plasticseurope2024"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "benzene"
+        ]
+      },
+      "specimen": {
+        "recipe": "polymer",
+        "color": "#eeeeea",
+        "seed": 301,
+        "shape": "pellet"
+      },
+      "formula": "(C8H8)n",
+      "subsetOf": "plastics"
+    },
+    {
+      "id": "polyurethane",
+      "name": "Polyurethane",
+      "aka": [
+        "PU",
+        "foam"
+      ],
+      "class": "polymer",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 22000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "subset of the plastics total; consensus estimate"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1200,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1937,
+        "era": "Invented by Bayer",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "The same chemistry makes mattress foam, skateboard wheels and the varnish on a wooden floor.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "polymer",
+        "color": "#e7e2d8",
+        "seed": 302,
+        "shape": "pellet"
+      },
+      "formula": "carbamate polymer",
+      "subsetOf": "plastics"
+    },
+    {
+      "id": "nylon",
+      "name": "Nylon",
+      "aka": [
+        "polyamide",
+        "PA"
+      ],
+      "class": "polymer",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 8000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "subset of the plastics total; consensus estimate"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1140,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "meltingPoint": {
+          "value": 537,
+          "unit": "K",
+          "source_id": "crc-handbook"
+        },
+        "tensileStrength": {
+          "value": 75000000.0,
+          "unit": "Pa",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1938,
+        "era": "Announced by DuPont",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Nylon stockings sold four million pairs in four days in 1940, then vanished into parachutes for the war.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#e9eae4",
+        "seed": 303,
+        "shape": "skein"
+      },
+      "formula": "polyamide",
+      "subsetOf": "plastics",
+      "pros": [
+        "Tough, elastic and abrasion resistant",
+        "Holds a shape when spun into thread"
+      ],
+      "cons": [
+        "Made from oil",
+        "Sheds microfibres in every wash"
+      ]
+    },
+    {
+      "id": "abs",
+      "name": "ABS",
+      "aka": [
+        "acrylonitrile butadiene styrene"
+      ],
+      "class": "polymer",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 10000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "subset of the plastics total; consensus estimate"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1050,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "tensileStrength": {
+          "value": 40000000.0,
+          "unit": "Pa",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1948,
+        "era": "Developed in the 1940s",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Every Lego brick is ABS, moulded to within two-thousandths of a millimetre so bricks from 1958 still fit today.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "polymer",
+        "color": "#e5e7e3",
+        "seed": 304,
+        "shape": "pellet"
+      },
+      "formula": "(C8H8·C4H6·C3H3N)n",
+      "subsetOf": "plastics"
+    },
+    {
+      "id": "epoxy",
+      "name": "Epoxy Resin",
+      "aka": [],
+      "class": "polymer",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 4000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "subset of the plastics total; consensus estimate"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1200,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "tensileStrength": {
+          "value": 60000000.0,
+          "unit": "Pa",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1946,
+        "era": "Commercialised",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Epoxy is the glue that holds carbon fibre together, without it a wing would just be a bundle of threads.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {
+        "uses": [
+          "carbon-fiber"
+        ]
+      },
+      "specimen": {
+        "recipe": "polymer",
+        "color": "#dfd8c8",
+        "seed": 305,
+        "shape": "slab"
+      },
+      "formula": "thermoset polyether",
+      "subsetOf": "plastics"
+    },
+    {
+      "id": "sugarcane",
+      "name": "Sugarcane",
+      "aka": [],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 1900000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1000,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -8000,
+        "era": "Domesticated in New Guinea",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "Sugarcane is the single largest crop on Earth by weight, and most of it is water and fibre rather than sugar.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#a8b06a",
+        "seed": 306,
+        "shape": "rod"
+      },
+      "formula": "sucrose in grass stems"
+    },
+    {
+      "id": "maize",
+      "name": "Maize",
+      "aka": [
+        "corn"
+      ],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 1200000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "extraction",
+          "note": "part of the cereals total"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 720,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -7000,
+        "era": "Bred from a wild grass in Mexico",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "Most maize is never eaten by people: it feeds animals, fills fuel tanks and turns into syrup.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#d9b44a",
+        "seed": 307,
+        "shape": "grain"
+      },
+      "subsetOf": "cereals"
+    },
+    {
+      "id": "wheat",
+      "name": "Wheat",
+      "aka": [],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 800000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "extraction",
+          "note": "part of the cereals total"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 780,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -9500,
+        "era": "Domesticated in the Fertile Crescent",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "Bread rises because wheat, almost alone among grains, has enough gluten to trap the gas that yeast makes.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#d8c489",
+        "seed": 308,
+        "shape": "grain"
+      },
+      "subsetOf": "cereals"
+    },
+    {
+      "id": "rice",
+      "name": "Rice",
+      "aka": [],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 800000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "extraction",
+          "note": "paddy rice; part of the cereals total"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 750,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -7000,
+        "era": "Domesticated in the Yangtze valley",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "Rice feeds more people than any other single food, and growing it in flooded paddies produces a tenth of farming's methane.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#e7e3d2",
+        "seed": 309,
+        "shape": "grain"
+      },
+      "subsetOf": "cereals"
+    },
+    {
+      "id": "potato",
+      "name": "Potato",
+      "aka": [],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 380000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1080,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -8000,
+        "era": "Domesticated in the Andes",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "Potatoes gave Europe so many more calories per field that historians credit them with a quarter of its population growth.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "stone",
+        "color": "#c2a06a",
+        "seed": 310,
+        "shape": "egg"
       }
+    },
+    {
+      "id": "soybean",
+      "name": "Soybean",
+      "aka": [],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 390000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 750,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -7000,
+        "era": "Domesticated in China",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "Soy is the cheapest protein there is, and most of it is fed to animals rather than people.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#d3c07e",
+        "seed": 311,
+        "shape": "grain"
+      }
+    },
+    {
+      "id": "palm-oil",
+      "name": "Palm Oil",
+      "aka": [],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 78000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 900,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -3000,
+        "era": "Pressed in West Africa; plantations arrived in the 1900s",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "Palm oil yields more oil per hectare than any other crop, which is both why it is everywhere and why forests fall for it.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "liquid",
+        "color": "#cf7a2a",
+        "seed": 312,
+        "shape": "droplet"
+      },
+      "pros": [
+        "Yields more oil per hectare than any other crop",
+        "Solid at room temperature without hydrogen"
+      ],
+      "cons": [
+        "Plantations replace rainforest",
+        "Habitat loss for orangutans and elephants"
+      ]
+    },
+    {
+      "id": "milk",
+      "name": "Milk",
+      "aka": [
+        "dairy"
+      ],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 950000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1030,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -7000,
+        "era": "Herded animals milked from about this point",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "Most adults on Earth cannot digest milk; the ability to do so is a recent mutation that spread with herding.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "liquid",
+        "color": "#f1efe8",
+        "seed": 313,
+        "shape": "droplet"
+      }
+    },
+    {
+      "id": "meat",
+      "name": "Meat",
+      "aka": [
+        "beef",
+        "pork",
+        "poultry"
+      ],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 360000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1050,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -10000,
+        "era": "Hunted forever; farmed from about this point",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "There are roughly three chickens alive for every person, and by weight farmed birds outweigh all wild birds several times over.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "rubber",
+        "color": "#9c4a44",
+        "seed": 314,
+        "shape": "slab"
+      }
+    },
+    {
+      "id": "fish",
+      "name": "Fish & Seafood",
+      "aka": [
+        "capture fisheries",
+        "aquaculture"
+      ],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 180000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1050,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -40000,
+        "era": "Fished since the Stone Age; farmed fish overtook the wild catch in the 2010s",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "More fish now comes from farms than from the sea, the crossover happened in the 2010s.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "rubber",
+        "color": "#8fa3ad",
+        "seed": 315,
+        "shape": "slab"
+      }
+    },
+    {
+      "id": "eggs",
+      "name": "Eggs",
+      "aka": [],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 90000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1030,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -6000,
+        "era": "Hens domesticated in South-East Asia",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "An eggshell is calcium carbonate, the same mineral as limestone, built by the hen in about twenty hours.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "ceramic",
+        "color": "#efe4cf",
+        "seed": 316,
+        "shape": "egg"
+      }
+    },
+    {
+      "id": "coffee",
+      "name": "Coffee",
+      "aka": [
+        "green coffee"
+      ],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 11000000.0,
+          "unit": "t/yr",
+          "year": 2023,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 700,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1400,
+        "era": "Cultivated in Ethiopia and Yemen",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "Coffee is one of the most traded farm goods in the world, and every plant descends from a small patch of Ethiopian forest.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#5c3a22",
+        "seed": 317,
+        "shape": "grain"
+      }
+    },
+    {
+      "id": "jute",
+      "name": "Jute",
+      "aka": [
+        "burlap",
+        "hessian"
+      ],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 3600000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1450,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "tensileStrength": {
+          "value": 400000000.0,
+          "unit": "Pa",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -3000,
+        "era": "Spun in Bengal; industrialised in the 1800s",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "Jute is the cheapest natural fibre after cotton, and a sack of it rots away instead of becoming litter.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#c3a86a",
+        "seed": 318,
+        "shape": "skein"
+      }
+    },
+    {
+      "id": "silk",
+      "name": "Silk",
+      "aka": [
+        "raw silk"
+      ],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 100000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "faostat",
+          "kind": "extraction"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 1330,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "tensileStrength": {
+          "value": 500000000.0,
+          "unit": "Pa",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -4000,
+        "era": "Reeled in China, and kept a state secret for millennia",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "One cocoon unwinds into a single thread up to 900 metres long, and the method was a Chinese state secret for millennia.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#e8dfc9",
+        "seed": 319,
+        "shape": "skein"
+      },
+      "pros": [
+        "Stronger than steel thread of the same weight",
+        "Smooth, light and warm"
+      ],
+      "cons": [
+        "Very labour intensive",
+        "Weakens in sunlight",
+        "Expensive"
+      ]
+    },
+    {
+      "id": "wood-pulp",
+      "name": "Wood Pulp",
+      "aka": [],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 190000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "faostat",
+          "kind": "manufacture",
+          "note": "made from roundwood"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 400,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": 1844,
+        "era": "Ground-wood pulping from the 1840s",
+        "source_id": "wikidata"
+      },
+      "facts": [
+        {
+          "text": "Paper was made from rags until someone worked out how to grind wood into fibre, which is when books got cheap.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "roundwood"
+        ],
+        "uses": [
+          "paper"
+        ]
+      },
+      "specimen": {
+        "recipe": "fibre",
+        "color": "#e2d9c4",
+        "seed": 320,
+        "shape": "roll"
+      },
+      "subsetOf": "roundwood"
+    },
+    {
+      "id": "sawnwood",
+      "name": "Sawnwood",
+      "aka": [
+        "lumber",
+        "planks"
+      ],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 300000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "faostat",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "converted from about 500 million cubic metres at roughly 0.6 t/m3; part of the roundwood total"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 600,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "tensileStrength": {
+          "value": 90000000.0,
+          "unit": "Pa",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -3000,
+        "era": "Sawn planks in Egypt; water-powered sawmills from the 1200s",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "A plank is stronger for its weight than steel along the grain, and useless across it.",
+          "source_id": "faostat"
+        }
+      ],
+      "relations": {
+        "madeFrom": [
+          "roundwood"
+        ]
+      },
+      "specimen": {
+        "recipe": "wood",
+        "color": "#cba471",
+        "seed": 321,
+        "shape": "plank"
+      },
+      "subsetOf": "roundwood"
+    },
+    {
+      "id": "leather",
+      "name": "Leather",
+      "aka": [
+        "hides"
+      ],
+      "class": "biomass",
+      "ids": {},
+      "quantities": {
+        "annualProduction": {
+          "value": 8000000.0,
+          "unit": "t/yr",
+          "year": 2022,
+          "source_id": "wikipedia",
+          "kind": "manufacture",
+          "derived": true,
+          "note": "consensus estimate; no free official statistic"
+        }
+      },
+      "properties": {
+        "density": {
+          "value": 900,
+          "unit": "kg/m3",
+          "source_id": "matweb"
+        },
+        "tensileStrength": {
+          "value": 25000000.0,
+          "unit": "Pa",
+          "source_id": "matweb"
+        }
+      },
+      "discovered": {
+        "year": -8000,
+        "era": "Tanning is one of the oldest chemical processes we know",
+        "source_id": "wikidata",
+        "approx": true
+      },
+      "facts": [
+        {
+          "text": "Tanning turns skin into a material that will not rot, and it is one of the oldest chemical processes we know.",
+          "source_id": "wikipedia"
+        }
+      ],
+      "relations": {},
+      "specimen": {
+        "recipe": "rubber",
+        "color": "#6f4a30",
+        "seed": 322,
+        "shape": "slab"
+      },
+      "pros": [
+        "Tough, breathable, and lasts decades",
+        "Moulds to whatever it is shaped around"
+      ],
+      "cons": [
+        "Tanning uses harsh chemicals",
+        "Comes with the footprint of raising cattle"
+      ]
     }
   ]
 }

@@ -140,7 +140,6 @@ body.no-webgl #gl {
   font-family: var(--display);
   font-size: 1rem;
   font-weight: 700;
-  letter-spacing: 0.22em;
   text-decoration: none;
 }
 
@@ -304,31 +303,13 @@ body.no-webgl .hero-specimens {
   padding: 0 var(--gutter);
 }
 
-.views {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-}
-
-.views button {
-  background: none;
-  border: 0;
-  border-bottom: 2px solid transparent;
-  padding: 0.85rem 0.5rem;
-  cursor: pointer;
-  color: var(--dim);
+.list-title {
   font-family: var(--display);
-  font-size: clamp(0.8rem, 1.6vw, 1rem);
-  font-weight: 700;
-  letter-spacing: 0.02em;
-}
-
-.views button:hover {
-  color: var(--ink);
-}
-
-.views button[aria-selected="true"] {
-  color: var(--ink);
-  border-bottom-color: var(--ink);
+  font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0;
+  padding: 0.9rem 0 0.75rem;
 }
 
 .filters {
@@ -495,12 +476,16 @@ body.no-webgl .specimen canvas {
   border-radius: 2px;
 }
 
+/* class · still standing · share of all rock — the facts the retired lists used to hold */
 .card-class {
   font-size: 0.6rem;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
   color: var(--faint);
   margin-top: 0.5rem;
+  line-height: 1.45;
+  /* Room for two lines whether or not this card needs them, so rows stay even. */
+  min-height: 1.75em;
 }
 
 .card.is-hidden {
@@ -553,34 +538,6 @@ body.no-webgl .specimen canvas {
   font-weight: 800;
   letter-spacing: -0.03em;
   margin: 0 0 1.75rem;
-}
-
-.legend {
-  margin: 0 0 2rem;
-  display: grid;
-  gap: 0.9rem;
-}
-
-.legend div {
-  display: grid;
-  grid-template-columns: minmax(0, 11rem) minmax(0, 1fr);
-  gap: 1rem;
-  align-items: baseline;
-  padding-bottom: 0.9rem;
-  border-bottom: 1px solid var(--hair);
-}
-
-.legend dt {
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: 0.85rem;
-  letter-spacing: 0.02em;
-}
-
-.legend dd {
-  margin: 0;
-  color: var(--dim);
-  font-family: var(--display);
 }
 
 .lead {
@@ -830,6 +787,39 @@ footer {
   text-transform: uppercase;
 }
 
+.points {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+  font-family: var(--display);
+  font-size: 0.92rem;
+}
+
+.points li {
+  display: grid;
+  grid-template-columns: 1.1rem minmax(0, 1fr);
+  gap: 0.45rem;
+  align-items: baseline;
+}
+
+.points li::before {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.points.good li::before {
+  content: "+";
+  color: #6fbf8f;
+}
+
+.points.bad li::before {
+  content: "\2212";
+  color: #d4796b;
+}
+
 .scales {
   margin: 0;
   padding: 0;
@@ -888,6 +878,37 @@ footer {
 }
 
 @media (max-width: 880px) {
+  /* Phone layout is app-like: the bar lives at the bottom, under the thumb, and the
+     filters take over the top of the screen. */
+  #nav {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-bottom: 0;
+    border-top: 1px solid var(--hair);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+    height: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px));
+  }
+
+  body {
+    padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px));
+  }
+
+  #controls {
+    top: 0;
+  }
+
+  html {
+    scroll-padding-top: 0;
+  }
+
+  /* The dialog is full-screen on a phone, so it must clear the bar too. */
+  #detail {
+    padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px) + 1rem);
+  }
+
   /* Stacked, the full-viewport minimum leaves a dead gap between the cloud and the
      wordmark. Let the hero be as tall as its content. */
   #hero {
@@ -895,7 +916,7 @@ footer {
     grid-template-rows: auto auto;
     gap: 1rem;
     min-height: 0;
-    padding-top: 1rem;
+    padding-top: 1.5rem;
   }
 
   .hero-specimens {
@@ -906,11 +927,6 @@ footer {
 
   .detail-cols {
     grid-template-columns: 1fr;
-  }
-
-  .legend div {
-    grid-template-columns: 1fr;
-    gap: 0.15rem;
   }
 
   /* The filter bar is sticky; wrapped chip rows would eat half a phone screen. */
@@ -929,13 +945,23 @@ footer {
     flex: none;
   }
 
+  /* Search and sort share one row; the chips get the next. Three rows of sticky filter
+     bar is too much of a phone screen. */
   .search {
-    flex: 1 1 auto;
-    min-width: 0;
+    flex: 1 1 0;
+    min-width: 6rem;
   }
 
   .search input {
     width: 100%;
+  }
+
+  .sort {
+    flex: 0 0 auto;
+  }
+
+  .sort select {
+    max-width: 9.5rem;
   }
 }
 

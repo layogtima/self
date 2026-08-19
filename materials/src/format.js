@@ -28,7 +28,7 @@ export function commas(n) {
 
 export function fmtPpm(ppm) {
   if (ppm >= 10000) return `${(ppm / 10000).toFixed(1)}%`;
-  // Group thousands, but never through commas() — it rounds, and 1.7 ppm of tin is not 2.
+  // Group thousands, but never through commas(), it rounds, and 1.7 ppm of tin is not 2.
   if (ppm >= 1) return `${Number(trim(ppm, 1)).toLocaleString('en-US')} ppm`;
   if (ppm >= 0.001) return `${trim(ppm * 1000, 1)} ppb`;
   return `${ppm.toExponential(1)} ppm`;
@@ -67,7 +67,7 @@ export function fmtBig(q, viewId) {
   return { num: commas(q.value), words: `tonnes${tail}` };
 }
 
-/** "3,359 tonnes every second" — the headline version of a rate. */
+/** "3,359 tonnes every second", the headline version of a rate. */
 export function fmtRatePlain(kgPerSecond) {
   const t = kgPerSecond / 1000;
   if (t >= 1) return `${commas(t)} tonnes every second`;
@@ -109,17 +109,20 @@ export const QUANTITY_LABELS = {
   reserves: 'Left to dig',
 };
 
-/** "USGS 2023" — the credit shown beside every number. */
+/** "USGS 2023", the credit shown beside every number. */
 export function credit(q, sources) {
   const s = sources[q.source_id];
   const who = s ? s.publisher : q.source_id;
   return q.year ? `${who} ${q.year}` : who;
 }
 
-export function fmtYear(year, era) {
+export function fmtYear(year, era, approx = false) {
   if (year == null) return era || 'Prehistoric';
-  const label = year < 0 ? `${Math.abs(year)} BCE` : `${year}`;
-  return era ? `${label} — ${era}` : label;
+  // Years are not written with separators (1856, not 1,856); prehistory is (400,000 BCE).
+  const abs = Math.abs(year);
+  const n = abs >= 10000 ? abs.toLocaleString('en-US') : String(abs);
+  const label = `${approx ? 'about ' : ''}${year < 0 ? `${n} BCE` : n}`;
+  return era ? `${label} · ${era}` : label;
 }
 
 /** HTML-escape. Everything that builds markup from data goes through this. */

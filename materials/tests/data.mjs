@@ -1,4 +1,4 @@
-// Schema + sanity check for the MATERIAL dataset. Run: node tests/data.mjs
+// Schema + sanity check for the MATERIALS dataset. Run: node tests/data.mjs
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -50,11 +50,24 @@ for (const m of materials) {
 
   for (const [key, val] of Object.entries(m.properties || {})) checkQ(`${at}.properties.${key}`, val);
   if (!Array.isArray(m.facts) || m.facts.length === 0) fail(`${at}: needs at least one fact`);
+  for (const key of ['pros', 'cons']) {
+    if (m[key] !== undefined && (!Array.isArray(m[key]) || m[key].some((x) => typeof x !== 'string' || !x))) {
+      fail(`${at}.${key}: must be an array of non-empty strings`);
+    }
+  }
+  if ((m.pros && !m.cons) || (m.cons && !m.pros)) fail(`${at}: has ${m.pros ? 'pros' : 'cons'} but not the other side`);
   for (const [i, f] of (m.facts || []).entries()) {
     if (!f.text) fail(`${at}.facts[${i}]: missing text`);
     if (!sources[f.source_id]) fail(`${at}.facts[${i}]: unknown source_id "${f.source_id}"`);
   }
-  if (m.discovered && !sources[m.discovered.source_id]) fail(`${at}.discovered: unknown source_id`);
+  if (m.discovered) {
+    if (!sources[m.discovered.source_id]) fail(`${at}.discovered: unknown source_id`);
+    // The UI renders "<year> — <era>", so an era repeating its own year prints it twice.
+    const { year, era } = m.discovered;
+    if (year && era && new RegExp(`\\b${year}\\b`).test(era)) {
+      fail(`${at}.discovered: era repeats the year ${year}, it is already printed before it ("${era}")`);
+    }
+  }
 
   if (!m.specimen || !RECIPES.has(m.specimen.recipe)) fail(`${at}: specimen.recipe must be one of ${[...RECIPES].join(', ')}`);
   if (!/^#[0-9a-f]{6}$/i.test(m.specimen?.color || '')) fail(`${at}: specimen.color must be a #rrggbb hex`);
@@ -64,6 +77,14 @@ for (const m of materials) {
     if (!scaleIds.has(s.against)) fail(`${at}.scale: unknown comparison object "${s.against}"`);
     if (!m.quantities?.[s.quantity]) fail(`${at}.scale: references missing quantity "${s.quantity}"`);
   }
+  if (m.subsetOf) {
+    if (!materials.some((x) => x.id === m.subsetOf)) fail(`${at}.subsetOf: unknown parent "${m.subsetOf}"`);
+    if (m.subsetOf === m.id) fail(`${at}.subsetOf: a material cannot be a subset of itself`);
+    const parent = materials.find((x) => x.id === m.subsetOf);
+    const mine = m.quantities?.annualProduction?.value;
+    const theirs = parent?.quantities?.annualProduction?.value;
+    if (mine && theirs && mine > theirs) fail(`${at}.subsetOf: bigger than its parent "${m.subsetOf}" (${mine.toExponential(2)} > ${theirs.toExponential(2)})`);
+  }
   for (const [rel, list] of Object.entries(m.relations || {})) {
     for (const other of list) if (!materials.some((x) => x.id === other)) fail(`${at}.relations.${rel}: unknown material "${other}"`);
   }
@@ -71,13 +92,30 @@ for (const m of materials) {
 
 // Sanity: extraction tracked here must not exceed the global IRP figure, and should be the same order of magnitude.
 const global = scales.globals.extraction.value;
+// Subsets (wheat inside cereals, sawnwood inside roundwood) must not be added to their
+// own parents, or the tracked total silently double-counts.
 const tracked = materials.reduce((sum, m) => {
   const p = m.quantities?.annualProduction;
-  return sum + (p && p.kind === 'extraction' ? p.value : 0);
+  return sum + (p && p.kind === 'extraction' && !m.subsetOf ? p.value : 0);
 }, 0);
 if (tracked > global) fail(`tracked extraction ${tracked.toExponential(2)} t/yr exceeds the global figure ${global.toExponential(2)} t/yr`);
-if (tracked < global / 10) fail(`tracked extraction ${tracked.toExponential(2)} t/yr is under a tenth of the global figure — coverage too thin to be honest about`);
+if (tracked < global / 10) fail(`tracked extraction ${tracked.toExponential(2)} t/yr is under a tenth of the global figure, coverage too thin to be honest about`);
 if (global < 1e10 || global > 3e11) fail(`global extraction ${global.toExponential(2)} t/yr is outside the plausible 10–300 Gt/yr band`);
+
+// Em dashes are out of the copy by request; catch them wherever they creep back in.
+const EM_DASH = /\u2014/;
+const scanForDashes = (value, path) => {
+  if (typeof value === 'string') {
+    if (EM_DASH.test(value)) fail(`${path}: contains an em dash ("${value.slice(0, 60)}")`);
+  } else if (Array.isArray(value)) {
+    value.forEach((v, i) => scanForDashes(v, `${path}[${i}]`));
+  } else if (value && typeof value === 'object') {
+    for (const [k, v] of Object.entries(value)) scanForDashes(v, `${path}.${k}`);
+  }
+};
+scanForDashes(materials, 'materials');
+scanForDashes(sources, 'sources');
+scanForDashes(scales, 'scales');
 
 for (const [id, s] of Object.entries(sources)) {
   if (!s.title || !s.publisher || !s.url) fail(`sources.${id}: needs title, publisher and url`);

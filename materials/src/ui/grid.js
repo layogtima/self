@@ -1,19 +1,19 @@
-// The grid: one card per material. Specimens are painted once into a per-card canvas and
-// only re-painted on hover, so scrolling the list costs nothing.
+// One list of everything we make, ranked by tonnes a year. What the crust holds and what is
+// still standing ride along as extra facts and as alternative sort orders.
 
-import { VIEWS, logFraction } from '../data.js';
+import { PRIMARY, SORTS, logFraction } from '../data.js';
 import { fmtBig } from '../format.js';
 import { state, set } from '../state.js';
 
 export function mountGrid(app, { thumbs } = {}) {
   const grid = document.getElementById('grid');
   const empty = document.getElementById('empty');
+  const noteEl = document.getElementById('grid-note');
   const template = document.getElementById('card-template');
   const classesEl = document.getElementById('classes');
   const searchEl = document.getElementById('search');
   const sortEl = document.getElementById('sort');
 
-  const noteEl = document.getElementById('grid-note');
   const cards = new Map();
   let visible = [];
   let cursor = -1;
@@ -43,7 +43,6 @@ export function mountGrid(app, { thumbs } = {}) {
     node.style.setProperty('--swatch', m.specimen.color);
     node.style.setProperty('--accent', m.specimen.color);
     node.querySelector('.card-name').textContent = m.name;
-    node.querySelector('.card-class').textContent = m.class;
     node.setAttribute('aria-label', `${m.name}, ${m.class}`);
     node.addEventListener('click', () => set({ detail: m.id }));
     node.addEventListener('keydown', (e) => {
@@ -101,29 +100,46 @@ export function mountGrid(app, { thumbs } = {}) {
     classesEl.append(b);
   }
 
+  sortEl.innerHTML = Object.values(SORTS)
+    .map((s) => `<option value="${s.id}">${s.label}</option>`)
+    .join('');
+
   document.getElementById('reset').addEventListener('click', () => {
     set({ q: '', classes: [] });
     searchEl.value = '';
   });
   searchEl.addEventListener('input', () => set({ q: searchEl.value.trim() }));
   sortEl.addEventListener('change', () => set({ sort: sortEl.value }));
-  for (const tab of document.querySelectorAll('.views button')) {
-    tab.textContent = VIEWS[tab.dataset.view].tab;
-    tab.addEventListener('click', () => set({ view: tab.dataset.view }));
+
+  /** The small grey line under a card: the facts the two retired lists used to carry. */
+  function extras(m) {
+    const out = [m.class];
+    if (m.subsetOf && app.byId.has(m.subsetOf)) out.push(`part of ${app.byId.get(m.subsetOf).name}`);
+    const stock = m.quantities.anthropogenicStock;
+    const crust = m.quantities.crustalAbundance;
+    if (stock) out.push(`${fmtBig(stock, 'made').num} bn t built`.replace('bn t', unitWord(stock.value)));
+    if (crust) out.push(`${fmtBig(crust, 'crust').num} of rock`);
+    return out.join(' · ');
+  }
+
+  // "33 billion tonnes still standing" wraps the card to two lines; "33 billion t built"
+  // says the same thing and keeps every card the same height.
+  function unitWord(tonnes) {
+    if (tonnes >= 1e9) return 'billion t';
+    if (tonnes >= 1e6) return 'million t';
+    if (tonnes >= 1e3) return 'thousand t';
+    return 't';
   }
 
   function render() {
-    const key = VIEWS[state.view].quantity;
-    const ranks = app.ranks[state.view];
-    const extent = app.extents[state.view];
+    const sort = SORTS[state.sort] || SORTS.made;
     const query = state.q.toLowerCase();
+    const extent = app.extents[PRIMARY];
+    const ranks = app.ranks[PRIMARY];
 
     // Never write into the box the user is typing in: it breaks IME and jumps the caret.
     if (document.activeElement !== searchEl && searchEl.value !== state.q) searchEl.value = state.q;
-    sortEl.value = state.sort;
-    for (const tab of document.querySelectorAll('.views button')) {
-      tab.setAttribute('aria-selected', String(tab.dataset.view === state.view));
-    }
+    sortEl.value = sort.id;
     for (const chip of classesEl.children) {
       chip.setAttribute('aria-pressed', String(state.classes.includes(chip.dataset.class)));
     }
@@ -134,15 +150,17 @@ export function mountGrid(app, { thumbs } = {}) {
       return true;
     });
 
-    // A material with no figure for this list is not shown. Rows reading "not on this
-    // list" made a real absence look like a broken record; the count below says how many
-    // and why instead.
+    // The list is what we make, so a material with no production figure is not in it.
     const sorted = matched
-      .filter((m) => m.quantities[key])
+      .filter((m) => m.quantities[PRIMARY])
       .sort((a, b) => {
-        if (state.sort === 'name') return a.name.localeCompare(b.name);
-        if (state.sort === 'year') return a.sortYear - b.sortYear;
-        return b.quantities[key].value - a.quantities[key].value;
+        if (sort.id === 'name') return a.name.localeCompare(b.name);
+        if (sort.id === 'year') return a.sortYear - b.sortYear;
+        // Sorting by a quantity some materials lack: those fall to the bottom.
+        const av = a.quantities[sort.quantity]?.value ?? -1;
+        const bv = b.quantities[sort.quantity]?.value ?? -1;
+        if (av === bv) return a.name.localeCompare(b.name);
+        return bv - av;
       });
 
     for (const node of cards.values()) node.classList.add('is-hidden');
@@ -152,26 +170,25 @@ export function mountGrid(app, { thumbs } = {}) {
       node.classList.remove('is-hidden');
       grid.append(node);
 
-      const q = m.quantities[key];
+      const q = m.quantities[PRIMARY];
       node.querySelector('.card-rank').textContent = ranks.get(m.id) ?? '';
 
-      const { num, words } = fmtBig(q, state.view);
+      const { num, words } = fmtBig(q, 'flow');
       const est = q.derived ? ' <span class="est">EST</span>' : '';
       // The space matters to screen readers; the unit renders as its own line anyway.
       node.querySelector('.card-figure').innerHTML = `${num} <span class="unit">${words}${est}</span>`;
       node.querySelector('.bar').style.setProperty('--bar', logFraction(q.value, extent).toFixed(3));
+      node.querySelector('.card-class').textContent = extras(m);
     }
 
     const offList = matched.length - sorted.length;
-    noteEl.textContent = offList ? `${offList} more aren't measured this way.` : '';
+    noteEl.textContent = offList ? `${offList} more have no yearly figure.` : '';
     noteEl.hidden = !offList;
 
     visible = sorted.map((m) => m.id);
     cursor = Math.min(cursor, visible.length - 1);
     empty.hidden = sorted.length > 0;
-    empty.querySelector('span').textContent = matched.length
-      ? 'Nothing on this list matches.'
-      : 'Nothing found.';
+    empty.querySelector('span').textContent = matched.length ? 'Nothing here has a yearly figure.' : 'Nothing found.';
   }
 
   function move(delta) {

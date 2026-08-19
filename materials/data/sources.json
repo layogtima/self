@@ -28,7 +28,7 @@
     "licence": "CC BY 4.0"
   },
   "plasticseurope2024": {
-    "title": "Plastics — the fast Facts 2024",
+    "title": "Plastics, the fast Facts 2024",
     "publisher": "Plastics Europe",
     "year": 2024,
     "url": "https://plasticseurope.org/knowledge-hub/",
@@ -77,7 +77,7 @@
     "licence": "Cited with attribution"
   },
   "iea-coal2024": {
-    "title": "Coal 2024 — Analysis and forecast to 2027",
+    "title": "Coal 2024. Analysis and forecast to 2027",
     "publisher": "International Energy Agency",
     "year": 2024,
     "url": "https://www.iea.org/reports/coal-2024",
@@ -124,5 +124,20 @@
     "year": 2024,
     "url": "https://www.wikidata.org/",
     "licence": "CC0"
+  },
+  "wna2024": {
+    "title": "World Uranium Mining Production",
+    "publisher": "World Nuclear Association",
+    "year": 2024,
+    "url": "https://world-nuclear.org/information-library/nuclear-fuel-cycle/mining-of-uranium/world-uranium-mining-production",
+    "licence": "Cited with attribution"
+  },
+  "wikipedia": {
+    "title": "Production figures compiled from cited Wikipedia tables",
+    "publisher": "Wikipedia",
+    "year": 2024,
+    "url": "https://en.wikipedia.org/",
+    "licence": "CC BY-SA 4.0",
+    "caveat": "Consensus figures for commodities with no free official statistic. Every quantity using this source is marked as an estimate."
   }
 }

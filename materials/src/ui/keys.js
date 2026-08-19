@@ -1,8 +1,6 @@
-// Keyboard: / search, 1/2/3 views, j/k navigate, Enter open, Esc close, c calm.
+// Keyboard: / search, j/k navigate, Enter open, Esc close, c pause.
 
 import { state, set } from '../state.js';
-
-const VIEW_KEYS = new Map([['1', 'crust'], ['2', 'made'], ['3', 'flow']]);
 
 export function mountKeys({ grid, detail, toggleCalm }) {
   const search = document.getElementById('search');
@@ -27,11 +25,6 @@ export function mountKeys({ grid, detail, toggleCalm }) {
       e.preventDefault();
       search.focus();
       search.select();
-      return;
-    }
-    if (VIEW_KEYS.has(e.key)) {
-      e.preventDefault();
-      set({ view: VIEW_KEYS.get(e.key) });
       return;
     }
     if (detail.isOpen()) return;

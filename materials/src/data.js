@@ -3,36 +3,19 @@
 
 const SECONDS_PER_YEAR = 31_556_952; // tropical year
 
-// `tab` is the button, `rank` completes "22nd …", `legend` explains the list in the About
-// section. All three live here so a label can only be changed in one place.
-//
-// The crust list is elemental composition, so it is named for that. It used to be called
-// "IN THE GROUND", which promised anything you can dig up — and then had nothing to say
-// about coal, salt or bauxite, because no source gives a rock a parts-per-million share
-// of the crust.
-export const VIEWS = {
-  crust: {
-    id: 'crust',
-    quantity: 'crustalAbundance',
-    tab: "EARTH'S RECIPE",
-    rank: 'most common in rock',
-    legend: 'What everything is made of, element by element.',
-  },
-  made: {
-    id: 'made',
-    quantity: 'anthropogenicStock',
-    tab: 'WE BUILT',
-    rank: 'most built',
-    legend: 'Stuff we made that is still standing.',
-  },
-  flow: {
-    id: 'flow',
-    quantity: 'annualProduction',
-    tab: 'RIGHT NOW',
-    rank: 'most made',
-    legend: 'What we are making today.',
-  },
+// One list, ranked by what we make each year. Crustal share and built stock are no longer
+// separate lists — they ride along as extra facts on the card and as sort orders here.
+export const PRIMARY = 'annualProduction';
+
+export const SORTS = {
+  made: { id: 'made', label: 'Most made', quantity: 'annualProduction' },
+  stock: { id: 'stock', label: 'Most still standing', quantity: 'anthropogenicStock' },
+  crust: { id: 'crust', label: 'Most common in rock', quantity: 'crustalAbundance' },
+  name: { id: 'name', label: 'A to Z' },
+  year: { id: 'year', label: 'Oldest first' },
 };
+
+export const DEFAULT_SORT = 'made';
 
 export async function loadData(base = './') {
   const [dataset, sources, scales] = await Promise.all(
@@ -47,23 +30,29 @@ export async function loadData(base = './') {
   const materials = dataset.materials.map((m) => decorate(m, sources, warnings));
   const byId = new Map(materials.map((m) => [m.id, m]));
 
+  // Ranks and log-scale extents per quantity, so a card can show where it sits on any of
+  // them without the UI ever recomputing an ordering.
   const ranks = {};
   const extents = {};
-  for (const view of Object.values(VIEWS)) {
-    const key = view.quantity;
+  for (const key of ['annualProduction', 'anthropogenicStock', 'crustalAbundance']) {
     const ranked = materials
       .filter((m) => m.quantities[key])
-      .sort((a, b) => b.quantities[key].value - a.quantities[key].value);
-    ranks[view.id] = new Map(ranked.map((m, i) => [m.id, i + 1]));
+      // Same tiebreak as the grid uses, so two materials on an identical figure never
+      // display as rank 18 above rank 17.
+      .sort((a, b) => b.quantities[key].value - a.quantities[key].value || a.name.localeCompare(b.name));
+    ranks[key] = new Map(ranked.map((m, i) => [m.id, i + 1]));
     const values = ranked.map((m) => m.quantities[key].value);
-    extents[view.id] = values.length ? { min: Math.min(...values), max: Math.max(...values) } : { min: 1, max: 1 };
+    extents[key] = values.length ? { min: Math.min(...values), max: Math.max(...values) } : { min: 1, max: 1 };
   }
 
   // Live extraction: the global figure is the honest headline. What we track is shown beside it.
+  // Only whole, independent extraction flows count toward the tracked total. Wheat is
+  // inside cereals and sawnwood is inside roundwood, so a record marked `subsetOf` is
+  // shown in the list but never added to its own parent.
   const globalExtraction = scales.globals.extraction;
   const trackedTonnes = materials.reduce((sum, m) => {
     const p = m.quantities.annualProduction;
-    return sum + (p && p.kind === 'extraction' ? p.value : 0);
+    return sum + (p && p.kind === 'extraction' && !m.subsetOf ? p.value : 0);
   }, 0);
 
   if (globalExtraction.value < 1e10 || globalExtraction.value > 3e11) {

@@ -1,6 +1,6 @@
 // The detail panel. A real dialog: focus trapped, focus restored, Escape closes.
 
-import { VIEWS } from '../data.js';
+import { PRIMARY, SORTS } from '../data.js';
 import { commas, fmtBig, fmtRate, fmtProperty, fmtYear, credit, esc, PROPERTY_LABELS, QUANTITY_LABELS } from '../format.js';
 import { since } from '../ticker.js';
 import { state, set } from '../state.js';
@@ -101,7 +101,7 @@ function render(m, app) {
     .map(([key, label]) => {
       const p = m.properties[key];
       return `<tr><th>${label}</th><td>${fmtProperty(p)}
-        <span class="src">${esc(credit(p, app.sources))}${p.note ? ' — ' + esc(p.note) : ''}</span></td></tr>`;
+        <span class="src">${esc(credit(p, app.sources))}${p.note ? '. ' + esc(p.note) : ''}</span></td></tr>`;
     })
     .join('');
 
@@ -121,6 +121,9 @@ function render(m, app) {
     })
     .join('');
 
+  const points = (list, cls) =>
+    list?.length ? `<ul class="points ${cls}">${list.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : '';
+
   const relGroups = [
     ['madeFrom', 'Made from'],
     ['uses', 'Turns into'],
@@ -135,10 +138,11 @@ function render(m, app) {
     })
     .join('');
 
-  const ranksLine = Object.values(VIEWS)
-    .map((v) => {
-      const r = app.ranks[v.id].get(m.id);
-      return r ? `${ordinal(r)} ${v.rank}` : null;
+  const ranksLine = Object.values(SORTS)
+    .filter((s) => s.quantity)
+    .map((s) => {
+      const r = app.ranks[s.quantity]?.get(m.id);
+      return r ? `${ordinal(r)} ${s.label.replace(/^Most /, 'most ')}` : null;
     })
     .filter(Boolean)
     .join(' · ');
@@ -173,8 +177,10 @@ function render(m, app) {
       <div>
         ${m.aka?.length ? `<p class="note">Also called ${m.aka.map(esc).join(', ')}.</p>` : ''}
         <h3>Since</h3>
-        <p>${esc(fmtYear(m.discovered?.year, m.discovered?.era))}</p>
+        <p>${esc(fmtYear(m.discovered?.year, m.discovered?.era, m.discovered?.approx))}</p>
         ${scales ? `<h3>That is like</h3><ul class="scales">${scales}</ul>` : ''}
+        ${m.pros?.length ? `<h3>Good at</h3>${points(m.pros, 'good')}` : ''}
+        ${m.cons?.length ? `<h3>Not so good</h3>${points(m.cons, 'bad')}` : ''}
         <h3>Did you know</h3>
         <ul class="facts">${facts}</ul>
         ${relGroups ? `<h3>Linked to</h3>${relGroups}` : ''}

@@ -1,24 +1,63 @@
 {
   "globals": {
     "extraction": {
-      "value": 1.06e11, "unit": "t/yr", "year": 2024, "source_id": "irp2024",
+      "value": 106000000000.0,
+      "unit": "t/yr",
+      "year": 2024,
+      "source_id": "irp2024",
       "note": "All material extracted worldwide: biomass, fossil fuels, metal ores and non-metallic minerals."
     },
     "anthropogenicStock": {
-      "value": 1.1e12, "unit": "t", "year": 2020, "source_id": "elhacham2020",
+      "value": 1100000000000.0,
+      "unit": "t",
+      "year": 2020,
+      "source_id": "elhacham2020",
       "note": "Total human-made mass, which crossed over all living biomass around 2020."
     },
     "livingBiomass": {
-      "value": 1.1e12, "unit": "t", "year": 2018, "source_id": "baron2018",
+      "value": 1100000000000.0,
+      "unit": "t",
+      "year": 2018,
+      "source_id": "baron2018",
       "note": "~550 Gt of carbon, roughly 1.1 Tt of dry mass; 80% of it is plants."
     }
   },
   "objects": [
-    { "id": "blue-whale",    "name": "blue whale",       "mass_t": 1.5e2, "source_id": "wikidata" },
-    { "id": "boeing-747",    "name": "Boeing 747",       "mass_t": 1.83e2, "source_id": "wikidata" },
-    { "id": "eiffel-tower",  "name": "Eiffel Tower",     "mass_t": 1.01e4, "source_id": "wikidata" },
-    { "id": "empire-state",  "name": "Empire State Building", "mass_t": 3.31e5, "source_id": "wikidata" },
-    { "id": "great-pyramid", "name": "Great Pyramid of Giza",  "mass_t": 5.9e6, "source_id": "wikidata" },
-    { "id": "everest",       "name": "Mount Everest",    "mass_t": 8.1e11, "source_id": "wikidata" }
+    {
+      "id": "blue-whale",
+      "name": "blue whale",
+      "mass_t": 150.0,
+      "source_id": "wikidata"
+    },
+    {
+      "id": "boeing-747",
+      "name": "Boeing 747",
+      "mass_t": 183.0,
+      "source_id": "wikidata"
+    },
+    {
+      "id": "eiffel-tower",
+      "name": "Eiffel Tower",
+      "mass_t": 10100.0,
+      "source_id": "wikidata"
+    },
+    {
+      "id": "empire-state",
+      "name": "Empire State Building",
+      "mass_t": 331000.0,
+      "source_id": "wikidata"
+    },
+    {
+      "id": "great-pyramid",
+      "name": "Great Pyramid of Giza",
+      "mass_t": 5900000.0,
+      "source_id": "wikidata"
+    },
+    {
+      "id": "everest",
+      "name": "Mount Everest",
+      "mass_t": 810000000000.0,
+      "source_id": "wikidata"
+    }
   ]
 }

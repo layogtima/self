@@ -1,7 +1,7 @@
 // App state, mirrored into the URL hash so every view is linkable, plus a little localStorage.
 
 const KEY = 'material.prefs';
-const DEFAULTS = { view: 'flow', q: '', sort: 'quantity', classes: [], detail: null, calm: false };
+const DEFAULTS = { q: '', sort: 'made', classes: [], detail: null, calm: false };
 
 const listeners = new Set();
 export const state = { ...DEFAULTS };
@@ -30,15 +30,17 @@ export function set(patch, { silent = false } = {}) {
     try {
       writeHash();
     } catch (err) {
-      console.warn('MATERIAL: could not sync the URL.', err);
+      console.warn('MATERIALS: could not sync the URL.', err);
     }
     savePrefs();
     emit(changed);
   }
 }
 
-const VALID_VIEWS = ['crust', 'made', 'flow'];
-const VALID_SORTS = ['quantity', 'name', 'year'];
+const VALID_SORTS = ['made', 'stock', 'crust', 'name', 'year'];
+// The three lists collapsed into one. Old links carrying ?view= still resolve; the
+// two retired lists survive as sort orders, so point them at the equivalent one.
+const RETIRED_VIEWS = { crust: 'crust', made: 'stock', flow: 'made' };
 
 /** Our state hash always contains '='. Plain anchors (#grid, #about) are not state. */
 function isStateHash() {
@@ -50,10 +52,10 @@ function parseHash() {
   const out = {};
   if (!raw) return out;
   const params = new URLSearchParams(raw);
-  // Array membership, not `in` — `#view=constructor` would otherwise pass validation.
-  if (VALID_VIEWS.includes(params.get('view'))) out.view = params.get('view');
   if (params.has('q')) out.q = params.get('q');
+  // Array membership, not `in` — `#sort=constructor` would otherwise pass validation.
   if (VALID_SORTS.includes(params.get('sort'))) out.sort = params.get('sort');
+  else if (Object.hasOwn(RETIRED_VIEWS, params.get('view') ?? '')) out.sort = RETIRED_VIEWS[params.get('view')];
   if (params.has('class')) out.classes = params.get('class').split(',').filter(Boolean);
   out.detail = params.get('m') || null;
   return out;
@@ -61,7 +63,6 @@ function parseHash() {
 
 function writeHash() {
   const params = new URLSearchParams();
-  if (state.view !== DEFAULTS.view) params.set('view', state.view);
   if (state.q) params.set('q', state.q);
   if (state.sort !== DEFAULTS.sort) params.set('sort', state.sort);
   if (state.classes.length) params.set('class', state.classes.join(','));
@@ -73,7 +74,7 @@ function writeHash() {
 
 function savePrefs() {
   try {
-    localStorage.setItem(KEY, JSON.stringify({ calm: state.calm, view: state.view }));
+    localStorage.setItem(KEY, JSON.stringify({ calm: state.calm, sort: state.sort }));
   } catch {
     /* private mode, storage full — preferences just don't persist */
   }
@@ -93,7 +94,7 @@ export function initState() {
   const prefersCalm = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
   Object.assign(state, DEFAULTS, {
     calm: typeof prefs.calm === 'boolean' ? prefs.calm : prefersCalm,
-    view: prefs.view || DEFAULTS.view,
+    sort: VALID_SORTS.includes(prefs.sort) ? prefs.sort : DEFAULTS.sort,
   }, isStateHash() ? parseHash() : {});
 
   window.addEventListener('hashchange', () => {

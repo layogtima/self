@@ -35,8 +35,12 @@ eq('fmtProperty Pa', fmtProperty({ value: 4.0e8, unit: 'Pa' }), '400 MPa');
 eq('fmtProperty K', fmtProperty({ value: 1723, unit: 'K' }), '1,450 °C');
 eq('fmtProperty kg/m3', fmtProperty({ value: 7850, unit: 'kg/m3' }), '7,850 kg/m³');
 
-eq('fmtYear BCE', fmtYear(-4000, 'Native nuggets'), '4000 BCE — Native nuggets');
+eq('fmtYear BCE', fmtYear(-4000, 'Native nuggets'), '4000 BCE · Native nuggets');
+eq('fmtYear CE has no separator', fmtYear(1856, null), '1856');
+eq('fmtYear approx', fmtYear(-9500, 'Fertile Crescent', true), 'about 9500 BCE · Fertile Crescent');
+eq('fmtYear deep prehistory', fmtYear(-400000, null, true), 'about 400,000 BCE');
 eq('fmtYear null', fmtYear(null, null), 'Prehistoric');
+eq('no em dash from fmtYear', fmtYear(1909, 'Haber-Bosch').includes('\u2014'), false);
 
 console.log(failures.length ? `\n${failures.length} failure(s)` : '\nformat ok');
 process.exit(failures.length ? 1 : 0);
