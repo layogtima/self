@@ -7,7 +7,7 @@ import { mountGrid } from './ui/grid.js';
 import { mountDetail } from './ui/detail.js';
 import { mountHero } from './ui/hero.js';
 import { mountKeys } from './ui/keys.js';
-import { setPaused } from './ticker.js';
+import { counter, setPaused } from './ticker.js';
 
 let app;
 try {
@@ -104,10 +104,16 @@ detail.sync();
 applyCalm();
 applyTheme();
 
-// One loop drives the counters; gl runs its own rAF for the specimens.
-function tick() {
+// One loop drives the counters; gl runs its own rAF for the specimens. The paint is
+// throttled to counter.intervalMs — at three million kilograms a second the last digits are
+// a blur at frame rate, and the figure is read off the clock, so a slower repaint is just
+// as truthful.
+let lastPaint = -Infinity;
+function tick(now = performance.now()) {
   requestAnimationFrame(tick);
   if (state.calm) return;
+  if (now - lastPaint < counter.intervalMs) return;
+  lastPaint = now;
   updateHero();
   detail.tick();
 }
@@ -115,4 +121,4 @@ tick();
 updateHero();
 
 // exposed for the smoke test
-window.__mat = { app, state, gl, thumbs, grid, detail };
+window.__mat = { app, state, gl, thumbs, grid, detail, counter };

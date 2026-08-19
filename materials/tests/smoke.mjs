@@ -78,6 +78,20 @@ try {
   const parsed = Number(kg2.replace(/,/g, ''));
   check('live counter advances', kg1 !== kg2 && parsed > 0, `${kg1} → ${kg2} kg`);
 
+  // ...and holds still between paints. A long interval must suppress the repaint entirely;
+  // rAF throttling can only make this stricter, never falsely pass it.
+  const held = await page.evaluate(async () => {
+    const prev = window.__mat.counter.intervalMs;
+    window.__mat.counter.intervalMs = 60000;
+    await new Promise((r) => setTimeout(r, 700));
+    const a = document.getElementById('counter-kg').textContent;
+    await new Promise((r) => setTimeout(r, 900));
+    const b = document.getElementById('counter-kg').textContent;
+    window.__mat.counter.intervalMs = prev;
+    return { a, b, prev };
+  });
+  check('the counter repaint honours counter.intervalMs', held.a === held.b && held.prev > 0, `${held.a} → ${held.b} at ${held.prev}ms`);
+
   const first = () => page.evaluate(() => document.querySelector('#grid .card:not(.is-hidden) .card-name')?.textContent);
   check('the list is topped by sand & gravel', /sand/i.test((await first()) || ''), `1st is ${await first()}`);
 
