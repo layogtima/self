@@ -1,7 +1,7 @@
 // App state, mirrored into the URL hash so every view is linkable, plus a little localStorage.
 
 const KEY = 'material.prefs';
-const DEFAULTS = { q: '', sort: 'made', classes: [], detail: null, calm: false };
+const DEFAULTS = { q: '', sort: 'made', classes: [], detail: null, calm: false, theme: 'system' };
 
 const listeners = new Set();
 export const state = { ...DEFAULTS };
@@ -38,6 +38,8 @@ export function set(patch, { silent = false } = {}) {
 }
 
 const VALID_SORTS = ['made', 'stock', 'crust', 'name', 'year'];
+// 'system' is not a colour, it is the absence of an override: the stylesheet decides.
+const VALID_THEMES = ['system', 'light', 'dark'];
 // The three lists collapsed into one. Old links carrying ?view= still resolve; the
 // two retired lists survive as sort orders, so point them at the equivalent one.
 const RETIRED_VIEWS = { crust: 'crust', made: 'stock', flow: 'made' };
@@ -74,7 +76,7 @@ function writeHash() {
 
 function savePrefs() {
   try {
-    localStorage.setItem(KEY, JSON.stringify({ calm: state.calm, sort: state.sort }));
+    localStorage.setItem(KEY, JSON.stringify({ calm: state.calm, sort: state.sort, theme: state.theme }));
   } catch {
     /* private mode, storage full — preferences just don't persist */
   }
@@ -95,6 +97,7 @@ export function initState() {
   Object.assign(state, DEFAULTS, {
     calm: typeof prefs.calm === 'boolean' ? prefs.calm : prefersCalm,
     sort: VALID_SORTS.includes(prefs.sort) ? prefs.sort : DEFAULTS.sort,
+    theme: VALID_THEMES.includes(prefs.theme) ? prefs.theme : DEFAULTS.theme,
   }, isStateHash() ? parseHash() : {});
 
   window.addEventListener('hashchange', () => {
@@ -104,7 +107,7 @@ export function initState() {
     applying = true;
     const from = parseHash();
     const changed = [];
-    for (const [k, v] of Object.entries({ ...DEFAULTS, ...from, calm: state.calm })) {
+    for (const [k, v] of Object.entries({ ...DEFAULTS, ...from, calm: state.calm, theme: state.theme })) {
       if (JSON.stringify(state[k]) === JSON.stringify(v)) continue;
       state[k] = v;
       changed.push(k);

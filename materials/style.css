@@ -1,14 +1,34 @@
-/* MATERIAL — a dark studio. Specimens are lit objects; everything else gets out of the way. */
+/* MATERIAL — a studio, dark by default. Specimens are lit objects; everything else gets
+   out of the way.
+
+   Two themes, one set of tokens. Dark is the base, so a page with JavaScript off and no
+   stored preference still gets a coherent theme; the light block below is applied either
+   because the system asks for it (and nothing has overridden that) or because the reader
+   picked LIGHT, which sets data-theme on <html>. Nothing outside :root may hard-code a
+   colour, or the switch leaves it behind. */
 
 :root {
   --paper: #0b0c0e;
   --panel: #14161a;
+  --panel-hover: #1b1e24;
   --ink: #f3f3f1;
   --dim: #8d9199;
   --faint: #5a5f68;
   --hair: rgba(255, 255, 255, 0.13);
   --hair-strong: rgba(255, 255, 255, 0.3);
   --accent: #f3f3f1;
+  --scroll-thumb: #2c3038;
+  --track: rgba(255, 255, 255, 0.09);
+  --scrim: rgba(0, 0, 0, 0.75);
+  --swatch-fallback: #2a2e35;
+  --card-line: transparent;
+  --card-stage: transparent;
+  --stage-top: #22262d;
+  --stage-bottom: #0e1013;
+  --warn-line: #b4652a;
+  --warn-bg: #1d1409;
+  --good: #6fbf8f;
+  --bad: #d4796b;
 
   --display: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --mono: "Space Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -16,6 +36,67 @@
   --nav-h: 3rem;
   --gutter: clamp(1rem, 4vw, 3.5rem);
 }
+
+/* The light theme, written twice on purpose. The media query is what a page with
+   JavaScript off follows, so "System" keeps working without the switcher; the attribute is
+   what the switcher writes on <html>, and :not([data-theme='dark']) is what lets a reader
+   on a light system still choose dark. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+  --paper: #f6f6f3;
+  --panel: #ffffff;
+  --panel-hover: #efefea;
+  --ink: #15171b;
+  --dim: #5b6069;
+  --faint: #8a8f98;
+  --hair: rgba(0, 0, 0, 0.14);
+  --hair-strong: rgba(0, 0, 0, 0.34);
+  --accent: #15171b;
+  --scroll-thumb: #c7c7c0;
+  --track: rgba(0, 0, 0, 0.12);
+  --scrim: rgba(30, 32, 36, 0.45);
+  --swatch-fallback: #d6d8dc;
+  /* White cards on off-white paper need an edge that dark ones get from contrast alone. */
+  --card-line: rgba(0, 0, 0, 0.07);
+  /* Pale specimens (salt, sugar, white polymers) would otherwise dissolve into a white
+     card. A barely-there stage puts them back on a surface. */
+  --card-stage: radial-gradient(circle at 50% 42%, #f2f3f5, #e3e5ea 78%);
+  --stage-top: #ffffff;
+  --stage-bottom: #d9dbe0;
+  --warn-line: #b4652a;
+  --warn-bg: #fdf0e0;
+  --good: #2f7d52;
+  --bad: #ad4634;
+  }
+}
+
+:root[data-theme='light'] {
+  --paper: #f6f6f3;
+  --panel: #ffffff;
+  --panel-hover: #efefea;
+  --ink: #15171b;
+  --dim: #5b6069;
+  --faint: #8a8f98;
+  --hair: rgba(0, 0, 0, 0.14);
+  --hair-strong: rgba(0, 0, 0, 0.34);
+  --accent: #15171b;
+  --scroll-thumb: #c7c7c0;
+  --track: rgba(0, 0, 0, 0.12);
+  --scrim: rgba(30, 32, 36, 0.45);
+  --swatch-fallback: #d6d8dc;
+  /* White cards on off-white paper need an edge that dark ones get from contrast alone. */
+  --card-line: rgba(0, 0, 0, 0.07);
+  /* Pale specimens (salt, sugar, white polymers) would otherwise dissolve into a white
+     card. A barely-there stage puts them back on a surface. */
+  --card-stage: radial-gradient(circle at 50% 42%, #f2f3f5, #e3e5ea 78%);
+  --stage-top: #ffffff;
+  --stage-bottom: #d9dbe0;
+  --warn-line: #b4652a;
+  --warn-bg: #fdf0e0;
+  --good: #2f7d52;
+  --bad: #ad4634;
+}
+
 
 *,
 *::before,
@@ -65,7 +146,7 @@ input {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2c3038;
+  background: var(--scroll-thumb);
 }
 
 :focus-visible {
@@ -177,6 +258,32 @@ body.no-webgl #gl {
   color: var(--paper);
 }
 
+/* Theme switcher. A real <select> so the three states (and the fact that one of them is
+   "follow the system") are legible on a phone without spending three chips of a bar that
+   is already tight. */
+.theme select {
+  background: none;
+  border: 1px solid var(--hair-strong);
+  border-radius: 999px;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: var(--dim);
+}
+
+.theme select:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.theme option {
+  background: var(--panel);
+  color: var(--ink);
+  letter-spacing: 0;
+}
+
 /* ---- hero ----------------------------------------------------------- */
 
 #hero {
@@ -285,8 +392,8 @@ body.no-webgl .hero-specimens {
 
 .warnings {
   margin: 0 var(--gutter) 1rem;
-  border: 1px solid #b4652a;
-  background: #1d1409;
+  border: 1px solid var(--warn-line);
+  background: var(--warn-bg);
   padding: 0.75rem 1rem;
   font-size: 0.8rem;
 }
@@ -386,7 +493,7 @@ body.no-webgl .hero-specimens {
   gap: 1rem;
   align-items: center;
   background: var(--panel);
-  border: 1px solid transparent;
+  border: 1px solid var(--card-line);
   border-radius: 14px;
   padding: 1rem;
   cursor: pointer;
@@ -396,7 +503,7 @@ body.no-webgl .hero-specimens {
 
 .card:hover,
 .card:focus-visible {
-  background: #1b1e24;
+  background: var(--panel-hover);
   border-color: var(--hair-strong);
 }
 
@@ -413,6 +520,8 @@ body.no-webgl .hero-specimens {
   width: 5rem;
   aspect-ratio: 1;
   contain: strict;
+  background: var(--card-stage);
+  border-radius: 12px;
 }
 
 .specimen canvas {
@@ -423,7 +532,7 @@ body.no-webgl .hero-specimens {
 
 body.no-webgl .specimen {
   border-radius: 50%;
-  background: var(--swatch, #2a2e35);
+  background: var(--swatch, var(--swatch-fallback));
 }
 
 body.no-webgl .specimen canvas {
@@ -463,7 +572,7 @@ body.no-webgl .specimen canvas {
 .bar {
   height: 4px;
   border-radius: 2px;
-  background: rgba(255, 255, 255, 0.09);
+  background: var(--track);
   margin-top: 0.5rem;
   overflow: hidden;
 }
@@ -607,7 +716,7 @@ footer {
   position: fixed;
   inset: 0;
   z-index: 45;
-  background: rgba(0, 0, 0, 0.75);
+  background: var(--scrim);
   backdrop-filter: blur(3px);
 }
 
@@ -681,7 +790,7 @@ footer {
 .detail-specimen {
   aspect-ratio: 1;
   border-radius: 14px;
-  background: radial-gradient(circle at 50% 45%, #22262d, #0e1013 72%);
+  background: radial-gradient(circle at 50% 45%, var(--stage-top), var(--stage-bottom) 72%);
   touch-action: none;
   pointer-events: auto;
   cursor: grab;
@@ -812,12 +921,12 @@ footer {
 
 .points.good li::before {
   content: "+";
-  color: #6fbf8f;
+  color: var(--good);
 }
 
 .points.bad li::before {
   content: "\2212";
-  color: #d4796b;
+  color: var(--bad);
 }
 
 .scales {
@@ -962,6 +1071,19 @@ footer {
 
   .sort select {
     max-width: 9.5rem;
+  }
+}
+
+@media (max-width: 460px) {
+  /* Three controls plus a running total is one thing too many for a phone bar; the total
+     is decorative (aria-hidden) and the counter in the hero says the same thing. */
+  .nav-total {
+    display: none;
+  }
+
+  .theme select {
+    padding: 0.25rem 0.4rem;
+    letter-spacing: 0.08em;
   }
 }
 
