@@ -215,6 +215,57 @@ try {
   check('calm mode engages and persists', calm.on && /"calm":true/.test(calm.stored || ''));
   check('calm mode freezes the counter', calm.kg === calmAfter, `${calm.kg} → ${calmAfter}`);
 
+  // Theme switcher: three states, one of which is "do not override the system", and a
+  // reload has to come back the same way round without a flash of the wrong theme.
+  const light = await page.evaluate(async () => {
+    document.getElementById('theme').value = 'light';
+    document.getElementById('theme').dispatchEvent(new Event('change'));
+    await new Promise((r) => setTimeout(r, 60));
+    return {
+      attr: document.documentElement.dataset.theme,
+      paper: getComputedStyle(document.body).backgroundColor,
+      ink: getComputedStyle(document.body).color,
+      stored: localStorage.getItem('material.prefs'),
+    };
+  });
+  const lightIsLight = light.paper === 'rgb(246, 246, 243)' && light.ink === 'rgb(21, 23, 27)';
+  check('light theme repaints and persists', light.attr === 'light' && lightIsLight && /"theme":"light"/.test(light.stored || ''), JSON.stringify(light));
+
+  await page.reload({ waitUntil: 'networkidle0' });
+  await sleep(400);
+  const afterReload = await page.evaluate(() => ({
+    attr: document.documentElement.dataset.theme,
+    sel: document.getElementById('theme').value,
+    // set before the modules run, by the inline script: no dark flash on a light page
+    inlineWon: document.documentElement.dataset.theme === 'light',
+  }));
+  check('the stored theme is applied before paint', afterReload.attr === 'light' && afterReload.sel === 'light' && afterReload.inlineWon, JSON.stringify(afterReload));
+
+  // System means: no attribute at all, so a page with JavaScript off follows the OS too.
+  await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: 'light' }]);
+  const system = await page.evaluate(async () => {
+    document.getElementById('theme').value = 'system';
+    document.getElementById('theme').dispatchEvent(new Event('change'));
+    await new Promise((r) => setTimeout(r, 60));
+    return { attr: document.documentElement.dataset.theme, paper: getComputedStyle(document.body).backgroundColor };
+  });
+  check('system follows prefers-color-scheme with no attribute', system.attr === undefined && system.paper === 'rgb(246, 246, 243)', JSON.stringify(system));
+
+  // Dark must still win on a light system, or the switch is only half a switch.
+  const forcedDark = await page.evaluate(async () => {
+    document.getElementById('theme').value = 'dark';
+    document.getElementById('theme').dispatchEvent(new Event('change'));
+    await new Promise((r) => setTimeout(r, 60));
+    return { attr: document.documentElement.dataset.theme, paper: getComputedStyle(document.body).backgroundColor };
+  });
+  check('dark overrides a light system', forcedDark.attr === 'dark' && forcedDark.paper === 'rgb(11, 12, 14)', JSON.stringify(forcedDark));
+  await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: 'dark' }]);
+  await page.evaluate(async () => {
+    document.getElementById('theme').value = 'system';
+    document.getElementById('theme').dispatchEvent(new Event('change'));
+  });
+  await sleep(80);
+
   // Regression: an in-page anchor must not reset the filters (state hashes contain '=').
   await page.evaluate(() => {
     location.hash = 'sort=crust&q=iron';

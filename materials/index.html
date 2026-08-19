@@ -6,13 +6,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MATERIALS, everything the world is made of</title>
   <meta name="description" content="What the ground is made of, what we have built, and what is being dug up right now. Real numbers, real sources." />
-  <meta name="theme-color" content="#0b0c0e" />
+  <meta name="theme-color" content="#0b0c0e" media="(prefers-color-scheme: dark)" id="theme-color-dark" />
+  <meta name="theme-color" content="#f6f6f3" media="(prefers-color-scheme: light)" id="theme-color-light" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0c0e'/%3E%3Ccircle cx='16' cy='16' r='9' fill='%23f2f2f0'/%3E%3C/svg%3E" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./style.css" />
+
+  <script>
+    // Read the stored theme before first paint. The modules load too late to do this, and a
+    // dark flash on the way to a light page is worse than four lines of inline script.
+    // Without JavaScript nothing runs here, no attribute is set, and the stylesheet's
+    // prefers-color-scheme block decides — which is exactly what "System" means.
+    try {
+      var t = JSON.parse(localStorage.getItem('material.prefs') || '{}').theme;
+      if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+    } catch (e) { /* private mode: fall back to the system theme */ }
+  </script>
 
   <script type="importmap">
     {
@@ -32,6 +44,14 @@
     <a class="wordmark" href="#" aria-label="MATERIALS, back to top">MATERIALS</a>
     <div class="nav-right">
       <span class="nav-total" id="nav-total" aria-hidden="true"></span>
+      <label class="theme">
+        <span class="sr-only">Theme</span>
+        <select id="theme" title="Light, dark, or whatever this device asks for">
+          <option value="system">System</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </label>
       <button id="calm-toggle" type="button" aria-pressed="false" title="Stop the counter and the motion (c)">PAUSE</button>
     </div>
   </nav>

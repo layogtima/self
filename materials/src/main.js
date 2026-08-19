@@ -67,17 +67,42 @@ function applyCalm() {
 }
 calmBtn.addEventListener('click', () => set({ calm: !state.calm }));
 
+// theme. 'system' means: write no attribute and let the stylesheet's prefers-color-scheme
+// block answer, which is also what a page with JavaScript off gets.
+const themeSel = document.getElementById('theme');
+const PAPER = { dark: '#0b0c0e', light: '#f6f6f3' };
+function applyTheme() {
+  const t = state.theme;
+  if (t === 'system') delete document.documentElement.dataset.theme;
+  else document.documentElement.dataset.theme = t;
+  themeSel.value = t;
+
+  // The two theme-color tags are media-matched for the system case; an explicit choice has
+  // to override both or the browser chrome keeps answering to the system instead.
+  const dark = document.getElementById('theme-color-dark');
+  const light = document.getElementById('theme-color-light');
+  if (t === 'system') {
+    dark.content = PAPER.dark;
+    light.content = PAPER.light;
+  } else {
+    dark.content = light.content = PAPER[t];
+  }
+}
+themeSel.addEventListener('change', () => set({ theme: themeSel.value }));
+
 mountKeys({ grid, detail, toggleCalm: () => set({ calm: !state.calm }) });
 
 subscribe((_s, changed) => {
   if (changed.some((c) => ['view', 'q', 'sort', 'classes'].includes(c))) grid.render();
   if (changed.includes('detail')) detail.sync();
   if (changed.includes('calm')) applyCalm();
+  if (changed.includes('theme')) applyTheme();
 });
 
 grid.render();
 detail.sync();
 applyCalm();
+applyTheme();
 
 // One loop drives the counters; gl runs its own rAF for the specimens.
 function tick() {

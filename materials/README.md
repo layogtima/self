@@ -114,6 +114,21 @@ the ones that are estimates render as "about 9500 BCE". Iron ore reading as olde
 under `Oldest first` was the giveaway that forty records were undated and all tying on one
 sentinel value.
 
+## Light and dark
+
+A three-state switcher in the bar: **System**, **Light**, **Dark**. System is the default and
+means literally no override, `<html>` carries no `data-theme`, so the stylesheet's
+`prefers-color-scheme` block answers, and a reader with JavaScript off still gets the theme
+their device asked for. An explicit choice writes `data-theme="light"` or `"dark"` and is
+stored in `material.prefs`; a four-line inline script in `<head>` applies it before first
+paint, so a light reader never sees a dark flash.
+
+Every colour lives in `:root` as a token, including the ones that used to be hard-coded
+(scrim, card hover, warning box, the good/bad marks, the specimen stage). Nothing outside
+`:root` may name a colour, or the switch leaves it behind. In light mode card specimens get
+a faint radial stage, otherwise salt, sugar and white polymers dissolve into the white card;
+the 3D renderers themselves clear to transparent and needed no change.
+
 ## Keyboard
 
 `/` search · `j` `k` move · `Enter` open · `Esc` close · `c` pause
