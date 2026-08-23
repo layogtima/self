@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en" data-slug="khmer-rouge">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Democratic Kampuchea — Political Design</title>
+<meta name="description" content="The Khmer Rouge is the only regime in this atlas that tried to abolish design itself — money, cities, schools, markets, ornament and the choice of what to wear. An analysis of erasure as a visual method." />
+<meta name="theme-color" content="#0E0E0E" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Democratic Kampuchea — Political Design" />
+<meta property="og:description" content="A regime that abolished currency after printing it, emptied the cities, dressed a whole population identically, and issued no leader portrait. Uniformity taken to its endpoint." />
+<meta property="og:url" content="https://layogtima.com/political-design/m/khmer-rouge/" />
+<link rel="icon" type="image/svg+xml" href="https://layogtima.com/images/favicon/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Khmer:wght@300;400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../shared/site.css" />
+<link rel="stylesheet" href="../../shared/textures.css" />
+<style>
+  /* Deliberately the least expressive page in the atlas.
+     One serif, one mono, one red. No [data-reveal] anywhere: nothing here
+     should arrive with a flourish. No animation, no glow, no hover theatre. */
+  :root {
+    --paper: #0E0E0E;
+    --ink: #DEDAD4;
+    --accent: #8E1B12;
+    --accent-ink: #BF4A38;   /* the accent, lifted just enough to be legible as type on black */
+    --gold: #D9A932;         /* the yellow of the DK flag's temple */
+    --bone: #DEDAD4;
+    --blue: #032EA1;         /* the colour the regime removed from the flag */
+    --panel: #151513;
+    --font-display: "Source Serif 4", Georgia, serif;
+    --font-body: "Source Serif 4", Georgia, serif;
+    --font-khmer: "Noto Serif Khmer", "Battambang", serif;
+  }
+  h1, h2, h3, h4 { font-weight: 400; letter-spacing: -0.005em; }
+  body { background-color: var(--paper); }
+  .km { font-family: var(--font-khmer); font-weight: 400; }
+
+  /* ---------- hero: mostly empty, on purpose ---------- */
+  .hero { min-height: 100svh; display: grid; grid-template-rows: auto 1fr auto; padding: 6.5rem var(--gutter) 3rem; }
+  .hero__top {
+    font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.24em;
+    text-transform: uppercase; color: var(--soft);
+    border-top: 1px solid var(--rule); padding-top: 0.7rem;
+  }
+  .hero__inner { max-width: 62rem; }
+  /* the only ornament on the page: a narrow band of krama check, doubled so that the
+     grid is visible without becoming decoration */
+  .hero__band { position: relative; height: 56px; width: min(30rem, 58vw); background-color: var(--accent); margin-bottom: 2.8rem; opacity: 0.85; }
+  .hero__km {
+    font-family: var(--font-khmer); font-size: clamp(1.5rem, 3.4vw, 2.5rem);
+    line-height: 1.6; margin: 0 0 1.1rem; color: var(--bone); opacity: 0.82;
+  }
+  .hero__h1 { font-size: clamp(2.1rem, 5.4vw, 4rem); line-height: 1.06; margin: 0 0 1.6rem; max-width: 18ch; }
+  .hero__meta {
+    font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--soft);
+    display: flex; flex-wrap: wrap; gap: 0.5rem 1.6rem;
+    margin: 0 0 2rem; padding-top: 1rem; border-top: 1px solid var(--rule);
+  }
+  .hero__lede { font-size: clamp(1.05rem, 0.8vw + 0.95rem, 1.3rem); line-height: 1.55; max-width: 36rem; }
+
+  /* ---------- dossier furniture ---------- */
+  .dossier { display: grid; gap: 2.6rem; grid-template-columns: 1fr; }
+  @media (min-width: 62rem) { .dossier { grid-template-columns: 1.05fr 1fr; gap: 4rem; } }
+  .section-title { font-size: clamp(1.7rem, 3.4vw, 2.6rem); }
+  /* colour strip and type strip run the full width, five and three across */
+  #anatomy .swatches { margin-top: 3.4rem; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); }
+  #anatomy .specimens { margin-top: 3.4rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 2.4rem; }
+  .symbolrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 1.8rem; }
+  .symbolrow figure .frame, .figures figure .frame { background: var(--panel); padding: 0.9rem; }
+  .symbolrow figcaption { font-size: 0.8rem; }
+  /* artifacts: two up, with the banknote and the flag comparison spanning the grid */
+  #artifacts .figures { grid-template-columns: repeat(auto-fit, minmax(min(26rem, 100%), 1fr)); gap: 3rem 2.6rem; }
+  .fig-wide { grid-column: 1 / -1; }
+  .fig-wide .frame, .fig-wide figcaption { max-width: 54rem; }
+
+  /* ---------- essay ---------- */
+  .essay h3 { font-size: clamp(1.3rem, 2.5vw, 1.95rem); margin: 3.2rem 0 1rem; max-width: 26ch; }
+  .essay h3 span { color: var(--accent-ink); }
+  .two-col { display: grid; gap: 2.5rem; grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 58rem) { .two-col { grid-template-columns: minmax(0,1fr) 15rem; gap: 4rem; } }
+  .marginalia {
+    font-family: var(--font-mono); font-size: 0.68rem; line-height: 1.75; letter-spacing: 0.04em;
+    color: var(--soft); border-left: 1px solid var(--rule); padding-left: 1.1rem;
+  }
+  .marginalia b { color: var(--ink); font-weight: 400; }
+  .pull {
+    font-family: var(--font-body); font-size: clamp(1.15rem, 2.1vw, 1.6rem);
+    line-height: 1.35; letter-spacing: 0; border-left: 2px solid var(--accent); padding-left: 1.3rem;
+  }
+  .withheld {
+    border: 1px solid var(--rule); padding: 1.2rem 1.4rem; max-width: 44rem; margin: 2.4rem 0;
+    font-family: var(--font-mono); font-size: 0.76rem; line-height: 1.75; color: var(--soft);
+  }
+  .withheld b { color: var(--accent-ink); font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.68rem; display: block; margin-bottom: 0.6rem; }
+</style>
+<noscript><style>[data-reveal]{opacity:1 !important;transform:none !important}</style></noscript>
+</head>
+<body>
+
+<!-- shared schematic of the three-towered Angkor Wat silhouette used on Cambodian flags.
+     Drawn once, reused at four sizes. Schematic, not a tracing. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="wat">
+      <!-- central tower -->
+      <path d="M50 2 c-2.7 5.2 -4.6 9.8 -5.4 14.4 c-0.9 5.1 -1.1 9.2 -1.1 13.8 v5.6 h13 v-5.6 c0 -4.6 -0.2 -8.7 -1.1 -13.8 c-0.8 -4.6 -2.7 -9.2 -5.4 -14.4 z" />
+      <!-- flanking towers -->
+      <path d="M27 13 c-2.1 4.1 -3.6 7.6 -4.2 11.1 c-0.7 3.9 -0.9 7 -0.9 10.5 v3.4 h10.2 v-3.4 c0 -3.5 -0.2 -6.6 -0.9 -10.5 c-0.6 -3.5 -2.1 -7 -4.2 -11.1 z" />
+      <path d="M73 13 c-2.1 4.1 -3.6 7.6 -4.2 11.1 c-0.7 3.9 -0.9 7 -0.9 10.5 v3.4 h10.2 v-3.4 c0 -3.5 -0.2 -6.6 -0.9 -10.5 c-0.6 -3.5 -2.1 -7 -4.2 -11.1 z" />
+      <!-- gallery, terrace, causeway -->
+      <rect x="15" y="36" width="70" height="5" />
+      <rect x="9" y="41" width="82" height="3.6" />
+      <rect x="44" y="44.6" width="12" height="4.4" />
+      <rect x="20" y="31.5" width="4" height="4.5" />
+      <rect x="76" y="31.5" width="4" height="4.5" />
+    </g>
+  </defs>
+</svg>
+
+<!-- ============================== HERO ============================== -->
+<header class="hero">
+  <p class="hero__top">Political Design · Atlas entry</p>
+  <div></div>
+  <div class="hero__inner">
+    <div class="hero__band tx-krama" aria-hidden="true"><div class="tx-over tx-krama"></div></div>
+    <p class="hero__km km" lang="km">កម្ពុជាប្រជាធិបតេយ្យ</p>
+    <h1 class="hero__h1">Democratic Kampuchea</h1>
+    <p class="hero__meta">
+      <span>No. 13</span><span>Southeast Asia · Cambodia</span><span>1975 — 1979</span>
+    </p>
+    <p class="hero__lede">
+      Every other page in this atlas is loud. This one is mostly empty, and the emptiness
+      is the argument: Democratic Kampuchea is the only regime here that tried to abolish
+      design — money, cities, schools, markets, ornament, the choice of what to wear — and
+      then had almost nothing left to print.
+    </p>
+  </div>
+</header>
+
+<!-- ============================== WARNING ============================== -->
+<section class="section" id="warning" style="padding-block:0 var(--step)">
+  <div class="wrap">
+    <div class="warnbox">
+      <h2>Read this first</h2>
+      <p>
+        Between April 1975 and January 1979 the Communist Party of Kampuchea, known abroad
+        as the Khmer Rouge, killed an estimated 1.5 to 2 million people in Cambodia through
+        execution, forced labour, starvation and untreated disease — somewhere between a
+        fifth and a quarter of the country's population. Ethnic Vietnamese, Cham Muslims,
+        Chinese Cambodians, Buddhist monks and the regime's own cadres were killed as
+        categories. Two of its surviving leaders were later convicted of genocide.
+      </p>
+      <p>
+        This page analyses the regime's visual system as evidence of how it operated. It is
+        not an appreciation, and there is nothing here to admire. Where the design is
+        competent, that is a finding about method, not a compliment.
+      </p>
+      <p>
+        What this page does not show: the regime's administrative photography. The security
+        centre at Tuol Sleng (S-21) photographed the people it held, on arrival, against a
+        wall, under a number. Those photographs are held by the Tuol Sleng Genocide Museum
+        and DC-Cam and belong to the people in them and their families. They are named here
+        as an artifact of bureaucratic design and are not reproduced, restyled, referenced
+        or drawn. No faces appear anywhere on this page.
+      </p>
+    </div>
+  </div>
+</section>
+
+<hr class="hr" />
+
+<!-- ============================== ANATOMY ============================== -->
+<section class="section" id="anatomy">
+  <div class="wrap">
+    <p class="eyebrow">The anatomy</p>
+    <div class="dossier">
+
+      <div>
+        <h2 class="section-title">A palette of four, and one deletion</h2>
+        <p class="prose">
+          Democratic Kampuchea had no design office, no poster studio worth the name, and no
+          consumer surface to print on. Its colour system was carried on cloth and on one
+          flag. The startling thing is not what it added. It is what it took out — and that
+          every colour it kept was already Cambodian, borrowed from the country it was
+          dismantling.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="section-title">The typography of a state that stopped printing</h2>
+        <p class="prose">
+          Khmer is one of the great scripts, with a fully developed hierarchy of hands. The
+          regime inherited all of it and used almost none of it. Schools closed in 1975.
+          The National Library was emptied. There was no advertising, no packaging, no
+          commercial signage and no public newspaper, because there was no market and no
+          public to sell to. What was set in type was set for cadres.
+        </p>
+      </div>
+
+    </div>
+
+    <div class="swatches">
+      <div class="swatch"><i style="background:#0E0E0E;box-shadow:inset 0 0 0 1px rgba(222,218,212,0.18)"></i><b>#0E0E0E BLACK</b><span>The dyed cotton everyone wore. Peasant working dress before it was policy: cheap, colour-fast in local dye, and it made a crowd unreadable at any distance.</span></div>
+      <div class="swatch"><i style="background:#8E1B12"></i><b>#8E1B12 OXIDE</b><span>The flag field, and the red of the checked krama scarf. A red already in the national wardrobe — nothing to import, nothing to explain.</span></div>
+      <div class="swatch"><i style="background:#D9A932"></i><b>#D9A932 GOLD</b><span>The temple on the flag. The colour of Khmer architectural gilding and of the monastery, kept as an image at the exact moment the institution was being emptied.</span></div>
+      <div class="swatch"><i style="background:#DEDAD4"></i><b>#DEDAD4 BONE</b><span>Undyed cotton: the white in the check, and the only permitted non-colour. What cloth looks like before anyone has decided anything about it.</span></div>
+      <div class="swatch"><i style="background:#032EA1"></i><b>#032EA1 BLUE · REMOVED</b><span>The kingdom's blue, above and below the red band on the flag of 1948. Deleted in 1975, restored in 1993. The regime's only edit to the national flag was a subtraction.</span></div>
+    </div>
+
+    <div class="specimens">
+      <div class="specimen">
+        <p class="km" lang="km" style="font-size:clamp(1.8rem,4vw,2.6rem)">អក្សរមូល</p>
+        <small><i>Aksar mul</i> — the round ceremonial hand: manuscript covers, temple signboards, Buddhist texts. Its institutional home was the monastery, and the monasteries were emptied and the monks defrocked. A script does not die when its readers are dispersed. Its maintenance does.</small>
+      </div>
+      <div class="specimen">
+        <p class="km" lang="km" style="font-size:clamp(1.8rem,4vw,2.6rem)">អក្សរជ្រៀង</p>
+        <small><i>Aksar chrieng</i> — the slanted everyday hand, the one you write letters in. Under a regime that abolished private post, private property and travel between cooperatives, an everyday hand has almost no occasions left.</small>
+      </div>
+      <div class="specimen">
+        <p style="font-family:var(--font-mono);font-size:0.92rem;letter-spacing:0.08em;line-height:1.5;text-transform:uppercase">Name · Cooperative<br>Date of entry · Biography<br>Confession · Number</p>
+        <small>The real typography of Democratic Kampuchea: ruled columns, ledger headings, numbered forms, typed and handwritten confessions. The state's dominant graphic output was administrative, made to control rather than to persuade — which is why so little of it looks like propaganda and so much of it looks like paperwork.</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="hr" />
+
+<!-- ============================== SYMBOLS ============================== -->
+<section class="section" id="symbols">
+  <div class="wrap">
+    <p class="eyebrow">The marks</p>
+    <h2 class="section-title">Four marks, and one of them is blank</h2>
+    <p class="prose" style="margin-bottom:2.6rem">
+      Three of these existed before the regime and were taken over. The fourth is an
+      absence, and it is the most characteristic thing the Khmer Rouge produced.
+    </p>
+
+    <div class="symbolrow">
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 92" role="img" aria-label="Schematic of the red and white checked pattern of a Cambodian krama scarf">
+            <rect width="120" height="92" fill="#DEDAD4" />
+            <g fill="#8E1B12" opacity="0.62">
+              <rect x="8" y="0" width="14" height="92" /><rect x="36" y="0" width="14" height="92" />
+              <rect x="64" y="0" width="14" height="92" /><rect x="92" y="0" width="14" height="92" />
+              <rect x="0" y="6" width="120" height="14" /><rect x="0" y="34" width="120" height="14" />
+              <rect x="0" y="62" width="120" height="14" />
+            </g>
+            <g stroke="#8E1B12" stroke-width="0.4" opacity="0.5">
+              <path d="M0 27 H120 M0 55 H120 M0 83 H120 M15 0 V92 M43 0 V92 M71 0 V92 M99 0 V92" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The <span class="km" lang="km">ក្រមា</span> krama</b> — a checked cotton scarf worn in Cambodia long before 1975 as sun-shade, towel, sling, belt and bag. The regime issued it as uniform. Taking a thing everybody already owns and making it compulsory converts a habit into a badge, at no manufacturing cost.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 92" role="img" aria-label="Schematic recreation of the flag of Democratic Kampuchea: a red field with a yellow three-towered Angkor Wat">
+            <rect width="120" height="80" y="6" fill="#8E1B12" />
+            <g transform="translate(35 27) scale(0.5)" fill="#D9A932"><use href="#wat" /></g>
+          </svg>
+        </div>
+        <figcaption><b>The flag, 1975–79</b> — red field, yellow three-towered Angkor Wat. Angkor is on the Cambodian flag before, during and after this regime; the temple is a national constant, not a party mark. What the Khmer Rouge did was remove everything around it.
+          <span class="credit">Schematic recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 92" role="img" aria-label="Flat diagram of the standard-issue clothing: collarless shirt, loose trousers, checked scarf and a sandal cut from tyre rubber">
+            <g fill="none" stroke="#DEDAD4" stroke-width="1.1" stroke-linejoin="round">
+              <!-- shirt -->
+              <path d="M22 16 L34 12 L40 15 L46 12 L58 16 L55 26 L50 24 V48 H30 V24 L25 26 Z" fill="#1D1D1B" />
+              <path d="M34 12 L40 19 L46 12" />
+              <path d="M40 19 V44" stroke-dasharray="1.6 2" opacity="0.6" />
+              <!-- trousers -->
+              <path d="M68 12 H98 L100 22 L96 48 H88 L84 28 L80 48 H72 L66 22 Z" fill="#1D1D1B" />
+              <path d="M66 18 H100" opacity="0.7" />
+              <!-- krama -->
+              <rect x="20" y="58" width="40" height="20" fill="#8E1B12" opacity="0.75" />
+              <g stroke="#DEDAD4" stroke-width="0.6" opacity="0.85">
+                <path d="M28 58 V78 M36 58 V78 M44 58 V78 M52 58 V78 M20 64 H60 M20 71 H60" />
+              </g>
+              <!-- tyre sandal -->
+              <path d="M70 58 c-3 0 -5 3 -5 7 v10 c0 4 3 6 8 6 h10 c5 0 8 -2 8 -6 V65 c0 -4 -2 -7 -5 -7 z" fill="#1D1D1B" />
+              <path d="M68 65 h24 M68 72 h24" stroke-width="0.7" opacity="0.7" />
+              <path d="M73 60 v-3 M87 60 v-3" stroke-width="0.7" opacity="0.7" />
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="3.6" fill="#DEDAD4" opacity="0.55">
+              <text x="20" y="53">shirt</text><text x="66" y="53">trousers</text>
+              <text x="20" y="85">krama</text><text x="66" y="85">tyre sandal</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The issue</b> — black shirt, black trousers, checked krama, sandals cut from truck and car tyres. This is the regime's real identity artifact: not a logo but a garment, mass-produced, worn by everybody, and impossible to opt out of.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <svg viewBox="0 0 120 92" role="img" aria-label="An empty portrait frame with registration marks, standing for the absence of any published leader portrait">
+            <rect x="26" y="14" width="68" height="58" fill="none" stroke="#DEDAD4" stroke-width="0.9" opacity="0.55" />
+            <rect x="30" y="18" width="60" height="50" fill="none" stroke="#DEDAD4" stroke-width="0.5" opacity="0.3" />
+            <g stroke="#8E1B12" stroke-width="1">
+              <path d="M26 8 V14 M94 8 V14 M26 72 V78 M94 72 V78 M18 14 H26 M94 14 H102 M18 72 H26 M94 72 H102" />
+            </g>
+            <text x="60" y="86" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="4.4" letter-spacing="0.8" fill="#DEDAD4" opacity="0.55">NO PORTRAIT ISSUED</text>
+          </svg>
+        </div>
+        <figcaption><b><span class="km" lang="km">អង្គការ</span> Angkar</b> — "the Organisation". For most of the regime's life the ruling authority was named but never depicted: no leader portrait, no cult of personality, no face on a wall. Compare every other authoritarian page in this atlas. The blank is doing work — an authority you cannot picture is an authority you cannot locate.
+          <span class="credit">Diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<hr class="hr" />
+
+<!-- ============================== ESSAY ============================== -->
+<section class="section essay" id="essay">
+  <div class="wrap">
+    <div class="two-col">
+      <div>
+        <p class="eyebrow">How it worked</p>
+        <div class="prose">
+          <p>
+            Design is the management of difference. It works by making one thing look
+            unlike another: this party from that party, this brand from that brand, a
+            wedding shirt from a working shirt. Democratic Kampuchea ran the opposite
+            operation. Between April 1975 and January 1979 it set out to remove difference
+            from Cambodian life — of dress, of place, of trade, of time, of speech — and to
+            leave nothing on which a preference could be registered.
+          </p>
+          <p>
+            It is tempting to file that under minimalism. It is not minimalism. Minimalism
+            is a choice made by someone who could have chosen otherwise, and its whole
+            pleasure is that the restraint reads as taste. What happened here was the
+            removal of the ability to signal anything at all. When everybody wears the same
+            black shirt, the shirt stops meaning "revolutionary" and starts meaning nothing
+            — which is precisely the point. A population that cannot signal cannot
+            coordinate.
+          </p>
+        </div>
+
+        <h3>1975 · <span>The first design decision was subtraction</span></h3>
+        <div class="prose">
+          <p>
+            Khmer Rouge forces entered Phnom Penh on 17 April 1975 and, within days,
+            emptied it. Two million people were marched out to the countryside; hospitals
+            were cleared; the evacuation was repeated in every other city. Money was
+            abolished. The National Bank building was destroyed. Markets, wages and private
+            trade went with it. Schools closed. Postal and telephone services essentially
+            ceased. Buddhism, the practice of about ninety per cent of Cambodians, was
+            suppressed and the monkhood dissolved.
+          </p>
+          <p>
+            Every one of those is, among other things, the removal of an entire category of
+            graphic production. No currency means no banknote design, no prices, no
+            signage, no receipts. No market means no packaging, no shopfronts, no
+            typography competing for a glance. No school means no textbooks. No temple
+            means no manuscript, no wall painting, no gilded signboard. By the end of 1975
+            the country had a smaller visual output than at any point in its modern
+            history, and that was not a side-effect of the policy. It <em>was</em> the
+            policy.
+          </p>
+        </div>
+
+        <blockquote class="pull">
+          Uniformity taken to its endpoint is not a style. It is the confiscation of the
+          means to indicate anything about yourself — including that you disagree.
+        </blockquote>
+
+        <h3>1976 · <span>A flag, a constitution, an anthem</span></h3>
+        <div class="prose">
+          <p>
+            The constitution of Democratic Kampuchea, adopted in January 1976, is where the
+            regime does the only sustained piece of conventional identity work in its four
+            years. It names the state, specifies the flag — a red field with a yellow
+            three-towered Angkor Wat — and adopts a national anthem, <span class="km" lang="km">ដប់ប្រាំពីរមេសា</span>,
+            "the Seventeenth of April", whose opening lines describe blood covering the
+            towns and plains of Kampuchea. The regime was explicit in song about what it
+            was doing while remaining anonymous in every other medium.
+          </p>
+          <p>
+            Read the flag as a piece of editing. Angkor Wat had been on the Cambodian flag
+            since 1948, in white, on a red band held between two blue bands. The Khmer
+            Rouge kept the temple, kept the red, and deleted the blue and the white. Then
+            the People's Republic of Kampuchea, installed after 1979, kept the red and the
+            temple and drew it with five towers instead of three. Then the restored
+            kingdom, in 1993, went back to the 1948 design exactly.
+          </p>
+          <p>
+            Four regimes, four positions, one motif. This is what makes the DK flag worth
+            analysing precisely: it is not an invention but an appropriation of a national
+            constant. A twelfth-century temple is the least contestable object in Cambodian
+            life, which is why every government has wanted it, and why putting it on a red
+            field with nothing else was such an economical claim. The message is not "we
+            are new". It is "we are what was always here, minus everything you added".
+          </p>
+        </div>
+
+        <h3>1976–78 · <span>Angkar has no face</span></h3>
+        <div class="prose">
+          <p>
+            The ruling body was referred to as <span class="km" lang="km">អង្គការ</span>,
+            Angkar — "the Organisation". Not a party, not a person, not a photograph. The
+            slogan recorded by survivors and quoted throughout the literature is that
+            Angkar has as many eyes as a pineapple. Cadres invoked it; nobody could point
+            at it. The Communist Party of Kampuchea did not publicly acknowledge its own
+            existence until Pol Pot announced it in a long radio speech on 27 September
+            1977 — two and a half years into its own government.
+          </p>
+          <p>
+            Set that against the rest of this atlas. Hitler, Stalin, Mao and Kim Il Sung
+            all run on the same mechanism: a face, reproduced at every scale from a lapel
+            badge to a building, so that authority has an address. Democratic Kampuchea
+            deliberately declined it. Portraits of Pol Pot circulated only late and
+            thinly; there is no Kampuchean equivalent of the Little Red Book, no badge, no
+            mass-printed icon.
+          </p>
+          <p>
+            As design analysis, the absence is the interesting variable. A cult of
+            personality is a promise as well as a threat — it says someone is responsible,
+            and it can be argued with, defaced, satirised, torn down. Facelessness offers
+            no such surface. You cannot deface a noun. The regime's most effective piece of
+            art direction was to issue nothing to look at.
+          </p>
+        </div>
+
+        <h3>1977 · <span>What little there was to print</span></h3>
+        <div class="prose">
+          <p>
+            The regime was not entirely silent. It published <span class="km" lang="km">ទង់បដិវត្ត</span>
+            <cite>Tung Padevat</cite> — "Revolutionary Flag" — but this was an internal
+            party organ addressed to cadres, not a public magazine; its readership was the
+            apparatus, not the population. Radio Phnom Penh broadcast the Voice of
+            Democratic Kampuchea. Loudspeakers carried announcements and revolutionary
+            songs into the cooperatives, which is a telling choice of channel: audio needs
+            no literacy, no distribution network, no paper, and it cannot be kept, folded,
+            passed on or hidden. It arrives and it is gone.
+          </p>
+          <p>
+            Where images were made — a small number of murals and painted panels, some
+            photographs of massed workers on irrigation sites — they follow a Chinese
+            socialist-realist idiom: frontal, healthy figures in ranks, tools raised, sky
+            behind. The debt to the Cultural Revolution is direct and unhidden. But the
+            centre of a Chinese poster is usually a sun, a face, a leader. Here that centre
+            is occupied by nobody in particular, and the ranks recede without a focal point.
+            It is socialist realism with the protagonist deleted.
+          </p>
+          <p>
+            The largest surviving graphic body of the period is not any of this. It is
+            paperwork: cooperative registers, biographies, work quotas, interrogation
+            files, and the photographic records made at security centres. Almost everything
+            the regime produced at scale was produced to administer people, not to persuade
+            them.
+          </p>
+        </div>
+
+        <div class="withheld">
+          <b>Deliberately not shown</b>
+          At S-21, the security centre in the former Tuol Svay Prey school in Phnom Penh,
+          arrivals were photographed under a number before being interrogated. Estimates of
+          how many people passed through run from roughly 12,000 to 20,000; a handful
+          survived. Those photographs are the single most reproduced visual artifact of this
+          period, and this atlas will not add to that. They are named here because their
+          <em>format</em> — the frontal record, the sequence number, the file — is itself
+          evidence of a design decision: to make people into inventory. That analysis does
+          not require the images, and the images are not ours to restyle.
+        </div>
+
+        <h3>1979 · <span>Ended by an invasion, not a vote</span></h3>
+        <div class="prose">
+          <p>
+            Vietnamese forces crossed the border in late December 1978 and took Phnom Penh
+            on 7 January 1979. The regime that had abolished the market, the school and the
+            portrait fell in a fortnight, and the People's Republic of Kampuchea was
+            installed in its place. Khmer Rouge remnants held territory near the Thai
+            border for years afterwards, and — one of the ugliest facts of the Cold War —
+            Democratic Kampuchea kept Cambodia's United Nations seat into the 1990s.
+          </p>
+          <p>
+            What the new government inherited was a design problem with no precedent: an
+            almost total absence of the ordinary graphic infrastructure of a country, and
+            an enormous archive of evidence of what had been done. The next four decades of
+            Cambodian visual life have been substantially organised around that second
+            inheritance.
+          </p>
+        </div>
+      </div>
+
+      <aside class="marginalia">
+        <p><b>17 Apr 1975</b> Phnom Penh taken; the city is emptied within days.</p>
+        <p><b>1975</b> Currency abolished; the National Bank building destroyed. Banknotes already printed for the new state are never issued.</p>
+        <p><b>1975</b> Schools closed; monkhood dissolved; private property, markets and postal services abolished.</p>
+        <p><b>Jan 1976</b> Constitution of Democratic Kampuchea: state name, flag, anthem.</p>
+        <p><b>1976</b> Four-Year Plan drafted, with a nationwide target of three tonnes of rice per hectare — a quota that drove much of the forced labour.</p>
+        <p><b>1977</b> François Ponchaud publishes <cite>Cambodge année zéro</cite>. "Year Zero" enters the language from outside the regime.</p>
+        <p><b>27 Sep 1977</b> Pol Pot publicly reveals the existence of the Communist Party of Kampuchea.</p>
+        <p><b>Dec 1978</b> Vietnamese invasion.</p>
+        <p><b>7 Jan 1979</b> Phnom Penh falls; the regime ends.</p>
+        <p><b>1980</b> Tuol Sleng opens as a museum.</p>
+        <p><b>1988</b> Memorial stupa raised at Choeung Ek.</p>
+        <p><b>1995</b> The Documentation Center of Cambodia begins work.</p>
+        <p><b>2002</b> The skull map at Tuol Sleng is dismantled.</p>
+        <p><b>2006–2022</b> The Extraordinary Chambers in the Courts of Cambodia sit; three convictions, two for genocide.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<hr class="hr" />
+
+<!-- ============================== ARTIFACTS ============================== -->
+<section class="section" id="artifacts">
+  <div class="wrap">
+    <p class="eyebrow">Artifacts</p>
+    <h2 class="section-title">Four designed objects, one of which was never allowed to exist</h2>
+    <p class="prose" style="margin-bottom:2.8rem">
+      All four are drawn from published descriptions and specifications. None is traced
+      from a photograph, and none reproduces a photograph of a person.
+    </p>
+
+    <div class="figures">
+
+      <figure class="fig-wide">
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 340 168" role="img" aria-label="Schematic recreation of a Democratic Kampuchea banknote from the 1975 series that was printed but never issued">
+            <rect width="340" height="168" fill="#CFC7B7" />
+            <!-- guilloche field -->
+            <g stroke="#8E1B12" fill="none" opacity="0.16" stroke-width="0.4">
+              <g transform="translate(272 84)">
+                <ellipse rx="34" ry="12" /><ellipse rx="34" ry="12" transform="rotate(20)" />
+                <ellipse rx="34" ry="12" transform="rotate(40)" /><ellipse rx="34" ry="12" transform="rotate(60)" />
+                <ellipse rx="34" ry="12" transform="rotate(80)" /><ellipse rx="34" ry="12" transform="rotate(100)" />
+                <ellipse rx="34" ry="12" transform="rotate(120)" /><ellipse rx="34" ry="12" transform="rotate(140)" />
+                <ellipse rx="34" ry="12" transform="rotate(160)" />
+                <circle r="26" /><circle r="18" />
+              </g>
+              <g transform="translate(52 84)">
+                <ellipse rx="26" ry="9" /><ellipse rx="26" ry="9" transform="rotate(30)" />
+                <ellipse rx="26" ry="9" transform="rotate(60)" /><ellipse rx="26" ry="9" transform="rotate(90)" />
+                <ellipse rx="26" ry="9" transform="rotate(120)" /><ellipse rx="26" ry="9" transform="rotate(150)" />
+                <circle r="20" />
+              </g>
+            </g>
+            <!-- borders -->
+            <g fill="none" stroke="#8E1B12">
+              <rect x="8" y="8" width="324" height="152" stroke-width="2" />
+              <rect x="14" y="14" width="312" height="140" stroke-width="0.6" />
+              <rect x="19" y="19" width="302" height="130" stroke-width="0.6" opacity="0.6" />
+            </g>
+            <g stroke="#8E1B12" stroke-width="0.5" opacity="0.45">
+              <path d="M19 30 H321 M19 138 H321" />
+            </g>
+            <!-- left denomination panel -->
+            <text x="52" y="76" text-anchor="middle" font-family="Noto Serif Khmer, serif" font-size="26" fill="#8E1B12" lang="km">១០០</text>
+            <text x="52" y="100" text-anchor="middle" font-family="Source Serif 4, serif" font-size="19" fill="#8E1B12">100</text>
+            <text x="52" y="116" text-anchor="middle" font-family="Noto Serif Khmer, serif" font-size="10" fill="#8E1B12" opacity="0.85" lang="km">រៀល</text>
+            <!-- centre vignette: harvest and irrigation, flat geometry -->
+            <g transform="translate(108 40)">
+              <rect x="0" y="0" width="118" height="88" fill="none" stroke="#8E1B12" stroke-width="0.6" opacity="0.5" />
+              <!-- sky rules -->
+              <g stroke="#8E1B12" stroke-width="0.4" opacity="0.22">
+                <path d="M4 10 H114 M4 16 H114 M4 22 H114" />
+              </g>
+              <!-- embankment / canal -->
+              <path d="M4 62 L44 52 L114 52 L114 62 Z" fill="#8E1B12" opacity="0.22" />
+              <path d="M4 84 L114 84 L114 66 L4 72 Z" fill="#8E1B12" opacity="0.32" />
+              <!-- rice, cut as flat chevrons -->
+              <g fill="#8E1B12" opacity="0.55">
+                <path d="M8 50 l4 -12 l4 12 z" /><path d="M18 50 l4 -12 l4 12 z" /><path d="M28 50 l4 -12 l4 12 z" />
+              </g>
+              <!-- three figures, no features, working; carried baskets and hoes -->
+              <g fill="#8E1B12" opacity="0.75">
+                <g transform="translate(52 26)">
+                  <circle cx="0" cy="0" r="3.4" /><path d="M-4 5 h8 l2 16 h-12 z" /><path d="M-3 21 l-1 12 h3 l2 -12 z" /><path d="M3 21 l1 12 h-3 l-2 -12 z" />
+                </g>
+                <g transform="translate(70 28)">
+                  <circle cx="0" cy="0" r="3.4" /><path d="M-4 5 h8 l2 16 h-12 z" /><path d="M-3 21 l-1 12 h3 l2 -12 z" /><path d="M3 21 l1 12 h-3 l-2 -12 z" />
+                </g>
+                <g transform="translate(88 26)">
+                  <circle cx="0" cy="0" r="3.4" /><path d="M-4 5 h8 l2 16 h-12 z" /><path d="M-3 21 l-1 12 h3 l2 -12 z" /><path d="M3 21 l1 12 h-3 l-2 -12 z" />
+                </g>
+              </g>
+              <g stroke="#8E1B12" stroke-width="1.1" opacity="0.75" fill="none">
+                <path d="M48 22 L58 44" /><path d="M84 22 L94 44" />
+              </g>
+            </g>
+            <!-- legend blocks, deliberately not lettered -->
+            <g fill="#8E1B12" opacity="0.3">
+              <rect x="108" y="134" width="118" height="3" />
+              <rect x="128" y="141" width="78" height="3" />
+            </g>
+            <text x="272" y="90" text-anchor="middle" font-family="Source Serif 4, serif" font-size="26" fill="#8E1B12" opacity="0.85">100</text>
+            <text x="170" y="26" text-anchor="middle" font-family="Noto Serif Khmer, serif" font-size="9" fill="#8E1B12" opacity="0.8" lang="km">កម្ពុជាប្រជាធិបតេយ្យ</text>
+          </svg>
+        </div>
+        <figcaption><b>The banknote that was never issued</b> A full currency series was printed for the new state in 1975 — denominations running from a tenth of a riel to one hundred riel, with vignettes of harvest, irrigation works, industry and soldiers in a flat socialist-realist manner. By the time the notes existed, the regime had abolished money. They were never circulated; stocks survived in Phnom Penh and later reached collectors. It is the purest object on this page: a designed thing, competently specified, cancelled by the same authority that commissioned it. The lettered legends are shown here as blank rules rather than invented text.
+          <span class="credit">Composite schematic recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 340 236" role="img" aria-label="Diagram comparing a row of varied Cambodian silhouettes with a row of identical uniformed silhouettes, annotated with the social signals removed">
+            <rect width="340" height="236" fill="#151513" />
+            <text x="10" y="16" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="1.2" fill="#DEDAD4" opacity="0.6">BEFORE · WHAT CLOTHING CARRIED</text>
+            <!-- row A: varied silhouettes, no faces -->
+            <g fill="#DEDAD4" opacity="0.8">
+              <!-- farmer, krama on head, sampot -->
+              <g transform="translate(30 30)"><circle cx="0" cy="8" r="6" /><path d="M-8 4 h16 l-2 -4 h-12 z" /><path d="M-7 16 h14 l4 20 h-22 z" /><path d="M-11 36 h22 l3 26 h-28 z" /></g>
+              <!-- clerk, collar and narrow trousers -->
+              <g transform="translate(85 30)"><circle cx="0" cy="8" r="6" /><path d="M-7 16 h14 l3 22 h-20 z" /><path d="M-3 15 l3 5 l3 -5" fill="#151513" /><path d="M-8 38 h6 l1 24 h-6 z" /><path d="M2 38 h6 l-1 24 h-6 z" /></g>
+              <!-- monk, robe over one shoulder -->
+              <g transform="translate(140 30)"><circle cx="0" cy="8" r="6" /><path d="M-9 17 h18 l6 45 h-30 z" /><path d="M-9 17 l18 12 v-6 l-14 -6 z" fill="#151513" opacity="0.45" /></g>
+              <!-- child with satchel -->
+              <g transform="translate(195 38)"><circle cx="0" cy="7" r="5" /><path d="M-6 14 h12 l2 18 h-16 z" /><path d="M-6 32 h5 l1 22 h-5 z" /><path d="M1 32 h5 l-1 22 h-5 z" /><rect x="6" y="18" width="6" height="8" /></g>
+              <!-- long hair, blouse and skirt -->
+              <g transform="translate(250 30)"><circle cx="0" cy="8" r="6" /><path d="M-7 4 c0 12 -2 14 -2 18 h18 c0 -4 -2 -6 -2 -18 z" /><path d="M-7 17 h14 l3 17 h-20 z" /><path d="M-10 34 h20 l4 28 h-28 z" /></g>
+              <!-- uniformed official, peaked cap -->
+              <g transform="translate(305 30)"><circle cx="0" cy="9" r="6" /><path d="M-8 5 h16 v-3 h-16 z" /><path d="M-9 2 h18 v3 h-18 z" /><path d="M-8 17 h16 l3 21 h-22 z" /><path d="M-8 38 h6 l1 24 h-6 z" /><path d="M2 38 h6 l-1 24 h-6 z" /></g>
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="5" fill="#DEDAD4" opacity="0.55" text-anchor="middle">
+              <text x="30" y="102">region</text><text x="85" y="102">class</text><text x="140" y="102">religion</text>
+              <text x="195" y="102">age</text><text x="250" y="102">gender</text><text x="305" y="102">rank</text>
+            </g>
+            <!-- the cut -->
+            <g stroke="#8E1B12" stroke-width="1">
+              <path d="M10 118 H330" />
+            </g>
+            <text x="10" y="132" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="1" fill="#BF4A38">17 APRIL 1975 →</text>
+            <text x="330" y="132" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="1.2" fill="#DEDAD4" opacity="0.6">AFTER · WHAT IT CARRIES</text>
+            <!-- row B: the same silhouette, six times -->
+            <defs><g id="kr-uni"><circle cx="0" cy="8" r="6" /><path d="M-7 16 h14 l3 22 h-20 z" /><path d="M-8 38 h6 l1 24 h-6 z" /><path d="M2 38 h6 l-1 24 h-6 z" /><rect x="-7" y="16" width="14" height="3" fill="#8E1B12" /></g></defs>
+            <g fill="#DEDAD4" opacity="0.8"><use href="#kr-uni" x="30" y="144" /><use href="#kr-uni" x="85" y="144" /><use href="#kr-uni" x="140" y="144" /><use href="#kr-uni" x="195" y="144" /><use href="#kr-uni" x="250" y="144" /><use href="#kr-uni" x="305" y="144" /></g>
+            <g font-family="JetBrains Mono, monospace" font-size="5" fill="#DEDAD4" opacity="0.4" text-anchor="middle"><text x="30" y="216">—</text><text x="85" y="216">—</text><text x="140" y="216">—</text><text x="195" y="216">—</text><text x="250" y="216">—</text><text x="305" y="216">—</text></g>
+            <text x="170" y="230" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5.5" fill="#DEDAD4" opacity="0.5">black shirt · black trousers · krama · tyre sandals</text>
+          </svg>
+        </div>
+        <figcaption><b>The erasure diagram</b> Clothing is a signalling system, and Cambodian dress carried a lot: province, occupation, wealth, marital status, ordination, age, gender presentation. The uniform removed all of it in a single instruction. What is often described as "everyone wore black" is more exactly this — the deletion of six or seven independent channels of information at once, which is also the deletion of every way a person could be recognised, sought out, or mourned by strangers.
+          <span class="credit">Diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 340 210" role="img" aria-label="Diagram of the reorganisation of time: an origin date, a ten-day work cycle, and a list of struck-out observances">
+            <rect width="340" height="210" fill="#151513" />
+            <text x="10" y="18" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="1.2" fill="#DEDAD4" opacity="0.6">TIME, REDRAWN</text>
+            <!-- origin -->
+            <g stroke="#8E1B12" stroke-width="1.2"><path d="M10 44 H330" /></g>
+            <g fill="#BF4A38"><rect x="10" y="38" width="2.5" height="12" /></g>
+            <text x="18" y="36" font-family="Noto Serif Khmer, serif" font-size="9" fill="#BF4A38" lang="km">១៧ មេសា ១៩៧៥</text>
+            <g stroke="#DEDAD4" stroke-width="0.5" opacity="0.35">
+              <path d="M90 44 v6 M170 44 v6 M250 44 v6 M328 44 v6" />
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="5.5" fill="#DEDAD4" opacity="0.45">
+              <text x="86" y="58">1976</text><text x="166" y="58">1977</text><text x="246" y="58">1978</text><text x="310" y="58">1979</text>
+            </g>
+            <text x="10" y="70" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="0.8" fill="#DEDAD4" opacity="0.6">ORIGIN POINT · EVERYTHING IS DATED FROM HERE</text>
+            <!-- ten day cycle -->
+            <text x="10" y="86" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="1" fill="#DEDAD4" opacity="0.6">THE WEEK, REPLACED BY A TEN-DAY CYCLE</text>
+            <g>
+              <g fill="none" stroke="#DEDAD4" stroke-width="0.7" opacity="0.55">
+                <rect x="10" y="94" width="28" height="28" /><rect x="42" y="94" width="28" height="28" />
+                <rect x="74" y="94" width="28" height="28" /><rect x="106" y="94" width="28" height="28" />
+                <rect x="138" y="94" width="28" height="28" /><rect x="170" y="94" width="28" height="28" />
+                <rect x="202" y="94" width="28" height="28" /><rect x="234" y="94" width="28" height="28" />
+                <rect x="266" y="94" width="28" height="28" />
+              </g>
+              <rect x="298" y="94" width="28" height="28" fill="#8E1B12" opacity="0.65" />
+              <rect x="298" y="94" width="28" height="28" fill="none" stroke="#BF4A38" stroke-width="0.8" />
+              <g font-family="JetBrains Mono, monospace" font-size="8" fill="#DEDAD4" opacity="0.55" text-anchor="middle">
+                <text x="24" y="112">1</text><text x="56" y="112">2</text><text x="88" y="112">3</text><text x="120" y="112">4</text>
+                <text x="152" y="112">5</text><text x="184" y="112">6</text><text x="216" y="112">7</text><text x="248" y="112">8</text>
+                <text x="280" y="112">9</text>
+              </g>
+              <text x="312" y="112" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#DEDAD4">10</text>
+              <text x="312" y="132" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5" fill="#BF4A38">rest, when granted</text>
+            </g>
+            <!-- struck observances -->
+            <text x="10" y="156" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing="1" fill="#DEDAD4" opacity="0.6">REMOVED FROM THE CALENDAR</text>
+            <g font-family="JetBrains Mono, monospace" font-size="7" fill="#DEDAD4" opacity="0.45">
+              <text x="10" y="172">Sunday</text><text x="70" y="172">Buddhist holy days</text><text x="196" y="172">Khmer New Year</text>
+              <text x="10" y="188">Pchum Ben</text><text x="80" y="188">market days</text><text x="160" y="188">the school year</text><text x="264" y="188">birthdays</text>
+            </g>
+            <g stroke="#8E1B12" stroke-width="0.9">
+              <path d="M8 169 H52 M68 169 H186 M194 169 H288 M8 185 H72 M78 185 H148 M158 185 H254 M262 185 H316" />
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="5" fill="#DEDAD4" opacity="0.4">
+              <text x="10" y="200">"Year Zero" is not the regime's own term. It comes from the title of</text>
+              <text x="10" y="207">François Ponchaud's 1977 book. The restructuring of time was real.</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The reset of time</b> The regime did not issue a "Year Zero" decree — that phrase entered English through the title of François Ponchaud's <cite>Cambodge année zéro</cite> (1977) and stuck. What it did do was structural and better documented: it made 17 April 1975 the origin point of everything, replaced the seven-day week with a longer work cycle carrying a single rest day that was often withheld, and abolished the festivals, holy days, market days and school terms by which Cambodian time had been divided. Rewriting the calendar is the most invasive thing a state can design, because everything else is scheduled against it.
+          <span class="credit">Diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure class="fig-wide">
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 340 190" role="img" aria-label="Three Cambodian flags compared: the 1948 kingdom flag, the Democratic Kampuchea flag, and the flag restored in 1993, all carrying Angkor Wat">
+            <rect width="340" height="190" fill="#151513" />
+            <text x="10" y="16" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="1.2" fill="#DEDAD4" opacity="0.6">ONE MOTIF, THREE STATES</text>
+
+            <!-- 1948–1970 -->
+            <g transform="translate(10 30)">
+              <rect width="100" height="66" fill="#032EA1" />
+              <rect y="16.5" width="100" height="33" fill="#E00025" />
+              <g transform="translate(25 32) scale(0.5)" fill="#FFFFFF"><use href="#wat" /></g>
+              <rect width="100" height="66" fill="none" stroke="#DEDAD4" stroke-width="0.4" opacity="0.4" />
+            </g>
+            <!-- DK -->
+            <g transform="translate(120 30)">
+              <rect width="100" height="66" fill="#8E1B12" />
+              <g transform="translate(25 32) scale(0.5)" fill="#D9A932"><use href="#wat" /></g>
+              <rect width="100" height="66" fill="none" stroke="#DEDAD4" stroke-width="0.4" opacity="0.4" />
+            </g>
+            <!-- 1993– -->
+            <g transform="translate(230 30)">
+              <rect width="100" height="66" fill="#032EA1" />
+              <rect y="16.5" width="100" height="33" fill="#E00025" />
+              <g transform="translate(25 32) scale(0.5)" fill="#FFFFFF"><use href="#wat" /></g>
+              <rect width="100" height="66" fill="none" stroke="#DEDAD4" stroke-width="0.4" opacity="0.4" />
+            </g>
+
+            <g font-family="JetBrains Mono, monospace" font-size="6" fill="#DEDAD4" opacity="0.7">
+              <text x="10" y="108">1948–1970 · KINGDOM</text>
+              <text x="120" y="108">1975–1979 · DEM. KAMPUCHEA</text>
+              <text x="230" y="108">1993– · KINGDOM AGAIN</text>
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="5.5" fill="#DEDAD4" opacity="0.45">
+              <text x="10" y="120">white temple, three towers</text>
+              <text x="120" y="120">yellow temple, three towers</text>
+              <text x="230" y="120">the 1948 design, unchanged</text>
+            </g>
+
+            <!-- the constant, traced -->
+            <g stroke="#8E1B12" stroke-width="0.7" opacity="0.9" fill="none">
+              <path d="M10 132 H330" />
+            </g>
+            <g transform="translate(10 140) scale(0.42)" fill="none" stroke="#BF4A38" stroke-width="1.6"><use href="#wat" /></g>
+            <text x="66" y="152" font-family="JetBrains Mono, monospace" font-size="6" fill="#BF4A38">THE CONSTANT</text>
+            <g font-family="JetBrains Mono, monospace" font-size="5.5" fill="#DEDAD4" opacity="0.55">
+              <text x="66" y="164">Angkor Wat has appeared on every Cambodian national flag since</text>
+              <text x="66" y="174">independence — under monarchy, republic, this regime and the</text>
+              <text x="66" y="184">governments after it. Only the field and the tower count change.</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The motif that survived every government</b> The Khmer Rouge did not design a national symbol; they cropped one. Removing the blue and recolouring the temple is an edit, not an invention — and it is why the DK flag reads, at a glance, as continuous with Cambodian history rather than as a break from it. That was the intended effect. The People's Republic of Kampuchea, which replaced the regime in 1979, kept the red field and drew the temple with five towers; the restored kingdom of 1993 returned to the 1948 flag unchanged.
+          <span class="credit">Schematic recreations · drawn in SVG</span></figcaption>
+      </figure>
+
+    </div>
+
+    <p class="note" style="margin-top:2.8rem;max-width:46rem">
+      These are drawn from published descriptions, constitutional texts and specifications —
+      not traced from photographs, and not derived from any image of an identifiable person.
+      The banknote is a composite: the 1975 series exists in collections and is documented,
+      but rather than invent the lettering of a note we have not verified line by line, its
+      legends are shown here as blank rules. For originals, see the collections listed under
+      Sources.
+    </p>
+  </div>
+</section>
+
+<hr class="hr" />
+
+<!-- ============================== AFTER ============================== -->
+<section class="section" id="after">
+  <div class="wrap">
+    <p class="eyebrow">1979 — present</p>
+    <div class="two-col">
+      <div>
+        <h2 class="section-title">Designing the memory of it</h2>
+        <div class="prose">
+          <p>
+            The hardest design commission in modern Cambodia was not the regime's. It was
+            the one that came afterwards: how do you build a public form for this, in the
+            country where it happened, for the people it happened to?
+          </p>
+          <p>
+            The first answer was not entirely Cambodian. Tuol Sleng opened as a museum in
+            1980, under the Vietnamese-backed government, and its early museology was
+            shaped with Vietnamese assistance — the site was arranged to be walked, read
+            and photographed by foreign visitors as evidence of what the previous
+            government had done. That is worth naming plainly, because the framing of a
+            memorial is never neutral, and this one began partly as an argument made by an
+            occupying power. Chandler's <cite>Voices from S-21</cite> is the careful account
+            of both the archive and its afterlife.
+          </p>
+          <p>
+            One decision from that period has since been reversed. For years a wall-mounted
+            map of Cambodia was assembled at Tuol Sleng from human skulls. It was
+            dismantled in 2002. The objection was partly Buddhist — remains should be
+            cremated, not displayed — and partly about what the object did to the people in
+            it, turning individuals into a graphic device, which is uncomfortably close to
+            the logic of the regime being memorialised. The debate over whether to keep
+            remains on view as evidence or return them for rites has run at the national
+            level for decades and is not settled.
+          </p>
+          <p>
+            At Choeung Ek, the memorial stupa raised in 1988 takes the opposite approach.
+            It uses the traditional Khmer stupa — the form Cambodians already use for the
+            dead — and glazes its tiers so that the remains inside are visible. It is a
+            design that refuses both concealment and spectacle by borrowing a shape that
+            was already sacred, and it lets a visitor decide the distance at which to stand.
+          </p>
+          <p>
+            The Documentation Center of Cambodia, working from Phnom Penh since 1995 under
+            Youk Chhang, has done the least visible and most consequential design work of
+            the period: turning several hundred thousand pages of the regime's own
+            paperwork into a navigable archive, with finding aids, mapping and searchable
+            biographies. It is information design as restitution — the same documents that
+            were made to administer people, reorganised so that families can find them.
+            The centre commissioned Zaha Hadid Architects in 2014 to design a permanent
+            home, the Sleuk Rith Institute, as five interlocking timber towers; it remains
+            unbuilt.
+          </p>
+          <p>
+            And the Extraordinary Chambers in the Courts of Cambodia, a hybrid
+            Cambodian–UN court sitting from 2006 to 2022, was itself a designed public
+            object: a courtroom with a large public gallery, proceedings broadcast and
+            translated, and tens of thousands of Cambodians brought in to watch. Kaing Guek
+            Eav, known as Duch, who ran S-21, was convicted in 2010 and sentenced on appeal
+            to life. Nuon Chea and Khieu Samphan were convicted in 2014 and again in 2018,
+            the second time of genocide. Pol Pot died in 1998 and was never tried. Whatever
+            the court's limits — three convictions, enormous cost, decades of delay — the
+            record it produced is now the most rigorously evidenced account that exists, and
+            it exists because somebody insisted the proceedings be made legible in public.
+          </p>
+        </div>
+      </div>
+
+      <aside class="marginalia">
+        <p><b>A note on method.</b></p>
+        <p>Everything on this page is drawn, described or diagrammed. Nothing is traced from a photograph of a person.</p>
+        <p>The regime's administrative photographs of prisoners are named and analysed as a format and are not reproduced here in any form.</p>
+        <p>Where a fact is contested — the exact death toll, the number held at S-21, the internal chronology of the party — this page gives the documented range rather than picking the most dramatic figure.</p>
+        <p>Where we could not verify a detail, we left it out rather than invent it. There are several gaps on this page for that reason.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<hr class="hr" />
+
+<!-- ============================== LINEAGE ============================== -->
+<section class="section" id="lineage">
+  <div class="wrap">
+    <p class="eyebrow">Lineage</p>
+    <h2 class="section-title">Where it came from, who ended it, what it is set beside</h2>
+    <div class="lineage"
+         data-lineage="cultural-revolution,vietnam,three-fingers,reich"
+         data-why="The direct political and stylistic model. CPK leaders drew on Chinese practice, and Democratic Kampuchea's few murals and painted panels follow a Chinese socialist-realist idiom — massed frontal figures, raised tools, no perspective. The significant divergence is that the Khmer Rouge removed the leader's face from the centre of that composition.|The neighbouring state whose army crossed the border in December 1978 and took Phnom Penh on 7 January 1979, ending the regime — and whose museum staff then helped shape how the evidence was first displayed to the public.|Regional memory. Later Southeast Asian movements build their symbols in a region where this period is living history, and where the question of what a state may do to its own population is not abstract.|The atlas's other study of the visual apparatus of a genocidal state, placed alongside this one to compare method and not to equate events. The two regimes ran opposite strategies: one industrialised its imagery, the other abolished the conditions for imagery altogether.">
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SOURCES ============================== -->
+<section class="section" id="sources" style="padding-top:0">
+  <div class="wrap">
+    <hr class="hr" style="margin-bottom:3rem" />
+    <p class="eyebrow">Sources &amp; further reading</p>
+    <ul class="sources">
+      <li>Ben Kiernan, <cite>The Pol Pot Regime: Race, Power, and Genocide in Cambodia under the Khmer Rouge, 1975–79</cite> (Yale University Press, 1996) — the standard history, and the basis for most published death-toll estimates.</li>
+      <li>David Chandler, <cite>Voices from S-21: Terror and History in Pol Pot's Secret Prison</cite> (1999) and <cite>Brother Number One: A Political Biography of Pol Pot</cite> (1992) — on the archive, the bureaucracy and the anonymity of the leadership.</li>
+      <li>François Ponchaud, <cite>Cambodge année zéro</cite> (1977), published in English as <cite>Cambodia: Year Zero</cite> — the source of the phrase "Year Zero", which was not the regime's own.</li>
+      <li>Primary documents: the <cite>Constitution of Democratic Kampuchea</cite>, adopted January 1976, which specifies the state name, the flag and the anthem; and the published transcripts, evidence and judgements of the Extraordinary Chambers in the Courts of Cambodia — Case 001 (Kaing Guek Eav, "Duch") and Case 002 (Nuon Chea, Khieu Samphan).</li>
+      <li>Documentation Center of Cambodia (DC-Cam), Phnom Penh — the largest archive of Khmer Rouge documents, and the organisation that made it searchable.</li>
+      <li>Tuol Sleng Genocide Museum and the Choeung Ek memorial, Phnom Penh — the two primary memorial sites, and the record of their own changing curatorial decisions.</li>
+      <li>Boreth Ly, <cite>Traces of Trauma: Cambodian Visual Culture and National Identity in the Aftermath of Genocide</cite> (University of Hawai'i Press, 2020) — the essential account of Cambodian visual culture after 1979.</li>
+      <li>Ingrid Muan and Ly Daravuth (eds.), <cite>Cultures of Independence: An Introduction to Cambodian Arts and Culture in the 1950's and 1960's</cite> (Reyum, Phnom Penh, 2001) — what the visual culture of Cambodia looked like before all of this.</li>
+    </ul>
+  </div>
+</section>
+
+<div data-site="foot"></div>
+
+<script src="../../shared/movements.js"></script>
+<script src="../../shared/site.js"></script>
+</body>
+</html>

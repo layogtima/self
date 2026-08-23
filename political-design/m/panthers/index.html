@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en" data-slug="panthers">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Black Panther Party — Political Design</title>
+<meta name="description" content="How one art director, one weekly newspaper and one extra ink gave the Black Panther Party the most coherent political identity in postwar America — and why the back page was designed to be torn out." />
+<meta name="theme-color" content="#EDEAE3" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="The Black Panther Party — Political Design" />
+<meta property="og:description" content="Emory Douglas, a photostat camera and a weekly deadline. The newspaper was the party's product, and its back page was a free poster." />
+<meta property="og:url" content="https://layogtima.com/political-design/m/panthers/" />
+<link rel="icon" type="image/svg+xml" href="https://layogtima.com/images/favicon/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&family=Libre+Franklin:ital,wght@0,300..800;1,300..600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../shared/site.css" />
+<link rel="stylesheet" href="../../shared/textures.css" />
+<style>
+  :root {
+    --paper: #EDEAE3;
+    --ink: #0C0C0C;
+    --accent: #12A594;
+    --spot: #12A594;
+    --spot-tint: #9DD8D0;
+    --spot-deep: #0B6E63;
+    --stock: #F4F2EC;
+    --smudge: #75726A;
+    --font-display: "Anton", "Archivo Black", Impact, sans-serif;
+    --font-alt: "Archivo Narrow", "Helvetica Neue", sans-serif;
+    --font-body: "Libre Franklin", "Helvetica Neue", Arial, sans-serif;
+  }
+  h1, h2, h3, h4 { font-weight: 400; letter-spacing: 0; text-transform: uppercase; }
+  body { background-color: var(--paper); }
+  ::selection { background: var(--ink); color: var(--spot); }
+
+  /* ---------- press furniture ---------- */
+  .rule-heavy { height: 7px; background: var(--ink); }
+  .rule-thin { height: 1px; background: var(--ink); }
+  .rule-stack { display: grid; gap: 3px; }
+  .rule-stack i { display: block; background: var(--ink); }
+  .rule-stack i:first-child { height: 7px; }
+  .rule-stack i:last-child { height: 2px; }
+
+  /* ---------- hero: the masthead ---------- */
+  .hero {
+    min-height: 100svh;
+    display: grid;
+    align-content: start;
+    grid-template-rows: auto auto 1fr;
+    padding: 3.6rem 0 0;
+  }
+  .mast { padding: 0 var(--gutter); }
+  .mast__slug {
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 0 0.55rem;
+    color: var(--ink);
+  }
+  .mast__slug span:nth-child(2) { color: var(--spot-deep); }
+  h1.mast__title { margin: 0.16rem 0 0.12rem; }
+  h1.mast__title svg { width: 100%; display: block; }
+  .mast__dateline {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .mast__dateline span { padding: 0.5rem 0.4rem; border-left: 1px solid var(--ink); }
+  .mast__dateline span:first-child { border-left: 0; text-align: left; }
+  .mast__dateline span:last-child { text-align: right; }
+  @media (max-width: 42rem) {
+    .mast__dateline { grid-template-columns: 1fr; }
+    .mast__dateline span { border-left: 0; text-align: center; }
+    .mast__dateline span:first-child, .mast__dateline span:last-child { text-align: center; }
+    .mast__slug { flex-direction: column; gap: 0.2rem; text-align: center; align-items: center; }
+  }
+
+  .hero__body {
+    padding: 1.6rem var(--gutter) 2.4rem;
+    display: grid;
+    gap: 2rem 2.6rem;
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+  @media (min-width: 60rem) {
+    .hero__body { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 0 3.2rem; }
+  }
+  .hero__deck {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 4.4vw, 3.1rem);
+    line-height: 0.94;
+    text-transform: uppercase;
+    margin: 0 0 0.7rem;
+  }
+  .hero__deck em { font-style: normal; color: var(--spot-deep); }
+  .hero__sub {
+    font-family: var(--font-alt);
+    font-size: clamp(1rem, 1.5vw, 1.22rem);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    border-top: 2px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 0.5rem 0;
+    margin: 0 0 1.1rem;
+  }
+  .hero__lede {
+    columns: 2 13rem;
+    column-gap: 1.8rem;
+    column-rule: 1px solid var(--ink);
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+  .hero__lede p { margin: 0 0 0.8em; }
+  .hero__lede p:first-child::first-letter {
+    font-family: var(--font-display);
+    float: left;
+    font-size: 3.1em;
+    line-height: 0.74;
+    padding: 0.06em 0.08em 0 0;
+  }
+  .hero__meta {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.4rem;
+    border-top: 1px solid var(--ink);
+    padding-top: 0.6rem;
+    margin-top: 0.4rem;
+    color: var(--smudge);
+  }
+  .hero__inside { display: flex; flex-wrap: wrap; gap: 0.3rem 1rem; font-family: var(--font-alt); font-weight: 700; font-size: 0.84rem; text-transform: uppercase; letter-spacing: 0.01em; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 0.55rem 0; margin: 1.2rem 0 0; }
+  .hero__inside span:first-child { color: var(--spot-deep); }
+  .hero__inside span + span::before { content: "· "; opacity: 0.45; }
+  .hero__art { width: 100%; }
+  .hero__artcap {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    line-height: 1.6;
+    text-transform: uppercase;
+    color: var(--smudge);
+    border-top: 1px solid var(--ink);
+    padding-top: 0.5rem;
+    margin: 0.5rem 0 0;
+  }
+
+  /* ---------- running strip ---------- */
+  .strip {
+    background: var(--ink);
+    color: var(--stock);
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0.42rem 0;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .strip span { display: inline-block; padding-right: 1.4rem; animation: slide 46s linear infinite; }
+  .strip b { color: var(--spot); font-weight: 400; }
+  @keyframes slide { to { transform: translateX(-50%); } }
+
+  /* ---------- sections in broadsheet dress ---------- */
+  .section-title { text-transform: uppercase; line-height: 0.94; }
+  .head-rule { border-top: 7px solid var(--ink); padding-top: 0.9rem; margin-bottom: 1.6rem; }
+  .cols {
+    columns: 2 16rem;
+    column-gap: 2.2rem;
+    column-rule: 1px solid var(--rule);
+    font-size: 0.96rem;
+    line-height: 1.58;
+  }
+  .cols p { margin: 0 0 0.85em; }
+  .cols--3 { columns: 3 14rem; }
+  .anat-grid { display: grid; gap: 2.6rem 3rem; grid-template-columns: 1fr; }
+  @media (min-width: 62rem) { .anat-grid { grid-template-columns: 1fr 1fr; gap: 3.4rem; } }
+  .specimens { grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1.6rem 2.2rem; }
+
+  .symbolrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 1.6rem; }
+  .symbolrow figure .frame { background: var(--stock); padding: 0.6rem; border-width: 2px; }
+  .symbolrow figcaption { font-size: 0.8rem; }
+
+  /* ---------- essay ---------- */
+  .essay h3 {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    border-top: 7px solid var(--ink);
+    padding-top: 0.7rem;
+    margin: 3.4rem 0 0.9rem;
+    color: var(--spot-deep);
+  }
+  .essay h3 span {
+    display: block;
+    font-family: var(--font-display);
+    font-size: clamp(1.85rem, 4.6vw, 3.15rem);
+    letter-spacing: -0.005em;
+    line-height: 0.92;
+    color: var(--ink);
+    margin-top: 0.5rem;
+    max-width: 24ch;
+  }
+  .deck {
+    font-family: var(--font-alt);
+    font-weight: 600;
+    font-size: 1.02rem;
+    line-height: 1.34;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 0.8rem;
+    margin-bottom: 1.1rem;
+    max-width: 46rem;
+  }
+  .cols > p:first-of-type::first-letter {
+    font-family: var(--font-display);
+    float: left;
+    font-size: 3.3em;
+    line-height: 0.74;
+    padding: 0.06em 0.09em 0 0;
+    color: var(--ink);
+  }
+  .pull {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    border-left: 0;
+    border-top: 7px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    padding: 1rem 0 1.1rem;
+    line-height: 0.98;
+    letter-spacing: -0.005em;
+  }
+  .pull b { color: var(--spot-deep); font-weight: 400; }
+  .marginalia {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    line-height: 1.7;
+    letter-spacing: 0.03em;
+    color: var(--smudge);
+    border-top: 2px solid var(--ink);
+    padding-top: 0.9rem;
+  }
+  .marginalia h4 { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.22em; margin-bottom: 0.8rem; color: var(--ink); }
+  .marginalia p { margin: 0 0 0.7em; }
+  .marginalia b { color: var(--ink); }
+  .two-col { display: grid; gap: 2.6rem; grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 60rem) { .two-col { grid-template-columns: minmax(0,1fr) 15rem; gap: 3.4rem; } }
+
+  /* ---------- artifacts ---------- */
+  .arts { display: grid; grid-template-columns: 1fr; gap: 2.6rem; }
+  .arts figure .frame { background: var(--stock); border-width: 2px; padding: 0.7rem; }
+  @media (min-width: 62rem) {
+    .arts { grid-template-columns: repeat(12, 1fr); gap: 2.8rem 2.2rem; }
+    .a-page { grid-column: span 5; }
+    .a-back { grid-column: span 7; }
+    .a-method { grid-column: span 8; }
+    .a-hand { grid-column: span 4; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .strip span { animation: none; }
+  }
+</style>
+<noscript><style>[data-reveal]{opacity:1 !important;transform:none !important}</style></noscript>
+</head>
+<body class="tx-newsprint">
+
+<!-- ============================== HERO / MASTHEAD ============================== -->
+<header class="hero">
+  <div class="mast">
+    <div class="rule-thin" aria-hidden="true"></div>
+    <p class="mast__slug"><span>Black Community News Service</span> <span>All Power To The People</span> <span>Oakland · California</span></p>
+    <div class="rule-stack" aria-hidden="true"><i></i><i></i></div>
+    <h1 class="mast__title">
+      <svg viewBox="0 0 1000 100" role="img" aria-label="The Black Panther Party" focusable="false">
+        <text x="500" y="96" text-anchor="middle" textLength="1000" lengthAdjust="spacingAndGlyphs" font-family="Anton, Impact, sans-serif" font-size="130" fill="#0C0C0C">THE BLACK PANTHER PARTY</text>
+      </svg>
+    </h1>
+    <div class="rule-stack" aria-hidden="true"><i></i><i></i></div>
+    <p class="mast__dateline"><span>No. 11 · Americas · United States</span> <span>Published Weekly</span> <span>Twenty-Five Cents</span></p>
+    <div class="rule-thin" aria-hidden="true"></div>
+  </div>
+
+  <div class="hero__body">
+    <div>
+      <h2 class="hero__deck">One art director. One weekly&nbsp;deadline. <em>One extra ink.</em></h2>
+      <p class="hero__sub">The party's product was not a poster. It was a newspaper — and its back page was designed to be torn out and taped to a wall.</p>
+      <div class="hero__lede">
+        <p>Emory Douglas was Minister of Culture from 1967 and, in every practical sense, the Black Panther Party's art director. His studio was a paste-up table, a photostat camera, sheets of dry-transfer lettering and a press that could carry black plus one colour.</p>
+        <p>Out of that came the most disciplined political identity in postwar America: heavy contours that survive bad printing, flat blocks that survive bad paper, and a caricature of the police that entered the language.</p>
+      </div>
+      <p class="hero__meta"><span>No. 11</span><span>Americas · United States</span><span>1966 — 1982</span></p>
+      <p class="hero__inside"><span>Inside</span><span>A borrowed panther</span><span>Black plus one ink</span><span>The back page is a poster</span><span>Survival pending revolution</span></p>
+    </div>
+
+    <figure style="margin:0">
+      <svg class="hero__art" viewBox="0 0 380 470" role="img" aria-label="Recreation in the Emory Douglas idiom: a figure in a beret, drawn at a low angle in heavy contour and flat black, holding up a newspaper">
+        <defs>
+          <pattern id="hp-dots" width="9" height="9" patternUnits="userSpaceOnUse">
+            <circle cx="4.5" cy="4.5" r="2.1" fill="#0C0C0C" />
+          </pattern>
+          <pattern id="hp-hatch" width="8" height="8" patternUnits="userSpaceOnUse">
+            <path d="M0 8 L8 0" stroke="#0C0C0C" stroke-width="1.7" />
+          </pattern>
+        </defs>
+        <rect x="26" y="26" width="328" height="342" fill="#12A594" /> <rect x="26" y="26" width="328" height="342" fill="url(#hp-dots)" opacity="0.16" />
+        <g stroke="#0C0C0C" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+          <!-- neck -->
+          <path d="M166 286 h56 v58 h-56 z" fill="#EDEAE3" />
+          <!-- jacket / shoulders, low angle -->
+          <path d="M28 470 C36 386 96 330 148 320 L232 320 C288 334 340 390 350 470 Z" fill="#0C0C0C" />
+          <!-- head -->
+          <path d="M154 168 C136 176 130 200 132 228 C134 260 150 300 190 306 C230 300 248 260 250 228 C252 200 244 176 226 168 Z" fill="#EDEAE3" />
+          <!-- black blocking doing the modelling -->
+          <path d="M154 168 C136 176 130 200 132 228 C134 260 150 300 190 306 L170 288 C148 268 146 236 150 208 C152 190 158 176 168 172 Z" fill="#0C0C0C" stroke="none" />
+          <!-- beret -->
+          <path d="M120 180 C116 142 148 118 190 120 C234 122 258 142 258 166 C258 180 242 186 210 186 L136 190 C124 190 120 188 120 180 Z" fill="#0C0C0C" />
+          <circle cx="176" cy="116" r="8" fill="#0C0C0C" />
+          <!-- sunglasses -->
+          <path d="M140 214 L188 210 L188 236 C172 248 148 244 141 232 Z" fill="#0C0C0C" stroke-width="3.6" />
+          <path d="M196 210 L246 214 L244 232 C236 246 212 248 196 236 Z" fill="#0C0C0C" stroke-width="3.6" />
+          <!-- collar -->
+          <path d="M148 320 L192 384 L236 320" fill="none" />
+          <!-- newspaper held up -->
+          <path d="M74 352 L200 330 L216 440 L92 464 Z" fill="#EDEAE3" /> <path d="M84 366 L192 348" stroke-width="14" />
+          <g stroke-width="3.4" opacity="0.75">
+            <path d="M88 392 L198 373 M90 404 L200 385 M92 416 L202 397 M94 428 L172 414" />
+          </g>
+          <!-- gripping hand, blocked flat -->
+          <path d="M70 402 C56 404 50 416 56 428 C60 438 74 442 86 438 L96 434 L88 400 Z" fill="#0C0C0C" />
+        </g>
+        <rect x="26" y="26" width="328" height="342" fill="none" stroke="#0C0C0C" stroke-width="3" />
+      </svg>
+      <p class="hero__artcap">Recreation in the Douglas idiom — heavy uniform contour, black shapes doing the modelling, dot pattern standing in for halftone, one flat spot colour. Drawn in SVG for this page; not a copy of any single work by Emory Douglas.</p>
+    </figure>
+  </div>
+</header>
+
+<div class="strip" aria-hidden="true"><span>All Power To The People <b>·</b> Black Community News Service <b>·</b> 25 Cents <b>·</b> Survival Pending Revolution <b>·</b> All Power To The People <b>·</b> Black Community News Service <b>·</b> 25 Cents <b>·</b> Survival Pending Revolution <b>·</b> </span></div>
+
+<!-- ============================== ANATOMY ============================== -->
+<section class="section" id="anatomy">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The anatomy</p>
+    <div class="anat-grid">
+
+      <div data-reveal>
+        <h2 class="section-title head-rule">Two plates, one sheet of groundwood</h2>
+        <div class="cols" style="margin-bottom:2rem">
+          <p>A two-colour job on newsprint has a fixed palette and no negotiation. You get black, you get the paper, you get one spot ink, and you get whatever screened tints of that ink the platemaker can hold at this line count. Everything on this page is built from those four values, because the newspaper was.</p>
+          <p>The Party's actual spot colour varied issue to issue — red, blue, green, orange, whatever the printer had on press. What did not vary was the logic: the extra ink is never used to describe a thing. It is used to hit one shape hard.</p>
+        </div>
+      </div>
+
+      <div data-reveal>
+        <h2 class="section-title head-rule">Very few families. Very hard hierarchy.</h2>
+        <div class="cols" style="margin-bottom:2rem">
+          <p>The Black Panther was not typeset by a compositor with a case of fonts. It was assembled: headlines burnished off dry-transfer sheets, body copy set out of house or typed, everything waxed down onto boards and shot as camera-ready art. The typography is therefore a record of what was physically to hand.</p>
+          <p>The result is a hierarchy with almost no middle. Enormous condensed capitals, a hard rule, then small text. Nothing in between, because nothing in between could be produced fast enough on a weekly cycle.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="swatches" data-reveal style="margin-top:2.8rem">
+      <div class="swatch"><i style="background:#0C0C0C"></i><b>#0C0C0C PRESS BLACK</b><span>The workhorse. Every contour, every shadow, every headline. On cheap stock it is the only ink you can trust to hold an edge.</span></div>
+      <div class="swatch"><i style="background:#EDEAE3"></i><b>#EDEAE3 GROUNDWOOD</b><span>Newsprint: acidic, absorbent, yellowing within weeks. Ink spreads into it, so thin strokes close up and fine screens fill in.</span></div>
+      <div class="swatch"><i style="background:#12A594"></i><b>#12A594 SPOT INK</b><span>The second plate. Laid flat and unmixed — a sky, a flag, a floor, a block behind a head. Never a gradient, because there was no way to print one.</span></div>
+      <div class="swatch"><i style="background:#9DD8D0"></i><b>#9DD8D0 40% SCREEN</b><span>The only "third colour" available without a third plate: the same ink, screened back. This is where cheap printing does its arithmetic.</span></div>
+      <div class="swatch"><i style="background:#75726A"></i><b>#75726A SHOW-THROUGH</b><span>The grey of the next page bleeding through the sheet. Douglas's heavy blacks read as a design choice; they are also the only thing that beats it.</span></div>
+    </div>
+
+    <div class="specimens" data-reveal style="margin-top:2.8rem">
+      <div class="specimen">
+        <p style="font-family:var(--font-display);font-size:clamp(1.9rem,5.4vw,3.2rem);text-transform:uppercase">All Power To The People</p>
+        <small>Condensed grotesque display — the wood-type and gothic-condensed tradition of American newspaper headline setting, reached via Letraset and its rivals. Anton stands in here. Condensed because a slogan has to fit the measure, not because it looks urgent.</small>
+      </div>
+      <div class="specimen">
+        <p style="font-family:var(--font-alt);font-weight:700;font-size:clamp(1.2rem,3vw,1.7rem);text-transform:uppercase;letter-spacing:0.01em">Free Breakfast For Children · Serving Now</p>
+        <small>A secondary condensed grotesque for decks and captions. In the originals this register was often hand-lettered by Douglas directly inside the drawing — brush-weight capitals that sit on the artwork rather than beside it.</small>
+      </div>
+      <div class="specimen">
+        <p style="font-family:var(--font-mono);font-size:0.95rem;letter-spacing:0.1em;text-transform:uppercase">Vol. II  No. 5  ·  25¢  ·  Oakland, Calif.</p>
+        <small>The dateline row: volume, number, price, city. Newspaper furniture, and the cheapest possible signal that this is a periodical with a run rather than a leaflet with an opinion. The price mattered — street sales funded the Party.</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SYMBOLS ============================== -->
+<section class="section" id="symbols">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The marks</p>
+    <h2 class="section-title head-rule" data-reveal>Four marks, one of them borrowed</h2>
+
+    <div class="symbolrow" data-reveal>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 220 130" role="img" aria-label="Flat black silhouette of a prowling panther, abstracted in the flat-contour idiom">
+            <path d="M42 68 C22 70 8 60 8 42 C8 32 14 24 22 22" fill="none" stroke="#0C0C0C" stroke-width="8" stroke-linecap="round" />
+            <g fill="#0C0C0C">
+              <path d="M40 76 C36 62 44 52 62 50 C84 44 112 44 132 50 C148 54 156 60 162 62 L162 78 C140 84 100 86 70 84 C52 83 42 82 40 76 Z" />
+              <circle cx="58" cy="68" r="20" /> <circle cx="146" cy="66" r="16" />
+              <path d="M48 80 h16 l-5 30 h-16 z" /> <path d="M72 82 h12 l-4 28 h-13 z" /> <path d="M142 78 h15 l5 32 h-16 z" /> <path d="M122 80 h12 l4 30 h-13 z" />
+              <path d="M41 110 h22 l2 8 h-26 z" /> <path d="M65 108 h20 l2 8 h-24 z" /> <path d="M145 110 h22 l3 8 h-26 z" /> <path d="M126 108 h20 l2 8 h-24 z" />
+              <path d="M158 54 C158 46 168 42 180 44 C194 46 202 52 203 60 C204 70 196 76 184 76 C170 76 158 68 158 60 Z" />
+              <path d="M198 60 L212 65 L211 72 L197 74 Z" />
+              <path d="M164 46 L162 34 L174 42 Z" /> <path d="M184 42 L192 33 L195 46 Z" />
+            </g>
+            <path d="M199 68 L210 70 L199 72 Z" fill="#EDEAE3" /> <path d="M172 55 L184 58 L172 61 Z" fill="#EDEAE3" />
+          </svg>
+        </div>
+        <figcaption><b>The panther</b> — inherited, not invented. The mark comes from the Lowndes County Freedom Organization in Alabama, 1965, whose ballot symbol was developed in the SNCC orbit; Oakland adopted the animal and the posture in 1966.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 220 130" role="img" aria-label="Flat diagram of the Panther uniform: beret, sunglasses, powder-blue shirt and black leather jacket">
+            <path d="M32 46 C32 24 46 12 64 12 C84 12 98 24 98 46 C98 72 84 92 64 92 C46 92 32 72 32 46 Z" fill="none" stroke="#0C0C0C" stroke-width="1.6" stroke-dasharray="4 4" opacity="0.45" />
+            <path d="M24 40 C20 16 46 4 72 8 C96 12 108 22 105 32 C102 41 86 45 64 46 L42 47 C30 47 25 45 24 40 Z" fill="#0C0C0C" /> <circle cx="46" cy="5" r="5" fill="#0C0C0C" />
+            <path d="M26 60 h32 v9 c0 8 -8 13 -17 13 c-9 0 -15 -6 -15 -14 z" fill="#0C0C0C" /> <path d="M64 60 h32 v8 c0 8 -6 14 -15 14 c-9 0 -17 -5 -17 -13 z" fill="#0C0C0C" />
+            <rect x="56" y="60" width="10" height="5" fill="#0C0C0C" /> <rect x="16" y="59" width="12" height="4" fill="#0C0C0C" /> <rect x="94" y="59" width="12" height="4" fill="#0C0C0C" />
+            <path d="M132 26 h58 l10 16 -14 8 v66 h-50 v-66 l-14 -8 z" fill="#9DD8D0" stroke="#0C0C0C" stroke-width="3" />
+            <path d="M132 26 l14 8 15 14 -8 8 -21 -22 z M190 26 l-14 8 -15 14 8 8 21 -22 z" fill="#EDEAE3" stroke="#0C0C0C" stroke-width="2.6" />
+            <path d="M110 34 h22 l-16 22 v54 h-18 v-64 z" fill="#0C0C0C" /> <path d="M212 34 h-22 l16 22 v54 h18 v-64 z" fill="#0C0C0C" />
+            <path d="M161 48 v68" stroke="#0C0C0C" stroke-width="2.4" stroke-dasharray="4 4" />
+            <g font-family="JetBrains Mono, monospace" font-size="7" fill="#0C0C0C">
+              <text x="6" y="24">BERET</text> <text x="6" y="90">SHADES</text> <text x="150" y="128">JACKET · SHIRT</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The kit</b> — black beret, black leather jacket, powder-blue shirt, dark glasses, natural hair. Buyable off a rack, high-contrast in a press photograph, and identical enough across twenty bodies to read as organised.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 220 130" role="img" aria-label="Diagram of a two-colour press job: a black plate, a spot colour plate, their overlap, and a tint scale">
+            <rect x="18" y="18" width="70" height="62" fill="#0C0C0C" /> <rect x="58" y="38" width="70" height="62" fill="#12A594" style="mix-blend-mode:multiply" />
+            <g stroke="#0C0C0C" stroke-width="1.4">
+              <path d="M148 20 v24 M136 32 h24" /> <circle cx="148" cy="32" r="8" fill="none" />
+            </g>
+            <g>
+              <rect x="136" y="52" width="20" height="16" fill="#12A594" /> <rect x="158" y="52" width="20" height="16" fill="#12A594" opacity="0.6" />
+              <rect x="180" y="52" width="20" height="16" fill="#12A594" opacity="0.4" />
+              <rect x="136" y="52" width="64" height="16" fill="none" stroke="#0C0C0C" stroke-width="1.2" />
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="7" fill="#0C0C0C">
+              <text x="18" y="12">PLATE 1 · BLACK</text> <text x="118" y="12">REGISTER</text> <text x="136" y="78">100 · 60 · 40</text>
+              <text x="58" y="114">PLATE 2 · SPOT — OVERPRINT KILLS IT</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Black plus one</b> — the whole colour system. Spot over black is wasted ink, so the two plates are drawn to avoid each other. That constraint, not taste, is why the images are built from separated flat areas.
+          <span class="credit">Diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 220 130" role="img" aria-label="Flat blocked drawing of a raised fist">
+            <g fill="#0C0C0C">
+              <rect x="88" y="88" width="48" height="42" /> <rect x="82" y="80" width="60" height="16" /> <rect x="84" y="34" width="56" height="52" rx="9" />
+              <circle cx="95" cy="35" r="8" /> <circle cx="113" cy="32" r="8" /> <circle cx="131" cy="35" r="8" />
+              <path d="M84 52 C70 52 62 60 64 70 C66 78 76 82 86 80 L88 52 Z" />
+            </g>
+            <g stroke="#EDEAE3" stroke-width="2.6">
+              <path d="M104 34 v20 M122 32 v22" /> <path d="M84 84 h58" />
+            </g>
+            <g stroke="#12A594" stroke-width="4" stroke-linecap="round">
+              <path d="M56 22 L44 8 M164 22 L176 8 M110 14 L110 2" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The raised fist</b> — older than the Party and shared with every left movement of the century. Douglas's contribution is the drawing convention: four knuckle circles, a blocked cuff, no anatomy, no shading.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ESSAY ============================== -->
+<section class="section essay" id="essay">
+  <div class="wrap">
+    <div class="two-col">
+      <div>
+        <p class="eyebrow" data-reveal>How it worked</p>
+        <div class="cols cols--3" data-reveal style="margin-bottom:1rem">
+          <p>This is the atlas's clearest case of one person doing the job of a design department. No agency, no brand book, no approval chain — an artist with a title, a table, and a deadline that came round every seven days.</p>
+          <p>The Party's other outputs were programmes: breakfasts, clinics, buses to prisons, shoes. The newspaper is what held them together as a single visible thing, and the newspaper is where the identity was actually manufactured.</p>
+          <p>Read the style as a production diagram and it stops being a look. Every decision in it can be traced back to a camera, a wax roller, a blade, and the fact that the sheet had to be sold on a street corner for a quarter.</p>
+        </div>
+
+        <h3 data-reveal>October 1966 · <span>A party founded on a borrowed animal</span></h3>
+        <p class="deck" data-reveal>Huey P. Newton and Bobby Seale wrote a ten-point programme in Oakland. The mark they put on it had already been used on a ballot in Alabama.</p>
+        <div class="cols" data-reveal>
+          <p>The Black Panther Party for Self-Defense was founded in Oakland, California, in October 1966. Its first designed object was not a graphic at all: it was a ten-point programme — a numbered list of demands, set as a list, reproduced as a list, and reprinted in every issue of the newspaper for the rest of the Party's life. Repetition in a fixed position is a brand system. Most organisations discover this by accident. This one ran it for fifteen years.</p>
+          <p>The panther itself was inherited. In 1965 the Lowndes County Freedom Organization in Alabama — an independent Black party organised in the orbit of SNCC, the Student Nonviolent Coordinating Committee — needed a ballot emblem, because Alabama ballots carried symbols for voters who could not or would not rely on party names. The emblem chosen was a black panther. It was drawn by SNCC's own people for a specific, literal, bureaucratic purpose: to be recognised in a voting booth.</p>
+          <p>That origin is worth stating plainly, because the Panthers' most famous mark is the part of their identity they did not make. What Oakland added was posture and context — the animal set against the uniform, the newspaper, the stance. A found mark, re-briefed.</p>
+        </div>
+
+        <h3 data-reveal>April 1967 · <span>The newspaper is the product</span></h3>
+        <p class="deck" data-reveal>The Black Panther began as a mimeographed sheet about a killing in Richmond, California. Within three years it was the Party's main organ, main income and main recruiter.</p>
+        <div class="cols" data-reveal>
+          <p>The first issue appeared in April 1967, produced on a mimeograph, reporting the police killing of Denzil Dowell. It grew into a weekly with a subtitle — <cite>Black Community News Service</cite> — and a print run that, at its peak around 1970, ran into six figures; the exact number varies by source, and the Party had every reason to quote the high one. It sold for twenty-five cents, hand to hand, by members on street corners.</p>
+          <p>The production pipeline explains the style completely. Copy and images were waxed down on boards by hand and cut with a blade. Headlines came off dry-transfer lettering sheets, burnished letter by letter. Photographs and drawings were shot on a photostat camera, which flattens continuous tone into hard black and white and eats anything delicate. The result went to a press running black plus one colour on groundwood paper.</p>
+          <p>Now read the drawings again. Heavy uniform contour: survives a photostat and a spreading ink. Black masses instead of modelling: survive a coarse screen. Flat spot colour in separated areas: survives misregistration, because nothing needs to line up. Hand-lettering inside the image: survives being reduced. The house style is the pipeline, drawn.</p>
+          <p>And then the format innovation that almost nobody else attempted. The back page of the paper was regularly given over to a single full-page image, composed as a poster. Buy the paper for a quarter, read it, tear off the back, tape it to a wall. Distribution and display in one object, at no extra cost, with no printing job beyond the one already running.</p>
+        </div>
+
+        <blockquote class="pull" data-reveal>The paper cost twenty-five cents and came with a free poster on the back. <b>That is a distribution strategy disguised as a layout decision.</b></blockquote>
+
+        <h3 data-reveal>1967 · <span>Emory Douglas, Minister of Culture</span></h3>
+        <p class="deck" data-reveal>He trained in commercial art, not fine art. That is the whole difference: he arrived with paste-up skills and a production-line temperament.</p>
+        <div class="cols" data-reveal>
+          <p>Douglas joined the Party in early 1967 and became Revolutionary Artist and then Minister of Culture. He had studied commercial art at City College of San Francisco — printing, layout, camera work, the trade of getting things onto paper on time. He was not a painter who took up politics. He was a production artist who was handed a national title and a weekly slot.</p>
+          <p>His recurring subjects are conspicuously unheroic. Tenants. Mothers with children on a hip. Elders. Kids on a step. Rats, rent notices, groceries, eviction, a broken window. He drew these with exactly the same line weight and the same black masses as he drew a rifle — a deliberate refusal of the hierarchy in which weapons are drawn seriously and domestic life is drawn softly.</p>
+          <p>The other half of the output is the caricature: the police as a pig, drawn on all fours, in uniform, usually being handled rather than feared. It is crude on purpose. It gave a mass audience an image that could be redrawn by anyone with a marker, which is the mark of a caricature that will travel.</p>
+          <p>The argument this page wants to make is about the survival programmes. The free breakfast programme began in January 1969 in Oakland; free health clinics and other services followed. In the graphics, a food line is drawn with the same monumental low camera angle as an armed patrol. Douglas made mutual aid look like power — and that, not the beret, is the Party's real brand.</p>
+        </div>
+
+        <h3 data-reveal>1968 · <span>The uniform, specified as a kit</span></h3>
+        <p class="deck" data-reveal>Black leather jacket, black beret, powder-blue shirt, dark glasses, natural hair. Cheap, buyable, and calibrated to photograph as discipline rather than as a mob.</p>
+        <div class="cols" data-reveal>
+          <p>Every element of it is a design decision with a reason you can name. Leather: available second-hand, durable, and — critically — a single unbroken black shape in a photograph. Powder blue: the one light value, so a group does not collapse into a black mass on newsprint. Beret: soft, packable, worn identically by everyone, and carrying an explicit borrowing from anti-colonial and military iconography — the French resistance, Cuba, liberation armies.</p>
+          <p>Note what the kit is not. It is not a bespoke garment, not a licensed item, not manufactured by the organisation. Anyone could assemble it from a shop in an afternoon, which made membership legible without making it purchasable. Compare the enormous logistical apparatus other movements built to clothe their members.</p>
+          <p>The visual pay-off is in group formation. Twenty people in a standardised kit, evenly spaced, still, in high contrast, read to a press camera as an institution. That reading was the point of the exercise, and it is why the photographs from 1968 are still the ones used whenever the Party is depicted.</p>
+        </div>
+
+        <h3 data-reveal>1969–1982 · <span>Repression, then canonisation</span></h3>
+        <p class="deck" data-reveal>COINTELPRO targeted the Party directly. Fred Hampton was killed in a police raid in Chicago in December 1969. The visual language outlived the organisation by decades.</p>
+        <div class="cols" data-reveal>
+          <p>The FBI's counter-intelligence programme, COINTELPRO, ran operations against the Party: informants, forged letters designed to set chapters and allied groups against each other, prosecutions, raids. On 4 December 1969, Fred Hampton, the 21-year-old chairman of the Illinois chapter, was killed in his bed during a pre-dawn raid by Chicago police coordinated with the FBI. Say it plainly: the state dismantled this organisation, and it did so with lethal force.</p>
+          <p>Attrition, imprisonment, exile and internal splits did the rest. By the early 1980s the Party had effectively ceased to exist; its Oakland school, the last functioning institution, closed in 1982.</p>
+          <p>The graphics did not stop. The idiom travelled through the international poster networks of the period and was picked up wherever a movement needed a stance that read instantly. The most direct citation is in Bombay: the Dalit Panthers, founded in 1972 by a group of young Marathi writers including Namdeo Dhasal and J. V. Pawar, took the name deliberately and with it the posture, the militancy and the graphic register.</p>
+          <p>Today Douglas's work hangs in museums, has been surveyed in major exhibitions, and is imitated — hard contour, flat spot colour, low angle, sans-serif shout — in advertising that is selling trainers. That is the closing tension. A visual language built to be cheap, reproducible and unmistakably oppositional works beautifully as a style, and works as a style precisely because it has been separated from the programme it was drawn to advertise.</p>
+        </div>
+      </div>
+
+      <aside class="marginalia" data-reveal>
+        <h4>Production log</h4>
+        <p><b>1965</b> Lowndes County Freedom Organization, Alabama, adopts a black panther as its ballot emblem.</p>
+        <p><b>Oct 1966</b> Newton and Seale found the Black Panther Party for Self-Defense in Oakland; the ten-point programme is written.</p>
+        <p><b>Apr 1967</b> First issue of <cite>The Black Panther</cite>, mimeographed, on the killing of Denzil Dowell.</p>
+        <p><b>1967</b> Emory Douglas joins; named Revolutionary Artist, then Minister of Culture.</p>
+        <p><b>1968</b> Paper goes weekly and national; the back page becomes a standing poster slot.</p>
+        <p><b>Jan 1969</b> Free Breakfast for Children begins in Oakland; clinics and other survival programmes follow.</p>
+        <p><b>Dec 1969</b> Fred Hampton killed in a police raid in Chicago.</p>
+        <p><b>c. 1970</b> Circulation peaks; figures vary widely by source.</p>
+        <p><b>1972</b> Dalit Panthers founded in Bombay, taking the name.</p>
+        <p><b>1982</b> The Oakland Community School closes; the Party has effectively ended.</p>
+        <p><b>2007</b> <cite>Black Panther: The Revolutionary Art of Emory Douglas</cite> published — the work enters the design canon.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<div class="strip" aria-hidden="true"><span>Survival Pending Revolution <b>·</b> Back Page Is A Poster <b>·</b> Tear Here <b>·</b> Black Plus One <b>·</b> Survival Pending Revolution <b>·</b> Back Page Is A Poster <b>·</b> Tear Here <b>·</b> Black Plus One <b>·</b> </span></div>
+
+<!-- ============================== ARTIFACTS ============================== -->
+<section class="section" id="artifacts" style="background:#E5E1D8">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Artifacts</p>
+    <h2 class="section-title head-rule" data-reveal>What came off the press</h2>
+    <p class="cols" data-reveal style="margin-bottom:2.6rem;max-width:46rem">Four objects, all redrawn in vector from published descriptions of the format and the method. None of these is a copy of a specific issue or a specific drawing.</p>
+
+    <div class="arts" data-reveal>
+
+      <figure class="a-page">
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 440 580" role="img" aria-label="Recreation of a newspaper page in the Party's idiom: masthead, rules, three columns, an illustration block and a reverse pull headline">
+            <defs>
+              <pattern id="np-lines" width="6" height="6.6" patternUnits="userSpaceOnUse">
+                <rect width="6" height="2.5" fill="#0C0C0C" opacity="0.6" />
+              </pattern>
+              <pattern id="np-dots" width="7" height="7" patternUnits="userSpaceOnUse">
+                <circle cx="3.5" cy="3.5" r="1.5" fill="#0C0C0C" />
+              </pattern>
+              <clipPath id="np-clip"><rect x="18" y="352" width="264" height="128" /></clipPath>
+            </defs>
+            <rect width="440" height="580" fill="#F4F2EC" /> <rect x="18" y="18" width="404" height="1.4" fill="#0C0C0C" />
+            <text x="18" y="32" font-family="JetBrains Mono, monospace" font-size="6.4" fill="#0C0C0C" letter-spacing="1.4">BLACK COMMUNITY NEWS SERVICE</text>
+            <text x="422" y="32" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="6.4" fill="#0C0C0C" letter-spacing="1.4">ALL POWER TO THE PEOPLE</text>
+            <rect x="18" y="38" width="404" height="6" fill="#0C0C0C" />
+            <text x="220" y="86" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="46" fill="#0C0C0C" textLength="404" lengthAdjust="spacingAndGlyphs">THE BLACK PANTHER</text>
+            <rect x="18" y="94" width="404" height="6" fill="#0C0C0C" />
+            <g font-family="JetBrains Mono, monospace" font-size="6.4" fill="#0C0C0C" letter-spacing="1.2">
+              <text x="18" y="112">VOL. II   NO. 5</text> <text x="220" y="112" text-anchor="middle">OAKLAND, CALIFORNIA · PUBLISHED WEEKLY</text>
+              <text x="422" y="112" text-anchor="end">25 CENTS</text>
+            </g>
+            <rect x="18" y="118" width="404" height="1.4" fill="#0C0C0C" />
+            <text x="220" y="152" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="30" fill="#0C0C0C" textLength="380" lengthAdjust="spacingAndGlyphs">ALL POWER TO THE PEOPLE</text>
+            <rect x="18" y="162" width="404" height="2" fill="#0C0C0C" />
+
+            <!-- column rules -->
+            <g fill="#0C0C0C" opacity="0.5">
+              <rect x="150.7" y="172" width="1" height="290" /> <rect x="289.3" y="172" width="1" height="290" />
+            </g>
+
+            <!-- column 1 -->
+            <text x="18" y="184" font-family="Archivo Narrow, sans-serif" font-weight="700" font-size="11" fill="#0C0C0C">FREE BREAKFAST OPENS</text>
+            <rect x="18" y="190" width="126" height="60" fill="url(#np-lines)" /> <rect x="96" y="243" width="48" height="7" fill="#F4F2EC" />
+            <rect x="18" y="256" width="126" height="86" fill="url(#np-lines)" /> <rect x="110" y="335" width="34" height="7" fill="#F4F2EC" />
+
+            <!-- illustration block spanning cols 1-2 -->
+            <g>
+              <rect x="18" y="352" width="264" height="128" fill="#12A594" /> <rect x="18" y="352" width="264" height="128" fill="url(#np-dots)" opacity="0.16" />
+              <g clip-path="url(#np-clip)"><g transform="translate(0,15)" stroke="#0C0C0C" stroke-width="3.4" stroke-linejoin="round">
+                <path d="M42 480 C46 442 70 420 96 416 L138 416 C166 424 188 448 194 480 Z" fill="#0C0C0C" /> <path d="M104 396 h26 v26 h-26 z" fill="#F4F2EC" />
+                <path d="M96 356 C86 360 82 372 84 386 C86 402 96 418 116 420 C136 418 146 402 148 386 C150 372 146 360 136 356 Z" fill="#F4F2EC" />
+                <path d="M96 356 C86 360 82 372 84 386 C86 402 96 418 116 420 L106 410 C94 400 94 380 98 366 Z" fill="#0C0C0C" stroke="none" />
+                <path d="M78 364 C76 348 92 340 114 341 C136 342 148 350 148 360 C148 366 140 368 124 368 L88 370 C80 370 78 368 78 364 Z" fill="#0C0C0C" />
+                <path d="M212 480 C214 448 228 428 248 424 L262 424 C272 440 276 462 276 480 Z" fill="#0C0C0C" />
+                <path d="M228 400 C222 404 220 414 222 424 C224 438 232 448 244 448 C256 448 262 438 264 424 C266 414 262 404 256 400 Z" fill="#F4F2EC" />
+                <path d="M214 406 C212 392 224 386 242 386 C260 386 270 392 270 400 C270 405 262 407 250 407 L222 409 C216 409 214 409 214 406 Z" fill="#0C0C0C" />
+              </g></g>
+              <rect x="18" y="352" width="264" height="128" fill="none" stroke="#0C0C0C" stroke-width="2" />
+            </g>
+
+            <!-- column 2 -->
+            <text x="156.7" y="184" font-family="Archivo Narrow, sans-serif" font-weight="700" font-size="11" fill="#0C0C0C">TEN-POINT PROGRAMME</text>
+            <rect x="156.7" y="190" width="126" height="46" fill="url(#np-lines)" /> <rect x="240" y="229" width="43" height="7" fill="#F4F2EC" />
+            <g font-family="Archivo Narrow, sans-serif" font-size="9" fill="#0C0C0C">
+              <text x="156.7" y="252">1. WE WANT FREEDOM.</text> <text x="156.7" y="266">2. WE WANT FULL EMPLOYMENT.</text>
+              <text x="156.7" y="280">3. WE WANT DECENT HOUSING.</text> <text x="156.7" y="294">4. WE WANT EDUCATION.</text>
+            </g>
+            <rect x="156.7" y="302" width="126" height="40" fill="url(#np-lines)" /> <rect x="248" y="335" width="35" height="7" fill="#F4F2EC" />
+
+            <!-- column 3 -->
+            <text x="295.3" y="184" font-family="Archivo Narrow, sans-serif" font-weight="700" font-size="11" fill="#0C0C0C">ON THE STREET</text>
+            <rect x="295.3" y="190" width="126.7" height="100" fill="url(#np-lines)" /> <rect x="390" y="283" width="32" height="7" fill="#F4F2EC" />
+            <rect x="295.3" y="300" width="126.7" height="14" fill="#0C0C0C" />
+            <text x="358" y="311" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="10" fill="#F4F2EC">25 CENTS</text>
+            <rect x="295.3" y="322" width="126.7" height="132" fill="url(#np-lines)" /> <rect x="378" y="447" width="44" height="7" fill="#F4F2EC" />
+            <rect x="295.3" y="464" width="126.7" height="16" fill="#12A594" />
+
+            <!-- reverse pull bar -->
+            <rect x="18" y="492" width="404" height="40" fill="#0C0C0C" />
+            <text x="220" y="520" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="24" fill="#F4F2EC" textLength="376" lengthAdjust="spacingAndGlyphs">SURVIVAL PENDING REVOLUTION</text>
+            <rect x="18" y="544" width="404" height="1.4" fill="#0C0C0C" />
+            <g font-family="JetBrains Mono, monospace" font-size="6.4" fill="#0C0C0C" letter-spacing="1.2">
+              <text x="18" y="558">PAGE 1</text> <text x="422" y="558" text-anchor="end">BACK PAGE: FULL-PAGE POSTER</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Page one, in the Party's idiom</b> Masthead with rules above and below, a dateline row carrying the price, three columns on a hairline grid, a standing ten-point programme, one illustration block in black plus spot, and a reverse bar doing the work of a pull quote. Volume and issue numbers here are placeholders, not a real issue.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure class="a-back">
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 440 340" role="img" aria-label="Diagram of the back-page poster format: the printed sheet, the fold, the tear line, and the poster taped to a wall">
+            <defs>
+              <pattern id="bp-wall" width="10" height="10" patternUnits="userSpaceOnUse">
+                <path d="M0 10 L10 0" stroke="#0C0C0C" stroke-width="0.8" opacity="0.3" />
+              </pattern>
+            </defs>
+            <rect width="440" height="340" fill="#F4F2EC" />
+            <g font-family="JetBrains Mono, monospace" font-size="7.5" fill="#0C0C0C" letter-spacing="1">
+              <text x="16" y="22">ONE SHEET · TWO PAGES · NO EXTRA PLATE</text>
+              <text x="16" y="326">THE POSTER COSTS THE PARTY NOTHING. IT IS ALREADY ON PRESS.</text>
+            </g>
+            <!-- the sheet -->
+            <rect x="16" y="38" width="212" height="252" fill="#EDEAE3" stroke="#0C0C0C" stroke-width="2" />
+            <rect x="16" y="38" width="106" height="252" fill="none" stroke="#0C0C0C" stroke-width="1" />
+            <g opacity="0.75">
+              <rect x="26" y="52" width="86" height="5" fill="#0C0C0C" /> <rect x="26" y="64" width="86" height="52" fill="url(#np-lines)" />
+              <rect x="26" y="124" width="86" height="70" fill="url(#np-lines)" /> <rect x="26" y="202" width="86" height="76" fill="url(#np-lines)" />
+            </g>
+            <!-- back page = poster -->
+            <rect x="132" y="52" width="86" height="226" fill="#12A594" />
+            <g stroke="#0C0C0C" stroke-width="2.4" stroke-linejoin="round">
+              <path d="M144 278 C147 246 162 230 178 227 L192 227 C206 234 214 254 216 278 Z" fill="#0C0C0C" />
+              <path d="M168 196 C160 200 158 212 160 224 C162 238 172 250 184 250 C196 250 204 238 206 224 C208 212 204 200 196 196 Z" fill="#EDEAE3" />
+              <path d="M154 202 C152 186 168 178 186 178 C204 178 214 186 214 196 C214 202 206 204 192 204 L162 206 C156 206 154 206 154 202 Z" fill="#0C0C0C" />
+            </g>
+            <text x="175" y="76" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="15" fill="#0C0C0C" textLength="76" lengthAdjust="spacingAndGlyphs">ALL POWER</text>
+            <text x="175" y="92" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="15" fill="#0C0C0C" textLength="76" lengthAdjust="spacingAndGlyphs">TO THE PEOPLE</text>
+            <!-- fold + tear -->
+            <path d="M122 34 V294" stroke="#0C0C0C" stroke-width="1.6" stroke-dasharray="7 5" />
+            <text x="126" y="304" font-family="JetBrains Mono, monospace" font-size="7" fill="#0C0C0C">FOLD</text>
+            <path d="M228 44 v240" stroke="#12A594" stroke-width="3" stroke-dasharray="3 5" />
+            <text x="16" y="304" font-family="JetBrains Mono, monospace" font-size="7" fill="#0C0C0C">PAGE 1</text>
+            <!-- arrow -->
+            <g stroke="#0C0C0C" stroke-width="2.4" fill="none">
+              <path d="M242 164 H286" /> <path d="M278 156 L288 164 L278 172" />
+            </g>
+            <text x="244" y="154" font-family="JetBrains Mono, monospace" font-size="7" fill="#0C0C0C">TEAR HERE</text>
+            <!-- wall -->
+            <rect x="300" y="38" width="124" height="252" fill="#E5E1D8" stroke="#0C0C0C" stroke-width="2" />
+            <rect x="300" y="38" width="124" height="252" fill="url(#bp-wall)" />
+            <g transform="rotate(-2.6 362 168)">
+              <rect x="322" y="82" width="80" height="172" fill="#12A594" stroke="#0C0C0C" stroke-width="2" />
+              <g stroke="#0C0C0C" stroke-width="2.2" stroke-linejoin="round">
+                <path d="M334 254 C337 226 350 212 364 210 L376 210 C388 216 396 232 398 254 Z" fill="#0C0C0C" />
+                <path d="M355 186 C348 189 346 199 348 209 C350 221 358 231 368 231 C378 231 385 221 387 209 C389 199 385 189 378 186 Z" fill="#EDEAE3" />
+                <path d="M343 191 C341 177 355 170 370 170 C385 170 394 177 394 186 C394 191 387 193 375 193 L350 195 C345 195 343 195 343 191 Z" fill="#0C0C0C" />
+              </g>
+              <text x="362" y="104" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="13" fill="#0C0C0C" textLength="66" lengthAdjust="spacingAndGlyphs">ALL POWER</text>
+              <g fill="#0C0C0C" opacity="0.45">
+                <rect x="312" y="74" width="26" height="9" transform="rotate(-38 325 78)" />
+                <rect x="386" y="74" width="26" height="9" transform="rotate(38 399 78)" />
+                <rect x="312" y="252" width="26" height="9" transform="rotate(38 325 256)" />
+                <rect x="386" y="252" width="26" height="9" transform="rotate(-38 399 256)" />
+              </g>
+            </g>
+            <text x="300" y="304" font-family="JetBrains Mono, monospace" font-size="7" fill="#0C0C0C">WALL · TAPED AT FOUR CORNERS</text>
+          </svg>
+        </div>
+        <figcaption><b>The back page as a free poster</b> A genuine format innovation. The last page carries no jump lines and no continuing text, so it can leave the paper without destroying anything. One press run yields a newspaper, a fundraiser and a wall poster.
+          <span class="credit">Diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure class="a-method">
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 440 200" role="img" aria-label="The Douglas method in four stages: contour, black blocking, pattern fill, then spot colour">
+            <defs>
+              <pattern id="md-dots" width="6" height="6" patternUnits="userSpaceOnUse">
+                <circle cx="3" cy="3" r="1.5" fill="#0C0C0C" />
+              </pattern>
+              <g id="md-shoulders"><path d="M8 112 C12 88 30 76 50 76 C70 76 88 88 92 112 Z" /></g>
+              <g id="md-contour" fill="none" stroke="#0C0C0C" stroke-width="3.2" stroke-linejoin="round">
+                <path d="M8 112 C12 88 30 76 50 76 C70 76 88 88 92 112 Z" />
+                <path d="M31 26 C21 30 19 44 21 55 C23 69 33 79 50 79 C67 79 77 69 79 55 C81 44 79 30 69 26 Z" />
+                <path d="M16 31 C14 12 34 4 52 6 C72 8 84 16 84 26 C84 32 76 34 60 34 L26 36 C19 36 16 34 16 31 Z" />
+              </g>
+              <g id="md-black" fill="#0C0C0C">
+                <path d="M16 31 C14 12 34 4 52 6 C72 8 84 16 84 26 C84 32 76 34 60 34 L26 36 C19 36 16 34 16 31 Z" /> <circle cx="42" cy="3" r="4" />
+                <path d="M31 26 C21 30 19 44 21 55 C23 69 33 79 50 79 L40 71 C30 62 28 44 32 33 Z" /> <path d="M25 44 h20 v10 c-7 5 -16 3 -20 -2 z" />
+                <path d="M53 44 h21 v8 c-4 6 -13 7 -21 1 z" />
+              </g>
+              <g id="md-pattern"><path d="M8 112 C12 88 30 76 50 76 C70 76 88 88 92 112 Z" fill="url(#md-dots)" opacity="0.85" /></g>
+              <g id="md-spot"><circle cx="50" cy="44" r="42" fill="#12A594" /></g>
+            </defs>
+            <rect width="440" height="200" fill="#F4F2EC" />
+            <g font-family="JetBrains Mono, monospace" font-size="7" fill="#0C0C0C" letter-spacing="1">
+              <text x="14" y="16">STAGE 1 · CONTOUR</text> <text x="122" y="16">STAGE 2 · BLOCK</text> <text x="230" y="16">STAGE 3 · PATTERN</text>
+              <text x="338" y="16">STAGE 4 · SPOT</text>
+            </g>
+            <g stroke="#0C0C0C" stroke-width="1" fill="none" opacity="0.55">
+              <rect x="14" y="24" width="92" height="146" /> <rect x="122" y="24" width="92" height="146" /> <rect x="230" y="24" width="92" height="146" />
+              <rect x="338" y="24" width="92" height="146" />
+            </g>
+            <g transform="translate(14,44)"><use href="#md-contour" /></g>
+            <g transform="translate(122,44)"><use href="#md-black" /><use href="#md-contour" /></g>
+            <g transform="translate(230,44)"><use href="#md-pattern" /><use href="#md-black" /><use href="#md-contour" /></g>
+            <g transform="translate(338,44)"><use href="#md-spot" /><use href="#md-pattern" /><use href="#md-black" /><use href="#md-contour" /></g>
+            <g font-family="JetBrains Mono, monospace" font-size="6.4" fill="#0C0C0C" opacity="0.75">
+              <text x="14" y="186">ONE WEIGHT, NO TAPER</text> <text x="122" y="186">SHADOW AS SHAPE</text> <text x="230" y="186">TEXTURE, NOT TONE</text>
+              <text x="338" y="186">FLAT, BEHIND, UNMIXED</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The method in four moves</b> Contour at one uniform weight; black masses standing in for modelling; a pattern where a halftone would be; one flat spot colour placed behind, never inside, the black. Any of the four stages will print. That is the point of building it this way.
+          <span class="credit">Diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure class="a-hand">
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 340 460" role="img" aria-label="Recreation of a free breakfast programme handbill set in flat type">
+            <rect width="340" height="460" fill="#F4F2EC" /> <rect x="16" y="16" width="308" height="428" fill="none" stroke="#0C0C0C" stroke-width="2" />
+            <rect x="28" y="28" width="284" height="8" fill="#0C0C0C" />
+            <text x="170" y="56" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#0C0C0C" letter-spacing="2.4">THE BLACK PANTHER PARTY</text>
+            <rect x="28" y="62" width="284" height="1.6" fill="#0C0C0C" />
+            <text x="170" y="112" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="46" fill="#0C0C0C" textLength="270" lengthAdjust="spacingAndGlyphs">FREE</text>
+            <text x="170" y="152" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="36" fill="#0C0C0C" textLength="284" lengthAdjust="spacingAndGlyphs">BREAKFAST</text>
+            <text x="170" y="184" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="28" fill="#0C0C0C" textLength="240" lengthAdjust="spacingAndGlyphs">FOR CHILDREN</text>
+            <rect x="28" y="196" width="284" height="4" fill="#0C0C0C" /> <rect x="28" y="210" width="284" height="120" fill="#12A594" />
+            <g stroke="#0C0C0C" stroke-width="3" stroke-linejoin="round">
+              <path d="M58 330 C60 306 74 292 92 292 C110 292 124 306 126 330 Z" fill="#0C0C0C" />
+              <path d="M84 262 C76 266 74 278 76 288 C78 300 84 310 92 310 C100 310 107 300 109 288 C111 278 108 266 100 262 Z" fill="#F4F2EC" />
+              <path d="M84 262 C76 266 74 278 76 288 C78 300 84 310 92 310 L86 302 C79 294 79 278 82 270 Z" fill="#0C0C0C" stroke="none" />
+              <path d="M136 300 h84 v6 h-84 z" fill="#F4F2EC" /> <path d="M150 306 C150 322 164 332 178 332 C192 332 206 322 206 306 Z" fill="#F4F2EC" />
+              <path d="M232 268 v64" stroke-width="7" stroke-linecap="round" /> <path d="M226 268 v22 M238 268 v22" stroke-width="4" stroke-linecap="round" />
+              <path d="M268 268 c-10 0 -12 26 0 26 c12 0 10 -26 0 -26 z" fill="#F4F2EC" /> <path d="M268 294 v38" stroke-width="6" stroke-linecap="round" />
+            </g>
+            <rect x="28" y="210" width="284" height="120" fill="none" stroke="#0C0C0C" stroke-width="2" />
+            <g font-family="Archivo Narrow, sans-serif" font-weight="700" font-size="17" fill="#0C0C0C">
+              <text x="170" y="360" text-anchor="middle">EVERY SCHOOL DAY · BEFORE CLASS</text>
+              <text x="170" y="382" text-anchor="middle">BRING YOUR CHILDREN. BRING YOUR</text>
+              <text x="170" y="404" text-anchor="middle">NEIGHBOUR'S CHILDREN.</text>
+            </g>
+            <rect x="28" y="414" width="284" height="20" fill="#0C0C0C" />
+            <text x="170" y="429" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="14" fill="#F4F2EC" textLength="250" lengthAdjust="spacingAndGlyphs">ALL POWER TO THE PEOPLE</text>
+          </svg>
+        </div>
+        <figcaption><b>Breakfast programme handbill</b> The free breakfast programme began in Oakland in January 1969. Note what the type does: no photograph, no address invented here, no appeal for pity — an offer, stated at the scale of a headline. Mutual aid presented as an institution with a masthead.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+    </div>
+
+    <p class="note" style="margin-top:2.6rem;max-width:46rem">Everything above is drawn in SVG from published descriptions of the newspaper's format and of Emory Douglas's working method. Nothing is traced from a photograph and no drawing here reproduces a specific work of his. Volume numbers, dates and copy in the recreated page are placeholders. For the originals, see the archives and collections listed below.</p>
+  </div>
+</section>
+
+<!-- ============================== LINEAGE ============================== -->
+<section class="section" id="lineage">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Lineage</p>
+    <h2 class="section-title head-rule" data-reveal>What it borrowed, what it handed on</h2>
+    <div class="lineage" data-reveal
+         data-lineage="ambedkarite,ospaaal,constructivism,three-fingers"
+         data-why="The Dalit Panthers took this party's name in Bombay in 1972 — the most literal transfer of a political identity in this atlas, posture and militancy included.|Havana's solidarity posters ran the same toolkit at the same moment: flat spot colour, hard contour, cheap stock, international distribution by post.|The flat-colour, photomontage, one-strong-diagonal toolkit that made a two-ink press look like an art direction, forty years earlier.|The raised fist is the ancestor of every borrowed gesture in this atlas — a sign anyone can make with a hand, and no state can confiscate.">
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SOURCES ============================== -->
+<section class="section" id="sources" style="padding-top:0">
+  <div class="wrap">
+    <hr class="hr" style="margin-bottom:3rem" />
+    <p class="eyebrow" data-reveal>Sources &amp; further reading</p>
+    <ul class="sources" data-reveal>
+      <li>Emory Douglas, <cite>Black Panther: The Revolutionary Art of Emory Douglas</cite> (Rizzoli, 2007), edited by Sam Durant — the primary published collection of the work.</li>
+      <li>Colette Gaiter's essays on Douglas, including her contribution to the 2007 Rizzoli volume — the best available design-critical reading of the method.</li>
+      <li>Joshua Bloom &amp; Waldo E. Martin Jr., <cite>Black Against Empire: The History and Politics of the Black Panther Party</cite> (University of California Press, 2013).</li>
+      <li><cite>The Black Panther: Black Community News Service</cite> — the newspaper itself, held in microfilm and digitised runs at research libraries and movement archives.</li>
+      <li>Bobby Seale, <cite>Seize the Time: The Story of the Black Panther Party and Huey P. Newton</cite> (1970) — a founder's account, including the paper's origins.</li>
+      <li>Oakland Museum of California — Black Panther Party holdings and the 2016 exhibition <cite>All Power to the People: Black Panthers at 50</cite>.</li>
+      <li>Ward Churchill &amp; Jim Vander Wall, <cite>Agents of Repression: The FBI's Secret Wars Against the Black Panther Party and the American Indian Movement</cite> (1988).</li>
+      <li>United States Senate Select Committee (Church Committee), <cite>Final Report, Book III</cite> (1976) — the official record of COINTELPRO operations.</li>
+    </ul>
+  </div>
+</section>
+
+<div data-site="foot"></div>
+
+<script src="../../shared/movements.js"></script>
+<script src="../../shared/site.js"></script>
+</body>
+</html>

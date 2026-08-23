@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Political Design — an atlas of how movements looked</title>
+<meta name="title" content="Political Design — an atlas of how movements looked" />
+<meta name="description" content="Fifteen political movements, each given a page built in its own visual grammar. Swadeshi, the Dravidian movement, Vietnamese poster ateliers, People Power, Reformasi, the Milk Tea Alliance, Constructivism and more." />
+<meta name="author" content="Amit" />
+<meta name="theme-color" content="#0C0C0C" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://layogtima.com/political-design/" />
+<meta property="og:title" content="Political Design — an atlas of how movements looked" />
+<meta property="og:description" content="Fifteen movements, fifteen visual grammars. Every artifact drawn in code, not reproduced." />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content="Political Design — an atlas of how movements looked" />
+<link rel="icon" type="image/svg+xml" href="https://layogtima.com/images/favicon/favicon.svg" />
+<link rel="shortcut icon" href="https://layogtima.com/images/favicon/favicon.ico" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,300..600&family=Anton&family=Rozha+One&family=UnifrakturMaguntia&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/site.css" />
+<link rel="stylesheet" href="shared/textures.css" />
+<style>
+  :root {
+    --paper: #0C0C0C;
+    --ink: #ECEAE6;
+    --accent: #ECEAE6;
+    --rule: rgba(236,234,230,0.18);
+    --soft: rgba(236,234,230,0.56);
+    --whisper: rgba(236,234,230,0.05);
+    --font-display: "Archivo", "Helvetica Neue", sans-serif;
+    --font-body: "Source Serif 4", Georgia, serif;
+  }
+  body { background: var(--paper); }
+  h1, h2, h3 { font-variation-settings: "wdth" 112, "wght" 800; }
+
+  /* ---------------- masthead ---------------- */
+  .masthead {
+    min-height: 100svh;
+    display: grid;
+    align-content: center;
+    padding: 8rem var(--gutter) 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .masthead__grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(236,234,230,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(236,234,230,0.045) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse at 50% 40%, #000 20%, transparent 78%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 40%, #000 20%, transparent 78%);
+    pointer-events: none;
+  }
+  .masthead__inner { position: relative; z-index: 2; width: min(100%, 84rem); margin-inline: auto; }
+  .wordmark {
+    font-family: var(--font-display);
+    font-variation-settings: "wdth" 118, "wght" 900;
+    font-size: clamp(2.4rem, 9.4vw, 8.4rem);
+    line-height: 0.84;
+    letter-spacing: -0.038em;
+    text-transform: uppercase;
+    margin: 0 0 1.8rem;
+  }
+  .wordmark span { display: block; }
+  .wordmark i { font-style: normal; color: var(--accent); }
+  .masthead__thesis {
+    font-size: clamp(1.15rem, 1.5vw + 0.9rem, 1.9rem);
+    line-height: 1.42;
+    max-width: 44rem;
+    margin-bottom: 2.6rem;
+  }
+  .masthead__thesis b { font-weight: 600; }
+  .masthead__meta {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--soft);
+    display: flex; flex-wrap: wrap; gap: 0.6rem 2rem;
+  }
+  /* the fifteen accents, as a spectrum rule */
+  .spectrum { display: flex; height: 6px; margin: 2.8rem 0 0; width: min(100%, 62rem); }
+  .spectrum i { flex: 1; transition: flex 0.4s ease; }
+  .spectrum:hover i { flex: 1; }
+  .spectrum i:hover { flex: 3; }
+
+  /* ---------------- the rack ---------------- */
+  .rack {
+    display: flex;
+    gap: 2px;
+    height: min(74vh, 640px);
+    min-height: 440px;
+  }
+  .spine {
+    flex: 1 1 0;
+    min-width: 0;
+    position: relative;
+    background: var(--c);
+    color: var(--fg, #fff);
+    text-decoration: none;
+    overflow: hidden;
+    transition: flex-grow 0.45s cubic-bezier(0.2,0.7,0.2,1), filter 0.35s;
+    filter: saturate(0.82) brightness(0.92);
+    display: block;
+  }
+  .rack:hover .spine { filter: saturate(0.55) brightness(0.6); }
+  .spine:hover, .spine:focus-visible {
+    flex-grow: 6;
+    filter: saturate(1.1) brightness(1) !important;
+  }
+  .spine::after {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(0,0,0,0.25) 0.9px, transparent 1px);
+    background-size: 5px 5px;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .spine__n {
+    position: absolute; top: 0.9rem; left: 0; right: 0;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    opacity: 0.7;
+    z-index: 2;
+  }
+  .spine__label {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(180deg);
+    writing-mode: vertical-rl;
+    font-family: var(--font-display);
+    font-variation-settings: "wdth" 92, "wght" 800;
+    font-size: clamp(0.9rem, 1.15vw, 1.15rem);
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    max-height: calc(100% - 7rem);
+    overflow: hidden;
+    z-index: 2;
+    transition: opacity 0.25s;
+  }
+  .spine__years {
+    position: absolute;
+    top: 3rem; left: 50%;
+    transform: translateX(-50%) rotate(180deg);
+    writing-mode: vertical-rl;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    opacity: 0.72;
+    white-space: nowrap;
+    z-index: 2;
+  }
+  .spine__open {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 1.6rem 1.5rem 1.7rem;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.3s 0.12s, transform 0.35s 0.12s;
+    background: linear-gradient(to top, rgba(0,0,0,0.55), transparent);
+    z-index: 3;
+    pointer-events: none;
+  }
+  .spine:hover .spine__open, .spine:focus-visible .spine__open { opacity: 1; transform: none; }
+  .spine:hover .spine__label, .spine:focus-visible .spine__label { opacity: 0; }
+  .spine__open h3 {
+    font-family: var(--font-display);
+    font-variation-settings: "wdth" 100, "wght" 800;
+    font-size: clamp(1.2rem, 2.1vw, 1.9rem);
+    line-height: 1.05;
+    margin: 0 0 0.6rem;
+    text-wrap: balance;
+  }
+  .spine__open p { font-size: 0.9rem; line-height: 1.45; margin: 0 0 0.9rem; max-width: 26rem; }
+  .spine__open span {
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+  }
+  @media (max-width: 60rem) {
+    .rack { flex-direction: column; height: auto; min-height: 0; }
+    .spine { flex: none; min-height: 5.2rem; }
+    .spine:hover, .spine:focus-visible { flex: none; }
+    .spine__label {
+      writing-mode: horizontal-tb;
+      transform: none;
+      left: 4.6rem; bottom: auto; top: 1.5rem;
+      max-height: none;
+      font-size: 1rem;
+    }
+    .spine__years { writing-mode: horizontal-tb; transform: none; left: 4.6rem; top: 3.1rem; }
+    .spine__n { text-align: left; left: 1.3rem; top: 1.6rem; font-size: 0.85rem; }
+    .spine__open { display: none; }
+    .rack:hover .spine { filter: none; }
+  }
+
+  /* ---------------- timeline gantt ---------------- */
+  .gantt-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 1.2rem;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .gantt { position: relative; min-width: 1180px; padding: 2.6rem 0 1rem; }
+  .gantt__axis { position: absolute; inset: 0; }
+  .gantt__tick { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--rule); }
+  .gantt__tick b {
+    position: absolute; top: 0; left: 0.4rem;
+    font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.1em;
+    color: var(--soft); font-weight: 400;
+  }
+  .gantt__row { position: relative; height: 26px; margin-bottom: 3px; }
+  .gantt__bar {
+    position: absolute; top: 3px; height: 20px;
+    display: flex; align-items: center;
+    padding: 0 0.55rem;
+    text-decoration: none;
+    color: #0C0C0C;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: transform 0.2s, filter 0.2s;
+  }
+  .gantt__bar:hover { transform: scaleY(1.35); filter: brightness(1.2); z-index: 4; }
+  .gantt__bar span { position: relative; z-index: 2; }
+  .gantt__bar[data-out="true"] { padding-left: 0; }
+  .gantt__bar[data-out="true"] span { margin-left: calc(100% + 0.55rem); color: var(--ink); }
+
+  /* ---------------- lineage arcs ---------------- */
+  .arcs { width: 100%; height: auto; overflow: visible; }
+  .arcs text { font-family: var(--font-mono); font-size: 7px; letter-spacing: 0.08em; fill: var(--soft); }
+  .arcs .node-label { font-size: 8px; fill: var(--ink); }
+  .arcs path { fill: none; stroke-width: 1.1; opacity: 0.55; transition: opacity 0.2s, stroke-width 0.2s; }
+  .arcs g.edge:hover path { opacity: 1; stroke-width: 2.4; }
+  .arcs g.edge:hover text { fill: var(--ink); }
+
+  /* ---------------- grammar ---------------- */
+  .grammar-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    text-align: left;
+  }
+  .grammar-table th, .grammar-table td {
+    padding: 0.95rem 1rem 0.95rem 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  .grammar-table th {
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--soft);
+    font-weight: 400;
+    border-bottom-color: var(--ink);
+  }
+  .grammar-table td:first-child { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; white-space: nowrap; padding-right: 1.6rem; }
+  .grammar-table td b { font-weight: 600; }
+  .grammar-table tr:hover td { background: var(--whisper); }
+  @media (max-width: 52rem) {
+    .grammar-table, .grammar-table tbody, .grammar-table tr, .grammar-table td { display: block; width: 100%; }
+    .grammar-table thead { display: none; }
+    .grammar-table tr { border-bottom: 1px solid var(--rule); padding: 1rem 0; }
+    .grammar-table td { border: 0; padding: 0.15rem 0; }
+  }
+
+  .typerow { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .typerow > div { background: var(--paper); padding: 1.6rem 1.3rem; }
+  .typerow p:first-child { margin: 0 0 0.9rem; line-height: 1.02; font-size: clamp(1.5rem, 2.6vw, 2.1rem); }
+  .typerow small { font-family: var(--font-mono); font-size: 0.66rem; line-height: 1.65; letter-spacing: 0.06em; color: var(--soft); display: block; }
+  .t-frak { font-family: "UnifrakturMaguntia", serif; }
+  .t-slab { font-family: "Rozha One", serif; }
+  .t-shout { font-family: "Anton", sans-serif; text-transform: uppercase; letter-spacing: 0.01em; }
+  .t-stencil { font-family: "Anton", sans-serif; text-transform: uppercase; -webkit-text-stroke: 1px var(--ink); color: transparent; }
+  .t-inst { font-family: var(--font-display); font-variation-settings: "wdth" 70, "wght" 500; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .compos { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 2rem; }
+  .compos figure .frame { background: var(--whisper); }
+
+  .ethics { max-width: 46rem; }
+  .ethics h3 { font-size: 1.15rem; margin: 2.4rem 0 0.7rem; font-variation-settings: "wdth" 100, "wght" 700; }
+</style>
+<noscript><style>[data-reveal]{opacity:1 !important;transform:none !important}</style></noscript>
+</head>
+<body>
+
+<!-- ============================== MASTHEAD ============================== -->
+<header class="masthead">
+  <div class="masthead__grid" aria-hidden="true"></div>
+  <div class="masthead__inner">
+    <h1 class="wordmark"><span>Political<i>.</i></span><span>Design</span></h1>
+    <p class="masthead__thesis">
+      Fifteen movements. Fifteen visual grammars. <b>Every page in this atlas is built in
+      the design language of the thing it describes</b> — so you read about khadi on cloth,
+      about hand-painted Vietnamese posters in flat gouache, and about the Milk Tea
+      Alliance on a phone screen at 2am.
+    </p>
+    <p class="masthead__meta">
+      <span>An atlas</span><span>1905 — 2021</span><span>Six regions</span><span>No photographs, all vectors</span>
+    </p>
+    <div class="spectrum" id="spectrum" aria-hidden="true"></div>
+  </div>
+</header>
+
+<!-- ============================== THE RACK ============================== -->
+<section class="section" id="rack">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The shelf · fifteen movements</p>
+    <h2 class="section-title" data-reveal>Pull one off the shelf</h2>
+    <p class="prose" data-reveal style="margin-bottom:2.8rem;color:var(--soft)">
+      This index is deliberately grey. The colour belongs to the movements, not to the
+      catalogue that lists them.
+    </p>
+  </div>
+  <div class="wrap">
+    <div class="rack" data-reveal>
+
+      <a class="spine" href="m/swadeshi/" style="--c:#C9532B">
+        <span class="spine__n">01</span><span class="spine__years">1905–1947 · India</span>
+        <span class="spine__label">Swadeshi</span>
+        <span class="spine__open"><h3>Swadeshi &amp; the Indian Freedom Struggle</h3><p>A revolution that dressed itself in handspun cloth. The spinning wheel became a logo you had to operate with your hands.</p><span>Open →</span></span>
+      </a>
+
+      <a class="spine" href="m/constructivism/" style="--c:#D62B10">
+        <span class="spine__n">02</span><span class="spine__years">1917–1937 · USSR</span>
+        <span class="spine__label">Constructivism</span>
+        <span class="spine__open"><h3>Soviet Constructivism</h3><p>Artists abolished art and called themselves engineers. Two inks, a diagonal, and the grammar everyone after them borrowed.</p><span>Open →</span></span>
+      </a>
+
+      <a class="spine" href="m/dravidian/" style="--c:#E01B24">
+        <span class="spine__n">03</span><span class="spine__years">1925– · Tamil Nadu</span>
+        <span class="spine__label">Dravidian</span>
+        <span class="spine__open"><h3>The Dravidian Movement</h3><p>Black shirts, a rising sun, and sixty-foot hand-painted cut-outs. Art-directed by screenwriters, executed by hoarding painters.</p><span>Open →</span></span>
+      </a>
+
+      <a class="spine" href="m/saffron/" style="--c:#E8730C">
+        <span class="spine__n">04</span><span class="spine__years">1925– · India</span>
+        <span class="spine__label">Saffron &amp; Ballot</span>
+        <span class="spine__open"><h3>Saffron, the Lotus &amp; the Ballot Symbol</h3><p>Two Indian design systems in one page — and the pictogram alphabet the state built so a non-reading electorate could vote.</p><span>Open →</span></span>
+      </a>
+
+      <a class="spine" href="m/ambedkarite/" style="--c:#1C39BB">
+        <span class="spine__n">05</span><span class="spine__years">1927– · India</span>
+        <span class="spine__label">Ambedkarite</span>
+        <span class="spine__open"><h3>Ambedkarite &amp; Dalit Design</h3><p>Blue instead of red. A three-piece suit instead of a loincloth. The most disciplined identity in Indian politics.</p><span>Open →</span></span>
+      </a>
+
+      <a class="spine" href="m/reich/" style="--c:#A11414">
+        <span class="spine__n">06</span><span class="spine__years">1933–1945 · Germany</span>
+        <span class="spine__label">The Reich</span>
+        <span class="spine__open"><h3>The Nazi Visual Machine</h3><p>A genocidal state that understood branding before the word existed — and proof that “good design” is not a moral category.</p><span>Open →</span></span>
+      </a>
+
+      <a class="spine" href="m/vietnam/" style="--c:#D3202A">
+        <span class="spine__n">07</span><span class="spine__years">1945–1975 · Vietnam</span>
+        <span class="spine__label">Việt Nam</span>
+        <span class="spine__open"><h3>Tranh Cổ Động</h3><p>Posters painted one at a time, in gouache, by hand, then carried to the front. A propaganda system with almost no presses.</p><span>Open →</span></span>
+      </a>
+
+      <a class="spine" href="m/reformasi/" style="--c:#E4C122;--fg:#141414">
+        <span class="spine__n">08</span><span class="spine__years">1945–1998 · Indonesia</span>
+        <span class="spine__label">Reformasi</span>
+        <span class="spine__open"><h3>Monument, Banyan, Woodcut</h3><p>Three regimes, three design languages: heroic concrete, corporate yellow, and the student woodcuts that outlived both.</p><span>Open →</span></span>
+      </a>
+
+      <a class="spine" href="m/pan-african/" style="--c:#0F9D58">
+        <span class="spine__n">09</span><span class="spine__years">1957–1980 · Africa</span>
+        <span class="spine__label">Pan-African</span>
+        <span class="spine__open"><h3>Pan-African Liberation</h3><p>A black star, four colours, thirty new flags in twenty years — and almost nobody names the designers.</p><span>Open →</span></span>
+      </a>
+
+      <a class="spine" href="m/cultural-revolution/" style="--c:#E02418">
+        <span class="spine__n">10</span><span class="spine__years">1966–1976 · China</span>
+        <span class="spine__label">Cultural Revolution</span>
+        <span class="spine__open"><h3>The Chinese Cultural Revolution</h3><p>Red, gold, and a sun that is a man. A decade of a civilisation’s entire visual output compressed into one palette.</p><span>Open →</span></span>
+      </a>
+
+      <a class="spine" href="m/panthers/" style="--c:#12A594;--fg:#08201D">
+        <span class="spine__n">11</span><span class="spine__years">1966–1982 · USA</span>
+        <span class="spine__label">Panthers</span>
+        <span class="spine__open"><h3>The Black Panther Party</h3><p>One art director, one newspaper, a weekly deadline. Emory Douglas gave a revolution a house style.</p><span>Open →</span></span>
+      </a>
+
+      <a class="spine" href="m/ospaaal/" style="--c:#F0197B">
+        <span class="spine__n">12</span><span class="spine__years">1966–1990 · Cuba</span>
+        <span class="spine__label">OSPAAAL</span>
+        <span class="spine__open"><h3>OSPAAAL &amp; the Tricontinental</h3><p>Cuba silkscreened posters for other people’s revolutions, folded them into a magazine, and mailed them to eighty countries.</p><span>Open →</span></span>
+      </a>
+
+      <a class="spine" href="m/khmer-rouge/" style="--c:#8E1B12">
+        <span class="spine__n">13</span><span class="spine__years">1975–1979 · Cambodia</span>
+        <span class="spine__label">Khmer Rouge</span>
+        <span class="spine__open"><h3>Democratic Kampuchea</h3><p>The only regime here that tried to abolish design itself — along with money, cities, schools and the calendar.</p><span>Open →</span></span>
+      </a>
+
+      <a class="spine" href="m/people-power/" style="--c:#F2C300;--fg:#191900">
+        <span class="spine__n">14</span><span class="spine__years">1983–1986 · Philippines</span>
+        <span class="spine__label">People Power</span>
+        <span class="spine__open"><h3>People Power</h3><p>A colour, a hand sign and a pop song took down a dictatorship in four days. Confetti made from shredded phone books.</p><span>Open →</span></span>
+      </a>
+
+      <a class="spine" href="m/three-fingers/" style="--c:#F04E23">
+        <span class="spine__n">15</span><span class="spine__years">1988–2021 · SE Asia</span>
+        <span class="spine__label">Three Fingers</span>
+        <span class="spine__open"><h3>Three Fingers &amp; the Milk Tea Alliance</h3><p>A peacock from 1988, a salute borrowed from a Hollywood film, and a meme about tea that became an alliance.</p><span>Open →</span></span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================== TIMELINE ============================== -->
+<section class="section" id="timeline">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Timeline</p>
+    <h2 class="section-title" data-reveal>A century, to scale</h2>
+    <p class="prose" data-reveal style="margin-bottom:2.4rem;color:var(--soft)">
+      Drag sideways. Note how much of this atlas is concentrated in the twenty years after
+      1945 — the period when cheap offset printing, decolonisation and the transistor radio
+      all arrived at once.
+    </p>
+  </div>
+  <div class="wrap">
+    <div class="gantt-scroll" data-reveal>
+      <div class="gantt" id="gantt"></div>
+    </div>
+    <p class="note" style="margin-top:1rem">Bars show each movement’s active period as covered on its page. “Present” is drawn to 2026.</p>
+  </div>
+</section>
+
+<!-- ============================== LINEAGES ============================== -->
+<section class="section" id="lineages">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Lineages</p>
+    <h2 class="section-title" data-reveal>Nobody starts from scratch</h2>
+    <p class="prose" data-reveal style="margin-bottom:2.6rem;color:var(--soft)">
+      Political design is overwhelmingly a story of borrowing — sometimes acknowledged,
+      sometimes not, occasionally from a film. Hover an arc to read the claim.
+    </p>
+    <div data-reveal>
+      <svg class="arcs" id="arcs" viewBox="0 0 1000 300" role="img" aria-label="Diagram of influences between the movements in this atlas"></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== GRAMMAR ============================== -->
+<section class="section" id="grammar">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The grammar</p>
+    <h2 class="section-title" data-reveal>Style is downstream of the printing press</h2>
+    <p class="prose" data-reveal style="margin-bottom:2.8rem">
+      The single most useful lens in this atlas: before you ask what a movement believed,
+      ask what it could afford to reproduce. Almost every “look” below is a constraint
+      that got rationalised into a philosophy afterwards.
+    </p>
+
+    <div data-reveal style="overflow-x:auto">
+      <table class="grammar-table">
+        <thead>
+          <tr><th>Medium</th><th>What it couldn’t do</th><th>The look that resulted</th><th>Seen in</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Two-ink letterpress</td>
+            <td>No photographic tone, no fourth colour, unreliable registration</td>
+            <td><b>Flat red and black, hard diagonals, photomontage cut from existing print</b></td>
+            <td>Constructivism</td>
+          </tr>
+          <tr>
+            <td>Chromolithograph</td>
+            <td>Limited stones, heavy setup cost, so long print runs only</td>
+            <td><b>Devotional calendar art repurposed as nationalism — riding an existing distribution network</b></td>
+            <td>Swadeshi, Saffron</td>
+          </tr>
+          <tr>
+            <td>Hand-painted gouache</td>
+            <td>No copies at all — every poster is an original</td>
+            <td><b>Unmodulated flat colour and heavy contours, so a stranger can repaint it faithfully</b></td>
+            <td>Việt Nam</td>
+          </tr>
+          <tr>
+            <td>Silkscreen</td>
+            <td>One flat colour per pull; halftone is expensive and fragile</td>
+            <td><b>Saturated hues, repeated silhouettes, deliberate misregistration as a signature</b></td>
+            <td>OSPAAAL</td>
+          </tr>
+          <tr>
+            <td>Weekly newsprint</td>
+            <td>Grey paper, ink spread, one spot colour, a hard deadline</td>
+            <td><b>Bold contour drawing, black blocking instead of shading, a tear-out back-page poster</b></td>
+            <td>Panthers</td>
+          </tr>
+          <tr>
+            <td>Photocopier &amp; mimeograph</td>
+            <td>No greys that survive a second generation, no colour</td>
+            <td><b>Typewriter type, hand-drawn headlines, blown-out contrast, designed to be copied again</b></td>
+            <td>People Power</td>
+          </tr>
+          <tr>
+            <td>Enamel on a compound wall</td>
+            <td>No reproduction, no undo, one painter per wall</td>
+            <td><b>Enormous display lettering, high-contrast pairs, a distributed unpaid print network</b></td>
+            <td>Dravidian</td>
+          </tr>
+          <tr>
+            <td>Woodblock (<i>cukil kayu</i>)</td>
+            <td>No fine detail, no gradient, carving is slow</td>
+            <td><b>Gouged white line on black, dense crowds, collective and unsigned</b></td>
+            <td>Reformasi</td>
+          </tr>
+          <tr>
+            <td>Cloth &amp; the body</td>
+            <td>Nothing can be printed at all under censorship</td>
+            <td><b>Uniform, colour and gesture become the medium — a ribbon, a cap, a hand sign</b></td>
+            <td>Swadeshi, People Power</td>
+          </tr>
+          <tr>
+            <td>The compressed image</td>
+            <td>Re-encoded on every share; no fine type survives</td>
+            <td><b>Text baked into the picture, extreme saturation, layouts that survive a screenshot</b></td>
+            <td>Saffron, Three Fingers</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== TYPE + COMPOSITION ============================== -->
+<section class="section" id="registers" style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Registers</p>
+    <h2 class="section-title" data-reveal>Five ways type takes a side</h2>
+    <div class="typerow" data-reveal>
+      <div>
+        <p class="t-shout">All Power</p>
+        <small>THE SHOUT — condensed heavy sans, all caps, tight. Used by everyone from Constructivists to the Panthers, because it is the most words per square inch at maximum weight. Cheap, loud, ideologically promiscuous.</small>
+      </div>
+      <div>
+        <p class="t-frak">Vergangenheit</p>
+        <small>THE ANCESTRAL — blackletter and other “rooted” scripts, deployed to claim continuity with a real or invented past. Note that the Nazi state used Fraktur heavily, then banned it in 1941 on a false pretext and switched to modernist romans.</small>
+      </div>
+      <div>
+        <p class="t-slab">Sovereign</p>
+        <small>THE OFFICIAL — high-contrast display serif. The typography of proclamations, mastheads and constitutions. Signals permanence and, usually, that someone else wrote it.</small>
+      </div>
+      <div>
+        <p class="t-stencil">Stencil</p>
+        <small>THE URGENT — cut-bridge stencil letterforms. Simultaneously the type of military crates and of graffiti, which is why it reads as both authority and defiance depending entirely on where it is sprayed.</small>
+      </div>
+      <div>
+        <p class="t-inst">Department of</p>
+        <small>THE NEUTRAL — plain grotesque, generously spaced. The most political typeface of all, because it works by disclaiming that it has a position. Every bureaucracy in this atlas is set in some version of it.</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="composition" style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Composition</p>
+    <h2 class="section-title" data-reveal>Three ways to arrange people</h2>
+    <div class="compos" data-reveal>
+
+      <figure>
+        <div class="frame">
+          <svg viewBox="0 0 200 150" role="img" aria-label="Diagram of a hierarchical composition: one large figure above many small ones">
+            <rect width="200" height="150" fill="none" />
+            <circle cx="100" cy="44" r="21" fill="#ECEAE6" />
+            <path d="M100 26 L100 12 M100 12 L88 20 M100 12 L112 20" stroke="#ECEAE6" stroke-width="1.4" fill="none" opacity="0.5" />
+            <g fill="rgba(236,234,230,0.34)">
+              <circle cx="34" cy="115" r="8" /><circle cx="56" cy="115" r="8" /><circle cx="78" cy="115" r="8" />
+              <circle cx="100" cy="115" r="8" /><circle cx="122" cy="115" r="8" /><circle cx="144" cy="115" r="8" />
+              <circle cx="166" cy="115" r="8" />
+            </g>
+            <path d="M20 88 H180" stroke="rgba(236,234,230,0.25)" stroke-width="1" stroke-dasharray="3 4" />
+          </svg>
+        </div>
+        <figcaption><b>Hierarchical</b> — one figure scaled far above the rest, lit from below, on an axis of symmetry. Reads as inevitability. The default of every regime page in this atlas: the Reich, the Cultural Revolution, the New Order.</figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <svg viewBox="0 0 200 150" role="img" aria-label="Diagram of a dynamic composition: a wedge driving diagonally into a field">
+            <path d="M0 150 L200 0 L200 150 Z" fill="rgba(236,234,230,0.1)" />
+            <path d="M22 128 L150 24 L96 118 Z" fill="#ECEAE6" />
+            <circle cx="52" cy="42" r="19" fill="none" stroke="rgba(236,234,230,0.5)" stroke-width="1.4" />
+            <path d="M8 20 H84" stroke="#ECEAE6" stroke-width="3.4" />
+            <path d="M8 30 H56" stroke="rgba(236,234,230,0.45)" stroke-width="1.4" />
+            <path d="M120 138 H192" stroke="#ECEAE6" stroke-width="2" />
+          </svg>
+        </div>
+        <figcaption><b>Dynamic</b> — everything hung off one dominant diagonal, nothing centred, deliberate imbalance held in tension. Reads as motion and therefore as inevitability of a different kind. Constructivism invented it; OSPAAAL made it tropical.</figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <svg viewBox="0 0 200 150" role="img" aria-label="Diagram of a collective composition: a repeating grid of equal figures">
+            <g fill="rgba(236,234,230,0.55)">
+              <circle cx="40" cy="40" r="9" /><circle cx="72" cy="40" r="9" /><circle cx="104" cy="40" r="9" /><circle cx="136" cy="40" r="9" /><circle cx="168" cy="40" r="9" />
+              <circle cx="40" cy="75" r="9" /><circle cx="72" cy="75" r="9" /><circle cx="104" cy="75" r="9" /><circle cx="136" cy="75" r="9" /><circle cx="168" cy="75" r="9" />
+              <circle cx="40" cy="110" r="9" /><circle cx="72" cy="110" r="9" /><circle cx="104" cy="110" r="9" /><circle cx="136" cy="110" r="9" /><circle cx="168" cy="110" r="9" />
+            </g>
+            <circle cx="8" cy="40" r="9" fill="#ECEAE6" opacity="0.25" />
+            <circle cx="8" cy="75" r="9" fill="#ECEAE6" opacity="0.25" />
+            <circle cx="8" cy="110" r="9" fill="#ECEAE6" opacity="0.25" />
+          </svg>
+        </div>
+        <figcaption><b>Collective</b> — an unbroken repeating grid, no focal point, the frame cropping mid-pattern to imply it continues. Reads as solidarity when a movement uses it and as uniformity when a state does. Identical geometry, opposite meaning.</figcaption>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ETHICS ============================== -->
+<section class="section" id="ethics" style="border-top:1px solid var(--rule)">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Method &amp; ethics</p>
+    <div class="ethics" data-reveal>
+      <h2 class="section-title">How this atlas is made, and what it refuses to do</h2>
+
+      <h3>Everything here is drawn, not reproduced.</h3>
+      <p>There is not a single photograph or scanned poster on this site. Every flag,
+      emblem, banknote, ballot symbol and poster composition is redrawn as vector code from
+      published descriptions and specifications, and labelled <em>Recreation</em>. That is
+      partly a rights decision and mostly a method: you learn more about how a mark works by
+      rebuilding it than by looking at it.</p>
+
+      <h3>Regimes that committed atrocities are analysed, not styled.</h3>
+      <p>Nazi Germany, Democratic Kampuchea and the Cultural Revolution have pages here
+      because pretending their visual systems were incompetent is both false and useless.
+      They were effective, and understanding the mechanism is the only defence against it.
+      Those pages carry content warnings, state the crimes plainly, never reproduce
+      victim photography, and never use the iconography decoratively.</p>
+
+      <h3>“Good design” is not a moral category.</h3>
+      <p>This atlas contains liberation movements and genocidal states using the same
+      diagonal, the same flat red, the same condensed sans. Craft is available to anyone.
+      The interesting question is never whether a piece of political design is good, but
+      what it asks of the person looking at it — attention, obedience, or labour.</p>
+
+      <h3>It is incomplete, and the gaps are real.</h3>
+      <p>Fifteen movements is not a survey. There is no page yet for the Iranian
+      revolution, Solidarność, ACT UP, the Zapatistas, Chile’s <i lang="es">brigadas
+      muralistas</i>, the suffrage movement, or Hong Kong 2019 beyond a passing mention.
+      Regional coverage is deliberately weighted towards South and Southeast Asia, because
+      that is where the existing English-language design-history literature is thinnest.</p>
+
+      <h3>Corrections welcome.</h3>
+      <p>Where a detail is contested, the pages say so rather than picking a side.
+      If something here is wrong — a date, an attribution, a flag construction, a
+      transliteration — it should be fixed. <a href="https://layogtima.com">Say so.</a></p>
+    </div>
+  </div>
+</section>
+
+<div data-site="foot"></div>
+
+<script src="shared/movements.js"></script>
+<script>
+/* ---- spectrum rule ---- */
+(function () {
+  var s = document.getElementById("spectrum");
+  s.innerHTML = window.MOVEMENTS.map(function (m) {
+    return '<i style="background:' + m.accent + '" title="' + m.short + '"></i>';
+  }).join("");
+})();
+
+/* ---- gantt ---- */
+(function () {
+  var host = document.getElementById("gantt");
+  var START = 1900, END = 2030, SPAN = END - START;
+  function pct(y) { return ((y - START) / SPAN) * 100; }
+  function endYear(m) {
+    var tail = m.years.split("–")[1] || m.years.split("-")[1] || "";
+    if (/present/i.test(tail)) { return 2026; }
+    var n = parseInt(tail, 10);
+    return isNaN(n) ? m.start + 8 : n;
+  }
+  var axis = '<div class="gantt__axis">';
+  for (var y = 1900; y <= 2030; y += 10) {
+    axis += '<div class="gantt__tick" style="left:' + pct(y) + '%"><b>' + y + "</b></div>";
+  }
+  axis += "</div>";
+
+  /* pick legible bar text from the accent's relative luminance */
+  function onColor(hex) {
+    var r = parseInt(hex.substr(1, 2), 16) / 255,
+        g = parseInt(hex.substr(3, 2), 16) / 255,
+        b = parseInt(hex.substr(5, 2), 16) / 255;
+    function lin(c) { return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }
+    var L = 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+    return L > 0.42 ? "#0C0C0C" : "#FFFFFF";
+  }
+
+  var rows = window.MOVEMENTS.map(function (m) {
+    var a = pct(m.start), b = pct(endYear(m));
+    var w = Math.max(b - a, 1.2);
+    var out = w < 9;
+    return '<div class="gantt__row"><a class="gantt__bar" href="m/' + m.slug + '/" ' +
+      'style="left:' + a + "%;width:" + w + "%;background:" + m.accent + ";color:" + onColor(m.accent) + '" ' +
+      (out ? 'data-out="true"' : "") + '><span>' + m.short + " · " + m.years + "</span></a></div>";
+  }).join("");
+
+  host.innerHTML = axis + rows;
+})();
+
+/* ---- lineage arcs ---- */
+(function () {
+  var svg = document.getElementById("arcs");
+  var W = 1000, BASE = 214;
+  var N = window.MOVEMENTS.length;
+  /* evenly spaced in chronological order — the Gantt above already carries true year scale,
+     so this diagram optimises for arc legibility instead */
+  var slot = {};
+  window.MOVEMENTS.forEach(function (m, i) { slot[m.slug] = 52 + (i / (N - 1)) * (W - 104); });
+  function x(s) { return slot[s]; }
+
+  var EDGES = [
+    ["constructivism", "cultural-revolution", "State poster atelier, exported wholesale"],
+    ["constructivism", "vietnam", "Flat colour + contour, via Chinese intermediaries"],
+    ["constructivism", "ospaaal", "Photomontage and the dominant diagonal"],
+    ["cultural-revolution", "vietnam", "Neighbouring socialist poster conventions"],
+    ["cultural-revolution", "khmer-rouge", "Direct political and stylistic patron"],
+    ["ospaaal", "panthers", "The international solidarity poster circuit"],
+    ["panthers", "ambedkarite", "Dalit Panthers, Bombay 1972 — the name was taken deliberately"],
+    ["swadeshi", "saffron", "Same saffron, opposite argument about who the nation contains"],
+    ["swadeshi", "pan-african", "A colonised people proving a flag system could work"],
+    ["swadeshi", "ambedkarite", "Defined by refusing it — blue against the tricolour"],
+    ["dravidian", "ambedkarite", "The subcontinent's two anti-caste visual systems"],
+    ["people-power", "three-fingers", "The performed hand sign nobody can confiscate"],
+    ["reformasi", "three-fingers", "The regional student-uprising lineage"]
+  ];
+
+  var nodes = {};
+  window.MOVEMENTS.forEach(function (m) { nodes[m.slug] = m; });
+
+  var out = "";
+  out += '<line x1="40" y1="' + BASE + '" x2="960" y2="' + BASE + '" stroke="rgba(236,234,230,0.22)" stroke-width="1"/>';
+
+  /* arcs first, so nodes sit on top */
+  EDGES.forEach(function (e) {
+    var a = nodes[e[0]], b = nodes[e[1]];
+    if (!a || !b) { return; }
+    var x1 = x(e[0]), x2 = x(e[1]);
+    var mid = (x1 + x2) / 2;
+    var lift = Math.min(Math.abs(x2 - x1) * 0.62, 176) + 22;
+    var d = "M" + x1 + " " + BASE + " Q " + mid + " " + (BASE - lift) + " " + x2 + " " + BASE;
+    out += '<g class="edge"><title>' + a.short + " → " + b.short + " — " + e[2].replace(/&/g, "&amp;") + "</title>" +
+      '<path d="' + d + '" stroke="' + b.accent + '"/></g>';
+  });
+
+  /* nodes + labels raked below the baseline */
+  window.MOVEMENTS.forEach(function (m, i) {
+    var px = x(m.slug);
+    var ly = BASE + 14;
+    var num = (i + 1) < 10 ? "0" + (i + 1) : String(i + 1);
+    out += '<g><circle cx="' + px + '" cy="' + BASE + '" r="4.5" fill="' + m.accent + '"/>' +
+      '<text class="node-label" text-anchor="end" x="' + px + '" y="' + ly + '" ' +
+      'transform="rotate(-56 ' + px + " " + ly + ')">' +
+      num + "  " + m.short.replace(/&/g, "&amp;") + "</text></g>";
+  });
+
+  svg.innerHTML = out;
+  svg.setAttribute("viewBox", "0 0 1000 320");
+})();
+</script>
+<script src="shared/site.js"></script>
+</body>
+</html>

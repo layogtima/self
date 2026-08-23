@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en" data-slug="reich">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Nazi Visual Machine — Political Design</title>
+<meta name="description" content="A forensic reading of the visual apparatus of the German state, 1933–1945: rally grounds, searchlights, a subsidised radio, the 1936 Olympics, and the 1941 order that abolished blackletter overnight." />
+<meta name="theme-color" content="#121212" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="The Nazi Visual Machine — Political Design" />
+<meta property="og:description" content="Examined as evidence, not as style. How a genocidal state engineered a total visual environment — and why craft is not a moral category." />
+<meta property="og:url" content="https://layogtima.com/political-design/m/reich/" />
+<link rel="icon" type="image/svg+xml" href="https://layogtima.com/images/favicon/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,400&family=UnifrakturMaguntia&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../shared/site.css" />
+<link rel="stylesheet" href="../../shared/textures.css" />
+<style>
+  :root {
+    --paper: #121212; --ink: #DEDCD8; --accent: #A11414;
+    --pitch: #0B0B0B; --bone: #E9E6DF; --steel: #8C8880;
+    --font-display: "Jost", "Futura", "Helvetica Neue", sans-serif;
+    --font-body: "Source Serif 4", Georgia, serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+    --font-frak: "UnifrakturMaguntia", serif;
+    --measure: 32rem;
+  }
+  h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; letter-spacing: 0.005em; }
+  body { background: var(--paper); }
+  ::selection { background: var(--accent); color: var(--bone); }
+
+  /* ---------- the page's own axis ----------
+     Centred symmetry and vertical emphasis were this regime's compositional
+     signature. They are used here on purpose, and named where they are used. */
+  .eyebrow { justify-content: center; letter-spacing: 0.28em; }
+  .eyebrow::before { content: ""; flex: 1; height: 1px; background: var(--rule); }
+  .section-title { text-align: center; max-width: 24ch; margin-inline: auto; letter-spacing: 0.01em; }
+  .prose { margin-inline: auto; }
+  .section { padding-block: clamp(4rem, 8vw, 7rem); }
+  .section--pitch { background: var(--pitch); }
+  .rulebar { color: var(--ink); opacity: 0.5; height: 8px; border-top: 3px solid currentColor; border-bottom: 1px solid currentColor; }
+  .rulebar--accent { color: var(--accent); opacity: 1; }
+
+  /* ---------- hero: a vertical light-shaft field, no animation ---------- */
+  .hero { min-height: 100svh; display: grid; align-content: center; justify-items: center; text-align: center; position: relative; overflow: hidden; background: var(--pitch); padding: 8rem var(--gutter) 5rem; }
+  .hero__lights {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.15) 0 1px, transparent 1px 38px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.06) 0 2px, transparent 2px 19px),
+      radial-gradient(ellipse 66% 38% at 50% 100%, rgba(255,255,255,0.10), transparent 72%);
+    -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,0.5) 42%, transparent 88%);
+    mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,0.5) 42%, transparent 88%);
+  }
+  .hero__inner { position: relative; z-index: 3; width: min(100%, 60rem); }
+  .hero__file { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.34em; text-transform: uppercase; color: var(--steel); margin: 0 0 2.4rem; }
+  .hero__years { font-family: var(--font-display); font-weight: 300; font-size: clamp(0.95rem, 2.6vw, 1.5rem); letter-spacing: 0.62em; color: var(--accent); margin: 0 0 1.1rem; padding-left: 0.62em; }
+  .hero h1 { font-size: clamp(2.3rem, 8.4vw, 6rem); line-height: 0.94; letter-spacing: 0.015em; text-transform: uppercase; font-weight: 500; margin: 0; }
+  .hero__bar { width: min(100%, 34rem); margin: 2.2rem auto; }
+  .hero__meta { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--steel); display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content: center; margin: 0 0 2rem; }
+  .hero__lede { font-size: clamp(1.05rem, 0.8vw + 0.95rem, 1.32rem); line-height: 1.5; max-width: 40rem; margin-inline: auto; color: var(--bone); }
+  .hero__lede b { color: var(--accent); font-weight: 400; }
+  .hero__ground { position: absolute; left: 0; right: 0; bottom: 0; height: 0; border-top: 3px solid rgba(222,220,216,0.35); z-index: 2; }
+
+  /* ---------- forensic register ---------- */
+  .callout { font-family: var(--font-mono); font-size: 0.76rem; line-height: 1.8; letter-spacing: 0.03em; color: var(--soft); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 1.2rem 0; max-width: 46rem; margin: 3rem auto; text-align: left; }
+  .callout b { display: block; color: var(--accent); font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; font-size: 0.68rem; margin-bottom: 0.6rem; }
+  .legend { font-family: var(--font-mono); font-size: 0.66rem; line-height: 1.65; letter-spacing: 0.02em; color: var(--soft); list-style: none; margin: 0.7rem 0 0; padding: 0; text-align: left; }
+  .legend li { display: grid; grid-template-columns: 1.6rem 1fr; gap: 0.2rem; margin-bottom: 0.15rem; }
+  .legend b { color: var(--accent); font-weight: 400; }
+
+  /* ---------- anatomy · symbols ---------- */
+  .anatomy-grid { display: grid; gap: clamp(3rem, 6vw, 4.5rem); grid-template-columns: 1fr; }
+  @media (min-width: 64rem) { .anatomy-grid { grid-template-columns: 1.15fr 1fr; align-items: start; } }
+  @media (min-width: 34rem) { .swatches { grid-template-columns: repeat(3, 1fr); } }
+  .swatch i { height: 5.4rem; }
+  .frak { font-family: var(--font-frak); }
+  figure .frame { background: #191919; border-color: rgba(222,220,216,0.16); }
+  .symbolrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr)); gap: 2rem; }
+  .symbolrow figcaption { font-size: 0.82rem; }
+
+  /* ---------- essay ---------- */
+  .essay h3 { margin: 3.6rem auto 1.2rem; max-width: 24ch; text-align: center; font-weight: 500; letter-spacing: 0.02em; text-transform: uppercase; color: var(--steel); font-size: clamp(1.2rem, 2.6vw, 1.6rem); }
+  .essay h3 span { display: block; color: var(--bone); text-transform: none; letter-spacing: 0.005em; font-size: 1.42em; margin-top: 0.35rem; }
+  .essay h3::after { content: ""; display: block; width: 3.2rem; height: 3px; background: var(--accent); margin: 1.2rem auto 0; }
+  .essay .prose em { font-style: italic; color: var(--bone); }
+  .pull { border-left: 0; border-top: 3px solid var(--accent); border-bottom: 1px solid var(--rule); padding: 1.6rem 0 1.4rem; margin-inline: auto; text-align: center; max-width: 40rem; font-weight: 400; letter-spacing: 0.005em; }
+  .pull cite { letter-spacing: 0.24em; }
+  .chrono { max-width: 46rem; margin: 3.8rem auto 0; border-top: 1px solid var(--rule); font-family: var(--font-mono); font-size: 0.72rem; line-height: 1.6; text-align: left; }
+  .chrono div { display: grid; grid-template-columns: 6.7rem 1fr; gap: 1rem; padding: 0.68rem 0; border-bottom: 1px solid var(--rule); }
+  .chrono b { color: var(--accent); font-weight: 400; letter-spacing: 0.08em; }
+  .chrono span { color: var(--soft); }
+  @media (max-width: 36rem) { .chrono div { grid-template-columns: 1fr; gap: 0.2rem; } }
+
+  /* ---------- artifacts · coda ---------- */
+  .artifacts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(26rem, 100%), 1fr)); gap: 2.8rem; }
+  .artifacts--full { grid-template-columns: 1fr; }
+  .artifacts--full figcaption { max-width: 46rem; margin-inline: auto; }
+  .artifacts figcaption { font-size: 0.85rem; }
+  .fig-num { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.35rem; }
+  .coda { max-width: 46rem; margin-inline: auto; border: 1px solid var(--rule); border-top: 3px solid var(--accent); padding: clamp(1.4rem, 3vw, 2.2rem); }
+  .coda h2 { font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.1rem; }
+  .coda p { font-size: 0.98rem; }
+  .coda p:last-child { margin-bottom: 0; }
+  /* narrow screens: the annotated diagrams carry mono labels that must stay
+     readable, so the frame scrolls rather than shrinking the type to nothing */
+  @media (max-width: 40rem) {
+    .artifacts figure .frame { overflow-x: auto; overflow-y: hidden; }
+    .artifacts figure .frame > svg { min-width: 28rem; }
+  }
+  .warnbox { margin-inline: auto; }
+  .sources li cite { color: var(--bone); }
+</style>
+<noscript><style>[data-reveal]{opacity:1 !important;transform:none !important}</style></noscript>
+</head>
+<body>
+
+<!-- ============================== HERO ============================== -->
+<header class="hero">
+  <div class="hero__lights" aria-hidden="true"></div>
+  <div class="tx-over tx-grain" aria-hidden="true"></div>
+  <div class="hero__ground" aria-hidden="true"></div>
+
+  <div class="hero__inner">
+    <p class="hero__file">File No. 06 · Evidence · Handle under the rules stated below</p>
+    <p class="hero__years" lang="de">1933 — 1945</p>
+    <h1>The Nazi Visual&nbsp;Machine</h1>
+    <div class="rulebar hero__bar" aria-hidden="true"></div>
+    <p class="hero__meta">
+      <span>No. 06</span><span>Europe · Germany</span><span>1933 — 1945</span>
+    </p>
+    <p class="hero__lede">
+      Between 1933 and 1945 the German state ran the most totalising visual programme of the
+      twentieth century: type, uniform, radio, architecture, film, ritual and the physical
+      arrangement of crowds, built as one system by trained professionals. It was
+      <b>technically competent</b>. It was infrastructure for genocide.
+    </p>
+  </div>
+</header>
+
+<!-- ============================== CONTENT NOTE ============================== -->
+<section class="section" id="note" style="padding-block: clamp(3rem,6vw,4.5rem)">
+  <div class="wrap">
+    <div class="warnbox">
+      <h2>Content note · read before scrolling</h2>
+      <p>
+        The regime examined on this page murdered six million Jews. It murdered hundreds of thousands of Roma and
+        Sinti; disabled people killed under a state medical programme; millions of Polish and Soviet civilians; some
+        3.3 million Soviet prisoners of war; gay men; Jehovah's Witnesses; and political prisoners of every
+        description.
+      </p>
+      <p>
+        This page analyses that regime's visual apparatus as <em>evidence</em> — how mass persuasion was engineered,
+        by whom, at what cost, and what it was used to do. Nothing here is admiration.
+      </p>
+      <p>
+        <b>What this page does not show.</b> The party emblem is not drawn anywhere on this page in any form — not
+        rotated, not abstracted, not partially, not as a construction diagram, not in a typeface. Neither are the SS
+        runes, the death's-head, or any other mark that operates today as a hate symbol. Where the flag is analysed,
+        the field is drawn and the central device is replaced by a labelled grey box. That omission is deliberate,
+        and it is part of the analysis rather than a gap in it.
+      </p>
+      <p>
+        Antisemitic caricature, slogans and propaganda text — including the material published by <cite>Der
+        Stürmer</cite> — are named and examined here for their function. None of it is reproduced.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="rulebar rulebar--accent" aria-hidden="true"></div>
+
+<!-- ============================== ANATOMY ============================== -->
+<section class="section" id="anatomy">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The anatomy</p>
+
+    <p class="callout" data-reveal>
+      <b>Note on this page's own layout</b>
+      Everything below sits on a rigid centred axis: symmetrical headings, vertical emphasis,
+      heavy horizontal rules, a tight measure and large empty margins. That was the regime's
+      compositional grammar, and it is used here deliberately so that you can feel the device
+      working on you at the same moment you read its name. It is a demonstration, not a homage.
+      Nothing on this page animates, glows, or reveals itself dramatically — the layout of the
+      material it examines did all three, constantly, and that was the point of it.
+    </p>
+
+    <div class="anatomy-grid">
+      <div data-reveal>
+        <h2 class="section-title" style="text-align:left;margin-inline:0">Six colours, each one a specification</h2>
+        <p class="prose" style="margin-inline:0">
+          This palette was not a mood. It was issued. Colour marked organisation, rank and
+          function across a state of eighty million people, and it had to survive night, distance,
+          bad film stock and cheap printing. Every value below is doing an identifiable job.
+        </p>
+        <div class="swatches" style="margin-top:2rem">
+          <div class="swatch"><i style="background:#A11414"></i><b>#A11414 FLAG RED</b><span>The party's own published accounts describe choosing red to take the colour of the workers' movement — and its recognition value in meeting halls — away from the left. Appropriation, stated openly as strategy.</span></div>
+          <div class="swatch"><i style="background:#E9E6DF"></i><b>#E9E6DF DISC WHITE</b><span>The white ground at the centre of the flag. Its only job is contrast: it isolates the central device, holds it legible at 200 metres, at night, at speed, and reproduces cleanly in monochrome newsprint and film.</span></div>
+          <div class="swatch"><i style="background:#0B0B0B"></i><b>#0B0B0B FORMATION BLACK</b><span>The SS uniform colour from 1932, designed by Karl Diebitsch and Walter Heck. Black collapses a mass of separate bodies into one continuous shape under floodlight. A crowd rendered as a solid.</span></div>
+          <div class="swatch"><i style="background:#5C4632"></i><b>#5C4632 SA BROWN</b><span>The paramilitary shirt, reportedly built on cheap surplus stock in the first instance. Whatever its origin, it made membership visible on any street and moved violence from a man onto a uniform.</span></div>
+          <div class="swatch"><i style="background:#6B705C"></i><b>#6B705C FIELD GREY</b><span>Feldgrau, inherited from the imperial army's 1907 pattern. Continuity worn as a garment — a claim to a legitimacy the party did not otherwise have.</span></div>
+          <div class="swatch"><i style="background:#B08D3F"></i><b>#B08D3F STANDARD BRASS</b><span>Rationed. Metal finishes marked standards, ranks and honours and were withheld from the ordinary member. The palette was a hierarchy you could read across a field.</span></div>
+        </div>
+      </div>
+
+      <div data-reveal>
+        <h2 class="section-title" style="text-align:left;margin-inline:0">Three typographies, one administration</h2>
+        <p class="prose" style="margin-inline:0">
+          The regime is usually remembered for blackletter. It spent its last four years
+          suppressing blackletter. The third typography — the one nobody remembers — did most
+          of the operational work.
+        </p>
+        <div class="specimens" style="margin-top:2rem">
+          <div class="specimen">
+            <p class="frak" lang="de" style="font-size:clamp(2.2rem,6vw,3.4rem)">Buchdruck</p>
+            <small>Fraktur and Schwabacher. Blackletter was promoted from 1933 as the authentically German letter, and foundries answered the demand with new cuts — Tannenberg (Erich Meyer, D. Stempel AG, 1933–35), National, Element: blackletter skeletons with hard mechanical joints. Withdrawn by order in 1941.</small>
+          </div>
+          <div class="specimen">
+            <p lang="de" style="font-family:var(--font-display);font-weight:400;font-size:clamp(2rem,5.4vw,3rem);letter-spacing:0.03em;line-height:1">Buchdruck</p>
+            <small>Antiqua — the roman. The era's defining geometric roman was Futura (Paul Renner, Bauer, 1927); Renner was removed from his Munich teaching post in 1933 for opposing the party, and his typeface went on being set by state and export printers regardless. The tool held no politics. The man did.</small>
+          </div>
+          <div class="specimen">
+            <p style="font-family:var(--font-mono);font-size:0.98rem;letter-spacing:0.14em;text-transform:uppercase">Register · Card index · List</p>
+            <small>The typography that did the work: registration forms, index cards, transport manifests, punched cards. Dehomag, IBM's German subsidiary, leased Hollerith tabulators used in the 1933 and 1939 censuses and in state administration. The extent of that involvement is still argued over. The format is not: it looks like nothing at all, and that is what made it usable.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rulebar" aria-hidden="true"></div>
+
+<!-- ============================== SYMBOLS ============================== -->
+<section class="section section--pitch" id="symbols">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The instruments</p>
+    <h2 class="section-title" data-reveal>Four machines for producing an audience</h2>
+    <p class="prose" data-reveal style="margin-bottom:3rem;text-align:center">
+      Not marks — apparatus. Each of these was designed, costed and manufactured, and each one
+      converted a population into a controllable surface: light, sound, formation, ritual.
+    </p>
+
+    <div class="symbolrow" data-reveal>
+
+      <!-- 1 · Lichtdom -->
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Diagram</span>
+          <svg viewBox="0 0 160 110" role="img" aria-label="Elevation diagram of the 1936 searchlight array at the Nuremberg rally grounds: vertical beams rising from a ground line, with measurements">
+            <defs>
+              <linearGradient id="rx-beam" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#fff" stop-opacity="0.02" />
+                <stop offset="0.55" stop-color="#fff" stop-opacity="0.22" />
+                <stop offset="1" stop-color="#fff" stop-opacity="0.6" />
+              </linearGradient>
+            </defs>
+            <g fill="url(#rx-beam)">
+              <rect x="26" y="10" width="1.4" height="78" /><rect x="32" y="10" width="1.4" height="78" /><rect x="38" y="10" width="1.4" height="78" /><rect x="44" y="10" width="1.4" height="78" /><rect x="50" y="10" width="1.4" height="78" /><rect x="56" y="10" width="1.4" height="78" /><rect x="62" y="10" width="1.4" height="78" /><rect x="68" y="10" width="1.4" height="78" /><rect x="74" y="10" width="1.4" height="78" /><rect x="80" y="10" width="1.4" height="78" /><rect x="86" y="10" width="1.4" height="78" /><rect x="92" y="10" width="1.4" height="78" /><rect x="98" y="10" width="1.4" height="78" /><rect x="104" y="10" width="1.4" height="78" /><rect x="110" y="10" width="1.4" height="78" /><rect x="116" y="10" width="1.4" height="78" /><rect x="122" y="10" width="1.4" height="78" /><rect x="128" y="10" width="1.4" height="78" /><rect x="134" y="10" width="1.4" height="78" />
+            </g>
+            <g stroke="#DEDCD8" stroke-width="0.7" fill="none" opacity="0.75">
+              <path d="M12 88 H150" stroke-width="1.4" />
+              <path d="M16 88 V12 M13 88 H19 M13 12 H19" />
+              <path d="M26 96 H33.4 M26 93.5 V98.5 M33.4 93.5 V98.5" />
+            </g>
+            <g fill="#8C8880" font-family="JetBrains Mono, monospace" font-size="4.4" letter-spacing="0.3">
+              <text x="10" y="52" transform="rotate(-90 10 52)" text-anchor="middle">BEAM ≈ 8 KM</text>
+              <text x="37" y="103">12 M APART</text>
+              <text x="150" y="103" text-anchor="end">152 POSITIONS</text>
+            </g>
+            <g fill="#A11414">
+              <circle cx="80" cy="20" r="4.6" /><text x="80" y="21.6" text-anchor="middle" fill="#E9E6DF" font-family="JetBrains Mono, monospace" font-size="4.6">1</text>
+              <circle cx="140" cy="84" r="4.6" /><text x="140" y="85.6" text-anchor="middle" fill="#E9E6DF" font-family="JetBrains Mono, monospace" font-size="4.6">2</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The searchlight array, 1936</b> Anti-aircraft searchlights borrowed from the Luftwaffe and aimed vertically around the Zeppelinfeld. Architecture at a scale no material could reach, for the cost of a night's electricity.
+          <ol class="legend">
+            <li><b>1</b> Beams reported visible to roughly 8 km; the enclosure had no ceiling and no cost.</li>
+            <li><b>2</b> Ground positions ≈ 12 m apart. The walls were the gaps between them.</li>
+          </ol>
+          <span class="credit">Diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+      <!-- 2 · Volksempfänger -->
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Diagram</span>
+          <svg viewBox="0 0 160 110" role="img" aria-label="Product elevation of a 1933 German people's radio receiver, with numbered annotations">
+            <defs>
+              <clipPath id="rx-grille">
+                <path d="M50 68 V48 C50 34 64 28 80 28 C96 28 110 34 110 48 V68 Z" />
+              </clipPath>
+            </defs>
+            <path d="M40 94 V46 C40 26 60 18 80 18 C100 18 120 26 120 46 V94 Z" fill="#1E1B18" stroke="#DEDCD8" stroke-opacity="0.55" stroke-width="1.2" />
+            <path d="M50 68 V48 C50 34 64 28 80 28 C96 28 110 34 110 48 V68 Z" fill="#100E0C" stroke="#DEDCD8" stroke-opacity="0.3" stroke-width="0.8" />
+            <g clip-path="url(#rx-grille)" stroke="#DEDCD8" stroke-opacity="0.22" stroke-width="0.6">
+              <path d="M48 32 H112 M48 36 H112 M48 40 H112 M48 44 H112 M48 48 H112 M48 52 H112 M48 56 H112 M48 60 H112 M48 64 H112 M48 68 H112" />
+            </g>
+            <g stroke="#DEDCD8" stroke-opacity="0.6" fill="none" stroke-width="0.9">
+              <circle cx="80" cy="80" r="9.5" />
+              <circle cx="80" cy="80" r="6.4" stroke-opacity="0.3" />
+              <path d="M80 80 L74.5 75.5" stroke="#A11414" stroke-opacity="1" stroke-width="1.2" />
+              <circle cx="56" cy="82" r="4.4" /><circle cx="104" cy="82" r="4.4" />
+              <path d="M38 94 H122" stroke-width="1.6" />
+            </g>
+            <g stroke="#DEDCD8" stroke-opacity="0.45" stroke-width="0.6" fill="none"><path d="M124 70 L90 79" /></g>
+            <rect x="124" y="60" width="24" height="15" fill="#A11414" stroke="#E9E6DF" stroke-opacity="0.6" stroke-width="0.6" />
+            <g stroke="#E9E6DF" stroke-opacity="0.7" stroke-width="0.7"><path d="M128 65 H144 M128 68.5 H144 M128 72 H138" /></g>
+            <g fill="#8C8880" font-family="JetBrains Mono, monospace" font-size="4.2" letter-spacing="0.2">
+              <text x="80" y="104" text-anchor="middle">76 RM · 1933  —  35 RM · 1938</text>
+            </g>
+            <g fill="#A11414">
+              <circle cx="30" cy="46" r="4.6" /><text x="30" y="47.6" text-anchor="middle" fill="#E9E6DF" font-family="JetBrains Mono, monospace" font-size="4.6">1</text>
+              <circle cx="80" cy="60" r="4.6" fill="#A11414" /><text x="80" y="61.6" text-anchor="middle" fill="#E9E6DF" font-family="JetBrains Mono, monospace" font-size="4.6">2</text>
+              <circle cx="136" cy="48" r="4.6" /><text x="136" y="49.6" text-anchor="middle" fill="#E9E6DF" font-family="JetBrains Mono, monospace" font-size="4.6">3</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The people's receiver, 1933</b> Designed by Walter Maria Kersting, built to one specification by dozens of competing manufacturers, launched at the Berlin radio exhibition in August 1933 and named for the date the party took power.
+          <ol class="legend">
+            <li><b>1</b> One bakelite pressing, one circuit, many makers. Standardisation as distribution policy.</li>
+            <li><b>2</b> A single dial, long and medium wave. Low sensitivity and selectivity made distant foreign stations hard to hold. Whether that limit was specified or fell out of the price target is argued; the effect is not.</li>
+            <li><b>3</b> From September 1939 listening to foreign broadcasts was a criminal offence, and sets carried a printed warning card at the dial. Product and penalty, shipped together.</li>
+          </ol>
+          <span class="credit">Diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+      <!-- 3 · formation -->
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Diagram</span>
+          <svg viewBox="0 0 160 110" role="img" aria-label="Plan view of massed crowd formation: rectangular blocks of people arranged in a grid with corridors and a central axis">
+            <defs>
+              <pattern id="rx-crowd-a" width="4" height="4" patternUnits="userSpaceOnUse">
+                <circle cx="2" cy="2" r="0.75" fill="#DEDCD8" fill-opacity="0.55" />
+              </pattern>
+            </defs>
+            <rect x="20" y="4" width="120" height="5" fill="#DEDCD8" fill-opacity="0.18" />
+            <rect x="70" y="3" width="20" height="7" fill="#A11414" />
+            <rect x="16" y="20" width="128" height="80" fill="none" stroke="#DEDCD8" stroke-opacity="0.25" stroke-width="0.7" />
+            <g>
+              <rect x="16" y="22" width="26" height="22" fill="url(#rx-crowd-a)" /><rect x="50" y="22" width="26" height="22" fill="url(#rx-crowd-a)" /><rect x="84" y="22" width="26" height="22" fill="url(#rx-crowd-a)" /><rect x="118" y="22" width="26" height="22" fill="url(#rx-crowd-a)" /><rect x="16" y="50" width="26" height="22" fill="url(#rx-crowd-a)" /><rect x="50" y="50" width="26" height="22" fill="url(#rx-crowd-a)" /><rect x="84" y="50" width="26" height="22" fill="url(#rx-crowd-a)" /><rect x="118" y="50" width="26" height="22" fill="url(#rx-crowd-a)" /><rect x="16" y="78" width="26" height="22" fill="url(#rx-crowd-a)" /><rect x="50" y="78" width="26" height="22" fill="url(#rx-crowd-a)" /><rect x="84" y="78" width="26" height="22" fill="url(#rx-crowd-a)" /><rect x="118" y="78" width="26" height="22" fill="url(#rx-crowd-a)" />
+            </g>
+            <path d="M80 2 V104" stroke="#A11414" stroke-width="0.8" stroke-dasharray="3 3" />
+            <g stroke="#DEDCD8" stroke-opacity="0.5" stroke-width="0.6" fill="none">
+              <path d="M16 104 H144 M16 102 V106 M144 102 V106" />
+            </g>
+            <g fill="#8C8880" font-family="JetBrains Mono, monospace" font-size="4" letter-spacing="0.2">
+              <text x="80" y="109.5" text-anchor="middle">FIELD ≈ 360 M SQUARE</text>
+            </g>
+            <g fill="#A11414">
+              <circle cx="80" cy="15" r="4.4" /><text x="80" y="16.5" text-anchor="middle" fill="#E9E6DF" font-family="JetBrains Mono, monospace" font-size="4.4">1</text>
+              <circle cx="46" cy="61" r="4.4" /><text x="46" y="62.5" text-anchor="middle" fill="#E9E6DF" font-family="JetBrains Mono, monospace" font-size="4.4">2</text>
+              <circle cx="114" cy="89" r="4.4" /><text x="114" y="90.5" text-anchor="middle" fill="#E9E6DF" font-family="JetBrains Mono, monospace" font-size="4.4">3</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The formation, in plan</b> The most revealing drawing on this page. People are the material; the rectangle is the unit; the corridors exist so the blocks read as blocks.
+          <ol class="legend">
+            <li><b>1</b> Rostrum on the axis. Every sightline in the field terminates at one point.</li>
+            <li><b>2</b> Corridors are not for walking. They are the negative space that makes each block legible from the tribune and from the air.</li>
+            <li><b>3</b> Individual figures resolve only close up. At the intended viewing distance the block is a solid tone — a person converted into a halftone dot.</li>
+          </ol>
+          <span class="credit">Diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+      <!-- 4 · torch relay -->
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Diagram</span>
+          <svg viewBox="0 0 160 110" role="img" aria-label="Schematic route map of the 1936 Olympic torch relay from Olympia in Greece to Berlin">
+            <path d="M119 96 L143 94 L134 79 L138 66 L106 54 L89 38 L59 34 L36 23 L28 17 L25 9"
+                  fill="none" stroke="#A11414" stroke-width="1.4" stroke-linejoin="round" />
+            <g fill="#DEDCD8"><circle cx="143" cy="94" r="1.7" /><circle cx="134" cy="79" r="1.7" /><circle cx="138" cy="66" r="1.7" /><circle cx="106" cy="54" r="1.7" /><circle cx="89" cy="38" r="1.7" /><circle cx="59" cy="34" r="1.7" /><circle cx="36" cy="23" r="1.7" /><circle cx="28" cy="17" r="1.7" /></g>
+            <circle cx="119" cy="96" r="3" fill="#A11414" stroke="#E9E6DF" stroke-width="0.8" />
+            <circle cx="25" cy="9" r="3" fill="#A11414" stroke="#E9E6DF" stroke-width="0.8" />
+            <g fill="#8C8880" font-family="JetBrains Mono, monospace" font-size="3.7" letter-spacing="0.15">
+              <text x="31" y="10.4">BERLIN</text>
+              <text x="34" y="18.4">DRESDEN</text>
+              <text x="42" y="24.4">PRAGUE</text>
+              <text x="55" y="35.4" text-anchor="end">VIENNA</text>
+              <text x="85" y="39.4" text-anchor="end">BUDAPEST</text>
+              <text x="102" y="55.4" text-anchor="end">BELGRADE</text>
+              <text x="134" y="67.4" text-anchor="end">SOFIA</text>
+              <text x="130" y="80.4" text-anchor="end">SALONICA</text>
+              <text x="149" y="89" text-anchor="end">ATHENS</text>
+              <text x="115" y="103" text-anchor="end">OLYMPIA</text>
+            </g>
+            <g fill="#DEDCD8" font-family="JetBrains Mono, monospace" font-size="4" letter-spacing="0.2" opacity="0.85">
+              <text x="8" y="96">3 187 KM</text>
+              <text x="8" y="102">3 331 RUNNERS</text>
+              <text x="8" y="108">12 DAYS · 1936</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The torch relay, 1936</b> Devised by Carl Diem for the Berlin Games, lit at Olympia by parabolic mirror in a ceremony written for the occasion, torches manufactured by Krupp. There is no ancient precedent for any of it.
+          <ol class="legend">
+            <li><b>1</b> Seven countries in twelve days, arriving on the opening morning — a schedule designed around newsreel deadlines.</li>
+            <li><b>2</b> It has been run before every Games since. A 1936 invention is now the most widely believed piece of false antiquity in world sport.</li>
+          </ol>
+          <span class="credit">Diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<div class="rulebar" aria-hidden="true"></div>
+
+<!-- ============================== ESSAY ============================== -->
+<section class="section essay" id="essay">
+  <div class="wrap wrap--narrow">
+    <p class="eyebrow" data-reveal>How it worked</p>
+
+    <div class="prose" data-reveal>
+      <p>
+        Every other page in this atlas can be read as a movement assembling an identity. This one has to be read as
+        a state assembling an environment. The difference is the whole finding.
+      </p>
+      <p>
+        In September 1933 the Reich Chamber of Culture made membership compulsory for anyone working as a designer,
+        printer, photographer, architect, journalist, publisher or film-maker. Jewish and dissident practitioners
+        were expelled from their trades. From that date the country's creative labour was licensed, and a licence
+        could be withdrawn. What followed was not a campaign with a start and an end. It was an operating condition.
+      </p>
+    </div>
+
+    <h3 data-reveal>1934 · <span>The total environment</span></h3>
+    <div class="prose" data-reveal>
+      <p>
+        A poster can be walked past. The structural innovation here was to remove the option — to build a field so
+        saturated that there was no neutral surface left to stand on. Uniform, armband, banner, standard, marching
+        column, ceremonial calendar, radio, newsreel and building were designed to reinforce one another, and the
+        citizen moved through all of them in a single day.
+      </p>
+      <p>
+        The case study is Nuremberg. Albert Speer laid out party rally grounds across roughly eleven square
+        kilometres; the Zeppelinfeld grandstand ran some 360 metres, its colonnade adapted from the Pergamon Altar
+        in Berlin. Stone was slow, and the schedule was annual. So in 1936 Speer built the enclosure out of light
+        instead: some 152 anti-aircraft searchlights, borrowed from the Luftwaffe, set roughly twelve metres apart
+        around the field and aimed straight up. The beams were reported visible for several kilometres. A room with
+        no ceiling and no material cost, erected in an evening.
+      </p>
+      <p>
+        Speer records in his memoirs that releasing that many searchlights was resisted, because they were a
+        significant share of a strategic reserve, and that the objection was overruled on the argument that foreign
+        observers would conclude Germany had them in abundance. If that account is accurate, the light show was
+        simultaneously a stage set and a piece of strategic disinformation. Speer's memoirs are also a sustained act
+        of self-exculpation and must be read against Gitta Sereny; he was the regime's architect, later its
+        armaments minister, and was convicted at Nuremberg for the use of slave labour.
+      </p>
+      <p>
+        Radio was the same environment delivered indoors. The Volksempfänger of 1933 — one specification, dozens of
+        manufacturers, 76 Reichsmarks, and a stripped 35-Reichsmark version by 1938 — put a receiver within reach of
+        most households; by 1939 something like seventy per cent of German homes had one, reportedly the highest
+        rate anywhere. The sets were not built to reach across a continent, and from September 1939 reaching across
+        one was a crime with a card at the dial to say so.
+      </p>
+      <p>
+        The negative half of the environment was designed with equal care. In Munich in July 1937 the <cite
+        lang="de">Entartete Kunst</cite> exhibition hung some 650 confiscated modern works deliberately badly —
+        crowded, skewed, jammed together, with jeering slogans painted on the walls and purchase prices lettered
+        beside them to enrage the taxpayer. It drew over two million visitors, considerably more than the regime's
+        own approved art exhibition across the road. Exhibition design, used as a weapon, and more effective at
+        drawing a crowd than the thing it was defending.
+      </p>
+    </div>
+
+    <h3 data-reveal>1933–45 · <span>The professionals</span></h3>
+    <div class="prose" data-reveal>
+      <p>
+        The comfortable story is that this work was made by fanatical amateurs. It was not. It was made by the
+        German creative profession, working to brief, for fees.
+      </p>
+      <p>
+        <b>Ludwig Hohlwein</b> had been the country's leading commercial poster designer since before the First
+        World War — a master of the <span lang="de">Sachplakat</span>, the object poster, working in flat shapes,
+        hard tonal edges and no outline, for shoe makers, coffee brands and Munich Zoo. His skill was entirely
+        pre-existing. The regime rented it. <b>Hans Schweitzer</b>, signing as <span lang="de">Mjölnir</span>,
+        produced a large share of the party's graphic output and was eventually made a Reich commissioner for
+        artistic design — a designer with a state office and enforcement powers over other designers.
+      </p>
+      <p>
+        <b>Leni Riefenstahl</b> shot <cite lang="de">Triumph des Willens</cite> at the 1934 Nuremberg rally with
+        around thirty cameras and a large crew, with pits dug for low angles, lifts fixed to flagpoles, and rails
+        laid for tracking shots. In <cite>Olympia</cite> (1938) she put cameras below the runners, on rails beside
+        the track, and underwater beneath the divers. Those techniques were not incidental to the argument; they
+        <em>were</em> the argument, and they are standard in sports broadcasting today. She spent the rest of her
+        life insisting she had made documentaries. Susan Sontag's 1975 essay "Fascinating Fascism" is the definitive
+        demolition of that defence, and of the idea that you can admire the form and set the content aside.
+      </p>
+      <p>
+        <b>Heinrich Hoffmann</b> held an effective monopoly on photographs of Hitler and art-directed a public
+        persona out of it, testing poses, controlling releases and profiting on a scale that would embarrass a
+        modern licensing agency. <b>Walter Maria Kersting</b> designed the radio. <b>Karl Diebitsch</b> and
+        <b>Walter Heck</b> designed the black SS uniform; the firm of Hugo Boss was among the manufacturers of party
+        uniforms and used forced and prisoner labour during the war, which the company commissioned a historian to
+        establish and acknowledged publicly in 2011.
+      </p>
+      <p>
+        And <b>Herbert Bayer</b> — Bauhaus master, inventor of the single-alphabet sans experiment, later one of the
+        most influential corporate designers in America — stayed in Germany after 1933 and produced exhibition and
+        brochure work for regime exhibitions before emigrating in 1938. That biography is not an aberration in the
+        history of modernism. It is a fact in it.
+      </p>
+    </div>
+
+    <blockquote class="pull" data-reveal>
+      Nothing here was made by cranks with no training. It was made by a country's professional
+      creative class, on brief, on schedule, to standard.
+      <cite>The finding of this page</cite>
+    </blockquote>
+
+    <h3 data-reveal>1936 · <span>The Olympics as a rebrand</span></h3>
+    <div class="prose" data-reveal>
+      <p>
+        The Berlin Games are the most successful reputation-laundering campaign in the history of the discipline,
+        and they should be studied as such rather than as sport.
+      </p>
+      <p>
+        The identity was comprehensive in a way no previous Games had attempted: Werner March's stadium; an official
+        poster by Franz Würbel; a bell cast at Bochum and inscribed with a summons to the youth of the world; a full
+        pictorial system of sport pictograms, tickets, signage, medals and printed matter; the first television
+        transmission of an Olympics, to public viewing rooms across Berlin; and Riefenstahl's two-part
+        <cite>Olympia</cite>, released in 1938, which fixed the visual language of filmed athletics for the rest of
+        the century.
+      </p>
+      <p>
+        And the torch relay, which Carl Diem invented for this event. A flame lit at Olympia by parabolic mirror, in
+        a ceremony written in 1936 and performed by women in classical costume; 3,331 runners; roughly 3,187
+        kilometres; seven countries; twelve days; arrival timed to the opening. Krupp made the torches. Nothing
+        about it is ancient, and almost everybody believes it is. It has been run before every Olympics since — a
+        fascist invention permanently embedded in a global ritual, which is a harder fact to sit with than any
+        poster.
+      </p>
+      <p>
+        The city itself was art-directed for the duration. Antisemitic signage came down. <cite lang="de">Der
+        Stürmer</cite> street boxes were removed. And in July 1936, before the visitors arrived, Berlin's Roma and
+        Sinti were rounded up and interned at Marzahn. The signage went back up after the closing ceremony. The
+        internment did not end.
+      </p>
+    </div>
+
+    <h3 data-reveal>1941 · <span>The Fraktur reversal</span></h3>
+    <div class="prose" data-reveal>
+      <p>
+        For eight years blackletter was the regime's proof of rootedness. Fraktur and Schwabacher were promoted as
+        the authentic German letter; type foundries answered the demand with new cuts, including the slab-jointed
+        blackletter-grotesque hybrids of the mid-thirties; schoolchildren were taught German cursive. Then, on 3
+        January 1941, a circular issued over Martin Bormann's signature by the Party Chancellery reversed all of it.
+        Blackletter was declared to be "Schwabacher Jewish letters", and Antiqua — the roman — was designated the
+        normal script of the Reich, to be adopted immediately across printing, administration, schools and export.
+      </p>
+      <p>
+        The stated justification is false, and no evidence was offered for it, because none exists. Schwabacher is a
+        German type of the late fifteenth century, cut and used by German printers. The claim was manufactured in
+        the same document that acted on it.
+      </p>
+      <p>
+        The real reasons were almost certainly logistical. By January 1941 German administration ran from Norway to
+        the Pyrenees. Clerks, printers, signwriters and readers across occupied Europe did not read blackletter and
+        could not set it. Material aimed at foreign audiences was illegible at a glance. German printing houses
+        already held far more roman than blackletter. An empire that runs on paperwork needs one letterform that
+        works everywhere, and it needed it at once.
+      </p>
+      <p>
+        This is the intellectual centre of the page. An ideology of blood and soil met the throughput requirements
+        of an occupation, and the ideology was rewritten overnight — with a fabricated racial explanation bolted on
+        afterwards so that the reversal could be presented as consistency rather than as a U-turn. The regime's own
+        typographic mythology turned out to be entirely disposable the moment it cost administrative speed. Anyone
+        who believes a totalitarian visual identity is held together by conviction should read the circular. It is
+        held together by logistics.
+      </p>
+      <p>
+        Two further ironies deserve stating plainly. The letterform now made compulsory was the modernist roman
+        whose leading practitioners the regime had already driven out or silenced — Renner removed from his post in
+        1933, the Bauhaus closed the same year. And the ban is the reason the regime's late material looks so much
+        more modern than its early material: the visual break most people read as a change of taste was an
+        administrative order.
+      </p>
+    </div>
+
+    <h3 data-reveal>1939–45 · <span>What it was for</span></h3>
+    <div class="prose" data-reveal>
+      <p>
+        Everything above staged an in-group. All of it simultaneously marked an out-group, and the marking was
+        operational rather than expressive.
+      </p>
+      <p>
+        From 1939 in occupied Poland, and from 19 September 1941 within Germany itself, Jewish people aged six and
+        over were required by decree to wear a yellow badge on their outer clothing. It is not drawn on this page.
+        Read it as workflow rather than symbolism: a legal category that existed on paper — in registers, census
+        returns, ration files and card indexes — was moved onto the body, where any policeman, conductor, official,
+        neighbour or informer could act on it instantly without asking for a document. Identification enables
+        exclusion. Exclusion enables concentration. Concentration enables deportation. Deportation ended at Chełmno,
+        Bełżec, Sobibór, Treblinka, Majdanek and Auschwitz-Birkenau.
+      </p>
+      <p>
+        The badge is a piece of interface design inside that sequence, and the tattooed number, the camp triangle
+        and the transport manifest are the rest of it. This is why the design apparatus of this state cannot be
+        described as decoration around a political programme. It was infrastructure for the programme. It performed
+        identification, sorting and legitimation, which is precisely what an identity system is built to do.
+      </p>
+      <p>
+        Refuse the formalist reading, then, but refuse the comfortable one too. The techniques inventoried on this
+        page — rigid symmetry, a saturated environment, one recognisable mark, a controlled palette, a total
+        identity applied across every touchpoint, camera angles that flatter, a product cheap enough to reach every
+        household — are not fascist techniques. There is nothing in a low camera angle that wants anybody dead. They
+        are all in daily commercial use, in stadium broadcasts, brand guidelines, product launches and political
+        campaigns of every persuasion, including entirely benign ones.
+      </p>
+      <p>
+        That is the uncomfortable point, and it is why this atlas keeps insisting that good design is not a moral
+        category. Craft is a multiplier. What it multiplies is decided somewhere else, by someone else, and the
+        designer's skill is silent on the question.
+      </p>
+    </div>
+
+    <div class="coda" data-reveal style="margin-top:3.5rem">
+      <h2>Afterlife · 1945 →</h2>
+      <p>
+        Denazification dismantled the institutions and missed most of the people. Section 86a of the German criminal
+        code prohibits distributing or publicly using the symbols of unconstitutional organisations, with a
+        carve-out for art, science, research, teaching and reporting — that clause is the legal space a page like
+        this one occupies. Austria's Verbotsgesetz goes further.
+      </p>
+      <p>
+        The iconography did not die with the state that issued it; it circulates now in extremist movements across
+        several continents, stripped of its history and treated as a shortcut to menace. That is the reason for the
+        rules at the top of this page. Recognition is the entire mechanism of a mark. A design-history site that
+        renders one cleanly, at high resolution, with the geometry helpfully explained, is not documenting an asset.
+        It is manufacturing one.
+      </p>
+    </div>
+
+    <div class="chrono" data-reveal>
+      <div><b>1933 · JAN</b><span>Party takes power. The people's receiver is named for the date and shown that August.</span></div>
+      <div><b>1933 · APR</b><span>Paul Renner removed from his post in Munich. Modernist designers begin leaving.</span></div>
+      <div><b>1933 · JUL</b><span>The Bauhaus, already forced from Dessau to Berlin, is dissolved under police pressure.</span></div>
+      <div><b>1933 · SEP</b><span>Reich Chamber of Culture: practising as a designer, printer or photographer now requires a licence.</span></div>
+      <div><b>1934 · SEP</b><span>Nuremberg rally filmed by Riefenstahl; released 1935.</span></div>
+      <div><b>1935 · SEP</b><span>Nuremberg Laws. A legal category is created that will later be made visible on the body.</span></div>
+      <div><b>1936 · JUL</b><span>Berlin's Roma and Sinti interned at Marzahn before the Games open.</span></div>
+      <div><b>1936 · AUG</b><span>Olympics. Invented torch relay, full pictorial identity, first Olympic television.</span></div>
+      <div><b>1936 · SEP</b><span>Speer's searchlight array at the Nuremberg rally grounds.</span></div>
+      <div><b>1937 · JUL</b><span>Munich: modern art hung deliberately badly as an exhibit in itself. Two million visitors.</span></div>
+      <div><b>1939 · SEP</b><span>Listening to foreign broadcasts made a criminal offence; warning cards issued for receivers.</span></div>
+      <div><b>1941 · 3 JAN</b><span>Bormann circular. Blackletter withdrawn; roman made the standard script.</span></div>
+      <div><b>1941 · 19 SEP</b><span>Yellow badge decree comes into force inside Germany.</span></div>
+      <div><b>1945–49</b><span>Defeat; Nuremberg trials; denazification. Speer convicted over the use of slave labour.</span></div>
+      <div><b>PRESENT</b><span>§86a StGB restricts display of the symbols. The iconography circulates regardless.</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="rulebar rulebar--accent" aria-hidden="true"></div>
+
+<!-- ============================== ARTIFACTS ============================== -->
+<section class="section section--pitch" id="artifacts">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Artifacts</p>
+    <h2 class="section-title" data-reveal>Four things taken apart</h2>
+    <p class="prose" data-reveal style="text-align:center;margin-bottom:3rem">
+      Diagrams, not reproductions. Drawn from published descriptions, plans and measurements —
+      none traced from a photograph, and one of them incomplete on purpose.
+    </p>
+
+    <div class="artifacts artifacts--full" data-reveal style="margin-bottom:2.6rem">
+
+      <!-- 01 · the Fraktur reversal -->
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Specimen</span>
+          <svg viewBox="0 0 420 232" role="img" aria-label="Two-panel type specimen comparing the German word Buchdruck set in blackletter and in a geometric roman, annotated with the date of the 1941 order">
+            <path d="M210 16 V186" stroke="#DEDCD8" stroke-opacity="0.2" stroke-width="1" />
+
+            <g font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="1.6" fill="#8C8880">
+              <text x="105" y="28" text-anchor="middle">01 · UNTIL 2 JAN 1941</text>
+              <text x="315" y="28" text-anchor="middle">02 · FROM 3 JAN 1941</text>
+            </g>
+
+            <text x="105" y="96" text-anchor="middle" lang="de" font-family="UnifrakturMaguntia, serif" font-size="44" fill="#E9E6DF">Buchdruck</text>
+            <text x="315" y="94" text-anchor="middle" lang="de" font-family="Jost, sans-serif" font-weight="400" font-size="38" letter-spacing="1.2" fill="#E9E6DF">Buchdruck</text>
+
+            <g stroke="#A11414" stroke-width="1">
+              <path d="M30 106 H180 M30 102 V110 M180 102 V110" />
+              <path d="M240 106 H390 M240 102 V110 M390 102 V110" />
+            </g>
+
+            <g font-family="JetBrains Mono, monospace" font-size="6.4" fill="#8C8880" text-anchor="middle">
+              <text x="105" y="124">FRAKTUR / SCHWABACHER — BLACKLETTER</text>
+              <text x="105" y="134">PROMOTED FROM 1933 AS THE GERMAN LETTER</text>
+              <text x="105" y="144">NEW FOUNDRY CUTS ISSUED TO MEET DEMAND:</text>
+              <text x="105" y="154">TANNENBERG · NATIONAL · ELEMENT</text>
+              <text x="105" y="170" fill="#A11414">UNREADABLE TO MOST OF OCCUPIED EUROPE</text>
+
+              <text x="315" y="124">ANTIQUA — THE ROMAN, GEOMETRIC CUT</text>
+              <text x="315" y="134">DESIGNATED THE NORMAL SCRIPT BY CIRCULAR</text>
+              <text x="315" y="144">SET BY EVERY PRINTER FROM OSLO TO BORDEAUX</text>
+              <text x="315" y="154">SCHOOL CURSIVE REPLACED THE SAME YEAR</text>
+              <text x="315" y="170" fill="#A11414">ONE ADMINISTRATIVE LETTER FOR A CONTINENT</text>
+            </g>
+
+            <path d="M14 186 H406" stroke="#DEDCD8" stroke-opacity="0.55" stroke-width="3" />
+            <path d="M14 192 H406" stroke="#DEDCD8" stroke-opacity="0.3" stroke-width="1" />
+            <g font-family="JetBrains Mono, monospace" font-size="5.8" letter-spacing="0.6" text-anchor="middle">
+              <text x="210" y="208" fill="#E9E6DF">PARTY CHANCELLERY CIRCULAR · 3 JANUARY 1941 · BLACKLETTER WITHDRAWN, ROMAN MADE STANDARD</text>
+              <text x="210" y="220" fill="#8C8880">THE STATED RACIAL JUSTIFICATION WAS FABRICATED. THE OPERATIONAL MOTIVE WAS LEGIBILITY.</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption>
+          <span class="fig-num">Artifact 01</span>
+          <b>The Fraktur reversal</b> One ordinary word — <span lang="de">Buchdruck</span>, "letterpress printing" — set as the state required it before and after a single January morning. Nothing about the word changed. The regime's account of what German letters <em>were</em> changed completely, in one circular, with a fabricated justification and an unstated administrative motive. It is the clearest surviving evidence that the identity was a tool and never a belief.
+          <span class="credit">Specimen comparison · drawn in SVG · UnifrakturMaguntia and Jost stand in for period cuts</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="artifacts" data-reveal>
+
+      <!-- 02 · flag field, device omitted -->
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 420 268" role="img" aria-label="Recreation of the flag field only: a red ground with a centred white disc, the central device replaced by a labelled grey box reading device omitted">
+            <g stroke="#8C8880" stroke-width="0.8" fill="none">
+              <path d="M60 20 H360 M60 16 V24 M360 16 V24" />
+              <path d="M40 34 V234 M36 34 H44 M36 234 H44" />
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="8" fill="#8C8880">
+              <text x="210" y="14" text-anchor="middle">3</text>
+              <text x="26" y="137" text-anchor="middle">2</text>
+            </g>
+
+            <rect x="60" y="34" width="300" height="200" fill="#A11414" />
+            <circle cx="210" cy="134" r="64" fill="#E9E6DF" />
+            <rect x="180" y="104" width="60" height="60" fill="#4A4A4A" stroke="#1A1A1A" stroke-width="1" stroke-dasharray="4 3" />
+            <g font-family="JetBrains Mono, monospace" font-size="8" fill="#E9E6DF" text-anchor="middle" letter-spacing="0.6">
+              <text x="210" y="130">DEVICE</text>
+              <text x="210" y="142">OMITTED</text>
+            </g>
+
+            <g fill="#0B0B0B">
+              <circle cx="98" cy="200" r="9" /><text x="98" y="203.4" text-anchor="middle" fill="#E9E6DF" font-family="JetBrains Mono, monospace" font-size="9">1</text>
+              <circle cx="210" cy="82" r="9" /><text x="210" y="85.4" text-anchor="middle" fill="#E9E6DF" font-family="JetBrains Mono, monospace" font-size="9">2</text>
+              <circle cx="210" cy="182" r="9" /><text x="210" y="185.4" text-anchor="middle" fill="#E9E6DF" font-family="JetBrains Mono, monospace" font-size="9">3</text>
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="7.5" fill="#8C8880" text-anchor="middle">
+              <text x="210" y="252">FIELD AND DISC ONLY · CENTRAL DEVICE WITHHELD BY EDITORIAL DECISION</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption>
+          <span class="fig-num">Artifact 02</span>
+          <b>The flag, field only</b> Described rather than drawn: a red ground in a 3:2 ratio, a white disc placed on the centre, and at the middle of that disc a black device that this page will not reproduce.
+          <ol class="legend">
+            <li><b>1</b> Red ground — captured from the labour movement, by the party's own account.</li>
+            <li><b>2</b> White disc — an aperture. It exists to isolate whatever sits inside it and to hold that shape legible at distance, at night and in monochrome film.</li>
+            <li><b>3</b> Grey box — our substitution. The mark it replaces is a live hate symbol whose entire power is instant recognition, and drawing it accurately here would produce a clean, reusable file for people this atlas has no interest in helping. The omission is the honest position, so it is shown as an omission rather than hidden by cropping.</li>
+          </ol>
+          <span class="credit">Recreation, deliberately incomplete · drawn in SVG</span>
+        </figcaption>
+      </figure>
+
+      <!-- 03 · rally ground site plan -->
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Diagram</span>
+          <svg viewBox="0 0 420 286" role="img" aria-label="Site plan of a rally ground: grandstand and rostrum along the top, formation blocks filling the field, a central axis, and a perimeter ring of searchlight positions">
+            <defs>
+              <pattern id="rx-crowd-b" width="5" height="5" patternUnits="userSpaceOnUse">
+                <circle cx="2.5" cy="2.5" r="0.85" fill="#DEDCD8" fill-opacity="0.5" />
+              </pattern>
+            </defs>
+
+            <rect x="82" y="30" width="256" height="220" fill="none" stroke="#DEDCD8" stroke-opacity="0.45" stroke-width="2.4" stroke-dasharray="0.1 12" stroke-linecap="round" />
+            <rect x="80" y="10" width="260" height="14" fill="#DEDCD8" fill-opacity="0.16" stroke="#DEDCD8" stroke-opacity="0.35" stroke-width="0.8" />
+            <rect x="196" y="8" width="28" height="18" fill="#A11414" />
+            <rect x="90" y="40" width="240" height="200" fill="none" stroke="#DEDCD8" stroke-opacity="0.25" stroke-width="0.8" />
+
+            <g>
+              <rect x="90" y="40" width="52" height="42" fill="url(#rx-crowd-b)" /><rect x="153" y="40" width="52" height="42" fill="url(#rx-crowd-b)" /><rect x="215" y="40" width="52" height="42" fill="url(#rx-crowd-b)" /><rect x="278" y="40" width="52" height="42" fill="url(#rx-crowd-b)" /><rect x="90" y="93" width="52" height="42" fill="url(#rx-crowd-b)" /><rect x="153" y="93" width="52" height="42" fill="url(#rx-crowd-b)" /><rect x="215" y="93" width="52" height="42" fill="url(#rx-crowd-b)" /><rect x="278" y="93" width="52" height="42" fill="url(#rx-crowd-b)" /><rect x="90" y="145" width="52" height="42" fill="url(#rx-crowd-b)" /><rect x="153" y="145" width="52" height="42" fill="url(#rx-crowd-b)" /><rect x="215" y="145" width="52" height="42" fill="url(#rx-crowd-b)" /><rect x="278" y="145" width="52" height="42" fill="url(#rx-crowd-b)" /><rect x="90" y="198" width="52" height="42" fill="url(#rx-crowd-b)" /><rect x="153" y="198" width="52" height="42" fill="url(#rx-crowd-b)" /><rect x="215" y="198" width="52" height="42" fill="url(#rx-crowd-b)" /><rect x="278" y="198" width="52" height="42" fill="url(#rx-crowd-b)" />
+            </g>
+
+            <path d="M210 4 V268" stroke="#A11414" stroke-width="1" stroke-dasharray="5 4" />
+
+            <g stroke="#8C8880" stroke-width="0.8" fill="none">
+              <path d="M90 264 H150 M90 261 V267 M150 261 V267" />
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="7" fill="#8C8880">
+              <text x="90" y="278">100 M</text>
+              <text x="338" y="278" text-anchor="end">GRANDSTAND ≈ 360 M</text>
+            </g>
+
+            <g fill="#A11414">
+              <circle cx="210" cy="34" r="8" /><text x="210" y="37.2" text-anchor="middle" fill="#E9E6DF" font-family="JetBrains Mono, monospace" font-size="8">1</text>
+              <circle cx="147" cy="140" r="8" /><text x="147" y="143.2" text-anchor="middle" fill="#E9E6DF" font-family="JetBrains Mono, monospace" font-size="8">2</text>
+              <circle cx="66" cy="140" r="8" /><text x="66" y="143.2" text-anchor="middle" fill="#E9E6DF" font-family="JetBrains Mono, monospace" font-size="8">3</text>
+              <circle cx="354" cy="140" r="8" /><text x="354" y="143.2" text-anchor="middle" fill="#E9E6DF" font-family="JetBrains Mono, monospace" font-size="8">4</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption>
+          <span class="fig-num">Artifact 03</span>
+          <b>The rally ground, in plan</b> The building is the smallest part of it. The design object is the arrangement of a hundred thousand people relative to one microphone and one camera position.
+          <ol class="legend">
+            <li><b>1</b> Rostrum, centred on the axis, raised. Every sightline in the field terminates here.</li>
+            <li><b>2</b> Formation blocks. Rectangles of standing figures, sized so that at viewing distance each block reads as one flat tone.</li>
+            <li><b>3</b> The axis, drawn dashed. Rigid bilateral symmetry is the compositional signature of the whole programme — including, deliberately, this page.</li>
+            <li><b>4</b> Perimeter searchlight positions, roughly 12 m apart. The enclosure was completed at night, in light, and dismantled by switching it off.</li>
+          </ol>
+          <span class="credit">Diagram · drawn in SVG from published plans and descriptions</span>
+        </figcaption>
+      </figure>
+
+      <!-- 04 · camera setup -->
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Diagram</span>
+          <svg viewBox="0 0 420 246" role="img" aria-label="Two-panel diagram of camera technique: a low-angle camera in a pit on a tracking rail, and a long-lens setup compressing the apparent spacing of a crowd">
+            <path d="M210 18 V228" stroke="#DEDCD8" stroke-opacity="0.2" stroke-width="1" />
+            <g font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="1.4" fill="#8C8880">
+              <text x="105" y="30" text-anchor="middle">A · LOW ANGLE + TRACK</text>
+              <text x="315" y="30" text-anchor="middle">B · LONG-LENS COMPRESSION</text>
+            </g>
+
+            <!-- panel A -->
+            <path d="M62 176 L126 96 L172 42 L112 42 Z" fill="#A11414" fill-opacity="0.12" />
+            <path d="M62 176 L126 96" stroke="#A11414" stroke-width="1" stroke-dasharray="4 3" />
+            <path d="M62 176 L112 42" stroke="#A11414" stroke-width="1" stroke-dasharray="4 3" />
+            <path d="M20 176 H196" stroke="#DEDCD8" stroke-opacity="0.7" stroke-width="1.6" />
+            <rect x="118" y="108" width="16" height="68" fill="#DEDCD8" fill-opacity="0.3" />
+            <circle cx="126" cy="100" r="8" fill="#DEDCD8" fill-opacity="0.3" />
+            <g stroke="#DEDCD8" stroke-opacity="0.5" stroke-width="0.8" fill="none">
+              <path d="M40 176 V196 H76 V176" stroke-dasharray="3 3" />
+            </g>
+            <rect x="46" y="180" width="24" height="12" fill="#DEDCD8" fill-opacity="0.55" />
+            <rect x="66" y="183" width="8" height="6" fill="#DEDCD8" fill-opacity="0.55" />
+            <path d="M20 210 H196" stroke="#DEDCD8" stroke-opacity="0.45" stroke-width="1" />
+            <path d="M20 214 H196" stroke="#DEDCD8" stroke-opacity="0.45" stroke-width="1" />
+            <path d="M20 212 H196" stroke="#DEDCD8" stroke-opacity="0.35" stroke-width="4" stroke-dasharray="1.5 10" />
+            <text x="108" y="230" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6.4" fill="#8C8880">TRACKING RAIL · CONTINUOUS MOVE, NO CUT</text>
+
+            <!-- panel B -->
+            <g stroke="#DEDCD8" stroke-opacity="0.55" stroke-width="0.9" fill="none">
+              <path d="M240 150 H346" />
+            </g>
+            <g fill="#DEDCD8" fill-opacity="0.75"><circle cx="240" cy="150" r="2.6" /><circle cx="261" cy="150" r="2.6" /><circle cx="282" cy="150" r="2.6" /><circle cx="303" cy="150" r="2.6" /><circle cx="324" cy="150" r="2.6" /><circle cx="345" cy="150" r="2.6" /></g>
+            <path d="M240 150 L378 138 M346 150 L378 146" stroke="#A11414" stroke-opacity="0.55" stroke-width="0.8" stroke-dasharray="3 3" fill="none" />
+            <rect x="378" y="136" width="20" height="12" fill="#DEDCD8" fill-opacity="0.55" />
+            <g fill="#DEDCD8" fill-opacity="0.9"><circle cx="300" cy="86" r="2.6" /><circle cx="308" cy="86" r="2.6" /><circle cx="316" cy="86" r="2.6" /><circle cx="324" cy="86" r="2.6" /><circle cx="332" cy="86" r="2.6" /><circle cx="340" cy="86" r="2.6" /></g>
+            <g stroke="#8C8880" stroke-width="0.8" fill="none">
+              <path d="M240 162 H346 M240 158 V166 M346 158 V166" />
+              <path d="M300 74 H340 M300 70 V78 M340 70 V78" />
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="6.4" fill="#8C8880">
+              <text x="293" y="176" text-anchor="middle">ACTUAL SPACING ON THE GROUND</text>
+              <text x="320" y="64" text-anchor="middle">AS RENDERED BY THE LENS</text>
+            </g>
+            <path d="M293 144 L318 96" stroke="#A11414" stroke-width="0.8" stroke-dasharray="3 3" />
+            <text x="315" y="230" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6.4" fill="#8C8880">DEPTH COLLAPSED · A CROWD LOOKS DENSER</text>
+
+            <g fill="#A11414">
+              <circle cx="160" cy="70" r="8" /><text x="160" y="73.2" text-anchor="middle" fill="#E9E6DF" font-family="JetBrains Mono, monospace" font-size="8">1</text>
+              <circle cx="42" cy="160" r="8" /><text x="42" y="163.2" text-anchor="middle" fill="#E9E6DF" font-family="JetBrains Mono, monospace" font-size="8">2</text>
+              <circle cx="392" cy="112" r="8" /><text x="392" y="115.2" text-anchor="middle" fill="#E9E6DF" font-family="JetBrains Mono, monospace" font-size="8">3</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption>
+          <span class="fig-num">Artifact 04</span>
+          <b>How the shot flatters the subject</b> A schematic breakdown of the two techniques most associated with Riefenstahl's rally and Olympic films. Neither is exotic. Both are engineered flattery, and both are in use tonight.
+          <ol class="legend">
+            <li><b>1</b> Camera below eye level: the subject is framed against empty sky, with nothing in shot to give scale or context, and the viewer is placed structurally beneath them.</li>
+            <li><b>2</b> Pit and rail: pits dug at the base, rails laid for uninterrupted tracking moves. Continuous movement reads as observation rather than editing — which is exactly why it persuades.</li>
+            <li><b>3</b> Long lens from a distance: depth is compressed, so ranks of people separated by metres appear packed. The crowd in the image is denser than the crowd on the field.</li>
+            <li><b>—</b> All three are standard in sports broadcasting, sneaker advertising and campaign video. That is the point of including them.</li>
+          </ol>
+          <span class="credit">Technique diagram · drawn in SVG</span>
+        </figcaption>
+      </figure>
+
+    </div>
+
+    <p class="note" data-reveal style="margin:3rem auto 0;max-width:46rem;text-align:left">
+      Every figure on this page is drawn in code from published descriptions, plans, dimensions
+      and specifications. Nothing is traced from a photograph and no original artwork, poster or
+      film frame is reproduced. Artifact 02 is incomplete by editorial decision rather than by
+      accident — see the content note at the top of the page. Measurements given as "≈" are the
+      best-documented figures and vary between sources.
+    </p>
+  </div>
+</section>
+
+<div class="rulebar" aria-hidden="true"></div>
+
+<!-- ============================== LINEAGE ============================== -->
+<section class="section" id="lineage">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Lineage</p>
+    <h2 class="section-title" data-reveal>Adjacencies, stated carefully</h2>
+    <p class="prose" data-reveal style="text-align:center;margin-bottom:2.4rem">
+      Links below are claims about specific mechanisms or documented historical facts. None of
+      them is a claim that these movements are equivalent to one another, or that any of them is
+      endorsed here.
+    </p>
+    <div class="lineage" data-reveal
+         data-lineage="constructivism,khmer-rouge,cultural-revolution,saffron"
+         data-why="Both were state-scale total design programmes. This state shut the Bauhaus in 1933 and staged an exhibition to humiliate modern art — while its own agencies went on using photomontage, sans-serif and the grid. Technique borrowed, source suppressed. Not an equivalence of politics.|Compared on one mechanism only: a bureaucracy that used photography and standardised forms as instruments of the killing itself, rather than as records made afterwards.|Named for a shared method — a state monopoly on images, and crowds arranged into designed formations for the camera. A comparison of technique, not of the movements or their crimes.|A documented historical fact and only that: some interwar Hindu nationalist writers published admiration for European fascist organisation and discipline during the 1930s. It is a statement about specific texts of that period, not a claim of equivalence.">
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SOURCES ============================== -->
+<section class="section" id="sources" style="padding-top:0">
+  <div class="wrap">
+    <hr class="hr" style="margin-bottom:3rem" />
+    <p class="eyebrow" data-reveal>Sources &amp; further reading</p>
+    <ul class="sources" data-reveal>
+      <li>Steven Heller, <cite>The Swastika: Symbol Beyond Redemption?</cite> (Allworth Press, 2000) — the standard design-history account of how the mark was captured, and the argument that it cannot be reclaimed.</li>
+      <li>Steven Heller, <cite>Iron Fists: Branding the 21st-Century Totalitarian State</cite> (Phaidon, 2008) — four regimes read explicitly as brand systems.</li>
+      <li>Peter Adam, <cite>Art of the Third Reich</cite> (Harry N. Abrams, 1992).</li>
+      <li>Frederic Spotts, <cite>Hitler and the Power of Aesthetics</cite> (Hutchinson, 2002) — the case that the aesthetic programme was central to the regime rather than decorative.</li>
+      <li>Susan Sontag, "Fascinating Fascism", <cite>The New York Review of Books</cite>, 6 February 1975 — on Riefenstahl, and on why formal analysis alone fails here. Essential reading before any of the above.</li>
+      <li>Peter Bain &amp; Paul Shaw (eds.), <cite>Blackletter: Type and National Identity</cite> (Princeton Architectural Press, 1998) — includes Hans Peter Willberg on Fraktur and nationalism, and the Party Chancellery circular of 3 January 1941 in facsimile.</li>
+      <li>Albert Speer, <cite>Inside the Third Reich</cite> (1970), read strictly against Gitta Sereny, <cite>Albert Speer: His Battle with Truth</cite> (1995) — a primary source on the rally grounds and a work of self-exculpation at the same time.</li>
+      <li>United States Holocaust Memorial Museum, <cite>Holocaust Encyclopedia</cite> — in particular the entries on the 1936 Berlin Olympics and the yellow badge — and the archives of <cite>Yad Vashem</cite>.</li>
+    </ul>
+  </div>
+</section>
+
+<div data-site="foot"></div>
+
+<script src="../../shared/movements.js"></script>
+<script src="../../shared/site.js"></script>
+</body>
+</html>

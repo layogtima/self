@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en" data-slug="cultural-revolution">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Chinese Cultural Revolution — Political Design</title>
+<meta name="description" content="For ten years the visual output of a country of 800 million people ran through one palette, one drawing style and one compositional doctrine. The most complete design monoculture ever achieved — and the only one whose style guide was written down." />
+<meta name="theme-color" content="#F7E9D8" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="The Chinese Cultural Revolution — Political Design" />
+<meta property="og:description" content="Red, gold, and a sun that is a man. The Cultural Revolution's written design system — hong guang liang, the three prominences — read as a style guide." />
+<meta property="og:url" content="https://layogtima.com/political-design/m/cultural-revolution/" />
+<link rel="icon" type="image/svg+xml" href="https://layogtima.com/images/favicon/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+KuaiLe&family=Noto+Serif+SC:wght@400;700;900&family=Archivo+Black&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../shared/site.css" />
+<link rel="stylesheet" href="../../shared/textures.css" />
+<style>
+  /* ------------------------------------------------------------------
+     HOUSE RULE FOR THIS PAGE: the page obeys the style guide it is
+     describing. Frontal, symmetrical, bottom-heavy, low horizon, red
+     reserved for the correct side of the picture. Where the face of
+     Mao would go, this page puts the radiance device instead — every
+     time, deliberately, and it says so in the caption.
+     ------------------------------------------------------------------ */
+  :root {
+    --paper: #F7E9D8;
+    --ink: #1B0F0C;
+    --accent: #E02418;
+    --gold: #F2B705;
+    --sky: #A9C7DA;
+    --cheek: #D9755A;
+    --deep: #8A1208;
+    --font-display: "Archivo Black", "Helvetica Neue", sans-serif;
+    --font-body: "Source Serif 4", Georgia, serif;
+    --font-brush: "Ma Shan Zheng", "Noto Serif SC", serif;
+    --font-cn: "Noto Serif SC", serif;
+    --font-cnd: "ZCOOL KuaiLe", "Noto Serif SC", sans-serif;
+    --measure: 35rem;
+  }
+  h1, h2, h3, h4 { font-weight: 400; letter-spacing: -0.025em; }
+  body { background-color: var(--paper); }
+  .defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+  .cn { font-family: var(--font-cn); }
+  .brush { font-family: var(--font-brush); }
+
+  /* ---------- ray divider ---------- */
+  .rays {
+    height: 18px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="18" viewBox="0 0 48 18"><path d="M0 18 L12 0 L24 18 Z" fill="%23E02418"/><path d="M24 18 L36 0 L48 18 Z" fill="%23F2B705"/></svg>');
+    background-repeat: repeat-x;
+    background-size: auto 18px;
+  }
+
+  /* ---------- hero ---------- */
+  .hero {
+    min-height: 100svh;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    overflow: hidden;
+    position: relative;
+  }
+  .hero__art { position: relative; overflow: hidden; background: var(--sky); }
+  .hero__sun { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hero__fan { animation: cr-turn 60s linear infinite; transform-box: view-box; transform-origin: 500px 340px; }
+  @keyframes cr-turn { to { transform: rotate(10deg); } }
+  .hero__crowd { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: auto; }
+  .hero__tx { color: #5A0A04; z-index: 2; }
+  .hero__cn {
+    position: absolute;
+    left: var(--gutter); right: var(--gutter);
+    top: 52%;
+    transform: translateY(-50%);
+    z-index: 3;
+    margin: 0;
+    text-align: center;
+    font-family: var(--font-brush);
+    font-size: clamp(3.1rem, 13.5vw, 11rem);
+    line-height: 1;
+    color: #FDF3E3;
+    letter-spacing: 0.02em;
+    -webkit-text-stroke: 0.035em #6E0D04;
+    text-shadow: 0.028em 0.038em 0 rgba(70, 8, 3, 0.55);
+  }
+  .hero__py {
+    position: absolute;
+    left: var(--gutter); right: var(--gutter);
+    top: calc(52% + clamp(2.1rem, 8vw, 6.4rem));
+    z-index: 3;
+    margin: 0;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: clamp(0.6rem, 1.3vw, 0.78rem);
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: #FDF3E3;
+    text-shadow: 0 0 0.5em rgba(64, 7, 3, 0.95), 0 1px 2px rgba(64, 7, 3, 1);
+  }
+  .hero__foot {
+    position: relative;
+    z-index: 4;
+    background: var(--paper);
+    border-top: 12px solid var(--accent);
+    padding: clamp(1.5rem, 3.4vw, 2.4rem) var(--gutter) clamp(1.8rem, 4vw, 3rem);
+  }
+  .hero__foot-in { width: min(100%, 76rem); margin-inline: auto; }
+  .hero__meta {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--soft);
+    display: flex; flex-wrap: wrap; gap: 0.4rem 1.6rem;
+    margin: 0 0 1.1rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero__cols { display: grid; gap: 1.1rem 3.5rem; }
+  @media (min-width: 60rem) { .hero__cols { grid-template-columns: 1.02fr 1fr; align-items: end; } }
+  .hero__cols h1 { font-size: clamp(2rem, 5.4vw, 4.1rem); line-height: 0.98; margin: 0; max-width: 15ch; }
+  .hero__lede { font-size: clamp(1.04rem, 0.85vw + 0.92rem, 1.34rem); line-height: 1.48; margin: 0; }
+  .hero__lede em { font-style: normal; color: var(--accent); }
+
+  /* ---------- anatomy ---------- */
+  .anatomy-grid { display: grid; gap: var(--step) 3.5rem; grid-template-columns: 1fr; }
+  @media (min-width: 62rem) { .anatomy-grid { grid-template-columns: 1.05fr 1fr; gap: 3.5rem; } }
+  .symbolrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: 1.8rem; }
+  .symbolrow figure .frame { background: #FBF2E4; }
+
+  /* ---------- the style guide: a red block in the middle of the page ---------- */
+  .styleguide { background: var(--accent); color: #FDF3E3; position: relative; overflow: hidden; }
+  .styleguide .eyebrow { color: rgba(253, 243, 227, 0.72); }
+  .styleguide .eyebrow::after { background: rgba(253, 243, 227, 0.32); }
+  .styleguide .section-title { color: #FDF3E3; }
+  .styleguide .prose { color: rgba(253, 243, 227, 0.92); }
+  .styleguide .note { color: rgba(253, 243, 227, 0.88); }
+  .styleguide figure .frame { border-color: rgba(253, 243, 227, 0.4); background: var(--paper); }
+  .styleguide figcaption { color: rgba(253, 243, 227, 0.88); max-width: 52rem; }
+  .styleguide figcaption b { color: #fff; }
+  .styleguide .tag-recreation { background: #FDF3E3; color: var(--accent); }
+  .styleguide .credit { color: rgba(253, 243, 227, 0.7); }
+  .sg-halftone { color: #FDF3E3; z-index: 0; opacity: 0.1; }
+  .styleguide .wrap { position: relative; z-index: 1; }
+  .sg-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba(253, 243, 227, 0.72);
+    margin: 2.8rem 0 0.9rem;
+  }
+  .rules {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14.5rem, 1fr));
+    gap: 1px;
+    background: rgba(253, 243, 227, 0.4);
+    border: 1px solid rgba(253, 243, 227, 0.4);
+  }
+  .rule { background: var(--accent); padding: 1.4rem 1.3rem 1.5rem; align-content: start; }
+  .rule .n { display: block; font-family: var(--font-mono); font-size: 0.64rem; letter-spacing: 0.2em; opacity: 0.7; }
+  .rule .term { display: block; font-family: var(--font-cnd); font-size: clamp(1.5rem, 3.4vw, 2.1rem); line-height: 1.15; color: var(--gold); margin: 0.55rem 0 0.1rem; }
+  .rule .en { display: block; font-family: var(--font-display); font-size: 0.98rem; line-height: 1.15; margin: 0.5rem 0 0.15rem; }
+  .rule .py { display: block; font-family: var(--font-mono); font-size: 0.64rem; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.75; margin-bottom: 0.75rem; }
+  .rule p { font-size: 0.9rem; line-height: 1.5; margin: 0; }
+  .rule p + p { margin-top: 0.6rem; }
+  .rule ol { margin: 0.4rem 0 0; padding-left: 1.1rem; font-size: 0.88rem; line-height: 1.45; }
+  .rule ol li { margin-bottom: 0.4rem; }
+  .rule ol .cn { color: var(--gold); font-size: 0.94rem; }
+
+  /* ---------- essay ---------- */
+  .essay h3 { font-size: clamp(1.45rem, 3vw, 2.2rem); margin: 3.4rem 0 1rem; max-width: 24ch; }
+  .essay h3 span { color: var(--accent); }
+  .essay > .wrap > .two-col > div > .prose:first-of-type > p:first-of-type::first-letter {
+    font-family: var(--font-display);
+    float: left;
+    font-size: 3.3em;
+    line-height: 0.8;
+    padding: 0.04em 0.1em 0 0;
+    color: var(--accent);
+  }
+  .two-col { display: grid; gap: 2.5rem; grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 58rem) { .two-col { grid-template-columns: minmax(0, 1fr) 15rem; gap: 3.5rem; } }
+  .marginalia {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    line-height: 1.75;
+    letter-spacing: 0.04em;
+    color: var(--soft);
+    border-left: 1px solid var(--rule);
+    padding-left: 1.1rem;
+  }
+  .marginalia b { color: var(--accent); }
+
+  /* ---------- artifacts ---------- */
+  .artifacts { background: #EFDFC9; }
+  .artgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); gap: 2.4rem; }
+  .artgrid figure .frame { background: #FBF2E4; }
+  .artwide { grid-column: 1 / -1; }
+  @media (min-width: 64rem) { .artgrid { grid-template-columns: 1fr 1.35fr; } .art-poster { grid-column: 1; } }
+
+  @media (prefers-reduced-motion: reduce) { .hero__fan { animation: none; } }
+</style>
+<noscript><style>[data-reveal]{opacity:1 !important;transform:none !important}</style></noscript>
+</head>
+<body>
+
+<!-- shared figure definitions, referenced by every composition on this page -->
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="cr-fig">
+      <circle cx="50" cy="24" r="20" />
+      <rect x="42" y="40" width="16" height="16" />
+      <path d="M20 52 h60 l-8 66 h-44 z" />
+      <rect x="12" y="56" width="15" height="70" rx="7" />
+      <rect x="73" y="56" width="15" height="70" rx="7" />
+      <rect x="30" y="112" width="17" height="128" rx="6" />
+      <rect x="53" y="112" width="17" height="128" rx="6" />
+    </g>
+    <g id="cr-fig-b">
+      <circle cx="50" cy="24" r="20" />
+      <rect x="42" y="40" width="16" height="16" />
+      <path d="M20 52 h60 l-8 66 h-44 z" />
+      <rect x="12" y="56" width="15" height="70" rx="7" />
+      <polygon points="67,60 81,50 101,-4 87,-13" />
+      <circle cx="94" cy="-6" r="8" />
+      <rect x="30" y="112" width="17" height="128" rx="6" />
+      <rect x="53" y="112" width="17" height="128" rx="6" />
+    </g>
+  </defs>
+</svg>
+
+<!-- ============================== HERO ============================== -->
+<header class="hero">
+  <div class="hero__art">
+    <svg class="hero__sun" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="cr-sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#7FAAC6" />
+          <stop offset="0.5" stop-color="#BCD4E2" />
+          <stop offset="1" stop-color="#F2D9A8" />
+        </linearGradient>
+        <radialGradient id="cr-glow">
+          <stop offset="0" stop-color="#FFF7E2" stop-opacity="1" />
+          <stop offset="0.5" stop-color="#F7C93C" stop-opacity="0.9" />
+          <stop offset="1" stop-color="#F2B705" stop-opacity="0" />
+        </radialGradient>
+        <path id="cr-ray" d="M500 340 L351.84 -1353.53 L648.16 -1353.53 Z" />
+      </defs>
+      <rect width="1000" height="1000" fill="url(#cr-sky)" />
+      <g class="hero__fan" opacity="0.94">
+        <use href="#cr-ray" fill="#E02418" transform="rotate(0 500 340)"/> <use href="#cr-ray" fill="#F2B705" transform="rotate(10 500 340)"/> <use href="#cr-ray" fill="#E02418" transform="rotate(20 500 340)"/>
+        <use href="#cr-ray" fill="#F2B705" transform="rotate(30 500 340)"/> <use href="#cr-ray" fill="#E02418" transform="rotate(40 500 340)"/> <use href="#cr-ray" fill="#F2B705" transform="rotate(50 500 340)"/>
+        <use href="#cr-ray" fill="#E02418" transform="rotate(60 500 340)"/> <use href="#cr-ray" fill="#F2B705" transform="rotate(70 500 340)"/> <use href="#cr-ray" fill="#E02418" transform="rotate(80 500 340)"/>
+        <use href="#cr-ray" fill="#F2B705" transform="rotate(90 500 340)"/> <use href="#cr-ray" fill="#E02418" transform="rotate(100 500 340)"/> <use href="#cr-ray" fill="#F2B705" transform="rotate(110 500 340)"/>
+        <use href="#cr-ray" fill="#E02418" transform="rotate(120 500 340)"/> <use href="#cr-ray" fill="#F2B705" transform="rotate(130 500 340)"/> <use href="#cr-ray" fill="#E02418" transform="rotate(140 500 340)"/>
+        <use href="#cr-ray" fill="#F2B705" transform="rotate(150 500 340)"/> <use href="#cr-ray" fill="#E02418" transform="rotate(160 500 340)"/> <use href="#cr-ray" fill="#F2B705" transform="rotate(170 500 340)"/>
+        <use href="#cr-ray" fill="#E02418" transform="rotate(180 500 340)"/> <use href="#cr-ray" fill="#F2B705" transform="rotate(190 500 340)"/> <use href="#cr-ray" fill="#E02418" transform="rotate(200 500 340)"/>
+        <use href="#cr-ray" fill="#F2B705" transform="rotate(210 500 340)"/> <use href="#cr-ray" fill="#E02418" transform="rotate(220 500 340)"/> <use href="#cr-ray" fill="#F2B705" transform="rotate(230 500 340)"/>
+        <use href="#cr-ray" fill="#E02418" transform="rotate(240 500 340)"/> <use href="#cr-ray" fill="#F2B705" transform="rotate(250 500 340)"/> <use href="#cr-ray" fill="#E02418" transform="rotate(260 500 340)"/>
+        <use href="#cr-ray" fill="#F2B705" transform="rotate(270 500 340)"/> <use href="#cr-ray" fill="#E02418" transform="rotate(280 500 340)"/> <use href="#cr-ray" fill="#F2B705" transform="rotate(290 500 340)"/>
+        <use href="#cr-ray" fill="#E02418" transform="rotate(300 500 340)"/> <use href="#cr-ray" fill="#F2B705" transform="rotate(310 500 340)"/> <use href="#cr-ray" fill="#E02418" transform="rotate(320 500 340)"/>
+        <use href="#cr-ray" fill="#F2B705" transform="rotate(330 500 340)"/> <use href="#cr-ray" fill="#E02418" transform="rotate(340 500 340)"/> <use href="#cr-ray" fill="#F2B705" transform="rotate(350 500 340)"/>
+      </g>
+      <circle cx="500" cy="340" r="300" fill="url(#cr-glow)" />
+      <circle cx="500" cy="340" r="104" fill="#FFF8E6" />
+      <circle cx="500" cy="340" r="118" fill="none" stroke="#FFF8E6" stroke-width="5" opacity="0.6" />
+    </svg>
+
+    <svg class="hero__crowd" viewBox="0 0 1400 300" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false">
+      <path d="M0 132 C 320 122, 700 138, 1400 118 L1400 300 L0 300 Z" fill="#B0421F" />
+      <path d="M0 168 C 380 158, 760 176, 1400 156 L1400 300 L0 300 Z" fill="#8E2B12" opacity="0.55" />
+      <g><rect x="150" y="60" width="2.4" height="145" fill="#3A1008"/><path d="M152.4 60 h84 l-23.52 35.28 h-60.48 z" fill="#E02418"/></g>
+      <g><rect x="470" y="40" width="2.4" height="160" fill="#3A1008"/><path d="M472.4 40 h92 l-25.76 38.64 h-66.24 z" fill="#E02418"/></g>
+      <g><rect x="835" y="72" width="2.4" height="136" fill="#3A1008"/><path d="M837.4 72 h76 l-21.28 31.92 h-54.72 z" fill="#F2B705"/></g>
+      <g><rect x="1180" y="48" width="2.4" height="154" fill="#3A1008"/><path d="M1182.4 48 h88 l-24.64 36.96 h-63.36 z" fill="#E02418"/></g>
+      <g fill="#C4623B">
+        <use href="#cr-fig" transform="translate(-44.5 136.7) scale(0.262)"/> <use href="#cr-fig" transform="translate(6.4 135.9) scale(0.260)"/> <use href="#cr-fig" transform="translate(48.8 136.0) scale(0.260)"/> <use href="#cr-fig" transform="translate(117.1 138.9) scale(0.243)"/> <use href="#cr-fig" transform="translate(146.3 133.3) scale(0.273)"/>
+        <use href="#cr-fig" transform="translate(194.9 132.6) scale(0.280)"/> <use href="#cr-fig" transform="translate(263.1 133.1) scale(0.265)"/> <use href="#cr-fig" transform="translate(295.8 133.6) scale(0.261)"/> <use href="#cr-fig" transform="translate(351.6 136.3) scale(0.249)"/> <use href="#cr-fig" transform="translate(409.2 137.6) scale(0.258)"/>
+        <use href="#cr-fig" transform="translate(460.7 134.2) scale(0.266)"/> <use href="#cr-fig" transform="translate(515.4 135.1) scale(0.258)"/> <use href="#cr-fig" transform="translate(574.0 132.0) scale(0.281)"/> <use href="#cr-fig" transform="translate(617.7 136.4) scale(0.252)"/> <use href="#cr-fig" transform="translate(656.8 141.0) scale(0.242)"/>
+        <use href="#cr-fig" transform="translate(708.7 131.7) scale(0.274)"/> <use href="#cr-fig" transform="translate(774.6 130.1) scale(0.274)"/> <use href="#cr-fig" transform="translate(803.9 131.4) scale(0.277)"/> <use href="#cr-fig" transform="translate(876.9 134.9) scale(0.256)"/> <use href="#cr-fig" transform="translate(916.6 131.9) scale(0.272)"/>
+        <use href="#cr-fig" transform="translate(952.7 139.1) scale(0.253)"/> <use href="#cr-fig" transform="translate(1022.3 138.4) scale(0.244)"/> <use href="#cr-fig" transform="translate(1054.3 141.2) scale(0.242)"/> <use href="#cr-fig" transform="translate(1105.8 134.8) scale(0.262)"/> <use href="#cr-fig" transform="translate(1156.1 131.8) scale(0.270)"/>
+        <use href="#cr-fig" transform="translate(1220.4 139.1) scale(0.244)"/> <use href="#cr-fig" transform="translate(1258.4 139.8) scale(0.250)"/> <use href="#cr-fig" transform="translate(1325.2 139.1) scale(0.252)"/> <use href="#cr-fig" transform="translate(1358.8 138.1) scale(0.256)"/> <use href="#cr-fig" transform="translate(1421.8 141.5) scale(0.243)"/>
+      </g>
+      <g fill="#96331B">
+        <use href="#cr-fig-b" transform="translate(-34.0 149.0) scale(0.386)"/> <use href="#cr-fig-b" transform="translate(18.7 151.7) scale(0.362)"/> <use href="#cr-fig-b" transform="translate(81.1 152.3) scale(0.357)"/> <use href="#cr-fig-b" transform="translate(157.7 154.4) scale(0.361)"/>
+        <use href="#cr-fig-b" transform="translate(240.0 153.0) scale(0.365)"/> <use href="#cr-fig-b" transform="translate(317.0 156.5) scale(0.352)"/> <use href="#cr-fig-b" transform="translate(375.5 154.5) scale(0.349)"/> <use href="#cr-fig-b" transform="translate(442.1 154.9) scale(0.357)"/>
+        <use href="#cr-fig-b" transform="translate(500.9 148.0) scale(0.378)"/> <use href="#cr-fig-b" transform="translate(561.8 157.0) scale(0.347)"/> <use href="#cr-fig-b" transform="translate(641.5 154.6) scale(0.352)"/> <use href="#cr-fig-b" transform="translate(719.2 155.4) scale(0.346)"/>
+        <use href="#cr-fig-b" transform="translate(792.8 148.0) scale(0.379)"/> <use href="#cr-fig-b" transform="translate(857.9 146.1) scale(0.386)"/> <use href="#cr-fig-b" transform="translate(909.6 152.9) scale(0.355)"/> <use href="#cr-fig-b" transform="translate(1000.2 148.3) scale(0.387)"/>
+        <use href="#cr-fig-b" transform="translate(1064.4 147.8) scale(0.388)"/> <use href="#cr-fig-b" transform="translate(1130.4 156.1) scale(0.342)"/> <use href="#cr-fig-b" transform="translate(1217.7 146.2) scale(0.386)"/> <use href="#cr-fig-b" transform="translate(1260.9 154.2) scale(0.363)"/>
+        <use href="#cr-fig-b" transform="translate(1357.1 153.7) scale(0.357)"/> <use href="#cr-fig-b" transform="translate(1422.2 148.9) scale(0.383)"/>
+      </g>
+      <g>
+        <rect x="-3.1" y="138.9" width="10.0" height="13.1" fill="#E8452F" transform="rotate(2.6 1.9 145.5)"/> <rect x="47.6" y="142.3" width="9.4" height="12.3" fill="#E8452F" transform="rotate(-1.6 52.3 148.4)"/> <rect x="109.7" y="143.0" width="9.3" height="12.2" fill="#E8452F" transform="rotate(5.9 114.4 149.1)"/> <rect x="186.6" y="145.0" width="9.4" height="12.3" fill="#E8452F" transform="rotate(-12.4 191.2 151.1)"/>
+        <rect x="345.1" y="147.4" width="9.2" height="12.0" fill="#E8452F" transform="rotate(2.0 349.7 153.4)"/> <rect x="403.4" y="145.4" width="9.1" height="11.9" fill="#E8452F" transform="rotate(6.1 407.9 151.4)"/> <rect x="470.6" y="145.6" width="9.3" height="12.1" fill="#E8452F" transform="rotate(-9.0 475.3 151.7)"/> <rect x="531.2" y="138.2" width="9.8" height="12.9" fill="#E8452F" transform="rotate(-11.2 536.1 144.6)"/>
+        <rect x="669.7" y="145.4" width="9.2" height="12.0" fill="#E8452F" transform="rotate(7.8 674.3 151.4)"/> <rect x="823.1" y="138.2" width="9.9" height="12.9" fill="#E8452F" transform="rotate(11.7 828.0 144.6)"/> <rect x="1095.4" y="137.8" width="10.1" height="13.2" fill="#E8452F" transform="rotate(13.3 1100.5 144.4)"/> <rect x="1157.7" y="147.2" width="8.9" height="11.6" fill="#E8452F" transform="rotate(-8.5 1162.2 153.1)"/>
+        <rect x="1248.6" y="136.2" width="10.0" height="13.1" fill="#E8452F" transform="rotate(0.8 1253.6 142.8)"/> <rect x="1289.9" y="144.8" width="9.4" height="12.3" fill="#E8452F" transform="rotate(-2.2 1294.6 151.0)"/> <rect x="1452.8" y="138.9" width="10.0" height="13.0" fill="#E8452F" transform="rotate(5.4 1457.8 145.4)"/>
+      </g>
+      <g fill="#5E1005">
+        <use href="#cr-fig" transform="translate(-57.2 191.3) scale(0.505)"/> <use href="#cr-fig" transform="translate(52.3 175.5) scale(0.569)"/> <use href="#cr-fig" transform="translate(150.8 185.2) scale(0.529)"/>
+        <use href="#cr-fig" transform="translate(232.1 179.0) scale(0.556)"/> <use href="#cr-fig" transform="translate(346.8 185.9) scale(0.530)"/> <use href="#cr-fig" transform="translate(457.1 174.8) scale(0.580)"/>
+        <use href="#cr-fig" transform="translate(583.9 189.2) scale(0.505)"/> <use href="#cr-fig" transform="translate(664.3 186.1) scale(0.528)"/> <use href="#cr-fig" transform="translate(792.8 181.7) scale(0.545)"/>
+        <use href="#cr-fig" transform="translate(889.7 192.2) scale(0.500)"/> <use href="#cr-fig" transform="translate(977.9 182.2) scale(0.533)"/> <use href="#cr-fig" transform="translate(1100.9 172.2) scale(0.575)"/>
+        <use href="#cr-fig" transform="translate(1207.2 191.7) scale(0.499)"/> <use href="#cr-fig" transform="translate(1290.7 175.8) scale(0.571)"/> <use href="#cr-fig" transform="translate(1431.7 189.1) scale(0.516)"/>
+      </g>
+    </svg>
+
+    <div class="tx-over tx-halftone--coarse hero__tx" aria-hidden="true"></div>
+
+    <p class="hero__cn" lang="zh-Hans">文化大革命</p>
+    <p class="hero__py">Wénhuà Dà Gémìng · The Great Proletarian Cultural Revolution</p>
+  </div>
+
+  <div class="hero__foot">
+    <div class="hero__foot-in">
+      <p class="hero__meta">
+        <span>No. 10</span><span>East Asia · China</span><span>1966 — 1976</span><span>Offset lithography · state presses</span>
+      </p>
+      <div class="hero__cols">
+        <h1>The Chinese Cultural&nbsp;Revolution</h1>
+        <p class="hero__lede">
+          For ten years the visual output of a country of some eight hundred million people ran
+          through one palette, one drawing style, one compositional doctrine and one face. It is the
+          most complete <em>design monoculture</em> ever achieved at national scale — and the only one
+          that wrote its style guide down and published it.
+        </p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="rays" aria-hidden="true"></div>
+
+<!-- ============================== WARNING ============================== -->
+<section class="section" id="warning" style="padding-block: clamp(2.4rem,6vw,4rem)">
+  <div class="wrap">
+    <div class="warnbox" data-reveal>
+      <h2>Content note</h2>
+      <p>
+        The Cultural Revolution (1966–1976) produced mass persecution, the destruction of temples,
+        libraries, artworks, instruments and private collections, and a death toll historians place
+        at somewhere between several hundred thousand and several million. Millions more were
+        denounced, beaten, imprisoned, or sent to the countryside.
+      </p>
+      <p>
+        This page analyses the visual programme that accompanied it: its palette, its written
+        compositional rules, its objects, and how it was printed and distributed. The imagery is
+        examined as a mechanism, not celebrated. Nothing here is reproduced from a photograph —
+        every image on this page is drawn in code.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ANATOMY ============================== -->
+<section class="section" id="anatomy" style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The anatomy</p>
+    <div class="anatomy-grid">
+
+      <div data-reveal>
+        <h2 class="section-title">Six inks, and no alternatives</h2>
+        <p class="prose">
+          The palette is small, and it is small for two reasons at once. Half of it is doctrine —
+          red is allocated, not chosen. The other half is manufacturing: a state offset press
+          running two million sheets on absorbent wood-pulp stock has a limited number of
+          well-behaved inks, and every one of them had to survive being pasted to a wall in a
+          Manchurian winter.
+        </p>
+        <div class="swatches" style="margin-top:2rem">
+          <div class="swatch"><i style="background:#E02418"></i><b>#E02418 POSTER RED</b><span>Reserved. Red belongs to the correct side of the picture — the Party, the sun, the flag, the book, the hero's jacket. It is never lent to anyone in the wrong.</span></div>
+          <div class="swatch"><i style="background:#F2B705"></i><b>#F2B705 RADIANCE GOLD</b><span>Not decoration. Gold is the substance the sun is made of, and it does exactly the work a halo does in devotional painting.</span></div>
+          <div class="swatch"><i style="background:#A9C7DA"></i><b>#A9C7DA CADRE SKY</b><span>The only cool colour permitted, laid flat and high-key so the reds run hotter against it. The weather in these posters is always clear.</span></div>
+          <div class="swatch"><i style="background:#D9755A"></i><b>#D9755A HEALTHY CHEEK</b><span>The compulsory complexion. <span class="cn" lang="zh-Hans">红光亮</span> required faces to be ruddy and lit; a sallow face implied a sallow politics.</span></div>
+          <div class="swatch"><i style="background:#F7E9D8"></i><b>#F7E9D8 PRESS STOCK</b><span>Cheap wood-pulp paper. Millions of impressions on absorbent sheet meant coarse screens, heavy dot gain, and colour that drifted between print sites.</span></div>
+          <div class="swatch"><i style="background:#1B0F0C"></i><b>#1B0F0C CONTOUR BLACK</b><span>Outline and shadow. In this system a shadowed face is not a lighting decision — it is a plot point. Black is where the enemies are.</span></div>
+        </div>
+      </div>
+
+      <div data-reveal>
+        <h2 class="section-title">A handwriting used as a wordmark</h2>
+        <p class="prose">
+          Chinese political typography of the period runs on three tracks that never mix: one man's
+          brush hand for authority, drawn poster lettering for slogans, and imported Latin display
+          for export. The first of those is the strange one — a personal script deployed as
+          corporate identity across an entire country.
+        </p>
+        <div class="specimens" style="margin-top:2rem">
+          <div class="specimen">
+            <p class="brush" lang="zh-Hans" style="font-size:clamp(2.4rem,6vw,3.4rem);color:var(--accent)">为人民服务</p>
+            <small><span lang="zh-Hans">为人民服务</span> "Serve the People" · Mao's own calligraphy — <span lang="zh-Hans">毛体</span> — supplied the masthead of the People's Daily and the nameplates of schools, factories and newspapers nationwide. One man's handwriting as a wordmark, rolled out at the scale of a state. Set here in Ma Shan Zheng; this is a stand-in typeface, not his hand.</small>
+          </div>
+          <div class="specimen">
+            <p lang="zh-Hans" style="font-family:var(--font-cnd);font-size:clamp(2.2rem,5.5vw,3.1rem);line-height:1.1">红光亮</p>
+            <small><span lang="zh-Hans">红光亮</span> "red, bright, shining" · Poster slogans were drawn, not typeset. Even stroke weight, squared into an invisible grid, so that a line of six characters filled a banner edge to edge with no optical correction visible. Shown in ZCOOL KuaiLe.</small>
+          </div>
+          <div class="specimen">
+            <p style="font-family:var(--font-display);font-size:clamp(0.98rem,2.2vw,1.4rem);line-height:1.1;letter-spacing:-0.03em">QUOTATIONS FROM<br />CHAIRMAN MAO TSE-TUNG</p>
+            <small>The Foreign Languages Press exported the book in dozens of languages. The translated editions kept the red cover and the gold blocking and lost the calligraphy entirely — the identity did not survive the change of writing system, and nobody appears to have tried to redesign it.</small>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="rays" aria-hidden="true"></div>
+
+<!-- ============================== SYMBOLS ============================== -->
+<section class="section" id="symbols">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The devices</p>
+    <h2 class="section-title" data-reveal>Four objects that carried a decade</h2>
+
+    <div class="symbolrow" data-reveal>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 120" role="img" aria-label="The radiating sunburst device: rays of red and gold from a disc high in the frame">
+            <defs>
+              <clipPath id="cr-symclip"><rect width="120" height="120" /></clipPath>
+              <path id="cr-sray" d="M60 52 L40.42 -96.72 L79.58 -96.72 Z" />
+            </defs>
+            <g clip-path="url(#cr-symclip)">
+              <rect width="120" height="120" fill="#A9C7DA" />
+              <use href="#cr-sray" fill="#E02418" transform="rotate(0 60 52)"/> <use href="#cr-sray" fill="#F2B705" transform="rotate(15 60 52)"/> <use href="#cr-sray" fill="#E02418" transform="rotate(30 60 52)"/> <use href="#cr-sray" fill="#F2B705" transform="rotate(45 60 52)"/>
+            <use href="#cr-sray" fill="#E02418" transform="rotate(60 60 52)"/> <use href="#cr-sray" fill="#F2B705" transform="rotate(75 60 52)"/> <use href="#cr-sray" fill="#E02418" transform="rotate(90 60 52)"/> <use href="#cr-sray" fill="#F2B705" transform="rotate(105 60 52)"/>
+            <use href="#cr-sray" fill="#E02418" transform="rotate(120 60 52)"/> <use href="#cr-sray" fill="#F2B705" transform="rotate(135 60 52)"/> <use href="#cr-sray" fill="#E02418" transform="rotate(150 60 52)"/> <use href="#cr-sray" fill="#F2B705" transform="rotate(165 60 52)"/>
+            <use href="#cr-sray" fill="#E02418" transform="rotate(180 60 52)"/> <use href="#cr-sray" fill="#F2B705" transform="rotate(195 60 52)"/> <use href="#cr-sray" fill="#E02418" transform="rotate(210 60 52)"/> <use href="#cr-sray" fill="#F2B705" transform="rotate(225 60 52)"/>
+            <use href="#cr-sray" fill="#E02418" transform="rotate(240 60 52)"/> <use href="#cr-sray" fill="#F2B705" transform="rotate(255 60 52)"/> <use href="#cr-sray" fill="#E02418" transform="rotate(270 60 52)"/> <use href="#cr-sray" fill="#F2B705" transform="rotate(285 60 52)"/>
+            <use href="#cr-sray" fill="#E02418" transform="rotate(300 60 52)"/> <use href="#cr-sray" fill="#F2B705" transform="rotate(315 60 52)"/> <use href="#cr-sray" fill="#E02418" transform="rotate(330 60 52)"/> <use href="#cr-sray" fill="#F2B705" transform="rotate(345 60 52)"/>
+              <circle cx="60" cy="52" r="19" fill="#FFF6DE" />
+              <circle cx="60" cy="52" r="23" fill="none" stroke="#FFF6DE" stroke-width="1.6" opacity="0.65" />
+              <rect y="96" width="120" height="24" fill="#8E2B12" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The radiance</b> — rays, a disc, a position high and central. On the real posters a portrait sits at the centre of this device. This page substitutes the device for the face, here and everywhere else.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 120" role="img" aria-label="A dazibao wall panel: overlapping paper sheets pasted to brick, with brush headings and columns of writing">
+            <rect width="120" height="120" fill="#C9BEA9" />
+            <g stroke="#B0A48C" stroke-width="0.6" fill="none">
+              <path d="M0 20 H120 M0 40 H120 M0 60 H120 M0 80 H120 M0 100 H120" />
+              <path d="M20 0 v20 M60 0 v20 M100 0 v20 M0 20 v20 M40 20 v20 M80 20 v20 M20 40 v20 M60 40 v20 M100 40 v20 M0 60 v20 M40 60 v20 M80 60 v20 M20 80 v20 M60 80 v20 M100 80 v20" />
+            </g>
+            <g transform="rotate(-2.5 42 58)">
+              <rect x="10" y="16" width="64" height="86" fill="#F3E8D3" stroke="#9E8E76" stroke-width="0.7" />
+              <text x="16" y="36" lang="zh-Hans" font-family="Ma Shan Zheng, serif" font-size="17" fill="#231009">大字报</text>
+              <g fill="#2A1710" opacity="0.78">
+                <rect x="60" y="44" width="7" height="3" /><rect x="60" y="50" width="7" height="3" /><rect x="60" y="56" width="7" height="3" /><rect x="60" y="62" width="7" height="3" /><rect x="60" y="68" width="7" height="3" /><rect x="60" y="74" width="7" height="3" /><rect x="60" y="80" width="7" height="3" /><rect x="60" y="86" width="7" height="3" />
+                <rect x="49" y="44" width="7" height="3" /><rect x="49" y="50" width="7" height="3" /><rect x="49" y="56" width="7" height="3" /><rect x="49" y="62" width="7" height="3" /><rect x="49" y="68" width="7" height="3" /><rect x="49" y="74" width="7" height="3" /><rect x="49" y="80" width="7" height="3" />
+                <rect x="38" y="44" width="7" height="3" /><rect x="38" y="50" width="7" height="3" /><rect x="38" y="56" width="7" height="3" /><rect x="38" y="62" width="7" height="3" /><rect x="38" y="68" width="7" height="3" /><rect x="38" y="74" width="7" height="3" /><rect x="38" y="80" width="7" height="3" /><rect x="38" y="86" width="7" height="3" />
+                <rect x="27" y="44" width="7" height="3" /><rect x="27" y="50" width="7" height="3" /><rect x="27" y="56" width="7" height="3" /><rect x="27" y="62" width="7" height="3" /><rect x="27" y="68" width="7" height="3" />
+                <rect x="16" y="44" width="7" height="3" /><rect x="16" y="50" width="7" height="3" /><rect x="16" y="56" width="7" height="3" /><rect x="16" y="62" width="7" height="3" /><rect x="16" y="68" width="7" height="3" /><rect x="16" y="74" width="7" height="3" />
+              </g>
+            </g>
+            <g transform="rotate(2 88 66)">
+              <rect x="62" y="30" width="50" height="72" fill="#EFE3CC" stroke="#9E8E76" stroke-width="0.7" />
+              <g fill="#2A1710" opacity="0.72">
+                <rect x="100" y="40" width="6" height="3" /><rect x="100" y="46" width="6" height="3" /><rect x="100" y="52" width="6" height="3" /><rect x="100" y="58" width="6" height="3" /><rect x="100" y="64" width="6" height="3" /><rect x="100" y="70" width="6" height="3" /><rect x="100" y="76" width="6" height="3" /><rect x="100" y="82" width="6" height="3" /><rect x="100" y="88" width="6" height="3" />
+                <rect x="90" y="40" width="6" height="3" /><rect x="90" y="46" width="6" height="3" /><rect x="90" y="52" width="6" height="3" /><rect x="90" y="58" width="6" height="3" /><rect x="90" y="64" width="6" height="3" /><rect x="90" y="70" width="6" height="3" /><rect x="90" y="76" width="6" height="3" />
+                <rect x="80" y="40" width="6" height="3" /><rect x="80" y="46" width="6" height="3" /><rect x="80" y="52" width="6" height="3" /><rect x="80" y="58" width="6" height="3" /><rect x="80" y="64" width="6" height="3" /><rect x="80" y="70" width="6" height="3" /><rect x="80" y="76" width="6" height="3" /><rect x="80" y="82" width="6" height="3" />
+                <rect x="70" y="40" width="6" height="3" /><rect x="70" y="46" width="6" height="3" /><rect x="70" y="52" width="6" height="3" /><rect x="70" y="58" width="6" height="3" />
+              </g>
+              <circle cx="86" cy="70" r="11" fill="none" stroke="#D0180C" stroke-width="2" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The dazibao</b> — <span class="cn" lang="zh-Hans">大字报</span>, the big-character poster. Brush, ink, cheap paper, flour paste, a wall. Body text set here as abstracted blocks in vertical columns; only the heading is real lettering.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 120" role="img" aria-label="Flat elevation of the Little Red Book with approximate dimensions">
+            <rect width="120" height="120" fill="#FBF2E4" />
+            <rect x="30" y="20" width="7" height="72" fill="#8A1208" />
+            <rect x="36" y="20" width="46" height="72" fill="#C4140A" />
+            <rect x="36" y="20" width="3" height="72" fill="#7C0F06" opacity="0.6" />
+            <text x="59" y="46" text-anchor="middle" lang="zh-Hans" font-family="Ma Shan Zheng, serif" font-size="9.5" fill="#F2B705">毛主席语录</text>
+            <rect x="48" y="58" width="22" height="15" fill="none" stroke="#F2B705" stroke-width="0.8" opacity="0.8" />
+            <path d="M59 61.5 L60.8 65.3 L65 65.9 L62 68.8 L62.7 73 L59 71 L55.3 73 L56 68.8 L53 65.9 L57.2 65.3 Z" fill="#F2B705" opacity="0.9" />
+            <g stroke="#1B0F0C" stroke-width="0.6" fill="none">
+              <path d="M30 100 H82" /><path d="M30 97 v6" /><path d="M82 97 v6" />
+              <path d="M92 20 V92" /><path d="M89 20 h6" /><path d="M89 92 h6" />
+              <path d="M30 14 H37" /><path d="M30 11 v6" /><path d="M37 11 v6" />
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="5.2" fill="#1B0F0C">
+              <text x="56" y="110" text-anchor="middle">≈ 90 mm</text>
+              <text x="99" y="58" text-anchor="middle" transform="rotate(90 99 58)">≈ 130 mm</text>
+              <text x="33.5" y="8" text-anchor="middle">≈15</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The Little Red Book</b> — <span class="cn" lang="zh-Hans">毛主席语录</span>, pocket-format, red plastic-coated cover, title blocked in gold. Sized to a tunic breast pocket. Dimensions approximate; editions and bindings vary.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 120" role="img" aria-label="Schematic of a stamped aluminium Mao badge, with the portrait area replaced by the radiance device">
+            <rect width="120" height="120" fill="#FBF2E4" />
+            <defs><path id="cr-bray" d="M60 58 L55.82 18.22 L64.18 18.22 Z" /></defs>
+            <circle cx="60" cy="58" r="45" fill="#D8CBB4" />
+            <circle cx="60" cy="58" r="45" fill="none" stroke="#9A8B72" stroke-width="1.2" />
+            <circle cx="60" cy="58" r="41" fill="none" stroke="#F5EDDD" stroke-width="1.6" />
+            <use href="#cr-bray" fill="#EDE0CB" transform="rotate(0 60 58)"/> <use href="#cr-bray" fill="#C7B69B" transform="rotate(15 60 58)"/> <use href="#cr-bray" fill="#EDE0CB" transform="rotate(30 60 58)"/> <use href="#cr-bray" fill="#C7B69B" transform="rotate(45 60 58)"/>
+            <use href="#cr-bray" fill="#EDE0CB" transform="rotate(60 60 58)"/> <use href="#cr-bray" fill="#C7B69B" transform="rotate(75 60 58)"/> <use href="#cr-bray" fill="#EDE0CB" transform="rotate(90 60 58)"/> <use href="#cr-bray" fill="#C7B69B" transform="rotate(105 60 58)"/>
+            <use href="#cr-bray" fill="#EDE0CB" transform="rotate(120 60 58)"/> <use href="#cr-bray" fill="#C7B69B" transform="rotate(135 60 58)"/> <use href="#cr-bray" fill="#EDE0CB" transform="rotate(150 60 58)"/> <use href="#cr-bray" fill="#C7B69B" transform="rotate(165 60 58)"/>
+            <use href="#cr-bray" fill="#EDE0CB" transform="rotate(180 60 58)"/> <use href="#cr-bray" fill="#C7B69B" transform="rotate(195 60 58)"/> <use href="#cr-bray" fill="#EDE0CB" transform="rotate(210 60 58)"/> <use href="#cr-bray" fill="#C7B69B" transform="rotate(225 60 58)"/>
+            <use href="#cr-bray" fill="#EDE0CB" transform="rotate(240 60 58)"/> <use href="#cr-bray" fill="#C7B69B" transform="rotate(255 60 58)"/> <use href="#cr-bray" fill="#EDE0CB" transform="rotate(270 60 58)"/> <use href="#cr-bray" fill="#C7B69B" transform="rotate(285 60 58)"/>
+            <use href="#cr-bray" fill="#EDE0CB" transform="rotate(300 60 58)"/> <use href="#cr-bray" fill="#C7B69B" transform="rotate(315 60 58)"/> <use href="#cr-bray" fill="#EDE0CB" transform="rotate(330 60 58)"/> <use href="#cr-bray" fill="#C7B69B" transform="rotate(345 60 58)"/>
+            <circle cx="60" cy="58" r="15" fill="#E7DCC6" stroke="#9A8B72" stroke-width="0.8" />
+            <circle cx="60" cy="58" r="21" fill="none" stroke="#8A7A62" stroke-width="0.7" stroke-dasharray="2.5 2.5" />
+            <path d="M84 92 h26" stroke="#8A7A62" stroke-width="0.6" />
+            <text x="86" y="90" font-family="JetBrains Mono, monospace" font-size="4.6" fill="#5A4C38">portrait area</text>
+            <text x="6" y="114" font-family="JetBrains Mono, monospace" font-size="4.8" fill="#5A4C38">STAMPED ALUMINIUM · RELIEF · PIN BACK · ≈20–50 mm</text>
+          </svg>
+        </div>
+        <figcaption><b>The badge</b> — struck in aluminium, portrait in relief on a sunburst ground. Made not by one design office but by thousands of factories, schools and army units, each striking its own. The face is left as radiance here.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================== THE STYLE GUIDE ============================== -->
+<section class="section styleguide" id="styleguide">
+  <div class="tx-over tx-halftone--coarse sg-halftone" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The style guide</p>
+    <h2 class="section-title" data-reveal>The rules were written down. Here they are.</h2>
+    <p class="prose" data-reveal>
+      Most house styles are inherited by osmosis and defended by taste. This one was published,
+      taught, argued about in the cultural press and enforced by publishing houses. That is what
+      makes the decade uniquely legible to a designer: you can read the specification, hold it
+      against the artefacts, and watch it operate line by line.
+    </p>
+
+    <p class="sg-kicker" data-reveal>I · Named doctrine</p>
+    <div class="rules" data-reveal>
+      <div class="rule">
+        <span class="n">Rule 01</span>
+        <span class="term" lang="zh-Hans">红光亮</span>
+        <span class="py">hóng guāng liàng · "red, bright, shining"</span>
+        <p>Skin ruddy, light even and abundant, surfaces polished. No murk, no dusk, no weather. A grey passage anywhere in the picture is read as a grey position.</p>
+      </div>
+      <div class="rule">
+        <span class="n">Rule 02</span>
+        <span class="term" lang="zh-Hans">高大全</span>
+        <span class="py">gāo dà quán · "tall, big, complete"</span>
+        <p>The hero is physically larger, placed higher, and morally finished on arrival. No development, no doubt, no interior. Character as a fixed quantity, drawn to scale.</p>
+      </div>
+      <div class="rule">
+        <span class="n">Rule 03</span>
+        <span class="term" lang="zh-Hans">三突出</span>
+        <span class="py">sān tū chū · "the three prominences"</span>
+        <ol>
+          <li><span class="cn" lang="zh-Hans">在所有人物中突出正面人物</span><br />Among all characters, give prominence to the positive characters.</li>
+          <li><span class="cn" lang="zh-Hans">在正面人物中突出英雄人物</span><br />Among the positive characters, give prominence to the heroic.</li>
+          <li><span class="cn" lang="zh-Hans">在英雄人物中突出主要英雄人物</span><br />Among the heroic, give prominence to the central heroic figure.</li>
+        </ol>
+      </div>
+    </div>
+
+    <p class="sg-kicker" data-reveal>II · The conventions that followed</p>
+    <div class="rules" data-reveal>
+      <div class="rule">
+        <span class="n">Rule 04</span>
+        <span class="en">The light</span>
+        <span class="py">Frontal, high, unmotivated</span>
+        <p>Heroes are lit from the front so that nothing crosses the face. Negative characters are lit from behind or not at all. Shadow is a moral instrument, not an optical one.</p>
+      </div>
+      <div class="rule">
+        <span class="n">Rule 05</span>
+        <span class="en">The camera</span>
+        <span class="py">Below the hero's chest</span>
+        <p>The viewer looks up. Heroes sit high in the frame and are seen slightly from beneath; negative characters sit lower, smaller, in profile, at the edge.</p>
+      </div>
+      <div class="rule">
+        <span class="n">Rule 06</span>
+        <span class="en">The colour rule</span>
+        <span class="py">Red is allocated, not chosen</span>
+        <p>Red marks the correct side and is never lent to the other one. Enemies are drawn in black, olive, sallow yellow and grey — a palette assigned by verdict.</p>
+      </div>
+      <div class="rule">
+        <span class="n">Rule 07</span>
+        <span class="en">No ambiguity</span>
+        <span class="py">One reading per face</span>
+        <p>Every expression must be legible at ten metres and admit exactly one interpretation. A face that can be read two ways is a production fault, not a subtlety.</p>
+      </div>
+    </div>
+
+    <figure data-reveal style="margin-top:3.2rem">
+      <div class="frame">
+        <span class="tag-recreation">Recreation</span>
+        <svg viewBox="0 0 960 620" role="img" aria-label="Annotated diagram of a Cultural Revolution poster composition, numbered one to eight, showing the central heroic figure on the vertical axis, the radiance behind the head, secondary positive figures flanking, negative characters small and shadowed at the lower edge, a low horizon and an eye level below the hero">
+          <defs>
+            <clipPath id="cr-tpframe"><rect x="40" y="40" width="580" height="520" /></clipPath>
+            <radialGradient id="cr-tpglow">
+              <stop offset="0" stop-color="#FFF7E2" stop-opacity="1" />
+              <stop offset="0.55" stop-color="#F7C93C" stop-opacity="0.85" />
+              <stop offset="1" stop-color="#F2B705" stop-opacity="0" />
+            </radialGradient>
+            <marker id="cr-arrowg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0 0 L10 5 L0 10 z" fill="#B98505" />
+            </marker>
+            <path id="cr-tpray" d="M330 118 L249.07 -496.70 L410.93 -496.70 Z" />
+          </defs>
+          <rect width="960" height="620" fill="#F7E9D8" />
+
+          <g clip-path="url(#cr-tpframe)">
+            <rect x="40" y="40" width="580" height="390" fill="#A9C7DA" />
+            <use href="#cr-tpray" fill="#F0B406" transform="rotate(0 330 118)"/> <use href="#cr-tpray" fill="#F8D355" transform="rotate(15 330 118)"/> <use href="#cr-tpray" fill="#F0B406" transform="rotate(30 330 118)"/> <use href="#cr-tpray" fill="#F8D355" transform="rotate(45 330 118)"/>
+            <use href="#cr-tpray" fill="#F0B406" transform="rotate(60 330 118)"/> <use href="#cr-tpray" fill="#F8D355" transform="rotate(75 330 118)"/> <use href="#cr-tpray" fill="#F0B406" transform="rotate(90 330 118)"/> <use href="#cr-tpray" fill="#F8D355" transform="rotate(105 330 118)"/>
+            <use href="#cr-tpray" fill="#F0B406" transform="rotate(120 330 118)"/> <use href="#cr-tpray" fill="#F8D355" transform="rotate(135 330 118)"/> <use href="#cr-tpray" fill="#F0B406" transform="rotate(150 330 118)"/> <use href="#cr-tpray" fill="#F8D355" transform="rotate(165 330 118)"/>
+            <use href="#cr-tpray" fill="#F0B406" transform="rotate(180 330 118)"/> <use href="#cr-tpray" fill="#F8D355" transform="rotate(195 330 118)"/> <use href="#cr-tpray" fill="#F0B406" transform="rotate(210 330 118)"/> <use href="#cr-tpray" fill="#F8D355" transform="rotate(225 330 118)"/>
+            <use href="#cr-tpray" fill="#F0B406" transform="rotate(240 330 118)"/> <use href="#cr-tpray" fill="#F8D355" transform="rotate(255 330 118)"/> <use href="#cr-tpray" fill="#F0B406" transform="rotate(270 330 118)"/> <use href="#cr-tpray" fill="#F8D355" transform="rotate(285 330 118)"/>
+            <use href="#cr-tpray" fill="#F0B406" transform="rotate(300 330 118)"/> <use href="#cr-tpray" fill="#F8D355" transform="rotate(315 330 118)"/> <use href="#cr-tpray" fill="#F0B406" transform="rotate(330 330 118)"/> <use href="#cr-tpray" fill="#F8D355" transform="rotate(345 330 118)"/>
+            <circle cx="330" cy="118" r="150" fill="url(#cr-tpglow)" />
+            <circle cx="330" cy="118" r="54" fill="#FFF8E6" />
+            <circle cx="330" cy="118" r="62" fill="none" stroke="#FFF8E6" stroke-width="3" opacity="0.6" />
+            <rect x="40" y="430" width="580" height="130" fill="#C08A55" />
+            <rect x="40" y="430" width="580" height="9" fill="#9E6C3C" />
+
+            <!-- frame divisions -->
+            <g stroke="#1B0F0C" stroke-width="1" stroke-dasharray="5 5" opacity="0.34">
+              <path d="M233 40 V560 M427 40 V560 M40 213 H620 M40 387 H620" />
+            </g>
+            <path d="M330 40 V560" stroke="#E02418" stroke-width="1.4" stroke-dasharray="9 6" opacity="0.85" />
+
+            <!-- secondary positives -->
+            <g fill="#C4562E">
+              <use href="#cr-fig" transform="translate(165.5 266) scale(0.85)" />
+              <use href="#cr-fig" transform="translate(409.5 266) scale(0.85)" />
+            </g>
+            <!-- negative characters -->
+            <g fill="#43352F">
+              <use href="#cr-fig" transform="translate(526 402) scale(0.44) rotate(15 50 240)" />
+              <use href="#cr-fig" transform="translate(564 404) scale(0.42) rotate(21 50 240)" />
+            </g>
+            <!-- central heroic figure -->
+            <g fill="#E02418">
+              <use href="#cr-fig-b" transform="translate(267.5 170) scale(1.25)" />
+            </g>
+            <g transform="rotate(-12 385 162)">
+              <rect x="368" y="140" width="34" height="44" fill="#C4140A" />
+              <rect x="368" y="140" width="6" height="44" fill="#F2B705" />
+            </g>
+
+            <!-- light direction -->
+            <path d="M70 122 L286 216" stroke="#B98505" stroke-width="2.2" stroke-dasharray="8 5" marker-end="url(#cr-arrowg)" />
+            <!-- eye level -->
+            <path d="M40 530 H620" stroke="#1B0F0C" stroke-width="1.4" stroke-dasharray="3 4" opacity="0.75" />
+          </g>
+          <rect x="40" y="40" width="580" height="520" fill="none" stroke="#1B0F0C" stroke-width="2" />
+
+          <g font-family="JetBrains Mono, monospace" font-size="9.5" fill="#1B0F0C">
+            <text x="76" y="115">LIGHT</text>
+            <text x="46" y="524">EYE LEVEL</text>
+            <text x="46" y="426">HORIZON</text>
+          </g>
+
+          <!-- numbered callouts on the composition -->
+          <g font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" text-anchor="middle">
+            <g fill="#1B0F0C"><circle cx="378" cy="322" r="13" /><circle cx="436" cy="200" r="13" /><circle cx="276" cy="220" r="13" /><circle cx="330" cy="66" r="13" /><circle cx="188" cy="330" r="13" /><circle cx="588" cy="378" r="13" /><circle cx="88" cy="440" r="13" /><circle cx="120" cy="544" r="13" /></g>
+            <g fill="#F7E9D8">
+              <text x="378" y="326">1</text><text x="436" y="204">2</text><text x="276" y="224">3</text><text x="330" y="70">4</text>
+              <text x="188" y="334">5</text><text x="588" y="382">6</text><text x="88" y="444">7</text><text x="120" y="548">8</text>
+            </g>
+          </g>
+
+          <!-- key -->
+          <g font-family="JetBrains Mono, monospace">
+            <g fill="#1B0F0C"><circle cx="660" cy="58" r="11" /><circle cx="660" cy="128" r="11" /><circle cx="660" cy="198" r="11" /><circle cx="660" cy="268" r="11" /><circle cx="660" cy="338" r="11" /><circle cx="660" cy="408" r="11" /><circle cx="660" cy="478" r="11" /><circle cx="660" cy="548" r="11" /></g>
+            <g fill="#F7E9D8" font-size="10" font-weight="700" text-anchor="middle">
+              <text x="660" y="62">1</text><text x="660" y="132">2</text><text x="660" y="202">3</text><text x="660" y="272">4</text>
+              <text x="660" y="342">5</text><text x="660" y="412">6</text><text x="660" y="482">7</text><text x="660" y="552">8</text>
+            </g>
+            <g fill="#1B0F0C" font-size="10.5" font-weight="700">
+              <text x="684" y="52">CENTRAL HEROIC FIGURE</text>
+              <text x="684" y="122">HEAD ABOVE THE UPPER THIRD</text>
+              <text x="684" y="192">FRONTAL LIGHT</text>
+              <text x="684" y="262">NIMBUS</text>
+              <text x="684" y="332">SECONDARY POSITIVES</text>
+              <text x="684" y="402">NEGATIVE CHARACTERS</text>
+              <text x="684" y="472">LOW HORIZON</text>
+              <text x="684" y="542">EYE LEVEL BELOW THE HERO</text>
+            </g>
+            <g fill="#5A4C38" font-size="9.4">
+              <text x="684" y="68">On the vertical axis, tallest in frame,<tspan x="684" dy="12">relative height 1.00. Third prominence.</tspan></text>
+              <text x="684" y="138">Nothing else in the picture is permitted<tspan x="684" dy="12">to reach it.</tspan></text>
+              <text x="684" y="208">No modelling shadow crosses the face.<tspan x="684" dy="12"><tspan font-family="Noto Serif SC, serif" lang="zh-Hans">红光亮</tspan> — red, bright, shining.</tspan></text>
+              <text x="684" y="278">The sun sits behind the head. A second,<tspan x="684" dy="12">contradictory light, kept anyway.</tspan></text>
+              <text x="684" y="348">Smaller (0.68), flanking, turned inward.<tspan x="684" dy="12">First and second prominence.</tspan></text>
+              <text x="684" y="418">Lower, smaller (0.42), in profile, in<tspan x="684" dy="12">shadow, pushed to the frame edge.</tspan></text>
+              <text x="684" y="488">Held in the bottom quarter so the figures<tspan x="684" dy="12">read against open sky.</tspan></text>
+              <text x="684" y="558">The viewer looks up.<tspan x="684" dy="12"><tspan font-family="Noto Serif SC, serif" lang="zh-Hans">高大全</tspan> — tall, big, complete.</tspan></text>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <figcaption><b>The three prominences, drawn</b> — the doctrine applied to a single composition. Note callouts 3 and 4: the sun is behind the head and the face is lit from the front, which is optically impossible and completely standard. The two light sources are kept because each is doing a different job — one supplies authority, the other supplies visibility. Where the face would be, this page substitutes the radiance device.
+        <span class="credit">Composition diagram · drawn in SVG</span></figcaption>
+    </figure>
+
+    <p class="note" data-reveal style="margin-top:2.4rem;max-width:46rem">
+      Provenance of the rules: <span class="cn" lang="zh-Hans">三突出</span> was set out by the composer and
+      cultural official Yu Huiyong in <cite>Wenhui Bao</cite> in May 1968, in the context of Jiang Qing's
+      model works, and was subsequently tightened and promoted by Yao Wenyuan.
+      <span class="cn" lang="zh-Hans">红光亮</span> and <span class="cn" lang="zh-Hans">高大全</span>
+      circulated as shorthand — part description, part instruction — and were turned into terms of
+      abuse after 1976. The conventions in section II are drawn from what the surviving posters
+      consistently do, not from a single published document.
+    </p>
+  </div>
+</section>
+
+<!-- ============================== ESSAY ============================== -->
+<section class="section essay" id="essay">
+  <div class="wrap">
+    <div class="two-col">
+      <div>
+        <p class="eyebrow" data-reveal>How it worked</p>
+        <div class="prose" data-reveal>
+          <p>
+            Design monoculture is usually a figure of speech. Between 1966 and 1976 it was an
+            administrative fact. The same red, the same contour, the same three-quarter frontal
+            hero and the same radiant device appeared on posters, stamps, ticket stubs, enamel
+            mugs, opera flats, textbook covers, factory gates and the fronts of buses, from
+            Harbin to Kunming.
+          </p>
+          <p>
+            What makes the decade useful to a designer, rather than merely appalling, is that it
+            left a paper trail. Somebody wrote the rules; somebody taught them; somebody enforced
+            them at the publishing house. You can read the brief.
+          </p>
+        </div>
+
+        <h3 data-reveal>1964 · <span>A book designed to be held up</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            <cite lang="zh-Hans">毛主席语录</cite> — <cite>Quotations from Chairman Mao Tse-tung</cite> —
+            was compiled from the <cite>PLA Daily</cite> and issued to soldiers in 1964 by the army's
+            General Political Department under Lin Biao. It reached general circulation in 1966 and
+            then went into print runs counted in the hundreds of millions.
+          </p>
+          <p>
+            Read it as a product specification. Pocket format, sized to a tunic breast pocket. A
+            red plastic-coated cover chosen because it survives rain, mud, sweat and a decade of
+            being carried. Title blocked in gold. A few hundred short extracts, none longer than a
+            paragraph, sorted into thirty-odd thematic chapters so that any situation could be met
+            with a quotation in seconds.
+          </p>
+          <p>
+            Every one of those is a durability decision or a retrieval decision. None of them is a
+            reading decision. The book's dominant use was display — raised in the right hand, spine
+            outward, at head height — and in that position the object stops being a book. It becomes
+            a red rectangle about ninety millimetres wide, and a crowd holding it is not a crowd of
+            readers but a repeating module, tiled across a photograph.
+          </p>
+          <p>
+            That is a genuinely unusual brief, and it was solved well. This may be the only
+            mass-produced book of the twentieth century whose governing constraint was how it
+            photographs in someone else's hand.
+          </p>
+        </div>
+
+        <h3 data-reveal>1966 · <span>The wall becomes a press</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            On 25 May 1966 Nie Yuanzi, a philosophy lecturer at Peking University, and six
+            colleagues pasted up a <span class="cn" lang="zh-Hans">大字报</span> —
+            a <em>dazibao</em>, a big-character poster — attacking the university's administration.
+            Mao had it broadcast nationally on 1 June and printed in the <cite>People's Daily</cite>.
+            On 5 August he wrote one himself: <cite lang="zh-Hans">炮打司令部</cite>, "Bombard the
+            Headquarters".
+          </p>
+          <p>
+            As a medium the dazibao is close to perfect. Materials: ink, a brush, sheets of cheap
+            paper, flour paste, a wall. Skills: the handwriting you already have. Production time:
+            minutes. Capital cost: none. There is no press to seize, no plate to confiscate, no
+            editor to arrest and no distribution to interdict, because you are the distribution and
+            the wall is the front page. In an atlas full of movements improvising around a state's
+            monopoly on printing, this is the purest zero-cost publishing medium in the book.
+          </p>
+          <p>
+            And it was, immediately and at enormous scale, the instrument of the persecution. The
+            openness that makes the medium ungovernable is the same property that makes it
+            unaccountable. A poster naming your neighbour, your teacher or your father as a class
+            enemy cost the writer nothing, could not be corrected, and was read by everyone who
+            walked past. Denunciation had found a format with no editorial layer and no cost of
+            entry. Walls filled; people were beaten, dismissed, imprisoned, driven to suicide.
+          </p>
+          <p>
+            Both halves are true, and they are the same property described twice. The right to
+            write dazibao was written into the 1975 constitution as one of the "four big rights",
+            used again at the Xidan wall in 1978–79, and deleted by constitutional amendment in
+            1980. A state removed a right to publish because publishing had turned out to be
+            uncontrollable — which is, viewed from the other side, the strongest available
+            testimonial for the medium.
+          </p>
+        </div>
+
+        <blockquote class="pull" data-reveal>
+          Uniformity here was not a side effect of the system. It was the specification.
+        </blockquote>
+
+        <h3 data-reveal>1969 · <span>The sun, billed in aluminium</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            <span class="cn" lang="zh-Hans">红太阳</span> — the red sun. The device is simple: a
+            radiant disc or a nimbus of rays positioned behind and above the head, the landscape
+            pushed to the bottom of the frame, and the crowd arranged below in symmetrical
+            adoration, looking up.
+          </p>
+          <p>
+            Every element of that is borrowed from devotional painting, and not loosely. The nimbus
+            is a halo. The upward gaze is the posture of a donor figure. The symmetrical massing of
+            followers is an altarpiece. The low viewpoint is the angle at which you see something
+            mounted above an altar. Soviet poster art had already done this arithmetic — the sun
+            and the radiating beam had been standing behind Stalin for two decades — but the Chinese
+            version pushed it further, until the rays became the picture and the landscape was
+            simply a surface for them to land on.
+          </p>
+          <p>
+            Then the identity programme escaped into hardware. Mao badges — stamped aluminium,
+            portrait in relief on a sunburst ground, pin back, commonly two to five centimetres
+            across, occasionally far larger — were produced from 1966 in quantities usually
+            estimated in the billions. They were not centrally art-directed. Factories, schools,
+            army units and work units designed and struck their own, competing on size, finish and
+            invention, and thousands of variants survive. A totalitarian identity system produced
+            its most prolific artefact through uncoordinated local manufacture, which is a strange
+            sentence to be able to write.
+          </p>
+          <p>
+            It ended for a material reason. Aluminium is aircraft metal. By 1969 the badge programme
+            was consuming enough of it to matter to the aviation industry; production was curtailed
+            and badges were called back in, under an instruction popularly reported in the form
+            "give me back my aeroplanes". An identity programme that has to be stopped because it is
+            eating a strategic material is, whatever else it is, a measurable one.
+          </p>
+        </div>
+
+        <h3 data-reveal>1966–1976 · <span>Authorship abolished</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            Cultural Revolution posters were largely made by studio collectives and published
+            without individual credit — <span class="cn" lang="zh-Hans">集体创作</span>, "collective
+            creation" — through state houses such as the People's Fine Arts Publishing House in
+            Beijing and its Shanghai counterpart, in editions running to millions of sheets, and
+            distributed to workplaces, schools, barracks and homes. Amateur art groups in factories
+            and communes were trained to reproduce the approved manner, with model works circulated
+            as templates.
+          </p>
+          <p>
+            Consider what that does to a visual culture. Consistency becomes extraordinary. Iteration
+            on an approved motif is fast, because nobody is protecting a personal style. Craft is
+            real — these are competently drawn, well-registered, confidently coloured sheets, made
+            by people who could draw.
+          </p>
+          <p>
+            What disappears is the channel through which dissent normally enters a visual culture,
+            which is form. An artist who disagrees but cannot say so can still say it in the
+            handling: a hesitation in the contour, a colour that sits wrong, a composition that
+            refuses to resolve. Abolish authorship and you abolish that channel. There is no
+            signature to be inconsistent with, no body of work to be in tension with, no personal
+            manner failing to be suppressed. The style has no seams to work in.
+          </p>
+          <p>
+            That, and not the sheet count, is what makes this the most complete design monoculture
+            in the atlas.
+          </p>
+        </div>
+
+        <h3 data-reveal>1976 · <span>The style outlives the politics</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            Mao died on 9 September 1976; the Gang of Four were arrested on 6 October. Within a few
+            years the aesthetic was officially repudiated, and
+            <span class="cn" lang="zh-Hans">红光亮</span> and <span class="cn" lang="zh-Hans">高大全</span>
+            became terms of abuse — shorthand for pictures that had been told what to look like.
+          </p>
+          <p>
+            Then it came back as material. From around 1990 Wang Guangyi's
+            <cite lang="zh-Hans">大批判</cite> (<cite>Great Criticism</cite>) series set worker,
+            peasant and soldier figures drawn exactly to the old rules against the logotypes of
+            Coca-Cola, Marlboro and Chanel — two identity systems that both believe in flat colour,
+            heavy contour and total confidence, printed on top of each other. The critic Li Xianting
+            named the tendency Political Pop; its companion, Cynical Realism, swapped the compulsory
+            radiant expression for a compulsory grin.
+          </p>
+          <p>
+            Beneath that, a trade: reproduction posters, badges and books printed for tourist
+            markets, and beyond it the drift of the whole language into a look — sunburst, raised
+            fist, banner, hand-drawn slab — available for a gig poster, a hot-sauce label, or a
+            political campaign that has never heard of Yu Huiyong.
+          </p>
+          <p>
+            This atlas keeps arriving at the same place. Cuban silkscreen became a t-shirt.
+            Constructivism became a template. This became a filter. A style detached from its
+            history is not neutral; it is a style whose one surviving argument is that history
+            detaches. Worth naming here, because these rules were not decoration. They were written
+            to make a certain kind of picture impossible, and they worked.
+          </p>
+        </div>
+      </div>
+
+      <aside class="marginalia" data-reveal>
+        <p><b>1964</b> <span lang="zh-Hans">毛主席语录</span> issued to the PLA by the General Political Department.</p>
+        <p><b>May 1966</b> Nie Yuanzi's dazibao at Peking University; broadcast nationally on 1 June.</p>
+        <p><b>Aug 1966</b> Mao's own big-character poster, <span lang="zh-Hans">炮打司令部</span> — "Bombard the Headquarters".</p>
+        <p><b>1966–68</b> Red Guard factions; temples, libraries, instruments and private collections destroyed under <span lang="zh-Hans">破四旧</span>, "smash the four olds".</p>
+        <p><b>1967</b> Jiang Qing's model works consolidated. The aesthetic hardens into doctrine.</p>
+        <p><b>May 1968</b> Yu Huiyong publishes <span lang="zh-Hans">三突出</span> in <cite>Wenhui Bao</cite>.</p>
+        <p><b>1966–71</b> Mao badges struck in the billions; production curtailed as aluminium is reclaimed for aircraft.</p>
+        <p><b>1975</b> The right to write dazibao is written into the constitution.</p>
+        <p><b>Sept 1976</b> Mao dies. October: the Gang of Four are arrested.</p>
+        <p><b>1980</b> The dazibao clause is deleted by amendment.</p>
+        <p><b>1990</b> Wang Guangyi begins <span lang="zh-Hans">大批判</span> — <cite>Great Criticism</cite>.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<div class="rays" aria-hidden="true"></div>
+
+<!-- ============================== ARTIFACTS ============================== -->
+<section class="section artifacts" id="artifacts">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Artifacts</p>
+    <h2 class="section-title" data-reveal>One sheet, one wall, one repeated rectangle</h2>
+
+    <div class="artgrid" data-reveal>
+
+      <figure class="art-poster">
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 600 840" role="img" aria-label="Recreation of a Cultural Revolution poster: a red and gold sunburst filling the sky, a low horizon, massed figures holding books and banners along the bottom, and a Chinese slogan band across the foot">
+            <defs>
+              <linearGradient id="cr-psky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#7FAAC6" />
+                <stop offset="0.55" stop-color="#BCD4E2" />
+                <stop offset="1" stop-color="#F2D9A8" />
+              </linearGradient>
+              <radialGradient id="cr-pglow">
+                <stop offset="0" stop-color="#FFF7E2" stop-opacity="1" />
+                <stop offset="0.5" stop-color="#F7C93C" stop-opacity="0.9" />
+                <stop offset="1" stop-color="#F2B705" stop-opacity="0" />
+              </radialGradient>
+              <clipPath id="cr-pclip"><rect width="600" height="786" /></clipPath>
+              <path id="cr-pray" d="M300 180 L166.24 -1012.52 L433.76 -1012.52 Z" />
+            </defs>
+            <rect width="600" height="840" fill="#F2E4CE" />
+            <g clip-path="url(#cr-pclip)">
+              <rect width="600" height="600" fill="url(#cr-psky)" />
+              <g opacity="0.95">
+<use href="#cr-pray" fill="#E02418" transform="rotate(0 300 180)"/> <use href="#cr-pray" fill="#F2B705" transform="rotate(12.86 300 180)"/> <use href="#cr-pray" fill="#E02418" transform="rotate(25.71 300 180)"/>
+            <use href="#cr-pray" fill="#F2B705" transform="rotate(38.57 300 180)"/> <use href="#cr-pray" fill="#E02418" transform="rotate(51.43 300 180)"/> <use href="#cr-pray" fill="#F2B705" transform="rotate(64.29 300 180)"/>
+            <use href="#cr-pray" fill="#E02418" transform="rotate(77.14 300 180)"/> <use href="#cr-pray" fill="#F2B705" transform="rotate(90 300 180)"/> <use href="#cr-pray" fill="#E02418" transform="rotate(102.9 300 180)"/>
+            <use href="#cr-pray" fill="#F2B705" transform="rotate(115.7 300 180)"/> <use href="#cr-pray" fill="#E02418" transform="rotate(128.6 300 180)"/> <use href="#cr-pray" fill="#F2B705" transform="rotate(141.4 300 180)"/>
+            <use href="#cr-pray" fill="#E02418" transform="rotate(154.3 300 180)"/> <use href="#cr-pray" fill="#F2B705" transform="rotate(167.1 300 180)"/> <use href="#cr-pray" fill="#E02418" transform="rotate(180 300 180)"/>
+            <use href="#cr-pray" fill="#F2B705" transform="rotate(192.9 300 180)"/> <use href="#cr-pray" fill="#E02418" transform="rotate(205.7 300 180)"/> <use href="#cr-pray" fill="#F2B705" transform="rotate(218.6 300 180)"/>
+            <use href="#cr-pray" fill="#E02418" transform="rotate(231.4 300 180)"/> <use href="#cr-pray" fill="#F2B705" transform="rotate(244.3 300 180)"/> <use href="#cr-pray" fill="#E02418" transform="rotate(257.1 300 180)"/>
+            <use href="#cr-pray" fill="#F2B705" transform="rotate(270 300 180)"/> <use href="#cr-pray" fill="#E02418" transform="rotate(282.9 300 180)"/> <use href="#cr-pray" fill="#F2B705" transform="rotate(295.7 300 180)"/>
+            <use href="#cr-pray" fill="#E02418" transform="rotate(308.6 300 180)"/> <use href="#cr-pray" fill="#F2B705" transform="rotate(321.4 300 180)"/> <use href="#cr-pray" fill="#E02418" transform="rotate(334.3 300 180)"/>
+            <use href="#cr-pray" fill="#F2B705" transform="rotate(347.1 300 180)"/>
+              </g>
+              <circle cx="300" cy="180" r="210" fill="url(#cr-pglow)" />
+              <circle cx="300" cy="180" r="66" fill="#FFF8E6" />
+              <circle cx="300" cy="180" r="76" fill="none" stroke="#FFF8E6" stroke-width="3.5" opacity="0.6" />
+              <path d="M0 560 C160 550, 420 574, 600 548 L600 800 L0 800 Z" fill="#B0421F" />
+              <path d="M0 598 C180 588, 430 610, 600 584 L600 800 L0 800 Z" fill="#8E2B12" opacity="0.55" />
+            <g><rect x="96" y="452" width="2.4" height="168" fill="#3A1008"/><path d="M98.4 452 h62 l-17.36 26.04 h-44.64 z" fill="#E02418"/></g>
+            <g><rect x="398" y="436" width="2.4" height="180" fill="#3A1008"/><path d="M400.4 436 h66 l-18.48 27.72 h-47.52 z" fill="#E02418"/></g>
+            <g><rect x="512" y="470" width="2.4" height="152" fill="#3A1008"/><path d="M514.4 470 h54 l-15.12 22.68 h-38.88 z" fill="#F2B705"/></g>
+            <g fill="#C4623B">
+              <use href="#cr-fig" transform="translate(-22.8 570.4) scale(0.171)"/> <use href="#cr-fig" transform="translate(15.6 568.6) scale(0.173)"/> <use href="#cr-fig" transform="translate(38.5 568.0) scale(0.179)"/> <use href="#cr-fig" transform="translate(74.5 567.8) scale(0.183)"/> <use href="#cr-fig" transform="translate(117.4 571.9) scale(0.169)"/>
+              <use href="#cr-fig" transform="translate(138.9 571.8) scale(0.174)"/> <use href="#cr-fig" transform="translate(177.3 570.3) scale(0.177)"/> <use href="#cr-fig" transform="translate(202.6 569.9) scale(0.177)"/> <use href="#cr-fig" transform="translate(240.0 575.7) scale(0.157)"/> <use href="#cr-fig" transform="translate(274.5 571.3) scale(0.176)"/>
+              <use href="#cr-fig" transform="translate(310.7 568.0) scale(0.181)"/> <use href="#cr-fig" transform="translate(345.3 573.3) scale(0.168)"/> <use href="#cr-fig" transform="translate(379.7 572.4) scale(0.159)"/> <use href="#cr-fig" transform="translate(400.5 567.9) scale(0.183)"/> <use href="#cr-fig" transform="translate(440.6 572.5) scale(0.165)"/>
+              <use href="#cr-fig" transform="translate(469.4 572.5) scale(0.166)"/> <use href="#cr-fig" transform="translate(504.4 569.3) scale(0.181)"/> <use href="#cr-fig" transform="translate(542.6 570.8) scale(0.180)"/> <use href="#cr-fig" transform="translate(572.1 574.8) scale(0.161)"/> <use href="#cr-fig" transform="translate(608.4 568.8) scale(0.181)"/>
+            </g>
+            <g fill="#8E2C16">
+              <use href="#cr-fig-b" transform="translate(-20.3 586.9) scale(0.260)"/> <use href="#cr-fig-b" transform="translate(26.2 582.1) scale(0.267)"/> <use href="#cr-fig-b" transform="translate(68.5 582.6) scale(0.266)"/> <use href="#cr-fig-b" transform="translate(111.2 585.3) scale(0.253)"/>
+              <use href="#cr-fig-b" transform="translate(163.3 584.1) scale(0.261)"/> <use href="#cr-fig-b" transform="translate(190.7 585.4) scale(0.255)"/> <use href="#cr-fig-b" transform="translate(237.4 592.7) scale(0.239)"/> <use href="#cr-fig-b" transform="translate(281.9 583.7) scale(0.268)"/>
+              <use href="#cr-fig-b" transform="translate(324.4 584.5) scale(0.268)"/> <use href="#cr-fig-b" transform="translate(385.1 589.4) scale(0.242)"/> <use href="#cr-fig-b" transform="translate(411.2 590.3) scale(0.242)"/> <use href="#cr-fig-b" transform="translate(461.5 591.1) scale(0.242)"/>
+              <use href="#cr-fig-b" transform="translate(508.1 584.3) scale(0.258)"/> <use href="#cr-fig-b" transform="translate(542.2 587.0) scale(0.260)"/> <use href="#cr-fig-b" transform="translate(594.4 585.3) scale(0.253)"/>
+            </g>
+            <g>
+              <rect x="47.6" y="575.1" width="6.9" height="9.1" fill="#E8452F" transform="rotate(12.4 51.0 579.7)"/> <rect x="89.8" y="575.7" width="6.9" height="9.0" fill="#E8452F" transform="rotate(-7.1 93.3 580.2)"/> <rect x="131.4" y="578.8" width="6.6" height="8.6" fill="#E8452F" transform="rotate(-6.2 134.7 583.1)"/> <rect x="211.1" y="578.8" width="6.6" height="8.7" fill="#E8452F" transform="rotate(10.4 214.4 583.1)"/>
+              <rect x="404.5" y="583.1" width="6.3" height="8.2" fill="#E8452F" transform="rotate(-9.9 407.6 587.2)"/> <rect x="430.6" y="584.0" width="6.3" height="8.2" fill="#E8452F" transform="rotate(5.0 433.7 588.1)"/> <rect x="480.8" y="584.8" width="6.3" height="8.2" fill="#E8452F" transform="rotate(-5.2 484.0 588.9)"/> <rect x="563.0" y="580.2" width="6.8" height="8.8" fill="#E8452F" transform="rotate(8.1 566.4 584.6)"/>
+              <rect x="614.7" y="578.7" width="6.6" height="8.6" fill="#E8452F" transform="rotate(-8.9 617.9 583.0)"/>
+            </g>
+            <g fill="#5A0E05">
+              <use href="#cr-fig" transform="translate(-48.2 596.0) scale(0.460)"/> <use href="#cr-fig" transform="translate(38.1 604.1) scale(0.433)"/> <use href="#cr-fig" transform="translate(110.8 603.0) scale(0.438)"/>
+              <use href="#cr-fig" transform="translate(174.0 603.0) scale(0.435)"/> <use href="#cr-fig" transform="translate(247.2 597.0) scale(0.466)"/> <use href="#cr-fig" transform="translate(302.5 598.4) scale(0.450)"/>
+              <use href="#cr-fig" transform="translate(383.1 587.9) scale(0.502)"/> <use href="#cr-fig" transform="translate(465.7 598.3) scale(0.461)"/> <use href="#cr-fig" transform="translate(516.5 599.7) scale(0.454)"/>
+              <use href="#cr-fig" transform="translate(608.0 595.0) scale(0.464)"/>
+            </g>
+            </g>
+            <rect y="700" width="600" height="82" fill="#C4140A" />
+            <rect y="700" width="600" height="3.5" fill="#F2B705" />
+            <rect y="778.5" width="600" height="3.5" fill="#F2B705" />
+            <text x="300" y="757" text-anchor="middle" lang="zh-Hans" font-family="ZCOOL KuaiLe, sans-serif" font-size="42" fill="#F2B705">毛主席是我们心中的红太阳</text>
+            <rect y="786" width="600" height="54" fill="#F2E4CE" />
+            <text x="22" y="808" font-family="JetBrains Mono, monospace" font-size="15" fill="#4A3E2C"><tspan lang="zh-Hans">印数</tspan> 2 000 000 · <tspan lang="zh-Hans">定价</tspan> ¥0.15 · 1969</text>
+            <text x="22" y="828" font-family="JetBrains Mono, monospace" font-size="11" fill="#94836B">IMPRINT FORMAT SHOWN — FIGURES NOT TRANSCRIBED</text>
+          </svg>
+          <div class="tx-over tx-halftone--coarse" style="color:#8A1208" aria-hidden="true"></div>
+        </div>
+        <figcaption><b>Poster, <span class="cn" lang="zh-Hans">红光亮</span> palette</b> — sunburst, low horizon, bottom-heavy massed figures, slogan band across the foot: <span class="cn" lang="zh-Hans">毛主席是我们心中的红太阳</span>, "Chairman Mao is the red sun in our hearts". The disc at the centre of the radiance is where the portrait sits on a real sheet; it is left as pure light here. Note the foot of the sheet — real posters carried publisher, print run (<span class="cn" lang="zh-Hans">印数</span>) and price (<span class="cn" lang="zh-Hans">定价</span>) in small type. A state product with a spec line.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 860 540" role="img" aria-label="Recreation of a dazibao wall: overlapping paper sheets pasted at slight angles onto brickwork, with brush headings, vertical columns of writing, red annotation marks and a figure standing at the right for scale">
+            <rect width="860" height="540" fill="#C9BEA9" />
+            <g stroke="#B4A88F" stroke-width="0.8" fill="none" opacity="0.85"><path d="M0 0 H860"/><path d="M-124 0 v30"/><path d="M0 0 v30"/><path d="M124 0 v30"/><path d="M248 0 v30"/><path d="M372 0 v30"/><path d="M496 0 v30"/><path d="M620 0 v30"/><path d="M744 0 v30"/><path d="M868 0 v30"/><path d="M0 30 H860"/><path d="M-62 30 v30"/><path d="M62 30 v30"/><path d="M186 30 v30"/><path d="M310 30 v30"/><path d="M434 30 v30"/><path d="M558 30 v30"/><path d="M682 30 v30"/><path d="M806 30 v30"/><path d="M930 30 v30"/><path d="M0 60 H860"/><path d="M-124 60 v30"/><path d="M0 60 v30"/><path d="M124 60 v30"/><path d="M248 60 v30"/><path d="M372 60 v30"/><path d="M496 60 v30"/><path d="M620 60 v30"/><path d="M744 60 v30"/><path d="M868 60 v30"/><path d="M0 90 H860"/><path d="M-62 90 v30"/><path d="M62 90 v30"/><path d="M186 90 v30"/><path d="M310 90 v30"/><path d="M434 90 v30"/><path d="M558 90 v30"/><path d="M682 90 v30"/><path d="M806 90 v30"/><path d="M930 90 v30"/><path d="M0 120 H860"/><path d="M-124 120 v30"/><path d="M0 120 v30"/><path d="M124 120 v30"/><path d="M248 120 v30"/><path d="M372 120 v30"/><path d="M496 120 v30"/><path d="M620 120 v30"/><path d="M744 120 v30"/><path d="M868 120 v30"/><path d="M0 150 H860"/><path d="M-62 150 v30"/><path d="M62 150 v30"/><path d="M186 150 v30"/><path d="M310 150 v30"/><path d="M434 150 v30"/><path d="M558 150 v30"/><path d="M682 150 v30"/><path d="M806 150 v30"/><path d="M930 150 v30"/><path d="M0 180 H860"/><path d="M-124 180 v30"/><path d="M0 180 v30"/><path d="M124 180 v30"/><path d="M248 180 v30"/><path d="M372 180 v30"/><path d="M496 180 v30"/><path d="M620 180 v30"/><path d="M744 180 v30"/><path d="M868 180 v30"/><path d="M0 210 H860"/><path d="M-62 210 v30"/><path d="M62 210 v30"/><path d="M186 210 v30"/><path d="M310 210 v30"/><path d="M434 210 v30"/><path d="M558 210 v30"/><path d="M682 210 v30"/><path d="M806 210 v30"/><path d="M930 210 v30"/><path d="M0 240 H860"/><path d="M-124 240 v30"/><path d="M0 240 v30"/><path d="M124 240 v30"/><path d="M248 240 v30"/><path d="M372 240 v30"/><path d="M496 240 v30"/><path d="M620 240 v30"/><path d="M744 240 v30"/><path d="M868 240 v30"/><path d="M0 270 H860"/><path d="M-62 270 v30"/><path d="M62 270 v30"/><path d="M186 270 v30"/><path d="M310 270 v30"/><path d="M434 270 v30"/><path d="M558 270 v30"/><path d="M682 270 v30"/><path d="M806 270 v30"/><path d="M930 270 v30"/><path d="M0 300 H860"/><path d="M-124 300 v30"/><path d="M0 300 v30"/><path d="M124 300 v30"/><path d="M248 300 v30"/><path d="M372 300 v30"/><path d="M496 300 v30"/><path d="M620 300 v30"/><path d="M744 300 v30"/><path d="M868 300 v30"/><path d="M0 330 H860"/><path d="M-62 330 v30"/><path d="M62 330 v30"/><path d="M186 330 v30"/><path d="M310 330 v30"/><path d="M434 330 v30"/><path d="M558 330 v30"/><path d="M682 330 v30"/><path d="M806 330 v30"/><path d="M930 330 v30"/><path d="M0 360 H860"/><path d="M-124 360 v30"/><path d="M0 360 v30"/><path d="M124 360 v30"/><path d="M248 360 v30"/><path d="M372 360 v30"/><path d="M496 360 v30"/><path d="M620 360 v30"/><path d="M744 360 v30"/><path d="M868 360 v30"/><path d="M0 390 H860"/><path d="M-62 390 v30"/><path d="M62 390 v30"/><path d="M186 390 v30"/><path d="M310 390 v30"/><path d="M434 390 v30"/><path d="M558 390 v30"/><path d="M682 390 v30"/><path d="M806 390 v30"/><path d="M930 390 v30"/><path d="M0 420 H860"/><path d="M-124 420 v30"/><path d="M0 420 v30"/><path d="M124 420 v30"/><path d="M248 420 v30"/><path d="M372 420 v30"/><path d="M496 420 v30"/><path d="M620 420 v30"/><path d="M744 420 v30"/><path d="M868 420 v30"/><path d="M0 450 H860"/><path d="M-62 450 v30"/><path d="M62 450 v30"/><path d="M186 450 v30"/><path d="M310 450 v30"/><path d="M434 450 v30"/><path d="M558 450 v30"/><path d="M682 450 v30"/><path d="M806 450 v30"/><path d="M930 450 v30"/><path d="M0 480 H860"/><path d="M-124 480 v30"/><path d="M0 480 v30"/><path d="M124 480 v30"/><path d="M248 480 v30"/><path d="M372 480 v30"/><path d="M496 480 v30"/><path d="M620 480 v30"/><path d="M744 480 v30"/><path d="M868 480 v30"/><path d="M0 510 H860"/><path d="M-62 510 v30"/><path d="M62 510 v30"/><path d="M186 510 v30"/><path d="M310 510 v30"/><path d="M434 510 v30"/><path d="M558 510 v30"/><path d="M682 510 v30"/><path d="M806 510 v30"/><path d="M930 510 v30"/><path d="M0 540 H860"/><path d="M-124 540 v30"/><path d="M0 540 v30"/><path d="M124 540 v30"/><path d="M248 540 v30"/><path d="M372 540 v30"/><path d="M496 540 v30"/><path d="M620 540 v30"/><path d="M744 540 v30"/><path d="M868 540 v30"/></g>
+            <g transform="rotate(-2.4 133.0 191.0)"><rect x="26" y="48" width="214" height="286" fill="#F3E8D3" stroke="#9E8E76" stroke-width="0.8"/><ellipse cx="38.0" cy="58.0" rx="10.1" ry="7.2" fill="#C9B590" opacity="0.5"/><ellipse cx="224.0" cy="60.0" rx="11.0" ry="7.8" fill="#C9B590" opacity="0.5"/><ellipse cx="40.0" cy="320.0" rx="10.7" ry="7.8" fill="#C9B590" opacity="0.5"/><ellipse cx="222.0" cy="322.0" rx="7.1" ry="6.4" fill="#C9B590" opacity="0.5"/><text x="40.0" y="92.0" lang="zh-Hans" font-family="Ma Shan Zheng, serif" font-size="34" fill="#231009">大字报</text><rect x="200.6" y="118.0" width="17.9" height="7.5" fill="#2A1710" opacity="0.84"/><rect x="200.6" y="130.6" width="15.8" height="7.5" fill="#2A1710" opacity="0.73"/><rect x="200.6" y="143.2" width="16.3" height="7.5" fill="#2A1710" opacity="0.75"/><rect x="200.6" y="155.8" width="17.6" height="7.5" fill="#2A1710" opacity="0.62"/><rect x="200.6" y="168.4" width="16.2" height="7.5" fill="#2A1710" opacity="0.69"/><rect x="200.6" y="181.0" width="18.9" height="7.5" fill="#2A1710" opacity="0.80"/><rect x="200.6" y="193.6" width="16.0" height="7.5" fill="#2A1710" opacity="0.81"/><rect x="200.6" y="206.2" width="15.9" height="7.5" fill="#2A1710" opacity="0.77"/><rect x="200.6" y="218.8" width="15.9" height="7.5" fill="#2A1710" opacity="0.62"/><rect x="200.6" y="231.4" width="18.7" height="7.5" fill="#2A1710" opacity="0.67"/><rect x="200.6" y="244.0" width="16.2" height="7.5" fill="#2A1710" opacity="0.86"/><rect x="200.6" y="256.6" width="18.7" height="7.5" fill="#2A1710" opacity="0.69"/><rect x="200.6" y="269.2" width="19.1" height="7.5" fill="#2A1710" opacity="0.75"/><rect x="200.6" y="281.8" width="18.0" height="7.5" fill="#2A1710" opacity="0.67"/><rect x="169.6" y="118.0" width="19.1" height="7.5" fill="#2A1710" opacity="0.83"/><rect x="169.6" y="130.6" width="16.5" height="7.5" fill="#2A1710" opacity="0.71"/><rect x="169.6" y="143.2" width="16.0" height="7.5" fill="#2A1710" opacity="0.65"/><rect x="169.6" y="155.8" width="15.6" height="7.5" fill="#2A1710" opacity="0.69"/><rect x="169.6" y="168.4" width="17.7" height="7.5" fill="#2A1710" opacity="0.62"/><rect x="169.6" y="181.0" width="18.0" height="7.5" fill="#2A1710" opacity="0.70"/><rect x="169.6" y="193.6" width="16.6" height="7.5" fill="#2A1710" opacity="0.82"/><rect x="169.6" y="206.2" width="17.2" height="7.5" fill="#2A1710" opacity="0.70"/><rect x="169.6" y="218.8" width="17.2" height="7.5" fill="#2A1710" opacity="0.79"/><rect x="169.6" y="231.4" width="15.6" height="7.5" fill="#2A1710" opacity="0.85"/><rect x="169.6" y="244.0" width="15.5" height="7.5" fill="#2A1710" opacity="0.80"/><rect x="169.6" y="256.6" width="18.6" height="7.5" fill="#2A1710" opacity="0.62"/><rect x="169.6" y="269.2" width="18.4" height="7.5" fill="#2A1710" opacity="0.71"/><rect x="169.6" y="281.8" width="17.6" height="7.5" fill="#2A1710" opacity="0.62"/><rect x="138.6" y="118.0" width="18.1" height="7.5" fill="#2A1710" opacity="0.77"/><rect x="138.6" y="130.6" width="19.0" height="7.5" fill="#2A1710" opacity="0.65"/><rect x="138.6" y="143.2" width="16.3" height="7.5" fill="#2A1710" opacity="0.82"/><rect x="138.6" y="155.8" width="17.2" height="7.5" fill="#2A1710" opacity="0.74"/><rect x="138.6" y="168.4" width="18.8" height="7.5" fill="#2A1710" opacity="0.68"/><rect x="138.6" y="181.0" width="17.2" height="7.5" fill="#2A1710" opacity="0.76"/><rect x="138.6" y="193.6" width="18.4" height="7.5" fill="#2A1710" opacity="0.71"/><rect x="138.6" y="206.2" width="16.5" height="7.5" fill="#2A1710" opacity="0.72"/><rect x="138.6" y="218.8" width="19.1" height="7.5" fill="#2A1710" opacity="0.67"/><rect x="138.6" y="231.4" width="17.3" height="7.5" fill="#2A1710" opacity="0.71"/><rect x="138.6" y="244.0" width="15.9" height="7.5" fill="#2A1710" opacity="0.69"/><rect x="138.6" y="256.6" width="18.1" height="7.5" fill="#2A1710" opacity="0.64"/><rect x="138.6" y="269.2" width="18.0" height="7.5" fill="#2A1710" opacity="0.69"/><rect x="138.6" y="281.8" width="18.4" height="7.5" fill="#2A1710" opacity="0.77"/><rect x="138.6" y="294.4" width="18.1" height="7.5" fill="#2A1710" opacity="0.69"/><rect x="107.6" y="118.0" width="16.0" height="7.5" fill="#2A1710" opacity="0.63"/><rect x="107.6" y="130.6" width="19.2" height="7.5" fill="#2A1710" opacity="0.75"/><rect x="107.6" y="143.2" width="16.9" height="7.5" fill="#2A1710" opacity="0.68"/><rect x="107.6" y="155.8" width="17.7" height="7.5" fill="#2A1710" opacity="0.82"/><rect x="107.6" y="168.4" width="17.1" height="7.5" fill="#2A1710" opacity="0.72"/><rect x="107.6" y="181.0" width="15.6" height="7.5" fill="#2A1710" opacity="0.84"/><rect x="107.6" y="193.6" width="15.5" height="7.5" fill="#2A1710" opacity="0.74"/><rect x="107.6" y="206.2" width="18.6" height="7.5" fill="#2A1710" opacity="0.65"/><rect x="107.6" y="218.8" width="18.2" height="7.5" fill="#2A1710" opacity="0.85"/><rect x="107.6" y="231.4" width="17.8" height="7.5" fill="#2A1710" opacity="0.81"/><rect x="107.6" y="244.0" width="15.8" height="7.5" fill="#2A1710" opacity="0.72"/><rect x="107.6" y="256.6" width="15.9" height="7.5" fill="#2A1710" opacity="0.82"/><rect x="76.6" y="118.0" width="15.9" height="7.5" fill="#2A1710" opacity="0.84"/><rect x="76.6" y="130.6" width="17.8" height="7.5" fill="#2A1710" opacity="0.66"/><rect x="76.6" y="143.2" width="17.4" height="7.5" fill="#2A1710" opacity="0.85"/><rect x="76.6" y="155.8" width="18.0" height="7.5" fill="#2A1710" opacity="0.70"/><rect x="76.6" y="168.4" width="16.4" height="7.5" fill="#2A1710" opacity="0.73"/><rect x="76.6" y="181.0" width="18.8" height="7.5" fill="#2A1710" opacity="0.65"/><rect x="76.6" y="193.6" width="18.5" height="7.5" fill="#2A1710" opacity="0.75"/><rect x="76.6" y="206.2" width="16.1" height="7.5" fill="#2A1710" opacity="0.84"/><rect x="76.6" y="218.8" width="18.7" height="7.5" fill="#2A1710" opacity="0.66"/><rect x="76.6" y="231.4" width="17.3" height="7.5" fill="#2A1710" opacity="0.74"/><rect x="76.6" y="244.0" width="17.5" height="7.5" fill="#2A1710" opacity="0.74"/><rect x="76.6" y="256.6" width="15.6" height="7.5" fill="#2A1710" opacity="0.81"/><rect x="76.6" y="269.2" width="16.7" height="7.5" fill="#2A1710" opacity="0.76"/><rect x="45.6" y="118.0" width="18.3" height="7.5" fill="#2A1710" opacity="0.71"/><rect x="45.6" y="130.6" width="18.1" height="7.5" fill="#2A1710" opacity="0.69"/><rect x="45.6" y="143.2" width="17.2" height="7.5" fill="#2A1710" opacity="0.80"/><rect x="45.6" y="155.8" width="18.0" height="7.5" fill="#2A1710" opacity="0.69"/><rect x="45.6" y="168.4" width="19.0" height="7.5" fill="#2A1710" opacity="0.78"/><rect x="45.6" y="181.0" width="17.6" height="7.5" fill="#2A1710" opacity="0.62"/><rect x="45.6" y="193.6" width="17.5" height="7.5" fill="#2A1710" opacity="0.68"/><rect x="45.6" y="206.2" width="18.0" height="7.5" fill="#2A1710" opacity="0.73"/><rect x="45.6" y="218.8" width="18.5" height="7.5" fill="#2A1710" opacity="0.78"/><rect x="45.6" y="231.4" width="18.4" height="7.5" fill="#2A1710" opacity="0.70"/><rect x="45.6" y="244.0" width="17.9" height="7.5" fill="#2A1710" opacity="0.80"/><rect x="45.6" y="256.6" width="18.6" height="7.5" fill="#2A1710" opacity="0.70"/><rect x="45.6" y="269.2" width="18.6" height="7.5" fill="#2A1710" opacity="0.83"/><rect x="45.6" y="281.8" width="18.0" height="7.5" fill="#2A1710" opacity="0.85"/><rect x="45.6" y="294.4" width="19.1" height="7.5" fill="#2A1710" opacity="0.74"/></g>
+        <g transform="rotate(1.8 345.0 153.0)"><rect x="252" y="28" width="186" height="250" fill="#F3E8D3" stroke="#9E8E76" stroke-width="0.8"/><ellipse cx="264.0" cy="38.0" rx="9.6" ry="5.5" fill="#C9B590" opacity="0.5"/><ellipse cx="422.0" cy="40.0" rx="11.2" ry="7.8" fill="#C9B590" opacity="0.5"/><ellipse cx="266.0" cy="264.0" rx="9.4" ry="7.1" fill="#C9B590" opacity="0.5"/><ellipse cx="420.0" cy="266.0" rx="10.6" ry="7.2" fill="#C9B590" opacity="0.5"/><rect x="266.0" y="46.0" width="26" height="26" fill="#231009" opacity="0.86"/><rect x="298.0" y="46.0" width="26" height="26" fill="#231009" opacity="0.86"/><rect x="330.0" y="46.0" width="26" height="26" fill="#231009" opacity="0.86"/><rect x="398.1" y="94.0" width="18.1" height="7.5" fill="#2A1710" opacity="0.84"/><rect x="398.1" y="106.6" width="17.7" height="7.5" fill="#2A1710" opacity="0.84"/><rect x="398.1" y="119.2" width="16.9" height="7.5" fill="#2A1710" opacity="0.75"/><rect x="398.1" y="131.8" width="19.1" height="7.5" fill="#2A1710" opacity="0.68"/><rect x="398.1" y="144.4" width="19.6" height="7.5" fill="#2A1710" opacity="0.67"/><rect x="398.1" y="157.0" width="18.0" height="7.5" fill="#2A1710" opacity="0.77"/><rect x="398.1" y="169.6" width="16.4" height="7.5" fill="#2A1710" opacity="0.80"/><rect x="398.1" y="182.2" width="16.4" height="7.5" fill="#2A1710" opacity="0.79"/><rect x="398.1" y="194.8" width="19.5" height="7.5" fill="#2A1710" opacity="0.86"/><rect x="398.1" y="207.4" width="16.3" height="7.5" fill="#2A1710" opacity="0.83"/><rect x="398.1" y="220.0" width="16.1" height="7.5" fill="#2A1710" opacity="0.85"/><rect x="366.5" y="94.0" width="16.4" height="7.5" fill="#2A1710" opacity="0.63"/><rect x="366.5" y="106.6" width="17.5" height="7.5" fill="#2A1710" opacity="0.71"/><rect x="366.5" y="119.2" width="18.1" height="7.5" fill="#2A1710" opacity="0.76"/><rect x="366.5" y="131.8" width="16.6" height="7.5" fill="#2A1710" opacity="0.84"/><rect x="366.5" y="144.4" width="15.7" height="7.5" fill="#2A1710" opacity="0.72"/><rect x="366.5" y="157.0" width="16.8" height="7.5" fill="#2A1710" opacity="0.72"/><rect x="366.5" y="169.6" width="16.1" height="7.5" fill="#2A1710" opacity="0.82"/><rect x="366.5" y="182.2" width="17.1" height="7.5" fill="#2A1710" opacity="0.63"/><rect x="366.5" y="194.8" width="18.1" height="7.5" fill="#2A1710" opacity="0.64"/><rect x="334.9" y="94.0" width="17.7" height="7.5" fill="#2A1710" opacity="0.85"/><rect x="334.9" y="106.6" width="16.8" height="7.5" fill="#2A1710" opacity="0.70"/><rect x="334.9" y="119.2" width="16.2" height="7.5" fill="#2A1710" opacity="0.72"/><rect x="334.9" y="131.8" width="17.9" height="7.5" fill="#2A1710" opacity="0.75"/><rect x="334.9" y="144.4" width="17.5" height="7.5" fill="#2A1710" opacity="0.66"/><rect x="334.9" y="157.0" width="17.2" height="7.5" fill="#2A1710" opacity="0.73"/><rect x="334.9" y="169.6" width="16.5" height="7.5" fill="#2A1710" opacity="0.65"/><rect x="334.9" y="182.2" width="16.0" height="7.5" fill="#2A1710" opacity="0.82"/><rect x="303.3" y="94.0" width="17.2" height="7.5" fill="#2A1710" opacity="0.70"/><rect x="303.3" y="106.6" width="19.3" height="7.5" fill="#2A1710" opacity="0.75"/><rect x="303.3" y="119.2" width="16.9" height="7.5" fill="#2A1710" opacity="0.83"/><rect x="303.3" y="131.8" width="17.9" height="7.5" fill="#2A1710" opacity="0.72"/><rect x="303.3" y="144.4" width="19.5" height="7.5" fill="#2A1710" opacity="0.74"/><rect x="303.3" y="157.0" width="17.6" height="7.5" fill="#2A1710" opacity="0.79"/><rect x="303.3" y="169.6" width="17.2" height="7.5" fill="#2A1710" opacity="0.83"/><rect x="303.3" y="182.2" width="16.3" height="7.5" fill="#2A1710" opacity="0.76"/><rect x="303.3" y="194.8" width="18.6" height="7.5" fill="#2A1710" opacity="0.69"/><rect x="303.3" y="207.4" width="16.7" height="7.5" fill="#2A1710" opacity="0.62"/><rect x="303.3" y="220.0" width="19.4" height="7.5" fill="#2A1710" opacity="0.69"/><rect x="303.3" y="232.6" width="19.3" height="7.5" fill="#2A1710" opacity="0.65"/><rect x="271.7" y="94.0" width="16.2" height="7.5" fill="#2A1710" opacity="0.77"/><rect x="271.7" y="106.6" width="17.4" height="7.5" fill="#2A1710" opacity="0.69"/><rect x="271.7" y="119.2" width="18.7" height="7.5" fill="#2A1710" opacity="0.82"/><rect x="271.7" y="131.8" width="15.7" height="7.5" fill="#2A1710" opacity="0.75"/><rect x="271.7" y="144.4" width="16.7" height="7.5" fill="#2A1710" opacity="0.84"/><rect x="271.7" y="157.0" width="18.7" height="7.5" fill="#2A1710" opacity="0.68"/><rect x="271.7" y="169.6" width="16.7" height="7.5" fill="#2A1710" opacity="0.66"/><rect x="271.7" y="182.2" width="19.5" height="7.5" fill="#2A1710" opacity="0.69"/><rect x="271.7" y="194.8" width="18.1" height="7.5" fill="#2A1710" opacity="0.73"/><rect x="271.7" y="207.4" width="18.2" height="7.5" fill="#2A1710" opacity="0.76"/><rect x="271.7" y="220.0" width="18.6" height="7.5" fill="#2A1710" opacity="0.65"/><rect x="271.7" y="232.6" width="18.7" height="7.5" fill="#2A1710" opacity="0.69"/><circle cx="319.0" cy="173.0" r="29.8" fill="none" stroke="#D0180C" stroke-width="3.4" opacity="0.9"/></g>
+        <g transform="rotate(-1.2 515.0 212.0)"><rect x="430" y="62" width="170" height="300" fill="#F3E8D3" stroke="#9E8E76" stroke-width="0.8"/><ellipse cx="442.0" cy="72.0" rx="9.7" ry="6.0" fill="#C9B590" opacity="0.5"/><ellipse cx="584.0" cy="74.0" rx="8.5" ry="6.6" fill="#C9B590" opacity="0.5"/><ellipse cx="444.0" cy="348.0" rx="9.3" ry="6.1" fill="#C9B590" opacity="0.5"/><ellipse cx="582.0" cy="350.0" rx="10.7" ry="6.8" fill="#C9B590" opacity="0.5"/><text x="444.0" y="106.0" lang="zh-Hans" font-family="Ma Shan Zheng, serif" font-size="34" fill="#231009">破四旧</text><rect x="562.7" y="132.0" width="14.1" height="7.5" fill="#2A1710" opacity="0.75"/><rect x="562.7" y="144.6" width="16.5" height="7.5" fill="#2A1710" opacity="0.65"/><rect x="562.7" y="157.2" width="16.5" height="7.5" fill="#2A1710" opacity="0.67"/><rect x="562.7" y="169.8" width="15.6" height="7.5" fill="#2A1710" opacity="0.81"/><rect x="562.7" y="182.4" width="16.2" height="7.5" fill="#2A1710" opacity="0.79"/><rect x="562.7" y="195.0" width="17.4" height="7.5" fill="#2A1710" opacity="0.78"/><rect x="562.7" y="207.6" width="17.1" height="7.5" fill="#2A1710" opacity="0.82"/><rect x="562.7" y="220.2" width="15.8" height="7.5" fill="#2A1710" opacity="0.78"/><rect x="562.7" y="232.8" width="16.6" height="7.5" fill="#2A1710" opacity="0.84"/><rect x="562.7" y="245.4" width="15.7" height="7.5" fill="#2A1710" opacity="0.80"/><rect x="562.7" y="258.0" width="15.2" height="7.5" fill="#2A1710" opacity="0.62"/><rect x="562.7" y="270.6" width="16.8" height="7.5" fill="#2A1710" opacity="0.76"/><rect x="562.7" y="283.2" width="16.4" height="7.5" fill="#2A1710" opacity="0.73"/><rect x="562.7" y="295.8" width="15.2" height="7.5" fill="#2A1710" opacity="0.66"/><rect x="562.7" y="308.4" width="16.5" height="7.5" fill="#2A1710" opacity="0.83"/><rect x="562.7" y="321.0" width="17.5" height="7.5" fill="#2A1710" opacity="0.75"/><rect x="534.3" y="132.0" width="16.1" height="7.5" fill="#2A1710" opacity="0.81"/><rect x="534.3" y="144.6" width="14.3" height="7.5" fill="#2A1710" opacity="0.68"/><rect x="534.3" y="157.2" width="17.0" height="7.5" fill="#2A1710" opacity="0.81"/><rect x="534.3" y="169.8" width="16.4" height="7.5" fill="#2A1710" opacity="0.63"/><rect x="534.3" y="182.4" width="16.6" height="7.5" fill="#2A1710" opacity="0.85"/><rect x="534.3" y="195.0" width="17.6" height="7.5" fill="#2A1710" opacity="0.79"/><rect x="534.3" y="207.6" width="14.3" height="7.5" fill="#2A1710" opacity="0.82"/><rect x="534.3" y="220.2" width="14.9" height="7.5" fill="#2A1710" opacity="0.77"/><rect x="534.3" y="232.8" width="17.4" height="7.5" fill="#2A1710" opacity="0.79"/><rect x="534.3" y="245.4" width="14.6" height="7.5" fill="#2A1710" opacity="0.69"/><rect x="534.3" y="258.0" width="17.3" height="7.5" fill="#2A1710" opacity="0.66"/><rect x="534.3" y="270.6" width="16.2" height="7.5" fill="#2A1710" opacity="0.72"/><rect x="534.3" y="283.2" width="14.7" height="7.5" fill="#2A1710" opacity="0.77"/><rect x="505.9" y="132.0" width="16.0" height="7.5" fill="#2A1710" opacity="0.78"/><rect x="505.9" y="144.6" width="16.7" height="7.5" fill="#2A1710" opacity="0.69"/><rect x="505.9" y="157.2" width="16.1" height="7.5" fill="#2A1710" opacity="0.65"/><rect x="505.9" y="169.8" width="15.5" height="7.5" fill="#2A1710" opacity="0.77"/><rect x="505.9" y="182.4" width="14.1" height="7.5" fill="#2A1710" opacity="0.64"/><rect x="505.9" y="195.0" width="16.5" height="7.5" fill="#2A1710" opacity="0.74"/><rect x="505.9" y="207.6" width="15.3" height="7.5" fill="#2A1710" opacity="0.78"/><rect x="505.9" y="220.2" width="17.3" height="7.5" fill="#2A1710" opacity="0.65"/><rect x="505.9" y="232.8" width="15.1" height="7.5" fill="#2A1710" opacity="0.76"/><rect x="505.9" y="245.4" width="16.5" height="7.5" fill="#2A1710" opacity="0.69"/><rect x="505.9" y="258.0" width="17.4" height="7.5" fill="#2A1710" opacity="0.75"/><rect x="505.9" y="270.6" width="14.9" height="7.5" fill="#2A1710" opacity="0.64"/><rect x="505.9" y="283.2" width="14.9" height="7.5" fill="#2A1710" opacity="0.82"/><rect x="505.9" y="295.8" width="15.1" height="7.5" fill="#2A1710" opacity="0.85"/><rect x="505.9" y="308.4" width="16.9" height="7.5" fill="#2A1710" opacity="0.83"/><rect x="505.9" y="321.0" width="15.7" height="7.5" fill="#2A1710" opacity="0.71"/><rect x="477.5" y="132.0" width="16.6" height="7.5" fill="#2A1710" opacity="0.78"/><rect x="477.5" y="144.6" width="14.4" height="7.5" fill="#2A1710" opacity="0.78"/><rect x="477.5" y="157.2" width="14.4" height="7.5" fill="#2A1710" opacity="0.65"/><rect x="477.5" y="169.8" width="16.2" height="7.5" fill="#2A1710" opacity="0.68"/><rect x="477.5" y="182.4" width="17.2" height="7.5" fill="#2A1710" opacity="0.74"/><rect x="477.5" y="195.0" width="15.2" height="7.5" fill="#2A1710" opacity="0.81"/><rect x="477.5" y="207.6" width="14.2" height="7.5" fill="#2A1710" opacity="0.79"/><rect x="477.5" y="220.2" width="14.3" height="7.5" fill="#2A1710" opacity="0.66"/><rect x="477.5" y="232.8" width="17.4" height="7.5" fill="#2A1710" opacity="0.78"/><rect x="477.5" y="245.4" width="14.9" height="7.5" fill="#2A1710" opacity="0.65"/><rect x="477.5" y="258.0" width="17.5" height="7.5" fill="#2A1710" opacity="0.78"/><rect x="477.5" y="270.6" width="17.0" height="7.5" fill="#2A1710" opacity="0.65"/><rect x="477.5" y="283.2" width="16.3" height="7.5" fill="#2A1710" opacity="0.71"/><rect x="477.5" y="295.8" width="14.9" height="7.5" fill="#2A1710" opacity="0.70"/><rect x="477.5" y="308.4" width="16.2" height="7.5" fill="#2A1710" opacity="0.70"/><rect x="449.1" y="132.0" width="15.4" height="7.5" fill="#2A1710" opacity="0.79"/><rect x="449.1" y="144.6" width="15.3" height="7.5" fill="#2A1710" opacity="0.69"/><rect x="449.1" y="157.2" width="16.3" height="7.5" fill="#2A1710" opacity="0.85"/><rect x="449.1" y="169.8" width="15.4" height="7.5" fill="#2A1710" opacity="0.63"/><rect x="449.1" y="182.4" width="17.6" height="7.5" fill="#2A1710" opacity="0.67"/><rect x="449.1" y="195.0" width="14.7" height="7.5" fill="#2A1710" opacity="0.64"/><rect x="449.1" y="207.6" width="14.2" height="7.5" fill="#2A1710" opacity="0.66"/><rect x="449.1" y="220.2" width="14.8" height="7.5" fill="#2A1710" opacity="0.74"/><rect x="449.1" y="232.8" width="17.4" height="7.5" fill="#2A1710" opacity="0.78"/><rect x="449.1" y="245.4" width="15.3" height="7.5" fill="#2A1710" opacity="0.72"/><rect x="449.1" y="258.0" width="15.1" height="7.5" fill="#2A1710" opacity="0.84"/><rect x="449.1" y="270.6" width="17.3" height="7.5" fill="#2A1710" opacity="0.70"/><rect x="449.1" y="283.2" width="15.7" height="7.5" fill="#2A1710" opacity="0.67"/></g>
+        <g transform="rotate(2.6 698.0 166.0)"><rect x="600" y="34" width="196" height="264" fill="#F3E8D3" stroke="#9E8E76" stroke-width="0.8"/><ellipse cx="612.0" cy="44.0" rx="10.3" ry="5.2" fill="#C9B590" opacity="0.5"/><ellipse cx="780.0" cy="46.0" rx="11.3" ry="7.6" fill="#C9B590" opacity="0.5"/><ellipse cx="614.0" cy="284.0" rx="9.3" ry="6.7" fill="#C9B590" opacity="0.5"/><ellipse cx="778.0" cy="286.0" rx="7.6" ry="7.5" fill="#C9B590" opacity="0.5"/><rect x="614.0" y="52.0" width="26" height="26" fill="#231009" opacity="0.86"/><rect x="646.0" y="52.0" width="26" height="26" fill="#231009" opacity="0.86"/><rect x="678.0" y="52.0" width="26" height="26" fill="#231009" opacity="0.86"/><rect x="759.0" y="100.0" width="16.2" height="7.5" fill="#2A1710" opacity="0.63"/><rect x="759.0" y="112.6" width="17.0" height="7.5" fill="#2A1710" opacity="0.70"/><rect x="759.0" y="125.2" width="16.5" height="7.5" fill="#2A1710" opacity="0.70"/><rect x="759.0" y="137.8" width="14.1" height="7.5" fill="#2A1710" opacity="0.63"/><rect x="759.0" y="150.4" width="15.5" height="7.5" fill="#2A1710" opacity="0.82"/><rect x="759.0" y="163.0" width="14.4" height="7.5" fill="#2A1710" opacity="0.81"/><rect x="759.0" y="175.6" width="15.0" height="7.5" fill="#2A1710" opacity="0.73"/><rect x="759.0" y="188.2" width="14.7" height="7.5" fill="#2A1710" opacity="0.86"/><rect x="759.0" y="200.8" width="14.0" height="7.5" fill="#2A1710" opacity="0.79"/><rect x="759.0" y="213.4" width="15.9" height="7.5" fill="#2A1710" opacity="0.78"/><rect x="759.0" y="226.0" width="16.0" height="7.5" fill="#2A1710" opacity="0.84"/><rect x="731.0" y="100.0" width="16.3" height="7.5" fill="#2A1710" opacity="0.66"/><rect x="731.0" y="112.6" width="15.1" height="7.5" fill="#2A1710" opacity="0.64"/><rect x="731.0" y="125.2" width="17.3" height="7.5" fill="#2A1710" opacity="0.73"/><rect x="731.0" y="137.8" width="16.6" height="7.5" fill="#2A1710" opacity="0.66"/><rect x="731.0" y="150.4" width="14.6" height="7.5" fill="#2A1710" opacity="0.63"/><rect x="731.0" y="163.0" width="16.0" height="7.5" fill="#2A1710" opacity="0.79"/><rect x="731.0" y="175.6" width="14.8" height="7.5" fill="#2A1710" opacity="0.73"/><rect x="731.0" y="188.2" width="15.5" height="7.5" fill="#2A1710" opacity="0.78"/><rect x="731.0" y="200.8" width="14.5" height="7.5" fill="#2A1710" opacity="0.63"/><rect x="731.0" y="213.4" width="16.8" height="7.5" fill="#2A1710" opacity="0.82"/><rect x="731.0" y="226.0" width="15.9" height="7.5" fill="#2A1710" opacity="0.85"/><rect x="703.0" y="100.0" width="14.7" height="7.5" fill="#2A1710" opacity="0.81"/><rect x="703.0" y="112.6" width="14.2" height="7.5" fill="#2A1710" opacity="0.73"/><rect x="703.0" y="125.2" width="16.3" height="7.5" fill="#2A1710" opacity="0.77"/><rect x="703.0" y="137.8" width="15.6" height="7.5" fill="#2A1710" opacity="0.81"/><rect x="703.0" y="150.4" width="14.1" height="7.5" fill="#2A1710" opacity="0.82"/><rect x="703.0" y="163.0" width="15.4" height="7.5" fill="#2A1710" opacity="0.77"/><rect x="703.0" y="175.6" width="16.9" height="7.5" fill="#2A1710" opacity="0.85"/><rect x="703.0" y="188.2" width="14.6" height="7.5" fill="#2A1710" opacity="0.79"/><rect x="703.0" y="200.8" width="16.1" height="7.5" fill="#2A1710" opacity="0.67"/><rect x="703.0" y="213.4" width="14.7" height="7.5" fill="#2A1710" opacity="0.84"/><rect x="703.0" y="226.0" width="16.6" height="7.5" fill="#2A1710" opacity="0.64"/><rect x="703.0" y="238.6" width="17.3" height="7.5" fill="#2A1710" opacity="0.66"/><rect x="703.0" y="251.2" width="14.1" height="7.5" fill="#2A1710" opacity="0.80"/><rect x="675.0" y="100.0" width="13.9" height="7.5" fill="#2A1710" opacity="0.75"/><rect x="675.0" y="112.6" width="15.6" height="7.5" fill="#2A1710" opacity="0.76"/><rect x="675.0" y="125.2" width="15.2" height="7.5" fill="#2A1710" opacity="0.77"/><rect x="675.0" y="137.8" width="16.4" height="7.5" fill="#2A1710" opacity="0.84"/><rect x="675.0" y="150.4" width="15.0" height="7.5" fill="#2A1710" opacity="0.73"/><rect x="675.0" y="163.0" width="16.8" height="7.5" fill="#2A1710" opacity="0.67"/><rect x="675.0" y="175.6" width="14.3" height="7.5" fill="#2A1710" opacity="0.69"/><rect x="675.0" y="188.2" width="14.2" height="7.5" fill="#2A1710" opacity="0.81"/><rect x="675.0" y="200.8" width="16.7" height="7.5" fill="#2A1710" opacity="0.70"/><rect x="647.0" y="100.0" width="15.8" height="7.5" fill="#2A1710" opacity="0.73"/><rect x="647.0" y="112.6" width="16.3" height="7.5" fill="#2A1710" opacity="0.81"/><rect x="647.0" y="125.2" width="17.2" height="7.5" fill="#2A1710" opacity="0.78"/><rect x="647.0" y="137.8" width="14.8" height="7.5" fill="#2A1710" opacity="0.74"/><rect x="647.0" y="150.4" width="14.8" height="7.5" fill="#2A1710" opacity="0.79"/><rect x="647.0" y="163.0" width="16.7" height="7.5" fill="#2A1710" opacity="0.83"/><rect x="647.0" y="175.6" width="17.0" height="7.5" fill="#2A1710" opacity="0.64"/><rect x="647.0" y="188.2" width="16.6" height="7.5" fill="#2A1710" opacity="0.71"/><rect x="647.0" y="200.8" width="16.6" height="7.5" fill="#2A1710" opacity="0.62"/><rect x="647.0" y="213.4" width="14.9" height="7.5" fill="#2A1710" opacity="0.85"/><rect x="647.0" y="226.0" width="14.3" height="7.5" fill="#2A1710" opacity="0.63"/><rect x="647.0" y="238.6" width="14.4" height="7.5" fill="#2A1710" opacity="0.79"/><rect x="619.0" y="100.0" width="16.4" height="7.5" fill="#2A1710" opacity="0.79"/><rect x="619.0" y="112.6" width="14.8" height="7.5" fill="#2A1710" opacity="0.81"/><rect x="619.0" y="125.2" width="15.2" height="7.5" fill="#2A1710" opacity="0.65"/><rect x="619.0" y="137.8" width="14.1" height="7.5" fill="#2A1710" opacity="0.66"/><rect x="619.0" y="150.4" width="14.8" height="7.5" fill="#2A1710" opacity="0.78"/><rect x="619.0" y="163.0" width="14.9" height="7.5" fill="#2A1710" opacity="0.64"/><rect x="619.0" y="175.6" width="16.5" height="7.5" fill="#2A1710" opacity="0.75"/><rect x="619.0" y="188.2" width="14.0" height="7.5" fill="#2A1710" opacity="0.63"/><rect x="619.0" y="200.8" width="14.3" height="7.5" fill="#2A1710" opacity="0.71"/><rect x="619.0" y="213.4" width="16.9" height="7.5" fill="#2A1710" opacity="0.85"/><rect x="619.0" y="226.0" width="16.0" height="7.5" fill="#2A1710" opacity="0.68"/><rect x="619.0" y="238.6" width="15.4" height="7.5" fill="#2A1710" opacity="0.71"/><rect x="619.0" y="251.2" width="15.0" height="7.5" fill="#2A1710" opacity="0.62"/><path d="M639.2 144.9 L752.9 224.1" stroke="#D0180C" stroke-width="4" opacity="0.9"/></g>
+        <g transform="rotate(1.4 183.0 411.0)"><rect x="94" y="300" width="178" height="222" fill="#F3E8D3" stroke="#9E8E76" stroke-width="0.8"/><ellipse cx="106.0" cy="310.0" rx="9.9" ry="7.5" fill="#C9B590" opacity="0.5"/><ellipse cx="256.0" cy="312.0" rx="10.6" ry="5.3" fill="#C9B590" opacity="0.5"/><ellipse cx="108.0" cy="508.0" rx="9.7" ry="5.5" fill="#C9B590" opacity="0.5"/><ellipse cx="254.0" cy="510.0" rx="10.5" ry="6.3" fill="#C9B590" opacity="0.5"/><rect x="108.0" y="318.0" width="26" height="26" fill="#231009" opacity="0.86"/><rect x="140.0" y="318.0" width="26" height="26" fill="#231009" opacity="0.86"/><rect x="172.0" y="318.0" width="26" height="26" fill="#231009" opacity="0.86"/><rect x="233.4" y="366.0" width="17.8" height="7.5" fill="#2A1710" opacity="0.65"/><rect x="233.4" y="378.6" width="16.1" height="7.5" fill="#2A1710" opacity="0.84"/><rect x="233.4" y="391.2" width="16.6" height="7.5" fill="#2A1710" opacity="0.72"/><rect x="233.4" y="403.8" width="16.5" height="7.5" fill="#2A1710" opacity="0.80"/><rect x="233.4" y="416.4" width="18.4" height="7.5" fill="#2A1710" opacity="0.75"/><rect x="233.4" y="429.0" width="18.5" height="7.5" fill="#2A1710" opacity="0.76"/><rect x="233.4" y="441.6" width="15.3" height="7.5" fill="#2A1710" opacity="0.82"/><rect x="203.4" y="366.0" width="17.4" height="7.5" fill="#2A1710" opacity="0.67"/><rect x="203.4" y="378.6" width="14.9" height="7.5" fill="#2A1710" opacity="0.84"/><rect x="203.4" y="391.2" width="15.8" height="7.5" fill="#2A1710" opacity="0.79"/><rect x="203.4" y="403.8" width="16.2" height="7.5" fill="#2A1710" opacity="0.73"/><rect x="203.4" y="416.4" width="15.6" height="7.5" fill="#2A1710" opacity="0.82"/><rect x="203.4" y="429.0" width="16.0" height="7.5" fill="#2A1710" opacity="0.74"/><rect x="203.4" y="441.6" width="17.7" height="7.5" fill="#2A1710" opacity="0.81"/><rect x="173.4" y="366.0" width="16.2" height="7.5" fill="#2A1710" opacity="0.68"/><rect x="173.4" y="378.6" width="18.5" height="7.5" fill="#2A1710" opacity="0.82"/><rect x="173.4" y="391.2" width="18.0" height="7.5" fill="#2A1710" opacity="0.77"/><rect x="173.4" y="403.8" width="16.4" height="7.5" fill="#2A1710" opacity="0.65"/><rect x="173.4" y="416.4" width="18.0" height="7.5" fill="#2A1710" opacity="0.74"/><rect x="173.4" y="429.0" width="15.0" height="7.5" fill="#2A1710" opacity="0.66"/><rect x="173.4" y="441.6" width="15.2" height="7.5" fill="#2A1710" opacity="0.79"/><rect x="173.4" y="454.2" width="18.2" height="7.5" fill="#2A1710" opacity="0.67"/><rect x="143.4" y="366.0" width="16.7" height="7.5" fill="#2A1710" opacity="0.73"/><rect x="143.4" y="378.6" width="16.9" height="7.5" fill="#2A1710" opacity="0.64"/><rect x="143.4" y="391.2" width="15.6" height="7.5" fill="#2A1710" opacity="0.79"/><rect x="143.4" y="403.8" width="15.3" height="7.5" fill="#2A1710" opacity="0.77"/><rect x="143.4" y="416.4" width="17.2" height="7.5" fill="#2A1710" opacity="0.82"/><rect x="143.4" y="429.0" width="15.0" height="7.5" fill="#2A1710" opacity="0.78"/><rect x="143.4" y="441.6" width="17.2" height="7.5" fill="#2A1710" opacity="0.74"/><rect x="143.4" y="454.2" width="16.7" height="7.5" fill="#2A1710" opacity="0.75"/><rect x="113.4" y="366.0" width="16.6" height="7.5" fill="#2A1710" opacity="0.81"/><rect x="113.4" y="378.6" width="17.0" height="7.5" fill="#2A1710" opacity="0.84"/><rect x="113.4" y="391.2" width="17.0" height="7.5" fill="#2A1710" opacity="0.63"/><rect x="113.4" y="403.8" width="15.4" height="7.5" fill="#2A1710" opacity="0.72"/><rect x="113.4" y="416.4" width="18.4" height="7.5" fill="#2A1710" opacity="0.62"/><rect x="113.4" y="429.0" width="17.7" height="7.5" fill="#2A1710" opacity="0.67"/><rect x="113.4" y="441.6" width="15.9" height="7.5" fill="#2A1710" opacity="0.63"/></g>
+        <g transform="rotate(-1.8 388.0 397.0)"><rect x="286" y="272" width="204" height="250" fill="#F3E8D3" stroke="#9E8E76" stroke-width="0.8"/><ellipse cx="298.0" cy="282.0" rx="10.9" ry="6.8" fill="#C9B590" opacity="0.5"/><ellipse cx="474.0" cy="284.0" rx="11.3" ry="7.8" fill="#C9B590" opacity="0.5"/><ellipse cx="300.0" cy="508.0" rx="9.1" ry="7.9" fill="#C9B590" opacity="0.5"/><ellipse cx="472.0" cy="510.0" rx="7.1" ry="7.8" fill="#C9B590" opacity="0.5"/><text x="300.0" y="316.0" lang="zh-Hans" font-family="Ma Shan Zheng, serif" font-size="34" fill="#231009">革命</text><rect x="451.9" y="342.0" width="14.8" height="7.5" fill="#2A1710" opacity="0.80"/><rect x="451.9" y="354.6" width="17.0" height="7.5" fill="#2A1710" opacity="0.85"/><rect x="451.9" y="367.2" width="17.8" height="7.5" fill="#2A1710" opacity="0.79"/><rect x="451.9" y="379.8" width="17.6" height="7.5" fill="#2A1710" opacity="0.80"/><rect x="451.9" y="392.4" width="16.8" height="7.5" fill="#2A1710" opacity="0.67"/><rect x="451.9" y="405.0" width="16.4" height="7.5" fill="#2A1710" opacity="0.84"/><rect x="451.9" y="417.6" width="15.4" height="7.5" fill="#2A1710" opacity="0.85"/><rect x="451.9" y="430.2" width="16.5" height="7.5" fill="#2A1710" opacity="0.71"/><rect x="451.9" y="442.8" width="14.6" height="7.5" fill="#2A1710" opacity="0.71"/><rect x="451.9" y="455.4" width="15.2" height="7.5" fill="#2A1710" opacity="0.78"/><rect x="451.9" y="468.0" width="17.8" height="7.5" fill="#2A1710" opacity="0.84"/><rect x="422.6" y="342.0" width="15.7" height="7.5" fill="#2A1710" opacity="0.70"/><rect x="422.6" y="354.6" width="17.6" height="7.5" fill="#2A1710" opacity="0.83"/><rect x="422.6" y="367.2" width="17.1" height="7.5" fill="#2A1710" opacity="0.86"/><rect x="422.6" y="379.8" width="15.5" height="7.5" fill="#2A1710" opacity="0.64"/><rect x="422.6" y="392.4" width="15.6" height="7.5" fill="#2A1710" opacity="0.81"/><rect x="422.6" y="405.0" width="17.4" height="7.5" fill="#2A1710" opacity="0.64"/><rect x="422.6" y="417.6" width="18.0" height="7.5" fill="#2A1710" opacity="0.64"/><rect x="422.6" y="430.2" width="16.1" height="7.5" fill="#2A1710" opacity="0.66"/><rect x="393.3" y="342.0" width="16.6" height="7.5" fill="#2A1710" opacity="0.77"/><rect x="393.3" y="354.6" width="16.9" height="7.5" fill="#2A1710" opacity="0.75"/><rect x="393.3" y="367.2" width="16.0" height="7.5" fill="#2A1710" opacity="0.68"/><rect x="393.3" y="379.8" width="16.3" height="7.5" fill="#2A1710" opacity="0.76"/><rect x="393.3" y="392.4" width="15.4" height="7.5" fill="#2A1710" opacity="0.72"/><rect x="393.3" y="405.0" width="14.9" height="7.5" fill="#2A1710" opacity="0.83"/><rect x="393.3" y="417.6" width="15.8" height="7.5" fill="#2A1710" opacity="0.72"/><rect x="393.3" y="430.2" width="15.1" height="7.5" fill="#2A1710" opacity="0.69"/><rect x="393.3" y="442.8" width="16.6" height="7.5" fill="#2A1710" opacity="0.76"/><rect x="393.3" y="455.4" width="16.1" height="7.5" fill="#2A1710" opacity="0.70"/><rect x="393.3" y="468.0" width="14.9" height="7.5" fill="#2A1710" opacity="0.81"/><rect x="393.3" y="480.6" width="15.8" height="7.5" fill="#2A1710" opacity="0.64"/><rect x="363.9" y="342.0" width="15.1" height="7.5" fill="#2A1710" opacity="0.74"/><rect x="363.9" y="354.6" width="14.8" height="7.5" fill="#2A1710" opacity="0.67"/><rect x="363.9" y="367.2" width="16.3" height="7.5" fill="#2A1710" opacity="0.71"/><rect x="363.9" y="379.8" width="17.8" height="7.5" fill="#2A1710" opacity="0.83"/><rect x="363.9" y="392.4" width="16.8" height="7.5" fill="#2A1710" opacity="0.81"/><rect x="363.9" y="405.0" width="17.6" height="7.5" fill="#2A1710" opacity="0.62"/><rect x="363.9" y="417.6" width="17.0" height="7.5" fill="#2A1710" opacity="0.65"/><rect x="363.9" y="430.2" width="15.8" height="7.5" fill="#2A1710" opacity="0.71"/><rect x="363.9" y="442.8" width="17.3" height="7.5" fill="#2A1710" opacity="0.76"/><rect x="334.6" y="342.0" width="17.2" height="7.5" fill="#2A1710" opacity="0.82"/><rect x="334.6" y="354.6" width="17.5" height="7.5" fill="#2A1710" opacity="0.79"/><rect x="334.6" y="367.2" width="17.9" height="7.5" fill="#2A1710" opacity="0.85"/><rect x="334.6" y="379.8" width="16.8" height="7.5" fill="#2A1710" opacity="0.85"/><rect x="334.6" y="392.4" width="14.9" height="7.5" fill="#2A1710" opacity="0.64"/><rect x="334.6" y="405.0" width="14.8" height="7.5" fill="#2A1710" opacity="0.67"/><rect x="334.6" y="417.6" width="15.9" height="7.5" fill="#2A1710" opacity="0.73"/><rect x="334.6" y="430.2" width="17.0" height="7.5" fill="#2A1710" opacity="0.80"/><rect x="334.6" y="442.8" width="14.9" height="7.5" fill="#2A1710" opacity="0.72"/><rect x="305.3" y="342.0" width="16.2" height="7.5" fill="#2A1710" opacity="0.62"/><rect x="305.3" y="354.6" width="18.1" height="7.5" fill="#2A1710" opacity="0.85"/><rect x="305.3" y="367.2" width="15.0" height="7.5" fill="#2A1710" opacity="0.62"/><rect x="305.3" y="379.8" width="15.9" height="7.5" fill="#2A1710" opacity="0.70"/><rect x="305.3" y="392.4" width="17.2" height="7.5" fill="#2A1710" opacity="0.74"/><rect x="305.3" y="405.0" width="18.0" height="7.5" fill="#2A1710" opacity="0.79"/><rect x="305.3" y="417.6" width="14.6" height="7.5" fill="#2A1710" opacity="0.81"/><rect x="305.3" y="430.2" width="18.2" height="7.5" fill="#2A1710" opacity="0.80"/><circle cx="359.4" cy="417.0" r="32.6" fill="none" stroke="#D0180C" stroke-width="3.4" opacity="0.9"/></g>
+        <g transform="rotate(2.2 580.0 419.0)"><rect x="498" y="316" width="164" height="206" fill="#F3E8D3" stroke="#9E8E76" stroke-width="0.8"/><ellipse cx="510.0" cy="326.0" rx="8.0" ry="6.0" fill="#C9B590" opacity="0.5"/><ellipse cx="646.0" cy="328.0" rx="7.7" ry="7.7" fill="#C9B590" opacity="0.5"/><ellipse cx="512.0" cy="508.0" rx="10.2" ry="7.3" fill="#C9B590" opacity="0.5"/><ellipse cx="644.0" cy="510.0" rx="7.4" ry="5.3" fill="#C9B590" opacity="0.5"/><rect x="512.0" y="334.0" width="26" height="26" fill="#231009" opacity="0.86"/><rect x="544.0" y="334.0" width="26" height="26" fill="#231009" opacity="0.86"/><rect x="576.0" y="334.0" width="26" height="26" fill="#231009" opacity="0.86"/><rect x="625.7" y="382.0" width="14.6" height="7.5" fill="#2A1710" opacity="0.82"/><rect x="625.7" y="394.6" width="15.2" height="7.5" fill="#2A1710" opacity="0.63"/><rect x="625.7" y="407.2" width="14.9" height="7.5" fill="#2A1710" opacity="0.68"/><rect x="625.7" y="419.8" width="15.7" height="7.5" fill="#2A1710" opacity="0.64"/><rect x="625.7" y="432.4" width="14.4" height="7.5" fill="#2A1710" opacity="0.64"/><rect x="625.7" y="445.0" width="15.1" height="7.5" fill="#2A1710" opacity="0.86"/><rect x="598.5" y="382.0" width="16.3" height="7.5" fill="#2A1710" opacity="0.83"/><rect x="598.5" y="394.6" width="14.3" height="7.5" fill="#2A1710" opacity="0.73"/><rect x="598.5" y="407.2" width="13.9" height="7.5" fill="#2A1710" opacity="0.64"/><rect x="598.5" y="419.8" width="16.3" height="7.5" fill="#2A1710" opacity="0.65"/><rect x="598.5" y="432.4" width="16.2" height="7.5" fill="#2A1710" opacity="0.63"/><rect x="571.3" y="382.0" width="15.0" height="7.5" fill="#2A1710" opacity="0.71"/><rect x="571.3" y="394.6" width="15.2" height="7.5" fill="#2A1710" opacity="0.63"/><rect x="571.3" y="407.2" width="14.2" height="7.5" fill="#2A1710" opacity="0.85"/><rect x="571.3" y="419.8" width="15.0" height="7.5" fill="#2A1710" opacity="0.73"/><rect x="571.3" y="432.4" width="13.8" height="7.5" fill="#2A1710" opacity="0.69"/><rect x="544.1" y="382.0" width="15.2" height="7.5" fill="#2A1710" opacity="0.63"/><rect x="544.1" y="394.6" width="14.8" height="7.5" fill="#2A1710" opacity="0.81"/><rect x="544.1" y="407.2" width="15.0" height="7.5" fill="#2A1710" opacity="0.76"/><rect x="544.1" y="419.8" width="16.5" height="7.5" fill="#2A1710" opacity="0.77"/><rect x="544.1" y="432.4" width="15.6" height="7.5" fill="#2A1710" opacity="0.63"/><rect x="544.1" y="445.0" width="13.6" height="7.5" fill="#2A1710" opacity="0.80"/><rect x="516.9" y="382.0" width="16.2" height="7.5" fill="#2A1710" opacity="0.82"/><rect x="516.9" y="394.6" width="14.9" height="7.5" fill="#2A1710" opacity="0.84"/><rect x="516.9" y="407.2" width="13.5" height="7.5" fill="#2A1710" opacity="0.82"/><rect x="516.9" y="419.8" width="14.1" height="7.5" fill="#2A1710" opacity="0.70"/><rect x="516.9" y="432.4" width="14.5" height="7.5" fill="#2A1710" opacity="0.67"/><rect x="516.9" y="445.0" width="16.3" height="7.5" fill="#2A1710" opacity="0.64"/></g>
+            <g fill="#3A2A22" opacity="0.9"><use href="#cr-fig" transform="translate(760 401) scale(0.58)" /></g>
+          </svg>
+          <div class="tx-over tx-halftone--coarse" style="color:#5A4C38" aria-hidden="true"></div>
+        </div>
+        <figcaption><b>A dazibao wall</b> — sheets pasted over sheets at whatever angle the arm managed, each new one partly burying the last. Columns run top to bottom, right to left; the red circles and slashes are annotations added by later readers. Body text is abstracted into blocks; only three headings are set in real characters, in a modern brush face rather than copied from a surviving sheet.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure class="artwide">
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 900 520" role="img" aria-label="Diagram showing a crowd photograph in which every raised Little Red Book becomes an identical red rectangle, with a key panel explaining the module">
+            <defs><clipPath id="cr-bgclip"><rect x="210" width="690" height="520" /></clipPath></defs>
+            <rect width="900" height="520" fill="#A9C7DA" />
+            <g clip-path="url(#cr-bgclip)">
+        <g fill="#7C8B97" opacity="0.9"><circle cx="200.1" cy="142.0" r="8.5"/><rect x="204.0" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="225.2" cy="142.0" r="8.5"/><rect x="229.1" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="250.7" cy="142.0" r="8.5"/><rect x="254.5" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="276.5" cy="142.0" r="8.5"/><rect x="280.3" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="303.1" cy="142.0" r="8.5"/><rect x="307.0" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="330.9" cy="142.0" r="8.5"/><rect x="334.8" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="355.3" cy="142.0" r="8.5"/><rect x="359.1" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="384.7" cy="142.0" r="8.5"/><rect x="388.6" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="410.4" cy="142.0" r="8.5"/><rect x="414.2" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="437.4" cy="142.0" r="8.5"/><rect x="441.3" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="466.7" cy="142.0" r="8.5"/><rect x="470.5" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="498.6" cy="142.0" r="8.5"/><rect x="502.5" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="517.2" cy="142.0" r="8.5"/><rect x="521.0" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="552.1" cy="142.0" r="8.5"/><rect x="555.9" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="577.9" cy="142.0" r="8.5"/><rect x="581.7" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="608.0" cy="142.0" r="8.5"/><rect x="611.8" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="633.5" cy="142.0" r="8.5"/><rect x="637.3" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="653.8" cy="142.0" r="8.5"/><rect x="657.6" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="686.8" cy="142.0" r="8.5"/><rect x="690.6" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="709.7" cy="142.0" r="8.5"/><rect x="713.5" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="739.5" cy="142.0" r="8.5"/><rect x="743.3" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="767.5" cy="142.0" r="8.5"/><rect x="771.3" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="791.5" cy="142.0" r="8.5"/><rect x="795.3" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="814.4" cy="142.0" r="8.5"/><rect x="818.3" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="846.0" cy="142.0" r="8.5"/><rect x="849.8" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="877.8" cy="142.0" r="8.5"/><rect x="881.6" y="124.1" width="4.4" height="26.7" rx="2.2"/><circle cx="904.7" cy="142.0" r="8.5"/><rect x="908.5" y="124.1" width="4.4" height="26.7" rx="2.2"/></g>
+        <g fill="#BE3323"><g transform="rotate(6.3 200.1 118.7)"><rect x="190.1" y="105.2" width="20" height="27"/><rect x="190.1" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(0.3 225.2 118.7)"><rect x="215.2" y="105.2" width="20" height="27"/><rect x="215.2" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(10.9 250.7 118.7)"><rect x="240.7" y="105.2" width="20" height="27"/><rect x="240.7" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(-7.7 276.5 118.7)"><rect x="266.5" y="105.2" width="20" height="27"/><rect x="266.5" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(-5.3 303.1 118.7)"><rect x="293.1" y="105.2" width="20" height="27"/><rect x="293.1" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(-5.1 330.9 118.7)"><rect x="320.9" y="105.2" width="20" height="27"/><rect x="320.9" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(-3.8 355.3 118.7)"><rect x="345.3" y="105.2" width="20" height="27"/><rect x="345.3" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(1.5 384.7 118.7)"><rect x="374.7" y="105.2" width="20" height="27"/><rect x="374.7" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(-9.4 410.4 118.7)"><rect x="400.4" y="105.2" width="20" height="27"/><rect x="400.4" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(0.9 437.4 118.7)"><rect x="427.4" y="105.2" width="20" height="27"/><rect x="427.4" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(5.1 466.7 118.7)"><rect x="456.7" y="105.2" width="20" height="27"/><rect x="456.7" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(-1.9 498.6 118.7)"><rect x="488.6" y="105.2" width="20" height="27"/><rect x="488.6" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(5.0 517.2 118.7)"><rect x="507.2" y="105.2" width="20" height="27"/><rect x="507.2" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(-2.3 552.1 118.7)"><rect x="542.1" y="105.2" width="20" height="27"/><rect x="542.1" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(-4.4 577.9 118.7)"><rect x="567.9" y="105.2" width="20" height="27"/><rect x="567.9" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(7.3 608.0 118.7)"><rect x="598.0" y="105.2" width="20" height="27"/><rect x="598.0" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(10.0 633.5 118.7)"><rect x="623.5" y="105.2" width="20" height="27"/><rect x="623.5" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(1.0 653.8 118.7)"><rect x="643.8" y="105.2" width="20" height="27"/><rect x="643.8" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(6.6 686.8 118.7)"><rect x="676.8" y="105.2" width="20" height="27"/><rect x="676.8" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(-8.0 709.7 118.7)"><rect x="699.7" y="105.2" width="20" height="27"/><rect x="699.7" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(-8.7 739.5 118.7)"><rect x="729.5" y="105.2" width="20" height="27"/><rect x="729.5" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(-10.8 767.5 118.7)"><rect x="757.5" y="105.2" width="20" height="27"/><rect x="757.5" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(-0.4 791.5 118.7)"><rect x="781.5" y="105.2" width="20" height="27"/><rect x="781.5" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(-0.4 814.4 118.7)"><rect x="804.4" y="105.2" width="20" height="27"/><rect x="804.4" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(-2.9 846.0 118.7)"><rect x="836.0" y="105.2" width="20" height="27"/><rect x="836.0" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(8.1 877.8 118.7)"><rect x="867.8" y="105.2" width="20" height="27"/><rect x="867.8" y="105.2" width="3.2" height="27" fill="#F2B705"/></g><g transform="rotate(-5.6 904.7 118.7)"><rect x="894.7" y="105.2" width="20" height="27"/><rect x="894.7" y="105.2" width="3.2" height="27" fill="#F2B705"/></g></g>
+        <g fill="#6A7986" opacity="0.9"><circle cx="192.3" cy="194.0" r="11.5"/><rect x="197.5" y="170.2" width="5.7" height="35.4" rx="2.9"/><circle cx="226.8" cy="194.0" r="11.5"/><rect x="232.0" y="170.2" width="5.7" height="35.4" rx="2.9"/><circle cx="262.0" cy="194.0" r="11.5"/><rect x="267.2" y="170.2" width="5.7" height="35.4" rx="2.9"/><circle cx="295.7" cy="194.0" r="11.5"/><rect x="300.9" y="170.2" width="5.7" height="35.4" rx="2.9"/><circle cx="334.5" cy="194.0" r="11.5"/><rect x="339.7" y="170.2" width="5.7" height="35.4" rx="2.9"/><circle cx="362.8" cy="194.0" r="11.5"/><rect x="367.9" y="170.2" width="5.7" height="35.4" rx="2.9"/><circle cx="393.1" cy="194.0" r="11.5"/><rect x="398.3" y="170.2" width="5.7" height="35.4" rx="2.9"/><circle cx="434.2" cy="194.0" r="11.5"/><rect x="439.4" y="170.2" width="5.7" height="35.4" rx="2.9"/><circle cx="460.6" cy="194.0" r="11.5"/><rect x="465.8" y="170.2" width="5.7" height="35.4" rx="2.9"/><circle cx="498.9" cy="194.0" r="11.5"/><rect x="504.1" y="170.2" width="5.7" height="35.4" rx="2.9"/><circle cx="526.5" cy="194.0" r="11.5"/><rect x="531.7" y="170.2" width="5.7" height="35.4" rx="2.9"/><circle cx="563.0" cy="194.0" r="11.5"/><rect x="568.2" y="170.2" width="5.7" height="35.4" rx="2.9"/><circle cx="595.2" cy="194.0" r="11.5"/><rect x="600.4" y="170.2" width="5.7" height="35.4" rx="2.9"/><circle cx="632.2" cy="194.0" r="11.5"/><rect x="637.4" y="170.2" width="5.7" height="35.4" rx="2.9"/><circle cx="667.4" cy="194.0" r="11.5"/><rect x="672.6" y="170.2" width="5.7" height="35.4" rx="2.9"/><circle cx="701.6" cy="194.0" r="11.5"/><rect x="706.8" y="170.2" width="5.7" height="35.4" rx="2.9"/><circle cx="734.6" cy="194.0" r="11.5"/><rect x="739.8" y="170.2" width="5.7" height="35.4" rx="2.9"/><circle cx="760.4" cy="194.0" r="11.5"/><rect x="765.6" y="170.2" width="5.7" height="35.4" rx="2.9"/><circle cx="801.5" cy="194.0" r="11.5"/><rect x="806.7" y="170.2" width="5.7" height="35.4" rx="2.9"/><circle cx="838.3" cy="194.0" r="11.5"/><rect x="843.5" y="170.2" width="5.7" height="35.4" rx="2.9"/><circle cx="867.6" cy="194.0" r="11.5"/><rect x="872.8" y="170.2" width="5.7" height="35.4" rx="2.9"/><circle cx="896.5" cy="194.0" r="11.5"/><rect x="901.7" y="170.2" width="5.7" height="35.4" rx="2.9"/></g>
+        <g fill="#C93020"><g transform="rotate(-2.7 192.3 163.2)"><rect x="179.3" y="145.8" width="26" height="35"/><rect x="179.3" y="145.8" width="4.2" height="35" fill="#F2B705"/></g><g transform="rotate(4.5 226.8 163.2)"><rect x="213.8" y="145.8" width="26" height="35"/><rect x="213.8" y="145.8" width="4.2" height="35" fill="#F2B705"/></g><g transform="rotate(-8.2 262.0 163.2)"><rect x="249.0" y="145.8" width="26" height="35"/><rect x="249.0" y="145.8" width="4.2" height="35" fill="#F2B705"/></g><g transform="rotate(-2.1 295.7 163.2)"><rect x="282.7" y="145.8" width="26" height="35"/><rect x="282.7" y="145.8" width="4.2" height="35" fill="#F2B705"/></g><g transform="rotate(-0.9 334.5 163.2)"><rect x="321.5" y="145.8" width="26" height="35"/><rect x="321.5" y="145.8" width="4.2" height="35" fill="#F2B705"/></g><g transform="rotate(3.9 362.8 163.2)"><rect x="349.8" y="145.8" width="26" height="35"/><rect x="349.8" y="145.8" width="4.2" height="35" fill="#F2B705"/></g><g transform="rotate(-6.4 393.1 163.2)"><rect x="380.1" y="145.8" width="26" height="35"/><rect x="380.1" y="145.8" width="4.2" height="35" fill="#F2B705"/></g><g transform="rotate(5.5 434.2 163.2)"><rect x="421.2" y="145.8" width="26" height="35"/><rect x="421.2" y="145.8" width="4.2" height="35" fill="#F2B705"/></g><g transform="rotate(-9.5 460.6 163.2)"><rect x="447.6" y="145.8" width="26" height="35"/><rect x="447.6" y="145.8" width="4.2" height="35" fill="#F2B705"/></g><g transform="rotate(3.4 498.9 163.2)"><rect x="485.9" y="145.8" width="26" height="35"/><rect x="485.9" y="145.8" width="4.2" height="35" fill="#F2B705"/></g><g transform="rotate(-1.4 526.5 163.2)"><rect x="513.5" y="145.8" width="26" height="35"/><rect x="513.5" y="145.8" width="4.2" height="35" fill="#F2B705"/></g><g transform="rotate(-9.1 563.0 163.2)"><rect x="550.0" y="145.8" width="26" height="35"/><rect x="550.0" y="145.8" width="4.2" height="35" fill="#F2B705"/></g><g transform="rotate(-4.7 595.2 163.2)"><rect x="582.2" y="145.8" width="26" height="35"/><rect x="582.2" y="145.8" width="4.2" height="35" fill="#F2B705"/></g><g transform="rotate(-8.5 632.2 163.2)"><rect x="619.2" y="145.8" width="26" height="35"/><rect x="619.2" y="145.8" width="4.2" height="35" fill="#F2B705"/></g><g transform="rotate(8.3 667.4 163.2)"><rect x="654.4" y="145.8" width="26" height="35"/><rect x="654.4" y="145.8" width="4.2" height="35" fill="#F2B705"/></g><g transform="rotate(-9.5 701.6 163.2)"><rect x="688.6" y="145.8" width="26" height="35"/><rect x="688.6" y="145.8" width="4.2" height="35" fill="#F2B705"/></g><g transform="rotate(2.9 734.6 163.2)"><rect x="721.6" y="145.8" width="26" height="35"/><rect x="721.6" y="145.8" width="4.2" height="35" fill="#F2B705"/></g><g transform="rotate(-2.5 760.4 163.2)"><rect x="747.4" y="145.8" width="26" height="35"/><rect x="747.4" y="145.8" width="4.2" height="35" fill="#F2B705"/></g><g transform="rotate(9.9 801.5 163.2)"><rect x="788.5" y="145.8" width="26" height="35"/><rect x="788.5" y="145.8" width="4.2" height="35" fill="#F2B705"/></g><g transform="rotate(1.5 838.3 163.2)"><rect x="825.3" y="145.8" width="26" height="35"/><rect x="825.3" y="145.8" width="4.2" height="35" fill="#F2B705"/></g><g transform="rotate(10.1 867.6 163.2)"><rect x="854.6" y="145.8" width="26" height="35"/><rect x="854.6" y="145.8" width="4.2" height="35" fill="#F2B705"/></g><g transform="rotate(0.2 896.5 163.2)"><rect x="883.5" y="145.8" width="26" height="35"/><rect x="883.5" y="145.8" width="4.2" height="35" fill="#F2B705"/></g></g>
+        <g fill="#596773" opacity="0.9"><circle cx="192.7" cy="256.0" r="15.5"/><rect x="199.7" y="224.8" width="7.5" height="46.5" rx="3.7"/><circle cx="241.1" cy="256.0" r="15.5"/><rect x="248.1" y="224.8" width="7.5" height="46.5" rx="3.7"/><circle cx="277.0" cy="256.0" r="15.5"/><rect x="283.9" y="224.8" width="7.5" height="46.5" rx="3.7"/><circle cx="324.9" cy="256.0" r="15.5"/><rect x="331.9" y="224.8" width="7.5" height="46.5" rx="3.7"/><circle cx="361.1" cy="256.0" r="15.5"/><rect x="368.0" y="224.8" width="7.5" height="46.5" rx="3.7"/><circle cx="401.6" cy="256.0" r="15.5"/><rect x="408.6" y="224.8" width="7.5" height="46.5" rx="3.7"/><circle cx="448.5" cy="256.0" r="15.5"/><rect x="455.4" y="224.8" width="7.5" height="46.5" rx="3.7"/><circle cx="488.8" cy="256.0" r="15.5"/><rect x="495.7" y="224.8" width="7.5" height="46.5" rx="3.7"/><circle cx="525.8" cy="256.0" r="15.5"/><rect x="532.8" y="224.8" width="7.5" height="46.5" rx="3.7"/><circle cx="568.8" cy="256.0" r="15.5"/><rect x="575.8" y="224.8" width="7.5" height="46.5" rx="3.7"/><circle cx="605.7" cy="256.0" r="15.5"/><rect x="612.7" y="224.8" width="7.5" height="46.5" rx="3.7"/><circle cx="648.1" cy="256.0" r="15.5"/><rect x="655.1" y="224.8" width="7.5" height="46.5" rx="3.7"/><circle cx="698.7" cy="256.0" r="15.5"/><rect x="705.7" y="224.8" width="7.5" height="46.5" rx="3.7"/><circle cx="739.2" cy="256.0" r="15.5"/><rect x="746.2" y="224.8" width="7.5" height="46.5" rx="3.7"/><circle cx="775.7" cy="256.0" r="15.5"/><rect x="782.7" y="224.8" width="7.5" height="46.5" rx="3.7"/><circle cx="815.3" cy="256.0" r="15.5"/><rect x="822.3" y="224.8" width="7.5" height="46.5" rx="3.7"/><circle cx="858.0" cy="256.0" r="15.5"/><rect x="865.0" y="224.8" width="7.5" height="46.5" rx="3.7"/><circle cx="905.7" cy="256.0" r="15.5"/><rect x="912.6" y="224.8" width="7.5" height="46.5" rx="3.7"/></g>
+        <g fill="#D42C1C"><g transform="rotate(6.0 192.7 215.8)"><rect x="175.7" y="193.2" width="34" height="45"/><rect x="175.7" y="193.2" width="5.4" height="45" fill="#F2B705"/></g><g transform="rotate(-6.4 241.1 215.8)"><rect x="224.1" y="193.2" width="34" height="45"/><rect x="224.1" y="193.2" width="5.4" height="45" fill="#F2B705"/></g><g transform="rotate(0.5 277.0 215.8)"><rect x="260.0" y="193.2" width="34" height="45"/><rect x="260.0" y="193.2" width="5.4" height="45" fill="#F2B705"/></g><g transform="rotate(-8.0 324.9 215.8)"><rect x="307.9" y="193.2" width="34" height="45"/><rect x="307.9" y="193.2" width="5.4" height="45" fill="#F2B705"/></g><g transform="rotate(0.3 361.1 215.8)"><rect x="344.1" y="193.2" width="34" height="45"/><rect x="344.1" y="193.2" width="5.4" height="45" fill="#F2B705"/></g><g transform="rotate(8.5 401.6 215.8)"><rect x="384.6" y="193.2" width="34" height="45"/><rect x="384.6" y="193.2" width="5.4" height="45" fill="#F2B705"/></g><g transform="rotate(10.0 448.5 215.8)"><rect x="431.5" y="193.2" width="34" height="45"/><rect x="431.5" y="193.2" width="5.4" height="45" fill="#F2B705"/></g><g transform="rotate(4.0 488.8 215.8)"><rect x="471.8" y="193.2" width="34" height="45"/><rect x="471.8" y="193.2" width="5.4" height="45" fill="#F2B705"/></g><g transform="rotate(0.1 525.8 215.8)"><rect x="508.8" y="193.2" width="34" height="45"/><rect x="508.8" y="193.2" width="5.4" height="45" fill="#F2B705"/></g><g transform="rotate(-0.5 568.8 215.8)"><rect x="551.8" y="193.2" width="34" height="45"/><rect x="551.8" y="193.2" width="5.4" height="45" fill="#F2B705"/></g><g transform="rotate(7.7 605.7 215.8)"><rect x="588.7" y="193.2" width="34" height="45"/><rect x="588.7" y="193.2" width="5.4" height="45" fill="#F2B705"/></g><g transform="rotate(-0.9 648.1 215.8)"><rect x="631.1" y="193.2" width="34" height="45"/><rect x="631.1" y="193.2" width="5.4" height="45" fill="#F2B705"/></g><g transform="rotate(0.3 698.7 215.8)"><rect x="681.7" y="193.2" width="34" height="45"/><rect x="681.7" y="193.2" width="5.4" height="45" fill="#F2B705"/></g><g transform="rotate(-5.3 739.2 215.8)"><rect x="722.2" y="193.2" width="34" height="45"/><rect x="722.2" y="193.2" width="5.4" height="45" fill="#F2B705"/></g><g transform="rotate(-2.7 775.7 215.8)"><rect x="758.7" y="193.2" width="34" height="45"/><rect x="758.7" y="193.2" width="5.4" height="45" fill="#F2B705"/></g><g transform="rotate(-2.9 815.3 215.8)"><rect x="798.3" y="193.2" width="34" height="45"/><rect x="798.3" y="193.2" width="5.4" height="45" fill="#F2B705"/></g><g transform="rotate(7.5 858.0 215.8)"><rect x="841.0" y="193.2" width="34" height="45"/><rect x="841.0" y="193.2" width="5.4" height="45" fill="#F2B705"/></g><g transform="rotate(-8.9 905.7 215.8)"><rect x="888.7" y="193.2" width="34" height="45"/><rect x="888.7" y="193.2" width="5.4" height="45" fill="#F2B705"/></g></g>
+        <g fill="#485561" opacity="0.9"><circle cx="200.0" cy="336.0" r="21.0"/><rect x="209.5" y="294.7" width="9.7" height="61.3" rx="4.8"/><circle cx="251.0" cy="336.0" r="21.0"/><rect x="260.4" y="294.7" width="9.7" height="61.3" rx="4.8"/><circle cx="304.3" cy="336.0" r="21.0"/><rect x="313.8" y="294.7" width="9.7" height="61.3" rx="4.8"/><circle cx="358.4" cy="336.0" r="21.0"/><rect x="367.9" y="294.7" width="9.7" height="61.3" rx="4.8"/><circle cx="412.4" cy="336.0" r="21.0"/><rect x="421.9" y="294.7" width="9.7" height="61.3" rx="4.8"/><circle cx="465.3" cy="336.0" r="21.0"/><rect x="474.7" y="294.7" width="9.7" height="61.3" rx="4.8"/><circle cx="520.7" cy="336.0" r="21.0"/><rect x="530.2" y="294.7" width="9.7" height="61.3" rx="4.8"/><circle cx="572.0" cy="336.0" r="21.0"/><rect x="581.4" y="294.7" width="9.7" height="61.3" rx="4.8"/><circle cx="630.7" cy="336.0" r="21.0"/><rect x="640.1" y="294.7" width="9.7" height="61.3" rx="4.8"/><circle cx="684.2" cy="336.0" r="21.0"/><rect x="693.6" y="294.7" width="9.7" height="61.3" rx="4.8"/><circle cx="739.1" cy="336.0" r="21.0"/><rect x="748.5" y="294.7" width="9.7" height="61.3" rx="4.8"/><circle cx="794.2" cy="336.0" r="21.0"/><rect x="803.6" y="294.7" width="9.7" height="61.3" rx="4.8"/><circle cx="842.9" cy="336.0" r="21.0"/><rect x="852.4" y="294.7" width="9.7" height="61.3" rx="4.8"/><circle cx="904.0" cy="336.0" r="21.0"/><rect x="913.5" y="294.7" width="9.7" height="61.3" rx="4.8"/></g>
+        <g fill="#DC2919"><g transform="rotate(0.6 200.0 283.1)"><rect x="178.0" y="254.1" width="44" height="58"/><rect x="178.0" y="254.1" width="7.0" height="58" fill="#F2B705"/></g><g transform="rotate(-10.1 251.0 283.1)"><rect x="229.0" y="254.1" width="44" height="58"/><rect x="229.0" y="254.1" width="7.0" height="58" fill="#F2B705"/></g><g transform="rotate(-4.0 304.3 283.1)"><rect x="282.3" y="254.1" width="44" height="58"/><rect x="282.3" y="254.1" width="7.0" height="58" fill="#F2B705"/></g><g transform="rotate(2.1 358.4 283.1)"><rect x="336.4" y="254.1" width="44" height="58"/><rect x="336.4" y="254.1" width="7.0" height="58" fill="#F2B705"/></g><g transform="rotate(-4.5 412.4 283.1)"><rect x="390.4" y="254.1" width="44" height="58"/><rect x="390.4" y="254.1" width="7.0" height="58" fill="#F2B705"/></g><g transform="rotate(10.5 465.3 283.1)"><rect x="443.3" y="254.1" width="44" height="58"/><rect x="443.3" y="254.1" width="7.0" height="58" fill="#F2B705"/></g><g transform="rotate(10.4 520.7 283.1)"><rect x="498.7" y="254.1" width="44" height="58"/><rect x="498.7" y="254.1" width="7.0" height="58" fill="#F2B705"/></g><g transform="rotate(3.6 572.0 283.1)"><rect x="550.0" y="254.1" width="44" height="58"/><rect x="550.0" y="254.1" width="7.0" height="58" fill="#F2B705"/></g><g transform="rotate(4.6 630.7 283.1)"><rect x="608.7" y="254.1" width="44" height="58"/><rect x="608.7" y="254.1" width="7.0" height="58" fill="#F2B705"/></g><g transform="rotate(8.2 684.2 283.1)"><rect x="662.2" y="254.1" width="44" height="58"/><rect x="662.2" y="254.1" width="7.0" height="58" fill="#F2B705"/></g><g transform="rotate(-10.0 739.1 283.1)"><rect x="717.1" y="254.1" width="44" height="58"/><rect x="717.1" y="254.1" width="7.0" height="58" fill="#F2B705"/></g><g transform="rotate(2.5 794.2 283.1)"><rect x="772.2" y="254.1" width="44" height="58"/><rect x="772.2" y="254.1" width="7.0" height="58" fill="#F2B705"/></g><g transform="rotate(5.1 842.9 283.1)"><rect x="820.9" y="254.1" width="44" height="58"/><rect x="820.9" y="254.1" width="7.0" height="58" fill="#F2B705"/></g><g transform="rotate(-4.9 904.0 283.1)"><rect x="882.0" y="254.1" width="44" height="58"/><rect x="882.0" y="254.1" width="7.0" height="58" fill="#F2B705"/></g></g>
+        <g fill="#3A4650" opacity="0.9"><circle cx="193.8" cy="444.0" r="28.0"/><rect x="206.4" y="390.1" width="12.3" height="79.9" rx="6.2"/><circle cx="269.3" cy="444.0" r="28.0"/><rect x="281.9" y="390.1" width="12.3" height="79.9" rx="6.2"/><circle cx="333.3" cy="444.0" r="28.0"/><rect x="345.9" y="390.1" width="12.3" height="79.9" rx="6.2"/><circle cx="409.2" cy="444.0" r="28.0"/><rect x="421.8" y="390.1" width="12.3" height="79.9" rx="6.2"/><circle cx="477.0" cy="444.0" r="28.0"/><rect x="489.6" y="390.1" width="12.3" height="79.9" rx="6.2"/><circle cx="551.1" cy="444.0" r="28.0"/><rect x="563.7" y="390.1" width="12.3" height="79.9" rx="6.2"/><circle cx="617.4" cy="444.0" r="28.0"/><rect x="630.0" y="390.1" width="12.3" height="79.9" rx="6.2"/><circle cx="686.1" cy="444.0" r="28.0"/><rect x="698.7" y="390.1" width="12.3" height="79.9" rx="6.2"/><circle cx="757.2" cy="444.0" r="28.0"/><rect x="769.8" y="390.1" width="12.3" height="79.9" rx="6.2"/><circle cx="833.3" cy="444.0" r="28.0"/><rect x="845.9" y="390.1" width="12.3" height="79.9" rx="6.2"/><circle cx="896.3" cy="444.0" r="28.0"/><rect x="908.9" y="390.1" width="12.3" height="79.9" rx="6.2"/></g>
+        <g fill="#E02418"><g transform="rotate(-4.6 193.8 375.3)"><rect x="165.8" y="338.3" width="56" height="74"/><rect x="165.8" y="338.3" width="9.0" height="74" fill="#F2B705"/></g><g transform="rotate(-1.2 269.3 375.3)"><rect x="241.3" y="338.3" width="56" height="74"/><rect x="241.3" y="338.3" width="9.0" height="74" fill="#F2B705"/></g><g transform="rotate(-1.1 333.3 375.3)"><rect x="305.3" y="338.3" width="56" height="74"/><rect x="305.3" y="338.3" width="9.0" height="74" fill="#F2B705"/></g><g transform="rotate(1.7 409.2 375.3)"><rect x="381.2" y="338.3" width="56" height="74"/><rect x="381.2" y="338.3" width="9.0" height="74" fill="#F2B705"/></g><g transform="rotate(6.3 477.0 375.3)"><rect x="449.0" y="338.3" width="56" height="74"/><rect x="449.0" y="338.3" width="9.0" height="74" fill="#F2B705"/></g><g transform="rotate(-5.3 551.1 375.3)"><rect x="523.1" y="338.3" width="56" height="74"/><rect x="523.1" y="338.3" width="9.0" height="74" fill="#F2B705"/></g><g transform="rotate(9.4 617.4 375.3)"><rect x="589.4" y="338.3" width="56" height="74"/><rect x="589.4" y="338.3" width="9.0" height="74" fill="#F2B705"/></g><g transform="rotate(-1.2 686.1 375.3)"><rect x="658.1" y="338.3" width="56" height="74"/><rect x="658.1" y="338.3" width="9.0" height="74" fill="#F2B705"/></g><g transform="rotate(1.8 757.2 375.3)"><rect x="729.2" y="338.3" width="56" height="74"/><rect x="729.2" y="338.3" width="9.0" height="74" fill="#F2B705"/></g><g transform="rotate(-8.3 833.3 375.3)"><rect x="805.3" y="338.3" width="56" height="74"/><rect x="805.3" y="338.3" width="9.0" height="74" fill="#F2B705"/></g><g transform="rotate(-9.6 896.3 375.3)"><rect x="868.3" y="338.3" width="56" height="74"/><rect x="868.3" y="338.3" width="9.0" height="74" fill="#F2B705"/></g></g>
+        <g fill="#2E3941" opacity="0.9"><circle cx="193.5" cy="566.0" r="36.0"/><rect x="209.7" y="497.8" width="15.4" height="101.0" rx="7.7"/><circle cx="285.6" cy="566.0" r="36.0"/><rect x="301.8" y="497.8" width="15.4" height="101.0" rx="7.7"/><circle cx="372.9" cy="566.0" r="36.0"/><rect x="389.1" y="497.8" width="15.4" height="101.0" rx="7.7"/><circle cx="455.6" cy="566.0" r="36.0"/><rect x="471.8" y="497.8" width="15.4" height="101.0" rx="7.7"/><circle cx="546.7" cy="566.0" r="36.0"/><rect x="562.9" y="497.8" width="15.4" height="101.0" rx="7.7"/><circle cx="640.2" cy="566.0" r="36.0"/><rect x="656.4" y="497.8" width="15.4" height="101.0" rx="7.7"/><circle cx="720.1" cy="566.0" r="36.0"/><rect x="736.3" y="497.8" width="15.4" height="101.0" rx="7.7"/><circle cx="808.1" cy="566.0" r="36.0"/><rect x="824.3" y="497.8" width="15.4" height="101.0" rx="7.7"/><circle cx="901.3" cy="566.0" r="36.0"/><rect x="917.5" y="497.8" width="15.4" height="101.0" rx="7.7"/></g>
+        <g fill="#E63423"><g transform="rotate(0.5 193.5 479.4)"><rect x="158.5" y="433.4" width="70" height="92"/><rect x="158.5" y="433.4" width="11.2" height="92" fill="#F2B705"/></g><g transform="rotate(9.8 285.6 479.4)"><rect x="250.6" y="433.4" width="70" height="92"/><rect x="250.6" y="433.4" width="11.2" height="92" fill="#F2B705"/></g><g transform="rotate(0.6 372.9 479.4)"><rect x="337.9" y="433.4" width="70" height="92"/><rect x="337.9" y="433.4" width="11.2" height="92" fill="#F2B705"/></g><g transform="rotate(-6.0 455.6 479.4)"><rect x="420.6" y="433.4" width="70" height="92"/><rect x="420.6" y="433.4" width="11.2" height="92" fill="#F2B705"/></g><g transform="rotate(-5.6 546.7 479.4)"><rect x="511.7" y="433.4" width="70" height="92"/><rect x="511.7" y="433.4" width="11.2" height="92" fill="#F2B705"/></g><g transform="rotate(-1.8 640.2 479.4)"><rect x="605.2" y="433.4" width="70" height="92"/><rect x="605.2" y="433.4" width="11.2" height="92" fill="#F2B705"/></g><g transform="rotate(0.8 720.1 479.4)"><rect x="685.1" y="433.4" width="70" height="92"/><rect x="685.1" y="433.4" width="11.2" height="92" fill="#F2B705"/></g><g transform="rotate(-6.9 808.1 479.4)"><rect x="773.1" y="433.4" width="70" height="92"/><rect x="773.1" y="433.4" width="11.2" height="92" fill="#F2B705"/></g><g transform="rotate(-9.1 901.3 479.4)"><rect x="866.3" y="433.4" width="70" height="92"/><rect x="866.3" y="433.4" width="11.2" height="92" fill="#F2B705"/></g></g>
+            </g>
+            <rect width="212" height="520" fill="#F7E9D8" />
+            <path d="M212 0 V520" stroke="#1B0F0C" stroke-width="1.4" />
+            <g font-family="JetBrains Mono, monospace" fill="#1B0F0C">
+              <text x="22" y="34" font-size="11.5" font-weight="700" letter-spacing="1.6">THE MODULE</text>
+              <rect x="36" y="52" width="58" height="78" fill="#E02418" />
+              <rect x="36" y="52" width="9" height="78" fill="#8A1208" />
+              <g stroke="#1B0F0C" stroke-width="0.8" fill="none">
+                <path d="M36 144 H94 M36 140 v8 M94 140 v8" />
+                <path d="M110 52 V130 M106 52 h8 M106 130 h8" />
+              </g>
+              <text x="65" y="160" font-size="9" text-anchor="middle">≈ 90 mm</text>
+              <text x="126" y="94" font-size="9" transform="rotate(90 126 94)" text-anchor="middle">≈ 130 mm</text>
+              <g font-size="9.6" font-weight="700">
+                <text x="22" y="212">01 · ONE OBJECT</text>
+                <text x="22" y="284">02 · ONE GESTURE</text>
+                <text x="22" y="356">03 · CROWD AS TEXTURE</text>
+                <text x="22" y="428">04 · THE PICTURE IS THE PRODUCT</text>
+              </g>
+              <g font-size="8.8" fill="#5A4C38">
+                <text x="22" y="228">Identical edition, identical<tspan x="22" dy="11">colour, identical size.</tspan></text>
+                <text x="22" y="300">Right hand, head height,<tspan x="22" dy="11">spine outward, arm locked.</tspan></text>
+                <text x="22" y="372">Faces recede. The repeated<tspan x="22" dy="11">rectangle becomes the subject.</tspan></text>
+                <text x="22" y="444">What is manufactured is the<tspan x="22" dy="11">photograph, not the reading.</tspan></text>
+              </g>
+              <text x="22" y="500" font-size="8.8" fill="#5A4C38">≈ 1 module per person, n → the frame edge.</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The crowd as a field of red rectangles</b> — the Little Red Book's second function, and arguably its first. A single object of fixed size and colour, held in a fixed gesture by everyone present, converts a crowd into a repeating pattern. The photograph is the deliverable; the book is the halftone dot.
+          <span class="credit">Diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+    </div>
+
+    <p class="note" data-reveal style="margin-top:2.6rem;max-width:46rem">
+      These are drawn from published descriptions, catalogue entries and the collections listed
+      below — not traced from photographs, and not copies of any specific sheet. No portrait of Mao
+      is attempted anywhere on this page: at every point where the face would sit, the radiance
+      device stands in its place. That substitution is the argument, not an omission.
+    </p>
+  </div>
+</section>
+
+<!-- ============================== LINEAGE ============================== -->
+<section class="section" id="lineage">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Lineage</p>
+    <h2 class="section-title" data-reveal>Where the rules came from, and where they went</h2>
+    <div class="lineage" data-reveal
+         data-lineage="constructivism,vietnam,khmer-rouge,ospaaal"
+         data-why="The direct parent. Soviet Socialist Realism supplied the frontal hero, the low viewpoint and the sun behind the leader's head; China imported the doctrine in the 1950s and then hardened it into written rules.|Next door, and receiving Chinese materials, training and political backing. Same red-and-gold palette, opposite production method: hand-painted one sheet at a time rather than offset in millions.|Backed by Beijing and supplied with Chinese printing and film equipment — then took the logic past its own end point by trying to abolish the image altogether.|Havana and Beijing worked the same Third World solidarity poster circuit. OSPAAAL's answer to the same brief was psychedelic, individually signed and silkscreened: the exact inverse of an anonymous studio collective.">
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SOURCES ============================== -->
+<section class="section" id="sources" style="padding-top:0">
+  <div class="wrap">
+    <hr class="hr" style="margin-bottom:3rem" />
+    <p class="eyebrow" data-reveal>Sources &amp; further reading</p>
+    <ul class="sources" data-reveal>
+      <li>Stefan R. Landsberger, <cite>chineseposters.net</cite> — the standing online archive of Chinese propaganda posters, with essays on themes, artists and publishers.</li>
+      <li>Stefan R. Landsberger &amp; Marien van der Heijden, <cite>Chinese Posters: The IISH–Landsberger Collections</cite> (Prestel, 2009).</li>
+      <li>Stefan R. Landsberger, <cite>Chinese Propaganda Posters: From Revolution to Modernization</cite> (1995).</li>
+      <li>Harriet Evans &amp; Stephanie Donald (eds.), <cite>Picturing Power in the People's Republic of China: Posters of the Cultural Revolution</cite> (1999).</li>
+      <li>Barbara Mittler, <cite>A Continuous Revolution: Making Sense of Cultural Revolution Culture</cite> (Harvard University Asia Center, 2012).</li>
+      <li>Frank Dikötter, <cite>The Cultural Revolution: A People's History, 1962–1976</cite> (Bloomsbury, 2016).</li>
+      <li>Melissa Schrift, <cite>Biography of a Chairman Mao Badge: The Creation and Mass Consumption of a Personality Cult</cite> (Rutgers University Press, 2001).</li>
+      <li>International Institute of Social History (IISH), Amsterdam — the Chinese poster collection, from which much of the published scholarship above is drawn.</li>
+    </ul>
+  </div>
+</section>
+
+<div data-site="foot"></div>
+
+<script src="../../shared/movements.js"></script>
+<script src="../../shared/site.js"></script>
+</body>
+</html>

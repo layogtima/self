@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en" data-slug="swadeshi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Swadeshi & the Indian Freedom Struggle — Political Design</title>
+<meta name="description" content="How the Indian freedom struggle built a visual system out of handspun cloth, a spinning wheel, a goddess painted in 1905, and four hundred posters commissioned from Nandalal Bose." />
+<meta name="theme-color" content="#EDE3D2" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Swadeshi & the Indian Freedom Struggle — Political Design" />
+<meta property="og:description" content="A revolution that dressed itself in handspun cloth. The spinning wheel became a logo, khadi became a uniform." />
+<meta property="og:url" content="https://layogtima.com/political-design/m/swadeshi/" />
+<link rel="icon" type="image/svg+xml" href="https://layogtima.com/images/favicon/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Tiro+Devanagari+Hindi:ital@0;1&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../shared/site.css" />
+<link rel="stylesheet" href="../../shared/textures.css" />
+<style>
+  :root {
+    --paper: #EDE3D2;
+    --ink: #2B2118;
+    --accent: #C9532B;
+    --indigo: #2C3E6B;
+    --leaf: #12653F;
+    --gold: #C99B2B;
+    --madder: #9E2B1E;
+    --font-display: "Rozha One", "Playfair Display", Georgia, serif;
+    --font-body: "Source Serif 4", Georgia, serif;
+    --font-deva: "Tiro Devanagari Hindi", serif;
+  }
+  h1, h2, h3, h4 { font-weight: 400; letter-spacing: 0; }
+  body { background-color: var(--paper); }
+
+  /* the whole page sits on cloth */
+  .cloth { position: relative; }
+  .cloth::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(90,70,45,0.075) 0 1px, transparent 1px 4px),
+      repeating-linear-gradient(0deg, rgba(90,70,45,0.06) 0 1px, transparent 1px 5px),
+      repeating-linear-gradient(90deg, rgba(90,70,45,0.05) 0 2px, transparent 2px 17px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .cloth > * { position: relative; z-index: 1; }
+
+  /* ---------- hero ---------- */
+  .hero {
+    min-height: 100svh;
+    display: grid;
+    align-content: center;
+    padding: 7rem var(--gutter) 4rem;
+    overflow: hidden;
+  }
+  .hero__wheel {
+    position: absolute;
+    right: -14vw; top: 50%;
+    width: min(78vh, 62vw);
+    transform: translateY(-50%);
+    opacity: 0.13;
+    color: var(--madder);
+    animation: spin 90s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
+  .hero__inner { position: relative; z-index: 2; width: min(100%, 76rem); margin-inline: auto; }
+  .hero__deva {
+    font-family: var(--font-deva);
+    font-size: clamp(3.4rem, 13vw, 10rem);
+    line-height: 0.95;
+    color: var(--madder);
+    margin: 0 0 0.1em;
+    letter-spacing: -0.01em;
+  }
+  .hero__en {
+    font-family: var(--font-display);
+    font-size: clamp(2.1rem, 6.6vw, 5.2rem);
+    line-height: 0.98;
+    margin: 0 0 1.4rem;
+    max-width: 16ch;
+  }
+  .hero__meta {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--soft);
+    display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem;
+    margin-bottom: 2rem;
+  }
+  .hero__lede { font-size: clamp(1.1rem, 1vw + 0.95rem, 1.42rem); line-height: 1.5; max-width: 33rem; }
+  .hero__lede em { font-style: italic; color: var(--madder); }
+
+  /* tricolour rule */
+  .tri { height: 8px; display: grid; grid-template-columns: 1fr 1fr 1fr; }
+  .tri i:nth-child(1) { background: #E8730C; }
+  .tri i:nth-child(2) { background: #F6F1E6; }
+  .tri i:nth-child(3) { background: var(--leaf); }
+
+  /* block-printed border strip */
+  .blockprint {
+    height: 26px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="52" height="26" viewBox="0 0 52 26"><g fill="none" stroke="%239E2B1E" stroke-width="1.4" opacity="0.55"><path d="M13 3 L23 13 L13 23 L3 13 Z"/><path d="M39 3 L49 13 L39 23 L29 13 Z"/><circle cx="13" cy="13" r="3"/><circle cx="39" cy="13" r="3"/><path d="M26 0 v26"/></g></svg>');
+    background-repeat: repeat-x;
+    background-size: auto 26px;
+  }
+
+  /* ---------- anatomy ---------- */
+  .anatomy-grid {
+    display: grid;
+    gap: var(--step) 3.5rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 62rem) { .anatomy-grid { grid-template-columns: 1.1fr 1fr; } }
+
+  .symbolrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr)); gap: 1.6rem; }
+  .symbolrow figure .frame { background: #F6F1E6; padding: 0.9rem; }
+  .symbolrow figcaption { font-size: 0.78rem; }
+
+  /* ---------- essay ---------- */
+  .essay h3 {
+    font-size: clamp(1.5rem, 3vw, 2.3rem);
+    margin: 3.4rem 0 1rem;
+    max-width: 22ch;
+  }
+  .essay h3 span { color: var(--madder); }
+  .essay > .prose > p:first-of-type::first-letter {
+    font-family: var(--font-display);
+    float: left;
+    font-size: 3.6em;
+    line-height: 0.78;
+    padding: 0.06em 0.1em 0 0;
+    color: var(--madder);
+  }
+  .dev { font-family: var(--font-deva); }
+
+  /* flag strip */
+  .flags { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1.8rem; }
+  .flags figure .frame { border: 1px solid var(--rule); padding: 0; background: #F6F1E6; }
+  .flags svg { display: block; width: 100%; }
+
+  /* haripura panel */
+  .haripura {
+    background: #E4D3AE;
+    border: 10px solid var(--madder);
+    padding: 0;
+  }
+  .marginalia {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    line-height: 1.7;
+    letter-spacing: 0.05em;
+    color: var(--soft);
+    border-left: 1px solid var(--rule);
+    padding-left: 1.1rem;
+  }
+  .two-col { display: grid; gap: 2.5rem; grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 58rem) { .two-col { grid-template-columns: minmax(0,1fr) 15rem; gap: 3.5rem; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__wheel { animation: none; }
+  }
+</style>
+<noscript><style>[data-reveal]{opacity:1 !important;transform:none !important}</style></noscript>
+</head>
+<body class="cloth">
+
+<!-- ============================== HERO ============================== -->
+<header class="hero">
+  <svg class="hero__wheel" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+    <g fill="none" stroke="currentColor" stroke-width="1.6">
+      <circle cx="100" cy="100" r="96" />
+      <circle cx="100" cy="100" r="88" />
+      <circle cx="100" cy="100" r="16" />
+      <circle cx="100" cy="100" r="6" fill="currentColor" />
+      <g>
+        <path d="M100 12 V188 M12 100 H188" />
+        <path d="M37.8 37.8 L162.2 162.2 M162.2 37.8 L37.8 162.2" />
+        <path d="M66.3 15.5 L133.7 184.5 M133.7 15.5 L66.3 184.5" />
+        <path d="M15.5 66.3 L184.5 133.7 M15.5 133.7 L184.5 66.3" />
+        <path d="M50.6 23.2 L149.4 176.8 M149.4 23.2 L50.6 176.8" />
+        <path d="M23.2 50.6 L176.8 149.4 M23.2 149.4 L176.8 50.6" />
+      </g>
+    </g>
+  </svg>
+
+  <div class="hero__inner">
+    <p class="hero__deva" lang="hi">स्वदेशी</p>
+    <h1 class="hero__en">Swadeshi &amp; the Indian&nbsp;Freedom Struggle</h1>
+    <p class="hero__meta">
+      <span>No. 01</span><span>South Asia · India</span><span>1905 — 1947</span>
+    </p>
+    <p class="hero__lede">
+      A revolution that dressed itself in handspun cloth. Over forty years the Indian
+      national movement assembled the most <em>tactile</em> political identity of the
+      twentieth century: a logo you operated with your hands, a uniform you were required
+      to manufacture yourself, and a goddess invented in a Calcutta studio.
+    </p>
+  </div>
+</header>
+
+<div class="tri" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<!-- ============================== ANATOMY ============================== -->
+<section class="section" id="anatomy">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The anatomy</p>
+    <div class="anatomy-grid">
+
+      <div data-reveal>
+        <h2 class="section-title">Five colours, all of them arguments</h2>
+        <p class="prose">
+          Swadeshi had no art director and no brand book. Its palette came out of what
+          Indian dyers and cheap lithographic presses could actually produce — and every
+          one of those constraints was reframed as a virtue.
+        </p>
+        <div class="swatches" style="margin-top:2rem">
+          <div class="swatch"><i style="background:#EDE3D2"></i><b>#EDE3D2 KHADI</b><span>Undyed handspun cotton. The base of the entire system — and a rebuke to Manchester mill cloth.</span></div>
+          <div class="swatch"><i style="background:#9E2B1E"></i><b>#9E2B1E MADDER</b><span>Root-dyed red, the colour of Indian block-printing centuries before it was the colour of revolt.</span></div>
+          <div class="swatch"><i style="background:#E8730C"></i><b>#E8730C SAFFRON</b><span>Renunciation. Placed at the top of the flag in 1931 and explicitly redefined as "courage and sacrifice", not a faith.</span></div>
+          <div class="swatch"><i style="background:#12653F"></i><b>#12653F LEAF</b><span>Land, harvest — and in the 1921 flag, India's Muslims. Colour used as a census.</span></div>
+          <div class="swatch"><i style="background:#2C3E6B"></i><b>#2C3E6B INDIGO</b><span>The crop that broke Bihar's peasants. Reclaimed in 1947 as the chakra at the centre of the flag.</span></div>
+        </div>
+      </div>
+
+      <div data-reveal>
+        <h2 class="section-title">Two scripts, one voice</h2>
+        <p class="prose">
+          Colonial India's official typography was English, set in mechanical serif by
+          government presses. Nationalist printing answered in Devanagari, Bengali, Urdu
+          and Tamil at the same optical size — a layout decision that argued for parity
+          before the text did.
+        </p>
+        <div class="specimens" style="margin-top:2rem">
+          <div class="specimen">
+            <p class="dev" lang="hi" style="font-size:clamp(2rem,5vw,3rem)">वन्दे मातरम्</p>
+            <small>Bande Mataram · the 1905 mobilising slogan. Banned in public from 1907, which made it a design problem: it had to be legible at a glance and deniable at a distance.</small>
+          </div>
+          <div class="specimen">
+            <p style="font-family:var(--font-display);font-size:clamp(2rem,5vw,3rem);line-height:1">Quit India</p>
+            <small>High-contrast display serif — the "Didone" logic of Indian foundry type. Rozha One, used across this page, descends directly from this lineage.</small>
+          </div>
+          <div class="specimen">
+            <p style="font-family:var(--font-mono);font-size:1.05rem;letter-spacing:0.12em;text-transform:uppercase">Govt. of India · Press Act 1910</p>
+            <small>The other typography of empire: security deposits, forfeiture notices, seized fonts. Between 1910 and 1914 the state confiscated presses outright — so the movement moved to cloth, chalk and bodies.</small>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="blockprint" aria-hidden="true"></div>
+
+<!-- ============================== SYMBOLS ============================== -->
+<section class="section" id="symbols">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The marks</p>
+    <h2 class="section-title" data-reveal>Four objects doing the work of an ideology</h2>
+
+    <div class="symbolrow" data-reveal>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 92" role="img" aria-label="Line drawing of a charkha, the Indian spinning wheel">
+            <g fill="none" stroke="#2B2118" stroke-width="1.5" stroke-linecap="round">
+              <circle cx="80" cy="44" r="27" />
+              <circle cx="80" cy="44" r="4" fill="#2B2118" />
+              <path d="M80 17 V71 M53 44 H107 M60.9 24.9 L99.1 63.1 M99.1 24.9 L60.9 63.1" />
+              <path d="M70.5 25.7 L89.5 62.3 M89.5 25.7 L70.5 62.3 M61.7 34.5 L98.3 53.5 M61.7 53.5 L98.3 34.5" stroke-width="0.9" />
+              <circle cx="26" cy="38" r="7" />
+              <circle cx="26" cy="38" r="1.6" fill="#2B2118" />
+              <path d="M53.5 39.2 L32.6 36.4 M53.9 49.4 L32.2 40.4" />
+              <path d="M14 38 H19 M33 38 H44" />
+              <path d="M80 71 V80 M26 45 V80 M10 80 H112" stroke-width="2" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The charkha</b> — the spinning wheel. Not a symbol of a thing; a symbol of a <em>practice</em>. You could not display allegiance without performing the labour.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 92" role="img" aria-label="The Ashoka Chakra, a 24-spoked wheel">
+            <defs>
+              <g id="sw-spoke">
+                <path d="M60 14 L61.9 44 L58.1 44 Z" fill="#2C3E6B" />
+                <circle cx="60" cy="15.5" r="1.8" fill="#2C3E6B" />
+              </g>
+            </defs>
+            <circle cx="60" cy="46" r="32" fill="none" stroke="#2C3E6B" stroke-width="2.4" />
+            <circle cx="60" cy="46" r="4.4" fill="#2C3E6B" />
+            <g transform="translate(0,2)">
+              <use href="#sw-spoke" transform="rotate(0 60 44)" />
+              <use href="#sw-spoke" transform="rotate(15 60 44)" />
+              <use href="#sw-spoke" transform="rotate(30 60 44)" />
+              <use href="#sw-spoke" transform="rotate(45 60 44)" />
+              <use href="#sw-spoke" transform="rotate(60 60 44)" />
+              <use href="#sw-spoke" transform="rotate(75 60 44)" />
+              <use href="#sw-spoke" transform="rotate(90 60 44)" />
+              <use href="#sw-spoke" transform="rotate(105 60 44)" />
+              <use href="#sw-spoke" transform="rotate(120 60 44)" />
+              <use href="#sw-spoke" transform="rotate(135 60 44)" />
+              <use href="#sw-spoke" transform="rotate(150 60 44)" />
+              <use href="#sw-spoke" transform="rotate(165 60 44)" />
+              <use href="#sw-spoke" transform="rotate(180 60 44)" />
+              <use href="#sw-spoke" transform="rotate(195 60 44)" />
+              <use href="#sw-spoke" transform="rotate(210 60 44)" />
+              <use href="#sw-spoke" transform="rotate(225 60 44)" />
+              <use href="#sw-spoke" transform="rotate(240 60 44)" />
+              <use href="#sw-spoke" transform="rotate(255 60 44)" />
+              <use href="#sw-spoke" transform="rotate(270 60 44)" />
+              <use href="#sw-spoke" transform="rotate(285 60 44)" />
+              <use href="#sw-spoke" transform="rotate(300 60 44)" />
+              <use href="#sw-spoke" transform="rotate(315 60 44)" />
+              <use href="#sw-spoke" transform="rotate(330 60 44)" />
+              <use href="#sw-spoke" transform="rotate(345 60 44)" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The Ashoka Chakra</b> — 24 spokes, lifted in 1947 from the 3rd-century BCE Lion Capital at Sarnath. A brand-new state borrowing legitimacy from a 2,200-year-old one.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 92" role="img" aria-label="A Gandhi cap, the white khadi topi">
+            <path d="M18 62 C18 36 40 24 60 24 C80 24 102 36 102 62 Z" fill="#F6F1E6" stroke="#2B2118" stroke-width="1.6" />
+            <path d="M18 62 C18 44 34 33 60 33 C86 33 102 44 102 62" fill="none" stroke="#2B2118" stroke-width="1.1" opacity="0.55" />
+            <path d="M14 62 H106 V70 H14 Z" fill="#F6F1E6" stroke="#2B2118" stroke-width="1.6" />
+            <g stroke="#2B2118" stroke-width="0.5" opacity="0.35">
+              <path d="M26 62 V70 M38 62 V70 M50 62 V70 M62 62 V70 M74 62 V70 M86 62 V70 M98 62 V70" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The Gandhi topi</b> — a white khadi side cap, reportedly modelled on prison headgear. Cheap, foldable, unmistakable at a hundred metres, and legally provocative.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 92" role="img" aria-label="Diagram of the four-armed Bharat Mata composition">
+            <circle cx="60" cy="40" r="27" fill="none" stroke="#C99B2B" stroke-width="1" stroke-dasharray="3 3" />
+            <path d="M60 20 C52 20 48 27 48 34 C48 44 54 52 60 58 C66 52 72 44 72 34 C72 27 68 20 60 20 Z" fill="#E8730C" opacity="0.8" />
+            <circle cx="60" cy="17" r="6.5" fill="#C9532B" />
+            <circle cx="60" cy="17" r="11" fill="none" stroke="#C99B2B" stroke-width="1.2" />
+            <g stroke="#2B2118" stroke-width="1.4" fill="none" stroke-linecap="round">
+              <path d="M52 30 L36 22" /><path d="M68 30 L84 22" />
+              <path d="M52 38 L38 44" /><path d="M68 38 L82 44" />
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="5" fill="#2B2118">
+              <text x="4" y="20">paddy</text>
+              <text x="86" y="20">cloth</text>
+              <text x="4" y="52">beads</text>
+              <text x="84" y="52">book</text>
+              <text x="34" y="80" font-size="4.6" fill="#9E2B1E">Abanindranath Tagore, 1905</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Bharat Mata</b> — Abanindranath Tagore painted the nation as a four-armed ascetic holding food, cloth, learning and faith. Not a warrior. The demand was framed as <em>provision</em>.
+          <span class="credit">Composition diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<div class="blockprint" aria-hidden="true"></div>
+
+<!-- ============================== ESSAY ============================== -->
+<section class="section essay" id="essay">
+  <div class="wrap">
+    <div class="two-col">
+      <div>
+        <p class="eyebrow" data-reveal>How it worked</p>
+        <div class="prose" data-reveal>
+          <p>
+            Most political design asks you to look at something. Swadeshi asked you to
+            <em>make</em> something, <em>wear</em> something and <em>refuse</em> something —
+            and the graphics were downstream of those three verbs. It is the rare case
+            where the identity system preceded the logo by fifteen years.
+          </p>
+          <p>
+            The immediate trigger was administrative. In 1905 Lord Curzon partitioned
+            Bengal, and the response — boycott British goods, buy <span class="dev" lang="hi">स्वदेशी</span>
+            ("of our own country") — needed a way to be visible in a street, a market
+            and a courtroom simultaneously.
+          </p>
+        </div>
+
+        <h3 data-reveal>1905 · <span>A goddess invented in a studio</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            Abanindranath Tagore's <cite>Bharat Mata</cite> is usually described as devotional.
+            Read as design, it is a piece of extremely careful positioning. He painted her in
+            the Japanese-influenced wash technique he was then developing at the Government
+            School of Art in Calcutta, gave her four arms in the iconographic grammar of a
+            deity, and then loaded those arms with the most prosaic objects available: sheaves
+            of paddy, a piece of white cloth, a palm-leaf manuscript, a rosary.
+          </p>
+          <p>
+            Food, clothing, education, faith. A manifesto disguised as a devotional print,
+            sized and priced to be reproduced by the chromolithograph presses that already
+            filled Indian homes with religious calendar art. The image travelled on an
+            existing distribution network, which is the entire trick.
+          </p>
+        </div>
+
+        <blockquote class="pull" data-reveal>
+          The most effective political image of the period was not a poster. It was a piece
+          of cloth that proved you had spent an hour a day making it.
+        </blockquote>
+
+        <h3 data-reveal>1921 · <span>The logo you had to operate</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            Pingali Venkayya, an agriculturist from Machilipatnam who had spent years
+            collecting flag designs, brought Gandhi a two-colour banner — red for Hindus,
+            green for Muslims. Gandhi's edit was structural: add white for everyone else,
+            and put a charkha across all three bands.
+          </p>
+          <p>
+            That charkha is the most unusual mark in this entire atlas. A hammer and sickle
+            depicts labour. A spinning wheel <em>is</em> labour — the Congress later required
+            members to hand-spin a monthly quota of yarn as a condition of membership. The
+            logo had a compulsory production process attached to it, and wearing the output
+            of that process was itself the campaign.
+          </p>
+          <p>
+            The economics were real and modest; the semiotics were enormous. Khadi turned every
+            body in a crowd into a printed surface, made mill-cloth boycott legible at a
+            glance, and — because handspun cotton is coarse, off-white and visibly imperfect —
+            built <em>anti-polish</em> into the identity a century before that became a design move.
+          </p>
+        </div>
+
+        <h3 data-reveal>1938 · <span>Nandalal Bose gets a brief</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            For the Congress session at Haripura, a village in Gujarat, Gandhi commissioned
+            Nandalal Bose from Santiniketan to make the visuals. Bose produced around eighty
+            posters — the "Haripura panels" — on handmade paper, in earth pigment, with a
+            single loaded brush line.
+          </p>
+          <p>
+            The brief is the interesting part. No gods, no leaders, no allegory. Every panel
+            shows an ordinary person doing ordinary work: a drummer, a potter, a woman husking
+            grain, a man on a bullock cart, a cobbler. It is the most deliberate act of
+            art-direction in the entire freedom movement — a decision that the iconography of
+            the new nation would be occupational rather than martial or divine.
+          </p>
+          <p>
+            Bose later designed the ornamental borders of the handwritten Constitution of India,
+            which means the same hand is responsible for both the movement's street graphics and
+            the state's founding document.
+          </p>
+        </div>
+
+        <h3 data-reveal>1947 · <span>The edit that changed the meaning</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            On 22 July 1947 the Constituent Assembly adopted the national flag and made one
+            change: the charkha became the Ashoka Chakra, redrawn in navy from the Lion Capital
+            at Sarnath. The saffron, white and green were formally stripped of communal reading —
+            Radhakrishnan reframed them as courage, truth and fertility.
+          </p>
+          <p>
+            Read as a rebrand, it is textbook. A movement mark (a tool, a practice, a party's
+            membership requirement) is replaced by a state mark (an antiquity, a claim to
+            continuity). The flag stopped asking you to do something and started asking you to
+            belong to something. The Flag Code then locked down its construction — 3:2 ratio,
+            24 spokes, khadi-only manufacture — and the improvisation was over.
+          </p>
+        </div>
+      </div>
+
+      <aside class="marginalia" data-reveal>
+        <p><b>1905</b> Partition of Bengal; boycott begins.</p>
+        <p><b>1906</b> First "Calcutta flag" flown at Parsee Bagan Square: green, yellow, red, eight lotuses, <span class="dev" lang="hi">वन्दे मातरम्</span>.</p>
+        <p><b>1910</b> Indian Press Act — presses seized, security deposits imposed. Print becomes expensive; cloth and bodies become the medium.</p>
+        <p><b>1921</b> Venkayya/Gandhi charkha flag.</p>
+        <p><b>1930</b> Salt March: the most photogenic act of the movement, designed for newsreel.</p>
+        <p><b>1931</b> Congress adopts saffron-white-green with charkha and issues an explicit non-communal reading of the colours.</p>
+        <p><b>1938</b> Nandalal Bose's Haripura panels.</p>
+        <p><b>1942</b> Quit India. Underground presses, chalked walls, mimeographed bulletins.</p>
+        <p><b>1947</b> Charkha → Ashoka Chakra.</p>
+        <p><b>1950</b> Constitution of India, borders by Nandalal Bose's studio.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ARTIFACTS ============================== -->
+<section class="section" id="artifacts" style="background:#E6DAC5">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Artifacts</p>
+    <h2 class="section-title" data-reveal>Forty years of flag, in four edits</h2>
+    <p class="prose" data-reveal style="margin-bottom:2.6rem">
+      Every revision is an argument about who the nation contains. Watch the top band, and
+      watch what sits in the middle.
+    </p>
+
+    <div class="flags" data-reveal>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 180 120" role="img" aria-label="Recreation of the 1906 Calcutta flag: green, yellow and red bands with eight lotuses, a sun and a crescent">
+            <rect width="180" height="40" y="0" fill="#12653F" />
+            <rect width="180" height="40" y="40" fill="#E8B520" />
+            <rect width="180" height="40" y="80" fill="#C9532B" />
+            <g fill="#F6F1E6">
+              <path d="M14 26 c0-6 4-10 4-10 s4 4 4 10 z M32 26 c0-6 4-10 4-10 s4 4 4 10 z M50 26 c0-6 4-10 4-10 s4 4 4 10 z M68 26 c0-6 4-10 4-10 s4 4 4 10 z M86 26 c0-6 4-10 4-10 s4 4 4 10 z M104 26 c0-6 4-10 4-10 s4 4 4 10 z M122 26 c0-6 4-10 4-10 s4 4 4 10 z M140 26 c0-6 4-10 4-10 s4 4 4 10 z" />
+            </g>
+            <text x="90" y="66" text-anchor="middle" font-family="Tiro Devanagari Hindi, serif" font-size="17" fill="#9E2B1E">वन्दे मातरम्</text>
+            <circle cx="146" cy="100" r="10" fill="#F6F1E6" />
+            <path d="M40 90 a10 10 0 1 0 0 20 a8 8 0 1 1 0-20 z" fill="#F6F1E6" />
+          </svg>
+        </div>
+        <figcaption><b>1906 · The Calcutta flag</b> Flown at Parsee Bagan Square during the Bengal boycott. Eight lotuses for eight provinces; sun and crescent for Hindus and Muslims; the banned slogan set in the middle band where it cannot be missed.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 180 120" role="img" aria-label="Recreation of the 1921 Gandhi–Venkayya flag: white, green and red bands with a spinning wheel across all three">
+            <rect width="180" height="40" y="0" fill="#F6F1E6" />
+            <rect width="180" height="40" y="40" fill="#12653F" />
+            <rect width="180" height="40" y="80" fill="#C9532B" />
+            <g fill="none" stroke="#2C3E6B" stroke-width="1.5">
+              <circle cx="112" cy="60" r="30" />
+              <circle cx="112" cy="60" r="4" />
+              <path d="M112 30 V90 M82 60 H142 M90.8 38.8 L133.2 81.2 M133.2 38.8 L90.8 81.2 M100.5 32 L123.5 88 M123.5 32 L100.5 88 M84 48.5 L140 71.5 M84 71.5 L140 48.5" />
+              <circle cx="46" cy="54" r="8" />
+              <path d="M82 55 L54 51 M82 66 L54 57 M30 54 H38 M54 54 H70" />
+              <path d="M112 90 V102 M46 62 V102 M22 102 H150" stroke-width="2" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>1921 · Venkayya &amp; Gandhi</b> Red for Hindus, green for Muslims, white added for everyone else — and a charkha laid <em>across</em> all three bands so that the unifying element is a shared act of work.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 180 120" role="img" aria-label="Recreation of the 1931 Congress flag: saffron, white and green with a navy spinning wheel">
+            <rect width="180" height="40" y="0" fill="#E8730C" />
+            <rect width="180" height="40" y="40" fill="#F6F1E6" />
+            <rect width="180" height="40" y="80" fill="#12653F" />
+            <g fill="none" stroke="#2C3E6B" stroke-width="1.4">
+              <circle cx="104" cy="58" r="18" />
+              <circle cx="104" cy="58" r="2.6" />
+              <path d="M104 40 V76 M86 58 H122 M91.3 45.3 L116.7 70.7 M116.7 45.3 L91.3 70.7 M97 41 L111 75 M111 41 L97 75 M87 51 L121 65 M87 65 L121 51" />
+              <circle cx="62" cy="53" r="5" />
+              <path d="M86 54 L68 51 M86 61 L68 55 M52 53 H58 M68 53 H78" />
+              <path d="M104 76 V84 M62 58 V84 M46 84 H126" stroke-width="1.8" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>1931 · Saffron on top</b> Congress reorders the bands and publishes an official reading: the colours mean courage, truth and fertility, not communities. A rare documented case of a movement <em>arguing with its own users</em> about what its palette signifies.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 180 120" role="img" aria-label="Recreation of the flag of India adopted in 1947: saffron, white and green with the navy Ashoka Chakra">
+            <defs>
+              <g id="fl-spoke">
+                <path d="M90 42 L91.4 58 L88.6 58 Z" fill="#2C3E6B" />
+                <circle cx="90" cy="43" r="1.2" fill="#2C3E6B" />
+              </g>
+            </defs>
+            <rect width="180" height="40" y="0" fill="#FF9933" />
+            <rect width="180" height="40" y="40" fill="#FFFFFF" />
+            <rect width="180" height="40" y="80" fill="#138808" />
+            <circle cx="90" cy="60" r="18" fill="none" stroke="#000080" stroke-width="1.6" />
+            <circle cx="90" cy="60" r="2.6" fill="#000080" />
+            <g>
+              <use href="#fl-spoke" transform="rotate(0 90 60)" /><use href="#fl-spoke" transform="rotate(15 90 60)" />
+              <use href="#fl-spoke" transform="rotate(30 90 60)" /><use href="#fl-spoke" transform="rotate(45 90 60)" />
+              <use href="#fl-spoke" transform="rotate(60 90 60)" /><use href="#fl-spoke" transform="rotate(75 90 60)" />
+              <use href="#fl-spoke" transform="rotate(90 90 60)" /><use href="#fl-spoke" transform="rotate(105 90 60)" />
+              <use href="#fl-spoke" transform="rotate(120 90 60)" /><use href="#fl-spoke" transform="rotate(135 90 60)" />
+              <use href="#fl-spoke" transform="rotate(150 90 60)" /><use href="#fl-spoke" transform="rotate(165 90 60)" />
+              <use href="#fl-spoke" transform="rotate(180 90 60)" /><use href="#fl-spoke" transform="rotate(195 90 60)" />
+              <use href="#fl-spoke" transform="rotate(210 90 60)" /><use href="#fl-spoke" transform="rotate(225 90 60)" />
+              <use href="#fl-spoke" transform="rotate(240 90 60)" /><use href="#fl-spoke" transform="rotate(255 90 60)" />
+              <use href="#fl-spoke" transform="rotate(270 90 60)" /><use href="#fl-spoke" transform="rotate(285 90 60)" />
+              <use href="#fl-spoke" transform="rotate(300 90 60)" /><use href="#fl-spoke" transform="rotate(315 90 60)" />
+              <use href="#fl-spoke" transform="rotate(330 90 60)" /><use href="#fl-spoke" transform="rotate(345 90 60)" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>1947 · The state takes over</b> Same three bands, one substitution. A tool becomes an antiquity; a practice becomes a heritage claim. The Flag Code fixes ratio, spoke count and — still — khadi-only manufacture.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+    </div>
+
+    <p class="note" style="margin-top:2.6rem;max-width:44rem">
+      These are drawn from published specifications and descriptions, not traced from
+      photographs. Colours follow the Bureau of Indian Standards values for the 1947 flag
+      and best documented accounts for the earlier ones. For originals, see the collections
+      linked in Sources below.
+    </p>
+  </div>
+</section>
+
+<!-- ============================== LINEAGE ============================== -->
+<section class="section" id="lineage">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Lineage</p>
+    <h2 class="section-title" data-reveal>What it borrowed, what it gave away</h2>
+    <div class="lineage" data-reveal
+         data-lineage="ambedkarite,saffron,pan-african,dravidian"
+         data-why="Took the same subcontinent and refused this palette entirely — blue instead of saffron, a jurist instead of a saint.|Inherited the saffron and the lotus, and spent seventy years arguing they were never merely national.|Watched a colonised people build a flag system that worked, then ran the same play across thirty new African states.|Rejected the Congress reading of India outright and built a rival visual nation in Tamil.">
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SOURCES ============================== -->
+<section class="section" id="sources" style="padding-top:0">
+  <div class="wrap">
+    <hr class="hr" style="margin-bottom:3rem" />
+    <p class="eyebrow" data-reveal>Sources &amp; further reading</p>
+    <ul class="sources" data-reveal>
+      <li>Christopher Pinney, <cite>Photos of the Gods: The Printed Image and Political Struggle in India</cite> (2004) — the standard account of chromolithography as political infrastructure.</li>
+      <li>Sumathi Ramaswamy, <cite>The Goddess and the Nation: Mapping Mother India</cite> (2010) — on Bharat Mata as a made object.</li>
+      <li>Rebecca M. Brown, <cite>Gandhi's Spinning Wheel and the Making of India</cite> (2010).</li>
+      <li>Nandalal Bose, the Haripura panels — held at the National Gallery of Modern Art, New Delhi, and Kala Bhavana, Santiniketan.</li>
+      <li>Bureau of Indian Standards, <cite>IS 1: Specification for the National Flag of India</cite> — the actual spec sheet, khadi cloth included.</li>
+      <li>Emma Tarlo, <cite>Clothing Matters: Dress and Identity in India</cite> (1996) — khadi as a designed uniform.</li>
+      <li>Wikimedia Commons, <cite>Category: Indian independence movement</cite> — for surviving primary artifacts.</li>
+      <li>Constituent Assembly of India debates, 22 July 1947 — the flag adoption, in the participants' own words.</li>
+    </ul>
+  </div>
+</section>
+
+<div data-site="foot"></div>
+
+<script src="../../shared/movements.js"></script>
+<script src="../../shared/site.js"></script>
+</body>
+</html>

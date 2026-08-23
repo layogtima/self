@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en" data-slug="ambedkarite">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ambedkarite &amp; Dalit Design — Political Design</title>
+<meta name="description" content="How a community denied respectability built the most disciplined visual identity in Indian politics: a three-piece suit, an unclaimed blue, a 24-spoke wheel, and a mass-produced statue system with no head office." />
+<meta name="theme-color" content="#F2F4FF" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Ambedkarite &amp; Dalit Design — Political Design" />
+<meta property="og:description" content="Blue instead of red. A man in a three-piece suit holding a book instead of a gun. An identity system built out of precision, on purpose." />
+<meta property="og:url" content="https://layogtima.com/political-design/m/ambedkarite/" />
+<link rel="icon" type="image/svg+xml" href="https://layogtima.com/images/favicon/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;700&family=Tiro+Devanagari+Marathi:ital@0;1&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../shared/site.css" />
+<link rel="stylesheet" href="../../shared/textures.css" />
+<style>
+  :root {
+    --paper: #F2F4FF;
+    --ink: #0D1330;
+    --accent: #1C39BB;
+    --blue-deep: #14267F;
+    --blue-pale: #E4E8FF;
+    --panther: #C4102E;
+    --pita: #FFD100;
+    --manjettha: #FF7F00;
+    --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --font-body: "IBM Plex Serif", Georgia, serif;
+    --font-deva: "Tiro Devanagari Marathi", serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+  }
+  h1, h2, h3, h4 {
+    font-variation-settings: "wdth" 112, "wght" 860;
+    letter-spacing: -0.025em;
+  }
+  body { background-color: var(--paper); }
+
+  /* ---------------- hero: a drafting sheet in deep blue ---------------- */
+  .hero {
+    min-height: 100svh;
+    position: relative;
+    background: var(--accent);
+    color: #fff;
+    display: grid;
+    align-content: center;
+    padding: 8rem var(--gutter) 4.5rem;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .hero .tx-over { color: #fff; }
+  .hero__grid { opacity: 0.55; }
+  /* the inset legal rule: double hairline, generous margin */
+  .hero__frame {
+    position: absolute;
+    inset: clamp(1rem, 2.4vw, 2.4rem);
+    border: 1px solid rgba(255,255,255,0.34);
+    pointer-events: none;
+    z-index: 3;
+  }
+  .hero__frame::after {
+    content: "";
+    position: absolute;
+    inset: 5px;
+    border: 1px solid rgba(255,255,255,0.16);
+  }
+  .hero__chakra {
+    position: absolute;
+    right: -16vw; top: 50%;
+    transform: translateY(-50%);
+    width: min(96vh, 84vw);
+    color: #fff;
+    opacity: 0.5;
+    z-index: 1;
+    pointer-events: none;
+  }
+  @media (min-width: 62rem) {
+    .hero__chakra { right: -3vw; width: min(84vh, 47vw); opacity: 0.9; }
+  }
+  .hero__inner { position: relative; z-index: 4; width: min(100%, 76rem); margin-inline: auto; }
+  .hero__deva {
+    font-family: var(--font-deva);
+    font-size: clamp(3.6rem, 14vw, 11rem);
+    line-height: 1.02;
+    margin: 0 0 0.14em;
+    letter-spacing: -0.02em;
+  }
+  .hero__en {
+    font-size: clamp(1.9rem, 5.4vw, 4.2rem);
+    line-height: 1.0;
+    margin: 0 0 2rem;
+    max-width: 15ch;
+    color: #fff;
+  }
+  .hero__lede {
+    font-size: clamp(1.05rem, 0.9vw + 0.92rem, 1.34rem);
+    line-height: 1.52;
+    max-width: 34rem;
+    color: rgba(255,255,255,0.93);
+  }
+  .hero__lede em { font-style: normal; border-bottom: 2px solid rgba(255,255,255,0.5); }
+
+  /* drafting title block */
+  .titleblock {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+    gap: 1px;
+    background: rgba(255,255,255,0.34);
+    border: 1px solid rgba(255,255,255,0.34);
+    margin: 0 0 2.4rem;
+    max-width: 48rem;
+  }
+  .titleblock > div { background: var(--accent); padding: 0.6rem 0.75rem 0.7rem; }
+  .titleblock dt {
+    font-family: var(--font-mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+  }
+  .titleblock dd {
+    margin: 0.25rem 0 0;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    letter-spacing: 0.06em;
+    color: #fff;
+  }
+
+  /* ---------------- stencil band ---------------- */
+  .stencil-band {
+    position: relative;
+    background: var(--accent);
+    overflow: hidden;
+    line-height: 0;
+  }
+  .stencil-band svg { width: 100%; height: clamp(84px, 13vw, 158px); display: block; }
+  .stencil-band .tx-over { color: #fff; }
+
+  /* ---------------- rules & marks ---------------- */
+  .rule-legal { height: 5px; border-top: 2px solid var(--accent); border-bottom: 1px solid var(--accent); background: transparent; }
+  .stx-lat { font-family: var(--font-display); font-variation-settings: "wdth" 118, "wght" 900; }
+  .stx-dev { font-family: var(--font-deva); }
+  .dev { font-family: var(--font-deva); }
+  .mono { font-family: var(--font-mono); }
+
+  /* ---------------- anatomy ---------------- */
+  .swatches { grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr)); }
+  @media (min-width: 34rem) { #anatomy .swatches { grid-template-columns: repeat(3, 1fr); } }
+  .anatomy-grid { display: grid; gap: var(--step) 3.5rem; grid-template-columns: 1fr; }
+  @media (min-width: 62rem) { .anatomy-grid { grid-template-columns: 1.05fr 1fr; } }
+  .specimen > p:first-child { line-height: 1.1; }
+
+  /* ---------------- symbols ---------------- */
+  .symbolrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 2rem; }
+  .symbolrow .frame { background: #fff; }
+  .symbolrow .frame--blue { background: var(--accent); border-color: var(--accent); }
+
+  /* ---------------- essay ---------------- */
+  .essay h3 {
+    margin: 3.4rem 0 1.1rem;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-variation-settings: normal;
+    font-size: 0.76rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .essay h3 span {
+    display: block;
+    font-family: var(--font-display);
+    font-variation-settings: "wdth" 112, "wght" 860;
+    font-size: clamp(1.5rem, 3.1vw, 2.35rem);
+    letter-spacing: -0.025em;
+    text-transform: none;
+    color: var(--ink);
+    margin-top: 0.5rem;
+    line-height: 1.04;
+    max-width: 20ch;
+  }
+  .essay .two-col > div > div.prose:first-of-type > p:first-of-type::first-letter {
+    font-family: var(--font-display);
+    font-variation-settings: "wdth" 120, "wght" 900;
+    float: left;
+    font-size: 3.4em;
+    line-height: 0.82;
+    padding: 0.02em 0.12em 0 0;
+    color: var(--accent);
+  }
+  .two-col { display: grid; gap: 2.5rem; grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 58rem) { .two-col { grid-template-columns: minmax(0,1fr) 15.5rem; gap: 3.5rem; } }
+  .docket {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    line-height: 1.62;
+    letter-spacing: 0.03em;
+    color: var(--soft);
+    border-top: 2px solid var(--accent);
+  }
+  .docket p { display: grid; grid-template-columns: 3.2rem 1fr; gap: 0.7rem; margin: 0; padding: 0.62rem 0; border-bottom: 1px solid var(--rule); }
+  .docket b { color: var(--accent); font-weight: 700; }
+  .docket-head {
+    font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.24em;
+    text-transform: uppercase; color: var(--ink); padding: 0.5rem 0 0.4rem; display: block;
+  }
+
+  /* ---------------- artifacts ---------------- */
+  .artifacts { display: grid; grid-template-columns: 1fr; gap: 2.6rem; }
+  @media (min-width: 60rem) { .artifacts { grid-template-columns: 1fr 1fr; } }
+  .artifacts .frame { background: #fff; }
+  .artifacts .frame--blueprint { background: var(--blue-deep); border-color: var(--blue-deep); }
+  .artifacts .span-2 { grid-column: 1 / -1; }
+
+  /* ---------------- pull ---------------- */
+  .pull { font-variation-settings: "wdth" 106, "wght" 720; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__chakra { animation: none; }
+  }
+</style>
+<noscript><style>[data-reveal]{opacity:1 !important;transform:none !important}</style></noscript>
+</head>
+<body>
+
+<!-- ============================== HERO ============================== -->
+<header class="hero">
+  <div class="tx-over tx-grid hero__grid" aria-hidden="true"></div>
+  <div class="hero__frame" aria-hidden="true"></div>
+
+  <svg class="hero__chakra" viewBox="0 0 420 460" aria-hidden="true" focusable="false">
+    <defs>
+      <g id="ray" stroke="currentColor" fill="none">
+        <path d="M210 168 V58" stroke-width="1.6" />
+        <path d="M210 50 V42" stroke-width="1.1" />
+      </g>
+    </defs>
+    <g fill="none" stroke="currentColor" opacity="0.55" stroke-width="0.7" stroke-dasharray="5 5">
+      <circle cx="210" cy="210" r="192" />
+      <circle cx="210" cy="210" r="100" />
+      <rect x="18" y="18" width="384" height="384" />
+      <path d="M210 4 V416 M4 210 H416" />
+      <path d="M64 64 L356 356 M356 64 L64 356" />
+    </g>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="210" cy="210" r="160" />
+      <circle cx="210" cy="210" r="152" />
+      <circle cx="210" cy="210" r="42" />
+      <circle cx="210" cy="210" r="16" />
+    </g>
+    <circle cx="210" cy="210" r="5" fill="currentColor" />
+    <g>
+      <use href="#ray" /><use href="#ray" transform="rotate(15 210 210)" />
+      <use href="#ray" transform="rotate(30 210 210)" /><use href="#ray" transform="rotate(45 210 210)" />
+      <use href="#ray" transform="rotate(60 210 210)" /><use href="#ray" transform="rotate(75 210 210)" />
+      <use href="#ray" transform="rotate(90 210 210)" /><use href="#ray" transform="rotate(105 210 210)" />
+      <use href="#ray" transform="rotate(120 210 210)" /><use href="#ray" transform="rotate(135 210 210)" />
+      <use href="#ray" transform="rotate(150 210 210)" /><use href="#ray" transform="rotate(165 210 210)" />
+      <use href="#ray" transform="rotate(180 210 210)" /><use href="#ray" transform="rotate(195 210 210)" />
+      <use href="#ray" transform="rotate(210 210 210)" /><use href="#ray" transform="rotate(225 210 210)" />
+      <use href="#ray" transform="rotate(240 210 210)" /><use href="#ray" transform="rotate(255 210 210)" />
+      <use href="#ray" transform="rotate(270 210 210)" /><use href="#ray" transform="rotate(285 210 210)" />
+      <use href="#ray" transform="rotate(300 210 210)" /><use href="#ray" transform="rotate(315 210 210)" />
+      <use href="#ray" transform="rotate(330 210 210)" /><use href="#ray" transform="rotate(345 210 210)" />
+    </g>
+    <!-- angle call-out between two adjacent spokes -->
+    <path d="M210 34 A176 176 0 0 1 255.6 40.1" fill="none" stroke="currentColor" stroke-width="0.9" opacity="0.85" />
+    <g class="mono" fill="currentColor" font-size="10" letter-spacing="1.6" opacity="0.9">
+      <text x="264" y="34">15°</text>
+      <text x="18" y="24">DHAMMACAKKA</text>
+      <text x="18" y="446">24 SPOKES · 15° PITCH</text>
+    </g>
+    <!-- diameter dimension -->
+    <g stroke="currentColor" stroke-width="0.8" opacity="0.8" fill="none">
+      <path d="M50 424 H370" />
+      <path d="M50 416 V432 M370 416 V432" />
+      <path d="M50 424 l10 -4 v8 z M370 424 l-10 -4 v8 z" fill="currentColor" stroke="none" />
+    </g>
+  </svg>
+
+  <div class="hero__inner">
+    <p class="hero__deva" lang="mr">जय भीम</p>
+    <h1 class="hero__en">Ambedkarite &amp; Dalit&nbsp;Design</h1>
+    <dl class="titleblock">
+      <div><dt>Sheet</dt><dd>No. 05</dd></div>
+      <div><dt>Region</dt><dd>South Asia · India</dd></div>
+      <div><dt>Dates</dt><dd>1927 — present</dd></div>
+      <div><dt>Drawing</dt><dd>Dhammacakka · 24</dd></div>
+    </dl>
+    <p class="hero__lede">
+      Every other identity in this atlas was made by people the state could already see.
+      This one was assembled by people it had spent centuries refusing to seat — and so it
+      chose the most conservative instruments available: a barrister's <em>suit</em>, a
+      drafted wheel, and the one colour nobody else had claimed.
+    </p>
+  </div>
+</header>
+
+<!-- ============================== STENCIL BAND ============================== -->
+<div class="stencil-band" aria-hidden="true">
+  <svg viewBox="0 0 1200 150" preserveAspectRatio="xMidYMid slice" focusable="false" aria-hidden="true">
+    <rect width="1200" height="150" fill="#1C39BB" />
+    <g fill="#FFFFFF">
+      <text class="stx-dev" x="24" y="108" font-size="96" lang="mr">जय भीम</text>
+      <text class="stx-lat" x="424" y="104" font-size="74" letter-spacing="2">JAI BHIM</text>
+      <text class="stx-dev" x="900" y="108" font-size="96" lang="mr">जय भीम</text>
+    </g>
+    <!-- stencil bridges: blue bars cut across the letterforms -->
+    <g fill="#1C39BB">
+      <rect x="0" y="34" width="1200" height="7" />
+      <rect x="0" y="66" width="1200" height="7" />
+      <rect x="0" y="94" width="1200" height="6" />
+    </g>
+  </svg>
+  <div class="tx-over tx-stencil"></div>
+</div>
+
+<!-- ============================== ANATOMY ============================== -->
+<section class="section" id="anatomy">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>§ 01 — The anatomy</p>
+    <div class="anatomy-grid">
+
+      <div data-reveal>
+        <h2 class="section-title">A palette chosen by elimination</h2>
+        <p class="prose">
+          By the 1940s the Indian colour map was fully allocated. Congress held saffron,
+          white and green. The communists held red. The Muslim League held green with a
+          crescent. Hindu nationalism was already annexing saffron on its own account.
+          Ambedkar's Scheduled Castes Federation took the one wavelength still lying
+          around, and then found reasons for it afterwards — which is how most good
+          identities actually happen.
+        </p>
+        <div class="swatches" style="margin-top:2rem">
+          <div class="swatch"><i style="background:#1C39BB"></i><b>#1C39BB BLUE</b><span>The sky, which has no boundaries — the explanation usually given. Also the <em lang="pi" style="font-style:italic">nīla</em> band of the Buddhist flag. Also: unclaimed.</span></div>
+          <div class="swatch"><i style="background:#FFFFFF"></i><b>#FFFFFF ODĀTA</b><span>White. The clothing worn by lay converts at Nagpur in 1956, and the ground of every letterhead. Purity of the Dhamma — and of the document.</span></div>
+          <div class="swatch"><i style="background:#1A1A24"></i><b>#1A1A24 SERGE</b><span>Suit charcoal. Not a symbolic colour at all — a tailoring colour, borrowed wholesale from the professional class that had excluded them.</span></div>
+          <div class="swatch"><i style="background:#FFD100"></i><b>#FFD100 PĪTA</b><span>The Middle Path, second band of the Buddhist flag. After 1956 it enters the palette in a single afternoon.</span></div>
+          <div class="swatch"><i style="background:#FF7F00"></i><b>#FF7F00 MAÑJEṬṬHA</b><span>Scarlet-orange, fifth band. In practice it arrives on the statues as marigold — the garland is the only unplanned colour in the system.</span></div>
+          <div class="swatch"><i style="background:#C4102E"></i><b>#C4102E PANTHER RED</b><span>The one deviation. The Dalit Panthers of 1972 read Marx as well as Ambedkar and printed accordingly. Blue plus red, on cheap paper.</span></div>
+        </div>
+      </div>
+
+      <div data-reveal>
+        <h2 class="section-title">Three registers, and they never mix</h2>
+        <p class="prose">
+          Almost every other movement here has one voice. This one runs three in parallel,
+          each doing a different job: the Marathi press voice, the letterhead voice, and
+          the wall voice. Their separation is the discipline.
+        </p>
+        <div class="specimens" style="margin-top:2rem">
+          <div class="specimen">
+            <p class="dev" lang="mr" style="font-size:clamp(2.1rem,5.4vw,3.2rem)">बहिष्कृत भारत</p>
+            <small>Marathi, set in Tiro Devanagari Marathi. Ambedkar's own papers — <cite>Mooknayak</cite> (1920), <cite>Bahishkrit Bharat</cite> (1927), <cite>Janata</cite>, later <cite>Prabuddha Bharat</cite> — were Marathi fortnightlies. The movement had a masthead before it had a flag.</small>
+          </div>
+          <div class="specimen">
+            <p class="stx-lat" style="font-size:clamp(2rem,5vw,3rem);line-height:0.95;letter-spacing:-0.02em">JAI BHIM</p>
+            <small>Archivo, width axis pushed wide, weight near 900. The grotesque of the party letterhead, the conference banner and the hoarding painter's block capital — chosen for the same reason a law firm chooses one: it looks like it was authorised by somebody.</small>
+          </div>
+          <div class="specimen">
+            <p class="mono" style="font-size:1rem;letter-spacing:0.1em;text-transform:uppercase;margin:0">Art. 17 — "Untouchability" is abolished</p>
+            <small>The bureaucratic register. A movement whose founding victory was a clause in a document inherits the typography of documents: numbered articles, quotation marks around the word itself, monospaced tabulation. Its opposite is the cyclostyled stencil of the little magazines — the same ideas, run off on a drum.</small>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="rule-legal" aria-hidden="true"></div>
+
+<!-- ============================== SYMBOLS ============================== -->
+<section class="section" id="symbols">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>§ 02 — The marks</p>
+    <h2 class="section-title" data-reveal>Four marks, all of them drawn with instruments</h2>
+
+    <div class="symbolrow" data-reveal>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 140 140" role="img" aria-label="The 24-spoke Dhamma wheel drawn as a line construction with visible setting-out circles">
+            <defs>
+              <g id="sy-ray" stroke="#1C39BB" fill="none">
+                <path d="M70 56 V20" stroke-width="1.2" />
+              </g>
+            </defs>
+            <g fill="none" stroke="#1C39BB" opacity="0.4" stroke-width="0.5" stroke-dasharray="3 3">
+              <circle cx="70" cy="70" r="64" />
+              <path d="M70 2 V138 M2 70 H138" />
+            </g>
+            <g fill="none" stroke="#1C39BB" stroke-width="1.4">
+              <circle cx="70" cy="70" r="53" />
+              <circle cx="70" cy="70" r="50" />
+              <circle cx="70" cy="70" r="14" />
+              <circle cx="70" cy="70" r="5.5" />
+            </g>
+            <circle cx="70" cy="70" r="1.8" fill="#1C39BB" />
+            <g>
+              <use href="#sy-ray" /><use href="#sy-ray" transform="rotate(15 70 70)" />
+              <use href="#sy-ray" transform="rotate(30 70 70)" /><use href="#sy-ray" transform="rotate(45 70 70)" />
+              <use href="#sy-ray" transform="rotate(60 70 70)" /><use href="#sy-ray" transform="rotate(75 70 70)" />
+              <use href="#sy-ray" transform="rotate(90 70 70)" /><use href="#sy-ray" transform="rotate(105 70 70)" />
+              <use href="#sy-ray" transform="rotate(120 70 70)" /><use href="#sy-ray" transform="rotate(135 70 70)" />
+              <use href="#sy-ray" transform="rotate(150 70 70)" /><use href="#sy-ray" transform="rotate(165 70 70)" />
+              <use href="#sy-ray" transform="rotate(180 70 70)" /><use href="#sy-ray" transform="rotate(195 70 70)" />
+              <use href="#sy-ray" transform="rotate(210 70 70)" /><use href="#sy-ray" transform="rotate(225 70 70)" />
+              <use href="#sy-ray" transform="rotate(240 70 70)" /><use href="#sy-ray" transform="rotate(255 70 70)" />
+              <use href="#sy-ray" transform="rotate(270 70 70)" /><use href="#sy-ray" transform="rotate(285 70 70)" />
+              <use href="#sy-ray" transform="rotate(300 70 70)" /><use href="#sy-ray" transform="rotate(315 70 70)" />
+              <use href="#sy-ray" transform="rotate(330 70 70)" /><use href="#sy-ray" transform="rotate(345 70 70)" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The Dhammacakka</b> — the same 24-spoke wheel that sits on the national flag, but claimed on different grounds: not Ashoka the emperor, Ashoka the Buddhist. One mark, two arguments about who owns antiquity.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame frame--blue">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 140 140" role="img" aria-label="A plain blue flag bearing a white 24-spoke wheel, the flag of the Scheduled Castes Federation and later the Republican Party of India">
+            <defs>
+              <g id="fl-ray" stroke="#FFFFFF" fill="none">
+                <path d="M78 62 V32" stroke-width="1.1" />
+              </g>
+            </defs>
+            <rect x="6" y="26" width="128" height="86" fill="#1C39BB" stroke="#FFFFFF" stroke-width="0.8" />
+            <rect x="2" y="18" width="4" height="104" fill="#FFFFFF" opacity="0.85" />
+            <g fill="none" stroke="#FFFFFF" stroke-width="1.3">
+              <circle cx="78" cy="69" r="30" />
+              <circle cx="78" cy="69" r="28" />
+              <circle cx="78" cy="69" r="8" />
+            </g>
+            <circle cx="78" cy="69" r="2" fill="#FFFFFF" />
+            <g transform="translate(0,7)">
+              <use href="#fl-ray" /><use href="#fl-ray" transform="rotate(15 78 62)" />
+              <use href="#fl-ray" transform="rotate(30 78 62)" /><use href="#fl-ray" transform="rotate(45 78 62)" />
+              <use href="#fl-ray" transform="rotate(60 78 62)" /><use href="#fl-ray" transform="rotate(75 78 62)" />
+              <use href="#fl-ray" transform="rotate(90 78 62)" /><use href="#fl-ray" transform="rotate(105 78 62)" />
+              <use href="#fl-ray" transform="rotate(120 78 62)" /><use href="#fl-ray" transform="rotate(135 78 62)" />
+              <use href="#fl-ray" transform="rotate(150 78 62)" /><use href="#fl-ray" transform="rotate(165 78 62)" />
+              <use href="#fl-ray" transform="rotate(180 78 62)" /><use href="#fl-ray" transform="rotate(195 78 62)" />
+              <use href="#fl-ray" transform="rotate(210 78 62)" /><use href="#fl-ray" transform="rotate(225 78 62)" />
+              <use href="#fl-ray" transform="rotate(240 78 62)" /><use href="#fl-ray" transform="rotate(255 78 62)" />
+              <use href="#fl-ray" transform="rotate(270 78 62)" /><use href="#fl-ray" transform="rotate(285 78 62)" />
+              <use href="#fl-ray" transform="rotate(300 78 62)" /><use href="#fl-ray" transform="rotate(315 78 62)" />
+              <use href="#fl-ray" transform="rotate(330 78 62)" /><use href="#fl-ray" transform="rotate(345 78 62)" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The blue flag</b> — Scheduled Castes Federation, then the Republican Party of India. Reported proportions and wheel placement vary between manufacturers; the constant is a plain blue field and a white wheel. Deliberately the simplest flag in Indian politics.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 140 140" role="img" aria-label="The Buddhist five-colour flag: five vertical bands plus a sixth band combining all five horizontally">
+            <g>
+              <rect x="6" y="30" width="21.3" height="80" fill="#1C39BB" />
+              <rect x="27.3" y="30" width="21.3" height="80" fill="#FFD100" />
+              <rect x="48.6" y="30" width="21.3" height="80" fill="#D21034" />
+              <rect x="69.9" y="30" width="21.3" height="80" fill="#FFFFFF" />
+              <rect x="91.2" y="30" width="21.3" height="80" fill="#FF7F00" />
+              <g>
+                <rect x="112.5" y="30" width="21.5" height="16" fill="#1C39BB" />
+                <rect x="112.5" y="46" width="21.5" height="16" fill="#FFD100" />
+                <rect x="112.5" y="62" width="21.5" height="16" fill="#D21034" />
+                <rect x="112.5" y="78" width="21.5" height="16" fill="#FFFFFF" />
+                <rect x="112.5" y="94" width="21.5" height="16" fill="#FF7F00" />
+              </g>
+              <rect x="6" y="30" width="128" height="80" fill="none" stroke="#0D1330" stroke-width="0.8" />
+            </g>
+            <g class="mono" fill="#0D1330" font-size="5.4" letter-spacing="1">
+              <text x="6" y="124">NĪLA · PĪTA · LOHITA · ODĀTA</text>
+              <text x="6" y="133">MAÑJEṬṬHA · PABBHASSARA</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The five-colour flag</b> — designed in Colombo in the 1880s, adopted internationally in 1950. Its sixth band is the other five stacked: a compound colour, which is a genuinely unusual thing for a flag to attempt.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame frame--blue">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 140 140" role="img" aria-label="A stencil specimen: Jai Bhim cut in Devanagari and Latin with bridges left uncut">
+            <rect width="140" height="140" fill="#1C39BB" />
+            <g fill="#FFFFFF">
+              <text class="stx-dev" x="10" y="60" font-size="32" lang="mr">जय भीम</text>
+              <text class="stx-lat" x="10" y="112" font-size="19" letter-spacing="0">JAI BHIM</text>
+            </g>
+            <g fill="#1C39BB">
+              <rect x="0" y="30" width="140" height="3" />
+              <rect x="0" y="46" width="140" height="3" />
+              <rect x="0" y="103" width="140" height="3" />
+              <rect x="0" y="94" width="140" height="3" />
+            </g>
+          </svg>
+          <div class="tx-over tx-stencil" style="color:#fff"></div>
+        </div>
+        <figcaption><b>The stencil</b> — one plate, two scripts, bridges left uncut so the counters do not fall out. The bridge running through the Devanagari <span class="dev" lang="mr">शिरोरेखा</span> is the giveaway: this letterform was cut for a wall, not set for a page.
+          <span class="credit">Specimen · drawn in SVG</span></figcaption>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<div class="rule-legal" aria-hidden="true"></div>
+
+<!-- ============================== ESSAY ============================== -->
+<section class="section essay" id="essay">
+  <div class="wrap">
+    <div class="two-col">
+      <div>
+        <p class="eyebrow" data-reveal>§ 03 — How it worked</p>
+        <div class="prose" data-reveal>
+          <p>
+            Respectability is usually the enemy of political design. Movements rough
+            themselves up: they want the woodcut, the smudge, the handmade look that proves
+            authenticity. Ambedkarite design does the reverse, and it does it deliberately.
+            Straight rules. Set type. A tailored suit. Precision is not decoration here —
+            it is the claim.
+          </p>
+          <p>
+            The reasoning is simple once stated. Caste had already assigned Dalits the
+            visual attributes of dirt, roughness and improvisation. Adopting the aesthetics
+            of the handmade would have confirmed the assignment. So the movement took the
+            grammar of the professional class instead — law, print, drafting — and used it
+            as a rebuttal you can read from across a street.
+          </p>
+        </div>
+
+        <h3 data-reveal>1927 · <span>A counter-ritual, staged and photographed</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            On 20 March 1927 Ambedkar led thousands of Dalits to the Chavdar tank at Mahad
+            in the Konkan and drank from it. The tank had been declared public by municipal
+            resolution; the resolution had changed nothing. The march made the gap between
+            the document and the ground visible in a single gesture.
+          </p>
+          <p>
+            Later that year, at the follow-up conference in December, a copy of the
+            <cite>Manusmriti</cite> — the text underwriting caste order — was burned on a
+            prepared pyre in front of the assembled delegates. Read as design, this is not
+            a riot. It is a ceremony: a platform, a programme, a stage-managed act with an
+            agreed script, witnesses, and press coverage in Ambedkar's own Marathi
+            fortnightly, <cite>Bahishkrit Bharat</cite>, launched the same year.
+          </p>
+          <p>
+            The movement understood from the start that an event without documentation is
+            a rumour. Every subsequent set piece — the conversion at Nagpur, the annual
+            gatherings at Chaityabhoomi — follows the same production logic.
+          </p>
+        </div>
+
+        <blockquote class="pull" data-reveal>
+          Gandhi took clothes off to stand with the poor. Ambedkar put clothes on because
+          his people had been forbidden them. Both were design decisions, and they are
+          incompatible.
+        </blockquote>
+
+        <h3 data-reveal>The suit · <span>The most consistent element in the entire iconography</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            Look at a thousand Ambedkar images and one thing never varies. Western
+            three-piece suit, usually blue. Necktie. Round wire spectacles. A bound volume
+            under the left arm. Occasionally a fountain pen. In eight decades of
+            reproduction this has drifted less than any logo in this atlas.
+          </p>
+          <p>
+            Caste is, among other things, a dress code: it specified what fabric, what
+            footwear, what ornament each rank could wear, and enforced it violently. A
+            three-piece suit is therefore not aspiration or Anglophilia. It is a refusal
+            executed in worsted wool, and it is legible in a fifth of a second, which is
+            faster than any slogan.
+          </p>
+          <p>
+            The suit also encodes the credentials — Columbia, the London School of
+            Economics, the Bar at Gray's Inn — that the caste order held to be impossible.
+            The book completes the sentence. Set the suited jurist beside Gandhi in a
+            loincloth at the 1931 Round Table Conference and you have two entirely opposed
+            theories of what an Indian leader should look like, photographed on the same
+            afternoon.
+          </p>
+        </div>
+
+        <h3 data-reveal>Blue · <span>The last free wavelength</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            The explanation offered inside the movement is the sky: it covers everyone and
+            has no boundaries, unlike land, which caste divides. The second explanation is
+            <span lang="pi">nīla</span>, the first band of the Buddhist flag — retrofitted
+            neatly after 1956. The third explanation is the honest one. Red belonged to the
+            communists, saffron to Hindu nationalism, green to the Muslim League, and the
+            tricolour to Congress. Blue was the only slot open.
+          </p>
+          <p>
+            What matters is the discipline that followed. The Scheduled Castes Federation
+            flag and later the Republican Party of India flag are plain blue with a white
+            wheel — no crest, no lettering, no gradient. Its restraint is exactly the
+            point: a field of solid colour reads at a distance, prints on anything, and is
+            almost impossible to get wrong at a village press.
+          </p>
+        </div>
+
+        <h3 data-reveal>1956 · <span>An entire visual religion, acquired in one afternoon</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            At Nagpur on 14 October 1956, Ambedkar and a crowd reported in the hundreds of
+            thousands took the refuges and his own twenty-two vows, and converted to
+            Buddhism. He died seven weeks later, on 6 December.
+          </p>
+          <p>
+            The design consequence was immediate and total. The movement acquired, in an
+            afternoon, a colour system (the five bands), a mark (the wheel), a garment
+            (white for the laity, ochre for monks), an architecture (the stupa, and later
+            the domed monument at Deekshabhoomi modelled on Sanchi), and a pilgrimage
+            calendar. No agency could have delivered that scope of identity. Conversion
+            did it as a by-product.
+          </p>
+          <p>
+            It also solved a problem no logo could. Buddhism gave the movement a claim on
+            Indian antiquity that did not run through the caste order — an inheritance
+            older than the thing it was refusing.
+          </p>
+        </div>
+
+        <h3 data-reveal>The statues · <span>A strict identity system with no head office</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            Tens of thousands of Ambedkar statues stand in Indian villages, and the
+            specification is close to fixed. Standing, not seated. Suited. Left hand
+            holding a blue-bound book. Right arm raised, index finger extended forward.
+            Painted rather than left as bare stone or bronze. Garlanded. Set on a plinth
+            with a plaque.
+          </p>
+          <p>
+            Nobody enforces this. There is no brand guardian, no licensing body, no
+            approved supplier. Statues are commissioned by local committees, paid for by
+            subscription, cast in small regional workshops from moulds copied off other
+            statues. The consistency is produced entirely by copying — a distributed system
+            that holds together better than most centrally policed ones, and the strongest
+            argument in this atlas that identity is maintained by users, not owners.
+          </p>
+          <p>
+            The grille is the tell. Many statues are enclosed in a locked cage or fenced
+            plinth, because they are attacked: spectacles broken, garlands removed, the
+            statue tarred, painted or beheaded. Vandalism is unusually informative here.
+            It proves the mark is working on the people it was aimed at. Nicolas Jaoul's
+            fieldwork reads these statues as territorial claims — a piece of public ground
+            occupied by a suited Dalit body, permanently — which is precisely why the
+            ground gets contested.
+          </p>
+        </div>
+
+        <h3 data-reveal>1972 · <span>The Panthers, imported wholesale</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            The Dalit Panthers were founded in Bombay in 1972 by Namdeo Dhasal, J. V. Pawar
+            and Raja Dhale, and named — explicitly, without euphemism — after the Black
+            Panther Party. What they imported was not iconography so much as
+            <em>format</em>: the party name as a threat, the numbered manifesto (1973), the
+            declarative stance, the assumption that a small organisation should publish
+            like a government.
+          </p>
+          <p>
+            The medium was cheap and fast. Marathi Dalit little magazines — Gangadhar
+            Pantawane's <cite>Asmitadarsh</cite> from the late 1960s onward — were
+            cyclostyled: typed onto a wax stencil, cranked off a drum, stapled. Dhasal's
+            <cite>Golpitha</cite> (1972) brought Bombay's red-light district into Marathi
+            poetry in language the literary establishment could not process. The typography
+            is crude because the duplicator was crude, and the crudeness became a register
+            in its own right — the only place in this movement where roughness is allowed.
+          </p>
+          <p>
+            The line continues into the Bhim Geet trade: devotional and militant songs about
+            Ambedkar sold on cassette and later CD, with covers assembled by small-town
+            studios from the same three ingredients — blue field, wheel, portrait.
+          </p>
+        </div>
+
+        <h3 data-reveal>Now · <span>Blue cap, blue LED, blue hashtag</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            The Bhim Army, founded in Saharanpur in 2015, added exactly one element: a blue
+            cap, worn as a uniform by young men in a movement that had previously
+            distributed itself through statues and flags. It is the cheapest possible
+            wearable, and it photographs in a crowd.
+          </p>
+          <p>
+            Meanwhile the statues acquired blue LED haloes and floodlighting, the salute
+            became a hashtag, the stencil became a sticker, and in 2021 <cite>Jai Bhim</cite>
+            became the title of a Tamil feature film. The portrait itself is now, by most
+            counts, the most reproduced political image in India after Gandhi's — achieved
+            without a state, a party in power, or a single art director.
+          </p>
+        </div>
+      </div>
+
+      <aside class="docket" data-reveal>
+        <span class="docket-head">Docket</span>
+        <p><b>1920</b><span>Mooknayak, Ambedkar's first Marathi fortnightly.</span></p>
+        <p><b>1927</b><span>Mahad Satyagraha, March. Manusmriti burned, December.</span></p>
+        <p><b>1930</b><span>Round Table Conferences, London: the suit in the photographs.</span></p>
+        <p><b>1936</b><span>Annihilation of Caste — written as a speech, never delivered, self-published.</span></p>
+        <p><b>1942</b><span>Scheduled Castes Federation founded. The blue flag enters service.</span></p>
+        <p><b>1950</b><span>Constitution of India in force. Article 17 abolishes untouchability.</span></p>
+        <p><b>1956</b><span>14 Oct, Deekshabhoomi, Nagpur: mass conversion. 6 Dec: death; Chaityabhoomi, Dadar.</span></p>
+        <p><b>1957</b><span>Republican Party of India formed, per his plan, after his death.</span></p>
+        <p><b>1967</b><span>Asmitadarsh and the Marathi Dalit little-magazine wave.</span></p>
+        <p><b>1972</b><span>Dalit Panthers, Bombay. Golpitha published.</span></p>
+        <p><b>1973</b><span>The Dalit Panthers manifesto.</span></p>
+        <p><b>1990</b><span>Bharat Ratna awarded posthumously. The state adopts the portrait.</span></p>
+        <p><b>2015</b><span>Bhim Army, Saharanpur. The blue cap.</span></p>
+        <p><b>2021</b><span>Jai Bhim released — the slogan as a film title.</span></p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ARTIFACTS ============================== -->
+<section class="section" id="artifacts" style="background:#E4E8FF">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>§ 04 — Artifacts</p>
+    <h2 class="section-title" data-reveal>Four objects, drawn as specifications</h2>
+    <p class="prose" data-reveal style="margin-bottom:2.8rem">
+      Read these the way the movement asks to be read: as drawings with tolerances, not as
+      devotional images. Where a component varies in practice, it is labelled as variable.
+    </p>
+
+    <div class="artifacts" data-reveal>
+
+      <figure class="span-2">
+        <div class="frame frame--blueprint">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 620 420" role="img" aria-label="Annotated blueprint diagram of the canonical Ambedkar portrait, labelling the spectacles, necktie, three-piece suit, bound volume and raised index finger">
+            <rect width="620" height="420" fill="#14267F" />
+            <g stroke="#FFFFFF" opacity="0.12" stroke-width="0.6">
+              <path d="M0 30 H620 M0 60 H620 M0 90 H620 M0 120 H620 M0 150 H620 M0 180 H620 M0 210 H620 M0 240 H620 M0 270 H620 M0 300 H620 M0 330 H620 M0 360 H620 M0 390 H620" />
+              <path d="M30 0 V420 M60 0 V420 M90 0 V420 M120 0 V420 M150 0 V420 M180 0 V420 M210 0 V420 M240 0 V420 M270 0 V420 M300 0 V420 M330 0 V420 M360 0 V420 M390 0 V420 M420 0 V420 M450 0 V420 M480 0 V420 M510 0 V420 M540 0 V420 M570 0 V420 M600 0 V420" />
+            </g>
+            <rect x="10" y="10" width="600" height="400" fill="none" stroke="#FFFFFF" stroke-width="0.8" opacity="0.5" />
+
+            <!-- centre line -->
+            <path d="M310 26 V400" stroke="#8FA8FF" stroke-width="0.6" stroke-dasharray="8 4 2 4" opacity="0.8" />
+
+            <g fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+              <!-- head + hair -->
+              <ellipse cx="310" cy="94" rx="36" ry="45" />
+              <path d="M276 82 C282 56 338 56 344 82" />
+              <!-- ears -->
+              <path d="M274 92 q-7 8 0 16 M346 92 q7 8 0 16" />
+              <!-- spectacles -->
+              <circle cx="293" cy="92" r="12.5" />
+              <circle cx="327" cy="92" r="12.5" />
+              <path d="M305.5 92 h9" />
+              <path d="M280.5 92 h-7 M339.5 92 h7" />
+              <!-- neck + collar -->
+              <path d="M296 132 v20 M324 132 v20" />
+              <path d="M296 152 L310 168 L324 152" />
+              <!-- shoulders / jacket -->
+              <path d="M310 150 C270 152 216 174 206 216 L196 372" />
+              <path d="M310 150 C350 152 404 174 414 216 L424 372" />
+              <path d="M196 372 H424" />
+              <!-- lapels -->
+              <path d="M298 156 L272 244 L310 258 L348 244 L322 156" />
+              <!-- waistcoat opening -->
+              <path d="M287 176 L310 232 L333 176" stroke-width="1" opacity="0.85" />
+              <!-- tie -->
+              <path d="M303 158 h14 l-4 12 h-6 z" />
+              <path d="M306 170 L310 254 L314 170" />
+              <!-- buttons -->
+              <circle cx="310" cy="268" r="2.6" /><circle cx="310" cy="286" r="2.6" />
+              <circle cx="310" cy="304" r="2.6" /><circle cx="310" cy="322" r="2.6" />
+              <!-- breast pocket + pen (wearer's left = viewer's right) -->
+              <path d="M344 216 h30 v12 h-30 z" stroke-width="1" />
+              <path d="M368 210 v16" stroke-width="1.8" />
+              <!-- HIS LEFT ARM (viewer right): linkage terminating in the bound volume -->
+              <path d="M398 208 L420 278 L408 300" stroke-width="2" />
+              <path d="M382 296 h74 v62 h-74 z" />
+              <path d="M382 296 l11 -13 h74 l-11 13 M456 296 l11 -13 v62 l-11 13" />
+              <path d="M388 312 h58 M388 324 h58 M388 336 h40" stroke-width="0.8" opacity="0.6" />
+              <path d="M394 308 q12 -11 22 -1" stroke-width="1.5" />
+              <!-- HIS RIGHT ARM (viewer left): linkage terminating in the finger vector -->
+              <path d="M222 208 L186 286 L188 226" stroke-width="2" />
+              <path d="M188 226 q-10 -9 -17 -4 q-5 5 3 10" stroke-width="1.4" />
+              <path d="M180 216 L162 172" stroke-width="3.4" />
+            </g>
+
+            <!-- joints, drawn as pivots -->
+            <g fill="#14267F" stroke="#8FA8FF" stroke-width="1.1">
+              <circle cx="222" cy="208" r="3.6" /><circle cx="186" cy="286" r="3.6" />
+              <circle cx="188" cy="226" r="3.6" />
+              <circle cx="398" cy="208" r="3.6" /><circle cx="420" cy="278" r="3.6" />
+            </g>
+
+            <!-- leaders + labels -->
+            <g stroke="#8FA8FF" stroke-width="0.7" fill="none">
+              <path d="M134 124 H208 L280 100" />
+              <path d="M128 256 H172 L184 220" />
+              <path d="M466 118 H412 L322 158" />
+              <path d="M466 172 H398 L376 220" />
+              <path d="M466 226 H428 L352 244" />
+              <path d="M466 286 H462" />
+            </g>
+            <g class="mono" fill="#CBD6FF" font-size="9" letter-spacing="1.1">
+              <text x="26" y="128">01 SPECTACLES</text>
+              <text x="26" y="140" font-size="7.6" fill="#8FA8FF">ROUND WIRE. ALWAYS</text>
+              <text x="26" y="256">03 INDEX FINGER</text>
+              <text x="26" y="268" font-size="7.6" fill="#8FA8FF">RAISED · FORWARD</text>
+              <text x="470" y="122">04 NECKTIE</text>
+              <text x="470" y="134" font-size="7.6" fill="#8FA8FF">ON CENTRE LINE</text>
+              <text x="470" y="176">02 BREAST POCKET</text>
+              <text x="470" y="188" font-size="7.6" fill="#8FA8FF">PEN. OPTIONAL</text>
+              <text x="470" y="230">05 THREE-PIECE</text>
+              <text x="470" y="242" font-size="7.6" fill="#8FA8FF">JACKET · WAISTCOAT</text>
+              <text x="470" y="290">06 BOUND VOLUME</text>
+              <text x="470" y="302" font-size="7.6" fill="#8FA8FF">BLUE. LEFT HAND</text>
+              <text x="26" y="396" font-size="8" fill="#8FA8FF">COMPONENT SCHEDULE · TOLERANCE: NONE ON 01, 04, 06</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The canonical portrait, as a component schedule</b> Six parts, and only three of them are optional. Compare with the devotional composition diagrams elsewhere in this atlas: nothing here is symbolic, everything is a garment or an instrument. That is the whole argument, drawn.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 380 440" role="img" aria-label="Construction drawing of a standard Ambedkar statue, plinth and protective grille with dimension lines">
+            <rect width="380" height="440" fill="#FFFFFF" />
+            <g stroke="#1C39BB" opacity="0.14" stroke-width="0.5">
+              <path d="M0 20 H380 M0 60 H380 M0 100 H380 M0 140 H380 M0 180 H380 M0 220 H380 M0 260 H380 M0 300 H380 M0 340 H380 M0 380 H380 M0 420 H380" />
+              <path d="M20 0 V440 M60 0 V440 M100 0 V440 M140 0 V440 M180 0 V440 M220 0 V440 M260 0 V440 M300 0 V440 M340 0 V440" />
+            </g>
+
+            <!-- ground -->
+            <path d="M14 404 H366" stroke="#0D1330" stroke-width="2" />
+            <g stroke="#0D1330" stroke-width="0.8" opacity="0.6">
+              <path d="M22 404 l-8 10 M46 404 l-8 10 M70 404 l-8 10 M94 404 l-8 10 M118 404 l-8 10 M142 404 l-8 10 M166 404 l-8 10 M190 404 l-8 10 M214 404 l-8 10 M238 404 l-8 10 M262 404 l-8 10 M286 404 l-8 10 M310 404 l-8 10 M334 404 l-8 10 M358 404 l-8 10" />
+            </g>
+
+            <!-- plinth: three tiers -->
+            <g fill="#E4E8FF" stroke="#0D1330" stroke-width="1.4">
+              <path d="M104 380 H276 V404 H104 Z" />
+              <path d="M116 340 H264 V380 H116 Z" />
+              <path d="M130 264 H250 V340 H130 Z" />
+            </g>
+            <!-- plaque -->
+            <rect x="146" y="286" width="88" height="34" fill="#1C39BB" />
+            <g fill="#FFFFFF" opacity="0.85">
+              <rect x="154" y="294" width="72" height="4" />
+              <rect x="154" y="303" width="56" height="3" />
+              <rect x="154" y="310" width="40" height="3" />
+            </g>
+
+            <!-- statue: standing, suited, book left, finger right -->
+            <g stroke="#0D1330" stroke-width="1.2" stroke-linejoin="round">
+              <!-- trousers -->
+              <path d="M174 264 L176 206 H190 L189 264 Z" fill="#1C39BB" />
+              <path d="M195 264 L194 206 H208 L210 264 Z" fill="#1C39BB" />
+              <!-- jacket -->
+              <path d="M170 212 L167 172 C167 156 176 146 184 144 L202 144 C210 146 219 156 219 172 L216 212 Z" fill="#1C39BB" />
+              <!-- neck + head -->
+              <path d="M188 146 h10 v-9 h-10 z" fill="#F2F4FF" />
+              <ellipse cx="193" cy="126" rx="12.5" ry="15" fill="#F2F4FF" />
+              <!-- lapel + tie -->
+              <path d="M184 148 L193 178 L202 148" fill="none" stroke-width="1" />
+              <path d="M193 152 V186" fill="none" stroke-width="1" />
+              <!-- bound volume, his left hand -->
+              <path d="M214 178 h26 v30 h-26 z" fill="#F2F4FF" />
+              <path d="M214 178 l5 -6 h26 l-5 6 M240 178 l5 -6 v30 l-5 6" fill="#1C39BB" />
+              <path d="M214 208 q10 -9 20 -2" fill="none" stroke-width="1.2" />
+            </g>
+            <!-- raised right arm (viewer left), drawn as a sculpted limb -->
+            <g fill="none" stroke="#1C39BB" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M172 156 L158 190 L148 162" />
+            </g>
+            <g fill="none" stroke="#0D1330" stroke-width="1.1" stroke-linecap="round">
+              <path d="M148 162 q-9 -6 -15 -2 q-4 4 2 8" />
+              <path d="M140 156 L118 138" stroke-width="3.6" />
+            </g>
+            <!-- garland -->
+            <g fill="none" stroke="#FF7F00" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="1 5.5">
+              <path d="M180 150 C172 178 182 196 193 199 C204 196 214 178 206 150" />
+            </g>
+
+            <!-- grille -->
+            <g stroke="#0D1330" stroke-width="1.2" fill="none" opacity="0.9">
+              <path d="M74 404 V96 H320 V404" />
+              <path d="M74 96 H320 M74 132 H320 M74 384 H320" />
+              <path d="M92 96 V404 M110 96 V404 M128 96 V404 M146 96 V404 M164 96 V404 M182 96 V404 M200 96 V404 M218 96 V404 M236 96 V404 M254 96 V404 M272 96 V404 M290 96 V404 M308 96 V404" stroke-width="0.7" opacity="0.55" />
+              <path d="M74 96 l6 -10 M92 96 l6 -10 M110 96 l6 -10 M128 96 l6 -10 M146 96 l6 -10 M164 96 l6 -10 M182 96 l6 -10 M200 96 l6 -10 M218 96 l6 -10 M236 96 l6 -10 M254 96 l6 -10 M272 96 l6 -10 M290 96 l6 -10 M308 96 l6 -10 M320 96 l6 -10" stroke-width="0.9" />
+            </g>
+
+            <!-- dimensions -->
+            <g stroke="#1C39BB" stroke-width="0.8" fill="none">
+              <path d="M40 96 V404" />
+              <path d="M34 96 H46 M34 404 H46" />
+              <path d="M40 96 l-4 10 h8 z M40 404 l-4 -10 h8 z" fill="#1C39BB" stroke="none" />
+              <path d="M352 264 V404" />
+              <path d="M346 264 H358 M346 404 H358" />
+              <path d="M352 264 l-4 10 h8 z M352 404 l-4 -10 h8 z" fill="#1C39BB" stroke="none" />
+            </g>
+            <g class="mono" fill="#1C39BB" font-size="8.5" letter-spacing="0.8">
+              <text x="16" y="250" transform="rotate(-90 16 250)">GRILLE — FULL ENCLOSURE</text>
+              <text x="374" y="340" transform="rotate(-90 374 340)">PLINTH — 3 TIERS, VARIABLE</text>
+              <text x="14" y="72" font-size="8">PROTECTIVE GRILLE — ADDED, NOT DESIGNED</text>
+              <text x="14" y="428" font-size="7.6" fill="#0D1330">NO CENTRAL SPECIFICATION EXISTS · DIMENSIONS VARY BY COMMITTEE</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Statue, plinth, grille</b> The grille is not part of the design brief; it is a response to attack, and it has become part of the object anyway. Note what the cage does to the pointing finger — the most assertive gesture in Indian public sculpture, delivered from inside a locked enclosure.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 340 440" role="img" aria-label="A cyclostyled Marathi little-magazine cover in the Dalit Panthers manner, set in flat type">
+            <rect width="340" height="440" fill="#E8E6DC" />
+            <g opacity="0.5">
+              <rect width="340" height="440" fill="none" />
+            </g>
+            <rect x="18" y="18" width="304" height="404" fill="none" stroke="#141414" stroke-width="1" />
+            <path d="M18 52 H322" stroke="#141414" stroke-width="0.8" />
+            <g class="mono" fill="#141414" font-size="8.5" letter-spacing="1.6">
+              <text x="28" y="42">MUMBAI</text>
+              <text x="196" y="42">CYCLOSTYLED · 1973</text>
+            </g>
+
+            <text class="stx-dev" x="30" y="142" font-size="48" fill="#141414" stroke="#141414" stroke-width="1.1" lang="mr">दलित पँथर</text>
+            <text class="stx-lat" x="30" y="182" font-size="25" fill="#141414" letter-spacing="-0.4">DALIT PANTHER</text>
+
+            <rect x="18" y="204" width="304" height="46" fill="#141414" />
+            <text class="stx-lat" x="30" y="236" font-size="20" fill="#E8E6DC" letter-spacing="0.5">MANIFESTO</text>
+            <text class="stx-dev" x="192" y="239" font-size="24" fill="#E8E6DC" lang="mr">जाहीरनामा</text>
+
+            <path d="M18 268 H322" stroke="#C4102E" stroke-width="4" />
+
+            <!-- greeked body: flat type mass, not invented text -->
+            <g fill="#141414" opacity="0.82">
+              <rect x="30" y="288" width="128" height="4" /><rect x="30" y="298" width="140" height="4" />
+              <rect x="30" y="308" width="112" height="4" /><rect x="30" y="318" width="136" height="4" />
+              <rect x="30" y="328" width="96" height="4" /><rect x="30" y="344" width="140" height="4" />
+              <rect x="30" y="354" width="120" height="4" /><rect x="30" y="364" width="132" height="4" />
+              <rect x="182" y="288" width="128" height="4" /><rect x="182" y="298" width="108" height="4" />
+              <rect x="182" y="308" width="132" height="4" /><rect x="182" y="318" width="88" height="4" />
+              <rect x="182" y="334" width="128" height="4" /><rect x="182" y="344" width="116" height="4" />
+              <rect x="182" y="354" width="132" height="4" /><rect x="182" y="364" width="72" height="4" />
+            </g>
+            <!-- toner drop-out, the cyclostyle signature -->
+            <g fill="#E8E6DC" opacity="0.75">
+              <rect x="96" y="286" width="9" height="82" />
+              <rect x="248" y="286" width="6" height="82" />
+              <rect x="40" y="120" width="5" height="70" />
+            </g>
+            <path d="M18 388 H322" stroke="#141414" stroke-width="0.8" />
+            <g class="mono" fill="#141414" font-size="8.5" letter-spacing="1.4">
+              <text x="30" y="408">DHASAL · PAWAR · DHALE</text>
+              <text x="238" y="408">PRICE —</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The Panther register</b> Composed in the manner of the cyclostyled Marathi little magazines, not copied from a specific issue. Wax stencil, drum duplicator, one ink and one accident: the vertical drop-outs where the drum ran dry. The blue is absent — this was the movement's red-and-black wing.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure class="span-2">
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 720 330" role="img" aria-label="The six bands of the Buddhist flag with the Pali name and meaning of each colour">
+            <rect width="720" height="330" fill="#FFFFFF" />
+            <g class="mono" fill="#0D1330" font-size="9" letter-spacing="2">
+              <text x="16" y="24">BAND</text>
+              <text x="226" y="24">PĀLI</text>
+              <text x="404" y="24">READING</text>
+            </g>
+            <path d="M16 32 H704" stroke="#0D1330" stroke-width="1.2" />
+
+            <g>
+              <rect x="16" y="42" width="196" height="40" fill="#1C39BB" />
+              <rect x="16" y="90" width="196" height="40" fill="#FFD100" />
+              <rect x="16" y="138" width="196" height="40" fill="#D21034" />
+              <rect x="16" y="186" width="196" height="40" fill="#FFFFFF" stroke="#0D1330" stroke-width="0.8" />
+              <rect x="16" y="234" width="196" height="40" fill="#FF7F00" />
+              <g>
+                <rect x="16" y="282" width="196" height="8" fill="#1C39BB" />
+                <rect x="16" y="290" width="196" height="8" fill="#FFD100" />
+                <rect x="16" y="298" width="196" height="8" fill="#D21034" />
+                <rect x="16" y="306" width="196" height="8" fill="#FFFFFF" />
+                <rect x="16" y="314" width="196" height="8" fill="#FF7F00" />
+                <rect x="16" y="282" width="196" height="40" fill="none" stroke="#0D1330" stroke-width="0.8" />
+              </g>
+            </g>
+
+            <g class="stx-lat" fill="#0D1330" font-size="16">
+              <text x="226" y="68">NĪLA</text>
+              <text x="226" y="116">PĪTA</text>
+              <text x="226" y="164">LOHITA</text>
+              <text x="226" y="212">ODĀTA</text>
+              <text x="226" y="260">MAÑJEṬṬHA</text>
+              <text x="226" y="308">PABBHASSARA</text>
+            </g>
+            <g fill="#0D1330" font-family="IBM Plex Serif, Georgia, serif" font-size="13">
+              <text x="404" y="60">Universal compassion. The band the</text>
+              <text x="404" y="76" fill="#1C39BB">movement took as its entire identity.</text>
+              <text x="404" y="116">The Middle Path.</text>
+              <text x="404" y="164">The blessings of practice.</text>
+              <text x="404" y="212">Purity of the Dhamma; liberation.</text>
+              <text x="404" y="260">Wisdom — the Buddha's teaching.</text>
+              <text x="404" y="300">The compound of all five: the essence</text>
+              <text x="404" y="316">of light. A colour made of colours.</text>
+            </g>
+            <g stroke="#0D1330" stroke-width="0.5" opacity="0.35">
+              <path d="M16 86 H704 M16 134 H704 M16 182 H704 M16 230 H704 M16 278 H704" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The five colours, and the sixth</b> Designed in Colombo in the 1880s and adopted by the World Fellowship of Buddhists in 1950; six years later it arrived in Maharashtra by the hundred thousand. Only one band was needed for the political identity. The other five came with it.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+    </div>
+
+    <p class="note" style="margin-top:2.8rem;max-width:46rem">
+      Every drawing here is constructed from published descriptions and specifications, not
+      traced from photographs. The portrait schedule and the statue elevation are
+      generalisations of a type, not renderings of any one object: no central specification
+      for either has ever existed, which is the finding rather than a caveat. Colour values
+      for the Buddhist flag follow common published usage; manufactured flags vary.
+    </p>
+  </div>
+</section>
+
+<div class="rule-legal" aria-hidden="true"></div>
+
+<!-- ============================== LINEAGE ============================== -->
+<section class="section" id="lineage">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>§ 05 — Lineage</p>
+    <h2 class="section-title" data-reveal>Named a debt, and paid one</h2>
+    <div class="lineage" data-reveal
+         data-lineage="panthers,swadeshi,dravidian,saffron"
+         data-why="Named outright: the Dalit Panthers of 1972 took the name, the manifesto format and the stance from Oakland, and printed them in Marathi.|The same wheel, the opposite wardrobe. Swadeshi divested to look like the poorest Indian; this movement dressed up because the poorest Indian had been forbidden to.|The other Indian identity built by an excluded majority — black shirts and a rising sun instead of blue and a wheel, cinema instead of law.|The direct adversary. Saffron claims a continuous Hindu antiquity; the wheel claims a Buddhist one that predates it, using the same emblem the state already flies.">
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SOURCES ============================== -->
+<section class="section" id="sources" style="padding-top:0">
+  <div class="wrap">
+    <hr class="hr" style="margin-bottom:3rem" />
+    <p class="eyebrow" data-reveal>Sources &amp; further reading</p>
+    <ul class="sources" data-reveal>
+      <li>Gary Michael Tartakov, <cite>Dalit Art and Visual Imagery</cite> (2012) — the standard collection on the subject, and the starting point for anything on this page.</li>
+      <li>Nicolas Jaoul, "Learning the Use of Symbolic Means: Dalits, Ambedkar Statues and the State in Uttar Pradesh", <cite>Contributions to Indian Sociology</cite> (2006) — fieldwork on statues as territorial claims.</li>
+      <li>Christophe Jaffrelot, <cite>Dr Ambedkar and Untouchability: Analysing and Fighting Caste</cite> (2005).</li>
+      <li>Anupama Rao, <cite>The Caste Question: Dalits and the Politics of Modern India</cite> (2009).</li>
+      <li>B. R. Ambedkar, <cite>Annihilation of Caste</cite> (1936) — written as an address, never delivered, self-published.</li>
+      <li>Dalit Panthers, <cite>Manifesto</cite> (Bombay, 1973); Namdeo Dhasal, <cite>Golpitha</cite> (1972).</li>
+      <li>Deekshabhoomi (Nagpur) and Chaityabhoomi (Dadar, Mumbai) — the sites themselves, and their published records of the 1956 conversion.</li>
+      <li><cite>Dr. Babasaheb Ambedkar: Writings and Speeches</cite>, Government of Maharashtra — the collected volumes, including the Marathi journalism.</li>
+    </ul>
+  </div>
+</section>
+
+<div data-site="foot"></div>
+
+<script src="../../shared/movements.js"></script>
+<script src="../../shared/site.js"></script>
+</body>
+</html>

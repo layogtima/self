@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en" data-slug="reformasi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Indonesia: Monument, Banyan, Woodcut — Political Design</title>
+<meta name="description" content="Three Indonesian regimes, three complete design languages: Sukarno's concrete and gold, the New Order's corporate yellow banyan, and the 1998 student woodcut that outlived them both." />
+<meta name="theme-color" content="#E7E4DC" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Indonesia: Monument, Banyan, Woodcut — Political Design" />
+<meta property="og:description" content="Sukarno poured his state in concrete. Suharto printed his in yellow, like an annual report. In 1998 students carved the reply into plywood." />
+<meta property="og:url" content="https://layogtima.com/political-design/m/reformasi/" />
+<link rel="icon" type="image/svg+xml" href="https://layogtima.com/images/favicon/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Archivo:wdth,wght@62..125,100..900&family=Permanent+Marker&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../shared/site.css" />
+<link rel="stylesheet" href="../../shared/textures.css" />
+<style>
+  :root {
+    --paper: #E7E4DC;
+    --ink: #1B1A17;
+    --accent: #E4C122;
+    --concrete: #56554E;
+    --concrete-dk: #3C3B36;
+    --gold: #C89B2C;
+    --golkar: #E4C122;
+    --office: #FCFBF7;
+    --carve: #14130F;
+    --cream: #EFE9D8;
+    --merah: #C8161D;
+    --font-display: "Archivo", "Helvetica Neue", sans-serif;
+    --font-body: "Source Serif 4", Georgia, serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+    --font-slab: "Rubik Mono One", "Archivo Black", sans-serif;
+    --font-hand: "Permanent Marker", "Bradley Hand", cursive;
+  }
+  h1, h2, h3 { font-variation-settings: "wdth" 108; }
+
+  /* ============ HERO: three registers colliding ============ */
+  .hero { min-height: 100svh; display: grid; grid-template-rows: minmax(13rem, 1fr) auto auto; }
+  .hero__bands { display: grid; grid-template-columns: 1fr 1fr 1fr; position: relative; overflow: hidden; }
+  .hband { position: relative; overflow: hidden; }
+  .hband--1 { background-color: var(--concrete); }
+  .hband--2 { background-color: var(--golkar); }
+  .hband--3 { background-color: var(--carve); }
+  .hband__cut {
+    position: absolute; top: 0; height: 100%; width: 300%;
+    display: grid; place-items: center; pointer-events: none; padding-top: 2.2rem;
+  }
+  .hband--1 .hband__cut { left: 0; }
+  .hband--2 .hband__cut { left: -100%; }
+  .hband--3 .hband__cut { left: -200%; }
+  .hmark {
+    font-family: var(--font-slab);
+    font-size: min(12vw, 11rem);
+    line-height: 1;
+    letter-spacing: -0.012em;
+    white-space: nowrap;
+  }
+  .hband--1 .hmark { color: var(--gold); }
+  .hband--2 .hmark { color: #1B1A17; }
+  .hband--3 .hmark { color: var(--cream); }
+  .hero__legend { display: grid; grid-template-columns: 1fr 1fr 1fr; background: var(--paper); }
+  .hero__legend div {
+    padding: 0.7rem 0.9rem 0.75rem;
+    border-left: 1px solid var(--rule);
+    font-family: var(--font-mono); font-size: 0.58rem;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--soft); line-height: 1.6;
+  }
+  .hero__legend div:first-child { border-left: 0; }
+  .hero__legend b { display: block; color: var(--ink); letter-spacing: 0.13em; }
+  @media (max-width: 40rem) {
+    .hero__legend div { padding: 0.55rem 0.5rem; font-size: 0.5rem; letter-spacing: 0.07em; }
+  }
+  .diag-gold {
+    background-image: repeating-linear-gradient(74deg, rgba(200,155,44,0.42) 0 2px, transparent 2px 46px);
+  }
+  .hatch-white {
+    background-image: repeating-linear-gradient(35deg, rgba(239,233,216,0.16) 0 1.5px, transparent 1.5px 7px);
+  }
+
+  .hero__text {
+    background: var(--paper);
+    padding: 2.2rem var(--gutter) 3rem;
+    display: grid; gap: 2rem;
+    grid-template-columns: 1fr;
+    align-items: end;
+  }
+  @media (min-width: 62rem) { .hero__text { grid-template-columns: minmax(0,1fr) 15rem; gap: 3rem; } }
+  .hero__hand {
+    font-family: var(--font-hand);
+    font-size: clamp(1.3rem, 3.4vw, 2.1rem);
+    margin: 0 0 0.5rem;
+  }
+  .hero__hand span {
+    background: linear-gradient(to top, var(--accent) 0 44%, transparent 44%);
+    padding: 0 0.15em;
+  }
+  .hero__h1 {
+    font-size: clamp(2rem, 5.6vw, 4.1rem);
+    font-variation-settings: "wdth" 115;
+    margin: 0 0 1.1rem; max-width: 18ch;
+  }
+  .hero__meta {
+    font-family: var(--font-mono); font-size: 0.7rem;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--soft);
+    display: flex; flex-wrap: wrap; gap: 0.5rem 1.4rem; margin: 0 0 1.4rem;
+  }
+  .hero__lede { font-size: clamp(1.05rem, 0.9vw + 0.9rem, 1.35rem); line-height: 1.5; max-width: 38rem; margin: 0; }
+  .actnav { border-top: 2px solid var(--ink); }
+  .actnav a {
+    display: block; text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    padding: 0.65rem 0;
+    font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.13em; text-transform: uppercase;
+  }
+  .actnav a b { display: block; font-family: var(--font-display); font-weight: 700; font-size: 1rem; letter-spacing: 0; text-transform: none; }
+  .actnav a:hover { color: var(--gold); }
+
+  /* ============ act openers ============ */
+  .actopen { padding: clamp(3rem, 8vw, 5.5rem) var(--gutter); position: relative; overflow: hidden; }
+  .actopen__no { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.32em; text-transform: uppercase; margin: 0 0 1rem; }
+  .actopen__name { margin: 0 0 0.8rem; line-height: 0.95; }
+  .actopen__sub { font-size: 1.02rem; max-width: 34rem; margin: 0; }
+  .actopen__yrs { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.2em; }
+
+  .actopen--i { background-color: var(--concrete-dk); color: #F2EFE6; }
+  .actopen--i .actopen__no, .actopen--i .actopen__yrs { color: var(--gold); }
+  .actopen--i .actopen__name { font-family: var(--font-slab); font-size: clamp(2rem, 7vw, 4.6rem); letter-spacing: -0.01em; }
+  .actopen--i .actopen__sub { color: rgba(242,239,230,0.76); }
+
+  .actopen--ii { background-color: var(--office); color: #15140F; text-align: center; border-block: 1px solid rgba(20,19,15,0.2); }
+  .actopen--ii .actopen__name { font-family: var(--font-display); font-weight: 700; font-variation-settings: "wdth" 100; font-size: clamp(2rem, 6vw, 4rem); letter-spacing: 0.02em; text-transform: uppercase; }
+  .actopen--ii .actopen__sub { margin-inline: auto; color: rgba(20,19,15,0.66); }
+  .actopen--ii .actopen__no { color: rgba(20,19,15,0.5); }
+  .actopen--ii .rule-y { width: 4.5rem; height: 6px; background: var(--golkar); margin: 1.4rem auto; }
+
+  .actopen--iii {
+    background-color: var(--carve); color: var(--cream);
+    clip-path: polygon(0 2.4%, 5% 0.4%, 11% 2.2%, 17% 0.2%, 24% 2.6%, 31% 0.6%, 38% 2.4%, 46% 0.3%, 53% 2.5%, 61% 0.5%, 68% 2.6%, 75% 0.4%, 82% 2.3%, 89% 0.5%, 95% 2.4%, 100% 0.6%, 100% 100%, 0 100%);
+  }
+  .actopen--iii .actopen__name { font-family: var(--font-hand); font-size: clamp(2.2rem, 8vw, 5rem); letter-spacing: 0; transform: rotate(-1.6deg); }
+  .actopen--iii .actopen__no, .actopen--iii .actopen__yrs { color: var(--accent); }
+  .actopen--iii .actopen__sub { color: rgba(239,233,216,0.78); }
+
+  /* ============ act bodies ============ */
+  .act { position: relative; }
+  .act .wrap { width: min(100% - (var(--gutter) * 2), 67rem); }
+  .act .prose, .act .plainly { max-width: 38rem; }
+  .act--i {
+    --paper: #56554E; --ink: #F2EFE6; --accent: #E7C64B;
+    --rule: rgba(242,239,230,0.24); --soft: rgba(242,239,230,0.7); --whisper: rgba(242,239,230,0.07);
+    background-color: var(--concrete); color: #F2EFE6;
+  }
+  .act--i h2, .act--i h3 { font-family: var(--font-slab); letter-spacing: -0.01em; line-height: 1.06; }
+  .act--i .section-title { font-size: clamp(1.4rem, 3.1vw, 2.4rem); }
+  .act--i h3 { font-size: clamp(1.05rem, 2.2vw, 1.6rem); margin: 3.2rem 0 1rem; max-width: 24ch; }
+  .act--i h3 span { color: var(--gold); }
+  .act--i .figures figcaption b { color: #FFF; }
+
+  .act--ii {
+    --paper: #FCFBF7; --ink: #15140F; --accent: #B8971A;
+    --rule: rgba(20,19,15,0.16); --soft: rgba(20,19,15,0.6); --whisper: rgba(20,19,15,0.035);
+    background-color: var(--office); color: #15140F;
+  }
+  .act--ii .head-c { text-align: center; max-width: 42rem; margin-inline: auto; }
+  .act--ii .head-c .eyebrow { justify-content: center; }
+  .act--ii .head-c .eyebrow::after, .act--ii .head-c .eyebrow::before { content: ""; flex: 1; height: 1px; background: var(--rule); }
+  .act--ii h2, .act--ii h3 { font-family: var(--font-display); font-weight: 700; font-variation-settings: "wdth" 96; letter-spacing: -0.005em; }
+  .act--ii h3 { font-size: clamp(1.2rem, 2.6vw, 1.85rem); margin: 0 0 0.9rem; text-transform: uppercase; letter-spacing: 0.01em; }
+  .act--ii .beat { border-top: 1px solid var(--rule); padding-top: 1.6rem; margin-top: 3.4rem; }
+  .act--ii .beat__yr { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.28em; color: var(--soft); margin: 0 0 0.7rem; }
+  .act--ii .cols { columns: 2 19rem; column-gap: 2.6rem; max-width: none; }
+  .act--ii .cols p { break-inside: avoid; }
+  .report { border: 1px solid var(--rule); background: #fff; margin-top: 2.6rem; }
+  .report__hd { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.24em; text-transform: uppercase; padding: 0.8rem 1.1rem; border-bottom: 1px solid var(--rule); color: var(--soft); }
+  .report dl { display: grid; grid-template-columns: 1fr auto; margin: 0; }
+  .report dt, .report dd { padding: 0.7rem 1.1rem; border-bottom: 1px solid var(--rule); margin: 0; font-size: 0.86rem; }
+  .report dt { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--soft); }
+  .report dd { font-family: var(--font-display); font-weight: 700; text-align: right; font-size: 1.1rem; }
+  .report dl > *:nth-last-child(-n+2) { border-bottom: 0; }
+  .report__ft { font-family: var(--font-mono); font-size: 0.64rem; line-height: 1.7; color: var(--soft); padding: 0.8rem 1.1rem; border-top: 1px solid var(--rule); }
+
+  .act--iii {
+    --paper: #14130F; --ink: #EFE9D8; --accent: #E4C122;
+    --rule: rgba(239,233,216,0.28); --soft: rgba(239,233,216,0.72); --whisper: rgba(239,233,216,0.06);
+    background-color: var(--carve); color: var(--cream);
+  }
+  .act--iii h2, .act--iii h3 { font-family: var(--font-hand); letter-spacing: 0; line-height: 1.12; font-weight: 400; }
+  .act--iii .section-title { font-size: clamp(1.7rem, 4vw, 3rem); transform: rotate(-0.8deg); }
+  .act--iii h3 { font-size: clamp(1.2rem, 2.6vw, 1.9rem); margin: 3.2rem 0 1rem; transform: rotate(-1.1deg); max-width: 22ch; }
+  .act--iii h3 span { color: var(--accent); }
+  .act--iii .figures figure:nth-child(even) { transform: rotate(0.8deg); }
+  .act--iii .figures figure:nth-child(odd) { transform: rotate(-0.6deg); }
+  .wood-slab {
+    background-color: var(--cream); color: var(--carve);
+    padding: 1.6rem 1.4rem; margin: 2.6rem 0;
+    font-family: var(--font-hand); font-size: clamp(1.1rem, 2.6vw, 1.7rem); line-height: 1.25;
+    transform: rotate(-0.7deg); max-width: 40rem;
+  }
+  .wood-slab small { display: block; font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; margin-top: 0.9rem; opacity: 0.7; }
+
+  /* ============ shared page bits ============ */
+  .swatches { grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); }
+  .two-col { display: grid; gap: 2.6rem; grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 60rem) { .two-col { grid-template-columns: minmax(0,1fr) 15rem; gap: 3.4rem; } }
+  .marginalia {
+    font-family: var(--font-mono); font-size: 0.7rem; line-height: 1.75;
+    letter-spacing: 0.03em; color: var(--soft);
+    border-left: 1px solid var(--rule); padding-left: 1.1rem;
+  }
+  .marginalia b { color: var(--ink); }
+  .symbolrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: 1.8rem; }
+  .symbolrow figure .frame { padding: 0.8rem; background: #F2EFE7; }
+  .symbolrow figcaption { font-size: 0.8rem; }
+  .anatomy-grid { display: grid; gap: var(--step) 3.5rem; grid-template-columns: 1fr; }
+  @media (min-width: 62rem) { .anatomy-grid { grid-template-columns: 1.05fr 1fr; gap: 3.5rem; } }
+  .seam { height: 10px; display: grid; grid-template-columns: 1fr 1fr 1fr; }
+  .seam i:nth-child(1) { background: var(--concrete); }
+  .seam i:nth-child(2) { background: var(--golkar); }
+  .seam i:nth-child(3) { background: var(--carve); }
+  .plainly {
+    border-left: 4px solid var(--merah);
+    padding: 0.2rem 0 0.2rem 1.2rem;
+    max-width: 40rem; margin: 2.4rem 0;
+    font-size: 0.98rem;
+  }
+  .plainly p:last-child { margin-bottom: 0; }
+  .plainly b { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; display: block; margin-bottom: 0.6rem; color: var(--merah); }
+  .act--i .plainly, .act--iii .plainly { border-color: #E8615F; }
+  .act--i .plainly b, .act--iii .plainly b { color: #E8615F; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .act--iii .figures figure, .act--iii h3, .act--iii .section-title, .wood-slab, .actopen--iii .actopen__name { transform: none; }
+  }
+</style>
+<noscript><style>[data-reveal]{opacity:1 !important;transform:none !important}</style></noscript>
+</head>
+<body class="tx-grain">
+
+<!-- ============================== HERO ============================== -->
+<header class="hero">
+  <div class="hero__bands" role="img" aria-label="The word REFORMASI cut across three vertical bands — concrete grey, Golkar yellow and woodcut black — each band rendering its slice of the letters in its own colour and texture.">
+    <div class="hband hband--1 tx-concrete">
+      <span class="tx-over diag-gold" aria-hidden="true"></span>
+      <div class="hband__cut" aria-hidden="true"><span class="hmark" lang="id">REFORMASI</span></div>
+    </div>
+    <div class="hband hband--2">
+      <span class="tx-over tx-grid" aria-hidden="true"></span>
+      <div class="hband__cut" aria-hidden="true"><span class="hmark" lang="id">REFORMASI</span></div>
+    </div>
+    <div class="hband hband--3">
+      <span class="tx-over hatch-white" aria-hidden="true"></span>
+      <div class="hband__cut" aria-hidden="true"><span class="hmark" lang="id">REFORMASI</span></div>
+    </div>
+  </div>
+
+  <div class="hero__legend">
+    <div><b>Akt I · Monumen</b>1945—1965 · concrete, bronze, gold leaf</div>
+    <div><b>Akt II · Beringin</b>1966—1998 · yellow paint, stationery</div>
+    <div><b>Akt III · Cukil Kayu</b>1998 · one ink, plywood, cloth</div>
+  </div>
+
+  <div class="hero__text">
+    <div>
+      <p class="hero__hand" lang="id"><span>Hidup Mahasiswa!</span></p>
+      <h1 class="hero__h1">Monument, Banyan, Woodcut</h1>
+      <p class="hero__meta">
+        <span>No. 08</span><span>Southeast Asia · Indonesia</span><span>1945 — 1998</span>
+      </p>
+      <p class="hero__lede">
+        Three regimes in fifty-three years, each issuing a complete visual system. Sukarno
+        poured his in concrete and gold. Suharto printed his in yellow — symmetrical, calm,
+        an annual report of a country. In 1998 students carved the reply into plywood and
+        carried it down the street.
+      </p>
+    </div>
+    <nav class="actnav" aria-label="The three acts">
+      <a href="#act-1"><span>I · 1945—1965</span><b>Monumen</b></a>
+      <a href="#act-2"><span>II · 1966—1998</span><b>Beringin</b></a>
+      <a href="#act-3"><span>III · 1998</span><b>Cukil Kayu</b></a>
+    </nav>
+  </div>
+</header>
+
+<div class="seam" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<!-- ============================== ANATOMY ============================== -->
+<section class="section" id="anatomy">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The anatomy</p>
+    <div class="anatomy-grid">
+
+      <div data-reveal>
+        <h2 class="section-title">Three palettes that never share a page</h2>
+        <p class="prose">
+          Indonesia is the rare case where you can date a graphic to within a decade by its
+          colour alone. Each regime worked in a different material — cast concrete, printed
+          stationery, carved plywood — and each material dictated what the colour could be.
+        </p>
+        <div class="swatches" style="margin-top:2rem">
+          <div class="swatch"><i style="background:#56554E"></i><b>#56554E CONCRETE</b><span>Board-formed, unpainted, photographed from below. Sukarno's Jakarta was poured rather than printed; grey is the argument's substrate.</span></div>
+          <div class="swatch"><i style="background:#C89B2C"></i><b>#C89B2C GOLD LEAF</b><span>The flame on the National Monument is clad in gold foil — reportedly 35 kg in 1961, raised to 50 kg for the 1995 jubilee. One luxury, placed 132 m up.</span></div>
+          <div class="swatch"><i style="background:#E4C122"></i><b>#E4C122 GOLKAR YELLOW</b><span>The ruling group's colour, applied to fences, kerbs, gateposts and guard huts. Indonesians named the practice: <i lang="id" style="height:auto;display:inline;font-style:italic">kuningisasi</i>.</span></div>
+          <div class="swatch"><i style="background:#FCFBF7"></i><b>#FCFBF7 OFFICE WHITE</b><span>The New Order's true background: circulars, forms, indoctrination-course manuals, broadcast captions. Uniformity delivered as stationery.</span></div>
+          <div class="swatch"><i style="background:#14130F"></i><b>#14130F WOODCUT BLACK</b><span>One ink, one block, no press and no permission. The only colour a student collective can guarantee at three in the morning.</span></div>
+          <div class="swatch"><i style="background:#C8161D"></i><b>#C8161D MERAH PUTIH</b><span>The flag red of 1945. Claimed by every act in this page and owned by none of them, which is why it appears here only as a border.</span></div>
+        </div>
+      </div>
+
+      <div data-reveal>
+        <h2 class="section-title">Three ways of making a letter</h2>
+        <p class="prose">
+          None of the three lettering traditions here comes from a type foundry. One is cast
+          and carved, one is bought from a catalogue, one is gouged out of wood with a chisel.
+          The tool is visible in every case.
+        </p>
+        <div class="specimens" style="margin-top:2rem">
+          <div class="specimen">
+            <p lang="id" style="font-family:var(--font-slab);font-size:clamp(1.5rem,4.4vw,2.6rem)">MERDEKA</p>
+            <small>Act I · Sign-painter's relief capital. Wide, even-weight, no thin strokes — because a thin stroke cannot be cast in concrete or read from the base of a plinth. No foundry credit survives for the Sukarno-era monument lettering; Rubik Mono One stands in for it here.</small>
+          </div>
+          <div class="specimen">
+            <p lang="id" style="font-family:var(--font-display);font-weight:700;font-variation-settings:'wdth' 88;font-size:clamp(1.4rem,4vw,2.4rem);letter-spacing:0.02em;text-transform:uppercase">Pembangunan</p>
+            <small>Act II · The imported grotesque. The New Order arrived with the development decade and with its typography: dry-transfer sheets, IBM composers, condensed sans caps on village noticeboards, clean titling on state television. Archivo stands in.</small>
+          </div>
+          <div class="specimen">
+            <p lang="id" style="font-family:var(--font-hand);font-size:clamp(1.6rem,4.6vw,2.6rem)">Reformasi</p>
+            <small>Act III · Cut in negative. In <i lang="id">cukil kayu</i> the carver removes what will print white, so counters clog, strokes fatten and the baseline drifts. Its cousin is the brush-painted cloth banner. Permanent Marker stands in.</small>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SYMBOLS ============================== -->
+<section class="section" id="symbols" style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The marks</p>
+    <h2 class="section-title" data-reveal>Four marks, three states</h2>
+
+    <div class="symbolrow" data-reveal>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 200 152" role="img" aria-label="Schematic geometric diagram of the Garuda Pancasila state emblem, showing feather counts of 17, 8, 19 and 45">
+            <defs>
+              <path id="gp-f" d="M0 -3 L42 -1.1 L42 1.1 L0 3 Z" fill="#1B1A17" stroke="#F2EFE7" stroke-width="0.7" />
+              <g id="gp-wing">
+                <use href="#gp-f" transform="rotate(196) scale(1)" /> <use href="#gp-f" transform="rotate(200) scale(0.98)" />
+                <use href="#gp-f" transform="rotate(204) scale(0.96)" /> <use href="#gp-f" transform="rotate(208) scale(0.93)" />
+                <use href="#gp-f" transform="rotate(212) scale(0.9)" /> <use href="#gp-f" transform="rotate(216) scale(0.87)" />
+                <use href="#gp-f" transform="rotate(220) scale(0.84)" /> <use href="#gp-f" transform="rotate(224) scale(0.8)" />
+                <use href="#gp-f" transform="rotate(228) scale(0.77)" /> <use href="#gp-f" transform="rotate(232) scale(0.73)" />
+                <use href="#gp-f" transform="rotate(236) scale(0.7)" /> <use href="#gp-f" transform="rotate(240) scale(0.66)" />
+                <use href="#gp-f" transform="rotate(244) scale(0.62)" /> <use href="#gp-f" transform="rotate(248) scale(0.58)" />
+                <use href="#gp-f" transform="rotate(252) scale(0.54)" /> <use href="#gp-f" transform="rotate(256) scale(0.5)" /> <use href="#gp-f" transform="rotate(260) scale(0.45)" />
+              </g>
+              <g id="gp-tail">
+                <use href="#gp-f" transform="rotate(62) scale(0.5)" /> <use href="#gp-f" transform="rotate(70) scale(0.6)" />
+                <use href="#gp-f" transform="rotate(78) scale(0.7)" /> <use href="#gp-f" transform="rotate(86) scale(0.78)" />
+                <use href="#gp-f" transform="rotate(94) scale(0.78)" /> <use href="#gp-f" transform="rotate(102) scale(0.7)" />
+                <use href="#gp-f" transform="rotate(110) scale(0.6)" /> <use href="#gp-f" transform="rotate(118) scale(0.5)" />
+              </g>
+            </defs>
+            <use href="#gp-wing" transform="translate(86,56)" /> <use href="#gp-wing" transform="translate(114,56) scale(-1,1)" /> <use href="#gp-tail" transform="translate(100,94)" />
+            <g fill="#1B1A17">
+              <path d="M92 30 L108 30 L112 40 L100 46 L88 40 Z" /> <rect x="94" y="44" width="12" height="14" />
+            </g>
+            <path d="M78 60 H122 V84 L100 98 L78 84 Z" fill="#1B1A17" />
+            <path d="M100 64 L102.8 71.4 L110.7 71.9 L104.5 76.9 L106.6 84.5 L100 80.2 L93.4 84.5 L95.5 76.9 L89.3 71.9 L97.2 71.4 Z" fill="#E4C122" />
+            <path d="M78 71 L122 78" stroke="#E7E4DC" stroke-width="2.4" opacity="0.55" /> <rect x="34" y="124" width="132" height="15" fill="none" stroke="#1B1A17" stroke-width="1.2" />
+            <text x="100" y="134.5" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#1B1A17" lang="jv">BHINNEKA TUNGGAL IKA</text>
+            <g font-family="JetBrains Mono, monospace" font-size="7.5" fill="#1B1A17" opacity="0.75">
+              <text x="40" y="34">17</text> <text x="152" y="34">17</text> <text x="128" y="116">8</text> <text x="62" y="116">19</text>
+              <text x="118" y="40">45</text> <text x="34" y="150" font-size="6.5" opacity="0.7">SCHEMATIC — feather counts, not heraldry</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Garuda Pancasila</b> — the state emblem, adopted 11 February 1950. Abstracted here on purpose: its real content is arithmetic. 17 feathers per wing, 8 in the tail, 19 and 45 at the base and neck — the date of the 1945 proclamation, encoded so that the emblem cannot be redrawn without restating it.
+          <span class="credit">Schematic recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 100" role="img" aria-label="Flat drawing of the Golkar banyan tree emblem, flanked by rice and cotton">
+            <g fill="#E4C122" stroke="#1B1A17" stroke-width="1.2">
+              <circle cx="60" cy="34" r="21" /> <circle cx="40" cy="41" r="14" /> <circle cx="80" cy="41" r="14" /> <circle cx="49" cy="25" r="12" /> <circle cx="71" cy="25" r="12" />
+            </g>
+            <path d="M55 50 C55 62 52 70 50 78 L70 78 C68 70 65 62 65 50 Z" fill="#E4C122" stroke="#1B1A17" stroke-width="1.2" />
+            <g stroke="#1B1A17" stroke-width="1.1" stroke-linecap="round" opacity="0.85">
+              <path d="M34 48 V64 M41 51 V68 M47 52 V62 M73 52 V62 M79 51 V68 M86 48 V64" />
+            </g>
+            <path d="M46 80 H74" stroke="#1B1A17" stroke-width="2" />
+            <g stroke="#1B1A17" stroke-width="1.1" fill="none">
+              <path d="M26 84 C20 68 20 54 26 44" /> <path d="M94 84 C100 68 100 54 94 44" />
+            </g>
+            <g fill="#1B1A17">
+              <ellipse cx="24" cy="50" rx="1.8" ry="3.2" /><ellipse cx="22.6" cy="58" rx="1.8" ry="3.2" /><ellipse cx="22.6" cy="66" rx="1.8" ry="3.2" /><ellipse cx="24" cy="74" rx="1.8" ry="3.2" />
+            </g>
+            <g fill="none" stroke="#1B1A17" stroke-width="1.1">
+              <circle cx="96" cy="50" r="3.4" /><circle cx="97.4" cy="59" r="3.4" /><circle cx="97.4" cy="68" r="3.4" /><circle cx="96" cy="77" r="3.4" />
+            </g>
+            <text x="60" y="94" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#1B1A17" lang="id">BERINGIN</text>
+          </svg>
+        </div>
+        <figcaption><b>The beringin</b> — Golkar's banyan. In Javanese court iconography the <i lang="id">waringin</i> stands in the town square and shelters whoever sits under it. A ruling apparatus that chose shade, not struggle, as its emblem — flanked by rice and cotton, the standard Indonesian shorthand for prosperity.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 100" role="img" aria-label="Pictogram of a family of four — two parents, two children — used in Indonesian family planning campaigns">
+            <rect x="6" y="6" width="108" height="70" rx="6" fill="none" stroke="#1B1A17" stroke-width="1.2" opacity="0.4" />
+            <g fill="#1B1A17">
+              <circle cx="27" cy="26" r="6" /> <path d="M20 34 h14 l3 20 -4 0 -1 14 -4 0 -1 -14 -1 0 -1 14 -4 0 -1 -14 -3 0 Z" />
+              <circle cx="52" cy="28" r="6" /> <path d="M52 20 c-5 0 -7 3 -7 6 0 2 1 3 3 3 h8 c2 0 3 -1 3 -3 0 -3 -2 -6 -7 -6 Z" /> <path d="M45 36 h14 l5 32 -24 0 Z" /> <circle cx="76" cy="38" r="5" />
+              <path d="M70 45 h12 l2 15 -3 0 -1 8 -3 0 -1 -8 -1 0 -1 8 -3 0 -1 -8 -2 0 Z" /> <circle cx="97" cy="44" r="4.4" /> <path d="M91 51 h12 l3 17 -18 0 Z" />
+            </g>
+            <g stroke="#1B1A17" stroke-width="2.4" stroke-linecap="round" fill="none">
+              <path d="M34 38 L45 42" /><path d="M60 42 L70 48" /><path d="M83 52 L92 56" />
+            </g>
+            <text x="60" y="90" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1" fill="#1B1A17" lang="id">DUA ANAK CUKUP</text>
+          </svg>
+        </div>
+        <figcaption><b>Dua Anak Cukup</b> — "two children are enough". The national family-planning board's family of four, holding hands, sized to be stencilled on a village noticeboard. One boy, one girl, in that order: a demographic target drawn as a nuclear household and hung on every <i lang="id">kelurahan</i> wall in the country.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame" style="background:#14130F">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 100" role="img" aria-label="Woodcut-style raised fist rendered in white gouged lines on a black field">
+            <defs>
+              <filter id="rf-rough" x="-6%" y="-6%" width="112%" height="112%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.07" numOctaves="3" seed="7" result="n" />
+                <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G" />
+              </filter>
+            </defs>
+            <rect width="120" height="100" fill="#14130F" />
+            <g filter="url(#rf-rough)">
+              <g stroke="#EFE9D8" stroke-width="2.4" fill="none" opacity="0.8">
+                <path d="M60 46 L14 4 M60 46 L36 0 M60 46 L60 -4 M60 46 L84 0 M60 46 L106 4 M60 46 L118 30 M60 46 L2 30" />
+              </g>
+              <path d="M38 44 C38 32 44 26 52 26 C58 26 62 29 64 33 C67 30 72 30 75 33 C78 30 83 31 85 35 C88 34 92 36 92 41 L92 62 C92 78 82 90 66 90 C48 90 38 78 38 62 Z"
+                    fill="#14130F" stroke="#EFE9D8" stroke-width="3" />
+              <g stroke="#EFE9D8" stroke-width="2.2" stroke-linecap="round" fill="none">
+                <path d="M52 26 L52 44" /><path d="M64 33 L64 45" /><path d="M75 33 L75 46" /><path d="M85 35 L85 47" />
+                <path d="M44 52 C56 47 76 47 90 52" /> <path d="M42 66 C56 61 78 61 90 66" stroke-width="1.4" /> <path d="M46 76 C58 72 74 72 86 76" stroke-width="1.4" />
+              </g>
+              <g stroke="#EFE9D8" stroke-width="1.2" opacity="0.75">
+                <path d="M40 92 H94 M44 96 H90" />
+              </g>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The carved fist</b> — the Act III mark. Note what the medium does: the fist is not drawn, it is the black that survives after the carver gouges the white away. Every highlight is a cut, every cut is irreversible, and the block prints identically for as long as the plywood lasts.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ACT I ============================== -->
+<div class="actopen actopen--i tx-concrete" id="act-1">
+  <span class="tx-over diag-gold" aria-hidden="true" style="opacity:0.5"></span>
+  <div class="wrap" style="position:relative;z-index:2">
+    <p class="actopen__no">Akt I</p>
+    <h2 class="actopen__name" lang="id">MONUMEN</h2>
+    <p class="actopen__yrs">1945 — 1965 · Sukarno</p>
+    <p class="actopen__sub" style="margin-top:1.2rem">
+      A state that art-directed itself in cast concrete, bronze and gold leaf, and built
+      every one of its landmarks to be photographed from below.
+    </p>
+  </div>
+</div>
+
+<section class="section act act--i">
+  <div class="wrap">
+    <div class="two-col">
+      <div>
+        <p class="eyebrow" data-reveal>How it worked</p>
+        <div class="prose" data-reveal>
+          <p>
+            Sukarno was an engineer by training — he took a degree in civil engineering at
+            Bandung in 1926 — and he treated the capital as a commission. Between the
+            handover of sovereignty in 1949 and his removal from power in the mid-1960s,
+            Jakarta acquired a monument programme with a single, legible brief: make a
+            country that has just stopped being a colony look like it was never one.
+          </p>
+          <p>
+            The style is the muscular socialist realism circulating everywhere in the
+            non-aligned world at the time — heroic figures, forward stride, raised arm,
+            broken chain. The delivery mechanism was the state: commissions, budgets, and
+            a small number of sculptors, above all Edhi Sunarso, executing them.
+          </p>
+        </div>
+
+        <h3 data-reveal>1950 · <span>A bird with a date in its feathers</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            The Garuda Pancasila was adopted on 11 February 1950, from a design credited to
+            Sultan Hamid II of Pontianak and revised before it was approved. Read it as an
+            identity system and the interesting decision is not the eagle — it is the counting.
+          </p>
+          <p>
+            Seventeen feathers on each wing, eight on the tail, nineteen and forty-five at the
+            base and the neck: 17-8-1945, the date of the proclamation of independence.
+            The mark cannot be redrawn without restating the founding claim, which makes it
+            unusually resistant to the thing that happens to most state emblems — being
+            simplified until it means nothing. The motto on the scroll,
+            <i lang="jv">Bhinneka Tunggal Ika</i>, is Old Javanese, lifted from the
+            fourteenth-century <cite>Kakawin Sutasoma</cite>: unity in diversity, a phrase
+            older than the state quoting it.
+          </p>
+        </div>
+
+        <h3 data-reveal>1961 · <span>The pestle, the mortar and 50 kilos of gold</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            Two competitions, in 1955 and 1960, failed to produce a national monument Sukarno
+            would accept. The executed design — a 132-metre marble-clad obelisk rising from a
+            45 × 45 metre plaza, opened to the public in 1975 — is credited to R. M. Soedarsono
+            working with the architect Frederich Silaban. The official reading of the form is
+            not "obelisk". It is <i lang="id">alu dan lesung</i>, the rice pestle and the mortar:
+            a Javanese household object scaled to 132 metres, and simultaneously the
+            <i lang="id">lingga</i> and <i lang="id">yoni</i> of Hindu-Javanese temple grammar.
+          </p>
+          <p>
+            That is a very deliberate piece of positioning. A modernist tower would have read as
+            imported; a temple would have read as sectarian. The pestle-and-mortar reading gives
+            the tallest object in the capital a domestic, agricultural, unmistakably Indonesian
+            source — and then puts a gold-clad flame on top of it, visible from every approach road.
+          </p>
+          <p>
+            The same programme produced the <i lang="id">Selamat Datang</i> welcome statue for the
+            1962 Asian Games — two figures waving at arriving guests, sculpted by Edhi Sunarso from
+            a sketch by the painter Henk Ngantung — the West Irian Liberation figure at Lapangan
+            Banteng, a man bursting his shackles mid-shout, and the Gelora Bung Karno stadium with
+            its great cantilevered roof ring. Every one of them is composed for an upward camera.
+            The plinth is not a base; it is a lens.
+          </p>
+        </div>
+
+        <div class="figures" style="margin-top:3rem" data-reveal>
+          <figure style="max-width:27rem">
+            <div class="frame" style="background:#4A4943">
+              <span class="tag-recreation">Recreation</span>
+              <svg viewBox="0 0 360 464" role="img" aria-label="Schematic architectural elevation of the National Monument in Jakarta with dimension lines and the gold flame called out">
+                <rect width="360" height="464" fill="#4A4943" />
+                <g stroke="#EFE9D8" stroke-width="0.6" opacity="0.25">
+                  <path d="M0 380 H360" />
+                </g>
+                <g fill="none" stroke="#EFE9D8" stroke-width="1.4">
+                  <path d="M96 380 H204 V339 H96 Z" /> <path d="M104 339 H196" /> <path d="M140 339 V110" /> <path d="M160 339 V110" />
+                  <path d="M132 110 H168 V96 H132 Z" /> <path d="M96 380 H204" stroke-width="2.4" />
+                </g>
+                <g stroke="#EFE9D8" stroke-width="0.7" opacity="0.5">
+                  <path d="M100 344 H200 M100 350 H200 M100 356 H200 M100 362 H200 M100 368 H200 M100 374 H200" /> <path d="M144 110 V339 M156 110 V339" />
+                </g>
+                <path d="M150 96 C142 88 141 78 145 68 C147 74 149 76 151 77 C149 66 152 56 158 48 C157 60 162 64 165 72 C169 82 163 92 155 96 Z" fill="#C89B2C" />
+                <path d="M150 96 C146 90 146 84 148 78 C150 84 152 86 154 88 Z" fill="#E4C122" />
+                <g stroke="#EFE9D8" stroke-width="0.5" opacity="0.65">
+                  <path d="M262 60 V380" /> <path d="M256 60 H268 M256 380 H268" /> <path d="M262 60 l-3 7 h6 Z" fill="#EFE9D8" /><path d="M262 380 l-3 -7 h6 Z" fill="#EFE9D8" /> <path d="M232 110 V380" />
+                  <path d="M226 110 H238 M226 380 H238" /> <path d="M96 398 H204" /> <path d="M96 392 V404 M204 392 V404" />
+                  <path d="M232 339 H96" stroke-dasharray="3 4" /> <path d="M232 110 H160" stroke-dasharray="3 4" /> <path d="M262 60 H160" stroke-dasharray="3 4" />
+                </g>
+                <g font-family="JetBrains Mono, monospace" fill="#EFE9D8" font-size="9">
+                  <text x="272" y="218">132 m</text> <text x="242" y="240">115 m</text> <text x="150" y="412" text-anchor="middle">45 × 45 m</text> <text x="214" y="366" opacity="0.75">17 m</text>
+                </g>
+                <g stroke="#C89B2C" stroke-width="0.7"><path d="M144 84 H122" /></g>
+                <g font-family="JetBrains Mono, monospace" fill="#C89B2C" font-size="8">
+                  <text x="16" y="62" lang="id">LIDAH API — the flame</text> <text x="16" y="73">gold foil, reported</text> <text x="16" y="84">35 kg → 50 kg (1995)</text>
+                </g>
+                <g stroke="#EFE9D8" stroke-width="0.6" opacity="0.6">
+                  <path d="M140 200 H74" /><path d="M96 356 H74" />
+                </g>
+                <g font-family="JetBrains Mono, monospace" fill="#EFE9D8" font-size="8.5" text-anchor="end" opacity="0.85">
+                  <text x="70" y="196" lang="id">alu</text> <text x="70" y="207">the pestle</text> <text x="70" y="352" lang="id">lesung</text> <text x="70" y="363">the mortar</text>
+                </g>
+                <g font-family="JetBrains Mono, monospace" fill="#EFE9D8" font-size="8" opacity="0.72">
+                  <text x="18" y="434">MONUMEN NASIONAL · JAKARTA · BEGUN 17 AUG 1961, OPENED 1975</text> <text x="18" y="446">R. M. SOEDARSONO WITH F. SILABAN</text>
+                  <text x="18" y="458" font-size="7">SCHEMATIC ELEVATION — PROPORTIONAL, NOT MEASURED</text>
+                </g>
+              </svg>
+            </div>
+            <figcaption><b>Monas, as an elevation</b> A 45-metre plaza, a 17-metre cup, a 115-metre observation deck and a 132-metre total — with a gold-clad flame at the top. Drawn here as a dimensioned elevation because that is how the object actually argues: by number, and by height.
+              <span class="credit">Recreation · drawn in SVG</span></figcaption>
+          </figure>
+        </div>
+
+        <div class="plainly" data-reveal>
+          <b>Stated plainly</b>
+          <p>
+            This act ends in mass killing. Following the killing of six army generals on
+            1 October 1965, the army and allied militias carried out large-scale killings of
+            people identified as communists or their sympathisers; historians' estimates
+            commonly range from around 500,000 to over a million dead between late 1965 and
+            1966, with hundreds of thousands more imprisoned for years without trial.
+          </p>
+          <p>
+            LEKRA — <i lang="id">Lembaga Kebudayaan Rakyat</i>, the Institute of People's Culture,
+            founded in 1950 and by far the largest cultural organisation in the country — supplied
+            much of the era's graphic labour: banners, murals, poster brigades, and the
+            <i lang="id">turun ke bawah</i> method of sending artists to work alongside villagers.
+            It was banned. Artists affiliated with it, including members of the Yogyakarta painters'
+            collective Sanggar Bumi Tarung, were killed, imprisoned or exiled, and their work was
+            removed from collections, exhibitions and curricula for three decades.
+          </p>
+        </div>
+      </div>
+
+      <aside class="marginalia" data-reveal>
+        <p><b>1945</b> Proclamation, 17 August. Merah-putih raised.</p>
+        <p><b>1950</b> Garuda Pancasila adopted, 11 February.</p>
+        <p><b>1950</b> LEKRA founded.</p>
+        <p><b>1955</b> Bandung Conference — Indonesia hosts the non-aligned world and needs to look the part.</p>
+        <p><b>1961</b> Monas begun, 17 August.</p>
+        <p><b>1962</b> Asian Games: Gelora Bung Karno, <span lang="id">Selamat Datang</span>, and the launch of state television.</p>
+        <p><b>1963</b> West Irian Liberation figure unveiled at Lapangan Banteng.</p>
+        <p><b>1965–66</b> Mass killings. LEKRA banned; its artists killed, jailed or exiled.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ACT II ============================== -->
+<div class="actopen actopen--ii" id="act-2">
+  <div class="wrap">
+    <p class="actopen__no">Akt II</p>
+    <h2 class="actopen__name" lang="id">Beringin</h2>
+    <div class="rule-y" aria-hidden="true"></div>
+    <p class="actopen__yrs">1966 — 1998 · The New Order</p>
+    <p class="actopen__sub" style="margin-top:1.2rem">
+      Thirty-two years of government designed as a corporate annual report: one colour,
+      one tree, one ideology course, symmetrical margins and a great deal of white space.
+    </p>
+  </div>
+</div>
+
+<section class="section act act--ii">
+  <div class="wrap">
+    <div class="head-c" data-reveal>
+      <p class="eyebrow">How it worked</p>
+      <h2 class="section-title" style="margin-bottom:1.6rem">Uniformity, issued as stationery</h2>
+      <p style="color:var(--soft);max-width:36rem;margin-inline:auto">
+        Act I shouted from a plinth. Act II never raises its voice. It files, laminates,
+        distributes and standardises — and that is precisely the horror of looking at it now.
+      </p>
+    </div>
+
+    <div class="cols" style="margin-top:3.2rem" data-reveal>
+      <p>
+        The New Order's designers had a genuinely difficult problem and solved it with
+        unnerving competence: how do you make a country of thousands of islands and hundreds
+        of languages produce one legible surface? The answer was not a poster campaign. It
+        was a system — colour, mark, uniform, syllabus, broadcast — applied at every
+        administrative level down to the village noticeboard.
+      </p>
+      <p>
+        Nothing in it is thrilling to look at, and that is the point. Sukarno's graphics
+        wanted your adrenaline. Suharto's want your compliance, and compliance is best
+        requested in a calm sans-serif with generous leading.
+      </p>
+    </div>
+
+    <div class="beat" data-reveal>
+      <p class="beat__yr">1971</p>
+      <h3>A tree that insisted it was not a party</h3>
+      <div class="cols">
+        <p>
+          Golkar — <i lang="id">Golongan Karya</i>, "functional groups" — contested its first
+          election in 1971 and won. Its formal position was that it was not a political party
+          at all but a federation of occupational groups, which mattered enormously in practice:
+          civil servants were bound by <i lang="id">monoloyalitas</i>, a rule of single loyalty
+          to the government, and could therefore not join a party — but could belong to Golkar.
+        </p>
+        <p>
+          The emblem does the same work as the constitutional fiction. Not a fist, not a star,
+          not a wheel: a banyan, the tree that stands in the Javanese town square and shelters
+          whoever sits beneath it. Passive, permanent, pre-political. In 1973 the remaining
+          parties were forcibly merged into two, leaving exactly three contestants on the
+          ballot paper for the next quarter-century.
+        </p>
+        <p>
+          Then the colour did the rest. Golkar yellow was applied not to posters but to
+          infrastructure — fences, gateposts, kerbstones, guard huts, electricity poles,
+          whole village streets repainted before a campaign. Indonesians coined a word for it:
+          <i lang="id">kuningisasi</i>, "yellowisation". It is one of the very few political
+          identities in this atlas that was rolled out with a paint roller rather than a press.
+        </p>
+      </div>
+    </div>
+
+    <blockquote class="pull" data-reveal>
+      A state that wants uniformity does not need a great designer. It needs one colour, one
+      form, and the authority to make everybody else use them.
+    </blockquote>
+
+    <div class="beat" data-reveal>
+      <p class="beat__yr">1978</p>
+      <h3>The ideology, delivered as coursework</h3>
+      <div class="cols">
+        <p>
+          In 1978 the People's Consultative Assembly adopted P4 —
+          <i lang="id">Pedoman Penghayatan dan Pengamalan Pancasila</i>, the guideline for
+          "internalising and implementing" the five state principles. It arrived as a
+          curriculum: multi-day <i lang="id">penataran</i> courses, workbooks, standard
+          diagrams, a fixed set of numbered points, sat by civil servants, teachers and
+          students for two decades. By the mid-1980s organisations were required by law to
+          adopt Pancasila as their sole ideological basis.
+        </p>
+        <p>
+          Around it, the rest of the system: batik promoted from regional textile to national
+          formal dress, with long-sleeved batik as evening officialwear and a specific
+          service-corps pattern for civil servants; the family-planning board's two-child
+          household stencilled on <i lang="id">kelurahan</i> boards nationwide under the slogan
+          <i lang="id">Dua Anak Cukup</i>; and, from 1976, the Palapa satellite — named after
+          a fourteenth-century oath of unification — which for the first time made it
+          technically possible for the whole archipelago to watch the same broadcast at the
+          same moment.
+        </p>
+        <p>
+          Until 1989 there was exactly one channel to watch: TVRI, the state broadcaster,
+          on air since the 1962 Asian Games. One national newscast, one anthem, one set of
+          titling. A design brief most brand consultants would recognise instantly — total
+          consistency across every touchpoint — executed with the powers of a state.
+        </p>
+      </div>
+
+      <div class="report" data-reveal>
+        <p class="report__hd">Selected figures · the New Order, as it reported itself</p>
+        <dl>
+          <dt>Years in office, Suharto</dt><dd>32</dd>
+          <dt>Contestants permitted on the ballot, 1977–1997</dt><dd>3</dd>
+          <dt>Consecutive elections won by Golkar</dt><dd>6</dd>
+          <dt>Golkar share of the vote, 1997</dt><dd>74.5%</dd>
+          <dt>Television channels permitted, 1962–1989</dt><dd>1</dd>
+          <dt>Children recommended per household</dt><dd>2</dd>
+        </dl>
+        <p class="report__ft">
+          Read as a chart, this is a design system with no competitors, no variants and no
+          feedback loop — the condition every identity manual claims to want.
+        </p>
+      </div>
+    </div>
+
+    <div class="figures" style="margin-top:3.4rem" data-reveal>
+      <figure style="grid-column:1/-1">
+        <div class="frame" style="background:#FFFDF6">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 520 260" role="img" aria-label="Diagram of kuningisasi: a village street elevation in which the gateway, fences, houses, guard hut, kerbstones and lamp post are all painted Golkar yellow, with the banyan emblem repeated">
+            <rect width="520" height="260" fill="#FFFDF6" />
+            <g stroke="#15140F" stroke-width="1.1" fill="none">
+              <path d="M0 176 H520" />
+            </g>
+            <!-- gapura / gateway -->
+            <g>
+              <rect x="14" y="70" width="16" height="106" fill="#E4C122" stroke="#15140F" stroke-width="1.1" />
+              <rect x="86" y="70" width="16" height="106" fill="#E4C122" stroke="#15140F" stroke-width="1.1" />
+              <rect x="8" y="52" width="100" height="20" fill="#E4C122" stroke="#15140F" stroke-width="1.1" /> <path d="M8 52 L58 36 L108 52 Z" fill="#E4C122" stroke="#15140F" stroke-width="1.1" />
+              <circle cx="58" cy="62" r="8" fill="#FFFDF6" stroke="#15140F" stroke-width="1" />
+              <circle cx="58" cy="59.5" r="4.6" fill="#15140F" /><path d="M56 62 v5 M60 62 v5" stroke="#15140F" stroke-width="1.1" />
+            </g>
+            <!-- house 1 -->
+            <g>
+              <rect x="126" y="106" width="94" height="70" fill="#E4C122" stroke="#15140F" stroke-width="1.1" /> <path d="M118 106 L173 74 L228 106 Z" fill="#F4E39A" stroke="#15140F" stroke-width="1.1" />
+              <rect x="162" y="134" width="22" height="42" fill="#FFFDF6" stroke="#15140F" stroke-width="1" />
+              <rect x="134" y="126" width="20" height="20" fill="#FFFDF6" stroke="#15140F" stroke-width="1" />
+              <rect x="192" y="126" width="20" height="20" fill="#FFFDF6" stroke="#15140F" stroke-width="1" /> <circle cx="173" cy="93" r="9" fill="#FFFDF6" stroke="#15140F" stroke-width="1" />
+              <circle cx="173" cy="90.5" r="5.2" fill="#15140F" /><path d="M170.6 93 v6 M175.4 93 v6" stroke="#15140F" stroke-width="1.2" />
+            </g>
+            <!-- fence -->
+            <g fill="#E4C122" stroke="#15140F" stroke-width="0.9">
+              <rect x="230" y="140" width="7" height="36" /><rect x="242" y="140" width="7" height="36" /> <rect x="254" y="140" width="7" height="36" /><rect x="266" y="140" width="7" height="36" />
+              <rect x="278" y="140" width="7" height="36" /><rect x="290" y="140" width="7" height="36" /> <rect x="228" y="146" width="72" height="6" /><rect x="228" y="164" width="72" height="6" />
+            </g>
+            <!-- pos ronda / guard hut -->
+            <g>
+              <rect x="312" y="118" width="62" height="34" fill="#E4C122" stroke="#15140F" stroke-width="1.1" /> <path d="M304 118 L343 96 L382 118 Z" fill="#F4E39A" stroke="#15140F" stroke-width="1.1" />
+              <rect x="318" y="152" width="7" height="24" fill="#E4C122" stroke="#15140F" stroke-width="1" /> <rect x="360" y="152" width="7" height="24" fill="#E4C122" stroke="#15140F" stroke-width="1" />
+              <rect x="326" y="126" width="34" height="18" fill="#FFFDF6" stroke="#15140F" stroke-width="1" /> <circle cx="343" cy="109" r="7" fill="#FFFDF6" stroke="#15140F" stroke-width="1" />
+              <circle cx="343" cy="107" r="4" fill="#15140F" /><path d="M341 109.5 v5 M345 109.5 v5" stroke="#15140F" stroke-width="1" />
+            </g>
+            <!-- house 2 -->
+            <g>
+              <rect x="398" y="112" width="86" height="64" fill="#E4C122" stroke="#15140F" stroke-width="1.1" /> <path d="M390 112 L441 82 L492 112 Z" fill="#F4E39A" stroke="#15140F" stroke-width="1.1" />
+              <rect x="430" y="138" width="21" height="38" fill="#FFFDF6" stroke="#15140F" stroke-width="1" />
+              <rect x="406" y="130" width="18" height="18" fill="#FFFDF6" stroke="#15140F" stroke-width="1" />
+              <rect x="458" y="130" width="18" height="18" fill="#FFFDF6" stroke="#15140F" stroke-width="1" />
+            </g>
+            <!-- lamp post -->
+            <g>
+              <rect x="500" y="60" width="8" height="116" fill="#E4C122" stroke="#15140F" stroke-width="1" /> <path d="M490 60 h28 l-6 -10 h-16 Z" fill="#F4E39A" stroke="#15140F" stroke-width="1" />
+            </g>
+            <!-- kerb -->
+            <g stroke="#15140F" stroke-width="0.9">
+              <rect x="0" y="176" width="26" height="10" fill="#E4C122" /><rect x="26" y="176" width="26" height="10" fill="#FFFDF6" />
+              <rect x="52" y="176" width="26" height="10" fill="#E4C122" /><rect x="78" y="176" width="26" height="10" fill="#FFFDF6" />
+              <rect x="104" y="176" width="26" height="10" fill="#E4C122" /><rect x="130" y="176" width="26" height="10" fill="#FFFDF6" />
+              <rect x="156" y="176" width="26" height="10" fill="#E4C122" /><rect x="182" y="176" width="26" height="10" fill="#FFFDF6" />
+              <rect x="208" y="176" width="26" height="10" fill="#E4C122" /><rect x="234" y="176" width="26" height="10" fill="#FFFDF6" />
+              <rect x="260" y="176" width="26" height="10" fill="#E4C122" /><rect x="286" y="176" width="26" height="10" fill="#FFFDF6" />
+              <rect x="312" y="176" width="26" height="10" fill="#E4C122" /><rect x="338" y="176" width="26" height="10" fill="#FFFDF6" />
+              <rect x="364" y="176" width="26" height="10" fill="#E4C122" /><rect x="390" y="176" width="26" height="10" fill="#FFFDF6" />
+              <rect x="416" y="176" width="26" height="10" fill="#E4C122" /><rect x="442" y="176" width="26" height="10" fill="#FFFDF6" />
+              <rect x="468" y="176" width="26" height="10" fill="#E4C122" /><rect x="494" y="176" width="26" height="10" fill="#FFFDF6" />
+            </g>
+            <!-- figures for scale -->
+            <g fill="#15140F" opacity="0.8">
+              <circle cx="240" cy="152" r="4" /><path d="M235 158 h10 l2 18 -14 0 Z" /> <circle cx="392" cy="150" r="3.6" /><path d="M387.5 156 h9 l2 20 -13 0 Z" />
+            </g>
+            <!-- callouts -->
+            <g stroke="#15140F" stroke-width="0.7" opacity="0.55" stroke-dasharray="3 3" fill="none">
+              <path d="M58 36 V22 H92" /><path d="M173 74 V44 H210" /><path d="M343 96 V64 H380" /><path d="M13 181 H6 V206" />
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="8.5" fill="#15140F">
+              <text x="96" y="25" lang="id">gapura — village gateway</text> <text x="214" y="47" lang="id">dinding rumah — house wall</text>
+              <text x="384" y="67" lang="id">pos ronda — guard hut</text> <text x="10" y="218" lang="id">trotoar — kerbstones</text>
+              <text x="10" y="238" opacity="0.7">Repeated mark: the Golkar beringin, stencilled at gateway, gable and hut.</text>
+              <text x="10" y="252" opacity="0.7" lang="id">KUNINGISASI — "yellowisation", campaign season, New Order Indonesia</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Kuningisasi, drawn out</b> What "painting a village yellow" actually meant: gateway, gable, fence, guard hut, lamp post and kerbstones, with the banyan stencilled wherever a wall faced the road. No print run, no distribution problem, no way to look away — and no cost to the party, because the paint was applied by the people who lived there.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+    </div>
+
+    <div class="plainly" data-reveal style="margin-inline:auto">
+      <b>Stated plainly</b>
+      <p>
+        Suharto's rule was authoritarian. It began in the 1965–66 mass killings, restricted
+        electoral competition to three approved contestants, jailed critics under subversion
+        laws, and censored the press through publication licences that could be withdrawn at
+        will. Indonesia invaded East Timor in December 1975 and occupied it until 1999; the
+        subsequent Timorese truth commission, CAVR, put the minimum number of
+        conflict-related deaths there at around 102,800.
+      </p>
+      <p>
+        None of that is visible in the graphics. That is the finding, not an aside: this is the
+        best-behaved design system in the atlas, and it belonged to one of the most repressive
+        governments in it.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ACT III ============================== -->
+<div class="actopen actopen--iii" id="act-3">
+  <span class="tx-over hatch-white" aria-hidden="true"></span>
+  <div class="wrap" style="position:relative;z-index:2">
+    <p class="actopen__no">Akt III</p>
+    <h2 class="actopen__name" lang="id">Cukil Kayu</h2>
+    <p class="actopen__yrs">1998 · Reformasi</p>
+    <p class="actopen__sub" style="margin-top:1.2rem">
+      The currency collapses, the campuses empty into the street, and the visual language
+      switches from print to plywood in a matter of weeks.
+    </p>
+  </div>
+</div>
+
+<section class="section act act--iii">
+  <div class="wrap">
+    <div class="two-col">
+      <div>
+        <p class="eyebrow" data-reveal>How it worked</p>
+        <h2 class="section-title" data-reveal>Everything breaks</h2>
+
+        <h3 data-reveal>1998 · <span>Twelve days in May</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            The Asian financial crisis took the rupiah from roughly 2,400 to the US dollar in
+            mid-1997 to around 15,000 by early 1998. Prices for fuel and staples were raised
+            in early May. On 12 May, four students were shot dead at Trisakti University in
+            Jakarta. Between 13 and 15 May the city burned.
+          </p>
+        </div>
+
+        <div class="plainly" data-reveal>
+          <b>Stated plainly</b>
+          <p>
+            The May 1998 riots included anti-Chinese pogroms. Ethnic Chinese homes and shops
+            in Jakarta, Solo and elsewhere were looted and burned; more than a thousand people
+            died, many trapped inside burning shopping centres; and the Indonesian government's
+            own Joint Fact-Finding Team, reporting in October 1998, documented rapes and sexual
+            assaults of ethnic Chinese women during the violence. Almost nobody has been
+            prosecuted.
+          </p>
+        </div>
+
+        <div class="prose" data-reveal>
+          <p>
+            On 18 May students occupied the parliamentary complex — thousands of them, on the
+            roof of the People's Consultative Assembly, in campus jackets. On 21 May, after
+            thirty-two years, Suharto read out a resignation on television.
+          </p>
+          <p>
+            The uniform of those photographs was not designed for the occasion. Indonesian
+            universities had been issuing coloured <i lang="id">jaket almamater</i> for decades,
+            and the University of Indonesia's is yellow. The most reproduced image of the fall
+            of Golkar's Indonesia is therefore a crowd in almost exactly Golkar's colour —
+            an accident of institutional dress that reads, thirty years later, like art
+            direction nobody signed off.
+          </p>
+          <p>
+            Everything else was made in the previous forty-eight hours. Bedsheets and cheap
+            cotton <i lang="id">spanduk</i> cloth, poster paint, brush lettering by whoever in
+            the faculty could letter; spray-can stencils; photocopied bulletins; and, very
+            quickly, woodcut.
+          </p>
+        </div>
+
+        <div class="wood-slab tx-woodcut" data-reveal>
+          <span lang="id">"Reformasi Total"</span> — the demand on a thousand hand-painted
+          banners, brush-lettered on cloth because cloth is what a campus can buy by the metre.
+          <small>Banner lettering · Jakarta, May 1998</small>
+        </div>
+
+        <h3 data-reveal>December 1998 · <span>A collective that refused to sign</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            Taring Padi formed in Yogyakarta on 21 December 1998, working out of the abandoned
+            old campus of the Indonesian Institute of the Arts. Its chosen medium was
+            <i lang="id">cukil kayu</i> — woodcut — and the choice was operational before it was
+            aesthetic. A block needs no press, no electricity, no permit and no supplier. It can
+            be printed by laying paper on the inked block and rubbing the back with a spoon. It
+            can be printed directly onto cloth and carried. And it can be printed again tomorrow.
+          </p>
+          <p>
+            The formal language follows from the tool: hard black fields, white gouged lines,
+            no halftone, no grey. Compositions are deliberately crowded — dozens of figures,
+            farmers, workers, students, tools, banners within banners — because a woodcut has no
+            depth of field and everything must be resolved at the same value. Faces are types,
+            not portraits. Text is carved into the same block as the image, so lettering and
+            drawing share one surface and one wobble.
+          </p>
+          <p>
+            The politics of authorship are carved in too. Works were made collectively, usually
+            unsigned, without editions, and reproduction was encouraged rather than restricted.
+            After the New Order's thirty-two years of licensed publication and single-channel
+            broadcast, an image that anybody could copy was itself the argument.
+          </p>
+        </div>
+
+        <div class="figures" style="margin-top:3rem" data-reveal>
+          <figure style="grid-column:1/-1">
+            <div class="frame" style="background:#14130F;border-color:rgba(239,233,216,0.3)">
+              <span class="tag-recreation">Recreation</span>
+              <svg viewBox="0 0 520 340" role="img" aria-label="Woodcut-style panel: a dense crowd of simplified figures with tools and banners rendered in white gouged lines on a black field, under a hand-lettered Indonesian slogan">
+                <defs>
+                  <filter id="tp-rough" x="-4%" y="-4%" width="108%" height="108%">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.055" numOctaves="3" seed="12" result="n" />
+                    <feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G" />
+                  </filter>
+                  <g id="tp-a" fill="none" stroke="#EFE9D8" stroke-width="2.4" stroke-linecap="round">
+                    <circle cx="0" cy="0" r="8" /> <path d="M-10 12 L0 5 L10 12 L13 44 L-13 44 Z" /> <path d="M-10 14 L-22 -8" /><path d="M10 14 L22 -8" /> <path d="M-4 2 h8" />
+                  </g>
+                  <g id="tp-b" fill="none" stroke="#EFE9D8" stroke-width="2.4" stroke-linecap="round">
+                    <circle cx="0" cy="0" r="8" /> <path d="M-10 12 L0 5 L10 12 L13 44 L-13 44 Z" /> <path d="M-10 14 L-24 4" /><path d="M10 14 L20 -2" />
+                    <path d="M20 -2 L34 -40" stroke-width="3" /> <path d="M34 -40 l-12 4 l4 8 Z" /> <path d="M-4 2 h8" />
+                  </g>
+                  <g id="tp-c" fill="none" stroke="#EFE9D8" stroke-width="2.4" stroke-linecap="round">
+                    <circle cx="0" cy="0" r="7.4" /> <path d="M-9 11 L0 4 L9 11 L12 42 L-12 42 Z" /> <path d="M-9 13 L-20 -14" /><path d="M9 13 L18 6" /> <path d="M-3 2 h6" />
+                  </g>
+                </defs>
+                <rect width="520" height="340" fill="#14130F" />
+                <g filter="url(#tp-rough)">
+                  <g stroke="#EFE9D8" stroke-width="2.2" opacity="0.55">
+                    <path d="M260 152 L20 88 M260 152 L96 56 M260 152 L190 34 M260 152 L330 34 M260 152 L424 56 M260 152 L500 88 M260 152 L8 156 M260 152 L512 156 M260 152 L60 250 M260 152 L460 250" />
+                  </g>
+                  <circle cx="260" cy="152" r="27" fill="none" stroke="#EFE9D8" stroke-width="3.4" />
+                  <g stroke="#EFE9D8" stroke-width="2" opacity="0.9"><path d="M239 142 h42 M234 152 h52 M239 162 h42" /></g>
+                  <g>
+                    <path d="M74 118 V238" stroke="#EFE9D8" stroke-width="3.4" />
+                    <rect x="74" y="112" width="106" height="52" fill="#EFE9D8" />
+                    <g stroke="#14130F" stroke-width="6"><path d="M86 130 h80 M86 148 h58" /></g>
+                    <path d="M398 112 V234" stroke="#EFE9D8" stroke-width="3.4" />
+                    <rect x="312" y="106" width="88" height="48" fill="#EFE9D8" />
+                    <g stroke="#14130F" stroke-width="6"><path d="M322 124 h66 M322 142 h44" /></g>
+                  </g>
+                  <g opacity="0.9">
+                    <use href="#tp-c" transform="translate(34,190) scale(0.76)" /> <use href="#tp-a" transform="translate(92,186) scale(0.78)" /> <use href="#tp-b" transform="translate(148,190) scale(0.74)" />
+                    <use href="#tp-c" transform="translate(206,184) scale(0.78)" /> <use href="#tp-a" transform="translate(312,188) scale(0.76)" /> <use href="#tp-c" transform="translate(366,184) scale(0.78)" />
+                    <use href="#tp-b" transform="translate(430,190) scale(0.76)" /> <use href="#tp-a" transform="translate(490,186) scale(0.74)" />
+                  </g>
+                  <g>
+                    <use href="#tp-b" transform="translate(22,234) scale(0.94)" /> <use href="#tp-a" transform="translate(90,238) scale(0.96)" /> <use href="#tp-c" transform="translate(158,234) scale(0.94)" />
+                    <use href="#tp-a" transform="translate(226,240) scale(0.97)" /> <use href="#tp-b" transform="translate(296,234) scale(0.94)" /> <use href="#tp-c" transform="translate(364,240) scale(0.96)" />
+                    <use href="#tp-a" transform="translate(432,234) scale(0.94)" /> <use href="#tp-b" transform="translate(498,238) scale(0.92)" />
+                  </g>
+                  <g>
+                    <use href="#tp-a" transform="translate(48,274) scale(1.08)" /> <use href="#tp-c" transform="translate(136,278) scale(1.06)" /> <use href="#tp-b" transform="translate(226,274) scale(1.08)" />
+                    <use href="#tp-a" transform="translate(312,278) scale(1.06)" /> <use href="#tp-c" transform="translate(400,274) scale(1.08)" /> <use href="#tp-b" transform="translate(484,278) scale(1.04)" />
+                  </g>
+                  <path d="M0 326 H520 V340 H0 Z" fill="#EFE9D8" />
+                  <g stroke="#14130F" stroke-width="3"><path d="M18 328 v12 M64 340 v-9 M112 328 v12 M158 340 v-9 M206 328 v12 M252 340 v-9 M300 328 v12 M346 340 v-9 M394 328 v12 M440 340 v-9 M488 328 v12" /></g>
+                  <path d="M0 0 H520 V88 L470 94 L424 86 L378 96 L332 86 L286 96 L240 86 L194 96 L148 86 L102 96 L56 86 L18 94 L0 88 Z" fill="#EFE9D8" />
+                </g>
+                <text x="260" y="52" text-anchor="middle" font-family="Permanent Marker, cursive" font-size="42" fill="#14130F" lang="id">HIDUP RAKYAT!</text>
+                <text x="260" y="76" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="4" fill="#14130F" lang="id">BERSATU · MELAWAN</text>
+              </svg>
+            </div>
+            <figcaption><b>A <i lang="id">cukil kayu</i> panel</b> A composite in the 1998 manner — not a copy of any single published print. Everything here is a consequence of the block: one value, no grey, a crowd resolved entirely in white cuts, lettering carved into the same surface as the image, and a slogan (<i lang="id">Hidup Rakyat! Bersatu, Melawan</i> — "Long live the people! Unite, resist") sized to be read from across a road.
+              <span class="credit">Recreation · drawn in SVG</span></figcaption>
+          </figure>
+        </div>
+
+        <p class="note" data-reveal style="max-width:42rem;margin-top:2rem">
+          A later note, kept here because this page is about how images travel: in 2022, at
+          documenta fifteen in Kassel, a large 2002 Taring Padi banner, <cite>People's
+          Justice</cite>, was covered and then removed after it was found to contain
+          antisemitic caricatures. The collective apologised. An image made to be copied
+          endlessly, by many hands, without a signature, is also an image nobody can recall.
+        </p>
+      </div>
+
+      <aside class="marginalia" data-reveal>
+        <p><b>Jul 1997</b> Rupiah floats; the crisis begins.</p>
+        <p><b>Jan 1998</b> Rupiah near 15,000 to the dollar. IMF programme signed.</p>
+        <p><b>Mar 1998</b> Suharto elected to a seventh term, unopposed.</p>
+        <p><b>4 May</b> Fuel prices raised. Protests spread beyond campuses.</p>
+        <p><b>12 May</b> Four students shot dead at Trisakti University.</p>
+        <p><b>13–15 May</b> Riots in Jakarta and Solo. Anti-Chinese pogroms; over a thousand dead.</p>
+        <p><b>18 May</b> Students occupy the parliamentary complex.</p>
+        <p><b>21 May</b> Suharto resigns, on television, after 32 years.</p>
+        <p><b>21 Dec</b> Taring Padi founded in Yogyakarta.</p>
+        <p><b>1999</b> First free election since 1955: 48 parties on the ballot.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<div class="seam" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<!-- ============================== CODA / TYPE ============================== -->
+<section class="section" id="specimen">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Artifacts · the three acts side by side</p>
+    <h2 class="section-title" data-reveal>Three alphabets, one country</h2>
+    <p class="prose" data-reveal style="margin-bottom:2.4rem">
+      Set the three key words on one shared baseline and the argument becomes a typographic
+      one. Cast, printed, carved — and each one tells you exactly how much labour and how
+      much permission it took to make a letter.
+    </p>
+
+    <div class="figures" data-reveal>
+      <figure style="grid-column:1/-1">
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 540 230" role="img" aria-label="Type specimen comparing three lettering registers: monumental relief capitals, institutional grotesque, and hand-carved woodcut lettering">
+            <rect x="0" y="0" width="180" height="230" fill="#56554E" /> <rect x="180" y="0" width="180" height="230" fill="#FCFBF7" /> <rect x="360" y="0" width="180" height="230" fill="#14130F" />
+            <g stroke="#EFE9D8" stroke-width="1" opacity="0.13">
+              <path d="M360 0 L540 0 M362 8 L540 8" />
+            </g>
+            <g stroke="#EFE9D8" stroke-width="1.2" opacity="0.12">
+              <path d="M360 14 l180 -6 M360 30 l180 -6 M360 46 l180 -6 M360 62 l180 -6 M360 78 l180 -6 M360 94 l180 -6 M360 110 l180 -6 M360 126 l180 -6 M360 142 l180 -6 M360 158 l180 -6 M360 174 l180 -6 M360 190 l180 -6 M360 206 l180 -6 M360 222 l180 -6" />
+            </g>
+            <g stroke-dasharray="4 5" stroke-width="0.7">
+              <path d="M0 128 H180" stroke="#EFE9D8" opacity="0.5" /> <path d="M180 128 H360" stroke="#15140F" opacity="0.4" />
+              <path d="M360 128 H540" stroke="#EFE9D8" opacity="0.45" />
+            </g>
+            <text x="90" y="128" text-anchor="middle" font-family="Rubik Mono One, sans-serif" font-size="21" fill="#EFE9D8" lang="id">MERDEKA</text>
+            <text x="270" y="128" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="700" font-size="17" letter-spacing="0.4" fill="#15140F" lang="id">PEMBANGUNAN</text>
+            <text x="450" y="128" text-anchor="middle" font-family="Permanent Marker, cursive" font-size="29" fill="#EFE9D8" lang="id" transform="rotate(-2 450 128)">Reformasi</text>
+            <g font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="1.6">
+              <text x="16" y="30" fill="#C89B2C">AKT I · 1945—1965</text> <text x="196" y="30" fill="#B8971A">AKT II · 1966—1998</text>
+              <text x="376" y="30" fill="#E4C122">AKT III · 1998</text> <text x="16" y="44" fill="#EFE9D8" opacity="0.72">RELIEF CAPITAL, CAST</text>
+              <text x="196" y="44" fill="#15140F" opacity="0.66">GROTESQUE, PURCHASED</text> <text x="376" y="44" fill="#EFE9D8" opacity="0.72">GOUGED, ONE BLOCK</text>
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="8.5">
+              <text x="16" y="166" fill="#EFE9D8" opacity="0.8">"freedom"</text> <text x="196" y="166" fill="#15140F" opacity="0.75">"development"</text>
+              <text x="376" y="166" fill="#EFE9D8" opacity="0.8">"reform"</text> <text x="16" y="186" fill="#EFE9D8" opacity="0.6" font-size="7.6">No thin strokes: nothing</text>
+              <text x="16" y="197" fill="#EFE9D8" opacity="0.6" font-size="7.6">thin survives casting, or</text>
+              <text x="16" y="208" fill="#EFE9D8" opacity="0.6" font-size="7.6">reads from a plinth.</text>
+              <text x="196" y="186" fill="#15140F" opacity="0.58" font-size="7.6">Even colour, tight fit,</text>
+              <text x="196" y="197" fill="#15140F" opacity="0.58" font-size="7.6">centred. Designed to be</text>
+              <text x="196" y="208" fill="#15140F" opacity="0.58" font-size="7.6">reproduced by a clerk.</text>
+              <text x="376" y="186" fill="#EFE9D8" opacity="0.6" font-size="7.6">Counters clog, baseline</text>
+              <text x="376" y="197" fill="#EFE9D8" opacity="0.6" font-size="7.6">drifts, strokes fatten.</text>
+              <text x="376" y="208" fill="#EFE9D8" opacity="0.6" font-size="7.6">The chisel is visible.</text>
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="7" fill="#EFE9D8" opacity="0.5">
+              <text x="16" y="222">ONE COMMON BASELINE, SHOWN DASHED</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Three-act type specimen</b> One baseline, three production methods, three politics. Read left to right and you are reading fifty-three years: what the state could cast, what the bureaucracy could buy, what a student could cut in an afternoon.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+    </div>
+
+    <p class="note" data-reveal style="margin-top:2.6rem;max-width:46rem">
+      Every visual on this page is drawn in SVG from published descriptions, dimensions and
+      documented conventions — none of it is traced from a photograph, and the woodcut panel
+      is a composite in the 1998 manner rather than a reproduction of any particular print.
+      Where a figure is uncertain (the weight of gold on the Monas flame, for instance) it is
+      marked as reported. For originals, see the archives in Sources.
+    </p>
+  </div>
+</section>
+
+<!-- ============================== LINEAGE ============================== -->
+<section class="section" id="lineage" style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Lineage</p>
+    <h2 class="section-title" data-reveal>What it borrowed, what it handed on</h2>
+    <div class="lineage" data-reveal
+         data-lineage="people-power,three-fingers,vietnam,constructivism"
+         data-why="The neighbouring uprising, twelve years earlier: yellow, found objects, no art director, a dictatorship gone in four days. Indonesia 1998 is the same play at ten times the scale and with far more blood.|The region's next generation. Same street, new master block — the carved plywood replaced by the shared file, and the crowd photograph replaced by the profile picture.|The other Southeast Asian state atelier: posters painted one at a time by artists on a state salary. Exactly the arrangement Act I wanted, and LEKRA nearly built.|Where the state-atelier logic comes from. Sukarno's upward diagonals and LEKRA's poster brigades are both downstream of the 1920s Soviet claim that the artist is an engineer of the public."></div>
+  </div>
+</section>
+
+<!-- ============================== SOURCES ============================== -->
+<section class="section" id="sources" style="padding-top:0">
+  <div class="wrap">
+    <hr class="hr" style="margin-bottom:3rem" />
+    <p class="eyebrow" data-reveal>Sources &amp; further reading</p>
+    <ul class="sources" data-reveal>
+      <li>Benedict R. O'G. Anderson, <cite>Language and Power: Exploring Political Cultures in Indonesia</cite> (Cornell University Press, 1990) — especially "Cartoons and Monuments", the essay this page argues with.</li>
+      <li>Abidin Kusno, <cite>Behind the Postcolonial: Architecture, Urban Space and Political Cultures in Indonesia</cite> (Routledge, 2000) — on Sukarno's Jakarta and the New Order's rewriting of it.</li>
+      <li>Antariksa, <cite>Tuan Tanah Kawin Muda: Hubungan Seni Rupa–Lekra 1950–1965</cite> (Yayasan Seni Cemeti, 2005) — the standard study of LEKRA and the visual arts.</li>
+      <li>Jennifer Lindsay &amp; Maya H. T. Liem (eds), <cite>Heirs to World Culture: Being Indonesian 1950–1965</cite> (KITLV Press, 2012).</li>
+      <li>Wulan Dirgantoro, on Indonesian art, gender and the memory of 1965 — including <cite>Feminisms and Contemporary Art in Indonesia</cite> (Amsterdam University Press, 2017).</li>
+      <li>John Roosa, <cite>Pretext for Mass Murder: The September 30th Movement and Suharto's Coup d'État in Indonesia</cite> (University of Wisconsin Press, 2006).</li>
+      <li>Indonesian Visual Art Archive (IVAA), Yogyakarta, and Taring Padi's own published collections and archive — the primary source for 1998 <span lang="id">cukil kayu</span>.</li>
+      <li>Indonesia's Joint Fact-Finding Team (TGPF) report on the May 1998 riots, October 1998; and Amnesty International's reporting on Indonesia and East Timor.</li>
+    </ul>
+  </div>
+</section>
+
+<div data-site="foot"></div>
+
+<script src="../../shared/movements.js"></script>
+<script src="../../shared/site.js"></script>
+</body>
+</html>

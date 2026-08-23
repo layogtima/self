@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en" data-slug="ospaaal">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OSPAAAL &amp; the Tricontinental — Political Design</title>
+<meta name="description" content="How Havana silkscreened solidarity posters for other people's revolutions, folded them twice, and mailed them inside a magazine to some eighty countries." />
+<meta name="theme-color" content="#FDF4E3" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="OSPAAAL &amp; the Tricontinental — Political Design" />
+<meta property="og:description" content="Cuba built a design programme whose entire output was about other people's revolutions — and posted it, folded, to eighty countries." />
+<meta property="og:url" content="https://layogtima.com/political-design/m/ospaaal/" />
+<link rel="icon" type="image/svg+xml" href="https://layogtima.com/images/favicon/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Righteous&family=Bowlby+One&family=Libre+Franklin:ital,wght@0,300..900;1,400..700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../shared/site.css" />
+<link rel="stylesheet" href="../../shared/textures.css" />
+<style>
+  :root {
+    --paper: #FDF4E3; --ink: #160C18; --accent: #F0197B; --magenta: #F0197B; --orange: #F96D18; --lime: #C8E01B;
+    --cyan: #00AEC7; --grape: #4B1E78; --sun: #FFC400;
+    --font-display: "Righteous", "Bowlby One", "Arial Black", sans-serif;
+    --font-fat: "Bowlby One", "Righteous", "Arial Black", sans-serif;
+    --font-body: "Libre Franklin", "Helvetica Neue", Arial, sans-serif;
+  }
+  h1, h2, h3, h4 { font-weight: 400; letter-spacing: -0.005em; }
+  body { background-color: var(--paper); }
+  .section-title { letter-spacing: -0.01em; }
+  /* ---------- the screenprint misregistration trick ----------
+     one glyph run, printed twice, second screen 3px out of true. */
+  .mis { position: relative; display: inline-block; isolation: isolate; }
+  .mis::after {
+    content: attr(data-t); position: absolute; left: 0; top: 0; transform: translate(4px, 4px);
+    color: var(--mis, var(--magenta)); mix-blend-mode: multiply; pointer-events: none; white-space: nowrap;
+  }
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative; min-height: 100svh; display: grid; align-content: center; padding: 7.5rem var(--gutter) 5rem;
+    overflow: hidden; background: var(--lime);
+  }
+  .hero__art { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+  .hero__mesh { z-index: 3; opacity: 0.55; }
+  /* the fold: this whole page arrives creased */
+  .hero__fold {
+    position: absolute; inset: 0; z-index: 4; pointer-events: none; background:
+    linear-gradient(90deg, transparent calc(50% - 4px), rgba(255,255,255,0.34) calc(50% - 4px), rgba(255,255,255,0.34) 50%, rgba(0,0,0,0.16) 50%, rgba(0,0,0,0.16) calc(50% + 4px), transparent calc(50% + 4px)),
+    linear-gradient(180deg, transparent calc(33.33% - 4px), rgba(255,255,255,0.3) calc(33.33% - 4px), rgba(255,255,255,0.3) 33.33%, rgba(0,0,0,0.14) 33.33%, rgba(0,0,0,0.14) calc(33.33% + 4px), transparent calc(33.33% + 4px)),
+    linear-gradient(180deg, transparent calc(66.66% - 4px), rgba(255,255,255,0.3) calc(66.66% - 4px), rgba(255,255,255,0.3) 66.66%, rgba(0,0,0,0.14) 66.66%, rgba(0,0,0,0.14) calc(66.66% + 4px), transparent calc(66.66% + 4px));
+  }
+  .hero__inner { position: relative; z-index: 5; width: min(100%, 76rem); margin-inline: auto; }
+  .hero__es {
+    font-family: var(--font-fat); font-size: clamp(2.6rem, 11.2vw, 9.4rem); line-height: 0.86; margin: 0 0 0.14em;
+    color: var(--paper); letter-spacing: -0.03em; --mis: var(--magenta);
+  }
+  .hero__en {
+    font-family: var(--font-display); font-size: clamp(1.85rem, 5.4vw, 4.2rem); line-height: 0.98; margin: 0 0 1.5rem;
+    max-width: 17ch; color: var(--ink);
+  }
+  .hero__meta {
+    font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--ink); display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem;
+  }
+  .hero__meta span { background: var(--ink); color: var(--lime); padding: 0.34rem 0.7rem; }
+  .hero__lede {
+    font-size: clamp(1.06rem, 0.9vw + 0.92rem, 1.4rem); line-height: 1.48; max-width: 34rem; color: var(--ink);
+    background: var(--paper); padding: 1.1rem 1.3rem; box-shadow: 8px 8px 0 var(--magenta);
+  }
+  .hero__lede em { font-style: normal; color: var(--magenta); font-weight: 700; }
+  /* one long word at small widths: let it set the measure, not break the grid */
+  @media (max-width: 34rem) { .hero__es { font-size: 8.4vw; } .hero { padding-top: 5.5rem; } }
+  /* ---------- colour bands + marquee strip ---------- */
+  .bands { height: 12px; display: grid; grid-template-columns: repeat(5, 1fr); }
+  .bands i:nth-child(1) { background: var(--magenta); }
+  .bands i:nth-child(2) { background: var(--orange); }
+  .bands i:nth-child(3) { background: var(--sun); }
+  .bands i:nth-child(4) { background: var(--lime); }
+  .bands i:nth-child(5) { background: var(--cyan); }
+  .strip {
+    background: var(--ink); color: var(--lime); font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.3em; text-transform: uppercase; padding: 0.65rem var(--gutter); white-space: nowrap;
+    overflow: hidden; text-overflow: clip;
+  }
+  .strip b { color: var(--magenta); font-weight: 700; }
+  /* ---------- anatomy ---------- */
+  .anatomy-grid { display: grid; gap: var(--step) 3.5rem; grid-template-columns: 1fr; }
+  @media (min-width: 62rem) { .anatomy-grid { grid-template-columns: 1.05fr 1fr; } }
+  .swatch i { height: 5.6rem; }
+  @media (min-width: 40rem) { .swatches { grid-template-columns: repeat(3, minmax(0,1fr)); } }
+  .specimen { border-top: 3px solid var(--ink); }
+  /* ---------- symbols ---------- */
+  .symbolrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1.8rem; }
+  .symbolrow figure .frame { background: #fff; border: 2px solid var(--ink); padding: 0.6rem; }
+  .symbolrow figcaption { font-size: 0.82rem; }
+  /* ---------- essay ---------- */
+  .essay h3 {
+    font-family: var(--font-mono); font-weight: 700; font-size: clamp(0.78rem, 1.4vw, 0.9rem); letter-spacing: 0.2em;
+    text-transform: uppercase; margin: 3.6rem 0 0.9rem; color: var(--soft); max-width: 34rem; line-height: 1.4;
+  }
+  .essay h3 span {
+    display: block; font-family: var(--font-display); font-weight: 400; font-size: clamp(1.55rem, 3.2vw, 2.4rem);
+    letter-spacing: -0.015em; text-transform: none; color: var(--ink); margin-top: 0.5rem; line-height: 1.02;
+  }
+  .essay h3 span::first-letter { color: var(--magenta); }
+  .essay > .wrap > .two-col > div > .prose:first-of-type > p:first-of-type::first-letter {
+    font-family: var(--font-fat); float: left; font-size: 3.2em; line-height: 0.8; padding: 0.08em 0.12em 0 0;
+    color: var(--magenta);
+  }
+  .two-col { display: grid; gap: 2.5rem; grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 58rem) { .two-col { grid-template-columns: minmax(0,1fr) 16rem; gap: 3.5rem; } }
+  .marginalia {
+    font-family: var(--font-mono); font-size: 0.7rem; line-height: 1.65; letter-spacing: 0.03em; color: var(--soft);
+    border-left: 3px solid var(--cyan); padding-left: 1.1rem;
+  }
+  .marginalia b { color: var(--magenta); }
+  .pull { border-left-width: 8px; font-family: var(--font-display); font-weight: 400; }
+  /* ---------- artifacts ---------- */
+  .arts { display: grid; gap: 2.6rem; grid-template-columns: 1fr; }
+  .arts figure .frame { border: 2px solid var(--ink); background: #fff; }
+  @media (min-width: 64rem) {
+    .arts { grid-template-columns: minmax(0, 0.58fr) minmax(0, 1fr); }
+    .art--poster { grid-row: span 2; }
+    .art--wide { grid-column: 1 / -1; }
+  }
+  /* ---------- lineage / sources tuning ---------- */
+  .lineage { border-width: 2px; }
+  .sources li cite { font-style: italic; }
+  @media (prefers-reduced-motion: reduce) {
+    .hero__art { animation: none; }
+  }
+</style>
+<noscript><style>[data-reveal]{opacity:1 !important;transform:none !important}</style></noscript>
+</head>
+<body>
+<!-- shared silhouette: a generic profile bust. No likeness of any person. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <path id="pd-head" d="M58 6 C77 6 90 22 90 44 C90 59 88 71 83 81 C79 89 74 93 70 96 L70 103 C84 107 96 113 100 124 L6 124 C11 112 25 106 39 102 L39 91 C33 87 30 81 30 74 C25 74 20 73 20 69 C20 64 26 58 28 52 C29 47 27 44 27 38 C27 20 39 6 58 6 Z"/>
+  </defs>
+</svg>
+
+<!-- ============================== HERO ============================== -->
+<header class="hero">
+  <svg class="hero__art" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <rect width="1440" height="900" fill="#C8E01B"/>
+    <g>
+      <circle cx="1160" cy="180" r="900" fill="#00AEC7"/> <circle cx="1160" cy="180" r="820" fill="#C8E01B"/>
+      <circle cx="1160" cy="180" r="740" fill="#F96D18"/> <circle cx="1160" cy="180" r="670" fill="#C8E01B"/>
+      <circle cx="1160" cy="180" r="600" fill="#F0197B"/> <circle cx="1160" cy="180" r="530" fill="#FFC400"/>
+      <circle cx="1160" cy="180" r="460" fill="#F0197B"/> <circle cx="1160" cy="180" r="390" fill="#00AEC7"/>
+      <circle cx="1160" cy="180" r="320" fill="#F96D18"/> <circle cx="1160" cy="180" r="250" fill="#FFC400"/>
+      <circle cx="1160" cy="180" r="180" fill="#F0197B"/> <circle cx="1160" cy="180" r="112" fill="#160C18"/> <circle cx="1160" cy="180" r="54" fill="#C8E01B"/>
+    </g>
+    <path d="M0 900 L0 470 L560 900 Z" fill="#F0197B"/> <path d="M0 900 L0 610 L370 900 Z" fill="#4B1E78"/>
+    <g transform="translate(430 548) scale(2.32)">
+      <use href="#pd-head" fill="#4B1E78" x="0"/> <use href="#pd-head" fill="#F96D18" x="112"/> <use href="#pd-head" fill="#FFC400" x="224"/>
+      <use href="#pd-head" fill="#00AEC7" x="336"/> <use href="#pd-head" fill="#FDF4E3" x="448"/>
+    </g>
+    <g transform="translate(436 554) scale(2.32)" style="mix-blend-mode:multiply" opacity="0.85">
+      <use href="#pd-head" fill="#F0197B" x="0"/> <use href="#pd-head" fill="#F0197B" x="112"/> <use href="#pd-head" fill="#F0197B" x="224"/>
+      <use href="#pd-head" fill="#F0197B" x="336"/> <use href="#pd-head" fill="#F0197B" x="448"/>
+    </g>
+  </svg>
+  <div class="hero__art hero__mesh tx-silkscreen" aria-hidden="true"></div>
+  <div class="hero__fold" aria-hidden="true"></div>
+  <div class="hero__inner">
+    <p class="hero__es mis" lang="es" data-t="SOLIDARIDAD">SOLIDARIDAD</p>
+    <h1 class="hero__en">OSPAAAL &amp; the&nbsp;Tricontinental</h1>
+    <p class="hero__meta">
+      <span>No. 12</span><span>Americas · Cuba</span><span>1966 — 1990</span>
+    </p>
+    <p class="hero__lede">
+      Between 1966 and 1990 a small office in Havana designed the visual identity of
+      <em>other people's</em> revolutions — Vietnam, Angola, Palestine, Puerto Rico —
+      silkscreened it in four screaming colours, folded it twice, and posted it to
+      subscribers in some eighty countries.
+    </p>
+  </div>
+</header>
+<div class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+<div class="strip" aria-hidden="true">TRICONTINENTAL <b>·</b> SOLIDARIDAD <b>·</b> ÁFRICA <b>·</b> ASIA <b>·</b> AMÉRICA LATINA <b>·</b> LA HABANA <b>·</b> TRICONTINENTAL <b>·</b> SOLIDARIDAD <b>·</b> ÁFRICA <b>·</b> ASIA <b>·</b> AMÉRICA LATINA</div>
+
+<!-- ============================== ANATOMY ============================== -->
+<section class="section" id="anatomy">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The anatomy</p>
+    <div class="anatomy-grid">
+      <div data-reveal>
+        <h2 class="section-title">A palette you can count</h2>
+        <p class="prose">
+          On a silkscreen every colour is a separate pull: a separate stencil, a separate
+          pass through the frame, a separate drying rack. So a Cuban solidarity poster's
+          palette is not a mood board. It is a budget, written in the open. Four colours
+          means four pulls means four times the labour — which is why these posters are
+          loud in exactly four or five voices and never in six.
+        </p>
+        <div class="swatches" style="margin-top:2rem">
+          <div class="swatch"><i style="background:#F0197B"></i><b>#F0197B MAGENTA</b><span>The signature. Process magenta pulled at full strength, not as a component of a four-colour build — a colour offset lithography could barely reach and screenprint gave away free.</span></div>
+          <div class="swatch"><i style="background:#F96D18"></i><b>#F96D18 NARANJA</b><span>Sits one step from magenta on the wheel, so the two vibrate at the edge. Op art was running the same experiment in the mid-sixties; Havana used it to make a poster carry across a plaza.</span></div>
+          <div class="swatch"><i style="background:#C8E01B"></i><b>#C8E01B LIMA</b><span>Tropical, and structurally useful: a light ground that lets ink read without white paper, which mattered on cheap stock that was never truly white.</span></div>
+          <div class="swatch"><i style="background:#00AEC7"></i><b>#00AEC7 CIAN</b><span>The cooling screen. One cold hue among the hot ones stops the composition collapsing into a single blaze.</span></div>
+          <div class="swatch"><i style="background:#160C18"></i><b>#160C18 NEGRO</b><span>Almost always the last pull, and almost always the drawing: the silhouette, the lettering, the register. Everything else is fill.</span></div>
+          <div class="swatch"><i style="background:#FDF4E3;box-shadow:inset 0 0 0 1px rgba(22,12,24,0.22)"></i><b>#FDF4E3 PAPEL</b><span>Uncoated warm stock, chosen for cost and posted folded. The paper's own colour is a working part of the palette — the unprinted areas are a screen you didn't have to pay for.</span></div>
+        </div>
+      </div>
+      <div data-reveal>
+        <h2 class="section-title">Lettering drawn, not set</h2>
+        <p class="prose">
+          There was no comfortable route from a Havana type case to a screen. Display
+          lettering was drawn by hand and cut straight into the stencil, which is why
+          Cuban poster type is fat, closed, rounded and idiosyncratic — a letterform
+          shaped by a scalpel and a squeegee rather than by a foundry. The small type,
+          where it exists at all, is a plain grotesque doing bureaucratic work.
+        </p>
+        <div class="specimens" style="margin-top:2rem">
+          <div class="specimen">
+            <p lang="es" style="font-family:var(--font-fat);font-size:clamp(1.7rem,4.6vw,2.9rem);color:var(--magenta);line-height:0.95">VENCEREMOS</p>
+            <small>Hand-drawn fat display. Counters closed to near-dots, terminals rounded, spacing tightened until the word becomes one shape. A stencil rewards solid mass and punishes thin strokes — the letterform is a printing constraint wearing a style.</small>
+          </div>
+          <div class="specimen">
+            <p style="font-family:var(--font-body);font-weight:800;font-size:1.02rem;letter-spacing:0.02em;line-height:1.35">SOLIDARIDAD · SOLIDARITY<br />SOLIDARITÉ · <span lang="ar" dir="rtl">التضامن</span></p>
+            <small>The caption band. Four languages, set small in a workmanlike grotesque along one edge, because the image had to carry the argument in all four markets at once. Latin script sets wide; Arabic sets short but deep, and its line height governs the band.</small>
+          </div>
+          <div class="specimen">
+            <p style="font-family:var(--font-mono);font-size:0.92rem;letter-spacing:0.1em;text-transform:uppercase">OSPAAAL · La Habana · Cuba</p>
+            <small>The credit line: organisation, city, sometimes a year, almost never a designer. The most-distributed political posters of the century went out effectively anonymous, and the attribution work is still being done by archivists.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+
+<!-- ============================== SYMBOLS ============================== -->
+<section class="section" id="symbols">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The devices</p>
+    <h2 class="section-title" data-reveal>Four moves that do all the work</h2>
+    <p class="prose" data-reveal style="margin-bottom:2.4rem">
+      OSPAAAL's house style is not a set of images. It is a set of operations you can
+      perform on any image, in any country, with a squeegee and four jars of ink.
+    </p>
+    <div class="symbolrow" data-reveal>
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 160 120" role="img" aria-label="Device: one silhouette repeated five times, each in a different flat colour">
+            <rect width="160" height="120" fill="#FDF4E3"/>
+            <g transform="translate(6 22) scale(0.6)">
+              <use href="#pd-head" fill="#4B1E78" x="0"/> <use href="#pd-head" fill="#00AEC7" x="46"/> <use href="#pd-head" fill="#C8E01B" x="92"/>
+              <use href="#pd-head" fill="#F96D18" x="138"/> <use href="#pd-head" fill="#F0197B" x="184"/>
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="6" fill="#160C18"> <text x="6" y="112">1 STENCIL · 5 PULLS · 5 HUES</text> </g>
+          </svg>
+        </div>
+        <figcaption><b>The repeat</b> — one stencil, printed five times in five inks. Multiplicity for the price of a single drawing, and a picture of "many peoples" that needs no faces.
+          <span class="credit">Device diagram · drawn in SVG</span></figcaption>
+      </figure>
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 160 120" role="img" aria-label="Diagram: a continuous-tone head reduced in four steps to two flat tones">
+            <defs>
+              <linearGradient id="pd-tone" x1="0" y1="0" x2="1" y2="0.35">
+                <stop offset="0" stop-color="#160C18"/> <stop offset="0.5" stop-color="#8A7C8E"/> <stop offset="1" stop-color="#EFE7DA"/>
+              </linearGradient>
+              <clipPath id="pd-c1"><use href="#pd-head" transform="translate(8 18) scale(0.28)"/></clipPath>
+              <clipPath id="pd-c2"><use href="#pd-head" transform="translate(46 18) scale(0.28)"/></clipPath>
+              <clipPath id="pd-c3"><use href="#pd-head" transform="translate(84 18) scale(0.28)"/></clipPath>
+              <clipPath id="pd-c4"><use href="#pd-head" transform="translate(122 18) scale(0.28)"/></clipPath>
+            </defs>
+            <rect width="160" height="120" fill="#FDF4E3"/>
+            <g clip-path="url(#pd-c1)"><rect x="6" y="16" width="32" height="42" fill="url(#pd-tone)"/></g>
+            <g clip-path="url(#pd-c2)">
+              <rect x="44" y="16" width="8" height="42" fill="#160C18"/> <rect x="52" y="16" width="7" height="42" fill="#5E4C63"/>
+              <rect x="59" y="16" width="7" height="42" fill="#A99AAD"/> <rect x="66" y="16" width="10" height="42" fill="#EFE7DA"/>
+            </g>
+            <g clip-path="url(#pd-c3)">
+              <rect x="82" y="16" width="10" height="42" fill="#160C18"/> <rect x="92" y="16" width="9" height="42" fill="#F0197B"/>
+              <rect x="101" y="16" width="13" height="42" fill="#FFC400"/>
+            </g>
+            <g clip-path="url(#pd-c4)"> <rect x="120" y="16" width="15" height="42" fill="#160C18"/> <rect x="135" y="16" width="17" height="42" fill="#F0197B"/> </g>
+            <g stroke="#F0197B" stroke-width="1.1" fill="none">
+              <path d="M38 38 H43 M40.5 35.5 L43 38 L40.5 40.5"/> <path d="M76 38 H81 M78.5 35.5 L81 38 L78.5 40.5"/> <path d="M114 38 H119 M116.5 35.5 L119 38 L116.5 40.5"/>
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="5.2" fill="#160C18">
+              <text x="8" y="70">CONT.</text> <text x="46" y="70">4 TONES</text> <text x="84" y="70">3 TONES</text> <text x="122" y="70">2 TONES</text>
+              <text x="8" y="94">EACH STEP DELETES ONE SCREEN,</text> <text x="8" y="105" fill="#F0197B">ONE COST, AND ONE LAYER OF FACT.</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The threshold</b> — continuous tone posterised down to two flats. Each step deletes a screen, deletes a cost, and deletes information. The last step is the one that makes an image infinitely copyable.
+          <span class="credit">Process diagram · drawn in SVG</span></figcaption>
+      </figure>
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 160 120" role="img" aria-label="Device: concentric radiating colour bands">
+            <rect width="160" height="120" fill="#FDF4E3"/>
+            <g>
+              <circle cx="80" cy="60" r="56" fill="#00AEC7"/> <circle cx="80" cy="60" r="48" fill="#C8E01B"/>
+              <circle cx="80" cy="60" r="40" fill="#FFC400"/> <circle cx="80" cy="60" r="32" fill="#F96D18"/>
+              <circle cx="80" cy="60" r="24" fill="#F0197B"/> <circle cx="80" cy="60" r="15" fill="#4B1E78"/> <circle cx="80" cy="60" r="7" fill="#FDF4E3"/>
+            </g>
+            <g style="mix-blend-mode:multiply" opacity="0.9"> <circle cx="83" cy="63" r="24" fill="none" stroke="#00AEC7" stroke-width="3"/> </g>
+            <g font-family="JetBrains Mono, monospace" font-size="5.4" fill="#160C18"> <text x="6" y="14">RADIANT</text> <text x="6" y="114">SUN · HALO · SHOCKWAVE</text> </g>
+          </svg>
+        </div>
+        <figcaption><b>The radiant</b> — concentric flat bands behind a subject. It reads as sun, as halo, as blast wave, and it costs nothing but stencil area. The most economical way to make a small figure look monumental.
+          <span class="credit">Device diagram · drawn in SVG</span></figcaption>
+      </figure>
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 160 120" role="img" aria-label="Registration mark set with one screen deliberately out of register">
+            <rect width="160" height="120" fill="#FDF4E3"/>
+            <g fill="none" stroke-width="1.2">
+              <g stroke="#160C18">
+                <circle cx="34" cy="34" r="9"/><path d="M34 20 V48 M20 34 H48"/> <circle cx="126" cy="34" r="9"/><path d="M126 20 V48 M112 34 H140"/>
+                <circle cx="34" cy="92" r="9"/><path d="M34 78 V106 M20 92 H48"/>
+              </g>
+              <g stroke="#F0197B" style="mix-blend-mode:multiply"> <circle cx="130" cy="96" r="9"/><path d="M130 82 V110 M116 96 H144"/> </g>
+              <g stroke="#00AEC7" style="mix-blend-mode:multiply"> <circle cx="126" cy="92" r="9"/><path d="M126 78 V106 M112 92 H140"/> </g>
+            </g>
+            <rect x="58" y="44" width="44" height="28" fill="#00AEC7"/> <rect x="62" y="48" width="44" height="28" fill="#F0197B" style="mix-blend-mode:multiply"/>
+            <g font-family="JetBrains Mono, monospace" font-size="5.4" fill="#160C18">
+              <text x="56" y="90">+4mm OUT</text> <text x="56" y="100" fill="#F0197B">NOBODY STOPPED</text> <text x="56" y="110" fill="#F0197B">THE RUN</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The misregister</b> — hand-pulled screens drift. The fourth mark is four millimetres out and nobody stopped the run. That drift is now the readable signature of the whole programme.
+          <span class="credit">Device diagram · drawn in SVG</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+<div class="strip" aria-hidden="true">FOLD <b>·</b> INSERT <b>·</b> SEAL <b>·</b> POST <b>·</b> FOLD <b>·</b> INSERT <b>·</b> SEAL <b>·</b> POST <b>·</b> FOLD <b>·</b> INSERT <b>·</b> SEAL <b>·</b> POST <b>·</b> FOLD <b>·</b> INSERT <b>·</b> SEAL <b>·</b> POST</div>
+
+<!-- ============================== ESSAY ============================== -->
+<section class="section essay" id="essay">
+  <div class="wrap">
+    <div class="two-col">
+      <div>
+        <p class="eyebrow" data-reveal>How it worked</p>
+        <div class="prose" data-reveal>
+          <p>
+            Nearly every movement in this atlas designed for itself. Cuba designed for everybody else. The Organisation of Solidarity
+            with the Peoples of Africa, Asia and Latin America produced, for twenty-five years, a body of graphics about Vietnamese,
+            Angolan, Palestinian, Guinean, South African and Puerto Rican struggles — and then, crucially, worked out how to get it out
+            of the country.
+          </p>
+          <p>
+            The answer was a magazine and a postal service. That decision is the whole argument of this page, because it determined the
+            format, the palette, the drawing, the typography and the afterlife of every poster OSPAAAL ever made.
+          </p>
+        </div>
+        <h3 data-reveal>January 1966 <span>A conference that turned into a print shop</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            The Tricontinental Conference opened in Havana in January 1966: delegations from across Africa, Asia and Latin America, in a
+            city that had been under a United States embargo for four years. Out of it came OSPAAAL, a permanent secretariat with a
+            remit of solidarity across three continents.
+          </p>
+          <p>
+            Its most durable instrument turned out to be graphic design. Over roughly three decades OSPAAAL issued several hundred
+            poster designs — a sustained output at a scale that would embarrass most design studios, produced by a revolutionary state
+            with limited paper, limited ink and no interest in advertising its own products.
+          </p>
+          <p>
+            The Cuban context matters. After 1959 the new state absorbed its illustrators and painters into institutional design
+            departments — the film institute ICAIC, Casa de las Américas, the party's own presses — and gave them subject matter instead
+            of clients. OSPAAAL simply pointed that capacity outwards.
+          </p>
+        </div>
+        <h3 data-reveal>The fold <span>Four creases and a mailing list</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            From 1967 OSPAAAL published <cite>Tricontinental</cite> magazine, and each issue carried a poster — folded down small enough
+            to sit inside the pages and posted to subscribers in around eighty countries. A folded poster is the key formal fact of the
+            entire programme, and its consequences run all the way down.
+          </p>
+          <p>
+            <b>Consequence one: flat colour.</b> A halftone screen cracks along a crease. Thousands of tiny dots sit on the ink surface,
+            the fibre breaks, and the tone splits into a white line you can see from across a room. An unmodulated flat of screenprint
+            ink is thicker, more elastic, and when it does crack it cracks into a hairline that reads as wear rather than damage. The
+            poster was designed for the crease before it was designed for the wall.
+          </p>
+          <p>
+            <b>Consequence two: composition.</b> If a fold line is going to run through your artwork, you cannot put the meaning at the
+            middle of the sheet. Cuban solidarity posters are built out of large shapes that survive being bisected — a silhouette, a
+            field of colour, a ring of bands — and their type sits in a band at the foot, away from the horizontal creases.
+          </p>
+          <p>
+            <b>Consequence three: scale.</b> The sheet is sized to fold to magazine format, not to fill a hoarding. These are intimate
+            posters. They were made to be unfolded in a bedsit in Milan or a dorm in Berkeley by one person holding them at arm's
+            length.
+          </p>
+          <p>
+            <b>Consequence four: distribution without a gallery.</b> No exhibition, no dealer, no biennial. A subscription list and a
+            post office got Cuban graphics onto student walls across Europe, North America, Africa and Japan, which makes these
+            plausibly among the most widely distributed political posters ever made.
+          </p>
+        </div>
+        <blockquote class="pull" data-reveal>
+          A poster that has been folded twice is no longer a poster. It is mail — and mail
+          crosses borders that exhibitions do not.
+        </blockquote>
+        <div class="prose" data-reveal>
+          <p>
+            There is a second design problem buried in the mailing list. <cite>Tricontinental</cite> appeared in Spanish, English,
+            French and Arabic, and the posters carried their captions in the same four languages. Four scripts, wildly different set
+            widths, one layout. French runs long; Arabic runs short but deep, and it reads the other way. No amount of tracking fixes
+            that.
+          </p>
+          <p>
+            The solution was structural, and it is the smartest thing in the whole programme: <em>make the image carry the message and
+            let the type carry only a name.</em> A silhouette and a colour field say what needs saying in any language. The four-line
+            caption band at the foot then only has to hold a country, an organisation, a date. That is a design brief small enough to be
+            solved four times over in a strip two centimetres deep.
+          </p>
+        </div>
+        <h3 data-reveal>The silkscreen look <span>Flat, hot, and pulled by the artist</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            Serigraphy on cheap uncoated stock, short runs, one screen per colour, the designers often pulling their own editions. The
+            technique is the aesthetic. You get pure unmodulated hues because that is what a stencil gives you. You get hard edges
+            because a stencil has no other kind. You get no gradients except the split-fountain blends a printer can coax across a
+            single pass, which is why those blends are always horizontal and always slightly different from sheet to sheet.
+          </p>
+          <p>
+            Out of that come the four moves catalogued above: the repeated silhouette in rotating colourways, the radiating concentric
+            bands, the subject flattened to a single high-contrast shape, and the tolerated misregistration. Set beside Soviet
+            Constructivism — which built the same reduction toolkit out of red, black and a diagonal — the Cuban version is warm,
+            curved, tropical and frankly psychedelic. It is closer to Push Pin Studios, the Polish poster school and Op art than to
+            anything in Moscow.
+          </p>
+          <p>
+            Name the designers, because the posters mostly do not: Alfredo Rostgaard, Olivio Martínez, René Mederos, Rafael Enríquez,
+            Berta Abelénda, Faustino Pérez, Lázaro Abreu. Rostgaard's <cite>Cristo guerrillero</cite> — Christ with a rifle across his
+            shoulder, blood-drop and all — is the most reproduced single image of the group's output after the Guevara material he also
+            worked on. Mederos went to Vietnam and drew it, and the reportage that came back is the least formulaic work in the archive.
+          </p>
+        </div>
+        <h3 data-reveal>The Che pipeline <span>How a photograph became a colourway</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            In March 1960 Alberto Korda, a Havana fashion photographer working for <cite>Revolución</cite>, made two frames of Guevara
+            at a memorial service and filed them. <cite>Guerrillero Heroico</cite> sat effectively unused for seven years. In 1968 the
+            Irish artist Jim Fitzpatrick turned it into the two-tone high-contrast poster that everyone actually knows — and the image
+            left the building.
+          </p>
+          <p>
+            The mechanism deserves analysing rather than deploring. Threshold a photograph and you throw away every mid-tone; what
+            remains is a shape. A shape can be cut into any stencil, at any size, in any two colours, by anyone, in any country, without
+            a negative and without permission. Reduction does not merely simplify an image — it converts it from a photograph, which has
+            an author and a subject, into a mark, which has neither. The politics are in the mid-tones, and the mid-tones are the first
+            thing to go.
+          </p>
+          <p>
+            Cuban graphics of this period circulated without copyright notices, and were reprinted abroad freely and enthusiastically.
+            Korda declined for decades to claim royalties on the most reproduced photograph of the twentieth century. He drew the line
+            only in 2000, when he took legal action over the use of the portrait in an advertisement for vodka — a case he settled, on
+            the argument that the image could be used for solidarity but not to sell alcohol. The distinction is honourable and, by
+            then, unenforceable.
+          </p>
+        </div>
+        <h3 data-reveal>Afterlife <span>The revolutionary graphic as merchandising template</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            OSPAAAL wound down in 2019. Long before that, its style had become a design-history commodity: reprinted in monographs,
+            collected by museums, sampled by every gig poster and record sleeve that wanted to look insurgent for the length of one
+            visual gag.
+          </p>
+          <p>
+            The clearest end point is Shepard Fairey's <cite>Hope</cite> of 2008. Look at it formally and there is no argument to have:
+            a photographic portrait thresholded to four flat tones, in a hot restricted palette, distributed free as a downloadable file
+            and adopted virally by people who printed it themselves. The most famous image of the Obama campaign is, in construction and
+            in distribution model, a Tricontinental poster. The magazine has been replaced by a website; the fold has been replaced by a
+            download. And the image, like Korda's, promptly became the subject of a copyright dispute — the Associated Press over the
+            source photograph, settled in 2011.
+          </p>
+          <p>
+            That is what happens to a revolutionary graphic language once it works too well. Reduction was invented in Havana to solve a
+            printing problem and a postage problem; it survives because it also solves a merchandising problem. A shape that can be
+            recoloured infinitely can be resold infinitely. The technique that let Cuba give its posters away for nothing is the same
+            technique that lets a t-shirt printer charge for them, and there is no formal difference between the two files.
+          </p>
+        </div>
+      </div>
+      <aside class="marginalia" data-reveal>
+        <p><b>1959</b> Cuban Revolution. Illustrators absorbed into state design departments — ICAIC, Casa de las Américas, the party presses.</p>
+        <p><b>1960</b> March. Korda photographs Guevara at a Havana memorial service. <cite>Guerrillero Heroico</cite>.</p>
+        <p><b>Jan 1966</b> Tricontinental Conference, Havana. OSPAAAL founded.</p>
+        <p><b>1967</b> <cite>Tricontinental</cite> magazine launches in Spanish, English, French and Arabic. The folded poster starts arriving in the post.</p>
+        <p><b>1968</b> Jim Fitzpatrick makes the two-tone Che poster in Ireland.</p>
+        <p><b>1969</b> Rostgaard, <cite>Cristo guerrillero</cite>.</p>
+        <p><b>1970</b> Dugald Stermer's <cite>The Art of Revolution</cite>, with Susan Sontag's essay, puts Cuban posters into the Anglophone design canon.</p>
+        <p><b>1997</b> David Kunzle's <cite>Che Guevara: Icon, Myth, and Message</cite>, Fowler Museum, Los Angeles.</p>
+        <p><b>2000</b> Korda takes action over the portrait's use in a vodka advertisement.</p>
+        <p><b>2008</b> Shepard Fairey, <cite>Hope</cite>.</p>
+        <p><b>2011</b> Fairey settles the Associated Press dispute over the source photograph.</p>
+        <p><b>2019</b> OSPAAAL winds down.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ARTIFACTS ============================== -->
+<section class="section" id="artifacts" style="background:#F6E9CD">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Artifacts</p>
+    <h2 class="section-title" data-reveal>One sheet, folded, addressed</h2>
+    <p class="prose" data-reveal style="margin-bottom:2.8rem">
+      Four drawings: the poster as printed, the poster as posted, the caption band that
+      had to hold four scripts, and the reduction sequence that turned a photograph into
+      a product.
+    </p>
+    <div class="arts" data-reveal>
+      <!-- ---------- 1. THE POSTER ---------- -->
+      <figure class="art--poster">
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 330 530" role="img" aria-label="Recreated solidarity poster in the OSPAAAL idiom: radiating bands, three repeated silhouettes in different colours, and the Spanish word SOLIDARIDAD, with a visible fold crease">
+            <rect width="330" height="530" fill="#FDF4E3"/>
+            <g>
+              <rect x="0" y="0" width="66" height="14" fill="#F0197B"/> <rect x="66" y="0" width="66" height="14" fill="#F96D18"/>
+              <rect x="132" y="0" width="66" height="14" fill="#FFC400"/> <rect x="198" y="0" width="66" height="14" fill="#C8E01B"/>
+              <rect x="264" y="0" width="66" height="14" fill="#00AEC7"/>
+            </g>
+            <clipPath id="pd-poster-top"><rect x="0" y="14" width="330" height="336"/></clipPath>
+            <g clip-path="url(#pd-poster-top)">
+              <rect x="0" y="14" width="330" height="336" fill="#C8E01B"/> <circle cx="165" cy="238" r="240" fill="#00AEC7"/>
+              <circle cx="165" cy="238" r="206" fill="#C8E01B"/> <circle cx="165" cy="238" r="176" fill="#FFC400"/>
+              <circle cx="165" cy="238" r="146" fill="#F96D18"/> <circle cx="165" cy="238" r="118" fill="#F0197B"/> <circle cx="165" cy="238" r="88" fill="#4B1E78"/>
+              <g transform="translate(22 168) scale(0.94)">
+                <use href="#pd-head" fill="#FDF4E3" x="0"/> <use href="#pd-head" fill="#FFC400" x="98"/> <use href="#pd-head" fill="#00AEC7" x="196"/>
+              </g>
+              <g transform="translate(25 171) scale(0.94)" style="mix-blend-mode:multiply" opacity="0.88">
+                <use href="#pd-head" fill="#F0197B" x="0"/> <use href="#pd-head" fill="#F0197B" x="98"/> <use href="#pd-head" fill="#F0197B" x="196"/>
+              </g>
+            </g>
+            <rect x="0" y="350" width="330" height="76" fill="#160C18"/>
+            <text x="165" y="404" text-anchor="middle" textLength="300" lengthAdjust="spacingAndGlyphs"
+                  font-family="Bowlby One, Righteous, sans-serif" font-size="42" fill="#C8E01B" lang="es">SOLIDARIDAD</text>
+            <text x="168" y="407" text-anchor="middle" textLength="300" lengthAdjust="spacingAndGlyphs"
+                  font-family="Bowlby One, Righteous, sans-serif" font-size="42" fill="#F0197B"
+                  style="mix-blend-mode:multiply" lang="es" aria-hidden="true">SOLIDARIDAD</text>
+            <g font-family="JetBrains Mono, monospace" font-size="8.4" fill="#160C18" lang="es">
+              <text x="16" y="446">ORGANIZACIÓN DE SOLIDARIDAD DE LOS</text> <text x="16" y="458">PUEBLOS DE ÁFRICA, ASIA Y AMÉRICA</text>
+              <text x="16" y="470">LATINA · LA HABANA · CUBA</text>
+            </g>
+            <rect x="0" y="478" width="330" height="52" fill="#F0197B"/>
+            <g font-family="JetBrains Mono, monospace" font-size="7.6" fill="#FDF4E3">
+              <text x="16" y="488" lang="es">SOLIDARIDAD CON LOS PUEBLOS</text> <text x="16" y="499" lang="en">SOLIDARITY WITH THE PEOPLES</text>
+              <text x="16" y="510" lang="fr">SOLIDARITÉ AVEC LES PEUPLES</text> <text x="16" y="521" lang="ar">التضامن مع الشعوب</text>
+            </g>
+            <g aria-hidden="true" pointer-events="none">
+              <rect x="163.4" y="0" width="1.6" height="530" fill="#FFFFFF" opacity="0.32"/> <rect x="165" y="0" width="1.6" height="530" fill="#000000" opacity="0.2"/>
+              <rect x="0" y="175" width="330" height="1.6" fill="#FFFFFF" opacity="0.3"/> <rect x="0" y="176.6" width="330" height="1.6" fill="#000000" opacity="0.18"/>
+              <rect x="0" y="352" width="330" height="1.6" fill="#FFFFFF" opacity="0.3"/> <rect x="0" y="353.6" width="330" height="1.6" fill="#000000" opacity="0.18"/>
+              <path d="M164.2 0 V530" stroke="#FDF4E3" stroke-width="1.8" stroke-dasharray="2 11" opacity="0.75"/>
+              <path d="M0 176 H330" stroke="#FDF4E3" stroke-width="1.8" stroke-dasharray="2 13" opacity="0.7"/>
+              <path d="M0 353 H330" stroke="#FDF4E3" stroke-width="1.8" stroke-dasharray="3 10" opacity="0.7"/>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Solidarity poster, in the OSPAAAL idiom</b> Five screens declared along the top edge; a radiant ground; one silhouette stencil pulled three times in three inks, with the magenta screen three millimetres out of true. The Spanish word sits in a band the folds cannot reach, and the four-language caption runs along the foot. The creases are drawn where the sheet was folded to fit the magazine — note the ink cracking along them.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+      <!-- ---------- 2. THE FOLD DIAGRAM ---------- -->
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 640 300" role="img" aria-label="Diagram of the distribution route: poster printed flat, folded in four, inserted in the magazine, and posted abroad">
+            <rect width="640" height="300" fill="#FDF4E3"/>
+            <g font-family="JetBrains Mono, monospace" font-size="9" fill="#160C18">
+              <text x="14" y="24" font-size="10" fill="#F0197B">THE DISTRIBUTION ROUTE · ONE SHEET, FOUR STATES</text>
+            </g>
+            <g>
+              <rect x="34" y="52" width="96" height="154" fill="#C8E01B" stroke="#160C18" stroke-width="1.6"/>
+              <circle cx="82" cy="108" r="34" fill="#F0197B"/> <circle cx="82" cy="108" r="20" fill="#FFC400"/> <rect x="34" y="168" width="96" height="20" fill="#160C18"/>
+              <path d="M82 52 V206 M34 103.3 H130 M34 154.6 H130" stroke="#160C18" stroke-width="0.8" stroke-dasharray="4 4" opacity="0.8"/>
+              <g stroke="#160C18" stroke-width="0.8"> <path d="M34 220 H130 M34 216 V224 M130 216 V224"/> <path d="M20 52 V206 M16 52 H24 M16 206 H24"/> </g>
+              <g font-family="JetBrains Mono, monospace" font-size="8" fill="#160C18">
+                <text x="60" y="233">330 mm</text> <text x="4" y="132" transform="rotate(-90 8 132)">530 mm</text>
+              </g>
+              <text x="34" y="44" font-family="JetBrains Mono, monospace" font-size="9" fill="#160C18">01 · PRINTED FLAT</text>
+              <text x="34" y="252" font-family="JetBrains Mono, monospace" font-size="8" fill="#7A6C7E">3 creases · 4 panels</text>
+              <text x="34" y="264" font-family="JetBrains Mono, monospace" font-size="8" fill="#7A6C7E">flat ink only</text>
+            </g>
+            <path d="M148 130 H170 M164 124 L170 130 L164 136" stroke="#F0197B" stroke-width="1.6" fill="none"/>
+            <g>
+              <rect x="196" y="104" width="54" height="82" fill="#EDE2CB" stroke="#160C18" stroke-width="1"/>
+              <rect x="192" y="100" width="54" height="82" fill="#F5EBD6" stroke="#160C18" stroke-width="1"/>
+              <rect x="188" y="96" width="54" height="82" fill="#C8E01B" stroke="#160C18" stroke-width="1.6"/>
+              <circle cx="215" cy="122" r="17" fill="#F0197B"/> <circle cx="215" cy="122" r="10" fill="#FFC400"/> <rect x="188" y="158" width="54" height="12" fill="#160C18"/>
+              <text x="188" y="88" font-family="JetBrains Mono, monospace" font-size="9" fill="#160C18">02 · FOLDED</text>
+              <text x="188" y="204" font-family="JetBrains Mono, monospace" font-size="8" fill="#7A6C7E">165 × 177 mm</text>
+              <text x="188" y="216" font-family="JetBrains Mono, monospace" font-size="8" fill="#7A6C7E">8 printed surfaces</text>
+            </g>
+            <path d="M264 130 H286 M280 124 L286 130 L280 136" stroke="#F0197B" stroke-width="1.6" fill="none"/>
+            <g>
+              <rect x="304" y="70" width="84" height="118" fill="#FDF4E3" stroke="#160C18" stroke-width="1.6"/> <rect x="304" y="70" width="84" height="26" fill="#F0197B"/>
+              <text x="310" y="86" font-family="Righteous, sans-serif" font-size="11" fill="#FDF4E3">TRICONTI-</text>
+              <text x="310" y="103" font-family="Righteous, sans-serif" font-size="11" fill="#160C18">NENTAL</text>
+              <g stroke="#160C18" stroke-width="0.7" opacity="0.5"> <path d="M310 112 H382 M310 120 H382 M310 128 H370 M310 136 H382 M310 144 H358"/> </g>
+              <rect x="316" y="150" width="46" height="34" fill="#C8E01B" stroke="#160C18" stroke-width="1" stroke-dasharray="3 3"/>
+              <text x="320" y="171" font-family="JetBrains Mono, monospace" font-size="7" fill="#160C18">POSTER</text> <path d="M304 70 V188" stroke="#160C18" stroke-width="2.6"/>
+              <text x="304" y="62" font-family="JetBrains Mono, monospace" font-size="9" fill="#160C18">03 · BOUND IN</text>
+              <text x="304" y="206" font-family="JetBrains Mono, monospace" font-size="8" fill="#7A6C7E">ES · EN · FR · AR editions</text>
+              <text x="304" y="218" font-family="JetBrains Mono, monospace" font-size="8" fill="#7A6C7E">one poster per issue</text>
+            </g>
+            <path d="M404 130 H426 M420 124 L426 130 L420 136" stroke="#F0197B" stroke-width="1.6" fill="none"/>
+            <g>
+              <rect x="444" y="92" width="118" height="76" fill="#FDF4E3" stroke="#160C18" stroke-width="1.6"/>
+              <path d="M444 92 L503 134 L562 92" fill="none" stroke="#160C18" stroke-width="1"/>
+              <rect x="530" y="98" width="24" height="20" fill="#00AEC7" stroke="#160C18" stroke-width="0.8"/>
+              <rect x="502" y="98" width="24" height="20" fill="#FFC400" stroke="#160C18" stroke-width="0.8"/>
+              <g stroke="#160C18" stroke-width="0.7"> <path d="M452 146 H508 M452 154 H492"/> </g>
+              <text x="444" y="84" font-family="JetBrains Mono, monospace" font-size="9" fill="#160C18">04 · POSTED</text>
+              <g font-family="JetBrains Mono, monospace" font-size="8" fill="#7A6C7E">
+                <text x="444" y="186">MILANO · BERKELEY · ALGER</text> <text x="444" y="198">DAR ES SALAAM · PARIS · TOKYO</text>
+              </g>
+              <text x="444" y="218" font-family="JetBrains Mono, monospace" font-size="10" fill="#F0197B" lang="es">≈ 80 PAÍSES</text>
+              <g stroke="#F0197B" stroke-width="1.2" fill="none" opacity="0.9">
+                <path d="M572 130 L610 106 M572 130 L616 130 M572 130 L610 154"/> <circle cx="612" cy="106" r="3"/><circle cx="618" cy="130" r="3"/><circle cx="612" cy="154" r="3"/>
+              </g>
+            </g>
+            <line x1="14" y1="276" x2="626" y2="276" stroke="#160C18" stroke-width="0.8" opacity="0.35"/>
+            <text x="14" y="292" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#7A6C7E">NO GALLERY · NO DEALER · NO EXHIBITION · A SUBSCRIPTION LIST AND A POST OFFICE</text>
+          </svg>
+        </div>
+        <figcaption><b>The fold diagram</b> Printed flat, creased three times, tucked into <cite>Tricontinental</cite>, and mailed. Every design decision on the sheet is downstream of stage 02. Dimensions are indicative of the format the posters were printed at, not a measured survey.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+      <!-- ---------- 3. FOUR-LANGUAGE TYPE FITTING ---------- -->
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 640 340" role="img" aria-label="Type-fitting diagram: the same slogan in Spanish, English, French and Arabic, showing how differently each script sets and how the layout absorbs it">
+            <rect width="640" height="340" fill="#FDF4E3"/>
+            <text x="14" y="24" font-family="JetBrains Mono, monospace" font-size="10" fill="#F0197B">TYPE FITTING · ONE SLOGAN · FOUR SCRIPTS · ONE MEASURE</text>
+            <g stroke="#160C18" stroke-width="0.8" stroke-dasharray="3 3" opacity="0.55"> <path d="M62 34 V246 M492 34 V246"/> </g>
+            <text x="62" y="46" font-family="JetBrains Mono, monospace" font-size="8" fill="#7A6C7E">MEASURE 430 u</text>
+            <g>
+              <text x="14" y="76" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#160C18">ES</text>
+              <text x="62" y="76" font-family="Libre Franklin, sans-serif" font-size="12" font-weight="700" fill="#160C18" lang="es">SOLIDARIDAD CON LOS PUEBLOS DE ÁFRICA, ASIA Y AMÉRICA LATINA</text>
+              <rect x="62" y="82" width="418" height="6" fill="#F96D18"/> <text x="496" y="88" font-family="JetBrains Mono, monospace" font-size="8" fill="#7A6C7E">97% · fits</text>
+            </g>
+            <g>
+              <text x="14" y="122" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#160C18">EN</text>
+              <text x="62" y="122" font-family="Libre Franklin, sans-serif" font-size="12" font-weight="700" fill="#160C18" lang="en">SOLIDARITY WITH THE PEOPLES OF AFRICA, ASIA AND LATIN AMERICA</text>
+              <rect x="62" y="128" width="430" height="6" fill="#FFC400"/>
+              <text x="496" y="134" font-family="JetBrains Mono, monospace" font-size="8" fill="#7A6C7E">100% · baseline</text>
+            </g>
+            <g>
+              <text x="14" y="168" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#160C18">FR</text>
+              <text x="62" y="168" font-family="Libre Franklin, sans-serif" font-size="12" font-weight="700" fill="#160C18" lang="fr">SOLIDARITÉ AVEC LES PEUPLES D'AFRIQUE, D'ASIE ET D'AMÉRIQUE LATINE</text>
+              <rect x="62" y="174" width="466" height="6" fill="#F0197B"/> <path d="M492 170 V184" stroke="#160C18" stroke-width="1.4"/>
+              <text x="532" y="180" font-family="JetBrains Mono, monospace" font-size="8" fill="#F0197B">108% · OVERSET</text>
+            </g>
+            <g>
+              <text x="14" y="216" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#160C18">AR</text>
+              <text x="62" y="218" font-family="Libre Franklin, sans-serif" font-size="14" font-weight="700" fill="#160C18" lang="ar">التضامن مع شعوب أفريقيا وآسيا وأمريكا اللاتينية</text>
+              <rect x="62" y="228" width="322" height="6" fill="#00AEC7"/>
+              <text x="392" y="234" font-family="JetBrains Mono, monospace" font-size="8" fill="#7A6C7E">75% wide · 140% deep · sets right-to-left</text>
+            </g>
+            <line x1="14" y1="262" x2="626" y2="262" stroke="#160C18" stroke-width="0.8" opacity="0.35"/>
+            <text x="14" y="280" font-family="JetBrains Mono, monospace" font-size="9" fill="#160C18">THE FIX · IMAGE CARRIES THE MESSAGE, TYPE CARRIES ONLY A NAME</text>
+            <g transform="translate(14 288)">
+              <rect x="0" y="0" width="60" height="44" fill="#C8E01B" stroke="#160C18" stroke-width="1"/>
+              <circle cx="30" cy="17" r="12" fill="#F0197B"/> <rect x="0" y="34" width="60" height="10" fill="#160C18"/>
+              <text x="70" y="14" font-family="JetBrains Mono, monospace" font-size="8" fill="#7A6C7E">88% of the sheet is image — legible in any language, at any distance, folded or flat.</text>
+              <text x="70" y="26" font-family="JetBrains Mono, monospace" font-size="8" fill="#7A6C7E">12% is a caption band 4 lines deep, holding a country, an organisation and a year.</text>
+              <text x="70" y="38" font-family="JetBrains Mono, monospace" font-size="8" fill="#F0197B">Band depth is set by Arabic. Band width is set by French. Neither is set by Spanish.</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Four scripts, one measure</b> French oversets, Arabic undersets in width but demands more depth and runs the other way. The layout absorbs all four by refusing to let type do the arguing — a caption band is a much smaller problem than a headline.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+      <!-- ---------- 4. THE REDUCTION SEQUENCE ---------- -->
+      <figure class="art--wide">
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 640 250" role="img" aria-label="Four-step diagram: photograph, threshold reduction, arbitrary recolouring, and merchandise tiling. A generic silhouette is used, not a likeness">
+            <defs>
+              <linearGradient id="pd-photo" x1="0" y1="0.1" x2="0.95" y2="0.75">
+                <stop offset="0" stop-color="#0E0A12"/><stop offset="0.42" stop-color="#4A4051"/> <stop offset="0.78" stop-color="#9C919F"/><stop offset="1" stop-color="#CFC6C4"/>
+              </linearGradient>
+              <clipPath id="pd-r1"><use href="#pd-head" transform="translate(38 60) scale(0.72)"/></clipPath>
+            </defs>
+            <rect width="640" height="250" fill="#FDF4E3"/>
+            <text x="14" y="24" font-family="JetBrains Mono, monospace" font-size="10" fill="#F0197B">REDUCTION SEQUENCE · GENERIC SILHOUETTE, NOT A LIKENESS</text>
+            <g>
+              <rect x="26" y="40" width="122" height="150" fill="#EDE7DE" stroke="#160C18" stroke-width="1.2"/>
+              <g clip-path="url(#pd-r1)"><rect x="42" y="62" width="70" height="90" fill="url(#pd-photo)"/></g>
+              <rect x="26" y="40" width="122" height="150" fill="none" stroke="#160C18" stroke-width="1.2"/>
+              <g font-family="JetBrains Mono, monospace" font-size="8.4" fill="#160C18">
+                <text x="26" y="208">1960 · PHOTOGRAPH</text> <text x="26" y="220" fill="#7A6C7E">Korda, Havana. Silver</text>
+                <text x="26" y="231" fill="#7A6C7E">gelatin. An author and</text> <text x="26" y="242" fill="#7A6C7E">a subject. Continuous tone.</text>
+              </g>
+            </g>
+            <path d="M158 112 H182 M176 106 L182 112 L176 118" stroke="#F0197B" stroke-width="1.6" fill="none"/>
+            <g>
+              <rect x="186" y="40" width="122" height="150" fill="#FFFFFF" stroke="#160C18" stroke-width="1.2"/>
+              <use href="#pd-head" transform="translate(198 60) scale(0.72)" fill="#160C18"/>
+              <rect x="186" y="40" width="122" height="150" fill="none" stroke="#160C18" stroke-width="1.2"/>
+              <g font-family="JetBrains Mono, monospace" font-size="8.4" fill="#160C18">
+                <text x="186" y="208">1968 · THRESHOLD</text> <text x="186" y="220" fill="#7A6C7E">Fitzpatrick, Ireland. Every</text>
+                <text x="186" y="231" fill="#7A6C7E">mid-tone deleted. What is</text> <text x="186" y="242" fill="#7A6C7E">left is a shape, not a photo.</text>
+              </g>
+            </g>
+            <path d="M318 112 H342 M336 106 L342 112 L336 118" stroke="#F0197B" stroke-width="1.6" fill="none"/>
+            <g>
+              <rect x="346" y="40" width="122" height="150" fill="#C8E01B" stroke="#160C18" stroke-width="1.2"/>
+              <use href="#pd-head" transform="translate(358 60) scale(0.72)" fill="#F0197B"/>
+              <use href="#pd-head" transform="translate(361 63) scale(0.72)" fill="#FFC400" style="mix-blend-mode:multiply"/>
+              <rect x="346" y="40" width="122" height="150" fill="none" stroke="#160C18" stroke-width="1.2"/>
+              <g font-family="JetBrains Mono, monospace" font-size="8.4" fill="#160C18">
+                <text x="346" y="208">RECOLOURABLE</text> <text x="346" y="220" fill="#7A6C7E">Hue is now arbitrary. The</text>
+                <text x="346" y="231" fill="#7A6C7E">mark survives any palette,</text> <text x="346" y="242" fill="#7A6C7E">which means any client.</text>
+              </g>
+            </g>
+            <path d="M478 112 H502 M496 106 L502 112 L496 118" stroke="#F0197B" stroke-width="1.6" fill="none"/>
+            <g>
+              <rect x="506" y="40" width="122" height="150" fill="#FDF4E3" stroke="#160C18" stroke-width="1.2"/>
+              <g>
+                <use href="#pd-head" transform="translate(516 50) scale(0.19)" fill="#F0197B"/> <use href="#pd-head" transform="translate(546 50) scale(0.19)" fill="#00AEC7"/>
+                <use href="#pd-head" transform="translate(576 50) scale(0.19)" fill="#FFC400"/> <use href="#pd-head" transform="translate(516 82) scale(0.19)" fill="#4B1E78"/>
+                <use href="#pd-head" transform="translate(546 82) scale(0.19)" fill="#F96D18"/> <use href="#pd-head" transform="translate(576 82) scale(0.19)" fill="#C8E01B"/>
+                <use href="#pd-head" transform="translate(516 114) scale(0.19)" fill="#160C18"/> <use href="#pd-head" transform="translate(546 114) scale(0.19)" fill="#F0197B"/>
+                <use href="#pd-head" transform="translate(576 114) scale(0.19)" fill="#00AEC7"/> <use href="#pd-head" transform="translate(516 146) scale(0.19)" fill="#FFC400"/>
+                <use href="#pd-head" transform="translate(546 146) scale(0.19)" fill="#4B1E78"/> <use href="#pd-head" transform="translate(576 146) scale(0.19)" fill="#F96D18"/>
+              </g>
+              <rect x="506" y="40" width="122" height="150" fill="none" stroke="#160C18" stroke-width="1.2"/>
+              <g font-family="JetBrains Mono, monospace" font-size="8.4" fill="#160C18">
+                <text x="506" y="208">MERCHANDISE</text> <text x="506" y="220" fill="#7A6C7E">Tiled, licensed,</text>
+                <text x="506" y="231" fill="#7A6C7E">litigated. The politics</text> <text x="506" y="242" fill="#7A6C7E">left at step two.</text>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Photograph → threshold → colourway → product</b> The sequence that carried Korda's 1960 negative through Fitzpatrick's 1968 poster and out into global merchandising — and the same sequence that produced <cite>Hope</cite> forty-eight years later. No likeness is attempted here; the figure is a generic silhouette used to show the mechanism.
+          <span class="credit">Process diagram · drawn in SVG</span></figcaption>
+      </figure>
+    </div>
+    <p class="note" style="margin-top:2.8rem;max-width:46rem">
+      These are drawn from published descriptions, catalogue entries and archive
+      finding-aids — not traced from photographs of specific posters. The poster above is
+      an original composition in the OSPAAAL idiom, not a copy of any single sheet;
+      dimensions and fold positions are indicative of the format the posters were issued
+      at. For the originals, see the collections listed below.
+    </p>
+  </div>
+</section>
+<div class="bands" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+
+<!-- ============================== LINEAGE ============================== -->
+<section class="section" id="lineage">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Lineage</p>
+    <h2 class="section-title" data-reveal>Who it printed for, who it printed with</h2>
+    <div class="lineage" data-reveal
+         data-lineage="vietnam,pan-african,panthers,constructivism"
+         data-why="OSPAAAL printed solidarity posters for Vietnam and sent René Mederos there to draw it — the only case in this atlas of one movement running another's international campaign.|Angola, Guinea-Bissau, Mozambique, South Africa: Havana silkscreened the African liberation movements' graphics and posted them out of the continent's reach of censors.|Same circuit, same decade. Panther offices carried Tricontinental posters and Emory Douglas's flat-colour reduction answers Havana's almost exactly.|Supplied the toolkit — photographic subject flattened to a shape, colour as a countable resource, type as a structural element. Havana kept the method and threw out the austerity.">
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SOURCES ============================== -->
+<section class="section" id="sources" style="padding-top:0">
+  <div class="wrap">
+    <hr class="hr" style="margin-bottom:3rem" />
+    <p class="eyebrow" data-reveal>Sources &amp; further reading</p>
+    <ul class="sources" data-reveal>
+      <li>Lincoln Cushing, <cite>Revolución! Cuban Poster Art</cite> (Chronicle Books, 2003) — the standard English-language survey, and the starting point for attribution.</li>
+      <li>Docs Populi / Documents for the Public, Lincoln Cushing's archive — catalogued OSPAAAL and Cuban poster holdings, with printing notes.</li>
+      <li>Richard Frick, <cite>The Tricontinental Solidarity Poster</cite> (2003) — a poster-by-poster account of the OSPAAAL output.</li>
+      <li>David Kunzle, <cite>Che Guevara: Icon, Myth, and Message</cite> (Fowler Museum, UCLA, 1997) — the sharpest study of what reduction did to the Korda photograph.</li>
+      <li>Susan Sontag, "Posters: Advertisement, Art, Political Artifact, Commodity", in Dugald Stermer, <cite>The Art of Revolution</cite> (1970) — written while the programme was still running.</li>
+      <li>Center for the Study of Political Graphics, Los Angeles — a large holding of OSPAAAL and international solidarity posters.</li>
+      <li>International Institute of Social History (IISH/IISG), Amsterdam — poster and periodical collections, including Cuban solidarity material.</li>
+      <li><cite>Tricontinental</cite> magazine, back issues from 1967 — the primary artifact, folded poster included.</li>
+    </ul>
+  </div>
+</section>
+<div data-site="foot"></div>
+<script src="../../shared/movements.js"></script>
+<script src="../../shared/site.js"></script>
+</body>
+</html>

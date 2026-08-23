@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en" data-slug="people-power">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>People Power — Political Design</title>
+<meta name="description" content="How a dictatorship was removed by an identity made entirely of found materials: a haberdashery yellow, a hand sign, a 1973 pop song, and confetti shredded from Makati's telephone directories." />
+<meta name="theme-color" content="#E9E6DB" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="People Power — Political Design" />
+<meta property="og:description" content="Nothing here was commissioned. A colour, a hand sign, a song already in the charts, and office confetti — the first political identity assembled out of things people already owned." />
+<meta property="og:url" content="https://layogtima.com/political-design/m/people-power/" />
+<link rel="icon" type="image/svg+xml" href="https://layogtima.com/images/favicon/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Special+Elite&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../shared/site.css" />
+<link rel="stylesheet" href="../../shared/textures.css" />
+<style>
+  :root {
+    --paper: #E9E6DB;
+    --ink: #20201C;
+    --accent: #F2C300;
+    --news: #BEBBB1;
+    --toner: #15150F;
+    --ochre: #7E6100;
+    --kbl: #B4232A;
+    --flagblue: #0038A8;
+    --violet: #574786;
+    --bond: #F3F0E4;
+    --font-display: "Anton", "Archivo Black", Impact, sans-serif;
+    --font-body: "Source Serif 4", Georgia, serif;
+    --font-type: "Special Elite", "Courier Prime", ui-monospace, monospace;
+  }
+  h1, h2, h3, h4 { font-weight: 400; letter-spacing: -0.005em; }
+  body { background-color: var(--paper); }
+
+  /* the whole page is a second-generation photocopy */
+  body::after {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 80;
+    opacity: 0.6;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(0,0,0,0.05) 0 1px, transparent 1px 47px),
+      repeating-linear-gradient(90deg, rgba(0,0,0,0.028) 0 2px, transparent 2px 151px),
+      repeating-linear-gradient(90deg, rgba(0,0,0,0.02) 0 3px, transparent 3px 313px);
+  }
+
+  /* ---------- shared page furniture ---------- */
+  .type { font-family: var(--font-type); }
+  .hl { background: var(--accent); padding: 0 0.14em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .tilt-a { transform: rotate(-1.1deg); }
+  .tilt-b { transform: rotate(1.4deg); }
+  .tilt-c { transform: rotate(-0.6deg); }
+
+  /* continuous-stationery divider: tractor-feed holes */
+  .feed { height: 30px; background: var(--accent); position: relative; overflow: hidden; }
+  .feed::before, .feed::after {
+    content: ""; position: absolute; left: 0; right: 0; height: 9px;
+    background-image: radial-gradient(circle at 8px 4.5px, var(--paper) 3px, transparent 3.2px);
+    background-size: 18px 9px;
+  }
+  .feed::before { top: 4px; }
+  .feed::after { bottom: 4px; }
+  .feed--ink { background: var(--ink); }
+  .feed--ink::before, .feed--ink::after {
+    background-image: radial-gradient(circle at 8px 4.5px, var(--paper) 3px, transparent 3.2px);
+  }
+
+  /* ---------- hero ---------- */
+  .hero {
+    min-height: 100svh;
+    position: relative;
+    display: grid;
+    align-content: center;
+    padding: 8rem var(--gutter) 4.5rem;
+    background-color: var(--news);
+    overflow: hidden;
+  }
+  .hero__ribbon {
+    position: absolute;
+    right: -5vw; top: 50%;
+    width: min(40vh, 34vw);
+    transform: translateY(-50%) rotate(3deg);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .confetti { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+  .cf {
+    position: absolute; top: -20%; display: block;
+    width: var(--w, 5px); height: var(--h, 28px);
+    background: var(--c, #F2C300);
+    opacity: 0.88;
+    animation: cf-fall var(--d, 14s) linear var(--delay, 0s) infinite;
+  }
+  /* top is animated in %, so the fall works at any hero height */
+  @keyframes cf-fall {
+    0%   { top: -20%; transform: translateX(0) rotate(var(--r, 0deg)); }
+    100% { top: 118%; transform: translateX(var(--dx, 24px)) rotate(calc(var(--r, 0deg) + var(--spin, 720deg))); }
+  }
+  .hero__inner { position: relative; z-index: 4; width: min(100%, 48rem); }
+  .hero__fil {
+    font-family: var(--font-type);
+    font-size: clamp(0.95rem, 2.4vw, 1.5rem);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin: 0 0 0.7rem;
+    color: var(--toner);
+  }
+  .hero__shout {
+    font-family: var(--font-display);
+    font-size: clamp(4.2rem, 20vw, 15rem);
+    line-height: 0.78;
+    letter-spacing: -0.03em;
+    margin: 0 0 1.6rem;
+    color: var(--toner);
+    transform: rotate(-1.6deg);
+    transform-origin: left center;
+    text-shadow: 0.05em 0.045em 0 var(--accent);
+  }
+  .hero__shout .bang { color: var(--accent); text-shadow: 0.05em 0.045em 0 var(--toner); }
+  .hero__shout .sub {
+    display: block;
+    font-family: var(--font-type);
+    font-size: clamp(0.95rem, 3.2vw, 2.1rem);
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    text-shadow: none;
+    margin-top: 0.5em;
+    color: var(--toner);
+  }
+  .hero__meta {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--toner);
+    display: flex; flex-wrap: wrap; gap: 0.5rem 1.4rem;
+    margin: 0 0 1.8rem;
+    opacity: 0.8;
+  }
+  .hero__lede {
+    font-size: clamp(1.08rem, 1vw + 0.92rem, 1.4rem);
+    line-height: 1.5;
+    max-width: 34rem;
+    color: var(--toner);
+    margin: 0;
+  }
+  @media (max-width: 60rem) {
+    .hero__ribbon { opacity: 0.2; width: min(60vh, 70vw); right: -18vw; }
+  }
+
+  /* ---------- anatomy ---------- */
+  .anatomy-grid { display: grid; gap: var(--step) 3.5rem; grid-template-columns: 1fr; }
+  @media (min-width: 62rem) { .anatomy-grid { grid-template-columns: 1.05fr 1fr; } }
+  .anatomy-grid .swatches { grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); }
+  .specimen > p:first-child { color: var(--toner); }
+
+  /* ---------- figures, photocopied ---------- */
+  figure .frame {
+    background: var(--bond);
+    border: 1px solid var(--ink);
+    box-shadow: 5px 6px 0 rgba(32,32,28,0.15);
+  }
+  .symbolrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 2rem 1.8rem; }
+  .symbolrow figure .frame { padding: 0.9rem; }
+  .symbolrow figure:nth-child(odd) .frame { transform: rotate(-1.2deg); }
+  .symbolrow figure:nth-child(even) .frame { transform: rotate(1deg); }
+  .symbolrow figcaption { font-size: 0.8rem; }
+
+  /* ---------- essay ---------- */
+  .essay h3 {
+    font-size: clamp(1.45rem, 3vw, 2.2rem);
+    margin: 3.4rem 0 1rem;
+    max-width: 24ch;
+    line-height: 1.02;
+  }
+  .essay h3 span { color: var(--ochre); }
+  .essay .two-col > div > .prose:first-of-type > p:first-of-type::first-letter {
+    font-family: var(--font-display);
+    float: left;
+    font-size: 3.4em;
+    line-height: 0.8;
+    padding: 0.08em 0.12em 0 0;
+    color: var(--ochre);
+  }
+  .two-col { display: grid; gap: 2.5rem; grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 58rem) { .two-col { grid-template-columns: minmax(0,1fr) 15rem; gap: 3.5rem; } }
+  .marginalia {
+    font-family: var(--font-type);
+    font-size: 0.76rem;
+    line-height: 1.65;
+    color: var(--ink);
+    border-left: 2px solid var(--ink);
+    padding-left: 1.1rem;
+  }
+  .marginalia p { margin-bottom: 0.85em; }
+  .marginalia b { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.1em; display: block; color: var(--ochre); }
+
+  .pull { font-family: var(--font-display); letter-spacing: -0.01em; }
+
+  /* ---------- artifacts ---------- */
+  .artifacts { background: #DEDACF; }
+  .artifacts .figures { grid-template-columns: repeat(auto-fit, minmax(min(26rem, 100%), 1fr)); gap: 2.8rem; }
+  .artifacts figure:nth-child(1) .frame { transform: rotate(-1deg); }
+  .artifacts figure:nth-child(2) .frame { transform: rotate(0.8deg); }
+  .artifacts figure:nth-child(3) .frame { transform: rotate(-0.5deg); }
+  .artifacts figure:nth-child(4) .frame { transform: rotate(1.1deg); }
+
+  .typed-note {
+    font-family: var(--font-type);
+    font-size: 0.86rem;
+    line-height: 1.75;
+    border: 2px solid var(--ink);
+    padding: 1.1rem 1.3rem;
+    max-width: 40rem;
+    background: var(--bond);
+    box-shadow: 5px 6px 0 rgba(32,32,28,0.15);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .confetti { display: none; }
+    .cf { animation: none; }
+  }
+</style>
+<noscript><style>[data-reveal]{opacity:1 !important;transform:none !important}</style></noscript>
+</head>
+<body>
+
+<!-- ============================== HERO ============================== -->
+<header class="hero tx-newsprint">
+  <div class="confetti" aria-hidden="true">
+    <i class="cf" style="left:2%;--w:5px;--h:34px;--c:#F2C300;--r:14deg;--spin:820deg;--dx:42px;--d:13s;--delay:-1s"></i> <i class="cf" style="left:6%;--w:4px;--h:52px;--c:repeating-linear-gradient(0deg,rgba(20,20,15,.5) 0 1px,#F1EEE3 1px 3px);--r:-32deg;--spin:-960deg;--dx:-30px;--d:17s;--delay:-6s"></i> <i class="cf" style="left:10%;--w:7px;--h:22px;--c:#F4F2E9;--r:52deg;--spin:640deg;--dx:56px;--d:11s;--delay:-3s"></i> <i class="cf" style="left:13%;--w:3px;--h:66px;--c:#F2C300;--r:-8deg;--spin:1140deg;--dx:-48px;--d:19s;--delay:-9s"></i>
+    <i class="cf" style="left:17%;--w:6px;--h:28px;--c:#D9D5C8;--r:24deg;--spin:520deg;--dx:22px;--d:14s;--delay:-12s"></i> <i class="cf" style="left:21%;--w:4px;--h:44px;--c:#F2C300;--r:-46deg;--spin:-780deg;--dx:64px;--d:16s;--delay:-4s"></i> <i class="cf" style="left:25%;--w:9px;--h:18px;--c:repeating-linear-gradient(0deg,#DCE8D8 0 5px,#F4F2E9 5px 10px);--r:6deg;--spin:900deg;--dx:-26px;--d:12s;--delay:-7s"></i> <i class="cf" style="left:28%;--w:4px;--h:38px;--c:#F4F2E9;--r:38deg;--spin:700deg;--dx:34px;--d:18s;--delay:-2s"></i>
+    <i class="cf" style="left:32%;--w:5px;--h:58px;--c:#F2C300;--r:-18deg;--spin:-1080deg;--dx:-58px;--d:15s;--delay:-11s"></i> <i class="cf" style="left:36%;--w:3px;--h:26px;--c:repeating-linear-gradient(0deg,rgba(20,20,15,.55) 0 1px,#F1EEE3 1px 3px);--r:62deg;--spin:600deg;--dx:18px;--d:13s;--delay:-5s"></i> <i class="cf" style="left:40%;--w:6px;--h:46px;--c:#F2C300;--r:-4deg;--spin:840deg;--dx:46px;--d:20s;--delay:-14s"></i> <i class="cf" style="left:43%;--w:4px;--h:20px;--c:#FFFFFF;--r:30deg;--spin:-660deg;--dx:-36px;--d:11s;--delay:-8s"></i>
+    <i class="cf" style="left:47%;--w:5px;--h:62px;--c:#D9D5C8;--r:-52deg;--spin:980deg;--dx:28px;--d:17s;--delay:-3s"></i> <i class="cf" style="left:51%;--w:8px;--h:24px;--c:#F2C300;--r:16deg;--spin:560deg;--dx:-52px;--d:14s;--delay:-10s"></i> <i class="cf" style="left:55%;--w:3px;--h:48px;--c:repeating-linear-gradient(0deg,rgba(20,20,15,.5) 0 1px,#F1EEE3 1px 4px);--r:-26deg;--spin:-900deg;--dx:60px;--d:16s;--delay:-6s"></i> <i class="cf" style="left:58%;--w:6px;--h:32px;--c:#F4F2E9;--r:44deg;--spin:760deg;--dx:-20px;--d:12s;--delay:-13s"></i>
+    <i class="cf" style="left:62%;--w:4px;--h:56px;--c:#F2C300;--r:-12deg;--spin:1020deg;--dx:38px;--d:19s;--delay:-1s"></i> <i class="cf" style="left:66%;--w:9px;--h:16px;--c:repeating-linear-gradient(0deg,#DCE8D8 0 5px,#F4F2E9 5px 10px);--r:70deg;--spin:-620deg;--dx:-44px;--d:13s;--delay:-9s"></i> <i class="cf" style="left:70%;--w:5px;--h:40px;--c:#F2C300;--r:22deg;--spin:880deg;--dx:24px;--d:15s;--delay:-4s"></i> <i class="cf" style="left:74%;--w:3px;--h:30px;--c:#D9D5C8;--r:-38deg;--spin:540deg;--dx:-62px;--d:18s;--delay:-12s"></i>
+    <i class="cf" style="left:77%;--w:6px;--h:50px;--c:#F4F2E9;--r:8deg;--spin:-1140deg;--dx:50px;--d:14s;--delay:-7s"></i> <i class="cf" style="left:81%;--w:4px;--h:24px;--c:#F2C300;--r:-58deg;--spin:720deg;--dx:-28px;--d:11s;--delay:-2s"></i> <i class="cf" style="left:85%;--w:5px;--h:64px;--c:repeating-linear-gradient(0deg,rgba(20,20,15,.55) 0 1px,#F1EEE3 1px 3px);--r:34deg;--spin:940deg;--dx:32px;--d:20s;--delay:-15s"></i> <i class="cf" style="left:88%;--w:7px;--h:22px;--c:#FFFFFF;--r:-20deg;--spin:-580deg;--dx:-40px;--d:12s;--delay:-5s"></i>
+    <i class="cf" style="left:92%;--w:4px;--h:42px;--c:#F2C300;--r:48deg;--spin:1060deg;--dx:54px;--d:17s;--delay:-11s"></i> <i class="cf" style="left:95%;--w:3px;--h:36px;--c:#D9D5C8;--r:-2deg;--spin:660deg;--dx:-24px;--d:15s;--delay:-8s"></i> <i class="cf" style="left:98%;--w:6px;--h:28px;--c:#F2C300;--r:26deg;--spin:-800deg;--dx:-56px;--d:13s;--delay:-3s"></i>
+    <i class="cf" style="left:4%;--w:4px;--h:40px;--c:#F2C300;--r:-22deg;--spin:880deg;--dx:34px;--d:16s;--delay:-13s"></i> <i class="cf" style="left:8%;--w:6px;--h:26px;--c:#F4F2E9;--r:40deg;--spin:-620deg;--dx:-34px;--d:12s;--delay:-4s"></i> <i class="cf" style="left:15%;--w:3px;--h:54px;--c:#F2C300;--r:10deg;--spin:1000deg;--dx:48px;--d:18s;--delay:-10s"></i> <i class="cf" style="left:19%;--w:7px;--h:20px;--c:repeating-linear-gradient(0deg,#DCE8D8 0 5px,#F4F2E9 5px 10px);--r:-40deg;--spin:560deg;--dx:-22px;--d:13s;--delay:-6s"></i>
+    <i class="cf" style="left:23%;--w:4px;--h:36px;--c:#D9D5C8;--r:28deg;--spin:-840deg;--dx:52px;--d:15s;--delay:-2s"></i> <i class="cf" style="left:30%;--w:5px;--h:48px;--c:#F2C300;--r:-14deg;--spin:760deg;--dx:-46px;--d:17s;--delay:-12s"></i> <i class="cf" style="left:38%;--w:3px;--h:30px;--c:repeating-linear-gradient(0deg,rgba(20,20,15,.5) 0 1px,#F1EEE3 1px 3px);--r:56deg;--spin:940deg;--dx:26px;--d:14s;--delay:-8s"></i> <i class="cf" style="left:45%;--w:6px;--h:22px;--c:#F4F2E9;--r:-30deg;--spin:-680deg;--dx:-38px;--d:11s;--delay:-15s"></i>
+    <i class="cf" style="left:53%;--w:4px;--h:60px;--c:#F2C300;--r:18deg;--spin:1080deg;--dx:42px;--d:19s;--delay:-5s"></i> <i class="cf" style="left:60%;--w:8px;--h:18px;--c:#D9D5C8;--r:44deg;--spin:600deg;--dx:-30px;--d:12s;--delay:-11s"></i> <i class="cf" style="left:72%;--w:4px;--h:44px;--c:#F2C300;--r:-48deg;--spin:-900deg;--dx:36px;--d:16s;--delay:-7s"></i> <i class="cf" style="left:90%;--w:5px;--h:32px;--c:#F4F2E9;--r:12deg;--spin:720deg;--dx:-50px;--d:14s;--delay:-3s"></i>
+  </div>
+
+  <svg class="hero__ribbon" viewBox="0 0 300 470" aria-hidden="true" focusable="false">
+    <!-- the ole oak tree, abstracted to a post -->
+    <rect x="112" y="0" width="78" height="470" fill="#20201C" opacity="0.2" /> <rect x="112" y="0" width="9" height="470" fill="#20201C" opacity="0.16" /> <rect x="181" y="0" width="9" height="470" fill="#20201C" opacity="0.1" />
+    <!-- band wrapping the post -->
+    <path d="M40 196 C 92 186, 208 186, 260 196 L 260 228 C 208 218, 92 218, 40 228 Z" fill="#F2C300" /> <path d="M112 190 C 140 187, 160 187, 190 190 L 190 222 C 160 219, 140 219, 112 222 Z" fill="#D8AE00" />
+    <!-- tails -->
+    <path d="M144 216 C 126 256, 110 296, 84 336 L 100 330 L 112 352 C 140 312, 156 264, 164 222 Z" fill="#F2C300" /> <path d="M156 216 C 174 256, 190 296, 216 336 L 200 330 L 188 352 C 160 312, 144 264, 136 222 Z" fill="#E8BC00" />
+    <!-- loops -->
+    <path d="M152 214 C 110 158, 44 164, 42 202 C 40 238, 108 242, 152 214 Z" fill="#F2C300" stroke="#D8AE00" stroke-width="2" />
+    <path d="M148 214 C 190 158, 256 164, 258 202 C 260 238, 192 242, 148 214 Z" fill="#F2C300" stroke="#D8AE00" stroke-width="2" /> <path d="M148 214 C 176 196, 214 190, 240 196" fill="none" stroke="#D8AE00" stroke-width="2.5" />
+    <path d="M152 214 C 124 196, 86 190, 60 196" fill="none" stroke="#D8AE00" stroke-width="2.5" />
+    <!-- knot -->
+    <rect x="128" y="196" width="46" height="36" rx="9" fill="#F2C300" stroke="#C79E00" stroke-width="2" transform="rotate(-4 151 214)" />
+  </svg>
+
+  <div class="tx-over tx-xerox" aria-hidden="true"></div>
+
+  <div class="hero__inner">
+    <p class="hero__fil" lang="fil">Lakas ng Bayan</p>
+    <h1 class="hero__shout">LABAN<span class="bang">!</span><span class="sub">People Power &amp; the fall of Marcos</span></h1>
+    <p class="hero__meta">
+      <span>No. 14</span><span>Southeast Asia · Philippines</span><span>1983 — 1986</span>
+    </p>
+    <p class="hero__lede">
+      Four days in February 1986 removed a twenty-year dictatorship, and the identity that did it
+      cost nothing. A colour from any haberdashery. A hand sign anyone could make. A song already
+      in the charts. And confetti shredded from the phone book on your own desk.
+    </p>
+  </div>
+</header>
+
+<div class="feed" aria-hidden="true"></div>
+
+<!-- ============================== ANATOMY ============================== -->
+<section class="section" id="anatomy">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The anatomy</p>
+
+    <p class="typed-note tilt-c" data-reveal style="margin-bottom:3rem">
+      This is deliberately the least <em>designed</em> page in the atlas. Nothing on it was
+      commissioned, art-directed or specified. Every element of the People Power kit already
+      existed as a consumer good, a pop song or an office consumable, and the movement's only
+      creative act was to point at it.
+    </p>
+
+    <div class="anatomy-grid">
+
+      <div data-reveal>
+        <h2 class="section-title">A palette you could buy at the sari-sari store</h2>
+        <p class="prose">
+          There is no colour specification for People Power because there was no one to write it.
+          The yellow is whatever yellow the ribbon shop had in stock, which is why it varies
+          wildly across surviving material — and why it was impossible to control. A colour with
+          no owner cannot be revoked.
+        </p>
+        <div class="swatches" style="margin-top:2rem">
+          <div class="swatch"><i style="background:#F2C300"></i><b>#F2C300 RIBBON YELLOW</b><span>Not a brand colour. Off-the-reel polyester ribbon and crepe paper, bought by the metre. Its authority came from a 1973 American pop record, not a designer.</span></div>
+          <div class="swatch"><i style="background:#E9E6DB"></i><b>#E9E6DB BOND</b><span>Cheap duplicating stock. The default background of the opposition — because the alternative was a broadsheet the regime licensed.</span></div>
+          <div class="swatch"><i style="background:#15150F"></i><b>#15150F TONER</b><span>Second-generation black: copies of copies, contrast blown out, mid-tones gone. The characteristic surface of every clandestine document.</span></div>
+          <div class="swatch"><i style="background:#574786"></i><b>#574786 ANILINE</b><span>The violet of the spirit duplicator, the machine sitting one rung below the mimeograph in cost. Fades in weeks — which was a feature.</span></div>
+          <div class="swatch"><i style="background:#B4232A"></i><b>#B4232A KBL RED</b><span>The colour of Kilusang Bagong Lipunan, Marcos's ruling party. Professionally specified, consistently applied, and comprehensively beaten.</span></div>
+          <div class="swatch"><i style="background:#0038A8"></i><b>#0038A8 FLAG BLUE</b><span>Both sides claimed the national flag. Only one side could plausibly stand under it in the street.</span></div>
+        </div>
+      </div>
+
+      <div data-reveal>
+        <h2 class="section-title">Three registers, one of them a machine</h2>
+        <p class="prose">
+          Martial-law Philippines produced a strict typographic class system. The state got
+          photo-typesetting and Helvetica. The opposition got a typewriter, a marker pen and
+          the office copier after six o'clock.
+        </p>
+        <div class="specimens" style="margin-top:2rem">
+          <div class="specimen">
+            <p class="type" style="font-size:clamp(1.1rem,3.2vw,1.7rem);letter-spacing:0.02em" lang="fil">Ninoy, hindi ka nag-iisa</p>
+            <small>Typewriter pica — 10 characters to the inch, single-strike ribbon, no way to set a headline. The mosquito press was written on portable Olivettis and Olympias and IBM office machines, then reproduced by whatever duplicator was to hand. "Ninoy, you are not alone" became the standard line after August 1983.</small>
+          </div>
+          <div class="specimen">
+            <p style="font-family:var(--font-display);font-size:clamp(1.8rem,5.5vw,2.9rem);line-height:0.95" lang="fil">TAMA NA! SOBRA NA!</p>
+            <small>The placard register: a heavy condensed sans, hand-cut or drawn with a broad marker so it survives being photographed from forty metres. "Enough! Too much!" — the 1986 campaign line, usually completed by <span lang="fil">palitan na</span>, "change it now".</small>
+          </div>
+          <div class="specimen">
+            <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:clamp(1.05rem,3vw,1.5rem);letter-spacing:0.02em;font-weight:500" lang="fil">Bagong Lipunan</p>
+            <small>The state's voice: the international modernist sans of late-1960s corporate identity, cut into travertine and applied to signage across the Cultural Center complex. Expensive, correct, and — this is the argument of the page — completely inert.</small>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="feed feed--ink" aria-hidden="true"></div>
+
+<!-- ============================== SYMBOLS ============================== -->
+<section class="section" id="symbols">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The marks</p>
+    <h2 class="section-title" data-reveal>Four marks, and only one of them was ever printed</h2>
+
+    <div class="symbolrow" data-reveal>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 120" role="img" aria-label="Geometric drawing of a hand making the LABAN L sign with thumb and forefinger extended">
+            <g fill="#F2C300" stroke="#20201C" stroke-width="2.6" stroke-linejoin="round">
+              <rect x="12" y="50" width="46" height="21" rx="10.5" /> <rect x="60" y="8" width="19" height="50" rx="9.5" /> <rect x="56" y="84" width="32" height="20" rx="4" /> <rect x="44" y="46" width="50" height="46" rx="12" />
+            </g>
+            <g fill="none" stroke="#20201C" stroke-width="1.5" opacity="0.55" stroke-linecap="round">
+              <path d="M62 60 h28 M62 72 h28 M62 84 h28" />
+            </g>
+            <text x="60" y="116" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="#20201C" opacity="0.75">COST: 0 · SEIZABLE: NO</text>
+          </svg>
+        </div>
+        <figcaption><b>The L sign</b> — thumb and forefinger. A party mark that is also a letter, also a word (<span lang="fil">laban</span> = fight), also a gesture. Invisible until performed, therefore impossible to seize.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 120" role="img" aria-label="A tied yellow ribbon bow with two loops and two notched tails">
+            <path d="M58 62 C 40 82, 30 100, 22 112 L 33 108 L 38 118 C 50 102, 58 84, 63 68 Z" fill="#E8BC00" stroke="#20201C" stroke-width="1.6" stroke-linejoin="round" />
+            <path d="M62 62 C 80 82, 90 100, 98 112 L 87 108 L 82 118 C 70 102, 62 84, 57 68 Z" fill="#F2C300" stroke="#20201C" stroke-width="1.6" stroke-linejoin="round" />
+            <path d="M60 60 C 40 26, 8 30, 8 52 C 8 72, 44 74, 60 60 Z" fill="#F2C300" stroke="#20201C" stroke-width="1.8" stroke-linejoin="round" />
+            <path d="M60 60 C 80 26, 112 30, 112 52 C 112 72, 76 74, 60 60 Z" fill="#F2C300" stroke="#20201C" stroke-width="1.8" stroke-linejoin="round" />
+            <path d="M60 60 C 46 50, 28 46, 18 48 M60 60 C 74 50, 92 46, 102 48" fill="none" stroke="#20201C" stroke-width="1.2" opacity="0.55" />
+            <rect x="49" y="50" width="23" height="19" rx="5" fill="#F2C300" stroke="#20201C" stroke-width="1.8" transform="rotate(-6 60 60)" />
+          </svg>
+        </div>
+        <figcaption><b>The yellow ribbon</b> — borrowed wholesale from Levine and Brown's 1973 song about a man coming home from prison. The referent did the semantic work; the movement only had to supply the knot.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 120" role="img" aria-label="The word LABAN set in heavy condensed type and degraded as if photocopied repeatedly">
+            <rect width="120" height="120" fill="#F3F0E4" /> <ellipse cx="92" cy="94" rx="30" ry="22" fill="#20201C" opacity="0.1" /> <ellipse cx="20" cy="26" rx="22" ry="14" fill="#20201C" opacity="0.08" />
+            <text x="60" y="70" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="38" fill="#20201C" opacity="0.24" transform="translate(1.8 1.8)" lang="fil">LABAN</text>
+            <text x="60" y="70" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="38" fill="#20201C" lang="fil">LABAN</text>
+            <g fill="#F3F0E4">
+              <rect x="21" y="45" width="3.6" height="11" /><rect x="48" y="56" width="10" height="3" /> <rect x="80" y="42" width="2.8" height="14" /><rect x="34" y="62" width="8" height="2.6" />
+              <rect x="96" y="52" width="3.4" height="8" /><rect x="64" y="64" width="9" height="2.4" />
+            </g>
+            <g stroke="#20201C" opacity="0.22">
+              <path d="M14 0 V120" stroke-width="0.9" /><path d="M67 0 V120" stroke-width="0.5" /><path d="M108 0 V120" stroke-width="1.4" opacity="0.5" />
+            </g>
+            <text x="60" y="90" text-anchor="middle" font-family="Special Elite, monospace" font-size="6" fill="#20201C" opacity="0.7">4th generation</text>
+          </svg>
+        </div>
+        <figcaption><b>The wordmark, degraded</b> — no master artwork existed, so the mark is defined by its damage. Every copy adds blotch, drops a serif, closes a counter. Reproduction <em>is</em> the identity.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 120" role="img" aria-label="Flat rendering of the Philippine flag's eight-rayed sun with three stars">
+            <defs>
+              <path id="pp-star" d="M0-10 L2.35-3.24 L9.51-3.09 L3.80 1.24 L5.88 8.09 L0 4 L-5.88 8.09 L-3.80 1.24 L-9.51-3.09 L-2.35-3.24 Z" /> <path id="pp-ray" d="M-5-17 L5-17 L0-42 Z" />
+            </defs>
+            <rect width="120" height="120" fill="#F3F0E4" />
+            <g fill="#F2C300" stroke="#20201C" stroke-width="1.2" stroke-linejoin="round">
+              <g transform="translate(60 62)">
+                <use href="#pp-ray" /><use href="#pp-ray" transform="rotate(45)" /> <use href="#pp-ray" transform="rotate(90)" /><use href="#pp-ray" transform="rotate(135)" />
+                <use href="#pp-ray" transform="rotate(180)" /><use href="#pp-ray" transform="rotate(225)" /> <use href="#pp-ray" transform="rotate(270)" /><use href="#pp-ray" transform="rotate(315)" /> <circle cx="0" cy="0" r="17" />
+              </g>
+              <use href="#pp-star" transform="translate(60 14) scale(0.95)" /> <use href="#pp-star" transform="translate(14 106) scale(0.95)" /> <use href="#pp-star" transform="translate(106 106) scale(0.95)" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Sun and three stars</b> — eight rays for the eight provinces first placed under martial law by Spain in 1896; three stars for Luzon, the Visayas and Mindanao. In 1986 both sides flew it, which is exactly why neither side could use it to distinguish itself.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<div class="feed" aria-hidden="true"></div>
+
+<!-- ============================== ESSAY ============================== -->
+<section class="section essay" id="essay">
+  <div class="wrap">
+    <div class="two-col">
+      <div>
+        <p class="eyebrow" data-reveal>How it worked</p>
+        <div class="prose" data-reveal>
+          <p>
+            Every other movement in this atlas built something. Constructivism had VKhUTEMAS.
+            The Black Panthers had Emory Douglas and a weekly print run. Even the Khmer Rouge ran
+            a propaganda ministry and a state magazine. People Power had a haberdashery, a radio station, a photocopier
+            and a bin full of last year's telephone directories.
+          </p>
+          <p>
+            That is not a shortfall to be excused. It is the mechanism. Under Proclamation 1081 —
+            martial law, declared 21 September 1972 — printing was licensable, presses were
+            seizable and possession of the wrong leaflet was an offence. Any identity that
+            depended on manufactured objects could be confiscated. So the movement built one out
+            of objects that were already, legally, in everybody's hands.
+          </p>
+        </div>
+
+        <h3 data-reveal>1978 · <span>The logo you make with your hand</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            Benigno "Ninoy" Aquino Jr. was in prison when he ran for the Interim Batasang
+            Pambansa in April 1978. His Metro Manila slate was called <span lang="fil">Lakas ng
+            Bayan</span> — Strength of the Nation — which acronyms to LABAN, which in Tagalog
+            means <em>fight</em>. The symbol was the letter L, made with thumb and forefinger.
+          </p>
+          <p>
+            Read it as identity work and it is close to perfect. It is free to reproduce at
+            infinite scale. It requires no substrate, no ink, no press licence. It is
+            simultaneously a letter, an initialism and an imperative verb, so the mark and the
+            slogan are the same object. It cannot be confiscated, because it does not exist
+            except while a person is making it — which also means every instance of the logo is
+            a person publicly volunteering. And it photographs cleanly in a crowd, held above
+            the head, in silhouette.
+          </p>
+          <p>
+            The 1978 campaign added the other found instrument. On the eve of the election,
+            Manila was told to make noise at a fixed hour, and the city banged pots, pans, tin
+            lids and car horns for a full evening. A mass demonstration conducted entirely with
+            kitchenware, audible everywhere and photographable nowhere. LABAN lost every seat.
+            The gesture survived the defeat by eight years.
+          </p>
+        </div>
+
+        <h3 data-reveal>1983 · <span>The colour arrives pre-loaded</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            Aquino flew home from exile in the United States on 21 August 1983 and was shot
+            dead on the tarmac at Manila International Airport, in custody, before he reached
+            the terminal. The airport now carries his name.
+          </p>
+          <p>
+            In the weeks before the flight, supporters preparing to welcome him had settled on
+            a device: yellow ribbons, tied along the route from the airport. The reference was
+            <cite>Tie a Yellow Ribbon Round the Ole Oak Tree</cite> — Irwin Levine and L. Russell
+            Brown's song, a number one for Tony Orlando and Dawn in 1973, about a man released
+            from prison asking whether he is still wanted at home.
+          </p>
+          <p>
+            This is the sharpest borrowing in the story. No new symbol can arrive with meaning
+            attached; it has to be taught, and teaching costs money and time and access to
+            media, all three of which the opposition lacked. An off-the-shelf pop referent
+            arrives <em>already understood</em>. Everyone within reach of a radio for the past
+            decade already knew that a yellow ribbon meant a man coming home from prison and
+            wanting to know if he was still welcome. The movement did not have to explain its
+            colour. It had to supply ribbon.
+          </p>
+          <p>
+            After the assassination the meaning inverted without a single act of redesign: a
+            ribbon that had meant <em>welcome him back</em> now meant <em>they killed him</em>.
+            Two million people are estimated to have lined the funeral route on 31 August 1983.
+            The colour went national inside a fortnight.
+          </p>
+        </div>
+
+        <blockquote class="pull" data-reveal>
+          Bagong Lipunan had an anthem, a seal, a ministry and a national theatre in travertine.
+          It lost to a length of ribbon that nobody designed.
+        </blockquote>
+
+        <h3 data-reveal>1972—1986 · <span>The mosquito press</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            The mainstream Philippine press under martial law was licensed, and largely held by
+            people close to the Marcoses. What grew underneath it got called the mosquito press:
+            small, irritating, impossible to swat completely. <cite>WE Forum</cite> and
+            <cite>Malaya</cite>, both associated with the publisher José Burgos Jr., are the
+            names that survived; <cite>WE Forum</cite> was raided and Burgos arrested in December
+            1982. Eugenia Duran Apostol's <cite>Mr &amp; Ms Special Edition</cite> ran the
+            assassination coverage the dailies would not, and in December 1985 she launched the
+            <cite>Philippine Daily Inquirer</cite> into the middle of a snap election.
+          </p>
+          <p>
+            Below the mastheads sat an enormous unattributed layer: single-sheet leaflets, typed
+            once and duplicated, with no author, no imprint and no date. Their aesthetic is a
+            direct readout of their constraints. Monospaced body type, because a typewriter has
+            one width. Hand-drawn or marker-drawn headlines, because a typewriter cannot set
+            display. Ragged left-aligned setting with no margin discipline, because the sheet
+            was composed in a machine, not on a board. Contrast blown to pure black and pure
+            white, because the copy was already a copy of a copy.
+          </p>
+          <p>
+            The format itself carries an instruction. These sheets were designed to be copied
+            <em>again</em>, by the reader, at their own office machine — single side, high
+            contrast, no half-tones, nothing that degrades past legibility on the third pass.
+            That is a design brief, and it is the opposite of the brief for a poster. A poster
+            asks to be seen. A leaflet built like this asks to be duplicated.
+          </p>
+          <p>
+            The other channel was not visual at all. Radio Veritas, the Catholic broadcaster,
+            carried Cardinal Jaime Sin's appeal on the night of 22 February 1986 asking Filipinos
+            to go to Epifanio de los Santos Avenue and stand between the mutinying soldiers and
+            the army. Its main transmitter was knocked out the next day; broadcasting continued
+            from a smaller one, with June Keithley on air, under the name Radyo Bandido. An
+            identity distributed by voice, with no graphics at all, assembling a crowd of
+            hundreds of thousands in a few hours.
+          </p>
+        </div>
+
+        <h3 data-reveal>1972—1986 · <span>The opponent had a real design programme</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            It is worth being precise about what People Power beat, because the usual telling
+            flatters it. <span lang="fil">Bagong Lipunan</span> — the New Society — was a
+            genuine, funded, professionally executed state identity programme, and by the
+            ordinary criteria of the discipline it was competent.
+          </p>
+          <p>
+            It had an anthem: <cite lang="fil">Bagong Pagsilang</cite>, the New Society March,
+            words by Levi Celerio to music by Felipe Padilla de León, taught in schools and
+            played in cinemas. It had a party: Kilusang Bagong Lipunan, founded 1978, red. It
+            had architecture at a scale no opposition could answer — Leandro Locsin, later
+            National Artist, designed the Cultural Center of the Philippines (1969), the Folk
+            Arts Theater (1974) and the Philippine International Convention Center (1976), a
+            reclaimed-land complex of cantilevered travertine masses on Manila Bay. It had a
+            patron, Imelda Marcos, and a slogan for her programme — the true, the good and the
+            beautiful — and a building rate so aggressive that the phrase "edifice complex"
+            entered Philippine usage to describe it. On the Manila Film Center, rushed to
+            completion in 1981, a collapse during construction killed workers whose number was
+            never established.
+          </p>
+          <p>
+            All of this was well made. None of it was usable. That is the whole finding. State
+            branding of this kind asks for reception: look at the building, learn the anthem,
+            recognise the seal. There is no verb in it for an ordinary person beyond attending
+            and approving. The People Power kit had nothing but verbs — tie it, make the sign,
+            shred it, throw it, sing it, stand there. A symbol you can perform recruits. A
+            symbol you can only receive does not.
+          </p>
+          <p>
+            Add the practical asymmetry: the state's identity lived in objects that could be
+            switched off, defunded, or simply walked away from, and every one of them was
+            attached by name to one family. The opposition's identity lived in ribbon.
+          </p>
+        </div>
+
+        <h3 data-reveal>February 1986 · <span>Four days, and a bin full of directories</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            The snap election of 7 February 1986 produced two declared winners and a walkout by
+            computer technicians at the Commission on Elections who said the count was being
+            manipulated. On 22 February the defence minister Juan Ponce Enrile and the
+            constabulary chief Fidel Ramos broke with Marcos and barricaded themselves in Camps
+            Aguinaldo and Crame. Sin went on Radio Veritas. Between then and 25 February,
+            hundreds of thousands of people occupied EDSA.
+          </p>
+          <p>
+            The images that came off it are almost too neat: nuns kneeling with rosaries in
+            front of armoured vehicles; women handing flowers and sandwiches to marines;
+            Corazon Aquino in yellow, a widow in a colour taken from a song about a homecoming,
+            functioning as a uniform so consistent that it worked as a party identity for the
+            next thirty years.
+          </p>
+          <p>
+            And the confetti. From 1983 onward the Makati financial district had been holding
+            rallies in which office workers threw paper from the tower windows, and what they
+            threw is the detail that makes this page: shredded telephone directories, spent
+            telex tape, and continuous computer printout torn into strips — the tractor-feed
+            perforations still running down both edges. Not thrown paper standing in for
+            confetti. Confetti manufactured on the spot, by the clerical staff of the financial
+            sector, out of the waste stream of the financial sector.
+          </p>
+          <p>
+            Look at what that yields on a television screen. On one side, a grey-green column of
+            armour on an eight-lane highway. On the other, an unarmed crowd in a single saturated
+            colour, under a continuous fall of white paper, making a hand sign that reads at any
+            focal length. Whether or not anyone planned it, this identity is optimised for a news
+            camera: high chroma against neutral, dense repetition of one gesture, a moving
+            foreground element that renders as light. Broadcast pictures of it were unanswerable,
+            and they were the medium through which the outcome was decided.
+          </p>
+        </div>
+
+        <h3 data-reveal>After · <span>Found symbols are cheap to turn around</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            The Marcoses left Malacañang on 25 February 1986, and went into exile in Hawaii.
+            Yellow went with the winners: it became
+            the colour of the Aquino family, then of the Liberal Party, then of an
+            administration, then of an establishment. A colour that had signified <em>everyone
+            who is not the state</em> spent twenty-five years becoming the colour of a
+            particular faction's government.
+          </p>
+          <p>
+            By the 2010s "yellowtard" was circulating online as a routine slur for anyone
+            associated with that faction — the same ribbon, re-pointed. This is the structural
+            cost of the found symbol, and it is symmetrical with its advantage. A mark that costs
+            nothing to adopt costs nothing to appropriate, invert or mock. There is no owner, no
+            registration, no one with standing to object. Yellow could be captured by its
+            enemies for exactly the same reason it could be adopted by its friends.
+          </p>
+          <p>
+            The Marcos family's rehabilitation ran on the identical logic in a different medium.
+            Not monuments and anthems this time — that programme had already failed — but
+            low-cost, high-volume, unattributed material distributed on platforms where anybody
+            could copy it onward: the mosquito press model, executed by the side that once
+            owned the presses. Ferdinand Marcos Jr. was elected president in 2022.
+          </p>
+          <p>
+            The lesson is not that improvised design beats professional design. It is that a
+            symbol's distribution model decides its politics, and that the model does not care
+            who is using it.
+          </p>
+        </div>
+      </div>
+
+      <aside class="marginalia" data-reveal>
+        <p><b>21 Sept 1972</b> Proclamation 1081. Martial law. Presses licensed, opposition papers closed.</p>
+        <p><b>7 Apr 1978</b> Noise barrage across Metro Manila on the eve of the Batasang Pambansa election. LABAN wins no seats.</p>
+        <p><b>1978</b> Kilusang Bagong Lipunan founded as the ruling party. Colour: red.</p>
+        <p><b>Dec 1982</b> <cite>WE Forum</cite> raided; José Burgos Jr. arrested.</p>
+        <p><b>21 Aug 1983</b> Ninoy Aquino shot on the tarmac at Manila International Airport.</p>
+        <p><b>31 Aug 1983</b> Funeral procession. Yellow along the route; the confetti rallies begin in Makati.</p>
+        <p><b>9 Dec 1985</b> <cite>Philippine Daily Inquirer</cite> founded by Eugenia Duran Apostol.</p>
+        <p><b>7 Feb 1986</b> Snap election. COMELEC technicians walk out of the count two days later.</p>
+        <p><b>22 Feb 1986</b> Enrile and Ramos break with Marcos. Cardinal Sin broadcasts on Radio Veritas.</p>
+        <p><b>23 Feb 1986</b> Radio Veritas's main transmitter is disabled; June Keithley continues as Radyo Bandido.</p>
+        <p><b>25 Feb 1986</b> Two inaugurations in one day. The Marcoses fly to Hawaii.</p>
+        <p><b>2022</b> Ferdinand Marcos Jr. elected president.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ARTIFACTS ============================== -->
+<section class="section artifacts" id="artifacts">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Artifacts</p>
+    <h2 class="section-title" data-reveal>Four objects, none of them commissioned</h2>
+    <p class="prose" data-reveal style="margin-bottom:2.8rem">
+      A leaflet, a fistful of confetti, two page layouts and a piece of ribbon. Between them
+      they are the entire production capacity of the winning side.
+    </p>
+
+    <div class="figures" data-reveal>
+
+      <!-- 1 · mimeographed leaflet -->
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 300 400" role="img" aria-label="Composite recreation of a typed and duplicated opposition leaflet: hand-drawn headline, typewriter body, xerox streaks and a tear-off line">
+            <rect width="300" height="400" fill="#DEDACF" />
+            <g transform="rotate(-1.7 150 200)">
+              <rect x="18" y="12" width="264" height="376" fill="#F3F0E4" stroke="#20201C" stroke-width="0.6" /> <ellipse cx="246" cy="336" rx="54" ry="42" fill="#20201C" opacity="0.07" />
+              <ellipse cx="52" cy="52" rx="42" ry="24" fill="#20201C" opacity="0.05" />
+              <g stroke="#20201C" fill="none">
+                <path d="M66 12 V388" stroke-width="0.9" opacity="0.17" /> <path d="M196 12 V388" stroke-width="0.5" opacity="0.14" /> <path d="M252 12 V388" stroke-width="1.6" opacity="0.07" />
+              </g>
+              <rect x="28" y="23" width="15" height="3.4" fill="#20201C" transform="rotate(-38 35 25)" />
+              <g stroke="#20201C" stroke-width="0.6" fill="none" opacity="0.8">
+                <circle cx="264" cy="30" r="5" /><path d="M264 21 v18 M255 30 h18" />
+              </g>
+
+              <text x="36" y="86" font-family="Anton, Impact, sans-serif" font-size="40" fill="#20201C" opacity="0.3" transform="translate(2.6 2.6)" lang="fil">TAMA NA!</text>
+              <text x="36" y="86" font-family="Anton, Impact, sans-serif" font-size="40" fill="#20201C" lang="fil">TAMA NA!</text>
+              <text x="36" y="112" font-family="Anton, Impact, sans-serif" font-size="24" fill="#20201C" lang="fil">SOBRA NA. PALITAN NA.</text> <path d="M34 122 H262" stroke="#20201C" stroke-width="2.4" />
+
+              <g font-family="Special Elite, monospace" font-size="8.2" fill="#20201C">
+                <text x="36" y="146">THE PAPERS YOU ARE ALLOWED TO READ WILL</text> <text x="36" y="160">NOT PRINT THIS. THIS SHEET WAS TYPED</text>
+                <text x="36" y="174">ONCE AND COPIED NINE TIMES. IT IS NOW</text> <text x="36" y="188">IN YOUR HANDS.</text>
+                <text x="36" y="212">COPY IT. NINE MORE. PASS THEM ON.</text> <text x="36" y="226">DO NOT SIGN IT. DO NOT KEEP IT.</text> <text x="36" y="250" fill="#20201C" opacity="0.8">NO IMPRINT. NO AUTHOR. NO DATE.</text>
+              </g>
+
+              <g transform="rotate(-1.4 150 288)">
+                <rect x="40" y="266" width="196" height="42" fill="none" stroke="#20201C" stroke-width="2.6" /> <rect x="44" y="270" width="188" height="34" fill="none" stroke="#20201C" stroke-width="0.8" opacity="0.5" />
+                <text x="138" y="294" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="19" fill="#20201C" lang="fil">KOPYAHIN AT IPAMAHAGI</text>
+              </g>
+
+              <text x="36" y="332" font-family="Special Elite, monospace" font-size="9.5" fill="#20201C" lang="fil">NINOY, HINDI KA NAG-IISA.</text>
+
+              <path d="M26 352 H274" stroke="#20201C" stroke-width="1" stroke-dasharray="4 4" />
+              <g font-family="JetBrains Mono, monospace" font-size="6.4" fill="#20201C" opacity="0.75">
+                <text x="36" y="368">- - CUT HERE — RETYPE EVERYTHING ABOVE THIS LINE</text> <text x="36" y="380">GEN. 3 · 216 x 279 · ONE SIDE ONLY</text>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Single-sheet leaflet</b> — a composite, built from published descriptions of martial-law-era ephemera rather than from any one document. Note what is missing: an imprint, a date, an author, a margin. Note what is present: an instruction to reproduce it.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <!-- 2 · confetti composition -->
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 300 400" role="img" aria-label="Annotated diagram of the three paper sources used as confetti: telephone directory columns, telex tape, and computer printout with tractor-feed holes">
+            <rect width="300" height="400" fill="#F3F0E4" /> <text x="20" y="30" font-family="Anton, Impact, sans-serif" font-size="19" fill="#20201C">WHAT THE CONFETTI WAS</text>
+            <path d="M20 38 H280" stroke="#20201C" stroke-width="1.8" />
+
+            <!-- A: directory column -->
+            <g transform="translate(38 60) rotate(-6)">
+              <rect x="0" y="0" width="34" height="120" fill="#FFFDF6" stroke="#20201C" stroke-width="0.8" />
+              <g fill="#20201C">
+                <rect x="4" y="6" width="26" height="2.6" />
+                <g opacity="0.62">
+                  <rect x="4" y="14" width="22" height="1.4" /><rect x="4" y="19" width="26" height="1.4" /> <rect x="4" y="24" width="18" height="1.4" /><rect x="4" y="29" width="25" height="1.4" />
+                  <rect x="4" y="34" width="20" height="1.4" /><rect x="4" y="39" width="26" height="1.4" /> <rect x="4" y="44" width="15" height="1.4" /><rect x="4" y="49" width="24" height="1.4" />
+                  <rect x="4" y="54" width="26" height="1.4" /><rect x="4" y="59" width="19" height="1.4" /> <rect x="4" y="64" width="23" height="1.4" /><rect x="4" y="69" width="26" height="1.4" />
+                  <rect x="4" y="74" width="17" height="1.4" /><rect x="4" y="79" width="25" height="1.4" /> <rect x="4" y="84" width="21" height="1.4" /><rect x="4" y="89" width="26" height="1.4" />
+                  <rect x="4" y="94" width="14" height="1.4" /><rect x="4" y="99" width="24" height="1.4" /> <rect x="4" y="104" width="26" height="1.4" /><rect x="4" y="109" width="18" height="1.4" />
+                </g>
+              </g>
+            </g>
+            <path d="M86 84 H150" stroke="#20201C" stroke-width="0.8" />
+            <g font-family="JetBrains Mono, monospace" font-size="7" fill="#20201C">
+              <text x="154" y="76">A · TELEPHONE</text> <text x="154" y="86">DIRECTORY</text> <text x="154" y="98" opacity="0.7">one torn column.</text>
+              <text x="154" y="108" opacity="0.7">last year's edition,</text> <text x="154" y="118" opacity="0.7">already obsolete.</text>
+            </g>
+
+            <!-- B: telex tape -->
+            <g transform="translate(30 196) rotate(4)">
+              <rect x="0" y="0" width="150" height="26" fill="#FFFDF6" stroke="#20201C" stroke-width="0.8" />
+              <g fill="#20201C">
+                <g>
+                  <circle cx="10" cy="5" r="1.9" /><circle cx="10" cy="21" r="1.9" /><circle cx="10" cy="16" r="1.9" /> <circle cx="20" cy="5" r="1.9" /><circle cx="20" cy="10" r="1.9" />
+                  <circle cx="30" cy="16" r="1.9" /><circle cx="30" cy="21" r="1.9" /><circle cx="30" cy="5" r="1.9" /> <circle cx="40" cy="10" r="1.9" /><circle cx="40" cy="21" r="1.9" />
+                  <circle cx="50" cy="5" r="1.9" /><circle cx="50" cy="16" r="1.9" /><circle cx="50" cy="21" r="1.9" /> <circle cx="60" cy="10" r="1.9" /><circle cx="60" cy="16" r="1.9" />
+                  <circle cx="70" cy="5" r="1.9" /><circle cx="70" cy="10" r="1.9" /><circle cx="70" cy="21" r="1.9" /> <circle cx="80" cy="16" r="1.9" />
+                  <circle cx="90" cy="5" r="1.9" /><circle cx="90" cy="21" r="1.9" /><circle cx="90" cy="10" r="1.9" /> <circle cx="100" cy="16" r="1.9" /><circle cx="100" cy="21" r="1.9" />
+                  <circle cx="110" cy="5" r="1.9" /><circle cx="110" cy="10" r="1.9" /> <circle cx="120" cy="16" r="1.9" /><circle cx="120" cy="5" r="1.9" /> <circle cx="130" cy="10" r="1.9" /><circle cx="130" cy="21" r="1.9" />
+                  <circle cx="140" cy="5" r="1.9" /><circle cx="140" cy="16" r="1.9" />
+                </g>
+                <g opacity="0.9">
+                  <circle cx="10" cy="13" r="0.85" /><circle cx="20" cy="13" r="0.85" /><circle cx="30" cy="13" r="0.85" /> <circle cx="40" cy="13" r="0.85" /><circle cx="50" cy="13" r="0.85" /><circle cx="60" cy="13" r="0.85" />
+                  <circle cx="70" cy="13" r="0.85" /><circle cx="80" cy="13" r="0.85" /><circle cx="90" cy="13" r="0.85" /> <circle cx="100" cy="13" r="0.85" /><circle cx="110" cy="13" r="0.85" /><circle cx="120" cy="13" r="0.85" />
+                  <circle cx="130" cy="13" r="0.85" /><circle cx="140" cy="13" r="0.85" />
+                </g>
+              </g>
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="7" fill="#20201C">
+              <text x="196" y="176">B · TELEX TAPE</text> <text x="196" y="192" opacity="0.7">five data rows,</text>
+              <text x="196" y="202" opacity="0.7">one small sprocket</text> <text x="196" y="212" opacity="0.7">row down the middle.</text>
+              <text x="196" y="226" opacity="0.7">unspools by itself</text> <text x="196" y="236" opacity="0.7">out of a window.</text>
+            </g>
+
+            <!-- C: computer printout, tractor feed -->
+            <g transform="translate(26 274) rotate(-3)">
+              <rect x="0" y="0" width="188" height="86" fill="#FFFDF6" stroke="#20201C" stroke-width="0.8" /> <rect x="0" y="0" width="188" height="12" fill="#DCE8D8" /> <rect x="0" y="24" width="188" height="12" fill="#DCE8D8" />
+              <rect x="0" y="48" width="188" height="12" fill="#DCE8D8" /> <rect x="0" y="72" width="188" height="12" fill="#DCE8D8" />
+              <path d="M13 0 V86 M175 0 V86" stroke="#20201C" stroke-width="0.6" stroke-dasharray="2 2" opacity="0.6" />
+              <g fill="#F3F0E4" stroke="#20201C" stroke-width="0.6">
+                <circle cx="6.5" cy="7" r="2.6" /><circle cx="6.5" cy="20" r="2.6" /><circle cx="6.5" cy="33" r="2.6" /> <circle cx="6.5" cy="46" r="2.6" /><circle cx="6.5" cy="59" r="2.6" /><circle cx="6.5" cy="72" r="2.6" />
+                <circle cx="6.5" cy="85" r="2.6" /> <circle cx="181.5" cy="7" r="2.6" /><circle cx="181.5" cy="20" r="2.6" /><circle cx="181.5" cy="33" r="2.6" />
+                <circle cx="181.5" cy="46" r="2.6" /><circle cx="181.5" cy="59" r="2.6" /><circle cx="181.5" cy="72" r="2.6" /> <circle cx="181.5" cy="85" r="2.6" />
+              </g>
+              <g fill="#20201C" opacity="0.6">
+                <rect x="20" y="4" width="60" height="1.6" /><rect x="90" y="4" width="34" height="1.6" /><rect x="134" y="4" width="34" height="1.6" />
+                <rect x="20" y="16" width="48" height="1.6" /><rect x="90" y="16" width="40" height="1.6" /><rect x="140" y="16" width="28" height="1.6" />
+                <rect x="20" y="28" width="66" height="1.6" /><rect x="96" y="28" width="30" height="1.6" /><rect x="134" y="28" width="34" height="1.6" />
+                <rect x="20" y="40" width="52" height="1.6" /><rect x="90" y="40" width="36" height="1.6" /><rect x="138" y="40" width="30" height="1.6" />
+                <rect x="20" y="52" width="60" height="1.6" /><rect x="94" y="52" width="32" height="1.6" /><rect x="134" y="52" width="34" height="1.6" />
+                <rect x="20" y="64" width="44" height="1.6" /><rect x="90" y="64" width="40" height="1.6" /><rect x="140" y="64" width="28" height="1.6" />
+                <rect x="20" y="76" width="64" height="1.6" /><rect x="96" y="76" width="28" height="1.6" /><rect x="136" y="76" width="32" height="1.6" />
+              </g>
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="7" fill="#20201C">
+              <text x="222" y="300">C · PRINTOUT</text> <text x="222" y="312" opacity="0.7">tear off the</text> <text x="222" y="322" opacity="0.7">tractor-feed</text> <text x="222" y="332" opacity="0.7">strips first —</text>
+              <text x="222" y="342" opacity="0.7">they fall best.</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Confetti, itemised</b> — the Makati rallies threw the waste stream of the financial district at itself. Directory columns tumble, telex tape unspools into a ribbon mid-air, and printout edge-strips — the perforated bands nobody keeps — fall slowest and photograph best.
+          <span class="credit">Composition diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+      <!-- 3 · layout comparison -->
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 300 400" role="img" aria-label="Abstract layout comparison: symmetrical centred state graphics versus a crooked typed leaflet">
+            <rect width="300" height="400" fill="#F3F0E4" />
+
+            <text x="20" y="26" font-family="JetBrains Mono, monospace" font-size="7.6" fill="#20201C" letter-spacing="1.4">STATE · RECEPTION</text>
+            <g transform="translate(20 36)">
+              <rect x="0" y="0" width="260" height="150" fill="#FFFDF6" stroke="#B4232A" stroke-width="2" /> <path d="M130 0 V150" stroke="#B4232A" stroke-width="0.6" stroke-dasharray="3 3" opacity="0.6" />
+              <path d="M22 0 V150 M238 0 V150" stroke="#20201C" stroke-width="0.5" stroke-dasharray="2 3" opacity="0.35" />
+              <circle cx="130" cy="30" r="13" fill="none" stroke="#B4232A" stroke-width="2.2" /> <circle cx="130" cy="30" r="6" fill="#B4232A" />
+              <rect x="66" y="52" width="128" height="9" fill="#B4232A" /> <rect x="86" y="66" width="88" height="4" fill="#20201C" opacity="0.5" /> <rect x="98" y="75" width="64" height="4" fill="#20201C" opacity="0.5" />
+              <g fill="#20201C" opacity="0.42">
+                <rect x="34" y="90" width="80" height="2.4" /><rect x="34" y="97" width="80" height="2.4" /> <rect x="34" y="104" width="80" height="2.4" /><rect x="34" y="111" width="62" height="2.4" />
+                <rect x="146" y="90" width="80" height="2.4" /><rect x="146" y="97" width="80" height="2.4" /> <rect x="146" y="104" width="80" height="2.4" /><rect x="146" y="111" width="62" height="2.4" />
+              </g>
+              <path d="M60 148 L74 128 H186 L200 148 Z" fill="#20201C" opacity="0.22" /> <path d="M74 128 H186" stroke="#20201C" stroke-width="1.2" opacity="0.4" />
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="6.4" fill="#20201C" opacity="0.8">
+              <text x="20" y="198">CENTRED AXIS · FIXED MARGINS · ONE SEAL · SYMMETRY</text> <text x="20" y="208">READS AS: APPROVE THIS. NO INSTRUCTION FOR THE READER.</text>
+            </g>
+
+            <path d="M20 220 H280" stroke="#20201C" stroke-width="1.4" />
+
+            <text x="20" y="242" font-family="JetBrains Mono, monospace" font-size="7.6" fill="#20201C" letter-spacing="1.4">STREET · PARTICIPATION</text>
+            <g transform="translate(20 252) rotate(-2.4)">
+              <rect x="0" y="0" width="260" height="112" fill="#FFFDF6" stroke="#20201C" stroke-width="1.4" /> <rect x="212" y="4" width="12" height="2.8" fill="#20201C" transform="rotate(-40 218 5)" />
+              <rect x="-14" y="12" width="200" height="20" fill="#F2C300" /> <text x="4" y="28" font-family="Anton, Impact, sans-serif" font-size="18" fill="#20201C" lang="fil">TAMA NA!</text>
+              <g fill="#20201C" opacity="0.72">
+                <rect x="6" y="42" width="150" height="2.6" /><rect x="6" y="49" width="188" height="2.6" /> <rect x="6" y="56" width="122" height="2.6" /><rect x="6" y="63" width="174" height="2.6" />
+                <rect x="6" y="70" width="96" height="2.6" /><rect x="6" y="77" width="160" height="2.6" /> <rect x="6" y="84" width="134" height="2.6" />
+              </g>
+              <path d="M182 66 C 210 60, 224 76, 206 90" fill="none" stroke="#20201C" stroke-width="1.6" /> <path d="M206 90 L198 84 M206 90 L207 80" fill="none" stroke="#20201C" stroke-width="1.6" />
+              <ellipse cx="66" cy="97" rx="46" ry="9" fill="none" stroke="#20201C" stroke-width="1.6" transform="rotate(-1.6 66 97)" />
+              <text x="30" y="100" font-family="Special Elite, monospace" font-size="8" fill="#20201C" lang="fil">KOPYAHIN</text> <path d="M240 40 V108" stroke="#20201C" stroke-width="1.2" opacity="0.16" />
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="6.4" fill="#20201C" opacity="0.8">
+              <text x="20" y="380">NO AXIS · NO MARGIN · TYPE BLEEDS OFF · RAGGED SETTING</text> <text x="20" y="390">READS AS: DO SOMETHING. THE INSTRUCTION IS THE LAYOUT.</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Two layouts, two theories of the reader</b> — abstract diagrams, not reproductions. Symmetry and margin are a claim of settled authority; they position the reader outside the frame. Ragged setting with a headline running off the edge positions the reader as the next step in the process.
+          <span class="credit">Layout diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+      <!-- 4 · ribbon kit of parts -->
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 300 400" role="img" aria-label="Mock specification sheet for the yellow ribbon, with every dimension marked as unspecified">
+            <rect width="300" height="400" fill="#F3F0E4" />
+            <g stroke="#20201C" stroke-width="0.5" opacity="0.16">
+              <path d="M0 40 H300 M0 80 H300 M0 120 H300 M0 160 H300 M0 200 H300 M0 240 H300 M0 280 H300 M0 320 H300 M0 360 H300" /> <path d="M40 0 V400 M80 0 V400 M120 0 V400 M160 0 V400 M200 0 V400 M240 0 V400 M280 0 V400" />
+            </g>
+            <text x="18" y="28" font-family="Anton, Impact, sans-serif" font-size="17" fill="#20201C">RIBBON — KIT OF PARTS</text>
+            <text x="18" y="40" font-family="JetBrains Mono, monospace" font-size="6.4" fill="#20201C" opacity="0.75">SPEC SHEET FOR AN OBJECT THAT NEVER HAD A SPEC</text> <path d="M18 46 H282" stroke="#20201C" stroke-width="1.6" />
+
+            <!-- flat length with dimension lines -->
+            <rect x="34" y="66" width="212" height="20" fill="#F2C300" stroke="#20201C" stroke-width="1" /> <path d="M246 66 L262 60 L262 92 L246 86 Z" fill="#F2C300" stroke="#20201C" stroke-width="1" />
+            <g stroke="#20201C" stroke-width="0.7">
+              <path d="M22 66 H30 M22 86 H30 M26 66 V86" /> <path d="M34 100 H246 M34 96 V104 M246 96 V104" />
+            </g>
+            <text x="6" y="79" font-family="JetBrains Mono, monospace" font-size="6" fill="#20201C">W</text> <text x="268" y="80" font-family="JetBrains Mono, monospace" font-size="6" fill="#20201C">L</text>
+            <text x="140" y="114" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6.6" fill="#20201C">L = WHATEVER IS ON THE REEL</text>
+            <text x="140" y="124" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6.6" fill="#20201C">W = WHATEVER THE SHOP HAD</text>
+
+            <path d="M18 138 H282" stroke="#20201C" stroke-width="0.8" stroke-dasharray="3 3" />
+
+            <!-- knot in three steps -->
+            <text x="18" y="156" font-family="JetBrains Mono, monospace" font-size="7" fill="#20201C" letter-spacing="1.2">THE KNOT · 3 STEPS</text>
+            <g fill="none" stroke="#20201C" stroke-width="1.4">
+              <g transform="translate(38 200)">
+                <circle cx="0" cy="0" r="17" stroke="#20201C" stroke-width="1" opacity="0.28" /> <path d="M-20 -6 C -6 -12, 6 -12, 20 -6" stroke="#F2C300" stroke-width="6" />
+                <path d="M-20 -6 C -6 -12, 6 -12, 20 -6" stroke="#20201C" stroke-width="0.8" /> <text x="0" y="30" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="#20201C" stroke="none">1 · WRAP</text>
+              </g>
+              <g transform="translate(120 200)">
+                <circle cx="0" cy="0" r="17" stroke="#20201C" stroke-width="1" opacity="0.28" /> <path d="M-20 -6 C -6 -12, 6 -12, 20 -6" stroke="#F2C300" stroke-width="6" />
+                <path d="M-10 -8 L 8 12 M10 -8 L -8 12" stroke="#F2C300" stroke-width="6" /> <path d="M-10 -8 L 8 12 M10 -8 L -8 12" stroke="#20201C" stroke-width="0.8" />
+                <text x="0" y="30" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="#20201C" stroke="none">2 · CROSS</text>
+              </g>
+              <g transform="translate(202 200)">
+                <circle cx="0" cy="0" r="17" stroke="#20201C" stroke-width="1" opacity="0.28" /> <path d="M-20 -6 C -6 -12, 6 -12, 20 -6" stroke="#F2C300" stroke-width="6" />
+                <path d="M-2 -2 C -20 -18, -34 -6, -18 4 C -8 10, -2 4, -2 -2 Z" fill="#F2C300" stroke="#20201C" stroke-width="0.8" />
+                <path d="M2 -2 C 20 -18, 34 -6, 18 4 C 8 10, 2 4, 2 -2 Z" fill="#F2C300" stroke="#20201C" stroke-width="0.8" /> <path d="M-4 2 L -12 20 M4 2 L 12 20" stroke="#F2C300" stroke-width="5" />
+                <path d="M-4 2 L -12 20 M4 2 L 12 20" stroke="#20201C" stroke-width="0.7" /> <text x="0" y="34" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="#20201C" stroke="none">3 · BOW</text>
+              </g>
+            </g>
+            <text x="18" y="250" font-family="JetBrains Mono, monospace" font-size="6.4" fill="#20201C" opacity="0.75">NO PRESCRIBED KNOT. A GRANNY KNOT PASSED.</text>
+
+            <path d="M18 262 H282" stroke="#20201C" stroke-width="0.8" stroke-dasharray="3 3" />
+
+            <!-- where tied -->
+            <text x="18" y="280" font-family="JetBrains Mono, monospace" font-size="7" fill="#20201C" letter-spacing="1.2">TIED TO — OBSERVED SITES</text>
+            <g stroke="#20201C" stroke-width="1.2" fill="none">
+              <g transform="translate(40 312)">
+                <path d="M0 24 V2" stroke-width="3" /><path d="M-13 -4 C -19 -14, -10 -22, -2 -19 C 2 -25, 12 -24, 13 -15 C 20 -10, 16 0, 8 -1 C 2 3, -8 3, -13 -4 Z" stroke-width="1.2" /> <rect x="-8" y="12" width="16" height="5" fill="#F2C300" />
+              </g>
+              <g transform="translate(102 312)">
+                <path d="M-14 24 H14 V12 L6 2 H-6 L-14 12 Z" /> <circle cx="-7" cy="24" r="3" /><circle cx="7" cy="24" r="3" /> <path d="M8 2 V-12" /><rect x="4" y="-14" width="10" height="5" fill="#F2C300" />
+              </g>
+              <g transform="translate(164 312)">
+                <path d="M0 26 V-8" stroke-width="2.4" /><path d="M0 -8 H12" /><circle cx="15" cy="-8" r="4" /> <rect x="-8" y="6" width="16" height="5" fill="#F2C300" />
+              </g>
+              <g transform="translate(226 312)">
+                <path d="M-10 26 C -10 10, 10 10, 10 26" stroke-width="2.2" /> <path d="M-10 14 H10" stroke-width="6" stroke="#F2C300" /> <path d="M-10 14 H10" stroke-width="1" />
+              </g>
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="6" fill="#20201C" text-anchor="middle">
+              <text x="40" y="352">TREE</text> <text x="102" y="352">CAR AERIAL</text> <text x="164" y="352">LAMP POST</text> <text x="226" y="352">WRIST</text>
+            </g>
+            <path d="M18 364 H282" stroke="#20201C" stroke-width="1.6" /> <text x="18" y="380" font-family="Special Elite, monospace" font-size="8" fill="#20201C">TOLERANCES: NONE. THAT IS THE DESIGN.</text>
+          </svg>
+        </div>
+        <figcaption><b>The ribbon as a kit of parts</b> — drawn as a spec sheet in order to show that there was no spec. Every dimension is open, every site of application improvised. An identity with no tolerances cannot be produced wrongly, which means it cannot be policed and cannot be gatekept.
+          <span class="credit">Diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+    </div>
+
+    <p class="note" style="margin-top:2.8rem;max-width:46rem">
+      All four are drawn from published descriptions of martial-law-era ephemera, contemporaneous
+      reporting and archive catalogue entries — not traced from photographs, and not reproductions
+      of any single surviving document. The leaflet in particular is a composite: the format,
+      register and instructions are typical, the wording is ours. For originals, see the archives
+      in Sources.
+    </p>
+  </div>
+</section>
+
+<div class="feed feed--ink" aria-hidden="true"></div>
+
+<!-- ============================== LINEAGE ============================== -->
+<section class="section" id="lineage">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Lineage</p>
+    <h2 class="section-title" data-reveal>Where the unconfiscatable symbol goes next</h2>
+    <div class="lineage" data-reveal
+         data-lineage="three-fingers,reformasi,ospaaal,swadeshi"
+         data-why="The direct descendant. A performed hand sign, borrowed rather than designed, unconfiscatable for exactly the same reason the LABAN L was.|The neighbouring uprising twelve years later — students, a borrowed colour, and a state that had also spent decades building its own official aesthetic.|The professional opposite: a funded poster studio with a house palette, doing internationally what People Power did with no budget at all.|The other movement built on an object you already owned — except there you had to manufacture it yourself, and here you only had to tie it.">
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SOURCES ============================== -->
+<section class="section" id="sources" style="padding-top:0">
+  <div class="wrap">
+    <hr class="hr" style="margin-bottom:3rem" />
+    <p class="eyebrow" data-reveal>Sources &amp; further reading</p>
+    <ul class="sources" data-reveal>
+      <li>Vicente L. Rafael, <cite>White Love and Other Events in Filipino History</cite> (2000) — and his subsequent essays on crowds, media and People Power.</li>
+      <li>Gerard Lico, <cite>Edifice Complex: Power, Myth, and Marcos State Architecture</cite> (2003) — the standard account of Bagong Lipunan as a building programme.</li>
+      <li>Alfred W. McCoy and Alfredo R. Roces, <cite>Philippine Cartoons: Political Caricature of the American Era, 1900–1941</cite> (1985) — the deeper history of Philippine political imagery.</li>
+      <li>Mark R. Thompson, <cite>The Anti-Marcos Struggle: Personalistic Rule and Democratic Transition in the Philippines</cite> (1995).</li>
+      <li>Presidential Museum and Library / <cite>Official Gazette of the Republic of the Philippines</cite> — the EDSA People Power and martial-law document archives.</li>
+      <li>Bantayog ng mga Bayani Memorial Center, Quezon City — records and ephemera of the anti-dictatorship movement.</li>
+      <li>Lopez Memorial Museum and Library, and the Ateneo de Manila University library collections — holdings of martial-law-era protest ephemera and periodicals.</li>
+      <li>Contemporaneous reporting in <cite>Malaya</cite>, <cite>WE Forum</cite> and <cite>Mr &amp; Ms Special Edition</cite>, 1982–1986.</li>
+    </ul>
+  </div>
+</section>
+
+<div data-site="foot"></div>
+
+<script src="../../shared/movements.js"></script>
+<script src="../../shared/site.js"></script>
+</body>
+</html>

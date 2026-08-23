@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en" data-slug="constructivism">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Soviet Constructivism — Political Design</title>
+<meta name="description" content="How a paper shortage, two tins of ink and an argument about labour produced the visual grammar every political movement after 1920 has borrowed from — and how the state it served destroyed the people who built it." />
+<meta name="theme-color" content="#E8E2D6" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Soviet Constructivism — Political Design" />
+<meta property="og:description" content="Artists abolished art and called themselves engineers. Diagonals, photomontage and two inks invented a grammar everyone still uses." />
+<meta property="og:url" content="https://layogtima.com/political-design/m/constructivism/" />
+<link rel="icon" type="image/svg+xml" href="https://layogtima.com/images/favicon/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Libre+Franklin:wght@300;400;600;800&family=Oswald:wght@400;500;700&family=Rubik+Mono+One&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../shared/site.css" />
+<link rel="stylesheet" href="../../shared/textures.css" />
+<style>
+  :root {
+    --paper: #E8E2D6;
+    --ink: #141414;
+    --accent: #D62B10;
+    --stock: #F2EEE6;
+    --over: #4A1206;
+    --tint: #F0B0A2;
+    --font-display: "Oswald", "Helvetica Neue", Arial, sans-serif;
+    --font-body: "Libre Franklin", "Helvetica Neue", Arial, sans-serif;
+    --font-slab: "Rubik Mono One", "Oswald", sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+    --measure: 33rem;
+  }
+  body { background-color: var(--paper); }
+  h1, h2, h3, h4 { font-weight: 700; letter-spacing: -0.005em; text-transform: uppercase; }
+  .section-title { line-height: 0.98; }
+  .lede, .prose { font-weight: 400; }
+  .prose em { font-style: normal; background: linear-gradient(var(--tint), var(--tint)) 0 0.9em/100% 0.45em no-repeat; }
+  .pull { border-left-width: 10px; text-transform: uppercase; font-family: var(--font-display); }
+
+  /* ---------- rule stacks: the page's punctuation ---------- */
+  .rulestack { display: grid; gap: 5px; }
+  .rulestack i { display: block; background: var(--ink); }
+  .rulestack i:nth-child(1) { height: 16px; }
+  .rulestack i:nth-child(2) { height: 3px; }
+  .rulestack i:nth-child(3) { height: 1px; }
+  .rulestack i:nth-child(4) { height: 8px; background: var(--accent); width: 38%; }
+  .rulestack--flip i:nth-child(4) { margin-left: auto; width: 22%; }
+
+  /* ---------- vertical mono rails ---------- */
+  .vrail {
+    position: absolute;
+    top: calc(var(--step) * 0.85);
+    writing-mode: vertical-rl;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--soft);
+    white-space: nowrap;
+    margin: 0;
+    pointer-events: none;
+  }
+  .vrail--l { left: 1.3rem; transform: rotate(180deg); }
+  .vrail--r { right: 1.3rem; }
+  .vrail b { color: var(--accent); font-weight: 700; }
+  @media (max-width: 80rem) { .vrail { display: none; } }
+
+  /* ---------- hero ---------- */
+  .hero { min-height: 100svh; display: grid; grid-template-rows: minmax(0, 1fr) auto auto; padding: 0; }
+  .hero__comp { position: relative; overflow: hidden; display: grid; align-content: center; background: var(--paper); }
+  .hero__svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hero__vl {
+    position: absolute;
+    left: 1.05rem; top: 8.6rem;
+    writing-mode: vertical-rl;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.7;
+    margin: 0;
+    z-index: 3;
+  }
+  .hero__rule { height: 13px; background: var(--accent); }
+  .hero__base { display: grid; grid-template-columns: 1fr; }
+  .hero__blk { background: var(--ink); color: var(--paper); padding: 2rem var(--gutter) 2.3rem; }
+  .hero__blk h1 { font-size: clamp(2.05rem, 5.4vw, 4.3rem); line-height: 0.92; max-width: 13ch; margin: 0; }
+  .hero__meta {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(232, 226, 214, 0.62);
+    display: flex; flex-wrap: wrap; gap: 0.5rem 1.4rem;
+    margin: 1.3rem 0 0;
+  }
+  .hero__side { padding: 2rem var(--gutter) 2.3rem; border-top: 4px solid var(--ink); }
+  .hero__lede { font-size: clamp(1rem, 0.6vw + 0.88rem, 1.2rem); line-height: 1.44; margin: 0 0 1rem; }
+  .hero__cred { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.12em; line-height: 1.6; color: var(--soft); margin: 0; }
+  @media (min-width: 60rem) {
+    .hero__base { grid-template-columns: 1.45fr 1fr; }
+    .hero__side { border-top: 0; border-left: 4px solid var(--ink); }
+  }
+  @media (max-width: 59.99rem) {
+    .hero__svg { position: static; width: 100%; height: auto; }
+    .hero__vl { display: none; }
+  }
+
+  /* ---------- anatomy ---------- */
+  .anat { display: grid; gap: var(--step) 3rem; grid-template-columns: 1fr; }
+  @media (min-width: 62rem) { .anat { grid-template-columns: 1.15fr 1fr; gap: 3.6rem 4.5rem; } }
+  .swatches { border-color: var(--ink); background: var(--ink); grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr)); }
+  .swatch { background: var(--stock); }
+  .swatch b { font-weight: 700; }
+  .specimen { border-top: 3px solid var(--ink); }
+  .specimen .sp-big { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.6rem, 5vw, 2.7rem); line-height: 0.95; }
+  .specimen .sp-slab { font-family: var(--font-slab); font-size: clamp(1.1rem, 3.4vw, 1.9rem); line-height: 1.05; }
+  .specimen .sp-mono { font-family: var(--font-mono); font-weight: 700; font-size: clamp(0.85rem, 2vw, 1.1rem); letter-spacing: 0.14em; text-transform: uppercase; }
+
+  /* ---------- marks ---------- */
+  .marks { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 1.5rem; }
+  .marks .frame { background: var(--stock); border: 2px solid var(--ink); }
+  .marks figcaption { font-size: 0.8rem; }
+
+  /* ---------- essay ---------- */
+  .essaygrid { display: grid; gap: 2.6rem; grid-template-columns: 1fr; }
+  @media (min-width: 64rem) { .essaygrid { grid-template-columns: 13.5rem minmax(0, 1fr); gap: 4rem; } }
+  .tl { font-family: var(--font-mono); font-size: 0.68rem; line-height: 1.62; color: var(--soft); border-top: 3px solid var(--ink); padding-top: 1rem; margin: 0; }
+  .tl p { margin: 0 0 0.85em; padding-left: 0.85rem; border-left: 2px solid var(--rule); }
+  .tl p b { display: block; color: var(--accent); letter-spacing: 0.1em; }
+  .essay h3 {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    color: var(--soft);
+    margin: 3.6rem 0 1.2rem;
+    padding-top: 1rem;
+    border-top: 4px solid var(--ink);
+  }
+  .essay h3 span {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.5rem, 3.4vw, 2.45rem);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-top: 0.55rem;
+    max-width: 18ch;
+  }
+  .essay h3 + .prose > p:first-child { margin-top: 0; }
+  .ru { font-family: var(--font-display); font-weight: 500; }
+
+  /* ---------- artifacts ---------- */
+  .arts { display: grid; grid-template-columns: 1fr; gap: 2.4rem; align-items: start; }
+  @media (min-width: 56rem) { .arts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.6rem 3rem; } }
+  .arts .note { margin: 0; align-self: center; }
+  .arts .wide { grid-column: 1 / -1; }
+  .arts .frame { background: var(--stock); border: 3px solid var(--ink); }
+  .arts figcaption { font-size: 0.84rem; }
+  .tag-recreation { letter-spacing: 0.18em; }
+
+  /* ---------- lineage + sources ---------- */
+  .lineage { border-color: var(--ink); background: var(--ink); }
+  .lineage a { background: var(--stock); }
+  .lineage-name { font-family: var(--font-display); text-transform: uppercase; font-weight: 700; }
+  .sources li cite { font-style: normal; font-weight: 600; }
+</style>
+<noscript><style>[data-reveal]{opacity:1 !important;transform:none !important}</style></noscript>
+</head>
+<body>
+
+<!-- ============================== HERO ============================== -->
+<header class="hero">
+  <div class="hero__comp">
+    <svg class="hero__svg" viewBox="0 0 1440 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+      <defs>
+        <mask id="cz-dark" maskUnits="userSpaceOnUse" x="0" y="0" width="1440" height="700">
+          <rect width="1440" height="700" fill="#000" /> <polygon points="470,0 1440,0 1440,560" fill="#fff" /> <circle cx="1160" cy="175" r="118" fill="#000" />
+          <polygon points="-60,700 420,700 1215,168" fill="#fff" />
+        </mask>
+        <mask id="cz-light" maskUnits="userSpaceOnUse" x="0" y="0" width="1440" height="700">
+          <rect width="1440" height="700" fill="#fff" /> <polygon points="470,0 1440,0 1440,560" fill="#000" /> <circle cx="1160" cy="175" r="118" fill="#fff" />
+          <polygon points="-60,700 420,700 1215,168" fill="#000" />
+        </mask>
+      </defs>
+      <rect width="1440" height="700" fill="#E8E2D6" /> <polygon points="470,0 1440,0 1440,560" fill="#141414" /> <circle cx="1160" cy="175" r="118" fill="#E8E2D6" />
+      <polygon points="-60,700 420,700 1215,168" fill="#D62B10" />
+
+      <!-- the armature, left showing -->
+      <line x1="0" y1="675" x2="1440" y2="74" stroke="#141414" stroke-width="1.6" stroke-dasharray="11 9" opacity="0.4" mask="url(#cz-light)" />
+      <line x1="0" y1="675" x2="1440" y2="74" stroke="#E8E2D6" stroke-width="1.6" stroke-dasharray="11 9" opacity="0.4" mask="url(#cz-dark)" />
+
+      <!-- rules of varying weight -->
+      <rect x="0" y="118" width="330" height="5" fill="#141414" /> <rect x="0" y="138" width="182" height="17" fill="#141414" /> <rect x="0" y="168" width="96" height="3" fill="#D62B10" />
+      <rect x="1150" y="598" width="290" height="16" fill="#141414" /> <rect x="1040" y="626" width="400" height="3" fill="#141414" />
+
+      <!-- flat blocks doing structural work -->
+      <rect x="330" y="296" width="58" height="58" fill="#D62B10" transform="rotate(-22.6 359 325)" />
+      <rect x="700" y="620" width="330" height="12" fill="#141414" transform="rotate(-22.6 700 620)" /> <circle cx="1300" cy="540" r="52" fill="none" stroke="#141414" stroke-width="9" />
+      <g stroke="#141414" stroke-width="2" opacity="0.75" fill="none">
+        <path d="M52 218 h44 M74 196 v44" /><circle cx="74" cy="218" r="13" />
+      </g>
+
+      <!-- the word, reversing out where it crosses the black field -->
+      <g mask="url(#cz-light)">
+        <text lang="ru" x="0" y="0" transform="translate(40 600) rotate(-22.6)" font-family="Oswald, sans-serif" font-weight="700" font-size="110" textLength="1020" lengthAdjust="spacing" fill="#141414">КОНСТРУКТИВИЗМ</text>
+      </g>
+      <g mask="url(#cz-dark)">
+        <text lang="ru" x="0" y="0" transform="translate(40 600) rotate(-22.6)" font-family="Oswald, sans-serif" font-weight="700" font-size="110" textLength="1020" lengthAdjust="spacing" fill="#E8E2D6">КОНСТРУКТИВИЗМ</text>
+      </g>
+      <g font-family="JetBrains Mono, monospace" font-size="15" letter-spacing="3">
+        <text lang="ru" x="1108" y="182" fill="#141414">БЕЛЫЕ</text> <text lang="ru" x="180" y="622" fill="#E8E2D6" font-size="13" transform="rotate(-22.6 180 622)">КРАСНЫЙ КЛИН</text>
+        <text lang="ru" x="1420" y="360" fill="#E8E2D6" text-anchor="end">ОММАЖ · ЭЛЬ ЛИСИЦКИЙ · 1919</text>
+      </g>
+    </svg>
+    <p class="hero__vl" lang="ru">Москва · Витебск</p>
+  </div>
+
+  <div class="hero__rule" aria-hidden="true"></div>
+
+  <div class="hero__base">
+    <div class="hero__blk">
+      <h1>Soviet Constructivism</h1>
+      <p class="hero__meta">
+        <span>No. 02</span><span>Europe · USSR</span><span>1917 — 1937</span>
+      </p>
+    </div>
+    <div class="hero__side">
+      <p class="hero__lede">
+        Artists declared painting dead and reclassified themselves as engineers. What
+        followed was not a style but a <em>production method</em> — two inks, a diagonal,
+        a photograph cut out with a scalpel — and every movement in this atlas has been
+        borrowing from it ever since.
+      </p>
+      <p class="hero__cred">
+        Composition above: an homage to El Lissitzky, <span lang="ru">Клином красным бей белых</span>
+        (<i>Beat the Whites with the Red Wedge</i>), Vitebsk, 1919. Redrawn geometry, not a facsimile.
+      </p>
+    </div>
+  </div>
+</header>
+
+<!-- ============================== ANATOMY ============================== -->
+<section class="section" id="anatomy">
+  <p class="vrail vrail--l" lang="ru">Анатомия · <b>02</b></p>
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The anatomy</p>
+    <div class="anat">
+
+      <div data-reveal>
+        <h2 class="section-title">Three colours, and two of them are ink</h2>
+        <p class="prose">
+          This is not a palette. It is a bill of materials. Between 1918 and 1922 a Soviet
+          printing shop had old flatbed presses, unreliable power, paper rationed by the
+          Commissariat, and — if it was lucky — two tins of ink. Everything the style is
+          famous for follows from that list.
+        </p>
+        <p class="prose">
+          The interesting part is what the Constructivists did next: instead of apologising
+          for the shortage, they built a formal system that <em>needs</em> it. Flat colour,
+          hard edges, no modelling, no gradient, no third pass.
+        </p>
+      </div>
+
+      <div data-reveal>
+        <h2 class="section-title">Letters drawn, not chosen</h2>
+        <p class="prose">
+          Constructivist lettering is usually described as a taste. It is closer to an
+          inventory. After the orthographic reform of 1918 knocked <span lang="ru">ъ</span>,
+          <span lang="ru">і</span>, <span lang="ru">ѣ</span> and <span lang="ru">ѳ</span> out
+          of Russian, print shops were left holding half-obsolete cases — and civil war
+          logistics meant nobody was casting replacements.
+        </p>
+        <div class="specimens" style="margin-top:2rem">
+          <div class="specimen">
+            <p class="sp-big" lang="ru">КОНСТРУКТИВИЗМ</p>
+            <small>Heavy condensed grotesque, in the register of wood display type. Mixed sizes and weights inside one word are a stock problem before they are a style — you set the word with whatever sorts survived.</small>
+          </div>
+          <div class="specimen">
+            <p class="sp-slab" lang="ru">РОДЧЕНКО</p>
+            <small>Rodchenko drew letters with ruler and compass rather than setting them. A constructed alphabet has no italic, no small caps, no optical sizes: its constraints are geometric, not typographic.</small>
+          </div>
+          <div class="specimen">
+            <p class="sp-mono">Rule · arrow · numeral · reg. mark</p>
+            <small>The technical register. Lissitzky's <cite>Topography of Typography</cite> (in Schwitters' <cite>Merz</cite> 4, 1923) argued the page should be organised by the forces in the content, not by inherited centred symmetry. Engineering drawing as page grammar.</small>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="swatches" data-reveal style="margin-top:3rem">
+      <div class="swatch"><i style="background:#E8E2D6"></i><b>#E8E2D6 STOCK</b><span>Unprinted paper. Not a colour decision, a saving: every blank area is an area nobody paid to cover. Grey-brown because it is wood-pulp, not rag.</span></div>
+      <div class="swatch"><i style="background:#D62B10"></i><b>#D62B10 RED INK</b><span>The one loud process ink. Cheap, opaque, and — critically — it holds its value against black on a grey stock at any resolution a worn press can manage.</span></div>
+      <div class="swatch"><i style="background:#141414"></i><b>#141414 BLACK INK</b><span>The only ink that carries small type at newsprint sizes. So all reading matter lives in black, and red is freed to do structure instead of text.</span></div>
+      <div class="swatch"><i style="background:#4A1206"></i><b>#4A1206 OVERPRINT</b><span>Where the two inks cross. Nobody specified it; the press produced it. A fourth value for no extra pass, and a register test you can read from across a street.</span></div>
+      <div class="swatch"><i style="background:#F0B0A2"></i><b>#F0B0A2 SCREEN 35%</b><span>Red broken into a halftone. A pink that never existed as an ink — the tint is made of holes in the red, which is why it looks dusty rather than pastel.</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="rulestack" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>
+
+<!-- ============================== SYMBOLS ============================== -->
+<section class="section" id="symbols">
+  <p class="vrail vrail--r" lang="ru">Приёмы · Devices</p>
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The marks</p>
+    <h2 class="section-title" data-reveal>Four devices, every one of them load-bearing</h2>
+    <p class="prose" data-reveal style="margin-bottom:2.4rem">
+      Rodchenko's working test, restated: if an element can be removed without the composition
+      falling over, it was decoration and it should never have been printed.
+    </p>
+
+    <div class="marks" data-reveal>
+
+      <figure>
+        <div class="frame">
+          <svg viewBox="0 0 130 100" role="img" aria-label="Diagram of the wedge geometry: a triangle driving into a circle along a marked axis">
+            <rect width="130" height="100" fill="#F2EEE6" /> <line x1="0" y1="96" x2="130" y2="26" stroke="#141414" stroke-width="0.7" stroke-dasharray="4 3" opacity="0.6" />
+            <circle cx="88" cy="44" r="25" fill="#141414" /> <circle cx="88" cy="44" r="18" fill="#F2EEE6" /> <polygon points="2,92 26,92 100,42" fill="#D62B10" />
+            <path d="M100 42 l-9 -4 l1 8 z" fill="#141414" />
+            <text x="6" y="16" font-family="JetBrains Mono, monospace" font-size="6" fill="#141414" letter-spacing="1">AXIS −28°</text>
+          </svg>
+        </div>
+        <figcaption><b>The wedge</b> — a triangle is the only shape that states a direction and a destination at the same time. Point it and the reader supplies the verb.
+          <span class="credit">Diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <svg viewBox="0 0 130 100" role="img" aria-label="Photomontage device: crop marks, registration targets, a halftone block and a rotated crop">
+            <defs>
+              <pattern id="mk-ht" width="4" height="4" patternUnits="userSpaceOnUse">
+                <rect width="4" height="4" fill="#F2EEE6" /> <circle cx="2" cy="2" r="1.35" fill="#141414" />
+              </pattern>
+            </defs>
+            <rect width="130" height="100" fill="#F2EEE6" />
+            <g stroke="#141414" stroke-width="1">
+              <path d="M8 4 v10 M4 8 h10 M122 4 v10 M126 8 h-10 M8 96 v-10 M4 92 h10 M122 96 v-10 M126 92 h-10" />
+            </g>
+            <g transform="rotate(-11 62 52)">
+              <rect x="26" y="24" width="72" height="56" fill="url(#mk-ht)" stroke="#141414" stroke-width="1.6" /> <polygon points="26,80 62,44 98,80" fill="#F2EEE6" opacity="0.92" />
+              <rect x="26" y="24" width="72" height="56" fill="none" stroke="#141414" stroke-width="1.6" />
+            </g>
+            <rect x="44" y="14" width="60" height="46" fill="none" stroke="#D62B10" stroke-width="1.6" stroke-dasharray="5 3" />
+            <g fill="none" stroke="#D62B10" stroke-width="1">
+              <circle cx="112" cy="66" r="6" /><path d="M104 66 h16 M112 58 v16" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The montage frame</b> — crop marks, a registration target, a halftone block and a crop rotated off-square. Photomontage is scissors plus a re-shoot: the seams are the argument.
+          <span class="credit">Diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <svg viewBox="0 0 130 100" role="img" aria-label="A stencil-cut worker silhouette in the ROSTA window manner">
+            <rect width="130" height="100" fill="#F2EEE6" /> <rect x="0" y="0" width="130" height="8" fill="#D62B10" />
+            <g fill="#141414">
+              <circle cx="60" cy="30" r="11" /> <path d="M47 43 h26 v22 h-6 v30 h-8 v-24 h-2 v24 h-8 v-30 h-2 z" /> <rect x="70" y="38" width="9" height="34" transform="rotate(-42 74 55)" />
+              <rect x="38" y="46" width="9" height="26" transform="rotate(28 42 59)" />
+            </g>
+            <rect x="86" y="20" width="26" height="7" fill="#141414" transform="rotate(-42 99 24)" />
+            <rect x="88" y="34" width="24" height="24" fill="#D62B10" transform="rotate(14 100 46)" />
+          </svg>
+        </div>
+        <figcaption><b>The stencil figure</b> — a body reduced until it survives being cut out of oiled card with a knife. No face, no clothing detail, no shading. Legible at speed, reproducible by anybody.
+          <span class="credit">Diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <svg viewBox="0 0 130 100" role="img" aria-label="Armature diagram: a rectangle crossed by diagonals with elements pinned to the intersections">
+            <rect width="130" height="100" fill="#F2EEE6" />
+            <g stroke="#141414" stroke-width="0.6" opacity="0.55" fill="none">
+              <path d="M6 6 h118 v88 h-118 z" /> <path d="M6 6 L124 94 M124 6 L6 94 M6 50 h118 M65 6 v88" /> <path d="M6 94 L124 30 M6 30 L124 94" stroke-dasharray="3 3" />
+            </g>
+            <circle cx="65" cy="50" r="27" fill="none" stroke="#141414" stroke-width="1" opacity="0.55" />
+            <rect x="16" y="60" width="40" height="12" fill="#141414" transform="rotate(-28 16 72)" /> <rect x="78" y="20" width="22" height="22" fill="#D62B10" />
+            <g fill="#141414">
+              <circle cx="65" cy="50" r="2.6" /><circle cx="6" cy="94" r="2.6" /><circle cx="124" cy="30" r="2.6" />
+            </g>
+            <text x="8" y="20" font-family="JetBrains Mono, monospace" font-size="5.5" fill="#141414" letter-spacing="0.8">NO CENTRE. ONLY FORCES.</text>
+          </svg>
+        </div>
+        <figcaption><b>The armature</b> — a composition built on crossing diagonals rather than a centred axis. Elements are pinned to intersections, so the page has tension instead of balance.
+          <span class="credit">Diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><div class="rulestack rulestack--flip" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>
+
+<!-- ============================== ESSAY ============================== -->
+<section class="section essay" id="essay">
+  <p class="vrail vrail--l" lang="ru">Как это работало</p>
+  <div class="wrap">
+    <div class="essaygrid">
+
+      <aside class="tl" data-reveal>
+        <p><b>1915</b> Tatlin's counter-reliefs: sculpture made of the materials themselves.</p>
+        <p><b>1917</b> October. The state becomes a client with no money and enormous need.</p>
+        <p><b>1919</b> Lissitzky prints the Red Wedge lithograph in Vitebsk.</p>
+        <p><b>1919</b> First ROSTA window, drawn by Mikhail Cheremnykh, Moscow.</p>
+        <p><b>1920</b> Tatlin's model for the Monument to the Third International.</p>
+        <p><b>1921</b> The Working Group of Constructivists forms inside INKhUK.</p>
+        <p><b>1921</b> <span lang="ru">5×5=25</span>, Moscow. Rodchenko exhibits three monochromes.</p>
+        <p><b>1922</b> Aleksei Gan publishes <cite lang="ru">Конструктивизм</cite> in Tver.</p>
+        <p><b>1923</b> <cite lang="ru">ЛЕФ</cite> begins. Rodchenko and Mayakovsky sign as advertising constructors.</p>
+        <p><b>1924</b> Rodchenko's Lengiz poster. Lissitzky's <cite>The Constructor</cite>.</p>
+        <p><b>1925</b> Rodchenko's Workers' Club shown in Paris.</p>
+        <p><b>1928</b> The October group; the photography argument turns political.</p>
+        <p><b>1932</b> Party decree dissolves independent artistic organisations.</p>
+        <p><b>1934</b> Socialist Realism proclaimed doctrine.</p>
+        <p><b>1938</b> Gustav Klutsis arrested in January, shot in February.</p>
+      </aside>
+
+      <div>
+        <p class="eyebrow" data-reveal>How it worked</p>
+        <div class="prose" data-reveal>
+          <p>
+            Constructivism is the most imitated visual language in this atlas and the least
+            understood one. It gets reduced to a mood — red, diagonal, condensed caps — which
+            is precisely backwards. The look is a residue. The thing itself was an argument
+            about what an artist is <em>for</em>, conducted at a moment when the answer had
+            material consequences.
+          </p>
+        </div>
+
+        <h3 data-reveal>1919–21 · <span>From art to production</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            In March 1921 a Working Group of Constructivists formed inside INKhUK, the Institute
+            of Artistic Culture in Moscow: Aleksandr Rodchenko, Varvara Stepanova, Aleksei Gan,
+            the brothers Vladimir and Georgii Stenberg, Karl Ioganson, Konstantin Medunetsky.
+            Lyubov Popova and Vladimir Tatlin were working the same seam. Their position was not
+            that art should serve the revolution. It was that art was a dead category and they
+            were resigning from it.
+          </p>
+          <p>
+            The word they preferred was <em>production artist</em>. Not a painter of subjects but
+            an engineer of objects: textiles, workwear, kiosks, book covers, crockery, stage sets,
+            posters. Stepanova and Popova went to work at the First State Textile Print Factory
+            and designed fabric. Rodchenko designed a worker's overall for himself and wore it.
+          </p>
+          <p>
+            At the exhibition <span class="ru" lang="ru">5×5=25</span> in Moscow in September 1921,
+            Rodchenko hung three canvases — one pure red, one pure yellow, one pure blue — and
+            declared easel painting finished. It is the cleanest full stop in twentieth-century art,
+            and it was placed by a man who spent the next decade doing layout.
+          </p>
+          <p>
+            Everything that gets copied later — the diagonal, the sans-serif slab, the cut
+            photograph — comes out of that resignation letter. The graphic style is the by-product
+            of an argument about labour, not a mood board.
+          </p>
+        </div>
+
+        <blockquote class="pull" data-reveal>
+          We declare uncompromising war on art.
+          <cite>Aleksei Gan · <span lang="ru">Конструктивизм</span> · Tver, 1922</cite>
+        </blockquote>
+
+        <h3 data-reveal>1918–22 · <span>The constraints made the style</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            Say this plainly, because the pastiche versions never do. Paper was scarce and
+            rationed. Presses were pre-revolutionary and worn. Colour was expensive, and a
+            third ink meant a third pass through a machine that might not hold register.
+          </p>
+          <p>
+            So: two inks on cheap stock, usually red and black, with the paper doing the work of
+            a third value. Type set from whatever wood and metal display faces the shop still
+            had, which is why lettering is so often mixed-size and mixed-weight <em>inside a
+            single word</em> — that is a case of sorts running out, formalised into a device.
+            Flat areas rather than tints, because a flat area survives a bad impression and a
+            halftone does not. Hard-edged geometry, because geometry can be assembled from rules
+            and blocks already lying in the shop.
+          </p>
+          <p>
+            Photomontage belongs on the same list. A photograph could be cut from existing
+            printed matter, pasted up, and re-shot as line art — no illustrator, no sitting, no
+            commission fee, and a picture that arrives with documentary authority attached.
+            Gustav Klutsis was claiming priority for the technique in the Soviet context from
+            around 1918–19; Rodchenko and Lissitzky pushed it furthest.
+          </p>
+          <p>
+            Nearly every element of the "look" has a production reason underneath it. This is
+            why the style survives being copied badly: the grammar is robust because it was
+            derived from what a bad press can actually do.
+          </p>
+        </div>
+
+        <h3 data-reveal>1919 · <span>A diagram that reads as a battle</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            El Lissitzky printed <cite lang="ru">Клином красным бей белых</cite> — <cite>Beat the
+            Whites with the Red Wedge</cite> — in Vitebsk in 1919, where he was teaching alongside
+            Malevich. It is the most copied political image of the century and it is worth being
+            precise about why it works.
+          </p>
+          <p>
+            There is no army in it. No face, no rifle, no flag, no casualty. A red triangle drives
+            into a white circle across a field split on a diagonal. That is the entire content, and
+            it delivers an unambiguous reading: <em>a force with direction is entering a mass without
+            one</em>. The circle has no orientation, so it can only receive. The wedge has a point,
+            so it can only advance.
+          </p>
+          <p>
+            The consequences are practical. It needs no literacy — useful in 1919, when much of the
+            audience could not read the slogan lettered around it. It depicts no atrocity, so it can
+            be posted in a street without being an accusation anyone has to verify. And because it is
+            abstract, it cannot be dated by its uniforms. Copy it in 2026 and it still reads.
+          </p>
+          <p>
+            Lissitzky was building the same logic in three dimensions at the same time. His
+            <span class="ru" lang="ru">ПРОУН</span> works — Project for the Affirmation of the New,
+            from 1919 — are axonometric constructions with no fixed horizon: you are asked to rotate
+            the page rather than stand in front of it. His 1924 photomontage self-portrait,
+            <cite>The Constructor</cite>, superimposes his own eye on a hand holding a compass over
+            graph paper and lettering. Eye, hand, instrument, grid. It is a job description.
+          </p>
+        </div>
+
+        <h3 data-reveal>1919–22 · <span>The ROSTA windows</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            At the Russian Telegraph Agency in Moscow, Mikhail Cheremnykh, Ivan Malyutin and — from
+            late 1919 — Vladimir Mayakovsky produced <span class="ru" lang="ru">Окна сатиры РОСТА</span>:
+            poster sequences hand-cut and hand-stencilled onto card, then hung in the windows of shops
+            that had nothing left to sell. Empty retail frontage became the distribution network.
+          </p>
+          <p>
+            The format is the interesting part. Each window is a grid of panels — usually four to
+            twelve — read left to right, top to bottom, each with a silhouette and a short rhymed
+            caption. That is comic-strip grammar, arrived at independently and for a hard reason: a
+            single image can be misread, but a sequence forces an order of operations. Problem, cause,
+            instruction, result.
+          </p>
+          <p>
+            The stencil is the other half. Cut a set of cards once and a team of a few people can run
+            off copies of a topical poster in a day, in multiple windows, with no press involved at
+            all. That constraint is what flattens the figure into a silhouette: anything that survives
+            being cut with a knife stays, anything that does not is deleted. No faces, no folds, no
+            depth.
+          </p>
+          <p>
+            This is the closest the period came to a genuine <em>system</em> — a repeatable production
+            method with a fixed vocabulary and a defined output. Its serial-panel logic did not die
+            with it either. Every infographic carousel that walks you through an injustice in six
+            slides is running the ROSTA window on a different distribution network.
+          </p>
+        </div>
+
+        <h3 data-reveal>1923–30 · <span>The advertising constructors</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            From 1923 Rodchenko and Mayakovsky worked together under a signature they invented for
+            themselves: <span class="ru" lang="ru">реклам-конструктор</span> — advertising constructor.
+            Mayakovsky wrote the lines, Rodchenko built the layouts. The clients were state trusts:
+            Mosselprom, GUM, Rezinotrest, the state publishing houses. Biscuits, beer, galoshes,
+            cigarettes, pacifiers, cooking oil.
+          </p>
+          <p>
+            Read the sequence carefully. The founding graphic language of communist visual culture
+            became, within about four years and using exactly the same people, the founding graphic
+            language of Soviet retail advertising. The wedge that beat the Whites in 1919 is pointing
+            at a packet of biscuits by 1924. Mayakovsky's slogan for Mosselprom —
+            <span class="ru" lang="ru">Нигде кроме как в Моссельпроме</span>, "nowhere but in
+            Mosselprom" — is a jingle, and a good one.
+          </p>
+          <p>
+            Rodchenko's 1924 poster for Lengiz, the Leningrad state publisher, is the clearest
+            specimen: Lilya Brik photographed shouting, cut out and montaged, her open mouth
+            continued into a hard-edged megaphone of type reading
+            <span class="ru" lang="ru">КНИГИ</span>. Photograph plus geometry plus a shout. It has been
+            reused, uncredited, on record sleeves and coffee packaging for a century.
+          </p>
+          <p>
+            There is no contradiction to resolve here, only a mechanism to notice. Constructivism
+            optimised for attention under scarcity, and attention under scarcity is what advertising
+            optimises for too. A visual language built to make a public act on a message will work for
+            any principal who wants a public to act on a message. That is why these devices sell
+            coffee today, and why the movements later in this atlas could pick the toolkit up and use
+            it without translation.
+          </p>
+        </div>
+
+        <h3 data-reveal>1932–38 · <span>The state closes it down</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            On 23 April 1932 a Central Committee decree dissolved the independent literary and
+            artistic organisations and folded their members into single state-run unions. In 1934,
+            at the First Congress of Soviet Writers, Socialist Realism was proclaimed as doctrine.
+            The avant-garde was not out-argued. It was administratively abolished.
+          </p>
+          <p>
+            The replacement style is instructive in reverse: modelled figures, deep space, heroic
+            portraiture, a single fixed viewpoint, legible faces of named leaders. Everything
+            Constructivism had stripped out was put back, because a state that has consolidated
+            wants recognition and continuity, not tension and direction. Abstraction asks the viewer
+            to complete the image. Socialist Realism does not want the viewer completing anything.
+          </p>
+          <p>
+            Then it went past style. Gustav Klutsis — Latvian, the most formally rigorous political
+            photomontagist of the period, the man who built the standard Soviet montage poster — was
+            arrested in January 1938 and shot the following month. For decades his death was recorded
+            as 1944 in a camp; the archival record was only established much later, largely through
+            Margarita Tupitsyn's research. His wife and collaborator Valentina Kulagina outlived him
+            and was pushed to the margins of the profession.
+          </p>
+          <p>
+            Constructivism did not fade out, exhaust itself, or get superseded by a better idea. It
+            was suppressed by the state it had volunteered to serve, and a number of the people who
+            made it were killed. Any account of this work that stops at the diagonals is telling you
+            about half of it.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ARTIFACTS ============================== -->
+<section class="section" id="artifacts" style="background:#DFD8C9">
+  <p class="vrail vrail--r" lang="ru">Артефакты · 04</p>
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Artifacts</p>
+    <h2 class="section-title" data-reveal>Four objects, redrawn as geometry</h2>
+    <p class="prose" data-reveal style="margin-bottom:2.6rem">
+      Two of these are homages to specific published works and are labelled as such. Two are
+      studies in a documented idiom — a method, not a copy of any single sheet.
+    </p>
+
+    <div class="arts" data-reveal>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 300 300" role="img" aria-label="Homage recreation of El Lissitzky's 1919 poster: a red wedge driving into a white circle on a field split diagonally between cream and black">
+            <rect width="300" height="300" fill="#F2EEE6" /> <polygon points="0,300 300,300 300,45" fill="#141414" /> <circle cx="215" cy="215" r="68" fill="#F2EEE6" />
+            <polygon points="-10,30 -10,132 255,213" fill="#D62B10" /> <polygon points="222,196 258,214 222,232" fill="#F2EEE6" opacity="0.9" />
+            <rect x="14" y="150" width="86" height="9" fill="#141414" /> <rect x="14" y="166" width="46" height="3" fill="#141414" />
+            <rect x="96" y="52" width="26" height="26" fill="#D62B10" transform="rotate(34 109 65)" />
+            <rect x="188" y="60" width="60" height="7" fill="#141414" transform="rotate(34 188 60)" /> <circle cx="52" cy="272" r="14" fill="none" stroke="#F2EEE6" stroke-width="5" />
+            <g font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="1.4">
+              <text lang="ru" x="14" y="30" fill="#141414">КЛИНОМ</text> <text lang="ru" x="14" y="46" fill="#141414">КРАСНЫМ</text> <text lang="ru" x="122" y="286" fill="#F2EEE6">БЕЙ БЕЛЫХ</text>
+              <text x="270" y="30" fill="#141414" font-size="9">1919</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Beat the Whites with the Red Wedge</b> — after El Lissitzky, <span lang="ru">Клином красным бей белых</span>, lithograph, Vitebsk, 1919. Three values, no depiction, and the entire message carried by the fact that one shape has a point and the other does not.
+          <span class="credit">Homage recreation · drawn in SVG · original by El Lissitzky, 1919</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 240 330" role="img" aria-label="A study for a magazine cover in the Rodchenko idiom: heavy rules, a red circle, a halftone photomontage block, rotated type and a large numeral">
+            <defs>
+              <pattern id="lf-ht" width="5" height="5" patternUnits="userSpaceOnUse">
+                <rect width="5" height="5" fill="#F2EEE6" /><circle cx="2.5" cy="2.5" r="1.7" fill="#141414" />
+              </pattern>
+            </defs>
+            <rect width="240" height="330" fill="#F2EEE6" /> <rect x="0" y="0" width="240" height="34" fill="#141414" />
+            <text lang="ru" x="12" y="26" font-family="Oswald, sans-serif" font-weight="700" font-size="26" fill="#F2EEE6" letter-spacing="8">ЛЕФ</text>
+            <text x="228" y="24" font-family="JetBrains Mono, monospace" font-size="10" fill="#F2EEE6" text-anchor="end">№ 3</text>
+            <circle cx="152" cy="132" r="66" fill="#D62B10" />
+            <g transform="rotate(-9 76 150)">
+              <rect x="22" y="86" width="98" height="118" fill="url(#lf-ht)" stroke="#141414" stroke-width="2.5" /> <polygon points="22,204 71,132 120,204" fill="#F2EEE6" />
+              <rect x="22" y="86" width="98" height="118" fill="none" stroke="#141414" stroke-width="2.5" /> <rect x="22" y="86" width="98" height="14" fill="#141414" />
+            </g>
+            <text x="150" y="196" font-family="Oswald, sans-serif" font-weight="700" font-size="130" fill="#141414" text-anchor="middle">3</text>
+            <rect x="112" y="60" width="128" height="9" fill="#141414" />
+            <text lang="ru" x="236" y="300" font-family="JetBrains Mono, monospace" font-size="10" fill="#141414" text-anchor="end" transform="rotate(-90 236 300)" letter-spacing="2">ЛЕВЫЙ ФРОНТ ИСКУССТВ</text>
+            <rect x="0" y="240" width="240" height="4" fill="#141414" /> <rect x="0" y="252" width="146" height="12" fill="#D62B10" />
+            <rect x="0" y="272" width="240" height="1.6" fill="#141414" /> <rect x="0" y="296" width="240" height="34" fill="#141414" />
+            <text lang="ru" x="12" y="318" font-family="JetBrains Mono, monospace" font-size="11" fill="#F2EEE6" letter-spacing="2">МОСКВА · 1923</text>
+          </svg>
+        </div>
+        <figcaption><b>Cover study, Rodchenko idiom</b> — a study in the method Rodchenko used on the covers of <cite lang="ru">ЛЕФ</cite> (1923–25): a full-bleed rule at the head, one circle of flat colour, a montage block dropped in off-square, an oversized numeral, and mono type turned through 90° into the margin. Not a copy of any single issue.
+          <span class="credit">Recreation of an idiom · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure class="wide">
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 662 248" role="img" aria-label="A six-panel ROSTA window strip: stencil silhouettes with Russian captions in alternating red and black caption bars">
+            <rect width="662" height="248" fill="#F2EEE6" />
+            <g font-family="JetBrains Mono, monospace" font-size="9" fill="#141414" letter-spacing="1.6">
+              <text lang="ru" x="4" y="10">ОКНА САТИРЫ РОСТА · МОСКВА</text> <text x="658" y="10" text-anchor="end">STENCIL · 6 PANELS</text>
+            </g>
+
+            <!-- panel 1 -->
+            <g transform="translate(4,18)">
+              <rect x="1.5" y="1.5" width="207" height="109" fill="#F2EEE6" stroke="#141414" stroke-width="3" />
+              <g fill="#141414">
+                <rect x="90" y="16" width="30" height="6" /><rect x="97" y="5" width="16" height="11" />
+                <circle cx="105" cy="32" r="12" /> <path d="M78 46 h54 l10 36 h-74 z" />
+              </g>
+              <circle cx="164" cy="58" r="14" fill="#D62B10" />
+              <text x="200" y="18" font-family="JetBrains Mono, monospace" font-size="10" fill="#141414" text-anchor="end">1</text>
+              <rect x="3" y="82" width="204" height="26" fill="#141414" />
+              <text lang="ru" x="105" y="99" font-family="JetBrains Mono, monospace" font-size="11" fill="#F2EEE6" text-anchor="middle" letter-spacing="1.4">ВРАГ БЛИЗКО</text>
+            </g>
+
+            <!-- panel 2 -->
+            <g transform="translate(222,18)">
+              <rect x="1.5" y="1.5" width="207" height="109" fill="#F2EEE6" stroke="#141414" stroke-width="3" />
+              <g fill="#141414">
+                <circle cx="96" cy="22" r="11" /> <path d="M84 34 h24 l6 22 -8 4 -6 -14 v12 l14 24 -8 5 -14 -22 -12 20 -8 -4 12 -22 z" />
+                <rect x="112" y="10" width="6" height="52" transform="rotate(38 115 36)" />
+              </g>
+              <rect x="10" y="66" width="190" height="6" fill="#D62B10" />
+              <text x="200" y="18" font-family="JetBrains Mono, monospace" font-size="10" fill="#141414" text-anchor="end">2</text>
+              <rect x="3" y="82" width="204" height="26" fill="#D62B10" />
+              <text lang="ru" x="105" y="99" font-family="JetBrains Mono, monospace" font-size="11" fill="#F2EEE6" text-anchor="middle" letter-spacing="1.4">ВСЕ НА ФРОНТ</text>
+            </g>
+
+            <!-- panel 3 -->
+            <g transform="translate(440,18)">
+              <rect x="1.5" y="1.5" width="207" height="109" fill="#F2EEE6" stroke="#141414" stroke-width="3" />
+              <g fill="#141414">
+                <circle cx="92" cy="30" r="11" /> <path d="M80 42 h24 v18 h-6 v22 h-6 v-16 h-2 v16 h-6 v-22 h-4 z" />
+                <rect x="100" y="40" width="8" height="22" transform="rotate(-38 104 51)" />
+              </g>
+              <rect x="108" y="18" width="44" height="34" fill="#D62B10" transform="rotate(-8 130 35)" />
+              <text x="200" y="18" font-family="JetBrains Mono, monospace" font-size="10" fill="#141414" text-anchor="end">3</text>
+              <rect x="3" y="82" width="204" height="26" fill="#141414" />
+              <text lang="ru" x="105" y="99" font-family="JetBrains Mono, monospace" font-size="11" fill="#F2EEE6" text-anchor="middle" letter-spacing="1.4">ХЛЕБ — ФРОНТУ</text>
+            </g>
+
+            <!-- panel 4 -->
+            <g transform="translate(4,136)">
+              <rect x="1.5" y="1.5" width="207" height="109" fill="#F2EEE6" stroke="#141414" stroke-width="3" />
+              <g fill="#141414">
+                <circle cx="80" cy="26" r="11" /> <path d="M68 38 h24 v20 h-6 v24 h-6 v-18 h-2 v18 h-6 v-24 h-4 z" />
+                <rect x="90" y="14" width="8" height="30" transform="rotate(34 94 29)" /> <rect x="104" y="8" width="26" height="9" transform="rotate(34 104 12)" />
+              </g>
+              <rect x="128" y="56" width="66" height="26" fill="#D62B10" />
+              <text x="200" y="18" font-family="JetBrains Mono, monospace" font-size="10" fill="#141414" text-anchor="end">4</text>
+              <rect x="3" y="82" width="204" height="26" fill="#D62B10" />
+              <text lang="ru" x="105" y="99" font-family="JetBrains Mono, monospace" font-size="11" fill="#F2EEE6" text-anchor="middle" letter-spacing="1.4">К СТАНКУ!</text>
+            </g>
+
+            <!-- panel 5 -->
+            <g transform="translate(222,136)">
+              <rect x="1.5" y="1.5" width="207" height="109" fill="#F2EEE6" stroke="#141414" stroke-width="3" />
+              <g fill="#141414">
+                <ellipse cx="105" cy="46" rx="34" ry="22" /> <circle cx="72" cy="46" r="10" />
+                <path d="M76 30 l-14 -12 M76 62 l-14 12 M100 24 l-6 -14 M112 24 l6 -14 M100 68 l-6 14 M112 68 l6 14 M132 34 l16 -8 M132 58 l16 8" stroke="#141414" stroke-width="4" fill="none" />
+              </g>
+              <rect x="150" y="16" width="8" height="56" fill="#D62B10" transform="rotate(24 154 44)" />
+              <text x="200" y="18" font-family="JetBrains Mono, monospace" font-size="10" fill="#141414" text-anchor="end">5</text>
+              <rect x="3" y="82" width="204" height="26" fill="#141414" />
+              <text lang="ru" x="105" y="99" font-family="JetBrains Mono, monospace" font-size="11" fill="#F2EEE6" text-anchor="middle" letter-spacing="1.4">ТИФ — ТОЖЕ ВРАГ</text>
+            </g>
+
+            <!-- panel 6 -->
+            <g transform="translate(440,136)">
+              <rect x="1.5" y="1.5" width="207" height="109" fill="#F2EEE6" stroke="#141414" stroke-width="3" />
+              <g fill="#141414">
+                <circle cx="58" cy="34" r="10" /><path d="M47 45 h22 v37 h-22 z" />
+                <circle cx="84" cy="28" r="10" /><path d="M73 39 h22 v43 h-22 z" />
+                <circle cx="110" cy="34" r="10" /><path d="M99 45 h22 v37 h-22 z" />
+                <rect x="140" y="16" width="5" height="66" />
+              </g>
+              <polygon points="145,18 196,28 145,44" fill="#D62B10" />
+              <text x="200" y="18" font-family="JetBrains Mono, monospace" font-size="10" fill="#141414" text-anchor="end">6</text>
+              <rect x="3" y="82" width="204" height="26" fill="#D62B10" />
+              <text lang="ru" x="105" y="99" font-family="JetBrains Mono, monospace" font-size="11" fill="#F2EEE6" text-anchor="middle" letter-spacing="1.4">МЫ ПОБЕДИМ</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>A ROSTA window strip</b> — six stencilled panels in the manner of the <span lang="ru">Окна сатиры РОСТА</span> produced in Moscow from 1919. Read in sequence: threat, mobilisation, supply, production, hygiene, outcome. The captions here are written in the idiom; this is a composite, not a copy of one surviving window.
+          <span class="credit">Recreation of a format · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <svg viewBox="0 0 300 232" role="img" aria-label="Diagram showing how two inks plus unprinted paper produce six visible values through overprint and halftone screens">
+            <defs>
+              <pattern id="tw-r60" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="#F2EEE6" /><circle cx="3.5" cy="3.5" r="2.7" fill="#D62B10" /></pattern>
+              <pattern id="tw-r30" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="#F2EEE6" /><circle cx="3.5" cy="3.5" r="1.9" fill="#D62B10" /></pattern>
+              <pattern id="tw-r12" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="#F2EEE6" /><circle cx="3.5" cy="3.5" r="1.15" fill="#D62B10" /></pattern>
+              <pattern id="tw-k40" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="#F2EEE6" /><circle cx="3.5" cy="3.5" r="2.2" fill="#141414" /></pattern>
+            </defs>
+            <rect width="300" height="232" fill="#F2EEE6" /> <rect x="14" y="12" width="272" height="4" fill="#141414" />
+            <g>
+              <rect x="14" y="34" width="52" height="52" fill="#F2EEE6" stroke="#141414" stroke-width="1" /> <rect x="76" y="34" width="52" height="52" fill="#141414" />
+              <rect x="138" y="34" width="52" height="52" fill="#D62B10" /> <rect x="206" y="34" width="52" height="52" fill="#D62B10" />
+              <rect x="232" y="60" width="52" height="52" fill="#141414" /> <rect x="232" y="60" width="26" height="26" fill="#4A1206" />
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="7" fill="#141414" letter-spacing="0.6">
+              <text x="14" y="98">PAPER</text> <text x="76" y="98">INK 1 · K</text> <text x="138" y="98">INK 2 · R</text> <text x="206" y="126">OVERPRINT</text>
+            </g>
+            <rect x="14" y="140" width="272" height="1.5" fill="#141414" />
+            <g>
+              <rect x="14" y="152" width="40" height="40" fill="#D62B10" /> <rect x="62" y="152" width="40" height="40" fill="url(#tw-r60)" />
+              <rect x="110" y="152" width="40" height="40" fill="url(#tw-r30)" /> <rect x="158" y="152" width="40" height="40" fill="url(#tw-r12)" />
+              <rect x="206" y="152" width="40" height="40" fill="url(#tw-k40)" /> <rect x="254" y="152" width="32" height="40" fill="#F2EEE6" stroke="#141414" stroke-width="1" />
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="7" fill="#141414" letter-spacing="0.6">
+              <text x="14" y="204">100</text><text x="62" y="204">60</text><text x="110" y="204">30</text> <text x="158" y="204">12</text><text x="206" y="204">K40</text><text x="254" y="204">0</text>
+              <text x="14" y="224" font-size="8">TWO INKS · ONE STOCK · SIX VALUES · NO THIRD PASS</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The two-ink system</b> — red, black and the untouched sheet. Overprint supplies a fourth value where the inks cross; halftone screens buy tints without a third pass. The screen is not a colour, it is holes.
+          <span class="credit">Diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+      <p class="note">
+   These are drawn from published descriptions, catalogue reproductions and documented
+   specifications — not traced from photographs of the originals. Where a work is by a named
+   artist it is named in the caption and the recreation is offered as an homage, not a
+   facsimile. For the originals, see the collections listed below.
+  </p>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================== LINEAGE ============================== -->
+<section class="section" id="lineage">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Lineage</p>
+    <h2 class="section-title" data-reveal>Where the toolkit went next</h2>
+    <div class="lineage" data-reveal
+         data-lineage="cultural-revolution,vietnam,ospaaal,panthers"
+         data-why="Direct state-to-state export: Soviet advisers, Soviet printing equipment and Soviet poster training arrived with the alliance, and the diagonal, the low viewpoint and the montaged crowd arrived with them — then got overwritten by a Socialist Realist face.|Same export route, harder constraints. Vietnamese poster workshops inherited the flat colour, the wedge and the single-figure silhouette, then dropped the press entirely and painted each sheet by hand.|The photomontage-and-flat-colour toolkit, decoupled from the USSR. Havana kept the cut photograph and the hard geometry, swapped the two-ink economy for silkscreen fluorescents, and pointed it at other people's revolutions.|Emory Douglas rebuilt the same grammar on a weekly deadline with a photostat camera: flat fills, cut photographs, heavy black keylines, type as a structural block rather than a caption.">
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SOURCES ============================== -->
+<section class="section" id="sources" style="padding-top:0">
+  <div class="wrap">
+    <hr class="hr" style="margin-bottom:3rem" />
+    <p class="eyebrow" data-reveal>Sources &amp; further reading</p>
+    <ul class="sources" data-reveal>
+      <li>Christina Lodder, <cite>Russian Constructivism</cite> (Yale University Press, 1983) — the standard scholarly account of the movement's theory and its production programme.</li>
+      <li>Victor Margolin, <cite>The Struggle for Utopia: Rodchenko, Lissitzky, Moholy-Nagy 1917–1946</cite> (University of Chicago Press, 1997) — three careers read as a single argument about the designer's role.</li>
+      <li>Margarita Tupitsyn, <cite>The Soviet Photograph 1924–1937</cite> (Yale University Press, 1996) — photography and montage as they were actually commissioned, printed and policed.</li>
+      <li>Margarita Tupitsyn, <cite>Gustav Klutsis and Valentina Kulagina: Photography and Montage after Constructivism</cite> (ICP / Steidl, 2004) — the essential source on Klutsis, including the fate the record concealed.</li>
+      <li>Stephen White, <cite>The Bolshevik Poster</cite> (Yale University Press, 1988) — printing conditions, distribution and the ROSTA windows in their working context.</li>
+      <li>The Ne boltai! Collection — a large private archive of Soviet and Eastern European propaganda graphics, extensively published and exhibited.</li>
+      <li>The Merrill C. Berman Collection — one of the deepest holdings of Russian avant-garde graphic design, with detailed online object records.</li>
+      <li>Magdalena Dabrowski, Leah Dickerman and Peter Galassi, <cite>Aleksandr Rodchenko</cite> (The Museum of Modern Art, New York, 1998) — the retrospective catalogue, and the best single source on his graphic and advertising work.</li>
+    </ul>
+  </div>
+</section>
+
+<div data-site="foot"></div>
+
+<script src="../../shared/movements.js"></script>
+<script src="../../shared/site.js"></script>
+</body>
+</html>

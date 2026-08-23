@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en" data-slug="vietnam">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tranh Cổ Động: Vietnamese Poster Art — Political Design</title>
+<meta name="description" content="Vietnam fought a propaganda war with almost no printing presses. Its posters were painted by hand in gouache, one sheet at a time, and the flatness you see is the reproduction method talking." />
+<meta name="theme-color" content="#F3E9CE" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Tranh Cổ Động: Vietnamese Poster Art — Political Design" />
+<meta property="og:description" content="Posters painted one at a time, in gouache, and carried to the front. Flat colour, hard edge, no gradient — the method is the style." />
+<meta property="og:url" content="https://layogtima.com/political-design/m/vietnam/" />
+<link rel="icon" type="image/svg+xml" href="https://layogtima.com/images/favicon/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../shared/site.css" />
+<link rel="stylesheet" href="../../shared/textures.css" />
+<style>
+  /* ------------------------------------------------------------------
+     HOUSE RULE FOR THIS PAGE: no tonal gradient, no drop shadow, no soft
+     edge, no halftone, no rounded corner in any artwork. Five tins of
+     opaque paint and a black contour line. That is the whole system.
+     ------------------------------------------------------------------ */
+  :root {
+    --paper: #F3E9CE; --ink: #1A1A16; --accent: #D3202A; --yellow: #F2C21A; --olive: #4A5A32;
+    --font-display: "Be Vietnam Pro", "Helvetica Neue", sans-serif;
+    --font-body: "Be Vietnam Pro", "Helvetica Neue", sans-serif;
+    --measure: 36rem;
+  }
+  h1, h2, h3, h4 { font-weight: 900; letter-spacing: -0.035em; }
+  body { background-color: var(--paper); }
+  .sheet { position: relative; }
+  .defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+  /* five-colour band, used as a section rule */
+  .band { height: 14px; display: grid; grid-template-columns: 5fr 2fr 3fr 1fr 2fr; }
+  .band i:nth-child(1) { background: var(--accent); }
+  .band i:nth-child(2) { background: var(--yellow); }
+  .band i:nth-child(3) { background: var(--olive); }
+  .band i:nth-child(4) { background: var(--ink); }
+  .band i:nth-child(5) { background: var(--paper); border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+
+  /* ---------- hero: an actual poster, not a headline on a background ---------- */
+  .hero { min-height: 100svh; display: grid; grid-template-rows: auto auto 1fr; overflow: hidden; }
+  .hero__art { position: relative; }
+  .hero__art > svg { width: 100%; height: auto; }
+  .poster-wide { display: none; }
+  @media (min-width: 52rem) {
+    .poster-wide { display: block; }
+    .poster-tall { display: none; }
+  }
+  .hero__vi {
+    position: absolute; z-index: 3; left: var(--gutter); top: clamp(4.4rem, 9vw, 7rem); margin: 0;
+    font-weight: 900; font-size: clamp(2.1rem, 6.6vw, 5.6rem); letter-spacing: -0.045em;
+    line-height: 1.02; /* leading set from the top of the tone marks, not the cap height */
+    color: var(--ink); max-width: 7ch;
+  }
+  .hero__gloss {
+    position: absolute; z-index: 3; left: var(--gutter); margin: 0;
+    top: calc(clamp(4.4rem, 9vw, 7rem) + clamp(4.9rem, 15.2vw, 12.6rem));
+    font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--ink);
+  }
+  .hero__band { background: var(--accent); color: var(--paper); padding: clamp(1.6rem, 4vw, 3rem) var(--gutter) clamp(1.4rem, 3vw, 2.2rem); }
+  .hero__band h1 { font-size: clamp(2.1rem, 6.2vw, 5rem); line-height: 0.94; margin: 0 0 1.2rem; max-width: 18ch; color: var(--paper); }
+  .hero__meta {
+    font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--yellow); display: flex; flex-wrap: wrap; gap: 0.5rem 1.6rem; margin: 0;
+  }
+  .hero__foot { background: var(--paper); border-top: 8px solid var(--ink); padding: clamp(1.6rem, 4vw, 2.6rem) var(--gutter); display: grid; align-content: center; }
+  .hero__lede { font-size: clamp(1.08rem, 0.9vw + 0.95rem, 1.42rem); line-height: 1.46; max-width: 38rem; margin: 0; }
+  .hero__lede b { color: var(--accent); font-weight: 800; }
+
+  /* ---------- anatomy ---------- */
+  .anatomy-grid { display: grid; gap: 2.8rem 3.5rem; grid-template-columns: 1fr; margin-bottom: 3rem; }
+  @media (min-width: 62rem) { .anatomy-grid { grid-template-columns: 1fr 1fr; gap: 3.5rem; } }
+  .swatch i { border-bottom: 2px solid var(--ink); }
+  .rulebox {
+    border: 2px solid var(--ink); padding: 1.2rem 1.3rem; margin-top: 2.4rem; max-width: 46rem;
+    font-family: var(--font-mono); font-size: 0.76rem; line-height: 1.75; letter-spacing: 0.04em;
+  }
+  .rulebox b { color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; display: block; margin-bottom: 0.5rem; font-size: 0.7rem; }
+  .spec-vi { font-weight: 900; letter-spacing: -0.045em; line-height: 1.18; }
+  .specimens--row { grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 2rem 2.6rem; margin-top: 3rem; }
+
+  /* ---------- symbols ---------- */
+  .symbolrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: 1.8rem; }
+  .symbolrow figure .frame { background: var(--paper); border: 2px solid var(--ink); padding: 0.9rem; }
+  .symbolrow figcaption { font-size: 0.8rem; }
+
+  /* ---------- essay ---------- */
+  .essay h3 { font-size: clamp(1.45rem, 2.9vw, 2.2rem); margin: 3.4rem 0 1rem; max-width: 24ch; }
+  .essay h3 span { color: var(--accent); }
+  .essay > .wrap > .two-col > div > .prose:first-of-type > p:first-of-type::first-letter {
+    float: left; font-size: 3.5em; font-weight: 900; line-height: 0.76; padding: 0.08em 0.12em 0 0; color: var(--accent);
+  }
+  .two-col { display: grid; gap: 2.5rem; grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 58rem) {
+    .two-col { grid-template-columns: minmax(0,1fr) 15rem; gap: 3.5rem; }
+    .marginalia { position: sticky; top: 5.5rem; }
+  }
+  .marginalia {
+    font-family: var(--font-mono); font-size: 0.7rem; line-height: 1.7; letter-spacing: 0.04em;
+    color: var(--soft); border-left: 2px solid var(--ink); padding-left: 1.1rem;
+  }
+  .marginalia b { color: var(--accent); }
+  .vi { font-weight: 600; }
+
+  /* ---------- artifacts ---------- */
+  .artifacts { background: #E9DCBB; }
+  .artifact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(26rem, 1fr)); gap: 2.8rem 3rem; }
+  .artifact-grid figure .frame { background: var(--paper); border: 2px solid var(--ink); }
+</style>
+<noscript><style>[data-reveal]{opacity:1 !important;transform:none !important}</style></noscript>
+</head>
+<body class="tx-ricepaper">
+
+<!-- shared vector parts: one figure, one star, reused at every scale -->
+<svg class="defs" aria-hidden="true" focusable="false" width="0" height="0">
+  <defs>
+    <polygon id="v-star" points="0,-100 22.45,-30.9 95.11,-30.9 36.33,11.8 58.78,80.9 0,38.2 -58.78,80.9 -36.33,11.8 -95.11,-30.9 -22.45,-30.9" />
+    <g id="v-figure">
+      <path d="M96 448 L304 448 L318 620 L82 620 Z" fill="#4A5A32" stroke="#1A1A16" stroke-width="5" />
+      <path d="M200 456 L200 620" stroke="#1A1A16" stroke-width="5" fill="none" />
+      <path d="M118 296 L86 292 L74 436 L106 442 Z" fill="#4A5A32" stroke="#1A1A16" stroke-width="5" />
+      <path d="M114 300 L154 266 L246 266 L286 300 L300 462 L100 462 Z" fill="#4A5A32" stroke="#1A1A16" stroke-width="5" />
+      <rect x="98" y="418" width="204" height="22" fill="#1A1A16" />
+      <path d="M252 268 L294 294 L190 438 L152 414 Z" fill="#4A5A32" stroke="#1A1A16" stroke-width="5" />
+      <path d="M40.2 543.7 L71.8 568.3 L118.5 508.5 L86.9 483.9 Z" fill="#1A1A16" />
+      <path d="M79.2 501.9 L102.8 520.3 L199.2 396.9 L175.6 378.5 Z" fill="#1A1A16" />
+      <path d="M153.4 431.2 L133.8 456.4 L166.9 482.3 L186.5 457.1 Z" fill="#1A1A16" />
+      <path d="M173.1 395.6 L184.1 404.2 L353.5 186.3 L342.5 177.7 Z" fill="#1A1A16" />
+      <path d="M144 400 L180 424 L163 450 L127 426 Z" fill="#F3E9CE" stroke="#1A1A16" stroke-width="5" />
+      <path d="M154 256 L246 256 L228 306 L172 306 Z" fill="#D3202A" stroke="#1A1A16" stroke-width="5" />
+      <rect x="182" y="238" width="36" height="30" fill="#F3E9CE" stroke="#1A1A16" stroke-width="5" />
+      <path d="M160 170 L240 170 L240 238 Q200 280 160 238 Z" fill="#F3E9CE" stroke="#1A1A16" stroke-width="4" />
+      <path d="M160 170 L240 170 L240 200 Q200 187 160 200 Z" fill="#1A1A16" />
+      <g fill="#1A1A16"><rect x="172" y="209" width="19" height="6" /><rect x="209" y="209" width="19" height="6" /><rect x="187" y="246" width="26" height="5" /></g>
+      <path d="M200 22 L356 202 Q200 154 44 202 Z" fill="#F2C21A" stroke="#1A1A16" stroke-width="5" />
+      <path d="M200 44 L124 186 M200 44 L276 186" stroke="#1A1A16" stroke-width="2.6" fill="none" />
+    </g>
+  </defs>
+</svg>
+
+<div class="sheet tx-grain">
+
+<!-- ============================== HERO ============================== -->
+<header class="hero">
+  <div class="hero__art">
+    <div class="tx-over tx-ricepaper" aria-hidden="true"></div>
+
+    <!-- wide composition -->
+    <svg class="poster-wide" viewBox="0 0 1600 620" role="img" aria-label="Recreated poster composition: a cream field, a large yellow five-pointed star at upper right, a geometric militia figure in olive with a conical straw hat and a rifle, an olive ground, and a red band lettered Quyết chiến quyết thắng.">
+      <rect width="1600" height="620" fill="#F3E9CE" />
+      <use href="#v-star" transform="translate(1235,178) scale(1.38)" fill="#F2C21A" />
+      <path d="M0 452 L1600 404 L1600 620 L0 620 Z" fill="#4A5A32" />
+      <path d="M0 452 L1600 404" stroke="#1A1A16" stroke-width="5" fill="none" />
+      <rect x="920" y="452" width="680" height="110" fill="#D3202A" />
+      <text x="1260" y="524" text-anchor="middle" lang="vi" font-family="Be Vietnam Pro, sans-serif" font-weight="900" font-size="42" letter-spacing="-1" fill="#F3E9CE">QUYẾT CHIẾN QUYẾT THẮNG</text>
+      <use href="#v-figure" transform="translate(636,26) scale(0.86)" />
+    </svg>
+
+    <!-- tall composition -->
+    <svg class="poster-tall" viewBox="0 0 800 780" role="img" aria-label="Recreated poster composition: a cream field, a large yellow five-pointed star at upper right, a geometric militia figure in olive with a conical straw hat and a rifle, an olive ground, and a red band lettered Quyết chiến quyết thắng.">
+      <rect width="800" height="780" fill="#F3E9CE" />
+      <use href="#v-star" transform="translate(628,178) scale(1.12)" fill="#F2C21A" />
+      <path d="M0 556 L800 512 L800 780 L0 780 Z" fill="#4A5A32" />
+      <path d="M0 556 L800 512" stroke="#1A1A16" stroke-width="5" fill="none" />
+      <use href="#v-figure" transform="translate(214,306) scale(0.62)" />
+      <rect x="0" y="692" width="800" height="88" fill="#D3202A" />
+      <text x="400" y="752" text-anchor="middle" lang="vi" font-family="Be Vietnam Pro, sans-serif" font-weight="900" font-size="34" letter-spacing="-0.8" fill="#F3E9CE">QUYẾT CHIẾN QUYẾT THẮNG</text>
+    </svg>
+
+    <p class="hero__vi" lang="vi">TRANH CỔ ĐỘNG</p>
+    <p class="hero__gloss">Agitation painting</p>
+  </div>
+
+  <div class="hero__band">
+    <h1>Vietnamese Poster Art, Painted One at a Time</h1>
+    <p class="hero__meta">
+      <span>No. 07</span><span>Southeast Asia · Vietnam</span><span>1945 — 1975</span>
+    </p>
+  </div>
+
+  <div class="hero__foot">
+    <p class="hero__lede">
+      There were almost no presses, so the Democratic Republic of Vietnam
+      <b>painted</b> its propaganda: gouache on rough paper, a handful of copies
+      per design, rolled up and carried out to a village, a factory or the front.
+      Flat colour, hard edge, no gradient. The method is the style.
+    </p>
+  </div>
+</header>
+
+<div class="band" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+
+<!-- ============================== ANATOMY ============================== -->
+<section class="section" id="anatomy">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The anatomy</p>
+    <div class="anatomy-grid">
+      <div data-reveal>
+        <h2 class="section-title" style="margin-bottom:1.4rem">Five tins and a black line</h2>
+        <p class="prose">
+          A tranh cổ động palette is not a mood board, it is an inventory. Poster
+          colour came in jars, was mixed by hand in the atelier, and had to cover
+          in one pass on paper that drank it. Every colour below does a structural
+          job; none of them is decorative.
+        </p>
+      </div>
+      <div data-reveal>
+        <h2 class="section-title" style="margin-bottom:1.4rem">One family, two jobs</h2>
+        <p class="prose">
+          This page is set entirely in Be Vietnam Pro — display and text, headline
+          and caption. That is a deliberate refusal of the usual serif/sans pairing,
+          and it mirrors the ateliers, where the same hand lettered the slogan and
+          the credit line with the same brush. It is also one of very few widely
+          available families in which Vietnamese diacritics are drawn as a
+          first-class problem rather than bolted on afterwards.
+        </p>
+      </div>
+    </div>
+
+    <div class="swatches" data-reveal style="margin-top:1rem">
+      <div class="swatch"><i style="background:#D3202A"></i><b>#D3202A ĐỎ</b><span>Flag red as it comes out of a paint jar, not out of an ink duct. Mixed per batch, which is why no two surviving posters of the same design match.</span></div>
+      <div class="swatch"><i style="background:#F2C21A"></i><b>#F2C21A VÀNG</b><span>The star. Opaque enough to sit directly on red with no keyline — a chromatic move that works in gouache and collapses in cheap offset.</span></div>
+      <div class="swatch"><i style="background:#4A5A32"></i><b>#4A5A32 XANH LÁ</b><span>Uniform green and ground green: the same pigment. Figure and field share a colour, so the composition reads as one flat plane rather than a scene.</span></div>
+      <div class="swatch"><i style="background:#F3E9CE"></i><b>#F3E9CE GIẤY</b><span>Unbleached wartime stock. Rarely covered edge to edge — the paper is left showing because paint was rationed, and the negative space became a style.</span></div>
+      <div class="swatch"><i style="background:#1A1A16"></i><b>#1A1A16 MỰC</b><span>The contour. Every shape is closed with a black line so the design still works when another painter, in another province, repaints it from a description.</span></div>
+    </div>
+
+    <div class="rulebox" data-reveal>
+      <b>Rule of the house</b>
+      NO GRADIENT · NO DROP SHADOW · NO SOFT EDGE · NO HALFTONE.<br />
+      Nothing on this page is modelled, blended or blurred, because nothing in the
+      source material could be. A brush loaded with opaque poster colour has exactly
+      two states: paint, or paper.
+    </div>
+
+    <div class="specimens specimens--row" data-reveal>
+      <div class="specimen">
+        <p class="spec-vi" lang="vi" style="font-size:clamp(1.9rem,4vw,2.7rem)">ĐỘC LẬP TỰ DO</p>
+        <small>Display setting: caps, weight 900, tracking pulled tight. Ten letters, four of them modified, three carrying two marks at once. The tracking has to come out of the sidebearings, never out of the marks.</small>
+      </div>
+      <div class="specimen">
+        <p lang="vi" style="font-size:clamp(1.2rem,2.2vw,1.6rem);font-style:italic;font-weight:400;line-height:1.25">Nước Việt Nam là một, dân tộc Việt Nam là một.</p>
+        <small>Text weight, 400. Hồ Chí Minh's formula — Vietnam is one, the Vietnamese people are one. At this size the marks behave; the whole design problem only appears above about 60 points.</small>
+      </div>
+      <div class="specimen">
+        <p style="font-family:var(--font-mono);font-size:0.95rem;letter-spacing:0.08em;text-transform:uppercase;line-height:1.35" lang="vi">Giấy thông hành — Safe Conduct Pass</p>
+        <small>The other side's typography: American letterpress gothic and typewriter, set in three languages on a leaflet dropped from an aircraft. Bureaucratic, not painted — and printed in numbers no atelier could imagine.</small>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="band" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+
+<!-- ============================== SYMBOLS ============================== -->
+<section class="section" id="symbols">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The marks</p>
+    <h2 class="section-title" data-reveal>A vocabulary of four shapes, repeated for thirty years</h2>
+
+    <div class="symbolrow" data-reveal>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 80" role="img" aria-label="Flag of Vietnam: a red field with a centred yellow five-pointed star">
+            <rect width="120" height="80" fill="#DA251D" />
+            <use href="#v-star" transform="translate(60,40) scale(0.16)" fill="#FFFF00" />
+          </svg>
+        </div>
+        <figcaption><b>Cờ đỏ sao vàng</b> — red flag, yellow star. One colour, one shape, one rule: the star's circumscribed circle is a fifth of the flag's height. In 1955 the Assembly straightened the star's arms, which had been fuller in the 1945 drawings. Drawn here to the state specification, which is a colder red than any paint jar.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 92" role="img" aria-label="A nón lá, the Vietnamese conical palm-leaf hat, drawn as a flat mark">
+            <path d="M60 12 L104 66 Q60 48 16 66 Z" fill="#F2C21A" stroke="#1A1A16" stroke-width="3" />
+            <g stroke="#1A1A16" stroke-width="1.6" fill="none">
+              <path d="M60 18 L36 60" /><path d="M60 18 L48 55" /><path d="M60 18 L72 55" /><path d="M60 18 L84 60" />
+              <path d="M31 56 Q60 44 89 56" /><path d="M39 46 Q60 38 81 46" />
+            </g>
+            <path d="M28 68 L44 84 M92 68 L76 84" stroke="#1A1A16" stroke-width="2.4" fill="none" />
+          </svg>
+        </div>
+        <figcaption><b>Nón lá</b> — the palm-leaf conical hat. In this iconography it is not folklore, it is a class marker: it says peasant, it says south as often as north, and drawn flat it is a perfect triangle that reads at fifty metres.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 92" role="img" aria-label="Emblem of a rifle crossed with a sheaf of rice beneath a yellow star">
+            <use href="#v-star" transform="translate(60,20) scale(0.13)" fill="#F2C21A" stroke="#1A1A16" stroke-width="18" stroke-linejoin="miter" />
+            <path d="M28 84 L36 78 L94 40 L90 34 L30 72 L24 80 Z" fill="#1A1A16" />
+            <path d="M22 82 L34 74 L40 82 L28 90 Z" fill="#1A1A16" />
+            <g stroke="#4A5A32" stroke-width="3" fill="none">
+              <path d="M92 84 Q72 62 56 40" /><path d="M92 84 Q78 60 70 38" /><path d="M92 84 Q84 58 84 38" />
+            </g>
+            <g fill="#F2C21A" stroke="#1A1A16" stroke-width="1.2">
+              <ellipse cx="55" cy="38" rx="4" ry="7" transform="rotate(-22 55 38)" />
+              <ellipse cx="70" cy="36" rx="4" ry="7" transform="rotate(-10 70 36)" />
+              <ellipse cx="84" cy="36" rx="4" ry="7" transform="rotate(4 84 36)" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Súng và lúa</b> — rifle crossed with rice. The compulsory pairing of the period: fighting and harvest given equal weight in the same emblem, because the campaign was always both. Note that the rice is drawn as carefully as the weapon.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 92" role="img" aria-label="A raised clenched fist in front of a yellow five-pointed star">
+            <use href="#v-star" transform="translate(60,40) scale(0.36)" fill="#F2C21A" />
+            <rect x="48" y="62" width="26" height="30" fill="#D3202A" stroke="#1A1A16" stroke-width="3" />
+            <rect x="42" y="28" width="40" height="36" fill="#D3202A" stroke="#1A1A16" stroke-width="3" />
+            <path d="M42 42 L30 46 L33 58 L45 55 Z" fill="#D3202A" stroke="#1A1A16" stroke-width="3" />
+            <g stroke="#1A1A16" stroke-width="2.4" fill="none">
+              <path d="M52 28 L52 42" /><path d="M62 28 L62 42" /><path d="M72 28 L72 42" />
+              <path d="M45 46 L78 46" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The fist and the star</b> — imported wholesale from the international socialist kit, then flattened. No modelling on the knuckles, no light source, no perspective: a fist reduced to four rectangles and four lines, which is the difference between this tradition and the airbrushed Chinese one.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<div class="band" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+
+<!-- ============================== ESSAY ============================== -->
+<section class="section essay" id="essay">
+  <div class="wrap">
+    <div class="two-col">
+      <div>
+        <p class="eyebrow" data-reveal>How it worked</p>
+        <div class="prose" data-reveal>
+          <p>
+            Every propaganda system is shaped by its printing plant. Vietnam's had
+            almost none. Between 1945 and 1975 the north fought two wars on a paper
+            supply that was rationed, imported and periodically bombed, and its
+            answer was to treat the poster as a painting: one artist, one brush, one
+            sheet at a time.
+          </p>
+          <p>
+            The result is a body of work that behaves like graphic design — flat
+            colour, closed contour, a fixed cast of symbols, a house palette — while
+            being produced like folk art. That contradiction is the whole subject.
+          </p>
+        </div>
+
+        <h3 data-reveal>WHAT IT IS&nbsp;· <span>Agitation painting</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            <span class="vi" lang="vi">Tranh cổ động</span> translates roughly as
+            agitation painting: <span class="vi" lang="vi">tranh</span> is a picture,
+            <span class="vi" lang="vi">cổ động</span> is to rouse or mobilise. The
+            state ran poster ateliers under the culture apparatus. An artist was
+            given a slogan and a deadline and painted the thing in gouache or poster
+            colour on whatever stock existed. Where a silkscreen frame or a small
+            offset press was available, a design might be pulled in a few hundred.
+            Where it was not — which was often — a design existed in five copies, or
+            one, and the copies were not identical.
+          </p>
+          <p>
+            Look at what that does to the drawing. Unmodulated colour, because a flat
+            field is fast, dries even, and does not betray a rough sheet. Heavy black
+            contour, because the outline is the part that has to survive being copied
+            by somebody else. Compositions assembled from four or five separable
+            shapes, because that is what a second painter can rebuild from a written
+            description and a memory.
+          </p>
+          <p>
+            The Constructivism page in this atlas makes the identical argument from
+            the opposite end: Soviet form came out of a lithographic press with two
+            inks and a deadline. Vietnamese form came out of no press at all. In both
+            cases the reproduction method wrote the style sheet, and the ideology
+            turned up afterwards to take the credit.
+          </p>
+        </div>
+
+        <h3 data-reveal>1945–54&nbsp;· <span>A flag, a stencil, a mountain</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            The August Revolution of 1945 and Hồ Chí Minh's declaration of
+            independence on 2 September gave the Việt Minh a flag: red field, yellow
+            five-pointed star, nothing else. It is the most economical national mark
+            in this atlas. One colour, one shape, one geometric rule — the star's
+            circumscribed circle is a fifth of the flag's height. In 1955 the National
+            Assembly straightened the star's arms, which had been fuller and softer in
+            the earlier drawings. A revolution correcting its own kerning.
+          </p>
+          <p>
+            The graphics of the first war were stencil and woodblock: cut once, pull
+            many, no press required. Tô Ngọc Vân — trained at the École des Beaux-Arts
+            de l'Indochine, founded in Hanoi in 1925 by Victor Tardieu — ran a
+            resistance art class in the Việt Bắc hills from 1950. He was killed in
+            1954, on the way back from Điện Biên Phủ.
+          </p>
+          <p>
+            Hold on to that detail, because it changes how you read the flatness.
+            These were French-academy-trained oil, silk and lacquer painters. Nguyễn
+            Sáng, who drew the young republic's first stamps and banknotes, could
+            render anything he wanted. The flatness was a decision about
+            reproduction, not a shortfall of skill.
+          </p>
+        </div>
+
+        <blockquote class="pull" data-reveal>
+          A printed poster is a thousand identical objects. A painted one is a single
+          object that has to be worth the walk out to the village.
+        </blockquote>
+
+        <h3 data-reveal>1966&nbsp;· <span>Twenty-five letters that will not fit</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            On 17 July 1966 Hồ Chí Minh issued an appeal containing the sentence
+            <span class="vi" lang="vi">Không có gì quý hơn độc lập tự do</span> —
+            nothing is more precious than independence and freedom. It became the
+            most-lettered string of text in Vietnamese political design, and as
+            display copy it is genuinely hostile.
+          </p>
+          <p>
+            Count it. Twenty-five letters, nine words, marks on nine of the letters,
+            three of which carry two marks at once. Set it on one line and it is too
+            long to read at fifty metres. Break it into three and the stacked marks
+            force the lines apart until the block loses the density that made it a
+            block. Nearly every solution in the archive is the same solution:
+            compressed caps, three or four short lines, marks flattened and pulled
+            down close to the letter, and the leading measured from the top of the
+            tone marks rather than from the cap height.
+          </p>
+        </div>
+
+        <h3 data-reveal>TYPOGRAPHY&nbsp;· <span>Two marks on one letter</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            <span class="vi" lang="vi">Quốc ngữ</span> — the national script — is the
+            Latin alphabet doing a job it was not built for. Portuguese, Italian and
+            French missionaries romanised Vietnamese in the seventeenth century;
+            Alexandre de Rhodes' <cite>Dictionarium Annamiticum Lusitanum et
+            Latinum</cite> of 1651 fixed much of the convention, and the colonial
+            administration made it official, displacing <span class="vi" lang="vi">chữ
+            Nôm</span> and Chinese characters by the early twentieth century.
+          </p>
+          <p>
+            The alphabet then carries two independent layers of information at once.
+            Seven letters are modified in their own right — <span class="vi" lang="vi">ă
+            â ê ô ơ ư đ</span> — and five diacritics mark tone: <span class="vi" lang="vi">huyền,
+            sắc, hỏi, ngã, nặng</span>. Four of those sit above the vowel. <span class="vi" lang="vi">Nặng</span>
+            is a dot below it. Which means a single capital can be a three-decker:
+            <span class="vi" lang="vi">Ệ</span> is an E with a circumflex above and a
+            dot underneath.
+          </p>
+          <p>
+            For a letterer working at poster scale this is the entire job. The marks
+            are the difference between two different words, so they cannot be dropped,
+            shrunk into decoration or tucked inside the counter. But every mark above
+            the cap line steals leading, and every dot below eats the space of the
+            line beneath. The conventions the ateliers arrive at are consistent and
+            genuinely clever: caps compressed horizontally to buy width, tone marks
+            drawn flatter and closer than in text setting, circumflexes widened so
+            they read as a shape rather than a speck, and vertical rhythm set
+            mark-top to mark-top. It is display type design carried out by painters
+            with no foundry to argue with, and it is almost entirely undocumented in
+            the English-language design literature.
+          </p>
+        </div>
+
+        <h3 data-reveal>THE ICONOGRAPHY&nbsp;· <span>The standing cast</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            The vocabulary is small and it repeats: the yellow star; the conical
+            <span class="vi" lang="vi">nón lá</span>; a rifle crossed with a sheaf of
+            rice; the raised fist; a factory chimney and a paddy field inside the same
+            frame; a production figure set in numerals as large as the slogan. And,
+            constantly, a woman holding a rifle — not as an allegory or an exception,
+            but as an ordinary subject, drawn at the same scale and with the same
+            authority as the men beside her.
+          </p>
+          <p>
+            Put these next to the neighbouring traditions and the differences are
+            formal, not merely political. Cultural Revolution posters are modelled:
+            airbrushed skin, ruddy cheeks, an implied sun, and very often Mao's face
+            as the compositional anchor. Soviet work of the same decade leans
+            photographic or heroically sculptural. Vietnamese posters stay flat. Hồ
+            Chí Minh appears, but far less often than you would predict, and usually
+            as one figure among others rather than as the light source.
+          </p>
+          <p>
+            Some of that is doctrine. Some of it is arithmetic. A modelled face needs
+            a painter who can render and time to render in, and a hundred posters a
+            month does not have either. Flatness scales; chiaroscuro does not.
+          </p>
+        </div>
+
+        <h3 data-reveal>THE OTHER SIDE&nbsp;· <span>Paper as ordnance</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            The Republic of Vietnam and its American backers fought the other half of
+            this graphic war, and they fought it by volume. The <span class="vi" lang="vi">Chiêu
+            Hồi</span> — Open Arms — programme, launched in 1963, invited fighters to
+            defect; the Joint United States Public Affairs Office in Saigon wrote and
+            designed the leaflets, and aircraft dropped them in the billions. By unit
+            count it is one of the largest print runs in the history of graphic
+            design, and essentially none of it is in the design canon.
+          </p>
+          <p>
+            The safe-conduct pass is the object worth studying. It is a leaflet
+            designed to be picked up, believed, hidden on a body for weeks, and then
+            produced in front of an armed stranger without getting its carrier killed.
+            That brief has four requirements that fight each other: official enough to
+            be credible, generic enough not to incriminate, tough enough to survive
+            folding into a wet pocket, and legible to a soldier on the other side who
+            has to recognise it in about one second. The answers are visible on the
+            artifact — bordered like a banknote, allied flags in a row along the top
+            as a signature, the same sentence set in Vietnamese, English and Korean so
+            that whoever finds you can read it, and the whole thing sized to a hand.
+          </p>
+          <p>
+            Close to two hundred thousand people were recorded as ralliers across the
+            programme's decade. How much of that the paper did is unknowable, and the
+            honest position is to say so rather than to credit the design.
+          </p>
+        </div>
+
+        <h3 data-reveal>AFTER 1975&nbsp;· <span>The idiom outlives the emergency</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            After April 1975 the style walked straight into peacetime administration:
+            literacy, hygiene, family planning, traffic safety, forest fires, and
+            later HIV. Same flat fields, same contour, same raised arm — pointing at a
+            helmet instead of a rifle. <span class="vi" lang="vi">Đổi Mới</span> in
+            1986 opened the economy, commercial print came with it, and the
+            hand-painted poster stopped being the cheapest way to say anything.
+          </p>
+          <p>
+            What happened next is the ending this atlas keeps arriving at. The idiom
+            became merchandise. Walk the Old Quarter in Hà Nội and the posters are for
+            sale as reproductions — on paper, on canvas, on lacquer, on tea towels —
+            priced for tourists and increasingly redrawn by people who have never used
+            the vocabulary in anger. Havana's OSPAAAL prints went the same way, and so
+            did the Constructivist canon. An aesthetic engineered to be free, urgent
+            and disposable ends up expensive, decorative and permanent.
+          </p>
+        </div>
+      </div>
+
+      <aside class="marginalia" data-reveal>
+        <p><b>1925</b> École des Beaux-Arts de l'Indochine founded in Hanoi by Victor Tardieu. Almost every poster painter of the next fifty years comes through it or its successors.</p>
+        <p><b>1945</b> August Revolution. Independence declared 2 September. Red flag, yellow star.</p>
+        <p><b>1950</b> Tô Ngọc Vân's resistance art class begins in the Việt Bắc hills.</p>
+        <p><b>1954</b> Điện Biên Phủ falls, 7 May. Geneva partitions the country at the 17th parallel.</p>
+        <p><b>1955</b> The star's arms are straightened by decree.</p>
+        <p><b>1963</b> Chiêu Hồi begins in the south.</p>
+        <p><b>1965</b> Sustained bombing of the north. Paper, pigment and press capacity become war matériel; hand-painting becomes the default, not the fallback.</p>
+        <p><b>1966</b> 17 July: <span lang="vi">Không có gì quý hơn độc lập tự do</span>.</p>
+        <p><b>1975</b> 30 April: Saigon. The posters switch subject inside a year.</p>
+        <p><b>1986</b> Đổi Mới. Commercial printing arrives; the atelier poster becomes a genre rather than a job.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ARTIFACTS ============================== -->
+<section class="section artifacts" id="artifacts">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Artifacts</p>
+    <h2 class="section-title" data-reveal>Four objects, all of them flat</h2>
+
+    <div class="artifact-grid" data-reveal>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <div class="tx-over tx-ricepaper" aria-hidden="true"></div>
+          <svg viewBox="0 0 520 700" role="img" aria-label="Recreated tranh cổ động poster: a militia figure in olive with a conical hat and rifle stands against a cream field, a large yellow star at upper right, olive ground below, and a red band across the bottom carrying the Vietnamese slogan Không có gì quý hơn độc lập tự do.">
+            <rect width="520" height="700" fill="#F3E9CE" />
+            <use href="#v-star" transform="translate(406,124) scale(0.84)" fill="#F2C21A" />
+            <path d="M0 436 L520 410 L520 550 L0 550 Z" fill="#4A5A32" />
+            <path d="M0 436 L520 410" stroke="#1A1A16" stroke-width="4" fill="none" />
+            <use href="#v-figure" transform="translate(92,116) scale(0.63)" />
+            <rect x="0" y="550" width="520" height="150" fill="#D3202A" />
+            <rect x="0" y="544" width="520" height="6" fill="#1A1A16" />
+            <text x="260" y="601" text-anchor="middle" lang="vi" font-family="Be Vietnam Pro, sans-serif" font-weight="900" font-size="37" letter-spacing="-1.4" fill="#F3E9CE">KHÔNG CÓ GÌ QUÝ HƠN</text>
+            <text x="260" y="645" text-anchor="middle" lang="vi" font-family="Be Vietnam Pro, sans-serif" font-weight="900" font-size="37" letter-spacing="-1.4" fill="#F2C21A">ĐỘC LẬP TỰ DO</text>
+            <text x="260" y="676" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="2.4" fill="#F2C21A">HỒ CHÍ MINH · 17 · VII · 1966</text>
+          </svg>
+        </div>
+        <figcaption><b>A tranh cổ động, composited</b> Standard atelier furniture — figure, star, horizon, slogan band — assembled to the conventions of the 1966–72 posters. Five flat colours, one black contour, nothing modelled. It is not a copy of any identified original.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 680 470" role="img" aria-label="Type specimen panel showing Vietnamese stacked diacritics: a giant capital E with circumflex and dot below, the five tone marks, the seven modified letters, and the phrase Độc Lập Tự Do annotated with monospace callouts.">
+            <rect width="680" height="470" fill="#F3E9CE" />
+            <rect x="6" y="6" width="668" height="458" fill="none" stroke="#1A1A16" stroke-width="3" />
+            <path d="M292 20 L292 450" stroke="#1A1A16" stroke-width="2" />
+
+            <g stroke="#D3202A" stroke-width="1.2" stroke-dasharray="5 4">
+              <path d="M28 74 L268 74" /><path d="M28 128 L268 128" />
+              <path d="M28 300 L268 300" /><path d="M28 344 L268 344" />
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="9.5" fill="#D3202A" letter-spacing="0.8"><text x="28" y="68">TONE DECK</text><text x="28" y="122">MODIFIER DECK · dấu mũ</text><text x="28" y="294">BASELINE</text><text x="28" y="358">DOT DECK · dấu nặng</text></g>
+            <text x="150" y="300" text-anchor="middle" lang="vi" font-family="Be Vietnam Pro, sans-serif" font-weight="900" font-size="248" fill="#1A1A16">Ệ</text>
+            <text x="28" y="404" font-family="JetBrains Mono, monospace" font-size="10.5" fill="#1A1A16">ONE CAPITAL. THREE DECKS.</text>
+            <text x="28" y="424" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#4A5A32">E + circumflex above + dot below.</text>
+            <text x="28" y="440" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#4A5A32">Leading must be set from y=74, not y=128.</text>
+
+            <text x="316" y="46" font-family="JetBrains Mono, monospace" font-size="10" fill="#D3202A" letter-spacing="1.6">FIVE TONE MARKS</text>
+            <g lang="vi" font-family="Be Vietnam Pro, sans-serif" font-weight="900" font-size="58" fill="#1A1A16" text-anchor="middle"><text x="340" y="126">À</text><text x="408" y="126">Á</text><text x="476" y="126">Ả</text><text x="544" y="126">Ã</text><text x="612" y="126">Ạ</text></g>
+            <g lang="vi" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#4A5A32" text-anchor="middle"><text x="340" y="146">huyền</text><text x="408" y="146">sắc</text><text x="476" y="146">hỏi</text><text x="544" y="146">ngã</text><text x="612" y="146">nặng</text></g>
+            <path d="M316 168 L662 168" stroke="#1A1A16" stroke-width="1.4" />
+
+            <text x="316" y="196" font-family="JetBrains Mono, monospace" font-size="10" fill="#D3202A" letter-spacing="1.6">SEVEN MODIFIED LETTERS</text>
+            <text x="316" y="256" lang="vi" font-family="Be Vietnam Pro, sans-serif" font-weight="900" font-size="46" fill="#1A1A16" letter-spacing="4">ĂÂÊÔƠƯĐ</text>
+            <text x="316" y="278" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#4A5A32">before any tone mark is added.</text>
+            <path d="M316 300 L662 300" stroke="#1A1A16" stroke-width="1.4" />
+
+            <text x="316" y="330" font-family="JetBrains Mono, monospace" font-size="10" fill="#D3202A" letter-spacing="1.6">THE DISPLAY PROBLEM</text>
+            <text x="316" y="382" lang="vi" font-family="Be Vietnam Pro, sans-serif" font-weight="900" font-size="41" fill="#D3202A" letter-spacing="-1.4">ĐỘC LẬP TỰ DO</text>
+            <g font-family="JetBrains Mono, monospace" font-size="9.5" fill="#1A1A16"><text x="316" y="408">Ten letters. Four modified.</text><text x="316" y="424">Three carry two marks at once.</text><text x="316" y="440" fill="#4A5A32">Drop one and the word changes.</text></g>
+          </svg>
+        </div>
+        <figcaption><b>Specimen: the stacking problem</b> Vietnamese sets two independent mark systems on the same letter — a vowel modifier and a tone. At text size this is invisible. At poster size it decides the leading, the tracking and the line breaks before the designer gets a vote.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 620 410" role="img" aria-label="Layout recreation of a Chiêu Hồi safe-conduct pass leaflet: a bordered card with a row of allied flags, the headings Safe Conduct Pass and Giấy Thông Hành, multilingual body lines and a serial number field.">
+            <rect width="620" height="410" fill="#F3E9CE" />
+            <rect x="16" y="16" width="588" height="378" fill="#F7F2E2" stroke="#1A1A16" stroke-width="3" />
+            <rect x="28" y="28" width="564" height="354" fill="none" stroke="#1A1A16" stroke-width="1.2" />
+            <path d="M22 22 L22 388 M598 22 L598 388" stroke="#1A1A16" stroke-width="1" fill="none" />
+            <g stroke="#1A1A16" stroke-width="1.1">
+              <path d="M28 24 L28 20 M46 24 L46 20 M64 24 L64 20 M82 24 L82 20 M100 24 L100 20 M118 24 L118 20 M136 24 L136 20 M154 24 L154 20 M172 24 L172 20 M190 24 L190 20 M208 24 L208 20 M226 24 L226 20 M244 24 L244 20 M262 24 L262 20 M280 24 L280 20 M298 24 L298 20 M316 24 L316 20 M334 24 L334 20 M352 24 L352 20 M370 24 L370 20 M388 24 L388 20 M406 24 L406 20 M424 24 L424 20 M442 24 L442 20 M460 24 L460 20 M478 24 L478 20 M496 24 L496 20 M514 24 L514 20 M532 24 L532 20 M550 24 L550 20 M568 24 L568 20 M586 24 L586 20" />
+              <path d="M28 386 L28 390 M46 386 L46 390 M64 386 L64 390 M82 386 L82 390 M100 386 L100 390 M118 386 L118 390 M136 386 L136 390 M154 386 L154 390 M172 386 L172 390 M190 386 L190 390 M208 386 L208 390 M226 386 L226 390 M244 386 L244 390 M262 386 L262 390 M280 386 L280 390 M298 386 L298 390 M316 386 L316 390 M334 386 L334 390 M352 386 L352 390 M370 386 L370 390 M388 386 L388 390 M406 386 L406 390 M424 386 L424 390 M442 386 L442 390 M460 386 L460 390 M478 386 L478 390 M496 386 L496 390 M514 386 L514 390 M532 386 L532 390 M550 386 L550 390 M568 386 L568 390 M586 386 L586 390" />
+            </g>
+
+            <!-- allied flags: simplified marks, not vexillologically exact -->
+            <g stroke="#1A1A16" stroke-width="1">
+              <g transform="translate(152,48)"><rect width="44" height="29" fill="#F2C21A" /><g fill="#D3202A" stroke="none"><rect y="10" width="44" height="3" /><rect y="15" width="44" height="3" /><rect y="20" width="44" height="3" /></g><rect width="44" height="29" fill="none" /></g>
+              <g transform="translate(206,48)"><rect width="44" height="29" fill="#F7F2E2" /><g fill="#D3202A" stroke="none"><rect width="44" height="3" /><rect y="6" width="44" height="3" /><rect y="12" width="44" height="3" /><rect y="18" width="44" height="3" /><rect y="24" width="44" height="3" /></g><rect width="20" height="16" fill="#2B3A66" stroke="none" /><rect width="44" height="29" fill="none" /></g>
+              <g transform="translate(260,48)"><rect width="44" height="29" fill="#F7F2E2" /><circle cx="22" cy="14.5" r="7" fill="#D3202A" stroke="none" /><path d="M15 14.5 a3.5 3.5 0 0 1 7 0 a3.5 3.5 0 0 0 7 0 a7 7 0 0 1 -14 0 z" fill="#2B3A66" stroke="none" /><g fill="#1A1A16" stroke="none"><rect x="4" y="5" width="6" height="1.6" /><rect x="4" y="8" width="6" height="1.6" /><rect x="34" y="20" width="6" height="1.6" /><rect x="34" y="23" width="6" height="1.6" /></g><rect width="44" height="29" fill="none" /></g>
+              <g transform="translate(314,48)"><rect width="44" height="29" fill="#2B3A66" /><rect width="20" height="14" fill="#1A2444" stroke="none" /><g fill="#F7F2E2" stroke="none"><rect x="8" width="3" height="14" /><rect y="5.5" width="20" height="3" /><circle cx="32" cy="20" r="2.4" /><circle cx="38" cy="10" r="1.8" /><circle cx="26" cy="9" r="1.8" /></g><rect width="44" height="29" fill="none" /></g>
+              <g transform="translate(368,48)"><rect width="44" height="29" fill="#2B3A66" /><rect y="14.5" width="44" height="14.5" fill="#D3202A" stroke="none" /><path d="M0 0 L18 14.5 L0 29 Z" fill="#F7F2E2" stroke="none" /><circle cx="6" cy="14.5" r="3" fill="#F2C21A" stroke="none" /><rect width="44" height="29" fill="none" /></g>
+              <g transform="translate(422,48)"><rect width="44" height="29" fill="#D3202A" /><g stroke="none"><rect y="5" width="44" height="4" fill="#F7F2E2" /><rect y="11" width="44" height="7" fill="#2B3A66" /><rect y="20" width="44" height="4" fill="#F7F2E2" /></g><rect width="44" height="29" fill="none" /></g>
+            </g>
+
+            <path d="M56 96 L564 96" stroke="#1A1A16" stroke-width="1.4" />
+            <text x="310" y="140" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-weight="900" font-size="33" letter-spacing="1.2" fill="#1A1A16">SAFE CONDUCT PASS</text>
+            <text x="310" y="180" text-anchor="middle" lang="vi" font-family="Be Vietnam Pro, sans-serif" font-weight="800" font-size="29" letter-spacing="1" fill="#D3202A">GIẤY THÔNG HÀNH</text>
+            <path d="M56 200 L564 200" stroke="#1A1A16" stroke-width="1.4" />
+
+            <text x="310" y="226" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="13.5" fill="#1A1A16">to be honored by all Vietnamese Government Agencies</text>
+            <text x="310" y="245" text-anchor="middle" font-family="Be Vietnam Pro, sans-serif" font-size="13.5" fill="#1A1A16">and Allied Forces</text>
+            <text x="310" y="272" text-anchor="middle" lang="vi" font-family="Be Vietnam Pro, sans-serif" font-size="12.5" fill="#4A5A32">Giấy này có giá trị với tất cả các cơ quan Chính phủ Việt Nam</text>
+            <text x="310" y="290" text-anchor="middle" lang="vi" font-family="Be Vietnam Pro, sans-serif" font-size="12.5" fill="#4A5A32">và các Lực lượng Đồng minh</text>
+
+            <rect x="228" y="306" width="164" height="26" fill="#D3202A" />
+            <text x="310" y="324" text-anchor="middle" lang="vi" font-family="Be Vietnam Pro, sans-serif" font-weight="800" font-size="15" letter-spacing="1.4" fill="#F7F2E2">CHIÊU HỒI</text>
+
+            <g font-family="JetBrains Mono, monospace" font-size="9.5" fill="#1A1A16">
+              <text x="56" y="360">No. ______________</text>
+              <text x="564" y="360" text-anchor="end">JUSPAO · SAIGON</text>
+            </g>
+            <path d="M56 366 L200 366 M424 366 L564 366" stroke="#1A1A16" stroke-width="0.9" />
+          </svg>
+        </div>
+        <figcaption><b>Chiêu Hồi safe-conduct pass</b> A layout study, not a transcription: the flags are simplified marks, and the Vietnamese line is a plain rendering of the documented English wording. Note the design logic — banknote border, allied flags as a signature block, a serial field, and type set small enough to fold into a pocket and survive it.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 680 268" role="img" aria-label="Process diagram in five panels showing a poster laid in one flat colour at a time: paper ground, olive field, red band, yellow star, then the black contour last.">
+            <rect width="680" height="268" fill="#F3E9CE" />
+            <text x="20" y="22" font-family="JetBrains Mono, monospace" font-size="10.5" letter-spacing="2" fill="#D3202A">NO GRADIENT · NO SHADOW · NO HALFTONE · FIVE TINS</text>
+
+            <g transform="translate(20,38)"><rect width="116" height="160" fill="#F3E9CE" stroke="#1A1A16" stroke-width="2" /></g>
+            <g transform="translate(152,38)"><rect width="116" height="160" fill="#F3E9CE" stroke="#1A1A16" stroke-width="2" /><path d="M2 102 L114 94 L114 158 L2 158 Z" fill="#4A5A32" /></g>
+            <g transform="translate(284,38)"><rect width="116" height="160" fill="#F3E9CE" stroke="#1A1A16" stroke-width="2" /><path d="M2 102 L114 94 L114 158 L2 158 Z" fill="#4A5A32" /><rect x="2" y="126" width="112" height="32" fill="#D3202A" /></g>
+            <g transform="translate(416,38)"><rect width="116" height="160" fill="#F3E9CE" stroke="#1A1A16" stroke-width="2" /><path d="M2 102 L114 94 L114 158 L2 158 Z" fill="#4A5A32" /><rect x="2" y="126" width="112" height="32" fill="#D3202A" /><use href="#v-star" transform="translate(58,52) scale(0.31)" fill="#F2C21A" /></g>
+            <g transform="translate(548,38)"><rect width="116" height="160" fill="#F3E9CE" stroke="#1A1A16" stroke-width="2" /><path d="M2 102 L114 94 L114 158 L2 158 Z" fill="#4A5A32" /><rect x="2" y="126" width="112" height="32" fill="#D3202A" /><use href="#v-star" transform="translate(58,52) scale(0.31)" fill="#F2C21A" stroke="#1A1A16" stroke-width="10" stroke-linejoin="miter" /><path d="M2 102 L114 94 M2 124 L114 124" stroke="#1A1A16" stroke-width="3" fill="none" /></g>
+
+            <g font-family="JetBrains Mono, monospace" font-size="9.5" fill="#1A1A16">
+              <text x="20" y="220">1 · GIẤY</text><text x="20" y="236" fill="#4A5A32">bare paper</text><text x="20" y="250" fill="#4A5A32">is a colour</text><text x="152" y="220">2 · XANH</text><text x="152" y="236" fill="#4A5A32">largest field</text><text x="152" y="250" fill="#4A5A32">goes first</text><text x="284" y="220">3 · ĐỎ</text><text x="284" y="236" fill="#4A5A32">second field,</text><text x="284" y="250" fill="#4A5A32">butt-joined</text><text x="416" y="220">4 · VÀNG</text><text x="416" y="236" fill="#4A5A32">accent, opaque</text><text x="416" y="250" fill="#4A5A32">over red</text><text x="548" y="220">5 · MỰC</text><text x="548" y="236" fill="#4A5A32">contour last,</text><text x="548" y="250" fill="#4A5A32">covers the joins</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Five colours, laid in order</b> The black line goes on last, and it is doing two jobs: it is the drawing, and it is the registration. A contour drawn over butt-joined flat fields hides every wobble in the edge — which is exactly why the same trick appears in silkscreen, and exactly why a gradient would ruin it.
+          <span class="credit">Process diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+    </div>
+
+    <p class="note" style="margin-top:2.6rem;max-width:46rem">
+      These are drawn from published descriptions, collection catalogues and the
+      documented conventions of the period — not traced from photographs of any
+      single original. The poster composites standard atelier motifs around a
+      documented slogan and is not a copy of an identified work. The safe-conduct
+      pass is a layout study with simplified flags and a translated Vietnamese line.
+      For originals, see the collections in Sources.
+    </p>
+  </div>
+</section>
+
+<div class="band" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+
+<!-- ============================== LINEAGE ============================== -->
+<section class="section" id="lineage">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Lineage</p>
+    <h2 class="section-title" data-reveal>Neighbours, allies and one abyss</h2>
+    <div class="lineage" data-reveal
+         data-lineage="cultural-revolution,constructivism,ospaaal,khmer-rouge"
+         data-why="Same decade, adjacent party, opposite surface. Chinese posters were airbrushed, modelled and anchored on one face; these stayed flat and mostly left the leader out of the frame.|The same argument that reproduction dictates form, run on the opposite technology: two-ink lithography there, a single loaded brush here.|Havana silkscreened solidarity posters for Vietnam and mailed them worldwide inside Tricontinental — the war's most widely circulated graphics were printed fifteen thousand kilometres away.|Next door, a revolution that abolished the poster along with the city, the currency and the artist. The grimmest adjacency in this atlas.">
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SOURCES ============================== -->
+<section class="section" id="sources" style="padding-top:0">
+  <div class="wrap">
+    <hr class="hr" style="margin-bottom:3rem" />
+    <p class="eyebrow" data-reveal>Sources &amp; further reading</p>
+    <ul class="sources" data-reveal>
+      <li>David Heather &amp; Sherry Buchanan, <cite>Vietnam Posters: The David Heather Collection</cite> (2009) — the largest published survey of the material in English.</li>
+      <li>Sherry Buchanan, <cite>Vietnam Zippos</cite> (2007), and the Asia Ink publications, including <cite>Mekong Diaries: Viet Cong Drawings and Stories, 1964–1975</cite>.</li>
+      <li>Robert W. Chandler, <cite>War of Ideas: The U.S. Propaganda Campaign in Vietnam</cite> (1981) — the standard account of JUSPAO, leaflet operations and Chiêu Hồi.</li>
+      <li>Nora A. Taylor, <cite>Painters in Hanoi: An Ethnography of Vietnamese Art</cite> (2004) — on the ateliers, the art school and who got to be called an artist.</li>
+      <li>Bảo tàng Mỹ thuật Việt Nam / Vietnam National Fine Arts Museum, Hà Nội — holdings of wartime painting and poster work.</li>
+      <li>Imperial War Museum, London — Vietnamese poster and leaflet holdings in the art and ephemera collections.</li>
+      <li>The Wolfsonian–FIU, Miami Beach — propaganda and printed-matter collections, including Vietnamese material.</li>
+      <li>The Dogma Collection, Ho Chi Minh City — a privately assembled archive of Vietnamese propaganda posters and painting.</li>
+    </ul>
+  </div>
+</section>
+
+</div><!-- /.sheet -->
+
+<div data-site="foot"></div>
+
+<script src="../../shared/movements.js"></script>
+<script src="../../shared/site.js"></script>
+</body>
+</html>

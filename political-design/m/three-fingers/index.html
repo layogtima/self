@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en" data-slug="three-fingers">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Three Fingers: Myanmar, Thailand &amp; the Milk Tea Alliance — Political Design</title>
+<meta name="description" content="A fighting peacock inherited from 1936, a salute lifted from a Hollywood film in 2014, and a hashtag whose logo was issued by Twitter. The first political identity in this atlas that was never printed." />
+<meta name="theme-color" content="#15151A" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Three Fingers: Myanmar, Thailand &amp; the Milk Tea Alliance — Political Design" />
+<meta property="og:description" content="A movement identity assembled from memes, borrowed from a film, translated by strangers and versioned in public. Designed for the screenshot, not the press." />
+<meta property="og:url" content="https://layogtima.com/political-design/m/three-fingers/" />
+<link rel="icon" type="image/svg+xml" href="https://layogtima.com/images/favicon/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&family=Noto+Sans+Thai:wght@400;700;900&family=Padauk:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../shared/site.css" />
+<link rel="stylesheet" href="../../shared/textures.css" />
+<style>
+  :root {
+    --paper: #15151A;
+    --ink: #ECECF0;
+    --accent: #F04E23;
+    --card: #1C1C24;
+    --card-2: #22222C;
+    --edge: rgba(236,236,240,0.16);
+    --cdm: #D6202A;
+    --gold: #F2B705;
+    --duck: #FFD23F;
+    --tea-1: #E8C89A;
+    --tea-2: #C98A4B;
+    --tea-3: #6E4222;
+    --font-display: "Anton", "Archivo Black", Impact, sans-serif;
+    --font-body: "Inter", "Helvetica Neue", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    --font-my: "Padauk", "Noto Sans Myanmar", sans-serif;
+    --font-th: "Noto Sans Thai", "Kanit", sans-serif;
+  }
+  body { background-color: var(--paper); }
+  h1, h2, h3 { font-weight: 400; letter-spacing: -0.015em; text-transform: uppercase; }
+  h1 { line-height: 0.9; }
+  .section-title { line-height: 0.94; }
+  ::selection { background: var(--accent); color: #0B0B0E; }
+
+  /* no paper texture anywhere on this page. that is the argument. */
+
+  /* ---------- hero ---------- */
+  .hero {
+    min-height: 100svh;
+    position: relative;
+    display: grid;
+    align-content: center;
+    padding: 7.5rem var(--gutter) 4rem;
+    background: #0B0B0E;
+    overflow: hidden;
+  }
+  .hero__glow {
+    position: absolute;
+    right: -6vw; top: 46%;
+    width: min(92vh, 96vw); aspect-ratio: 1;
+    transform: translateY(-50%);
+    background: radial-gradient(circle at 50% 50%, rgba(240,78,35,0.42) 0%, rgba(240,78,35,0.13) 38%, transparent 68%);
+    pointer-events: none;
+  }
+  .hero__scan { opacity: 0.55; }
+  .hero__inner {
+    position: relative; z-index: 3;
+    width: min(100%, 76rem); margin-inline: auto;
+    display: grid; gap: 2.5rem;
+    grid-template-columns: 1fr;
+    align-items: center;
+  }
+  @media (min-width: 60rem) {
+    .hero__inner { grid-template-columns: minmax(0,1.15fr) minmax(0,0.85fr); gap: 3.5rem; }
+    .hero__hand-wrap { order: 2; }
+  }
+  .hero__hand { width: 100%; max-width: 26rem; margin-inline: auto; color: var(--accent); filter: drop-shadow(0 0 44px rgba(240,78,35,0.5)); }
+  .hero__my {
+    font-family: var(--font-my);
+    font-size: clamp(2.6rem, 9vw, 5.6rem);
+    line-height: 1.35;
+    color: var(--accent);
+    margin: 0 0 0.1em;
+  }
+  .hero__th {
+    font-family: var(--font-th);
+    font-weight: 900;
+    font-size: clamp(1.15rem, 3.1vw, 2rem);
+    line-height: 1.6;
+    color: var(--ink);
+    margin: 0 0 1.1rem;
+  }
+  .hero h1 { font-size: clamp(2.9rem, 8.4vw, 6.4rem); margin: 0 0 1.2rem; }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero__meta {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(236,236,240,0.6);
+    display: flex; flex-wrap: wrap; gap: 0.45rem 1.2rem;
+    margin: 0 0 1.6rem;
+  }
+  .hero__meta b { color: var(--accent); font-weight: 400; }
+  .hero__lede { font-size: clamp(1.02rem, 0.8vw + 0.9rem, 1.28rem); line-height: 1.55; max-width: 34rem; color: rgba(236,236,240,0.86); }
+  .hero__lede em { font-style: normal; color: var(--accent); }
+  .live {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--accent);
+    border: 1px solid var(--accent); border-radius: 999px;
+    padding: 0.3rem 0.7rem; margin-bottom: 1.3rem;
+  }
+  .live i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: blip 1.6s steps(1) infinite; }
+  @keyframes blip { 0%,55% { opacity: 1 } 56%,100% { opacity: 0.15 } }
+
+  /* ---------- rules ---------- */
+  .rule-tape {
+    height: 30px;
+    background: repeating-linear-gradient(90deg, var(--accent) 0 22px, transparent 22px 44px);
+    opacity: 0.85;
+  }
+  .rule-tea { height: 10px; display: grid; grid-template-columns: 1fr 1fr 1fr; }
+  .rule-tea i:nth-child(1) { background: var(--tea-3); }
+  .rule-tea i:nth-child(2) { background: var(--tea-2); }
+  .rule-tea i:nth-child(3) { background: var(--tea-1); }
+
+  /* ---------- sticker / card register ---------- */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1.5rem; align-items: start; }
+  .card {
+    border: 2px solid var(--ink);
+    border-radius: 16px;
+    background: var(--card);
+    padding: 1.15rem 1.25rem 1.25rem;
+    position: relative;
+  }
+  .card:nth-child(3n+1) { transform: rotate(-1.1deg); }
+  .card:nth-child(3n+2) { transform: rotate(0.7deg); }
+  .card:nth-child(3n+3) { transform: rotate(-0.4deg); }
+  .card h4 { font-family: var(--font-display); font-weight: 400; text-transform: uppercase; font-size: 1.05rem; letter-spacing: 0.01em; margin: 0 0 0.5rem; }
+  .card p { font-size: 0.88rem; line-height: 1.55; color: rgba(236,236,240,0.74); margin: 0; }
+  .card p + p { margin-top: 0.7rem; }
+  .card__no {
+    position: absolute; top: -0.75rem; right: 0.9rem;
+    font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.16em;
+    background: var(--accent); color: #0B0B0E; padding: 0.2rem 0.5rem; border-radius: 4px;
+  }
+  .tag {
+    font-family: var(--font-display);
+    font-size: clamp(1.15rem, 2.6vw, 1.9rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--accent);
+    overflow-wrap: anywhere;
+    margin: 0 0 0.55rem;
+  }
+
+  /* ---------- anatomy ---------- */
+  .anatomy-grid { display: grid; gap: var(--step) 3.5rem; grid-template-columns: 1fr; }
+  @media (min-width: 62rem) { .anatomy-grid { grid-template-columns: 1.05fr 1fr; gap: 3.5rem; } }
+  .swatches { grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 34rem) { .swatches { grid-template-columns: repeat(3, 1fr); } }
+  .swatch { background: var(--card); }
+  .specimen { border-top: 1px solid var(--edge); }
+  .my { font-family: var(--font-my); }
+  .th { font-family: var(--font-th); }
+
+  /* ---------- symbols ---------- */
+  .symbolrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 1.6rem; }
+  .symbolrow figure .frame { background: #101015; border: 2px solid var(--edge); border-radius: 14px; padding: 0.9rem; }
+  .symbolrow figcaption { font-size: 0.8rem; }
+
+  /* ---------- essay ---------- */
+  .essay h3 { font-size: clamp(1.45rem, 3.1vw, 2.35rem); margin: 3.4rem 0 1.1rem; max-width: 24ch; }
+  .essay h3 span { color: var(--accent); }
+  .essay .prose { color: rgba(236,236,240,0.84); max-width: 38rem; }
+  .essay .prose strong { color: var(--ink); font-weight: 700; }
+  .two-col { display: grid; gap: 2.5rem; grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 62rem) { .two-col { grid-template-columns: minmax(0,1fr) 16rem; gap: 3.5rem; } }
+  .marginalia {
+    font-family: var(--font-mono); font-size: 0.68rem; line-height: 1.65;
+    letter-spacing: 0.03em; color: rgba(236,236,240,0.6);
+    border: 1px solid var(--edge); border-radius: 12px; padding: 1.1rem 1.15rem;
+    background: var(--card);
+  }
+  .marginalia p { margin-bottom: 0.85rem; }
+  .marginalia b { color: var(--accent); font-weight: 400; }
+  .marginalia p:last-child { margin-bottom: 0; }
+
+  /* ---------- phone ---------- */
+  .phonewrap { display: grid; gap: 2.6rem; grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 58rem) { .phonewrap { grid-template-columns: 21rem minmax(0,1fr); gap: 3.5rem; } }
+  .phone {
+    width: min(100%, 21rem); margin-inline: auto;
+    background: #08080B;
+    border: 1px solid rgba(236,236,240,0.28);
+    border-radius: 2.4rem;
+    padding: 0.55rem;
+    box-shadow: 0 24px 70px rgba(0,0,0,0.7), 0 0 0 1px rgba(240,78,35,0.18);
+  }
+  .phone__screen { background: #101016; border-radius: 2rem; overflow: hidden; position: relative; }
+  .phone__bar {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--font-mono); font-size: 0.56rem; letter-spacing: 0.08em;
+    color: rgba(236,236,240,0.7); padding: 0.7rem 1.05rem 0.35rem;
+  }
+  .phone__bar svg { width: 3.2rem; height: 0.6rem; }
+  .phone__notch { width: 34%; height: 0.35rem; background: #08080B; border-radius: 0 0 8px 8px; margin: 0 auto 0.15rem; }
+  .phone__feed { padding: 0.55rem 0.6rem 0.9rem; display: grid; gap: 0.55rem; }
+  .post { border: 1px solid var(--edge); border-radius: 0.9rem; background: #17171F; padding: 0.6rem 0.7rem 0.7rem; }
+  .post__hd { font-family: var(--font-mono); font-size: 0.5rem; letter-spacing: 0.1em; color: rgba(236,236,240,0.45); text-transform: uppercase; display: flex; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.4rem; }
+  .post__body { font-size: 0.74rem; line-height: 1.45; margin: 0; color: rgba(236,236,240,0.9); }
+  .post__body b { color: var(--accent); font-weight: 700; }
+  .post__tag { font-family: var(--font-display); font-size: 1rem; color: var(--accent); line-height: 1.1; overflow-wrap: anywhere; }
+  .post__mono { font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.06em; color: rgba(236,236,240,0.45); margin-top: 0.4rem; display: block; }
+  .post--img { background: #101016; padding: 0; overflow: hidden; }
+  .post--img .fill { display: grid; place-items: center; padding: 1rem 0; background: radial-gradient(circle at 50% 45%, rgba(240,78,35,0.28), transparent 62%); }
+  .post--img svg { width: 4.6rem; color: var(--accent); }
+  .post--img .cap { padding: 0.5rem 0.7rem 0.65rem; }
+  .phone__tabs { display: flex; justify-content: space-around; padding: 0.5rem 0 0.7rem; border-top: 1px solid var(--edge); font-family: var(--font-mono); font-size: 0.6rem; color: rgba(236,236,240,0.35); }
+
+  /* ---------- artifacts ---------- */
+  .artifacts { display: grid; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); gap: 2.4rem; }
+  .artifacts figure .frame { background: #0E0E13; border: 2px solid var(--edge); border-radius: 14px; }
+  .artifacts figcaption { font-size: 0.84rem; }
+  .wide { grid-column: 1 / -1; }
+  /* wide diagrams keep their annotation type legible on small screens */
+  @media (max-width: 48rem) {
+    .wide .frame { overflow-x: auto; }
+    .wide .frame > svg { width: 720px; max-width: none; }
+  }
+
+  .sources li { color: rgba(236,236,240,0.62); }
+  .lineage a { background: var(--card); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .live i { animation: none; }
+  }
+</style>
+<noscript><style>[data-reveal]{opacity:1 !important;transform:none !important}</style></noscript>
+</head>
+<body>
+
+<!-- ============================== HERO ============================== -->
+<header class="hero">
+  <div class="hero__glow" aria-hidden="true"></div>
+  <div class="tx-over tx-scanlines hero__scan" aria-hidden="true"></div>
+
+  <div class="hero__inner">
+    <div class="hero__text">
+      <span class="live"><i></i> Last entry · still running</span>
+      <p class="hero__my" lang="my">အရေးတော်ပုံ</p>
+      <p class="hero__th" lang="th">ให้มันจบที่รุ่นเรา</p>
+      <h1>Three <em>Fingers</em></h1>
+      <p class="hero__meta">
+        <span>No. 15</span><span>Southeast Asia · Myanmar · Thailand · Hong Kong</span><span><b>1988 — 2021</b></span>
+      </p>
+      <p class="hero__lede">
+        The last movement in this atlas is the first whose design system was never printed.
+        It was assembled on phones — a salute lifted from a <em>Hollywood film</em>, a peacock
+        inherited from 1936, a hashtag issued by Twitter, and a slogan translated overnight by
+        strangers so that a foreign feed could read it.
+      </p>
+    </div>
+
+    <div class="hero__hand-wrap">
+      <svg class="hero__hand" viewBox="0 0 200 240" role="img" aria-label="The three-finger salute rendered as a geometric hand: index, middle and ring fingers raised, thumb and little finger folded">
+        <g fill="currentColor">
+          <rect x="52" y="30" width="24" height="102" rx="12" /> <rect x="86" y="12" width="24" height="120" rx="12" /> <rect x="120" y="30" width="24" height="102" rx="12" />
+          <rect x="150" y="82" width="22" height="34" rx="11" /> <rect x="44" y="94" width="128" height="82" rx="20" /> <rect x="26" y="118" width="72" height="26" rx="13" />
+          <rect x="72" y="168" width="60" height="60" rx="10" />
+        </g>
+        <g fill="none" stroke="#0B0B0E" stroke-width="2.5" opacity="0.5">
+          <path d="M64 132 v14 M98 132 v14 M132 132 v14" />
+        </g>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<div class="rule-tape" aria-hidden="true"></div>
+
+<!-- ============================== ANATOMY ============================== -->
+<section class="section" id="anatomy">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The anatomy</p>
+    <div class="anatomy-grid">
+
+      <div data-reveal>
+        <h2 class="section-title">Six colours, none of them mixed by hand</h2>
+        <p class="prose">
+          Every other palette in this atlas was constrained by what a press could hold: two
+          inks, a paper stock, a dye that could be got locally. This one was constrained by
+          what survives re-encoding. These are screen colours — saturated past what any
+          lithographer would allow, because a photograph of a protest is going to be shot on a
+          phone, compressed twice, screenshotted by someone else, and reposted at a quarter of
+          its original size. Colours that hold up through that pipeline are colours that shout.
+        </p>
+        <div class="swatches" style="margin-top:2rem">
+          <div class="swatch"><i style="background:#0B0B0E"></i><b>#0B0B0E OLED</b><span>Not black ink. Unlit pixels. The substrate of the whole movement is a phone held in the dark, and the interface it lives inside is dark by default.</span></div>
+          <div class="swatch"><i style="background:#F04E23"></i><b>#F04E23 FLARE</b><span>The NLD red pushed hot for screen. On paper it would look cheap; on an emissive display at 2am it is the only thing in the frame.</span></div>
+          <div class="swatch"><i style="background:#D6202A"></i><b>#D6202A CDM RED</b><span>The red of the NLD flag, reissued in February 2021 as a ribbon pinned to hospital scrubs. A party colour demoted to a wearable badge — cheaper, and harder to ban.</span></div>
+          <div class="swatch"><i style="background:#F2B705"></i><b>#F2B705 PEACOCK</b><span>The gold of the fighting peacock: a student-union mark from the 1930s that the NLD put on a red field in 1988 and never revised.</span></div>
+          <div class="swatch"><i style="background:#FFD23F"></i><b>#FFD23F DUCK</b><span>Inflatable-toy yellow — and, awkwardly, the exact register of Thai royalist yellow. The 2020 protesters took the establishment's colour back in the form of a pool toy.</span></div>
+          <div class="swatch"><i style="background:#C98A4B"></i><b>#C98A4B MILK TEA</b><span>A brand colour derived from a drink. Three shades of tea-with-milk stood in for three territories, which is the least ideological colour scheme in this entire atlas.</span></div>
+        </div>
+      </div>
+
+      <div data-reveal>
+        <h2 class="section-title">Four scripts, one input method</h2>
+        <p class="prose">
+          Burmese, Thai, Chinese and English shared the same protest graphic — often the same
+          image file. What unified them was not a typeface but a keyboard: everything here was
+          set by non-designers in whatever the phone offered, and the design decisions that
+          mattered were made about <em>character counts</em> and <em>translation</em>.
+        </p>
+        <div class="specimens" style="margin-top:2rem">
+          <div class="specimen">
+            <p class="my" lang="my" style="font-size:clamp(1.6rem,4.4vw,2.6rem);line-height:1.5">အရေးတော်ပုံ အောင်ရမည်</p>
+            <small>Burmese, set in Padauk. "The revolution must prevail" — an 8888 chant reused verbatim in 2021. Burmese letterforms are round because the script was cut into palm leaf with a stylus: a straight stroke splits the leaf along the grain. A writing surface from the eleventh century dictating a glyph shape on a 2021 phone.</small>
+          </div>
+          <div class="specimen">
+            <p class="th" lang="th" style="font-size:clamp(1.5rem,4vw,2.4rem);line-height:1.55;font-weight:700">ให้มันจบที่รุ่นเรา</p>
+            <small>Thai, set loopless. Traditional Thai type carries a small head-loop (หัว) on most consonants; the loopless faces that dominate Thai UI and display work delete it, which makes the script behave like a Latin sans. Every protest graphic out of Bangkok in 2020 is loopless. The tradition is barely fifty years old and it now reads as the default.</small>
+          </div>
+          <div class="specimen">
+            <p style="font-family:var(--font-display);font-size:clamp(1.6rem,4.4vw,2.6rem);line-height:1;color:var(--accent);overflow-wrap:anywhere">#WhatsHappeningInMyanmar</p>
+            <small>The hashtag as a typographic form: no word spaces, so capitalisation does the spacing; no punctuation, because the platform strips it; and a mandatory leading glyph nobody designed. Anton and Archivo Black are the faces this generation reaches for — condensed grotesques that survive being set at 11px in a thumbnail.</small>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="rule-tea" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<!-- ============================== SYMBOLS ============================== -->
+<section class="section" id="symbols">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The marks</p>
+    <h2 class="section-title" data-reveal>Four marks, and only one of them was designed</h2>
+
+    <div class="symbolrow" data-reveal>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 120" role="img" aria-label="Geometric mark of the three-finger salute">
+            <g fill="#F04E23">
+              <rect x="30" y="16" width="14" height="54" rx="7" /> <rect x="50" y="6" width="14" height="64" rx="7" /> <rect x="70" y="16" width="14" height="54" rx="7" />
+              <rect x="87" y="44" width="13" height="20" rx="6.5" /> <rect x="25" y="50" width="75" height="44" rx="12" /> <rect x="14" y="63" width="42" height="15" rx="7.5" />
+              <rect x="42" y="90" width="34" height="26" rx="6" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The salute</b> — index, middle, ring. Free, instant, objectless, and unambiguous in a photograph taken from fifty metres. The only mark in this atlas whose manufacturing cost is zero.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 120" role="img" aria-label="Schematic geometric abstraction of the Burmese fighting peacock, with a fanned tail of radiating wedges">
+            <g fill="#F2B705">
+              <path d="M62 104 L56 42 L68 42 Z" transform="rotate(-75 62 104)" /> <path d="M62 104 L56 42 L68 42 Z" transform="rotate(-60 62 104)" /> <path d="M62 104 L56 42 L68 42 Z" transform="rotate(-45 62 104)" />
+              <path d="M62 104 L56 42 L68 42 Z" transform="rotate(-30 62 104)" /> <path d="M62 104 L56 42 L68 42 Z" transform="rotate(-15 62 104)" /> <path d="M62 104 L56 42 L68 42 Z" />
+              <path d="M62 104 L56 42 L68 42 Z" transform="rotate(15 62 104)" />
+            </g>
+            <g fill="#15151A">
+              <circle cx="6.9" cy="89.3" r="2.6" /> <circle cx="12.6" cy="75.5" r="2.6" /> <circle cx="21.7" cy="63.7" r="2.6" />
+              <circle cx="33.5" cy="54.6" r="2.6" /> <circle cx="47.2" cy="48.9" r="2.6" /> <circle cx="62" cy="46.9" r="2.6" />
+              <circle cx="76.8" cy="48.9" r="2.6" />
+            </g>
+            <g stroke="#F2B705" stroke-width="2.6" stroke-linecap="round" fill="none">
+              <path d="M64 110 V118 M58 118 H70 M74 108 V118 M68 118 H80" />
+            </g>
+            <g fill="#F04E23">
+              <ellipse cx="68" cy="97" rx="18" ry="14" /> <path d="M76 91 L95 71 L103 79 L84 99 Z" /> <circle cx="99" cy="76" r="10" />
+            </g>
+            <path d="M108 72 L120 77 L108 82 Z" fill="#F2B705" />
+            <g stroke="#F2B705" stroke-width="2.6" stroke-linecap="round" fill="none">
+              <path d="M94 66 L89 55 M100 64 L100 52 M106 67 L112 57" />
+            </g>
+            <circle cx="102" cy="74" r="2.4" fill="#15151A" />
+          </svg>
+        </div>
+        <figcaption><b>The fighting peacock</b> — schematic, not ornamental. The real <span lang="my">ခွပ်ဒေါင်း</span> (<i>khut-daung</i>) is drawn as a bird mid-fight, wings out, tail fanned. Reduced here to seven tail wedges and three solids so the structure, not the plumage, is what you read.
+          <span class="credit">Schematic diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 120" role="img" aria-label="A rubber duck adopted as a protest mascot">
+            <ellipse cx="58" cy="80" rx="40" ry="24" fill="#FFD23F" /> <path d="M18 82 C18 96 34 104 58 104 C82 104 98 96 98 82 C98 96 82 106 58 106 C34 106 18 96 18 82 Z" fill="#E8A800" /> <circle cx="76" cy="46" r="22" fill="#FFD23F" />
+            <path d="M95 42 L118 48 L95 56 Z" fill="#F04E23" /> <circle cx="82" cy="40" r="4.6" fill="#15151A" /> <circle cx="83.6" cy="38.6" r="1.5" fill="#ECECF0" />
+            <path d="M10 98 h30 M50 98 h26 M86 98 h24" stroke="#7C8899" stroke-width="3" stroke-linecap="round" opacity="0.7" />
+          </svg>
+        </div>
+        <figcaption><b>The rubber duck</b> — picked up in Bangkok in November 2020 as an improvised shield against water cannon, and a mascot by the same evening. A protest object that photographs as a joke is a protest object the police cannot be filmed beating.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 120" role="img" aria-label="A glass of milk tea showing three tones of tea layered from dark to light">
+            <path d="M34 26 h52 l-7 78 h-38 Z" fill="#6E4222" /> <path d="M35.6 40 h48.8 l-3.6 40 h-41.6 Z" fill="#C98A4B" /> <path d="M37 56 h44.5 l-2 24 h-40.5 Z" fill="#E8C89A" />
+            <path d="M34 26 h52 l-7 78 h-38 Z" fill="none" stroke="#ECECF0" stroke-width="2.4" /> <rect x="58" y="6" width="7" height="24" rx="3" fill="#F04E23" transform="rotate(14 61 18)" />
+            <g fill="#2A1A0E">
+              <circle cx="48" cy="96" r="4" /><circle cx="60" cy="98" r="4" /><circle cx="72" cy="95" r="4" />
+              <circle cx="54" cy="88" r="3.4" /><circle cx="67" cy="88" r="3.4" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The milk tea</b> — three tones stacked in one glass: Hong Kong's dark stocking-strained tea, Taiwan's boba, Thailand's orange <i>cha yen</i>. The alliance's entire brand identity is a beverage held up as a shibboleth.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<div class="rule-tape" aria-hidden="true"></div>
+
+<!-- ============================== ESSAY ============================== -->
+<section class="section essay" id="essay">
+  <div class="wrap">
+    <div class="two-col">
+      <div>
+        <p class="eyebrow" data-reveal>How it worked</p>
+        <div class="prose" data-reveal>
+          <p>
+            Every previous entry in this atlas had a production bottleneck, and the bottleneck
+            shaped the design. Someone owned a press, a silkscreen bed, a paint studio, a
+            transmitter. That person made decisions, and those decisions are what we now call
+            the movement's visual identity.
+          </p>
+          <p>
+            This one has no bottleneck. There is no art director, no printer, no commissioning
+            committee and no approved file. What there is instead is a set of marks that were
+            <strong>found rather than made</strong> — a student emblem from the 1930s, a gesture
+            from a 2012 blockbuster, a pool toy, a drink — and then versioned in public by
+            thousands of people at once. The design question is not "who drew this". It is
+            "why did <em>this</em> spread and not something better".
+          </p>
+        </div>
+
+        <h3 data-reveal>1988 · <span>The fighting peacock</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            On 8 August 1988 — 8/8/88, a date chosen by astrologers and by graphic designers
+            simultaneously — Burma's cities filled with people demanding the end of Ne Win's
+            one-party state. Over the following six weeks the army shot its way back into
+            control; the death toll is generally put in the thousands, and it has never been
+            established. On 18 September a new junta, SLORC, took over.
+          </p>
+          <p>
+            The emblem the students carried was not new, and that was the point. The
+            <span class="my" lang="my">ခွပ်ဒေါင်း</span> — the fighting peacock — had been the
+            mark of the Rangoon University Students' Union since the anti-colonial agitations of
+            the 1920s and 1930s. A dancing peacock had sat on Konbaung-era coinage and on the
+            colonial-era flag badge before that. The 1936 student strike used it; Aung San's
+            generation used it; Ne Win dynamited the student union building in 1962 and the
+            peacock survived the demolition because it was never in the building.
+          </p>
+          <p>
+            Read as strategy, inheriting a mark is the opposite move to inventing one. An
+            invented mark has to be taught, and teaching takes distribution you do not have under
+            censorship. An inherited mark arrives pre-loaded: it says <em>we are the continuation
+            of the people your father shot at</em>, and it says it to the state as clearly as to
+            the street. The National League for Democracy, founded in 1988, put a golden fighting
+            peacock and a white star on a red field and has not revised it since.
+          </p>
+          <p>
+            The NLD's other mark was a face. Aung San Suu Kyi — daughter of the assassinated
+            independence leader — became the movement's portrait, which is an efficient and
+            dangerous piece of identity design: efficient because a face needs no legend,
+            dangerous because a face has a biography that keeps running. Her international
+            standing collapsed after 2017, when the Myanmar military's operations against the
+            Rohingya in Rakhine State drew findings of genocidal intent from the UN's Independent
+            International Fact-Finding Mission, and she defended the state at the International
+            Court of Justice in 2019. The portrait outlived the politics it was drawn to stand
+            for. Marks based on people always carry that risk; almost nobody prices it in.
+          </p>
+        </div>
+
+        <blockquote class="pull" data-reveal>
+          A logo nobody owns cannot be seized, licensed, priced or discontinued. It also cannot
+          be defended, corrected or withdrawn.
+        </blockquote>
+
+        <h3 data-reveal>2014 · <span>The borrowed salute</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            On 22 May 2014 the Royal Thai Army, under General Prayut Chan-o-cha, took power for
+            the thirteenth time since 1932. Public assembly of more than five people was banned.
+            Within days people at bus stops, in shopping malls and outside cinemas began raising
+            three fingers — index, middle, ring — and the junta announced that doing so could
+            get you arrested.
+          </p>
+          <p>
+            The gesture came from <cite>The Hunger Games</cite>, released in 2012, where it is a
+            District 12 salute of thanks and farewell. Nobody in Bangkok designed it. What they
+            did was <strong>select</strong> it, and the selection is the design work.
+          </p>
+          <p>
+            Look at the specification it satisfies. It costs nothing and requires no object, so
+            possession of it is not evidence. It is instantaneous — a placard takes a second to
+            raise and a second to see; a hand takes neither. It is legible in a low-resolution
+            photograph from any angle where the hand is visible, which matters because the
+            photograph is the actual deliverable. It is silent, so it works in a mall. And its
+            meaning was pre-installed: an entire generation had already watched the film, so the
+            gesture arrived with a story about a rigged system and a televised spectacle already
+            attached to it, at zero distribution cost to the movement.
+          </p>
+          <p>
+            The Philippine LABAN "L", thirty-six years earlier, solved the identical brief with
+            the identical mechanism — a hand sign, free, mass-manufacturable by bodies, banned
+            and therefore amplified. The difference is the source of the pre-installed meaning.
+            LABAN's came from a party name and a jailed man; the three fingers' came from a
+            Hollywood franchise owned by a studio in Santa Monica. That is not a decline in
+            seriousness. It is a change in where a generation's shared reference set is stored.
+          </p>
+        </div>
+
+        <h3 data-reveal>2020 · <span>Ducks, hamsters and dinosaurs</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            The backdrop is a decade of Thai politics conducted through shirt colour. From 2005
+            the yellow shirts — the People's Alliance for Democracy — wore the colour associated
+            with King Bhumibol's birth day. From 2007 the red shirts of the UDD wore the opposite.
+            A country in which political allegiance was a garment: instantly legible, instantly
+            sortable, and impossible to take off at a checkpoint. The 2010 crackdown on the red
+            shirt encampment in central Bangkok killed roughly ninety people.
+          </p>
+          <p>
+            The 2020 student movement did not pick a shirt. It picked mascots, and it picked
+            them out of fandom. In July and August 2020 protesters ran laps around the Democracy
+            Monument chanting a rewritten <cite>Hamtaro</cite> theme — the children's cartoon
+            hamster whose original lyric names the tastiest thing in the world, amended on the
+            spot to the people's tax money. On 3 August a rally was staged in Harry Potter
+            costume, complete with a speech about the one who must not be named; it was, in
+            practice, the first mass public speech about monarchy reform. The older generation
+            were dinosaurs, the students were the meteorite. In November, when police used water
+            cannon at parliament, inflatable rubber ducks appeared as improvised shields and were
+            mascots within hours.
+          </p>
+          <p>
+            The design logic here is not whimsy, it is a threat model. An absurdist mascot is
+            cheap and already in the shops. It cannot be trademarked into a single owner the
+            state can arrest. It is very hard to prosecute — the charge sheet has to say the
+            words "rubber duck" out loud. It is impossible to counter-brand, because the state
+            has no register in which a joke about a pool toy can be answered. And most
+            importantly it changes what a photograph of violence looks like: a riot policeman
+            advancing on a placard is enforcing order, and a riot policeman advancing on a
+            two-metre yellow duck is a picture that does the movement's argument for it. This is
+            image management, executed by teenagers, in real time.
+          </p>
+        </div>
+
+        <h3 data-reveal>April 2020 · <span>An alliance named after a drink</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            The Milk Tea Alliance began as a fight about nothing. In April 2020 a Thai actor and
+            his girlfriend were attacked by Chinese nationalist accounts over posts read as
+            treating Hong Kong and Taiwan as separate places. Thai Twitter, comprehensively
+            outnumbered, responded with jokes. Hong Kong and Taiwanese accounts joined in. Within
+            days the thing had a name, and the name was a beverage: Thailand, Hong Kong and
+            Taiwan all drink their tea with milk, and mainland Chinese tea is drunk without.
+          </p>
+          <p>
+            As an identity system this is close to a limit case. The membership test is a drink.
+            The palette is three shades of the same drink. There is no manifesto, no membership,
+            no office, no founder, and — this is the extraordinary part — the logo was
+            <strong>issued by a corporation</strong>. In April 2021, on the alliance's first
+            anniversary, Twitter released an official #MilkTeaAlliance hashtag emoji: a
+            platform-drawn mark, auto-appended to every use of the tag, rendered at 16 pixels,
+            distributed globally in a day.
+          </p>
+          <p>
+            Every movement in this atlas before this one had to solve distribution. This one had
+            distribution handed to it by a company with its own shareholders, terms of service
+            and enforcement policy — and by 2023 the same platform had changed hands, changed
+            name and changed its rules. A logo you do not host is a logo you are renting.
+          </p>
+        </div>
+
+        <h3 data-reveal>February 2021 · <span>Designed to be screenshotted</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            On 1 February 2021 the Tatmadaw detained Aung San Suu Kyi and President Win Myint,
+            annulled the November 2020 election result and installed Min Aung Hlaing. The
+            three-finger salute crossed the border from Thailand within days — not as a metaphor,
+            as a literal import, carried by the same Twitter accounts that had spent the previous
+            year in the Milk Tea Alliance.
+          </p>
+          <p>
+            Three design responses followed, and each has a different intended viewer. The
+            nightly banging of pots and pans, from 2 February onward, is aimed inward: it is a
+            traditional act for driving out evil, it needs no organiser, it is audible from inside
+            a locked flat, and it lets a whole street count itself. The Civil Disobedience
+            Movement — begun by hospital staff walking out — took a red ribbon and the
+            three-finger salute and built an identity out of two objects already in every home.
+          </p>
+          <p>
+            The third response is the one that should be studied. From the first week, hand-painted
+            placards in Yangon and Mandalay were written in <strong>English</strong>. Not for the
+            soldiers, who read Burmese. Not for the neighbours. For the feed —
+            <span style="color:var(--accent)">#WhatsHappeningInMyanmar</span> — and for the wire
+            photographers whose images would be cropped to a square. So the signs were lettered
+            large, high-contrast, short enough to survive a crop, and phrased in a register that
+            a stranger scrolling in another country could parse in half a second. When a
+            nineteen-year-old named Kyal Sin was shot in Mandalay on 3 March 2021, the photograph
+            that travelled showed her in a black T-shirt reading <em>Everything will be OK</em>.
+            English, on a body, in a Burmese street. Human Rights Watch and Amnesty International
+            documented the security forces' use of battlefield weapons against these crowds
+            through that spring.
+          </p>
+          <p>
+            Designing past the local authority to an international audience is not new — the Salt
+            March was staged for newsreel cameras in 1930. What is new is the latency. The
+            newsreel took weeks and was edited by a studio. The screenshot takes four seconds and
+            is edited by nobody, which means the protester is now also the art director, the
+            copywriter and the picture editor, standing in the street, choosing a font size.
+          </p>
+        </div>
+
+        <h3 data-reveal>The mechanism · <span>What unownable costs</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            It is tempting to end an atlas on the movement that finally escaped the printing
+            press. Resist it. A shared identity that is gestural, memetic and cross-border has
+            one structural weakness, and it follows directly from its strength: <strong>nobody
+            owns it, so nobody can control it</strong>.
+          </p>
+          <p>
+            There is no authority that can say a given use is not the movement. The salute has
+            since been raised by people the 2014 protesters would not recognise, and by people
+            using it to mean something else entirely. A hashtag can be flooded by anyone with a
+            keyboard; state accounts have done exactly that. A mascot can be sold as a T-shirt by
+            a company with no stake in the outcome. An alliance defined by a drink has no way to
+            expel anyone, because there is nothing to be expelled from. And a movement whose
+            distribution runs on one platform inherits every decision that platform's owner makes.
+          </p>
+          <p>
+            Myanmar's junta still holds power. Thailand's 2020 movement produced prosecutions, not
+            reform. That is not a verdict on the design — no salute was ever going to out-mass an
+            army. But it is worth writing down plainly, at the end of a book about how movements
+            looked, that being unforgettable and being effective are different specifications,
+            and this system was optimised hard for the first one.
+          </p>
+        </div>
+      </div>
+
+      <aside class="marginalia" data-reveal>
+        <p><b>1930s</b> Fighting peacock in use by the Rangoon University Students' Union; 1936 strike.</p>
+        <p><b>1962</b> Ne Win dynamites the student union building.</p>
+        <p><b>8.8.1988</b> The 8888 Uprising begins. Crushed by September; thousands killed.</p>
+        <p><b>1988</b> NLD founded — red field, golden fighting peacock, white star.</p>
+        <p><b>1990</b> NLD wins the election. Result annulled.</p>
+        <p><b>2005–06</b> Yellow shirts (PAD). <b>2007</b> Red shirts (UDD).</p>
+        <p><b>2010</b> Bangkok crackdown; around ninety killed.</p>
+        <p><b>2012</b> <cite>The Hunger Games</cite> released.</p>
+        <p><b>22.5.2014</b> Thai coup. Three-finger salute appears; junta bans it.</p>
+        <p><b>2017–18</b> Rohingya atrocities; UN Fact-Finding Mission reports genocidal intent.</p>
+        <p><b>4.2020</b> #nnevvy spat → Milk Tea Alliance.</p>
+        <p><b>7–8.2020</b> Hamtaro runs; Harry Potter rally at Democracy Monument.</p>
+        <p><b>11.2020</b> Rubber ducks vs water cannon at parliament.</p>
+        <p><b>1.2.2021</b> Myanmar coup. Salute crosses the border in days.</p>
+        <p><b>2.2021</b> Pots and pans nightly; CDM red ribbons; English-language placards.</p>
+        <p><b>4.2021</b> Twitter issues the #MilkTeaAlliance emoji.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== THE FEED ============================== -->
+<section class="section" id="feed" style="background:#0E0E13">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The medium</p>
+    <h2 class="section-title" data-reveal>The layout was a phone, so here is the phone</h2>
+
+    <div class="phonewrap">
+      <div data-reveal>
+        <div class="phone">
+          <div class="phone__screen">
+            <div class="phone__notch" aria-hidden="true"></div>
+            <div class="phone__bar">
+              <span>02:11</span>
+              <span aria-hidden="true">
+                <svg viewBox="0 0 60 12" aria-hidden="true" focusable="false">
+                  <g fill="currentColor">
+                    <rect x="0" y="8" width="3" height="4" /><rect x="5" y="6" width="3" height="6" />
+                    <rect x="10" y="3" width="3" height="9" /><rect x="15" y="0" width="3" height="12" opacity="0.35" />
+                    <path d="M25 10 l4-5 4 5 -4 2 z" /> <rect x="42" y="2" width="15" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="1.2" /> <rect x="43.5" y="3.5" width="6" height="5" />
+                    <rect x="58" y="4.5" width="2" height="3" rx="1" />
+                  </g>
+                </svg>
+              </span>
+            </div>
+
+            <div class="phone__feed">
+              <div class="post">
+                <div class="post__hd"><span>@ ·  Bangkok</span><span>03:41</span></div>
+                <p class="post__tag">#ให้มันจบที่รุ่นเรา</p>
+                <p class="post__body" lang="th">ให้มันจบที่รุ่นเรา</p>
+                <span class="post__mono">"let it end with our generation" · 18 code points · 54 bytes</span>
+              </div>
+
+              <div class="post post--img">
+                <div class="fill">
+                  <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+                    <g fill="currentColor">
+                      <rect x="30" y="16" width="14" height="54" rx="7" /> <rect x="50" y="6" width="14" height="64" rx="7" /> <rect x="70" y="16" width="14" height="54" rx="7" />
+                      <rect x="87" y="44" width="13" height="20" rx="6.5" /> <rect x="25" y="50" width="75" height="44" rx="12" /> <rect x="14" y="63" width="42" height="15" rx="7.5" />
+                      <rect x="42" y="90" width="34" height="26" rx="6" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="cap">
+                  <p class="post__body">Reposted from a repost. Origin unknown, quality degraded, meaning intact.</p>
+                  <span class="post__mono">↻ 4,102 · screenshot of a screenshot</span>
+                </div>
+              </div>
+
+              <div class="post">
+                <div class="post__hd"><span>@ ·  Yangon</span><span>04:06</span></div>
+                <p class="post__body my" lang="my" style="font-size:0.95rem;line-height:1.7">အရေးတော်ပုံ အောင်ရမည်</p>
+                <p class="post__body" style="margin-top:0.35rem"><b>EN:</b> The revolution must prevail.</p>
+                <span class="post__mono">translated by @ — not a translator</span>
+              </div>
+
+              <div class="post">
+                <div class="post__hd"><span>trending · SE Asia</span><span>now</span></div>
+                <p class="post__tag">#MilkTeaAlliance</p>
+                <span class="post__mono">emoji auto-appended by platform · 16 chars</span>
+              </div>
+            </div>
+
+            <div class="phone__tabs" aria-hidden="true"><span>◻</span><span>◎</span><span>✦</span><span>◍</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div data-reveal>
+        <p class="prose">
+          Not a metaphor. This is the actual page layout the design was made for: a column
+          roughly 390 pixels wide, scrolled with a thumb, in a dark interface, at night. Every
+          formal decision in this movement's graphics is downstream of that rectangle.
+        </p>
+        <div class="cards" style="margin-top:2rem;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr))">
+          <div class="card">
+            <span class="card__no">01</span>
+            <h4>Square, or it gets cropped</h4>
+            <p>Timelines crop wide images. Placards were lettered to survive a centre crop — short lines, big weight, nothing important near an edge.</p>
+          </div>
+          <div class="card">
+            <span class="card__no">02</span>
+            <h4>Legible at 40% scale</h4>
+            <p>The image is seen twice: once full, once as a thumbnail in someone's quote-post. Condensed grotesques and one accent colour survive both.</p>
+          </div>
+          <div class="card">
+            <span class="card__no">03</span>
+            <h4>Bilingual by default</h4>
+            <p>Burmese for the street, English for the feed, stacked in one frame. The translation is part of the composition, not an afterthought.</p>
+          </div>
+          <div class="card">
+            <span class="card__no">04</span>
+            <h4>Degrades gracefully</h4>
+            <p>Every repost re-encodes. A design that depends on fine detail dies at the third screenshot. A hand, a duck and a hashtag do not.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule-tape" aria-hidden="true"></div>
+
+<!-- ============================== ARTIFACTS ============================== -->
+<section class="section" id="artifacts">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Artifacts</p>
+    <h2 class="section-title" data-reveal>Four things that were never printed</h2>
+
+    <div class="artifacts" data-reveal>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 320 560" role="img" aria-label="Recreation of a protest feed on a phone screen: a hashtag card, a salute image tile and a translated slogan card, with interface chrome">
+            <rect width="320" height="560" fill="#0B0B0E" /> <rect x="24" y="14" width="272" height="532" rx="34" fill="#111117" stroke="#ECECF0" stroke-opacity="0.28" stroke-width="1.6" /> <rect x="126" y="22" width="68" height="9" rx="4.5" fill="#0B0B0E" />
+            <g font-family="JetBrains Mono, monospace" font-size="9" fill="#ECECF0" fill-opacity="0.7">
+              <text x="44" y="50">02:11</text>
+              <text x="230" y="50">4G  87%</text>
+            </g>
+            <g fill="#ECECF0" fill-opacity="0.55">
+              <rect x="206" y="45" width="2.4" height="4" /><rect x="210" y="43" width="2.4" height="6" />
+              <rect x="214" y="40" width="2.4" height="9" />
+            </g>
+            <line x1="40" y1="62" x2="280" y2="62" stroke="#ECECF0" stroke-opacity="0.14" />
+
+            <!-- card 1: hashtag -->
+            <rect x="40" y="74" width="240" height="96" rx="12" fill="#191921" stroke="#ECECF0" stroke-opacity="0.14" />
+            <g font-family="JetBrains Mono, monospace" font-size="7.5" fill="#ECECF0" fill-opacity="0.45">
+              <text x="52" y="92">@ · YANGON</text><text x="240" y="92">04:06</text>
+            </g>
+            <text x="52" y="122" font-family="Anton, Impact, sans-serif" font-size="20" fill="#F04E23">#WHATSHAPPENING</text> <text x="52" y="142" font-family="Anton, Impact, sans-serif" font-size="20" fill="#F04E23">INMYANMAR</text>
+            <text x="52" y="160" font-family="JetBrains Mono, monospace" font-size="7.5" fill="#ECECF0" fill-opacity="0.45">24 CHARS · NO SPACES ALLOWED</text>
+
+            <!-- card 2: salute tile -->
+            <rect x="40" y="182" width="240" height="212" rx="12" fill="#0E0E14" stroke="#ECECF0" stroke-opacity="0.14" />
+            <circle cx="160" cy="272" r="86" fill="#F04E23" fill-opacity="0.16" />
+            <g transform="translate(118,208) scale(0.7)" fill="#F04E23">
+              <rect x="30" y="16" width="14" height="54" rx="7" /> <rect x="50" y="6" width="14" height="64" rx="7" /> <rect x="70" y="16" width="14" height="54" rx="7" />
+              <rect x="87" y="44" width="13" height="20" rx="6.5" /> <rect x="25" y="50" width="75" height="44" rx="12" /> <rect x="14" y="63" width="42" height="15" rx="7.5" />
+              <rect x="42" y="90" width="34" height="26" rx="6" />
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="7.5" fill="#ECECF0" fill-opacity="0.5">
+              <text x="52" y="356">↻ 4,102     ♡ 11,908     ⤶ 630</text>
+              <text x="52" y="374">SCREENSHOT OF A SCREENSHOT · JPEG Q41</text>
+            </g>
+
+            <!-- card 3: translated slogan -->
+            <rect x="40" y="406" width="240" height="112" rx="12" fill="#191921" stroke="#ECECF0" stroke-opacity="0.14" />
+            <text x="52" y="440" font-family="Padauk, Noto Sans Myanmar, sans-serif" font-size="15" fill="#ECECF0" lang="my" xml:lang="my">အရေးတော်ပုံ အောင်ရမည်</text>
+            <line x1="52" y1="454" x2="268" y2="454" stroke="#F04E23" stroke-opacity="0.6" />
+            <text x="52" y="474" font-family="Inter, sans-serif" font-size="11" fill="#ECECF0" fill-opacity="0.85">The revolution must prevail.</text> <text x="52" y="496" font-family="JetBrains Mono, monospace" font-size="7.5" fill="#ECECF0" fill-opacity="0.45">EN GLOSS ADDED BY A STRANGER, 04:11</text>
+            <text x="52" y="509" font-family="JetBrains Mono, monospace" font-size="7.5" fill="#ECECF0" fill-opacity="0.45">SOURCE ACCOUNT SINCE DELETED</text>
+
+            <!-- tab bar -->
+            <line x1="40" y1="528" x2="280" y2="528" stroke="#ECECF0" stroke-opacity="0.14" />
+            <g fill="#ECECF0" fill-opacity="0.3">
+              <circle cx="80" cy="540" r="5" /><circle cx="133" cy="540" r="5" />
+              <circle cx="187" cy="540" r="5" /><circle cx="240" cy="540" r="5" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The feed, February 2021</b> The delivery format. Three posts, one column, dark chrome: a hashtag card, a compressed salute tile, and a slogan with an English gloss added by somebody who is not a translator. Note that the account credited on the original is already gone.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 320 560" role="img" aria-label="A typographic specimen sheet of three protest hashtags with monospaced annotations about character counts and translatability">
+            <rect width="320" height="560" fill="#0E0E13" />
+            <g font-family="JetBrains Mono, monospace" font-size="8" fill="#ECECF0" fill-opacity="0.45" letter-spacing="1">
+              <text x="20" y="30">SPECIMEN · HASHTAG AS DISPLAY TYPE</text>
+              <text x="20" y="44">SET IN ANTON / NOTO SANS THAI</text>
+            </g>
+            <line x1="20" y1="56" x2="300" y2="56" stroke="#F04E23" stroke-width="2" />
+
+            <text x="20" y="112" font-family="Anton, Impact, sans-serif" font-size="34" fill="#F04E23">#MILKTEA</text>
+            <text x="20" y="146" font-family="Anton, Impact, sans-serif" font-size="34" fill="#F04E23">ALLIANCE</text>
+            <g font-family="JetBrains Mono, monospace" font-size="8" fill="#ECECF0" fill-opacity="0.55">
+              <text x="20" y="168">16 CODE POINTS · 16 BYTES UTF-8</text> <text x="20" y="182">CAMELCASE DOES THE WORD-SPACING</text>
+              <text x="20" y="196">UNTRANSLATABLE ON PURPOSE: A NOUN</text> <text x="20" y="210">NOBODY HAD TO AGREE THE MEANING OF</text>
+            </g>
+            <line x1="20" y1="226" x2="300" y2="226" stroke="#ECECF0" stroke-opacity="0.16" />
+
+            <text x="20" y="266" font-family="Anton, Impact, sans-serif" font-size="26" fill="#ECECF0">#WHATSHAPPENING</text>
+            <text x="20" y="292" font-family="Anton, Impact, sans-serif" font-size="26" fill="#ECECF0">INMYANMAR</text>
+            <g font-family="JetBrains Mono, monospace" font-size="8" fill="#ECECF0" fill-opacity="0.55">
+              <text x="20" y="314">24 CODE POINTS · 24 BYTES UTF-8</text> <text x="20" y="328">ENGLISH-ONLY. THE AUDIENCE IS NOT LOCAL.</text>
+              <text x="20" y="342">A QUESTION USED AS A FILE NAME.</text>
+            </g>
+            <line x1="20" y1="358" x2="300" y2="358" stroke="#ECECF0" stroke-opacity="0.16" />
+
+            <text x="20" y="404" font-family="Noto Sans Thai, sans-serif" font-weight="700" font-size="27" fill="#F04E23" lang="th" xml:lang="th">#ให้มันจบที่รุ่นเรา</text>
+            <g font-family="JetBrains Mono, monospace" font-size="8" fill="#ECECF0" fill-opacity="0.55">
+              <text x="20" y="430">19 CODE POINTS · 55 BYTES UTF-8</text> <text x="20" y="444">THAI HAS NO WORD SPACES — SO THE HASHTAG</text>
+              <text x="20" y="458">NEEDS NO CAMELCASE HACK AT ALL</text> <text x="20" y="472">"LET IT END WITH OUR GENERATION"</text>
+              <text x="20" y="486">STACKING VOWELS AND TONE MARKS BREAK</text> <text x="20" y="500">MOST LATIN-FIRST DISPLAY FACES</text>
+            </g>
+            <line x1="20" y1="516" x2="300" y2="516" stroke="#F04E23" stroke-width="2" />
+            <text x="20" y="538" font-family="JetBrains Mono, monospace" font-size="8" fill="#ECECF0" fill-opacity="0.45">A CHARACTER BUDGET IS A DESIGN CONSTRAINT.</text>
+          </svg>
+        </div>
+        <figcaption><b>Hashtag specimen sheet</b> Three slogans, three different problems. Counts are of Unicode code points and UTF-8 bytes — the gap between them is why a Thai slogan is cheap to type and expensive to transmit.
+          <span class="credit">Specimen sheet · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure class="wide">
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 900 300" role="img" aria-label="Lineage diagram of the three-finger salute, from the 2012 film to Thailand in 2014 to Myanmar and Thailand in 2020 and 2021">
+            <rect width="900" height="300" fill="#0E0E13" />
+            <g font-family="JetBrains Mono, monospace" font-size="10" fill="#ECECF0" fill-opacity="0.45" letter-spacing="1.4">
+              <text x="30" y="34">TRANSMISSION OF A GESTURE · NINE YEARS, THREE JURISDICTIONS, NO OWNER</text>
+            </g>
+            <line x1="30" y1="46" x2="870" y2="46" stroke="#F04E23" stroke-width="2" />
+
+            <line x1="150" y1="150" x2="330" y2="150" stroke="#ECECF0" stroke-opacity="0.35" stroke-width="1.5" stroke-dasharray="6 5" /> <path d="M330 150 l-12 -5 v10 z" fill="#ECECF0" fill-opacity="0.5" /> <line x1="450" y1="150" x2="630" y2="150" stroke="#ECECF0" stroke-opacity="0.35" stroke-width="1.5" stroke-dasharray="6 5" />
+            <path d="M630 150 l-12 -5 v10 z" fill="#ECECF0" fill-opacity="0.5" />
+
+            <!-- node 1 -->
+            <rect x="30" y="86" width="120" height="128" rx="12" fill="#191921" stroke="#ECECF0" stroke-opacity="0.2" />
+            <g transform="translate(52,104) scale(0.62)" fill="#ECECF0" fill-opacity="0.55">
+              <rect x="30" y="16" width="14" height="54" rx="7" /><rect x="50" y="6" width="14" height="64" rx="7" />
+              <rect x="70" y="16" width="14" height="54" rx="7" /><rect x="87" y="44" width="13" height="20" rx="6.5" />
+              <rect x="25" y="50" width="75" height="44" rx="12" /><rect x="14" y="63" width="42" height="15" rx="7.5" />
+              <rect x="42" y="90" width="34" height="26" rx="6" />
+            </g>
+            <text x="46" y="200" font-family="Anton, Impact, sans-serif" font-size="17" fill="#ECECF0">2012</text>
+            <g font-family="JetBrains Mono, monospace" font-size="8.5" fill="#ECECF0" fill-opacity="0.5">
+              <text x="30" y="232">FILM · SANTA MONICA</text> <text x="30" y="245">A SALUTE OF THANKS AND</text>
+              <text x="30" y="258">FAREWELL, INVENTED FOR</text> <text x="30" y="271">A FICTIONAL DISTRICT.</text>
+              <text x="30" y="288">MEANING: PRE-INSTALLED.</text>
+            </g>
+
+            <!-- node 2 -->
+            <rect x="330" y="86" width="120" height="128" rx="12" fill="#191921" stroke="#F04E23" stroke-opacity="0.55" />
+            <g transform="translate(352,104) scale(0.62)" fill="#F04E23">
+              <rect x="30" y="16" width="14" height="54" rx="7" /><rect x="50" y="6" width="14" height="64" rx="7" />
+              <rect x="70" y="16" width="14" height="54" rx="7" /><rect x="87" y="44" width="13" height="20" rx="6.5" />
+              <rect x="25" y="50" width="75" height="44" rx="12" /><rect x="14" y="63" width="42" height="15" rx="7.5" />
+              <rect x="42" y="90" width="34" height="26" rx="6" />
+            </g>
+            <text x="346" y="200" font-family="Anton, Impact, sans-serif" font-size="17" fill="#F04E23">2014</text>
+            <g font-family="JetBrains Mono, monospace" font-size="8.5" fill="#ECECF0" fill-opacity="0.5">
+              <text x="330" y="232">BANGKOK · AFTER 22 MAY</text> <text x="330" y="245">RAISED IN MALLS, AT BUS</text>
+              <text x="330" y="258">STOPS, OUTSIDE CINEMAS.</text> <text x="330" y="271">JUNTA BANS IT WITHIN DAYS</text>
+              <text x="330" y="288">— WHICH CONFIRMS IT WORKS.</text>
+            </g>
+
+            <!-- node 3 -->
+            <rect x="630" y="86" width="140" height="128" rx="12" fill="#191921" stroke="#F04E23" stroke-opacity="0.55" />
+            <g transform="translate(662,104) scale(0.62)" fill="#F04E23">
+              <rect x="30" y="16" width="14" height="54" rx="7" /><rect x="50" y="6" width="14" height="64" rx="7" />
+              <rect x="70" y="16" width="14" height="54" rx="7" /><rect x="87" y="44" width="13" height="20" rx="6.5" />
+              <rect x="25" y="50" width="75" height="44" rx="12" /><rect x="14" y="63" width="42" height="15" rx="7.5" />
+              <rect x="42" y="90" width="34" height="26" rx="6" />
+            </g>
+            <text x="646" y="200" font-family="Anton, Impact, sans-serif" font-size="17" fill="#F04E23">2020–21</text>
+            <g font-family="JetBrains Mono, monospace" font-size="8.5" fill="#ECECF0" fill-opacity="0.5">
+              <text x="630" y="232">BANGKOK AGAIN, THEN</text> <text x="630" y="245">YANGON WITHIN DAYS OF</text>
+              <text x="630" y="258">1 FEB 2021. CARRIED BY</text> <text x="630" y="271">THE SAME ACCOUNTS THAT</text>
+              <text x="630" y="288">RAN #MILKTEAALLIANCE.</text>
+            </g>
+
+            <g font-family="JetBrains Mono, monospace" font-size="8.5" fill="#F04E23">
+              <text x="176" y="132">COST TO COPY: 0</text> <text x="176" y="146">TOOLING: 0</text>
+              <text x="176" y="160">LATENCY: ONE VIEWING</text> <text x="476" y="132">COST TO BAN: HIGH</text>
+              <text x="476" y="146">EVIDENCE: NONE</text> <text x="476" y="160">LATENCY: ONE REPOST</text>
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="8.5" fill="#ECECF0" fill-opacity="0.35"><text x="790" y="146">NO END</text><text x="790" y="160">NODE.</text></g>
+          </svg>
+        </div>
+        <figcaption><b>Lineage of the salute</b> The transmission path, with the numbers that explain it. At each hop the cost of copying stays at zero and the cost of suppression rises. There is no version control and no origin file — the third node is not a copy of the first, it is a re-derivation.
+          <span class="credit">Diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure class="wide">
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 900 320" role="img" aria-label="A sticker sheet of protest mascots with dashed die-cut outlines: a rubber duck, a hamster, a dinosaur, a milk tea, a pot and spoon, and a red ribbon">
+            <rect width="900" height="320" fill="#ECECF0" />
+            <g font-family="JetBrains Mono, monospace" font-size="9" fill="#15151A" fill-opacity="0.55" letter-spacing="1.4">
+              <text x="26" y="28">DIE-CUT SHEET · PROTEST MASCOTS 2020–21 · CUT LINE 0.5PT DASHED · NO LICENCE, NO OWNER</text>
+            </g>
+            <line x1="26" y1="40" x2="874" y2="40" stroke="#F04E23" stroke-width="2" />
+
+            <!-- duck -->
+            <g>
+              <rect x="30" y="60" width="180" height="180" rx="24" fill="none" stroke="#15151A" stroke-opacity="0.4" stroke-width="1" stroke-dasharray="5 4" /> <ellipse cx="112" cy="176" rx="62" ry="38" fill="#FFD23F" stroke="#15151A" stroke-width="3" /> <circle cx="140" cy="122" r="34" fill="#FFD23F" stroke="#15151A" stroke-width="3" />
+              <path d="M170 116 L206 126 L170 138 Z" fill="#F04E23" stroke="#15151A" stroke-width="3" stroke-linejoin="round" /> <circle cx="149" cy="113" r="6" fill="#15151A" />
+              <text x="34" y="258" font-family="JetBrains Mono, monospace" font-size="9" fill="#15151A" fill-opacity="0.6">01 · RUBBER DUCK</text> <text x="34" y="272" font-family="JetBrains Mono, monospace" font-size="8" fill="#15151A" fill-opacity="0.45">SHIELD → MASCOT, ONE EVENING</text>
+              <text x="34" y="286" font-family="JetBrains Mono, monospace" font-size="8" fill="#15151A" fill-opacity="0.45">BANGKOK, NOV 2020</text>
+            </g>
+
+            <!-- hamster -->
+            <g>
+              <rect x="230" y="60" width="170" height="180" rx="24" fill="none" stroke="#15151A" stroke-opacity="0.4" stroke-width="1" stroke-dasharray="5 4" /> <ellipse cx="315" cy="158" rx="60" ry="52" fill="#F2B705" stroke="#15151A" stroke-width="3" /> <ellipse cx="315" cy="176" rx="36" ry="30" fill="#ECECF0" stroke="#15151A" stroke-width="3" />
+              <circle cx="278" cy="112" r="14" fill="#F2B705" stroke="#15151A" stroke-width="3" /> <circle cx="352" cy="112" r="14" fill="#F2B705" stroke="#15151A" stroke-width="3" />
+              <circle cx="298" cy="146" r="6" fill="#15151A" /><circle cx="332" cy="146" r="6" fill="#15151A" />
+              <path d="M308 164 h14 l-7 8 z" fill="#F04E23" stroke="#15151A" stroke-width="2" stroke-linejoin="round" />
+              <text x="234" y="258" font-family="JetBrains Mono, monospace" font-size="9" fill="#15151A" fill-opacity="0.6">02 · HAMSTER</text> <text x="234" y="272" font-family="JetBrains Mono, monospace" font-size="8" fill="#15151A" fill-opacity="0.45">CARTOON THEME, LYRICS SWAPPED</text>
+              <text x="234" y="286" font-family="JetBrains Mono, monospace" font-size="8" fill="#15151A" fill-opacity="0.45">TO THE PEOPLE'S TAX MONEY</text>
+            </g>
+
+            <!-- dinosaur -->
+            <g>
+              <rect x="420" y="60" width="180" height="180" rx="24" fill="none" stroke="#15151A" stroke-opacity="0.4" stroke-width="1" stroke-dasharray="5 4" /> <path d="M448 200 C448 156 476 130 508 130 C516 108 540 100 556 112 C574 104 590 116 588 134 C596 142 594 156 584 160 C584 190 564 200 540 200 Z" fill="#7A8B5A" stroke="#15151A" stroke-width="3" stroke-linejoin="round" /> <path d="M448 200 C430 196 420 184 424 172 C434 176 442 184 448 190 Z" fill="#7A8B5A" stroke="#15151A" stroke-width="3" stroke-linejoin="round" />
+              <circle cx="570" cy="126" r="5" fill="#15151A" /> <path d="M512 128 l10 -14 l10 14 M534 126 l10 -13 l9 13" fill="#F04E23" stroke="#15151A" stroke-width="2.4" stroke-linejoin="round" />
+              <text x="424" y="258" font-family="JetBrains Mono, monospace" font-size="9" fill="#15151A" fill-opacity="0.6">03 · DINOSAUR</text> <text x="424" y="272" font-family="JetBrains Mono, monospace" font-size="8" fill="#15151A" fill-opacity="0.45">THE OLD GENERATION.</text>
+              <text x="424" y="286" font-family="JetBrains Mono, monospace" font-size="8" fill="#15151A" fill-opacity="0.45">THE STUDENTS WERE THE METEOR.</text>
+            </g>
+
+            <!-- milk tea -->
+            <g>
+              <rect x="620" y="60" width="120" height="180" rx="24" fill="none" stroke="#15151A" stroke-opacity="0.4" stroke-width="1" stroke-dasharray="5 4" /> <path d="M652 90 h56 l-8 118 h-40 Z" fill="#6E4222" stroke="#15151A" stroke-width="3" stroke-linejoin="round" /> <path d="M653.6 112 h52.6 l-4 44 h-44.6 Z" fill="#C98A4B" />
+              <path d="M655.6 132 h48 l-2.6 24 h-42.8 Z" fill="#E8C89A" /> <path d="M652 90 h56 l-8 118 h-40 Z" fill="none" stroke="#15151A" stroke-width="3" stroke-linejoin="round" /> <rect x="682" y="62" width="9" height="32" rx="4" fill="#F04E23" stroke="#15151A" stroke-width="2.4" transform="rotate(14 686 78)" />
+              <text x="624" y="258" font-family="JetBrains Mono, monospace" font-size="9" fill="#15151A" fill-opacity="0.6">04 · MILK TEA</text> <text x="624" y="272" font-family="JetBrains Mono, monospace" font-size="8" fill="#15151A" fill-opacity="0.45">A MEMBERSHIP TEST</text>
+              <text x="624" y="286" font-family="JetBrains Mono, monospace" font-size="8" fill="#15151A" fill-opacity="0.45">YOU CAN DRINK</text>
+            </g>
+
+            <!-- pot + ribbon -->
+            <g>
+              <rect x="760" y="60" width="114" height="180" rx="24" fill="none" stroke="#15151A" stroke-opacity="0.4" stroke-width="1" stroke-dasharray="5 4" /> <path d="M778 120 h72 v46 a16 16 0 0 1 -16 16 h-40 a16 16 0 0 1 -16 -16 Z" fill="#B9BCC4" stroke="#15151A" stroke-width="3" stroke-linejoin="round" /> <rect x="770" y="112" width="88" height="10" rx="5" fill="#B9BCC4" stroke="#15151A" stroke-width="3" />
+              <path d="M856 92 l14 -22" stroke="#15151A" stroke-width="4" stroke-linecap="round" /> <ellipse cx="854" cy="96" rx="9" ry="6" fill="#F04E23" stroke="#15151A" stroke-width="3" transform="rotate(-30 854 96)" /> <path d="M796 196 l14 26 l-14 -6 l-14 6 Z" fill="#D6202A" stroke="#15151A" stroke-width="2.6" stroke-linejoin="round" />
+              <text x="764" y="258" font-family="JetBrains Mono, monospace" font-size="9" fill="#15151A" fill-opacity="0.6">05 · POT + RED RIBBON</text> <text x="764" y="272" font-family="JetBrains Mono, monospace" font-size="8" fill="#15151A" fill-opacity="0.45">DRIVING OUT EVIL, NIGHTLY.</text>
+              <text x="764" y="286" font-family="JetBrains Mono, monospace" font-size="8" fill="#15151A" fill-opacity="0.45">CDM, YANGON, FEB 2021.</text>
+            </g>
+
+            <line x1="26" y1="302" x2="874" y2="302" stroke="#15151A" stroke-opacity="0.25" />
+          </svg>
+        </div>
+        <figcaption><b>Mascot sticker sheet</b> Printed here on white, which is the only place these ever appeared on paper — as stickers, sold and given away after the fact. Note what they have in common: closed bold outlines, flat fills, no gradients, and silhouettes that still read at thumbnail size. That is not a style. It is a survival spec for compression.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+    </div>
+
+    <p class="note" style="margin-top:2.6rem;max-width:46rem">
+      These are drawn from published descriptions and reporting, not traced from photographs.
+      The feed and specimen sheets are composites: no single real post is reproduced, and the
+      handles, counts and timestamps are illustrative. The mascots are schematic — deliberately
+      generic, since the originals are commercial characters that protesters borrowed without
+      permission, which is itself part of the argument.
+    </p>
+  </div>
+</section>
+
+<!-- ============================== LINEAGE ============================== -->
+<section class="section" id="lineage">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Lineage</p>
+    <h2 class="section-title" data-reveal>Where the hand came from</h2>
+    <div class="lineage" data-reveal
+         data-lineage="people-power,reformasi,panthers,khmer-rouge"
+         data-why="The same design solved thirty-six years earlier: a hand sign, free, banned, and therefore multiplied. LABAN's meaning came from a party; the three fingers' came from a film.|The regional grammar of the student uprising — campus unions, an underground press, and a generation naming itself against its parents' regime.|The raised fist that made a gesture into a party's primary mark, and proved that a photograph of a hand travels further than any poster.|What the region already knows about unchecked power, and why a Southeast Asian movement designs with the memory of 1975 in the room."></div>
+  </div>
+</section>
+
+<!-- ============================== SOURCES ============================== -->
+<section class="section" id="sources" style="padding-top:0">
+  <div class="wrap">
+    <hr class="hr" style="margin-bottom:3rem" />
+    <p class="eyebrow" data-reveal>Sources &amp; further reading</p>
+    <ul class="sources" data-reveal>
+      <li>Christina Fink, <cite>Living Silence in Burma: Surviving under Military Rule</cite>, 2nd edn (2009) — on 8888, the student unions and life after the crackdown.</li>
+      <li>UN Independent International Fact-Finding Mission on Myanmar, <cite>Report of the detailed findings</cite> (A/HRC/39/CRP.2, 2018) — the Rohingya findings, in the mission's own words.</li>
+      <li>Aim Sinpeng, <cite>Opposing Democracy in the Digital Age: The Yellow Shirts in Thailand</cite> (University of Michigan Press, 2021) — how a colour became a movement online.</li>
+      <li>Kanokrat Lertchoosakul, "The white ribbon movement: high school students in the 2020 Thai youth protests", <cite>Critical Asian Studies</cite> (2021).</li>
+      <li>Wasana Wongsurawat, <cite>The Crown and the Capitalists: The Ethnic Chinese and the Founding of the Thai Nation</cite> (University of Washington Press, 2019) — background to the Sino-Thai relationship the Milk Tea Alliance was arguing about.</li>
+      <li>Human Rights Watch, Myanmar country reporting from February 2021 onward, and the corresponding <cite>World Report</cite> chapters.</li>
+      <li>Amnesty International, investigations into the Myanmar security forces' use of battlefield weapons against protesters, March 2021.</li>
+      <li>Twitter Inc., announcement of the #MilkTeaAlliance hashtag emoji, blog.twitter.com, April 2021 — a platform documenting the identity it issued.</li>
+    </ul>
+  </div>
+</section>
+
+<div data-site="foot"></div>
+
+<script src="../../shared/movements.js"></script>
+<script src="../../shared/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en" data-slug="saffron">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Saffron, the Lotus &amp; the Ballot Symbol — Political Design</title>
+<meta name="description" content="Two Indian design systems in one page: the saffron iconography of Hindu nationalism, and the Election Commission of India's pictogram alphabet, built so that a non-reading electorate could vote." />
+<meta name="theme-color" content="#FBF3E6" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Saffron, the Lotus &amp; the Ballot Symbol — Political Design" />
+<meta property="og:description" content="A movement that made a flag its guru, and a state that drew a pictogram alphabet for 173 million voters. One of them ends up inside the other." />
+<meta property="og:url" content="https://layogtima.com/political-design/m/saffron/" />
+<link rel="icon" type="image/svg+xml" href="https://layogtima.com/images/favicon/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anek+Devanagari:wght@200..800&family=Archivo+Black&family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../shared/site.css" />
+<link rel="stylesheet" href="../../shared/textures.css" />
+<style>
+  :root {
+    --paper: #FBF3E6;
+    --ink: #241A10;
+    --accent: #E8730C;
+    --deep: #B8480A;
+    --leaf: #0E7A3E;
+    --khaki: #9C8A57;
+    --form: #F5F7F5;
+    --font-display: "Archivo Black", "Archivo", Helvetica, sans-serif;
+    --font-body: "Source Serif 4", Georgia, serif;
+    --font-deva: "Anek Devanagari", "Noto Serif Devanagari", sans-serif;
+  }
+  h1, h2, h3, h4 { font-weight: 400; }
+  .dev { font-family: var(--font-deva); font-weight: 600; }
+
+  /* ============ HALF ONE : the movement ============ */
+
+  .hero {
+    min-height: 100svh;
+    display: grid;
+    align-content: center;
+    padding: 8rem var(--gutter) 5rem;
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 62% 58% at 74% 46%, #FFDCA8 0%, rgba(255,220,168,0) 68%),
+      var(--paper);
+  }
+  .hero__flag {
+    position: absolute;
+    right: 0.5rem; top: 50%;
+    width: min(56vw, 730px);
+    transform: translateY(-50%);
+    transform-origin: 4% 50%;
+    animation: rock 17s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+  @keyframes rock {
+    0%, 100% { transform: translateY(-50%) rotate(-0.7deg); }
+    50%      { transform: translateY(-50%) rotate(0.7deg); }
+  }
+  .hero__inner { position: relative; z-index: 3; width: min(100%, 76rem); margin-inline: auto; }
+  .hero__deva {
+    font-family: var(--font-deva);
+    font-weight: 800;
+    font-size: clamp(4rem, 15vw, 12rem);
+    line-height: 0.82;
+    color: var(--deep);
+    margin: 0 0 0.12em;
+    letter-spacing: -0.02em;
+    text-shadow: 0.035em 0.045em 0 rgba(232,115,12,0.4);
+  }
+  .hero__en {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 5.4vw, 4.2rem);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    margin: 0 0 1.4rem;
+    max-width: 15ch;
+  }
+  .hero__meta {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--soft);
+    display: flex; flex-wrap: wrap; gap: 0.55rem 1.4rem;
+    margin-bottom: 1.8rem;
+  }
+  .hero__lede { font-size: clamp(1.08rem, 1vw + 0.9rem, 1.4rem); line-height: 1.5; max-width: 32rem; }
+  .hero__lede em { font-style: normal; color: var(--deep); font-weight: 600; }
+  @media (max-width: 60rem) {
+    .hero__flag { right: -22vw; width: 108vw; opacity: 0.3; }
+    .hero { background: radial-gradient(ellipse 90% 40% at 70% 30%, #FFDCA8 0%, rgba(255,220,168,0) 70%), var(--paper); }
+  }
+
+  .gerua { height: 9px; background: linear-gradient(90deg, var(--deep), var(--accent) 55%, #FFB25E); }
+
+  .swatches { grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr)); }
+  .anatomy-grid { display: grid; gap: var(--step) 3.5rem; grid-template-columns: 1fr; }
+  @media (min-width: 62rem) { .anatomy-grid { grid-template-columns: 1.06fr 1fr; } }
+
+  .symbolrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: 1.6rem; }
+  .symbolrow figure .frame { background: #FFFAF0; padding: 0.8rem; }
+  .symbolrow figcaption { font-size: 0.8rem; }
+  .symbolrow .wide { grid-column: 1 / -1; }
+  @media (min-width: 52rem) { .symbolrow .wide { grid-column: span 2; } }
+
+  .essay h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 2.7vw, 2.1rem);
+    letter-spacing: -0.025em;
+    line-height: 1.08;
+    margin: 3.4rem 0 1rem;
+    max-width: 21ch;
+    color: var(--soft);
+  }
+  .essay h3 span { color: var(--ink); }
+  .essay > .prose > p:first-of-type::first-letter,
+  .essay .dropcap::first-letter {
+    font-family: var(--font-display);
+    float: left;
+    font-size: 3.4em;
+    line-height: 0.8;
+    padding: 0.08em 0.09em 0 0;
+    color: var(--deep);
+  }
+  .marginalia {
+    font-family: var(--font-mono);
+    font-size: 0.69rem;
+    line-height: 1.72;
+    letter-spacing: 0.04em;
+    color: var(--soft);
+    border-left: 1px solid var(--rule);
+    padding-left: 1.1rem;
+  }
+  .marginalia b { color: var(--deep); }
+  .two-col { display: grid; gap: 2.5rem; grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 58rem) { .two-col { grid-template-columns: minmax(0,1fr) 15rem; gap: 3.5rem; } }
+
+  .bigfigs { display: grid; grid-template-columns: 1fr; gap: 2.6rem; }
+  .bigfigs figure .frame { background: #FFFAF0; padding: 1rem; }
+
+  /* ============ THE SEAM ============ */
+  .seam {
+    background: var(--ink);
+    color: #F5F1E8;
+    border-top: 10px solid var(--accent);
+    padding: clamp(3rem, 7vw, 5.5rem) var(--gutter);
+    position: relative;
+  }
+  .seam__k {
+    font-family: var(--font-mono);
+    font-size: 0.7rem; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 1.1rem;
+  }
+  .seam__t {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: clamp(1.1rem, 2.6vw, 1.9rem);
+    line-height: 1.28;
+    letter-spacing: -0.01em;
+    max-width: 40rem;
+    margin: 0;
+  }
+  .seam__s { font-family: var(--font-body); font-size: 0.95rem; color: rgba(245,241,232,0.62); max-width: 38rem; margin: 1.4rem 0 0; }
+
+  /* ============ HALF TWO : the state ============ */
+  .statehalf {
+    --paper: #F5F7F5;
+    --ink: #14181A;
+    --accent: #1B2A33;
+    --rule: rgba(20,24,26,0.22);
+    --soft: rgba(20,24,26,0.62);
+    --whisper: rgba(20,24,26,0.045);
+    --font-display: "JetBrains Mono", ui-monospace, monospace;
+    background: var(--paper);
+    color: var(--ink);
+    position: relative;
+    border-bottom: 1px solid var(--rule);
+  }
+  .statehalf > .tx-over { z-index: 0; }
+  .statehalf > *:not(.tx-over) { position: relative; z-index: 1; }
+  .statehalf h2, .statehalf h3 { font-weight: 700; }
+  .statehalf .section-title {
+    font-size: clamp(1.25rem, 2.3vw, 1.85rem);
+    line-height: 1.24;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+  .statehalf .essay h3 {
+    font-family: var(--font-display);
+    font-size: clamp(0.95rem, 1.5vw, 1.16rem);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    line-height: 1.4;
+    max-width: 32ch;
+    margin: 3.2rem 0 1.1rem;
+    color: var(--soft);
+  }
+  .statehalf .essay h3 span { color: var(--ink); }
+  .statehalf .essay > .prose > p:first-of-type::first-letter { float: none; font-size: inherit; padding: 0; color: inherit; font-family: inherit; }
+  .statehalf .pull { font-size: clamp(1.05rem, 1.9vw, 1.42rem); line-height: 1.38; letter-spacing: -0.005em; border-left-width: 3px; }
+  .statehalf .prose { max-width: 36rem; }
+  .statehalf figure .frame { background: #FCFDFB; }
+
+  .formhead {
+    display: flex; flex-wrap: wrap;
+    border: 1px solid var(--rule);
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--soft);
+    margin-bottom: 2.6rem;
+    background: #FCFDFB;
+  }
+  .formhead span { padding: 0.7rem 1rem; border-right: 1px solid var(--rule); }
+  .formhead span:last-child { border-right: 0; margin-left: auto; }
+
+  .criteria { list-style: none; margin: 2.4rem 0 0; padding: 0; border: 1px solid var(--rule); background: #FCFDFB; max-width: 44rem; }
+  .criteria li {
+    display: grid;
+    grid-template-columns: 3.2rem 1fr;
+    gap: 0 0.6rem;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--rule);
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+  .criteria li:last-child { border-bottom: 0; }
+  .criteria b { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.14em; color: var(--soft); font-weight: 400; padding-top: 0.25em; }
+
+  .sheetwrap { max-width: 46rem; margin-inline: auto; }
+  .sheetwrap .frame { padding: 0; background: #FCFDFB; }
+  .bs-h { font-family: "JetBrains Mono", monospace; font-size: 9px; letter-spacing: 0.16em; fill: #14181A; }
+  .bs-n { font-family: "JetBrains Mono", monospace; font-size: 8px; letter-spacing: 0.1em; fill: rgba(20,24,26,0.45); }
+  .bs-c { font-family: "JetBrains Mono", monospace; font-size: 9.5px; letter-spacing: 0.14em; fill: #14181A; }
+  .bs-d { font-family: "Anek Devanagari", sans-serif; font-size: 11px; fill: rgba(20,24,26,0.6); }
+  .bs-f { font-family: "JetBrains Mono", monospace; font-size: 7.4px; letter-spacing: 0.02em; fill: rgba(20,24,26,0.55); }
+
+  .dia { font-family: "JetBrains Mono", monospace; font-size: 6px; letter-spacing: 0.06em; }
+  .dia--k { font-family: "JetBrains Mono", monospace; font-size: 7.2px; letter-spacing: 0.04em; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__flag { animation: none; }
+  }
+</style>
+<noscript><style>[data-reveal]{opacity:1 !important;transform:none !important}</style></noscript>
+</head>
+<body>
+
+<!-- ============================== HERO ============================== -->
+<header class="hero">
+  <svg class="hero__flag" viewBox="0 0 620 430" aria-hidden="true" focusable="false">
+    <defs> <radialGradient id="glow" cx="52%" cy="46%" r="58%">
+        <stop offset="0%" stop-color="#FFE9B8" stop-opacity="0.95" /> <stop offset="58%" stop-color="#FFC46B" stop-opacity="0.35" />
+        <stop offset="100%" stop-color="#FFC46B" stop-opacity="0" /> </radialGradient> <linearGradient id="bhagwa" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#F58A18" /> <stop offset="52%" stop-color="#E8730C" /> <stop offset="100%" stop-color="#C4550A" /> </linearGradient> </defs>
+    <ellipse cx="330" cy="205" rx="330" ry="215" fill="url(#glow)" />
+    <path d="M52,52 L596,44 L358,228 L486,404 L52,404 Z" fill="#8E3A05" opacity="0.16" transform="translate(9,13)" />
+    <path d="M52,52 L596,44 L358,228 L486,404 L52,404 Z" fill="url(#bhagwa)" />
+    <path d="M52,52 L596,44 L358,228 L486,404 L52,404 Z" fill="none" stroke="#8E3A05" stroke-width="1.4" opacity="0.5" />
+    <rect x="44" y="14" width="11" height="416" fill="#7A4A22" /> <circle cx="49.5" cy="12" r="9" fill="#C99B2B" />
+  </svg>
+  <div class="tx-over tx-halftone" style="color:#B8480A" aria-hidden="true"></div>
+
+  <div class="hero__inner">
+    <p class="hero__deva" lang="hi">भगवा</p>
+    <h1 class="hero__en">Saffron, the Lotus &amp; the Ballot&nbsp;Symbol</h1>
+    <p class="hero__meta">
+      <span>No. 04</span><span>South Asia · India</span><span>1925 — present</span>
+    </p>
+    <p class="hero__lede">
+      Two Indian design systems, one page. A movement that took a <em>flag</em> as its
+      guru rather than a man, and grew into the loudest poster idiom in the country. And
+      a state pictogram alphabet, drawn anonymously in 1951, so that a hundred and
+      seventy million people who could not read could still vote.
+    </p>
+  </div>
+</header>
+
+<div class="gerua" aria-hidden="true"></div>
+
+<!-- ============================== WARNING ============================== -->
+<section class="section" style="padding-block:clamp(2.4rem,5vw,3.6rem)">
+  <div class="wrap">
+    <div class="warnbox">
+      <h2>Note on this page</h2>
+      <p>
+        The first half of this page analyses the visual system of Hindu nationalism, a
+        movement whose organisations and campaigns have been implicated in episodes of
+        communal violence in India — including violence documented along and after the
+        route of the 1990 Rath Yatra, and the demolition of the Babri Masjid in 1992.
+      </p>
+      <p>
+        Its symbols are reproduced here as evidence and analysed as mechanism. Showing a
+        mark is not endorsing it.
+      </p>
+      <p>
+        The second half covers a separate and unrelated design system: the Election
+        Commission of India's ballot symbols, a state project with its own designers,
+        constraints and history. The two appear together because one eventually ends up
+        inside the other.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ANATOMY ============================== -->
+<section class="section" id="anatomy" style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The anatomy</p>
+    <div class="anatomy-grid">
+
+      <div data-reveal>
+        <h2 class="section-title">Six colours, one of them a range</h2>
+        <p class="prose">
+          Saffron has no published specification in this movement. There is no equivalent
+          of <cite>IS 1</cite>, no Pantone chip, no brand book — and that turns out to be
+          the point. The identity is a hue <em>band</em> between orange and red-lead,
+          which means a screen-printed banner, a polyester flag, a temple gatepost and a
+          phone screen can all be "correct". It survives reproduction because it was never
+          pinned down.
+        </p>
+        <div class="swatches" style="margin-top:2rem">
+          <div class="swatch"><i style="background:#E8730C"></i><b>#E8730C BHAGWA</b><span>The saffron field of the RSS flag, taken in 1925. In practice, any warm orange a local press can hit. Latitude is a feature.</span></div>
+          <div class="swatch"><i style="background:#B8480A"></i><b>#B8480A DEEP</b><span>The shadow value. In the airbrushed poster idiom every saffron object gets a darker saffron drop shadow — never grey, never black.</span></div>
+          <div class="swatch"><i style="background:#0E7A3E"></i><b>#0E7A3E GREEN</b><span>The BJP flag stacks saffron over green with the lotus across the join. Green is borrowed from the national tricolour: a party mark quoting a state flag.</span></div>
+          <div class="swatch"><i style="background:#9C8A57"></i><b>#9C8A57 KHAKI</b><span>Colonial police drill cloth. It sat on the legs of the RSS uniform from 1925 until it was formally replaced in 2016.</span></div>
+          <div class="swatch"><i style="background:#141414"></i><b>#141414 BLACK</b><span>The cap and the belt. Also — in the second half of this page — the only ink the Election Commission permits itself.</span></div>
+          <div class="swatch"><i style="background:#F5F7F5"></i><b>#F5F7F5 FORM</b><span>Government near-white. Ballot paper, gazette notification, symbol sheet. The other half of this page is printed on it.</span></div>
+        </div>
+      </div>
+
+      <div data-reveal>
+        <h2 class="section-title">Three kinds of lettering, none of them typeset</h2>
+        <p class="prose">
+          The striking thing about the movement's typography is how little of it is
+          typography. Banner Devanagari is painted. Hoarding Latin is a vinyl-cutter's
+          all-caps grotesque. And since about 2014 the dominant carrier is a JPEG in which
+          the type is not set at all — it is baked into the picture.
+        </p>
+        <div class="specimens" style="margin-top:2rem">
+          <div class="specimen">
+            <p class="dev" lang="hi" style="font-size:clamp(2.1rem,5.5vw,3.2rem);font-weight:700">भगवा ध्वज</p>
+            <small>Anek Devanagari — Ek Type's variable family, 2022. Used here as a stand-in, because the movement's own Devanagari is <em>display lettering</em>: brush-painted on cloth, cut in vinyl, stretched to fit. A variable axis is the only honest way to represent a letterform with no fixed weight.</small>
+          </div>
+          <div class="specimen">
+            <p style="font-family:var(--font-display);font-size:clamp(1.7rem,4.4vw,2.6rem);line-height:1;letter-spacing:-0.03em">LOTUS · कमल</p>
+            <small>Archivo Black. The Latin of Indian political hoardings is a heavy, tightly tracked grotesque, sized to be read from a moving vehicle. It is never the primary language; it is the language that certifies the poster as national rather than regional.</small>
+          </div>
+          <div class="specimen">
+            <p style="font-family:var(--font-mono);font-size:0.98rem;letter-spacing:0.1em;text-transform:uppercase;line-height:1.5;color:var(--deep)">Text rasterised into the artwork</p>
+            <small>The 2014-onward decision. Type is flattened into the image so it cannot be cropped, stripped, re-set or auto-translated in transit. Every re-share re-encodes it. Legibility is therefore designed against compression, not against distance — heavy strokes, high contrast, no hairlines.</small>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="gerua" aria-hidden="true"></div>
+
+<!-- ============================== SYMBOLS ============================== -->
+<section class="section" id="symbols">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The marks</p>
+    <h2 class="section-title" data-reveal>A flag, a lamp, a flower and a set of clothes</h2>
+
+    <div class="symbolrow" data-reveal>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 92" role="img" aria-label="The bhagwa dhwaj: a saffron flag with a swallow-tailed fly, the upper point longer than the lower">
+            <path d="M14,16 L112,13 L68,46 L92,78 L14,78 Z" fill="#E8730C" />
+            <path d="M14,16 L112,13 L68,46 L92,78 L14,78 Z" fill="none" stroke="#8E3A05" stroke-width="1" opacity="0.55" />
+            <rect x="9" y="8" width="4" height="76" fill="#7A4A22" />
+          </svg>
+        </div>
+        <figcaption><b>Bhagwa dhwaj</b> — the swallow-tailed saffron flag. Two points at the fly, the upper one longer. The RSS treats it not as an emblem of the organisation but as its <em>guru</em>: the object to which respect is formally offered.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 92" role="img" aria-label="A stylised lotus mark with seven petals on a curved base">
+            <defs><path id="sy-petal" d="M60,72 C50,57 50,35 60,18 C70,35 70,57 60,72 Z" /></defs> <g fill="#E8730C">
+              <use href="#sy-petal" transform="rotate(-74 60 72)" /> <use href="#sy-petal" transform="rotate(-49 60 72)" />
+              <use href="#sy-petal" transform="rotate(-25 60 72)" /> <use href="#sy-petal" /> <use href="#sy-petal" transform="rotate(25 60 72)" />
+              <use href="#sy-petal" transform="rotate(49 60 72)" /> <use href="#sy-petal" transform="rotate(74 60 72)" /> </g>
+            <path d="M32,72 C44,84 76,84 88,72 L88,78 C76,88 44,88 32,78 Z" fill="#0E7A3E" />
+          </svg>
+        </div>
+        <figcaption><b lang="hi">कमल</b> — the lotus. Adopted by the BJP at its founding in 1980. It is simultaneously India's national flower, a religious symbol across several traditions, and — since it is also an Election Commission free symbol — a piece of state-issued ballot furniture.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 92" role="img" aria-label="An earthen oil lamp, a diya, with a flame: the deepak symbol">
+            <path d="M60,44 C49,33 54,20 60,7 C66,20 77,33 60,44 Z" fill="#E8730C" /> <path d="M60,40 C54,33 56,24 60,15 C64,24 70,33 60,40 Z" fill="#FFDCA8" />
+            <path d="M60,52 V42" stroke="#241A10" stroke-width="3" fill="none" /> <path d="M14,52 Q60,86 106,52 Z" fill="#241A10" />
+            <path d="M50,70 h20 l9,10 h-38 z" fill="#241A10" /> <path d="M14,52 H106" stroke="#241A10" stroke-width="2.4" fill="none" />
+          </svg>
+        </div>
+        <figcaption><b lang="hi">दीपक</b> — the deepak, an earthen oil lamp. The Bharatiya Jana Sangh's ballot symbol from 1951. A lamp is a container plus a flame: two elements, one of which is always the wrong shape when badly printed.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure class="wide">
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 360 156" role="img" aria-label="Flat kit diagram of the RSS uniform: black cap, white shirt, khaki shorts withdrawn in 2016, brown trousers, leather belt and bamboo lathi">
+            <g fill="none" stroke="#241A10" stroke-width="1.5" stroke-linejoin="round">
+              <path d="M18,50 C18,38 27,31 40,31 C53,31 62,38 62,50 Z" fill="#241A10" /> <path d="M14,50 H66 V59 H14 Z" fill="#241A10" />
+              <path d="M88,26 L100,20 L108,29 L116,20 L128,26 L134,46 L124,50 L124,98 L92,98 L92,50 L82,46 Z" fill="#FFFDF7" />
+              <path d="M100,20 L108,32 L116,20 M108,32 V98" /> <circle cx="108" cy="46" r="1.6" fill="#241A10" stroke="none" />
+              <circle cx="108" cy="62" r="1.6" fill="#241A10" stroke="none" /> <circle cx="108" cy="78" r="1.6" fill="#241A10" stroke="none" />
+              <path d="M158,26 H198 L202,62 H186 L178,42 L170,62 H154 Z" fill="#9C8A57" /> <path d="M158,32 H198" stroke-width="2.2" />
+              <path d="M146,74 L210,16" stroke="#B8480A" stroke-width="2.2" />
+              <path d="M228,26 H268 L272,102 H256 L248,54 L240,102 H224 Z" fill="#6B4A2A" /> <path d="M228,32 H268" stroke-width="2.2" />
+              <path d="M298,34 H344 V48 H298 Z" fill="#5A3A1E" /> <path d="M308,32 H320 V50 H308 Z" fill="#FFFDF7" />
+              <path d="M298,74 H344" stroke-width="5" stroke-linecap="round" stroke="#8A6A3E" /> </g> <g class="dia--k" fill="#241A10" text-anchor="middle">
+              <text x="40" y="130">CAP</text> <text x="40" y="142" opacity="0.6">BLACK</text> <text x="108" y="130">SHIRT</text>
+              <text x="108" y="142" opacity="0.6">WHITE</text> <text x="178" y="130" fill="#B8480A">SHORTS</text>
+              <text x="178" y="142" fill="#B8480A">KHAKI, TO 2016</text> <text x="248" y="130">TROUSERS</text> <text x="248" y="142" opacity="0.6">BROWN, 2016—</text>
+              <text x="321" y="130">BELT</text> <text x="321" y="142">LATHI</text> </g>
+          </svg>
+        </div>
+        <figcaption><b>The ganvesh</b> — the RSS uniform, as a flat kit diagram. White shirt, black cap, brown leather belt, bamboo lathi, and khaki shorts: a drill kit assembled out of colonial police issue and worn at daily neighbourhood parade. In 2016 the shorts were formally replaced with brown full trousers.
+          <span class="credit">Kit diagram · drawn in SVG</span></figcaption>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<div class="gerua" aria-hidden="true"></div>
+
+<!-- ============================== ESSAY : HALF ONE ============================== -->
+<section class="section essay" id="essay">
+  <div class="wrap">
+    <div class="two-col">
+      <div>
+        <p class="eyebrow" data-reveal>How it worked</p>
+        <div class="prose" data-reveal>
+          <p>
+            Hindu nationalism is usually discussed as ideology and rarely as art direction.
+            Read as design, it is one of the most methodical identity programmes of the
+            twentieth century — and its founding decision was to put a graphic mark, not a
+            person, at the centre of the organisation.
+          </p>
+          <p>
+            What follows tracks that mark through four states: a flag, a uniform, a ballot
+            symbol, and a vehicle.
+          </p>
+        </div>
+
+        <h3 data-reveal>1925 · <span>An organisation that made a flag its guru</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            The Rashtriya Swayamsevak Sangh was founded in Nagpur in 1925 by K. B. Hedgewar.
+            Within a few years it had settled a question most organisations never even ask:
+            what, exactly, do members owe allegiance to? The answer was the
+            <span class="dev" lang="hi">भगवा ध्वज</span> — the saffron flag. Not the founder,
+            not a text, not a deity. The flag itself is treated as the <em>guru</em>, and the
+            annual offering ceremony is made to it.
+          </p>
+          <p>
+            This is a genuinely unusual identity decision and it has consequences that are
+            structural, not sentimental. A movement organised around a living leader has a
+            succession problem and a portrait problem: the mark must be redrawn every
+            generation. A movement organised around a mark has neither. The flag can be
+            raised in ten thousand neighbourhood grounds simultaneously, costs almost
+            nothing to make, and cannot be discredited by anything a human being does.
+          </p>
+          <p>
+            It also makes the flag load-bearing in a way that a logo normally is not. The
+            swallow-tailed silhouette — two points at the fly, the upper one longer —
+            is the whole asset. There is no wordmark, no monogram, no secondary lockup. The
+            organisation's entire visual equity sits in one silhouette and one hue band.
+          </p>
+        </div>
+
+        <blockquote class="pull" data-reveal>
+          Most organisations put a person at the centre and arrange a mark around them.
+          This one put the mark at the centre and left the place where the person goes
+          deliberately empty.
+        </blockquote>
+
+        <h3 data-reveal>The uniform · <span>Khaki shorts, and the rebrand of 2016</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            The <span class="dev" lang="hi">गणवेश</span> — the RSS uniform — is the most
+            copied piece of political costume design in India, and it is almost entirely
+            derived from the thing it opposed. White shirt, khaki shorts, black cap, brown
+            leather belt, and a lathi: this is colonial police and cadet-corps issue,
+            reassembled. The drill that goes with it — formation, marching, staff exercise,
+            a fixed daily hour on a neighbourhood ground — is drill in the imperial sense.
+          </p>
+          <p>
+            Borrowing the coloniser's kit was not an accident of availability. A uniform of
+            this kind does three things at once: it makes an ordinary man in an ordinary
+            street legible as a member of something; it is cheap and locally tailorable;
+            and it silently claims the authority of the state's own disciplinary
+            iconography. Anti-colonial movements that adopted khadi were arguing about
+            production. This one was arguing about <em>order</em>.
+          </p>
+          <p>
+            Then, in 2016, the shorts went. They were formally replaced with brown full
+            trousers, with a stated rationale about the uniform's appeal to younger
+            recruits — the first change of that magnitude in ninety-one years. Strip away
+            the politics and it is a textbook identity refresh: a single component of a
+            famous system, retired because the component had aged badly while the system
+            had not. The colour moved from khaki to brown. Every other element was left
+            untouched, which is exactly what a competent rebrand does.
+          </p>
+        </div>
+
+        <h3 data-reveal>1951 → 1980 · <span>The lamp goes out, the lotus opens</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            The Bharatiya Jana Sangh, founded in 1951 under Syama Prasad Mookerjee, contested
+            elections under the <span class="dev" lang="hi">दीपक</span> — an earthen oil lamp.
+            As a ballot mark it is a difficult object. A diya is a shallow bowl plus a flame,
+            and at a thumbnail size, printed in one colour on cheap paper, the flame collapses
+            into a blob and the bowl reads as a boat or a shoe. It is beautiful and it does
+            not scale.
+          </p>
+          <p>
+            When the Bharatiya Janata Party was founded in 1980, the mark became the lotus.
+            Every property the lamp lacked, the lotus has. It is radially symmetric, so it
+            cannot be printed upside down. Its silhouette survives at 8 millimetres. It is
+            built from a repeated element, so a bad drawing is still recognisably the same
+            thing. And it fills a square, which matters when your mark sits in a ruled box on
+            a ballot paper next to thirty others.
+          </p>
+          <p>
+            The party flag pairs it with green — saffron above, green below, lotus across the
+            join. That pairing lets a party mark quote the national tricolour without copying
+            it. But the lotus's real double duty is the one this page ends on: it is India's
+            national flower, a religious symbol in more than one tradition, and an item on a
+            list maintained by the Election Commission.
+          </p>
+        </div>
+
+        <h3 data-reveal>1990 · <span>Set design at national scale</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            On 25 September 1990, L. K. Advani left Somnath in Gujarat in a vehicle that had
+            been dressed to look like a chariot. Under the fibreglass it was a DCM Toyota
+            light commercial vehicle. Over it went a moulded shell: ornamental wheels bolted
+            to the flanks, a stepped canopy on the roof, a scalloped skirt along the sill, a
+            saffron pennant on a mast, and a public-address system.
+          </p>
+          <p>
+            This is not poster design. It is set construction and touring production — a
+            single built object moved through a country on a published schedule, arriving at
+            towns where a crowd, a stage and an amplifier were waiting. The design brief was
+            not "make an image"; it was "make an object that generates the same image in
+            three hundred different places, for six weeks, at no marginal cost per
+            impression."
+          </p>
+          <p>
+            Judged purely as art direction it is the most consequential thing in this half of
+            the page. It also has to be described accurately: communal riots occurred along
+            and after its route in several states, with substantial loss of life. Advani was
+            arrested at Samastipur in Bihar on 23 October 1990 and the yatra was halted before
+            it reached Ayodhya. Two years later the Babri Masjid was demolished. The vehicle
+            did not cause any of this. It was the instrument that made a campaign
+            simultaneously visible in places that had no television and no newspaper reach —
+            which is precisely the design achievement, and precisely the problem.
+          </p>
+        </div>
+
+        <h3 data-reveal>The idiom · <span>A poster optimised for its channel</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            The visual language that grew around all this is instantly recognisable and
+            almost never analysed on its own terms. Airbrushed gradients. Saffron drop
+            shadows under saffron objects. Lens flare where no lens exists. Cut-out heads
+            floating at three-quarter scale over a crowd rendered as texture. Text in two or
+            three languages stacked until the margin runs out.
+          </p>
+          <p>
+            Every one of those choices is a channel decision. The airbrush and the flare come
+            straight out of Indian chromolithographic calendar art, the devotional prints
+            Christopher Pinney and Kajri Jain have documented as the country's real mass
+            visual infrastructure — a distribution network that already reached every home,
+            and which political imagery simply merged into.
+          </p>
+          <p>
+            After 2014 the channel changed and the idiom changed with it. The dominant
+            carrier became a compressed image forwarded phone to phone: high saturation to
+            survive re-encoding, heavy strokes because hairlines die in a JPEG, and — the
+            decisive move — text rasterised into the artwork rather than set beside it, so
+            that the message cannot be cropped away, translated away, or separated from the
+            picture in transit.
+          </p>
+          <p>
+            That is a design system built around a reproduction constraint, and it is worth
+            naming the comparison honestly: it is the same <em>kind</em> of thinking that
+            produced Soviet constructivist posters designed for two-colour presses. Same
+            engineering logic, entirely different politics. Nothing about the constraint
+            transfers the ideology.
+          </p>
+        </div>
+      </div>
+
+      <aside class="marginalia" data-reveal>
+        <p><b>1925</b> RSS founded at Nagpur. The bhagwa dhwaj is adopted as the organisation's guru.</p>
+        <p><b>1951</b> Bharatiya Jana Sangh founded. Ballot symbol: the deepak, an earthen oil lamp.</p>
+        <p><b>1951–52</b> First general election. Symbol-marked ballot boxes; the pictogram system begins.</p>
+        <p><b>1968</b> Symbols (Reservation and Allotment) Order — reserved symbols for recognised parties, free symbols for everyone else.</p>
+        <p><b>1980</b> BJP founded. The lamp is replaced by the lotus; saffron and green become the party pair.</p>
+        <p><b>1990</b> Rath Yatra departs Somnath 25 Sept. Advani arrested at Samastipur 23 Oct. Riots along and after the route.</p>
+        <p><b>1992</b> Babri Masjid demolished at Ayodhya.</p>
+        <p><b>2014</b> The compressed forward becomes the primary carrier. Type moves inside the image.</p>
+        <p><b>2016</b> Khaki shorts formally replaced with brown trousers — the first major change to the uniform in ninety-one years.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ARTIFACTS : HALF ONE ============================== -->
+<section class="section" id="artifacts" style="background:#F6EAD4">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Artifacts</p>
+    <h2 class="section-title" data-reveal>Three objects, drawn as drawings</h2>
+    <p class="prose" data-reveal style="margin-bottom:2.8rem">
+      A flag with no published specification, a van with a second skin, and two poster
+      layouts thirty years apart. None of these are traced from photographs.
+    </p>
+
+    <div class="bigfigs" data-reveal>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 440 282" role="img" aria-label="Construction drawing of the swallow-tailed saffron flag showing hoist, fly, notch depth and tail geometry">
+            <rect width="440" height="282" fill="#FFFAF0" /> <g stroke="#241A10" opacity="0.1" stroke-width="0.6">
+              <path d="M40,26 V244 M80,26 V244 M120,26 V244 M160,26 V244 M200,26 V244 M240,26 V244 M280,26 V244 M320,26 V244 M360,26 V244 M400,26 V244" />
+              <path d="M40,40 H400 M40,80 H400 M40,120 H400 M40,160 H400 M40,200 H400 M40,240 H400" /> </g>
+            <path d="M66,56 L392,56 L244,126 L322,196 L66,196 Z" fill="#E8730C" opacity="0.9" />
+            <path d="M66,56 L392,56 L244,126 L322,196 L66,196 Z" fill="none" stroke="#241A10" stroke-width="1.4" />
+            <rect x="58" y="24" width="7" height="222" fill="#7A4A22" /> <circle cx="61.5" cy="22" r="6" fill="#C99B2B" />
+            <g stroke="#241A10" stroke-width="0.9" fill="none"> <path d="M66,42 H392 M66,36 V48 M392,36 V48" /> <path d="M46,56 V196 M40,56 H52 M40,196 H52" />
+              <path d="M244,212 H392 M244,206 V218 M392,206 V218" /> <path d="M66,232 H322 M66,226 V238 M322,226 V238" />
+              <path d="M244,126 H400" stroke-dasharray="3 3" opacity="0.45" /> <path d="M322,196 V232" stroke-dasharray="3 3" opacity="0.45" />
+              <path d="M244,126 L268,126 A24,24 0 0 0 262,111" opacity="0.6" /> </g> <g class="dia" fill="#241A10">
+              <text x="180" y="34" text-anchor="middle">FLY — UPPER POINT</text> <text x="30" y="130" text-anchor="middle" transform="rotate(-90 30 130)">HOIST</text>
+              <text x="318" y="230" text-anchor="middle">NOTCH DEPTH</text> <text x="194" y="250" text-anchor="middle">LOWER POINT — SHORTER</text>
+              <text x="284" y="100" fill="#B8480A">V-NOTCH</text> <text x="70" y="70" opacity="0.6">HOIST EDGE</text> </g> <g class="dia" fill="#241A10" opacity="0.55">
+              <text x="20" y="266">NO PUBLISHED SPECIFICATION EXISTS.</text>
+              <text x="20" y="276">PROPORTIONS READ OFF COMMON DEPICTIONS — NOT AN OFFICIAL STANDARD.</text> </g>
+          </svg>
+        </div>
+        <figcaption><b>Construction of the bhagwa dhwaj</b> — Unlike the national flag, which is fixed by <cite>IS 1</cite> down to the cloth it must be woven from, the saffron flag has no state specification: no ratio, no notch depth, no hue value. It is defined by silhouette and by use. That looseness is why it reproduces so well and why no two flags in a photograph are quite the same shape.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 480 352" role="img" aria-label="Annotated diagram of the 1990 rath: a light commercial vehicle, drawn dashed, beneath a solid fibreglass chariot cladding of ornamental wheels, stepped canopy, scalloped skirt, prow and pennant, with a numbered key">
+            <rect width="480" height="352" fill="#FFFAF0" />
+            <path d="M24,240 H456" stroke="#241A10" stroke-width="1" stroke-dasharray="6 4" opacity="0.4" fill="none" />
+
+            <!-- 1. cladding shell -->
+            <g fill="none" stroke="#241A10" stroke-width="1.6" stroke-linejoin="round">
+              <path d="M100,154 H360 V216 H100 Z" fill="#E8730C" /> <path d="M96,128 H344 L360,154 H84 Z" fill="#E8730C" />
+              <path d="M146,128 H294 L282,106 H158 Z" fill="#E8730C" /> <path d="M170,106 H270 L258,84 H182 Z" fill="#E8730C" />
+              <path d="M196,84 H244 L236,66 H204 Z" fill="#E8730C" /> <circle cx="220" cy="59" r="7" fill="#C99B2B" />
+              <path d="M220,52 V22" stroke-width="2" /> <path d="M220,22 L282,30 L254,42 L276,58 L220,58 Z" fill="#E8730C" />
+              <path d="M84,216 q11,17 22,0 q11,17 22,0 q11,17 22,0 q11,17 22,0 q11,17 22,0 q11,17 22,0 q11,17 22,0 q11,17 22,0 q11,17 22,0 q11,17 22,0 q11,17 22,0 q11,17 22,0 q6,10 12,0" fill="#E8730C" />
+              <path d="M158,122 L142,108 L158,108 Z" fill="#241A10" /> <path d="M282,122 L298,108 L282,108 Z" fill="#241A10" /> </g>
+
+            <!-- 2. stock vehicle, dashed, drawn through the shell -->
+            <g fill="none" stroke="#241A10" stroke-width="1.3" stroke-dasharray="5 4" opacity="0.85">
+              <path d="M112,232 V130 H300 L332,162 H354 V232 Z" /> <path d="M250,140 H298 V166 H250 Z" /> <circle cx="152" cy="232" r="21" />
+              <circle cx="328" cy="232" r="21" /> </g>
+
+            <!-- 3. wheels, roundel, prow -->
+            <g fill="none" stroke="#241A10" stroke-width="1.6" stroke-linejoin="round">
+              <path d="M360,164 C394,166 412,180 418,198 C402,193 384,191 366,193 Z" fill="#E8730C" />
+              <circle cx="152" cy="222" r="44" fill="#E8730C" /> <circle cx="152" cy="222" r="34" fill="none" /> <g stroke-width="1.1">
+                <path d="M152,178 V266 M108,222 H196 M121,191 L183,253 M183,191 L121,253" />
+                <path d="M135,181 L169,263 M169,181 L135,263 M111,205 L193,239 M111,239 L193,205" /> </g>
+              <circle cx="152" cy="222" r="9" fill="#241A10" /> <circle cx="328" cy="228" r="32" fill="#E8730C" /> <circle cx="328" cy="228" r="24" fill="none" />
+              <g stroke-width="1.1"><path d="M328,196 V260 M296,228 H360 M305,205 L351,251 M351,205 L305,251" /></g>
+              <circle cx="328" cy="228" r="6" fill="#241A10" /> <circle cx="242" cy="186" r="19" fill="#FFFAF0" />
+              <g fill="#241A10" stroke="none" transform="translate(242,186) scale(0.3) translate(-60,-72)">
+                <path d="M60,72 C50,57 50,35 60,18 C70,35 70,57 60,72 Z" /> <path d="M60,72 C50,57 50,35 60,18 C70,35 70,57 60,72 Z" transform="rotate(-40 60 72)" />
+                <path d="M60,72 C50,57 50,35 60,18 C70,35 70,57 60,72 Z" transform="rotate(40 60 72)" />
+                <path d="M60,72 C50,57 50,35 60,18 C70,35 70,57 60,72 Z" transform="rotate(-76 60 72)" />
+                <path d="M60,72 C50,57 50,35 60,18 C70,35 70,57 60,72 Z" transform="rotate(76 60 72)" /> </g> </g>
+
+            <!-- numbered callouts -->
+            <g stroke="#241A10" stroke-width="0.8" fill="none" opacity="0.7">
+              <path d="M300,32 L272,34" /><path d="M118,100 L146,112" /><path d="M66,204 L110,214" /><path d="M424,222 L406,200" /><path d="M400,140 L340,152" /> </g>
+            <g class="dia--k" text-anchor="middle"> <g fill="#FFFAF0" stroke="#241A10" stroke-width="1.2">
+                <circle cx="309" cy="32" r="9" /><circle cx="220" cy="96" r="9" /><circle cx="109" cy="98" r="9" />
+                <circle cx="57" cy="202" r="9" /><circle cx="432" cy="230" r="9" /><circle cx="409" cy="138" r="9" /><circle cx="120" cy="182" r="9" /> </g>
+              <g fill="#241A10"> <text x="309" y="35">1</text><text x="220" y="99">2</text><text x="109" y="101">3</text>
+                <text x="57" y="205">4</text><text x="432" y="233">5</text><text x="409" y="141">6</text><text x="120" y="185">7</text> </g> </g>
+
+            <!-- key -->
+            <path d="M24,272 H456" stroke="#241A10" stroke-width="1" fill="none" opacity="0.5" /> <g class="dia--k" fill="#241A10">
+              <text x="24" y="290">1  SAFFRON PENNANT ON MAST</text> <text x="24" y="304">2  STEPPED FIBREGLASS CANOPY</text>
+              <text x="24" y="318">3  PUBLIC-ADDRESS HORNS</text> <text x="24" y="332">4  ORNAMENTAL WHEEL — DOES NOT TURN</text>
+              <text x="252" y="290">5  MOULDED PROW</text> <text x="252" y="304">6  — — —  DCM TOYOTA LCV BENEATH</text>
+              <text x="252" y="318">7  CLAD FLANK + SCALLOPED SKIRT</text> <text x="252" y="332" opacity="0.62">SOMNATH 25.09.1990 → SAMASTIPUR 23.10.1990</text> </g>
+          </svg>
+        </div>
+        <figcaption><b>Van to chariot</b> — The cladding diagram. Everything drawn solid is added shell; everything dashed is the vehicle underneath. Note that the ornamental wheels do not turn and are not attached to the axle: they are set dressing, sized to be read from the back of a crowd. This is the logic of a parade float, applied to a six-week national tour.
+          <span class="credit">Recreation from published descriptions · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 480 300" role="img" aria-label="Two abstract poster layout diagrams compared: a 1990s offset sheet with margins and registration marks, and a 2014-onward square compressed image with type baked in">
+            <rect width="480" height="300" fill="#FFFAF0" />
+
+            <!-- PANEL A -->
+            <text class="dia" x="20" y="24" fill="#241A10">A · OFFSET SHEET, c. 1995 · APPROX. 20 × 30 IN</text> <g>
+              <rect x="20" y="34" width="196" height="242" fill="#FFF2DE" stroke="#241A10" stroke-width="1" />
+              <rect x="32" y="46" width="172" height="218" fill="none" stroke="#241A10" stroke-width="0.6" stroke-dasharray="4 3" opacity="0.5" />
+              <g stroke="#241A10" stroke-width="0.7" opacity="0.7"> <path d="M20,44 H14 M20,44 V38" /><path d="M216,44 H222 M216,44 V38" />
+                <path d="M20,266 H14 M20,266 V272" /><path d="M216,266 H222 M216,266 V272" /> </g>
+              <circle cx="140" cy="112" r="52" fill="#E8730C" opacity="0.16" /> <circle cx="140" cy="112" r="34" fill="#E8730C" opacity="0.16" />
+              <ellipse cx="140" cy="104" rx="30" ry="38" fill="#B8480A" opacity="0.75" />
+              <text class="dia" x="140" y="150" text-anchor="middle" fill="#241A10">CUT-OUT HEAD</text> <g fill="#241A10" opacity="0.4">
+                <circle cx="46" cy="214" r="4" /><circle cx="60" cy="219" r="4" /><circle cx="74" cy="213" r="4" /><circle cx="88" cy="220" r="4" />
+                <circle cx="102" cy="214" r="4" /><circle cx="116" cy="219" r="4" /><circle cx="130" cy="213" r="4" /><circle cx="144" cy="220" r="4" />
+                <circle cx="158" cy="214" r="4" /><circle cx="172" cy="219" r="4" /><circle cx="186" cy="213" r="4" /> <rect x="40" y="222" width="152" height="12" />
+              </g> <text class="dia" x="112" y="246" text-anchor="middle" fill="#241A10">CROWD AS TEXTURE</text>
+              <rect x="40" y="166" width="152" height="14" fill="#241A10" /> <rect x="40" y="184" width="106" height="8" fill="#241A10" opacity="0.7" />
+              <rect x="40" y="196" width="152" height="5" fill="#241A10" opacity="0.45" /> <rect x="40" y="204" width="152" height="5" fill="#241A10" opacity="0.45" />
+              <g><rect x="40" y="254" width="13" height="7" fill="#00A0C6" /><rect x="55" y="254" width="13" height="7" fill="#E5007E" /><rect x="70" y="254" width="13" height="7" fill="#FFE800" /><rect x="85" y="254" width="13" height="7" fill="#241A10" /></g>
+              <text class="dia" x="104" y="260" fill="#241A10" opacity="0.6">4-COLOUR BAR</text> </g>
+
+            <!-- PANEL B -->
+            <text class="dia" x="264" y="24" fill="#241A10">B · COMPRESSED FORWARD, c. 2014– · 1080 × 1080 PX</text> <g>
+              <rect x="264" y="34" width="196" height="196" fill="#FFCE7A" /> <circle cx="362" cy="118" r="86" fill="#FFE9B8" opacity="0.85" />
+              <circle cx="362" cy="118" r="54" fill="#FFF6E0" opacity="0.85" /> <ellipse cx="362" cy="98" rx="40" ry="50" fill="#B8480A" />
+              <rect x="264" y="152" width="196" height="26" fill="#241A10" /> <rect x="272" y="182" width="180" height="14" fill="#B8480A" />
+              <rect x="272" y="200" width="126" height="9" fill="#241A10" opacity="0.8" /> <rect x="272" y="212" width="180" height="9" fill="#241A10" opacity="0.55" />
+              <g stroke="#241A10" stroke-width="0.4" opacity="0.28">
+                <path d="M288,34 V230 M312,34 V230 M336,34 V230 M360,34 V230 M384,34 V230 M408,34 V230 M432,34 V230 M456,34 V230" />
+                <path d="M264,58 H460 M264,82 H460 M264,106 H460 M264,130 H460 M264,154 H460 M264,178 H460 M264,202 H460 M264,226 H460" /> </g>
+              <rect x="264" y="34" width="196" height="196" fill="none" stroke="#241A10" stroke-width="1" /> <g class="dia" fill="#241A10">
+                <text x="264" y="246">NO MARGIN · NO TRIM · NO BLEED</text> <text x="264" y="258">8-PX MACROBLOCK GRID: THE ONLY GRID LEFT</text>
+                <text x="264" y="270">TYPE RASTERISED INTO THE ARTWORK</text> <text x="264" y="282">RE-ENCODED ON EVERY SHARE</text> </g> </g>
+          </svg>
+        </div>
+        <figcaption><b>Two layouts, thirty years apart</b> — Abstracted to blocks rather than faked as portraits. The 1995 sheet is designed for a press: margins, trim marks, a colour bar, a fixed physical size, a viewing distance. The 2014 square is designed for a codec: no margin because there is no paper, saturation pushed because compression eats it, and text welded into the image because anything set beside it can be cropped off in transit.
+          <span class="credit">Layout diagrams · drawn in SVG</span></figcaption>
+      </figure>
+
+    </div>
+
+    <p class="note" style="margin-top:2.8rem;max-width:46rem">
+      These are drawn from published descriptions and from the general form of surviving
+      objects — not traced from photographs. The flag proportions are a reading of common
+      depictions, since no specification has ever been published. The vehicle diagram
+      follows contemporary press accounts of the 1990 conversion.
+    </p>
+  </div>
+</section>
+
+<!-- ============================== THE SEAM ============================== -->
+<div class="seam">
+  <div class="wrap">
+    <p class="seam__k">Part two · a different design system entirely</p>
+    <p class="seam__t">Now the page changes register. Everything below this line is state
+      design: a pictogram alphabet commissioned by the Election Commission of India so
+      that people who could not read could still cast a vote.</p>
+    <p class="seam__s">
+      It has nothing to do with the movement above it. It is one of the great
+      uncredited public-interest design projects of the twentieth century, and it is
+      almost never discussed as design at all. The two halves of this page meet in
+      exactly one place, and that place is at the very end.
+    </p>
+  </div>
+</div>
+
+<div class="statehalf">
+  <div class="tx-over tx-grid" aria-hidden="true"></div>
+
+  <!-- ============================== ESSAY : HALF TWO ============================== -->
+  <section class="section essay" id="ballot">
+    <div class="wrap">
+      <div class="formhead">
+        <span>Form · Part two</span>
+        <span>Election Commission of India</span>
+        <span>1951 —</span>
+      </div>
+
+      <p class="eyebrow" data-reveal>How the state solved it</p>
+      <h2 class="section-title" data-reveal>A pictogram alphabet for one hundred and seventy-three million people</h2>
+
+      <div class="prose" data-reveal>
+        <p>
+          In 1950 India appointed Sukumar Sen, an ICS officer and a mathematician, as its
+          first Chief Election Commissioner. He was handed a problem with no precedent
+          anywhere: run a general election, on universal adult franchise, across a country
+          that had just been partitioned, with roughly 173 million people on the rolls, a
+          large majority of whom could not read.
+        </p>
+        <p>
+          Ramachandra Guha's account of the 1951–52 election in <cite>India After Gandhi</cite>
+          is the standard telling, and it is largely an account of logistics: rolls compiled
+          from scratch, ballot boxes manufactured in the millions, polling stations
+          established in places with no roads. But sitting inside that logistics problem is
+          a pure information-design problem, and the solution to it is the subject of this
+          half of the page.
+        </p>
+      </div>
+
+      <h3 data-reveal>1951 · <span>One box per candidate</span></h3>
+      <div class="prose" data-reveal>
+        <p>
+          The solution was to give every candidate a pictorial symbol, and then to remove
+          reading from the act of voting altogether. In the first general election the voter
+          was not asked to mark a name. Each candidate had a separate ballot box, and each
+          box carried that candidate's symbol. You took a blank ballot paper and put it in
+          the box with your candidate's picture on it.
+        </p>
+        <p>
+          Consider what that removes. No name recognition. No alphabetical order effect. No
+          need to match a printed string to a remembered one. The only cognitive operation
+          required is object recognition — the single most robust visual skill a human has,
+          and one that is completely independent of schooling. It is, as an interaction
+          design, close to perfect, and it was arrived at in about eighteen months by people
+          who were not designers and had no word for what they were doing.
+        </p>
+        <p>
+          It was also enormously expensive in hardware, and from 1962 the system moved to a
+          single ballot paper with every candidate's symbol printed in a ruled row. The
+          symbol survived the change. The box did not.
+        </p>
+      </div>
+
+      <h3 data-reveal>1968 · <span>The symbol list becomes a system</span></h3>
+      <div class="prose" data-reveal>
+        <p>
+          The <cite>Symbols (Reservation and Allotment) Order, 1968</cite> turned an
+          improvisation into an administered alphabet. Recognised parties get
+          <b>reserved</b> symbols, held permanently and nationally. Everyone else draws from
+          a published pool of <b>free</b> symbols, allotted on application, constituency by
+          constituency. The Commission maintains, updates and publishes both lists, and it
+          draws the artwork in-house.
+        </p>
+        <p>
+          Look at what is actually on the list: hand, lotus, bicycle, elephant, broom,
+          clock, ceiling fan, ladder, coconut, table, cot, whistle, arrow. These are not
+          arbitrary. They are almost entirely household and agricultural objects, and the
+          selection criteria are legible in the objects themselves.
+        </p>
+      </div>
+
+      <ol class="criteria" data-reveal>
+        <li><b>01</b> Instantly nameable — and nameable in dozens of languages, because the symbol has to be spoken about at a doorstep, not just seen on paper.</li>
+        <li><b>02</b> Distinguishable in one colour, at thumbnail size, on bad paper, printed by whichever press won the district contract.</li>
+        <li><b>03</b> Rotationally unambiguous. A symbol on a ballot in a badly lit booth may be seen at any angle. A ladder is a ladder upside down; a lamp is not.</li>
+        <li><b>04</b> Silhouette-first. Every one of these objects survives being reduced to a solid black shape — which is how they are printed.</li>
+        <li><b>05</b> Not obscene, not a national symbol or emblem, and not something that could be confused with one.</li>
+        <li><b>06</b> And — in principle — carrying no religious or communal connotation.</li>
+      </ol>
+
+      <div class="prose" data-reveal style="margin-top:2.6rem">
+        <p>
+          That is a design brief, written by a state, for a pictogram set that has now been
+          in continuous public use for more than seventy years across an electorate that has
+          grown past 900 million. Otl Aicher's Munich pictograms of 1972 are in every design
+          history. This system predates them by two decades, operates at a hundred times the
+          scale, and its designers are not named anywhere.
+        </p>
+      </div>
+
+      <blockquote class="pull" data-reveal>
+        Design a system to be neutral and you have not removed the question of what its
+        symbols mean. You have only moved that question to the allotment desk.
+      </blockquote>
+
+      <h3 data-reveal>The tension · <span>A neutral alphabet must still allocate a lotus</span></h3>
+      <div class="prose" data-reveal>
+        <p>
+          Here is where the two halves of this page meet. The lotus is a reserved symbol of
+          the Bharatiya Janata Party. It is also India's national flower, and a religious
+          symbol of long standing in Hindu, Buddhist and Jain iconography. It sits on a
+          state-issued ballot paper, drawn by the Election Commission, in the same flat
+          black line as the bicycle and the ceiling fan.
+        </p>
+        <p>
+          There is a recurring public argument in India about religiously resonant symbols on
+          state ballots — about the lotus, and at various times about others. The Commission's
+          position rests on the objects themselves: a flower is a flower, a hand is a hand, and
+          the Order excludes symbols with religious connotation, not objects that also appear
+          in religious contexts. That is a coherent position and it is not obviously wrong.
+        </p>
+        <p>
+          But the design observation stands on its own. A pictogram system achieves neutrality
+          by rendering everything identically — same weight, same box, same ink, no hierarchy.
+          It cannot control what an object already means outside the box. The system flattens
+          the drawing. It cannot flatten the referent. And so the most rigorously neutral
+          graphic instrument the Indian state ever built spends every election day
+          hosting a symbol that arrives with meanings the instrument was designed to exclude.
+        </p>
+        <p>
+          Both of those things are true at once. That is the whole page.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== ARTIFACT : THE SHEET ============================== -->
+  <section class="section" id="sheet" style="padding-top:0">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>The artifact</p>
+      <h2 class="section-title" data-reveal>Twelve symbols, one ruled sheet</h2>
+
+      <div class="sheetwrap" data-reveal>
+        <figure>
+          <div class="frame">
+            <span class="tag-recreation">Recreation</span>
+            <svg viewBox="0 0 492 530" role="img" aria-label="A ruled specimen sheet of twelve Indian ballot symbols drawn as flat line art: hand, lotus, bicycle, elephant, broom, clock, ceiling fan, ladder, coconut, cot, whistle and arrow, each in its own box with an English and Hindi caption">
+              <defs> <path id="bs-petal" d="M60,74 C50,59 50,37 60,20 C70,37 70,59 60,74 Z" /> <path id="bs-blade" d="M60,45 L106,49 L106,60 L60,55 Z" /> </defs>
+              <rect width="492" height="530" fill="#FCFDFB" /> <rect x="6" y="6" width="480" height="518" fill="none" stroke="#14181A" stroke-width="2" />
+              <path d="M6,50 H486 M6,196 H486 M6,342 H486 M6,488 H486" stroke="#14181A" stroke-width="1" fill="none" />
+              <path d="M126,50 V488 M246,50 V488 M366,50 V488" stroke="#14181A" stroke-width="1" fill="none" />
+              <text class="bs-h" x="16" y="33">ELECTION COMMISSION OF INDIA</text>
+              <text class="bs-n" x="476" y="33" text-anchor="end">SPECIMEN SHEET · SYMBOLS ORDER, 1968</text>
+
+              <!-- 01 HAND -->
+              <g transform="translate(6,50)"> <text class="bs-n" x="9" y="15">01</text> <g transform="translate(0,4)" fill="#14181A">
+                  <rect x="40" y="46" width="46" height="44" rx="15" /> <rect x="42" y="26" width="10" height="34" rx="5" />
+                  <rect x="54" y="18" width="10" height="42" rx="5" /> <rect x="66" y="24" width="10" height="36" rx="5" />
+                  <rect x="77" y="34" width="9" height="26" rx="4.5" /> <path d="M42,62 L25,74" fill="none" stroke="#14181A" stroke-width="12" stroke-linecap="round" />
+                </g> <path d="M14,112 H106" stroke="#14181A" stroke-width="0.7" fill="none" opacity="0.5" />
+                <text class="bs-c" x="60" y="126" text-anchor="middle">HAND</text> <text class="bs-d" x="60" y="139" text-anchor="middle" lang="hi">हाथ</text> </g>
+
+              <!-- 02 LOTUS -->
+              <g transform="translate(126,50)"> <text class="bs-n" x="9" y="15">02</text> <g transform="translate(0,4)" fill="#14181A">
+                  <use href="#bs-petal" transform="rotate(-76 60 74)" /> <use href="#bs-petal" transform="rotate(-50 60 74)" />
+                  <use href="#bs-petal" transform="rotate(-25 60 74)" /> <use href="#bs-petal" />
+                  <use href="#bs-petal" transform="rotate(25 60 74)" /> <use href="#bs-petal" transform="rotate(50 60 74)" />
+                  <use href="#bs-petal" transform="rotate(76 60 74)" /> <path d="M32,74 C44,86 76,86 88,74 L88,80 C76,90 44,90 32,80 Z" /> </g>
+                <path d="M14,112 H106" stroke="#14181A" stroke-width="0.7" fill="none" opacity="0.5" />
+                <text class="bs-c" x="60" y="126" text-anchor="middle">LOTUS</text> <text class="bs-d" x="60" y="139" text-anchor="middle" lang="hi">कमल</text> </g>
+
+              <!-- 03 BICYCLE -->
+              <g transform="translate(246,50)"> <text class="bs-n" x="9" y="15">03</text>
+                <g transform="translate(0,4)" fill="none" stroke="#14181A" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="30" cy="66" r="21" /> <circle cx="92" cy="66" r="21" /> <g stroke-width="1.1" opacity="0.6">
+                    <path d="M30,45 V87 M9,66 H51 M15,51 L45,81 M45,51 L15,81" /> <path d="M92,45 V87 M71,66 H113 M77,51 L107,81 M107,51 L77,81" /> </g>
+                  <path d="M30,66 L54,34 L62,66 Z" /> <path d="M54,34 L82,32 M62,66 L82,32 M82,32 L92,66" /> <path d="M53,29 L54,34 M46,28 H60" />
+                  <path d="M82,27 V32 M75,24 L88,27" /> <circle cx="62" cy="66" r="4" fill="#14181A" stroke="none" /> </g>
+                <path d="M14,112 H106" stroke="#14181A" stroke-width="0.7" fill="none" opacity="0.5" />
+                <text class="bs-c" x="60" y="126" text-anchor="middle">BICYCLE</text> <text class="bs-d" x="60" y="139" text-anchor="middle" lang="hi">साइकिल</text> </g>
+
+              <!-- 04 ELEPHANT -->
+              <g transform="translate(366,50)"> <text class="bs-n" x="9" y="15">04</text> <g transform="translate(0,4)"> <g fill="#14181A">
+                    <ellipse cx="68" cy="52" rx="30" ry="22" /> <circle cx="36" cy="48" r="19" />
+                    <path d="M24,50 C14,58 13,76 20,88 L30,88 C24,76 25,62 32,56 Z" /> <rect x="44" y="64" width="14" height="26" rx="2" />
+                    <rect x="60" y="66" width="12" height="24" rx="2" /> <rect x="76" y="64" width="14" height="26" rx="2" />
+                    <rect x="90" y="66" width="11" height="24" rx="2" /> </g>
+                  <path d="M96,42 C104,48 105,60 100,68" fill="none" stroke="#14181A" stroke-width="3.4" stroke-linecap="round" />
+                  <path d="M37,30 C50,32 54,54 43,68 C32,62 30,38 37,30 Z" fill="#14181A" />
+                  <path d="M37,30 C50,32 54,54 43,68" fill="none" stroke="#FCFDFB" stroke-width="2.2" /> <circle cx="27" cy="44" r="2.6" fill="#FCFDFB" /> </g>
+                <path d="M14,112 H106" stroke="#14181A" stroke-width="0.7" fill="none" opacity="0.5" />
+                <text class="bs-c" x="60" y="126" text-anchor="middle">ELEPHANT</text> <text class="bs-d" x="60" y="139" text-anchor="middle" lang="hi">हाथी</text> </g>
+
+              <!-- 05 BROOM -->
+              <g transform="translate(6,196)"> <text class="bs-n" x="9" y="15">05</text>
+                <g transform="translate(0,4)" fill="none" stroke="#14181A" stroke-linecap="round">
+                  <path d="M60,14 V46" stroke-width="7" /> <path d="M46,46 H74 L79,58 H41 Z" fill="#14181A" stroke="none" /> <g stroke-width="2.6">
+                    <path d="M44,58 L24,90" /><path d="M48,58 L33,90" /><path d="M52,58 L41,90" />
+                    <path d="M56,58 L49,90" /><path d="M60,58 L58,90" /><path d="M64,58 L67,90" />
+                    <path d="M68,58 L75,90" /><path d="M72,58 L83,90" /><path d="M76,58 L92,90" /> </g>
+                  <path d="M31,76 C46,70 74,70 89,76" stroke-width="1.4" opacity="0.6" /> </g>
+                <path d="M14,112 H106" stroke="#14181A" stroke-width="0.7" fill="none" opacity="0.5" />
+                <text class="bs-c" x="60" y="126" text-anchor="middle">BROOM</text> <text class="bs-d" x="60" y="139" text-anchor="middle" lang="hi">झाड़ू</text> </g>
+
+              <!-- 06 CLOCK -->
+              <g transform="translate(126,196)"> <text class="bs-n" x="9" y="15">06</text>
+                <g transform="translate(0,4)" fill="none" stroke="#14181A" stroke-linecap="round">
+                  <circle cx="60" cy="56" r="30" stroke-width="3.6" /> <circle cx="60" cy="56" r="23" stroke-width="1.1" opacity="0.55" />
+                  <g stroke-width="2.4"><path d="M60,29 V34 M87,56 H82 M60,83 V78 M33,56 H38" /></g>
+                  <path d="M60,56 V37" stroke-width="4" /> <path d="M60,56 L75,64" stroke-width="4" />
+                  <circle cx="60" cy="56" r="3.4" fill="#14181A" stroke="none" /> <path d="M60,26 V21" stroke-width="3" />
+                  <circle cx="60" cy="15" r="6" stroke-width="3" /> <path d="M42,80 L36,91 M78,80 L84,91" stroke-width="3.4" /> </g>
+                <path d="M14,112 H106" stroke="#14181A" stroke-width="0.7" fill="none" opacity="0.5" />
+                <text class="bs-c" x="60" y="126" text-anchor="middle">CLOCK</text> <text class="bs-d" x="60" y="139" text-anchor="middle" lang="hi">घड़ी</text> </g>
+
+              <!-- 07 CEILING FAN -->
+              <g transform="translate(246,196)"> <text class="bs-n" x="9" y="15">07</text> <g transform="translate(0,4)"> <g fill="#14181A">
+                    <use href="#bs-blade" transform="rotate(90 60 50)" /> <use href="#bs-blade" transform="rotate(208 60 50)" />
+                    <use href="#bs-blade" transform="rotate(332 60 50)" /> </g>
+                  <path d="M60,8 V26" stroke="#14181A" stroke-width="5" stroke-linecap="round" fill="none" />
+                  <path d="M46,26 H74 L69,40 H51 Z" fill="#14181A" /> <circle cx="60" cy="50" r="12" fill="#14181A" /> <circle cx="60" cy="50" r="4.5" fill="#FCFDFB" />
+                </g> <path d="M14,112 H106" stroke="#14181A" stroke-width="0.7" fill="none" opacity="0.5" />
+                <text class="bs-c" x="60" y="126" text-anchor="middle">CEILING FAN</text>
+                <text class="bs-d" x="60" y="139" text-anchor="middle" lang="hi">छत का पंखा</text> </g>
+
+              <!-- 08 LADDER -->
+              <g transform="translate(366,196)"> <text class="bs-n" x="9" y="15">08</text>
+                <g transform="translate(0,4)" fill="none" stroke="#14181A" stroke-width="3.4" stroke-linecap="round">
+                  <path d="M44,14 L36,90" /> <path d="M76,14 L84,90" /> <path d="M42.7,26 H77.3" /><path d="M41.3,40 H78.7" /><path d="M39.8,54 H80.2" />
+                  <path d="M38.3,68 H81.7" /><path d="M36.8,82 H83.2" /> </g> <path d="M14,112 H106" stroke="#14181A" stroke-width="0.7" fill="none" opacity="0.5" />
+                <text class="bs-c" x="60" y="126" text-anchor="middle">LADDER</text> <text class="bs-d" x="60" y="139" text-anchor="middle" lang="hi">सीढ़ी</text> </g>
+
+              <!-- 09 COCONUT -->
+              <g transform="translate(6,342)"> <text class="bs-n" x="9" y="15">09</text> <g transform="translate(0,4)">
+                  <path d="M60,10 C83,10 96,29 96,52 C96,75 80,92 60,92 C40,92 24,75 24,52 C24,29 37,10 60,10 Z" fill="#14181A" />
+                  <g fill="#FCFDFB"><circle cx="51" cy="30" r="3.6" /><circle cx="60" cy="25" r="3.6" /><circle cx="69" cy="30" r="3.6" /></g>
+                  <g stroke="#FCFDFB" stroke-width="1.5" fill="none" opacity="0.85"> <path d="M42,44 C38,60 40,76 48,88" /><path d="M52,42 C50,60 51,76 55,90" />
+                    <path d="M62,42 C63,60 64,76 66,90" /><path d="M72,44 C76,60 76,76 70,88" />
+                    <path d="M32,50 C31,64 34,76 40,84" /><path d="M88,50 C89,64 86,76 80,84" /> </g> </g>
+                <path d="M14,112 H106" stroke="#14181A" stroke-width="0.7" fill="none" opacity="0.5" />
+                <text class="bs-c" x="60" y="126" text-anchor="middle">COCONUT</text> <text class="bs-d" x="60" y="139" text-anchor="middle" lang="hi">नारियल</text> </g>
+
+              <!-- 10 COT -->
+              <g transform="translate(126,342)"> <text class="bs-n" x="9" y="15">10</text>
+                <g transform="translate(0,4)" fill="none" stroke="#14181A" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18,58 L72,42 L104,54 L50,72 Z" /> <path d="M18,58 V74 M50,72 V90 M104,54 V70 M72,42 V54" /> <g stroke-width="1.3" opacity="0.75">
+                    <path d="M26,61.5 L80,45" /><path d="M34,65 L88,48" /><path d="M42,68.5 L96,51" />
+                    <path d="M31.5,54 L63.5,76.5" /><path d="M45,50 L77,72" /><path d="M58.5,46 L90.5,67.5" /> </g> </g>
+                <path d="M14,112 H106" stroke="#14181A" stroke-width="0.7" fill="none" opacity="0.5" />
+                <text class="bs-c" x="60" y="126" text-anchor="middle">COT</text> <text class="bs-d" x="60" y="139" text-anchor="middle" lang="hi">चारपाई</text> </g>
+
+              <!-- 11 WHISTLE -->
+              <g transform="translate(246,342)"> <text class="bs-n" x="9" y="15">11</text> <g transform="translate(0,4)">
+                  <path d="M44,50 h22 a18,18 0 1 1 0,36 h-22 z" fill="#14181A" />
+                  <path d="M14,58 h32 v20 h-32 a3,3 0 0 1 -3,-3 v-14 a3,3 0 0 1 3,-3 z" fill="#14181A" />
+                  <rect x="50" y="58" width="20" height="6" rx="3" fill="#FCFDFB" /> <circle cx="46" cy="38" r="7" fill="none" stroke="#14181A" stroke-width="3.4" />
+                  <path d="M46,45 V54" stroke="#14181A" stroke-width="3.4" fill="none" /> </g>
+                <path d="M14,112 H106" stroke="#14181A" stroke-width="0.7" fill="none" opacity="0.5" />
+                <text class="bs-c" x="60" y="126" text-anchor="middle">WHISTLE</text> <text class="bs-d" x="60" y="139" text-anchor="middle" lang="hi">सीटी</text> </g>
+
+              <!-- 12 ARROW -->
+              <g transform="translate(366,342)"> <text class="bs-n" x="9" y="15">12</text> <g transform="translate(0,4)">
+                  <path d="M16,46 H70 V28 L104,56 L70,84 V66 H16 Z" fill="#14181A" /> </g>
+                <path d="M14,112 H106" stroke="#14181A" stroke-width="0.7" fill="none" opacity="0.5" />
+                <text class="bs-c" x="60" y="126" text-anchor="middle">ARROW</text> <text class="bs-d" x="60" y="139" text-anchor="middle" lang="hi">तीर</text> </g>
+
+              <text class="bs-f" x="16" y="508">REDRAWN AS UNIFORM LINE ART · ECI ORIGINALS ARE SOLID BLACK</text>
+              <text class="bs-f" x="476" y="508" text-anchor="end">SHEET 1 OF 1</text>
+            </svg>
+          </div>
+          <figcaption><b>Specimen sheet, twelve symbols</b> — The whole argument of the second half of this page is in the uniformity: identical box, identical weight, identical ink, no hierarchy, captions in two scripts. A ceiling fan and a national flower are given exactly the same graphic treatment, because the system's neutrality <em>is</em> that sameness. Look at how few strokes each object needs — that economy is the constraint of a one-colour press on cheap paper, met head-on.
+            <span class="credit">Recreation · drawn in SVG</span></figcaption>
+        </figure>
+      </div>
+
+      <div class="figures" data-reveal style="margin-top:3.2rem">
+        <figure>
+          <div class="frame">
+            <span class="tag-recreation">Recreation</span>
+            <svg viewBox="0 0 360 190" role="img" aria-label="The same lotus geometry shown twice: once as a flat black ballot specimen and once as a saffron and green party mark">
+              <rect width="360" height="190" fill="#FCFDFB" /> <g fill="none" stroke="#14181A" stroke-width="1.2">
+                <rect x="14" y="14" width="152" height="152" /> <rect x="194" y="14" width="152" height="152" /> </g> <g transform="translate(30,32) scale(1.05)">
+                <g fill="#14181A"> <use href="#bs-petal" transform="rotate(-76 60 74)" /><use href="#bs-petal" transform="rotate(-50 60 74)" />
+                  <use href="#bs-petal" transform="rotate(-25 60 74)" /><use href="#bs-petal" />
+                  <use href="#bs-petal" transform="rotate(25 60 74)" /><use href="#bs-petal" transform="rotate(50 60 74)" />
+                  <use href="#bs-petal" transform="rotate(76 60 74)" /> <path d="M32,74 C44,86 76,86 88,74 L88,80 C76,90 44,90 32,80 Z" /> </g> </g>
+              <rect x="194" y="14" width="152" height="76" fill="#E8730C" /> <rect x="194" y="90" width="152" height="76" fill="#0E7A3E" />
+              <g transform="translate(210,32) scale(1.05)"> <g fill="#FFFAF0">
+                  <use href="#bs-petal" transform="rotate(-76 60 74)" /><use href="#bs-petal" transform="rotate(-50 60 74)" />
+                  <use href="#bs-petal" transform="rotate(-25 60 74)" /><use href="#bs-petal" />
+                  <use href="#bs-petal" transform="rotate(25 60 74)" /><use href="#bs-petal" transform="rotate(50 60 74)" />
+                  <use href="#bs-petal" transform="rotate(76 60 74)" /> <path d="M32,74 C44,86 76,86 88,74 L88,80 C76,90 44,90 32,80 Z" /> </g> </g>
+              <g fill="none" stroke="#14181A" stroke-width="1.2"><rect x="194" y="14" width="152" height="152" /></g>
+              <text class="bs-c" x="14" y="182">SPECIMEN · ECI</text> <text class="bs-c" x="194" y="182">PARTY MARK · BJP</text>
+            </svg>
+          </div>
+          <figcaption><b>Same geometry, two jurisdictions</b> — On the left, the mark as the Election Commission draws it: flat, black, boxed, ruled, indistinguishable in treatment from a whistle. On the right, the same petals in the party's own colours. Nothing in the drawing changes. Everything around it does.
+            <span class="credit">Recreation · drawn in SVG</span></figcaption>
+        </figure>
+
+        <figure>
+          <div class="frame">
+            <span class="tag-recreation">Recreation</span>
+            <svg viewBox="0 0 360 208" role="img" aria-label="Diagram of the 1951 voting method: a blank ballot paper, and three ballot boxes each marked with one candidate's symbol">
+              <rect width="360" height="208" fill="#FCFDFB" /> <g fill="none" stroke="#14181A" stroke-width="1.6">
+                <path d="M20,16 H82 V50 H20 Z" fill="#FFFFFF" /> <path d="M20,16 L28,8 H90 L82,16 M90,8 V42 L82,50" />
+                <path d="M110,30 H168" stroke-width="1.2" /> <path d="M160,25 L168,30 L160,35" stroke-width="1.2" /> </g> <g class="bs-f" fill="#14181A">
+                <text x="20" y="64">BLANK BALLOT PAPER</text> <text x="176" y="27">DROP IT IN THE BOX THAT</text> <text x="176" y="37">CARRIES YOUR SYMBOL</text> </g>
+              <g fill="none" stroke="#14181A" stroke-width="1.6"> <g transform="translate(20,86)">
+                  <path d="M0,20 H72 V96 H0 Z" /><path d="M0,20 L12,8 H84 L72,20" /><path d="M84,8 V84 L72,96" /> <path d="M22,34 H50" stroke-width="4" />
+                  <g transform="translate(6,44) scale(0.42)" fill="#14181A" stroke="none">
+                    <use href="#bs-petal" transform="rotate(-76 60 74)" /><use href="#bs-petal" transform="rotate(-38 60 74)" />
+                    <use href="#bs-petal" /><use href="#bs-petal" transform="rotate(38 60 74)" /> <use href="#bs-petal" transform="rotate(76 60 74)" /> </g> </g>
+                <g transform="translate(124,86)"> <path d="M0,20 H72 V96 H0 Z" /><path d="M0,20 L12,8 H84 L72,20" /><path d="M84,8 V84 L72,96" />
+                  <path d="M22,34 H50" stroke-width="4" /> <g transform="translate(-6,36) scale(0.5)" fill="#14181A" stroke="none">
+                    <rect x="40" y="46" width="46" height="44" rx="15" /><rect x="42" y="26" width="10" height="34" rx="5" />
+                    <rect x="54" y="18" width="10" height="42" rx="5" /><rect x="66" y="24" width="10" height="36" rx="5" />
+                    <rect x="77" y="34" width="9" height="26" rx="4.5" /> </g> </g> <g transform="translate(228,86)">
+                  <path d="M0,20 H72 V96 H0 Z" /><path d="M0,20 L12,8 H84 L72,20" /><path d="M84,8 V84 L72,96" /> <path d="M22,34 H50" stroke-width="4" />
+                  <g transform="translate(14,48) scale(0.42)" stroke="#14181A" stroke-width="7" fill="none">
+                    <circle cx="30" cy="66" r="21" /><circle cx="92" cy="66" r="21" />
+                    <path d="M30,66 L54,34 L62,66 Z" /><path d="M54,34 L82,32 M62,66 L82,32 M82,32 L92,66" /> </g> </g> </g>
+              <text class="bs-f" x="20" y="200" fill="#14181A">ONE BOX PER CANDIDATE · 1951–52</text>
+            </svg>
+          </div>
+          <figcaption><b>The 1951 method</b> — Reading is removed from the transaction entirely. The paper carries no information; all the information is on the container. Abandoned after 1962 because manufacturing a box per candidate per station does not scale — but the symbol it was built to carry outlived it by six decades.
+            <span class="credit">Diagram · drawn in SVG</span></figcaption>
+        </figure>
+      </div>
+
+      <p class="note" style="margin-top:2.8rem;max-width:46rem">
+        The symbol drawings on this page are redrawn from the general published forms, not
+        traced from Election Commission artwork. The Commission's own specimens are printed
+        as solid black silhouettes; they have been rendered here in a single consistent
+        weight so that the twelve can be compared as a set.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================== LINEAGE ============================== -->
+  <section class="section" id="lineage" style="padding-top:0">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>Lineage</p>
+      <h2 class="section-title" data-reveal>What it borrowed, what it argued with</h2>
+      <div class="lineage" data-reveal
+           data-lineage="swadeshi,ambedkarite,dravidian,constructivism"
+           data-why="Handed over the saffron and the lotus with an official reading attached — that the colours were about courage and truth, not communities. That reading has been contested ever since.|The direct counter-argument on the same ballot: blue instead of saffron, a jurist in a suit instead of a renouncer, and a deliberate refusal of every device on this page.|The other 1925 movement in the same country. Rejected this reading of India outright and built a rival visual nation in Tamil, complete with its own reserved symbol.|Not an ideological link and it should not be read as one. The honest connection is engineering: both built graphic systems around a hard reproduction constraint — two-colour presses there, JPEG compression and one-colour ballot printing here.">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== SOURCES ============================== -->
+  <section class="section" id="sources" style="padding-top:0">
+    <div class="wrap">
+      <hr class="hr" style="margin-bottom:3rem" />
+      <p class="eyebrow" data-reveal>Sources &amp; further reading</p>
+      <ul class="sources" data-reveal>
+        <li>Christophe Jaffrelot, <cite>The Hindu Nationalist Movement in India</cite> (1996) — the standard political history of the RSS, Jana Sangh and BJP, including the 1990 Rath Yatra.</li>
+        <li>Ramachandra Guha, <cite>India After Gandhi</cite> (2007) — on Sukumar Sen and the conduct of the 1951–52 general election.</li>
+        <li>Election Commission of India, <cite>Symbols (Reservation and Allotment) Order, 1968</cite>, and the Commission's published lists of reserved and free symbols.</li>
+        <li>Election Commission of India, <cite>Report on the First General Elections in India, 1951–52</cite> — the primary account of the ballot-box-per-candidate system.</li>
+        <li>Arvind Rajagopal, <cite>Politics After Television: Hindu Nationalism and the Reshaping of the Public in India</cite> (2001) — on the Rath Yatra and mediated Hindutva.</li>
+        <li>Christopher Pinney, <cite>Photos of the Gods: The Printed Image and Political Struggle in India</cite> (2004) — chromolithography as India's mass visual infrastructure.</li>
+        <li>Kajri Jain, <cite>Gods in the Bazaar: The Economies of Indian Calendar Art</cite> (2007) — the commercial print economy the poster idiom grew inside.</li>
+        <li>Walter K. Andersen &amp; Shridhar D. Damle, <cite>The Brotherhood in Saffron: The Rashtriya Swayamsevak Sangh and Hindu Revivalism</cite> (1987) — on the flag, the shakha and the uniform.</li>
+      </ul>
+    </div>
+  </section>
+
+</div><!-- /.statehalf -->
+
+<div data-site="foot"></div>
+
+<script src="../../shared/movements.js"></script>
+<script src="../../shared/site.js"></script>
+</body>
+</html>

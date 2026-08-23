@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en" data-slug="dravidian">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Dravidian Movement — Political Design</title>
+<meta name="description" content="Black shirts, a rising sun and sixty feet of painted plywood. How Tamil Nadu built a political design system art-directed by screenwriters and executed by cinema hoarding painters." />
+<meta name="theme-color" content="#111014" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="The Dravidian Movement — Political Design" />
+<meta property="og:description" content="Two registers, one movement: Periyar's matte black rationalism, and the airbrushed cut-out bathed in milk outside a cinema." />
+<meta property="og:url" content="https://layogtima.com/political-design/m/dravidian/" />
+<link rel="icon" type="image/svg+xml" href="https://layogtima.com/images/favicon/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anek+Tamil:wdth,wght@75..125,100..800&family=Anton&family=Hind+Madurai:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../shared/site.css" />
+<link rel="stylesheet" href="../../shared/textures.css" />
+<style>
+  :root {
+    --paper: #111014;
+    --ink: #EDE7E0;
+    --accent: #E01B24;
+    --pitch: #050506;
+    --red: #E01B24;
+    --red-deep: #8E1016;
+    --flare: #FF6A3D;
+    --gold: #D9A62E;
+    --flesh: #C98C63;
+    --enamel: #F5F1E8;
+    --font-display: "Anton", "Archivo Black", Impact, sans-serif;
+    --font-body: "Hind Madurai", system-ui, -apple-system, sans-serif;
+    --font-ta: "Anek Tamil", "Hind Madurai", sans-serif;
+  }
+  h1, h2, h3, h4 { font-weight: 400; letter-spacing: -0.005em; }
+  body { background-color: var(--paper); }
+  ::selection { background: var(--red); color: var(--enamel); }
+  .ta { font-family: var(--font-ta); font-variation-settings: "wdth" 100, "wght" 600; }
+
+  /* ============ hero: the hoarding sky ============ */
+  .hero {
+    min-height: 100svh;
+    position: relative;
+    overflow: hidden;
+    background: var(--pitch);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    padding: 8.5rem var(--gutter) 4rem;
+  }
+  .hero__sky {
+    position: absolute;
+    left: 50%;
+    bottom: -3%;
+    transform: translateX(-50%);
+    width: clamp(900px, max(130%, 100vh), 2600px);
+    aspect-ratio: 1200 / 1400;
+    pointer-events: none;
+  }
+  .hero__sky > svg { width: 100%; height: 100%; }
+  .hero__sky .tx-over { opacity: 0.55; }
+  .hero__inner { position: relative; z-index: 4; width: min(100%, 76rem); margin-inline: auto; }
+  .hero__ta {
+    font-family: var(--font-ta);
+    font-variation-settings: "wdth" 118, "wght" 800;
+    font-size: clamp(2.4rem, 14vw, 11rem);
+    line-height: 1;
+    margin: 0 0 0.12em;
+    color: var(--enamel);
+    letter-spacing: -0.015em;
+    text-shadow: 0 0 60px rgba(224, 27, 36, 0.35);
+  }
+  @media (max-width: 34rem) {
+    .hero { padding-top: 6.5rem; }
+    .hero__ta { font-variation-settings: "wdth" 100, "wght" 800; }
+    .hero__lede { font-size: 1.02rem; }
+  }
+  .hero__en {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 6.2vw, 4.6rem);
+    line-height: 0.94;
+    margin: 0 0 1.5rem;
+    max-width: 15ch;
+    text-transform: uppercase;
+    color: var(--enamel);
+  }
+  .hero__meta {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--enamel);
+    display: flex; flex-wrap: wrap; gap: 0.4rem;
+    margin: 0 0 1.6rem;
+  }
+  .hero__meta span {
+    background: var(--pitch);
+    padding: 0.38rem 0.7rem;
+    display: inline-block;
+  }
+  .hero__meta span:first-child { background: var(--red); color: var(--pitch); font-weight: 700; }
+  .hero__lede {
+    font-size: clamp(1.05rem, 0.9vw + 0.92rem, 1.34rem);
+    line-height: 1.52;
+    max-width: 31rem;
+    padding: 1.1rem 1.3rem;
+    border-left: 3px solid var(--red);
+    background: color-mix(in srgb, var(--pitch) 76%, transparent);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+  .hero__lede em { font-style: normal; color: var(--flare); }
+
+  /* ============ rules & dividers ============ */
+  .rule-rays {
+    height: 15px;
+    background-image: repeating-linear-gradient(90deg, var(--red) 0 7px, transparent 7px 24px);
+    border-top: 1px solid var(--red-deep);
+  }
+  .rule-gold {
+    height: 7px;
+    background: linear-gradient(180deg, var(--gold) 0 3px, var(--pitch) 3px 4px, var(--gold) 4px 7px);
+  }
+
+  /* ============ anatomy ============ */
+  .anatomy-grid { display: grid; gap: 2.4rem 3.5rem; grid-template-columns: 1fr; }
+  @media (min-width: 62rem) { .anatomy-grid { grid-template-columns: 1fr 1fr; } }
+  .swatch i { box-shadow: inset 0 0 0 1px rgba(237, 231, 224, 0.16); }
+  .specimens { grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1.6rem 2.6rem; }
+  .specimen { border-top-color: color-mix(in srgb, var(--red) 45%, transparent); border-top-width: 2px; align-content: start; }
+  .spec-ta { font-family: var(--font-ta); color: var(--enamel); }
+
+  /* ============ symbols ============ */
+  .symbolrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: 1.6rem; }
+  .symbolrow figure .frame { background: var(--pitch); padding: 0.7rem; border-color: color-mix(in srgb, var(--ink) 22%, transparent); }
+  .symbolrow figcaption { font-size: 0.8rem; }
+
+  /* ============ essay ============ */
+  .essay h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.9vw, 2.2rem);
+    text-transform: uppercase;
+    margin: 3.4rem 0 1rem;
+    max-width: 24ch;
+    color: color-mix(in srgb, var(--ink) 60%, transparent);
+  }
+  .essay h3 span { color: var(--enamel); }
+  .essay .prose { max-width: 38rem; }
+  .essay .prose:first-of-type > p:first-of-type::first-letter {
+    font-family: var(--font-display);
+    float: left;
+    font-size: 3.7em;
+    line-height: 0.8;
+    padding: 0.04em 0.12em 0 0;
+    color: var(--red);
+  }
+  .prose em { color: var(--flare); font-style: normal; }
+  .prose cite { font-style: italic; color: var(--enamel); }
+  .two-col { display: grid; gap: 2.6rem; grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 58rem) { .two-col { grid-template-columns: minmax(0, 1fr) 15rem; gap: 3.5rem; } }
+  .marginalia {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    line-height: 1.72;
+    letter-spacing: 0.04em;
+    color: color-mix(in srgb, var(--ink) 58%, transparent);
+    border-left: 1px solid color-mix(in srgb, var(--red) 45%, transparent);
+    padding-left: 1.1rem;
+  }
+  .marginalia b { color: var(--red); font-weight: 700; }
+  .marginalia p { margin-bottom: 0.75em; }
+
+  /* ============ artifacts ============ */
+  .artifacts { background: #17141B; border-block: 1px solid color-mix(in srgb, var(--ink) 14%, transparent); }
+  .bigfigs { display: grid; grid-template-columns: 1fr; gap: 2.8rem 2.4rem; }
+  @media (min-width: 56rem) { .bigfigs { grid-template-columns: 1fr 1fr; } }
+  .bigfigs figure .frame { background: var(--pitch); border-color: color-mix(in srgb, var(--ink) 22%, transparent); }
+
+  .filmgrain { position: fixed; inset: 0; z-index: 70; pointer-events: none; opacity: 0.55; }
+
+  @keyframes dv-breathe { 0%, 100% { opacity: 0.85; } 50% { opacity: 1; } }
+  .sun-glow { animation: dv-breathe 14s ease-in-out infinite; transform-origin: 600px 1330px; }
+  @media (prefers-reduced-motion: reduce) { .sun-glow { animation: none; } }
+</style>
+<noscript><style>[data-reveal]{opacity:1 !important;transform:none !important}</style></noscript>
+</head>
+<body>
+
+<!-- ============================== HERO ============================== -->
+<header class="hero">
+  <div class="hero__sky" aria-hidden="true">
+    <svg viewBox="0 0 1200 1400" preserveAspectRatio="xMidYMax meet" focusable="false" aria-hidden="true">
+      <defs>
+        <radialGradient id="dv-glow" cx="600" cy="1330" r="900" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#FF6A3D" stop-opacity="0.55" />
+          <stop offset="0.35" stop-color="#E01B24" stop-opacity="0.30" />
+          <stop offset="1" stop-color="#E01B24" stop-opacity="0" />
+        </radialGradient>
+        <radialGradient id="dv-disc" cx="600" cy="1330" r="210" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#FF9E2C" />
+          <stop offset="0.22" stop-color="#FF5A2A" />
+          <stop offset="0.58" stop-color="#E01B24" />
+          <stop offset="1" stop-color="#BE1219" />
+        </radialGradient>
+        <linearGradient id="dv-rayfade" x1="0" y1="1330" x2="0" y2="60" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#fff" stop-opacity="1" />
+          <stop offset="0.45" stop-color="#fff" stop-opacity="0.42" />
+          <stop offset="1" stop-color="#fff" stop-opacity="0.04" />
+        </linearGradient>
+        <mask id="dv-raymask"><rect x="-400" y="-200" width="2000" height="1600" fill="url(#dv-rayfade)" /></mask>
+        <path id="dv-ray" d="M600 1330 L510 -140 L690 -140 Z" />
+      </defs>
+
+      <ellipse class="sun-glow" cx="600" cy="1330" rx="980" ry="700" fill="url(#dv-glow)" />
+
+      <g fill="var(--red)" mask="url(#dv-raymask)">
+        <use href="#dv-ray" transform="rotate(-84 600 1330)" /> <use href="#dv-ray" transform="rotate(-72 600 1330)" /> <use href="#dv-ray" transform="rotate(-60 600 1330)" /> <use href="#dv-ray" transform="rotate(-48 600 1330)" />
+        <use href="#dv-ray" transform="rotate(-36 600 1330)" /> <use href="#dv-ray" transform="rotate(-24 600 1330)" /> <use href="#dv-ray" transform="rotate(-12 600 1330)" /> <use href="#dv-ray" />
+        <use href="#dv-ray" transform="rotate(12 600 1330)" /> <use href="#dv-ray" transform="rotate(24 600 1330)" /> <use href="#dv-ray" transform="rotate(36 600 1330)" /> <use href="#dv-ray" transform="rotate(48 600 1330)" />
+        <use href="#dv-ray" transform="rotate(60 600 1330)" /> <use href="#dv-ray" transform="rotate(72 600 1330)" /> <use href="#dv-ray" transform="rotate(84 600 1330)" />
+      </g>
+
+      <path d="M390 1330 A210 210 0 0 1 810 1330 Z" fill="url(#dv-disc)" />
+      <path d="M390 1330 A210 210 0 0 1 810 1330" fill="none" stroke="#FFD07A" stroke-opacity="0.55" stroke-width="3" />
+      <rect x="-200" y="1326" width="1600" height="6" fill="#FFB53D" opacity="0.4" />
+
+      <!-- banner poles, cut-outs and crowd, standing on the horizon -->
+      <g fill="#050506">
+        <rect x="212" y="1272" width="3.4" height="60" /><path d="M215 1275 L252 1284 L215 1293 Z" />
+        <rect x="330" y="1262" width="3.6" height="70" /><path d="M334 1265 L378 1276 L334 1287 Z" />
+        <rect x="700" y="1268" width="3.4" height="64" /><path d="M700 1271 L660 1281 L700 1291 Z" />
+        <rect x="884" y="1264" width="3.6" height="68" /><path d="M884 1267 L840 1278 L884 1289 Z" />
+        <rect x="1000" y="1276" width="3.2" height="56" /><path d="M1003 1279 L1038 1287 L1003 1295 Z" />
+
+        <g stroke="#050506" stroke-width="2" fill="none">
+          <path d="M530 1332 V1266 M580 1332 V1266 M530 1288 H580 M530 1310 H580 M530 1269 L580 1305 M580 1269 L530 1305" />
+          <path d="M760 1332 V1254 M818 1332 V1254 M760 1280 H818 M760 1306 H818 M760 1257 L818 1301 M818 1257 L760 1301" />
+        </g>
+        <path d="M538 1332 v-40 q0-9 10-12 l7-2 v-5 h10 v5 l7 2 q10 3 10 12 v40 Z" /><circle cx="555" cy="1277" r="9" />
+        <path d="M572 1296 L592 1272 l7 6 -20 26 Z" /><circle cx="596" cy="1269" r="5" />
+        <path d="M768 1332 v-46 q0-11 12-14 l8-3 v-6 h12 v6 l8 3 q12 3 12 14 v46 Z" /><circle cx="794" cy="1268" r="10.5" />
+        <path d="M776 1290 L752 1272 l-5 7 24 19 Z" /><circle cx="748" cy="1268" r="5.4" />
+
+        <g>
+          <circle cx="232" cy="1310" r="5.0" /><path d="M224.2 1336 v-17 q0-6 7.8-6 t7.8 6 v17 Z" /> <circle cx="252" cy="1308" r="5.6" /><path d="M243.3 1334 v-17 q0-6 8.7-6 t8.7 6 v17 Z" /> <circle cx="272" cy="1306" r="4.6" /><path d="M264.9 1332 v-17 q0-6 7.2-6 t7.2 6 v17 Z" />
+          <circle cx="292" cy="1309" r="5.4" /><path d="M283.6 1335 v-17 q0-6 8.3-6 t8.3 6 v17 Z" /> <circle cx="312" cy="1307" r="4.8" /><path d="M304.6 1333 v-17 q0-6 7.5-6 t7.5 6 v17 Z" /> <circle cx="348" cy="1310" r="5.2" /><path d="M339.9 1336 v-17 q0-6 8.1-6 t8.1 6 v17 Z" />
+          <circle cx="368" cy="1308" r="4.6" /><path d="M360.9 1334 v-17 q0-6 7.2-6 t7.2 6 v17 Z" /> <circle cx="388" cy="1306" r="5.4" /><path d="M379.6 1332 v-17 q0-6 8.3-6 t8.3 6 v17 Z" /> <circle cx="408" cy="1309" r="4.8" /><path d="M400.6 1335 v-17 q0-6 7.5-6 t7.5 6 v17 Z" />
+          <circle cx="428" cy="1307" r="5.2" /><path d="M419.9 1333 v-17 q0-6 8.1-6 t8.1 6 v17 Z" /> <circle cx="448" cy="1310" r="4.6" /><path d="M440.9 1336 v-17 q0-6 7.2-6 t7.2 6 v17 Z" /> <circle cx="468" cy="1308" r="5.4" /><path d="M459.6 1334 v-17 q0-6 8.3-6 t8.3 6 v17 Z" />
+          <circle cx="640" cy="1306" r="5.2" /><path d="M632.0 1332 v-17 q0-6 8.1-6 t8.1 6 v17 Z" /> <circle cx="660" cy="1309" r="4.6" /><path d="M652.9 1335 v-17 q0-6 7.2-6 t7.2 6 v17 Z" /> <circle cx="680" cy="1307" r="5.4" /><path d="M671.6 1333 v-17 q0-6 8.3-6 t8.3 6 v17 Z" />
+          <circle cx="700" cy="1310" r="4.8" /><path d="M692.5 1336 v-17 q0-6 7.5-6 t7.5 6 v17 Z" /> <circle cx="720" cy="1308" r="5.2" /><path d="M712.0 1334 v-17 q0-6 8.1-6 t8.1 6 v17 Z" /> <circle cx="740" cy="1306" r="4.6" /><path d="M732.9 1332 v-17 q0-6 7.2-6 t7.2 6 v17 Z" />
+          <circle cx="836" cy="1309" r="5.2" /><path d="M828.0 1335 v-17 q0-6 8.1-6 t8.1 6 v17 Z" /> <circle cx="856" cy="1307" r="4.8" /><path d="M848.5 1333 v-17 q0-6 7.5-6 t7.5 6 v17 Z" /> <circle cx="876" cy="1310" r="5.4" /><path d="M867.6 1336 v-17 q0-6 8.3-6 t8.3 6 v17 Z" />
+          <circle cx="912" cy="1308" r="5.0" /><path d="M904.2 1334 v-17 q0-6 7.8-6 t7.8 6 v17 Z" /> <circle cx="932" cy="1306" r="5.5" /><path d="M923.5 1332 v-17 q0-6 8.6-6 t8.6 6 v17 Z" /> <circle cx="952" cy="1309" r="4.7" /><path d="M944.7 1335 v-17 q0-6 7.3-6 t7.3 6 v17 Z" />
+          <circle cx="972" cy="1307" r="5.2" /><path d="M964.0 1333 v-17 q0-6 8.1-6 t8.1 6 v17 Z" />
+        </g>
+        <rect x="-200" y="1332" width="1600" height="90" />
+      </g>
+    </svg>
+    <div class="tx-over tx-scanlines"></div>
+  </div>
+  <div class="hero__inner">
+    <p class="hero__ta" lang="ta">திராவிடம்</p>
+    <h1 class="hero__en">The Dravidian Movement</h1>
+    <p class="hero__meta">
+      <span>No. 03</span><span>South Asia · Tamil Nadu</span><span>1925 — present</span>
+    </p>
+    <p class="hero__lede">
+      The only political design system on earth art-directed by screenwriters and executed by
+      cinema hoarding painters. Two registers that never reconciled: the matte black shirt of
+      Periyar's rationalists, and sixty feet of <em>airbrushed plywood</em> erected outside a
+      theatre, garlanded, and bathed in milk.
+    </p>
+  </div>
+</header>
+
+<div class="rule-rays" aria-hidden="true"></div>
+
+<!-- ============================== ANATOMY ============================== -->
+<section class="section" id="anatomy">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The anatomy</p>
+    <div class="anatomy-grid" data-reveal>
+      <div>
+        <h2 class="section-title">A palette assembled from two industries</h2>
+        <p class="prose">
+          Half of this system came out of a newspaper office in Erode running on the cheapest
+          paper available. The other half came out of the enamel tins used to paint film banners
+          in Kodambakkam. Nothing in it was specified by a designer; all of it was specified by
+          a supplier — and both suppliers sold exactly one red.
+        </p>
+      </div>
+      <div>
+        <h2 class="section-title">Lettering as a territorial claim</h2>
+        <p class="prose">
+          In a state whose politics is a two-generation argument about which script the government
+          may print in, type is never neutral. Tamil display lettering here is deliberately fat,
+          wide and loop-heavy — built to be read at sixty feet from a moving bus, and built so that
+          no Devanagari headline nearby can out-shout it.
+        </p>
+      </div>
+    </div>
+
+    <div class="swatches" data-reveal style="margin-top:2.6rem">
+      <div class="swatch"><i style="background:#050506"></i><b>#050506 SELF-RESPECT BLACK</b><span>Chosen as the anti-colour. Not saffron, not the ritual white of the twice-born — the shirt of a man declaring he has been kept in the dark and intends to say so.</span></div>
+      <div class="swatch"><i style="background:#E01B24"></i><b>#E01B24 ENAMEL RED</b><span>Synthetic enamel straight from the tin: no mixing, no fading, survives a monsoon on a compound wall. The sun, the flag disc, every letter on every wall.</span></div>
+      <div class="swatch"><i style="background:#EDE7E0"></i><b>#EDE7E0 NEWSPRINT / LIMEWASH</b><span>Two surfaces with one colour: the sixteen-page Tamil weekly, and the lime-washed wall it was continued on when the print run ran out.</span></div>
+      <div class="swatch"><i style="background:#D9A62E"></i><b>#D9A62E CUT-OUT GOLD</b><span>The border round a painted figure — lifted wholesale from temple gilding and applied to a party leader. The movement's rationalists never quite reconciled this.</span></div>
+      <div class="swatch"><i style="background:#C98C63"></i><b>#C98C63 AIRBRUSH FLESH</b><span>The sprayed skin gradient. The most technically demanding surface in Indian political art, and the first thing digital flex printing destroyed.</span></div>
+    </div>
+
+    <div class="specimens" data-reveal style="margin-top:3rem">
+      <div class="specimen">
+        <p class="spec-ta" lang="ta" style="font-size:clamp(1.9rem,4.4vw,2.9rem);font-variation-settings:'wdth' 122,'wght' 800">திராவிட முன்னேற்றக் கழகம்</p>
+        <small>Hoarding weight. Set in Anek Tamil (Indian Type Foundry), a variable family whose width axis reproduces what a banner painter did by hand: stretch the counters, thicken the strokes, keep the loops open so they survive at distance.</small>
+      </div>
+      <div class="specimen">
+        <p lang="ta" style="font-family:'Hind Madurai',sans-serif;font-size:clamp(1.25rem,2.6vw,1.7rem);font-weight:400;line-height:1.45;color:var(--enamel)">குடி அரசு · விடுதலை · பகுத்தறிவு</p>
+        <small><i>Kudi Arasu</i> (1925), <i>Viduthalai</i> (1935), and the word "rationalism". Text weight for a weekly printed on paper thin enough to read the reverse through. Hind Madurai is the digital descendant of that reading size.</small>
+      </div>
+      <div class="specimen">
+        <p style="font-family:var(--font-display);font-size:clamp(1.7rem,3.8vw,2.6rem);text-transform:uppercase;line-height:1;color:var(--enamel)">Self Respect</p>
+        <small>The Latin half of a bilingual banner: condensed, heavy, no serifs, no charm. Anton stands in for the sign-painter's grotesque used for English party names, court notices and the word DMK on a lorry.</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule-gold" aria-hidden="true"></div>
+
+<!-- ============================== SYMBOLS ============================== -->
+<section class="section" id="symbols" style="background:#0B0A0E">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>The marks</p>
+    <h2 class="section-title" data-reveal>Four marks, two of them made by painters</h2>
+
+    <div class="symbolrow" data-reveal>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 92" role="img" aria-label="The udhayasooriyan: a rising sun with radiating rays above a horizon line">
+            <defs><path id="sr-ray" d="M60 78 L53 -26 L67 -26 Z" /></defs>
+            <g fill="#E01B24">
+              <use href="#sr-ray" transform="rotate(-75 60 78)" /> <use href="#sr-ray" transform="rotate(-60 60 78)" /> <use href="#sr-ray" transform="rotate(-45 60 78)" /> <use href="#sr-ray" transform="rotate(-30 60 78)" />
+              <use href="#sr-ray" transform="rotate(-15 60 78)" /> <use href="#sr-ray" /> <use href="#sr-ray" transform="rotate(15 60 78)" /> <use href="#sr-ray" transform="rotate(30 60 78)" />
+              <use href="#sr-ray" transform="rotate(45 60 78)" /> <use href="#sr-ray" transform="rotate(60 60 78)" /> <use href="#sr-ray" transform="rotate(75 60 78)" />
+            </g>
+            <path d="M24 78 A36 36 0 0 1 96 78 Z" fill="#E01B24" />
+            <path d="M24 78 A36 36 0 0 1 96 78" fill="none" stroke="#FFB53D" stroke-width="1.4" stroke-opacity="0.75" />
+            <rect x="0" y="78" width="120" height="14" fill="#050506" />
+            <rect x="0" y="77" width="120" height="1.6" fill="#FFB53D" opacity="0.5" />
+          </svg>
+        </div>
+        <figcaption><b>Udhayasooriyan</b> <span class="ta" lang="ta">உதயசூரியன்</span> — the rising sun. Allotted to the DMK by the Election Commission and thereafter the party's whole identity: a mark that means <em>morning</em> before it means anything partisan.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 92" role="img" aria-label="A black flag bearing a red circle, flown from a pole">
+            <rect x="18" y="14" width="88" height="58" fill="#050506" stroke="#EDE7E0" stroke-opacity="0.28" stroke-width="1" />
+            <circle cx="62" cy="43" r="19" fill="#E01B24" />
+            <rect x="13" y="8" width="4.5" height="78" fill="#EDE7E0" fill-opacity="0.45" />
+            <g stroke="#EDE7E0" stroke-opacity="0.16" stroke-width="0.6" fill="none">
+              <path d="M18 14 v58 M106 14 v58" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The Dravidar Kazhagam flag</b> — a black field with a red circle. Read it as a negative of every other flag on this site: the field is the absence, the disc is the thing the absence is fighting for.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 120 92" role="img" aria-label="Silhouette of a garlanded painted cut-out figure standing on a scaffold">
+            <defs>
+              <linearGradient id="sc-skin" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#8A5A3C" /><stop offset="0.45" stop-color="#C98C63" /><stop offset="1" stop-color="#7C4E33" />
+              </linearGradient>
+            </defs>
+            <g stroke="#3F3F49" stroke-width="1" fill="none">
+              <path d="M24 88 V16 M96 88 V16 M24 34 H96 M24 56 H96 M24 20 L96 74 M96 20 L24 74" />
+            </g>
+            <g fill="url(#sc-skin)" stroke="#D9A62E" stroke-width="1.7" stroke-linejoin="round">
+              <path d="M42 88 V52 q0-10 10-10 h16 q10 0 10 10 v36 Z" />
+              <rect x="55" y="34" width="10" height="10" />
+              <circle cx="60" cy="26" r="11" />
+              <path d="M77 56 L92 34 l7 5 -14 24 Z" />
+              <circle cx="97" cy="30" r="6" />
+            </g>
+            <g fill="#E01B24">
+              <circle cx="48" cy="52" r="3.2" /><circle cx="53" cy="58" r="3.4" /><circle cx="60" cy="61" r="3.6" />
+              <circle cx="67" cy="58" r="3.4" /><circle cx="72" cy="52" r="3.2" />
+            </g>
+            <g fill="#D9A62E" opacity="0.9">
+              <circle cx="50.5" cy="55" r="1.4" /><circle cx="56.5" cy="60" r="1.4" /><circle cx="63.5" cy="60" r="1.4" /><circle cx="69.5" cy="55" r="1.4" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The cut-out</b> — a painted figure on a tubular scaffold, gold-edged and garlanded across the chest. The scaffold is always visible from the side, and nobody ever hid it. It is a stage flat treated as an idol.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Specimen</span>
+          <svg viewBox="0 0 120 92" role="img" aria-label="Anatomy diagram of a Tamil letterform showing its loop, baseline and headline">
+            <g stroke="#E01B24" stroke-opacity="0.6" stroke-width="0.6" stroke-dasharray="3 3">
+              <path d="M4 22 H116 M4 70 H116" />
+            </g>
+            <g stroke="#EDE7E0" stroke-opacity="0.2" stroke-width="0.5">
+              <path d="M4 46 H116" />
+            </g>
+            <text x="60" y="70" text-anchor="middle" lang="ta" font-family="Anek Tamil, sans-serif" font-size="58" style="font-variation-settings:'wdth' 122,'wght' 800" fill="#EDE7E0">ரா</text>
+            <g font-family="JetBrains Mono, monospace" font-size="4.2" fill="#E01B24">
+              <text x="4" y="19">HEADLINE</text>
+              <text x="4" y="86">BASELINE</text>
+              <text x="72" y="88" fill="#D9A62E">the open loop</text>
+            </g>
+            <path d="M70 83 q-10-5 -14 -12" stroke="#D9A62E" stroke-width="0.7" fill="none" />
+          </svg>
+        </div>
+        <figcaption><b>The Tamil loop</b> — Tamil's display tradition lives in the counters. Painters widened them and squared the terminals so a letter still read as itself after a bus had driven past it.
+          <span class="credit">Type specimen · set in Anek Tamil</span></figcaption>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+<div class="rule-rays" aria-hidden="true"></div>
+
+<!-- ============================== ESSAY ============================== -->
+<section class="section essay" id="essay">
+  <div class="wrap">
+    <div class="two-col">
+      <div>
+        <p class="eyebrow" data-reveal>How it worked</p>
+        <div class="prose" data-reveal>
+          <p>
+            Most movements in this atlas designed a poster and hoped it would be seen. The
+            Dravidian movement did something stranger: it took over a film industry, and let the
+            film industry design the politics. Dialogue writers became chief ministers. Leading
+            men became parties. The publicity department of Tamil cinema became, for forty years,
+            the graphic arm of the Tamil state.
+          </p>
+          <p>
+            It produced two visual registers that sit badly together and are both authentically
+            its own. One is austere: black shirt, red disc, cheap Tamil newsprint, no ornament,
+            no gods. The other is enormous: sixty feet of airbrushed enamel with a gold border
+            and a garland. The movement's whole design history is the argument between them.
+          </p>
+        </div>
+
+        <h3 data-reveal>1925 · <span>Black, chosen as the anti-colour</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            E.V. Ramasamy — Periyar — walked out of the Indian National Congress in 1925 and
+            started the Self-Respect Movement, <span class="ta" lang="ta">சுயமரியாதை இயக்கம்</span>.
+            The same year he launched the Tamil weekly <cite>Kudi Arasu</cite>. He had already spent
+            1924–25 at the Vaikom satyagraha, arguing about which castes could walk on which road.
+          </p>
+          <p>
+            The clothing decision came with the politics. Cadre wore black shirts; the flag was a
+            black field with a red circle. Every other Indian political colour of the period was a
+            claim to sanctity — saffron for renunciation, white for ritual purity, green for a
+            community. Black is a refusal of the whole vocabulary. It has no auspicious reading in
+            the tradition it is arguing with, which is exactly why it was picked.
+          </p>
+          <p>
+            It is also, incidentally, the cheapest reliable dye and the only shirt colour that
+            still looks deliberate after three days of marching. Self-Respect weddings were
+            conducted with no priest, no fire and no Sanskrit; the visual equivalent was a
+            uniform with nothing on it. Periyar went further than symbolism in the 1950s, staging
+            public image-breaking campaigns and burning pictures of Rama. The design was polite.
+            The politics was not.
+          </p>
+        </div>
+
+        <h3 data-reveal>1937 · <span>When a script becomes a position</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            In 1937 the Madras Presidency government made Hindi compulsory in schools. The
+            agitation that followed ran to 1940, produced deaths in custody, and gave the movement
+            its most durable slogan: <span class="ta" lang="ta">இந்தி ஒழிக</span> — <em>down with
+            Hindi</em>. In 1965, when Hindi was to become the sole official language of the Union,
+            it happened again, larger and bloodier. Two years later the Congress lost Tamil Nadu
+            and has never governed it since.
+          </p>
+          <p>
+            What makes this a design story rather than a language story is what the movement then
+            did to the writing system itself. Periyar had argued for years that the Tamil script
+            was needlessly hard to set: certain vowel signs fuse with their consonant into a single
+            irregular composite glyph, which means a compositor needs a separate sort for each
+            fusion. His proposal was to regularise them — write the consonant, then the sign.
+          </p>
+          <p>
+            In 1978 the Tamil Nadu government, under Karunanidhi, adopted a set of reformed
+            letterforms along those lines. Compare a Tamil schoolbook printed in 1970 with one
+            printed in 1980 and the difference is visible on every page. It is one of very few
+            occasions anywhere on which a political movement got as far as editing the letters.
+          </p>
+        </div>
+
+        <blockquote class="pull" data-reveal>
+          Every other movement in this atlas printed its message. This one cast it, shot it,
+          released it on a Friday, and won an election with it.
+        </blockquote>
+
+        <h3 data-reveal>1949 · <span>A sun you could vote for</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            C.N. Annadurai split from Periyar in 1949 and founded the Dravida Munnetra Kazhagam.
+            Annadurai was a playwright and an orator before he was anything else, and the DMK's
+            visual choices are a writer's choices: the rising sun, <span class="ta" lang="ta">உதயசூரியன்</span>,
+            allotted as its Election Commission symbol, and black and red carried over from the
+            parent organisation.
+          </p>
+          <p>
+            The Indian ballot symbol system — built so that a voter who cannot read can still vote
+            unaided — turns every party mark into a pictogram with a legal specification. It is a
+            brutal design brief: one flat shape, no colour on the ballot paper, legible at thumbnail
+            size, and it must not resemble any other party's shape. The rising sun passes on every
+            count. It is also the only symbol in Indian politics that arrives pre-loaded with a
+            tense: not power, not victory — <em>morning</em>. A thing that is about to happen.
+          </p>
+          <p>
+            Flag specifics in this family of parties are genuinely contested and often
+            misreported, so the recreations below keep the ballot symbol and the black-and-red
+            field as separate, separately-labelled objects rather than asserting one construction.
+          </p>
+        </div>
+
+        <h3 data-reveal>1952 · <span>The screenplay as party manifesto</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            <cite>Parasakthi</cite> was released in 1952. M. Karunanidhi wrote it; Sivaji Ganesan
+            made his debut in it; the dialogue — alliterative, Sanskrit-purged, built in long
+            rhetorical waves — was the point. Audiences bought tickets to hear a political style.
+            Karunanidhi became chief minister in 1969 and stayed a working screenwriter.
+          </p>
+          <p>
+            This is the mechanism that makes the Dravidian movement unlike anything else here.
+            Rhetoric written for the screen transferred, unaltered, to the public platform, and
+            from there to the poster and the wall. Bernard Bate's work on Tamil oratory tracks the
+            same cadences moving between all three. The medium chain runs film → stage → wall,
+            not the other way round.
+          </p>
+          <p>
+            The consequence was a personality cult built by an industry that already knew how to
+            manufacture one. M.G. Ramachandran's fan clubs became a welfare network and then a
+            party; M.S.S. Pandian's <cite>The Image Trap</cite> is the standard account of how a
+            screen persona of the incorruptible poor man's champion was converted into an
+            electoral asset. A movement founded on rationalism and the demolition of idols ended
+            up with the largest idols in the country, made of plywood.
+          </p>
+        </div>
+
+        <h3 data-reveal>1970s · <span>Sixty feet of plywood, then nothing</span></h3>
+        <div class="prose" data-reveal>
+          <p>
+            The cut-out is the movement's signature object and its most technically serious one.
+            Canvas or plywood on a tubular scaffold, thirty to sixty feet, painted flat on the
+            ground in enamel by the same men who painted the film banners over the theatre
+            entrance, then raised, garlanded, and on occasion bathed in milk.
+          </p>
+          <p>
+            The craft problem is foreshortening. A face painted correctly on a flat panel looks
+            wrong once you are standing under it at a twelve-degree sightline, so the painters
+            corrected upward: heads and upper bodies enlarged against the legs, features pushed
+            up the skull, gradients graded so the cheek still turns when lit from below by a
+            sodium lamp. The skin was airbrushed; the border was gold; the edge was cut with a
+            jigsaw and left hard, because a hard edge against the sky reads from further away
+            than a soft one.
+          </p>
+          <p>
+            Between them, the cut-out and the wall did all the distribution. Cadre-painted enamel
+            Tamil lettering on compound walls — red on limewash, or white and yellow on black —
+            was a printing system with no press, no cost and no possibility of reproduction: every
+            wall a unique impression, executed unpaid overnight by a man with a bucket and a
+            two-inch brush and a set of display conventions he had never seen written down.
+          </p>
+          <p>
+            Digital flex printing arrived in the late 1990s and finished both trades inside a
+            decade. A vinyl banner is cheaper, faster, weatherproof and dead. Preminda Jacob's
+            <cite>Celluloid Deities</cite> documents the studios in the last years of hand
+            painting. The style survives as a filter; the trade does not.
+          </p>
+        </div>
+      </div>
+
+      <aside class="marginalia" data-reveal>
+        <p><b>1916</b> South Indian Liberal Federation — the Justice Party — founded.</p>
+        <p><b>1924</b> Periyar at the Vaikom satyagraha.</p>
+        <p><b>1925</b> Leaves Congress. Self-Respect Movement; <span class="ta" lang="ta">குடி அரசு</span> <i>Kudi Arasu</i> begins.</p>
+        <p><b>1935</b> <span class="ta" lang="ta">விடுதலை</span> <i>Viduthalai</i>.</p>
+        <p><b>1937</b> Compulsory Hindi in Madras schools; agitation to 1940.</p>
+        <p><b>1938</b> The slogan <span class="ta" lang="ta">தமிழ்நாடு தமிழருக்கே</span> — Tamil Nadu for Tamils.</p>
+        <p><b>1942</b> Annadurai's weekly <i>Dravida Nadu</i>.</p>
+        <p><b>1944</b> Justice Party becomes Dravidar Kazhagam. Black shirt, black flag, red disc.</p>
+        <p><b>1949</b> DMK founded. Rising sun as ballot symbol.</p>
+        <p><b>1952</b> <i>Parasakthi</i>, written by Karunanidhi.</p>
+        <p><b>1965</b> Anti-Hindi agitation; deaths across the state.</p>
+        <p><b>1967</b> DMK takes power. Congress has not governed Tamil Nadu since.</p>
+        <p><b>1972</b> M.G. Ramachandran founds his own party; cut-outs go statewide.</p>
+        <p><b>1978</b> Reformed Tamil letterforms adopted by the state government.</p>
+        <p><b>1987</b> MGR's funeral — the peak of the painted cut-out.</p>
+        <p><b>c. 1998–2005</b> Flex printing replaces hand painting.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ARTIFACTS ============================== -->
+<section class="section artifacts" id="artifacts">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Artifacts</p>
+    <h2 class="section-title" data-reveal>A ballot, a scaffold, a wall and three passes of enamel</h2>
+    <p class="prose" data-reveal style="margin-bottom:2.8rem">
+      Four objects that between them carried the whole system: the smallest reproduction of the
+      mark, the largest, the free one, and the technique that made the largest possible.
+    </p>
+
+    <div class="bigfigs" data-reveal>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 300 320" role="img" aria-label="Recreation of an Indian ballot paper showing three party symbols including the rising sun">
+            <rect width="300" height="320" fill="#EDE7E0" />
+            <g fill="#111014" font-family="JetBrains Mono, monospace">
+              <rect x="16" y="16" width="268" height="288" fill="none" stroke="#111014" stroke-width="1.4" />
+              <text x="30" y="38" font-size="8" letter-spacing="1.6">BALLOT PAPER · SPECIMEN</text>
+              <text x="30" y="52" font-size="7" fill="#555" letter-spacing="1.2">SYMBOL COLUMN AT RIGHT</text>
+              <path d="M16 62 H284" stroke="#111014" stroke-width="1" />
+              <path d="M16 142 H284 M16 222 H284" stroke="#111014" stroke-width="1" />
+              <path d="M196 62 V304" stroke="#111014" stroke-width="1" />
+            </g>
+
+            <!-- row 1: rising sun -->
+            <g>
+              <text x="30" y="86" font-family="Anek Tamil, sans-serif" font-size="17" lang="ta" style="font-variation-settings:'wdth' 110,'wght' 700" fill="#111014">உதயசூரியன்</text>
+              <text x="30" y="102" font-family="JetBrains Mono, monospace" font-size="7.5" letter-spacing="1.4" fill="#111014">RISING SUN</text>
+              <text x="30" y="122" font-family="JetBrains Mono, monospace" font-size="7" fill="#666">1 · candidate name</text>
+              <g transform="translate(240,116)">
+                <g fill="#111014">
+                  <path d="M0 0 L-4 -46 L4 -46 Z" />
+                  <path d="M0 0 L-16 -44 L-8 -46 Z" /><path d="M0 0 L16 -44 L8 -46 Z" />
+                  <path d="M0 0 L-28 -38 L-22 -42 Z" /><path d="M0 0 L28 -38 L22 -42 Z" />
+                  <path d="M0 0 L-38 -28 L-34 -34 Z" /><path d="M0 0 L38 -28 L34 -34 Z" />
+                  <path d="M0 0 L-45 -15 L-43 -22 Z" /><path d="M0 0 L45 -15 L43 -22 Z" />
+                </g>
+                <path d="M-22 0 A22 22 0 0 1 22 0 Z" fill="#111014" />
+                <path d="M-34 0 H34" stroke="#111014" stroke-width="2.4" />
+              </g>
+            </g>
+
+            <!-- row 2: two leaves -->
+            <g>
+              <text x="30" y="166" font-family="Anek Tamil, sans-serif" font-size="17" lang="ta" style="font-variation-settings:'wdth' 110,'wght' 700" fill="#111014">இரட்டை இலை</text>
+              <text x="30" y="182" font-family="JetBrains Mono, monospace" font-size="7.5" letter-spacing="1.4" fill="#111014">TWO LEAVES</text>
+              <text x="30" y="202" font-family="JetBrains Mono, monospace" font-size="7" fill="#666">2 · candidate name</text>
+              <g transform="translate(240,182)" fill="#111014">
+                <path d="M-2 22 C-30 12 -30 -18 -4 -24 C4 -6 4 10 -2 22 Z" />
+                <path d="M2 22 C30 12 30 -18 4 -24 C-4 -6 -4 10 2 22 Z" />
+                <rect x="-1.4" y="18" width="2.8" height="10" />
+              </g>
+            </g>
+
+            <!-- row 3: hand -->
+            <g>
+              <text x="30" y="246" font-family="Anek Tamil, sans-serif" font-size="17" lang="ta" style="font-variation-settings:'wdth' 110,'wght' 700" fill="#111014">கை</text>
+              <text x="30" y="262" font-family="JetBrains Mono, monospace" font-size="7.5" letter-spacing="1.4" fill="#111014">HAND</text>
+              <text x="30" y="282" font-family="JetBrains Mono, monospace" font-size="7" fill="#666">3 · candidate name</text>
+              <g transform="translate(240,262)" fill="#111014">
+                <path d="M-16 26 V4 q0-6 5-6 t5 6 v-14 q0-6 5-6 t5 6 v-4 q0-6 5-6 t5 6 v6 q0-5 4-5 t4 5 v14 q0 16 -12 20 Z" />
+              </g>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>The mark at its smallest</b> — the Election Commission's pictogram system reduces every party to one flat black shape on cheap paper. Set beside the two leaves and the hand, the rising sun's advantage is obvious: it is the only one with a horizon, so it survives being printed badly.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 460 330" role="img" aria-label="Scale diagram comparing a sixty-foot painted cut-out with a six-foot human figure, with dimension lines and construction annotations">
+            <rect width="460" height="330" fill="#0E0D11" />
+            <defs>
+              <linearGradient id="cs-skin" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#8A5A3C" /><stop offset="0.4" stop-color="#C98C63" /><stop offset="1" stop-color="#6D452C" />
+              </linearGradient>
+            </defs>
+            <g stroke="#EDE7E0" stroke-opacity="0.11" stroke-width="0.6">
+              <path d="M84 30 H320 M84 84 H320 M84 138 H320 M84 192 H320 M84 246 H320" />
+            </g>
+            <path d="M20 300 H330 M340 300 H448" stroke="#EDE7E0" stroke-opacity="0.42" stroke-width="1.4" />
+            <g stroke="#494954" stroke-width="1.1" fill="none">
+              <path d="M196 300 V34 M306 300 V34 M196 84 H306 M196 138 H306 M196 192 H306 M196 246 H306 M196 34 L306 84 M306 34 L196 84 M196 84 L306 138 M306 84 L196 138 M196 138 L306 192 M306 138 L196 192 M196 192 L306 246 M306 192 L196 246" />
+            </g>
+            <g fill="url(#cs-skin)" stroke="#D9A62E" stroke-width="2" stroke-linejoin="round">
+              <path d="M300 154 L336 98 l16 10 -34 58 Z" />
+              <path d="M212 300 V150 q0-22 24-30 l20-7 v-14 h32 v14 l20 7 q24 8 24 30 v150 Z" />
+              <ellipse cx="272" cy="66" rx="34" ry="40" />
+            </g>
+            <circle cx="356" cy="96" r="11" fill="url(#cs-skin)" stroke="#D9A62E" stroke-width="2" />
+            <path d="M238 62 q0-42 34-42 t34 42 q-4-22 -11-26 -16 12 -46 6 -11 5 -11 20 Z" fill="#241612" stroke="#D9A62E" stroke-width="1.2" />
+            <g fill="#120A06" opacity="0.85">
+              <ellipse cx="258" cy="66" rx="5" ry="3" /><ellipse cx="286" cy="66" rx="5" ry="3" />
+              <path d="M260 84 q12-5 24 0 q-11 5 -24 0 Z" />
+            </g>
+            <g fill="#E01B24">
+              <circle cx="234" cy="150" r="5" /><circle cx="246" cy="164" r="5.4" /><circle cx="262" cy="172" r="5.6" />
+              <circle cx="282" cy="172" r="5.6" /><circle cx="298" cy="164" r="5.4" /><circle cx="310" cy="150" r="5" />
+            </g>
+            <g fill="#EDE7E0">
+              <circle cx="150" cy="277" r="5" /><path d="M142 300 V288 q0-5 8-5 t8 5 v12 Z" />
+            </g>
+            <g stroke="#E01B24" stroke-width="1" fill="#E01B24" font-family="JetBrains Mono, monospace" font-size="7.5">
+              <path d="M70 30 V300 M64 30 H76 M64 300 H76" />
+              <path d="M66 36 L70 28 L74 36 Z" /><path d="M66 294 L70 302 L74 294 Z" />
+              <text x="34" y="165" transform="rotate(-90 34 165)" text-anchor="middle" letter-spacing="1.4">60 FT &#183; 18 M</text>
+              <path d="M118 273 V300 M113 273 H123 M113 300 H123" />
+              <text x="100" y="316" font-size="6.6">6 FT</text>
+            </g>
+            <path d="M150 272 L262 46" stroke="#D9A62E" stroke-width="0.9" stroke-dasharray="4 3" fill="none" />
+            <text x="158" y="252" font-family="JetBrains Mono, monospace" font-size="6.6" fill="#D9A62E">upward sightline</text>
+            <g font-family="JetBrains Mono, monospace" font-size="7" fill="#EDE7E0" opacity="0.78">
+              <text x="352" y="44">canvas on plywood,</text>
+              <text x="352" y="55">tubular scaffold</text>
+              <text x="352" y="200">head and torso</text>
+              <text x="352" y="211">enlarged against</text>
+              <text x="352" y="222">the legs to correct</text>
+              <text x="352" y="233">for the angle</text>
+              <text x="352" y="282">enamel; airbrushed</text>
+              <text x="352" y="293">skin; gold cut edge</text>
+            </g>
+            <g stroke="#EDE7E0" stroke-opacity="0.3" stroke-width="0.6" fill="none">
+              <path d="M350 40 L316 56 M350 204 L318 180 M350 278 L316 262" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Scale is the whole argument</b> — at sixty feet a painted panel stops being a picture and becomes architecture. The correction for the upward sightline is the craft: proportions that are wrong on the ground are right from beneath.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 420 230" role="img" aria-label="Recreation of hand-painted Tamil wall writing in red enamel on a limewashed compound wall">
+            <rect width="420" height="230" fill="#E4DCCE" />
+            <g stroke="#C9BFAE" stroke-width="1">
+              <path d="M0 48 H420 M0 106 H420 M0 164 H420 M70 0 V48 M190 0 V48 M310 0 V48 M410 0 V48 M14 48 V106 M134 48 V106 M254 48 V106 M374 48 V106 M70 106 V164 M190 106 V164 M310 106 V164 M410 106 V164 M14 164 V210 M134 164 V210 M254 164 V210 M374 164 V210" />
+            </g>
+            <rect x="0" y="206" width="420" height="24" fill="#B8AB96" opacity="0.55" />
+            <g transform="rotate(-1.3 210 110)">
+              <text x="26" y="88" lang="ta" font-family="Anek Tamil, sans-serif" font-size="44" style="font-variation-settings:&#39;wdth&#39; 120,&#39;wght&#39; 800" fill="#E01B24">இந்தி ஒழிக!</text>
+              <text x="26" y="152" lang="ta" font-family="Anek Tamil, sans-serif" font-size="44" style="font-variation-settings:&#39;wdth&#39; 120,&#39;wght&#39; 800" fill="#111014">தமிழ் வாழ்க!</text>
+            </g>
+            <g fill="#E01B24" opacity="0.5">
+              <rect x="62" y="92" width="1.7" height="16" /><rect x="148" y="94" width="1.4" height="11" />
+              <rect x="238" y="90" width="1.7" height="19" /><rect x="312" y="95" width="1.3" height="9" />
+            </g>
+            <text x="26" y="186" lang="ta" font-family="Hind Madurai, sans-serif" font-size="12" font-weight="600" fill="#111014">திராவிட இயக்கம் &#183; சுவர் விளம்பரம்</text>
+            <rect x="0" y="0" width="420" height="7" fill="#111014" />
+          </svg>
+        </div>
+        <figcaption><b>The unpaid press</b> — <span class="ta" lang="ta">இந்தி ஒழிக</span> / <span class="ta" lang="ta">தமிழ் வாழ்க</span>, "down with Hindi / long live Tamil", in enamel on limewash. Red line, black line, slight uphill drift, the drips left in. One brush, one night, no plate, no copy.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+      <figure>
+        <div class="frame">
+          <span class="tag-recreation">Recreation</span>
+          <svg viewBox="0 0 500 250" role="img" aria-label="Diagram of the three painting passes used on a cinema hoarding portrait: flat base colour, airbrushed modelling, then black lining and a gold outline">
+            <rect width="500" height="250" fill="#0E0D11" />
+            <defs>
+              <radialGradient id="hb-cheek" cx="0.36" cy="0.3" r="0.72">
+                <stop offset="0" stop-color="#EFC094" /><stop offset="0.5" stop-color="#C98C63" /><stop offset="1" stop-color="#63391F" />
+              </radialGradient>
+              <radialGradient id="hb-shadow" cx="0.82" cy="0.76" r="0.55">
+                <stop offset="0" stop-color="#40210F" stop-opacity="0.8" /><stop offset="1" stop-color="#40210F" stop-opacity="0" />
+              </radialGradient>
+              <g id="hb-bust">
+                <path d="M18 200 V180 q0-19 22-26 l26-8 v-15 h28 v15 l26 8 q22 7 22 26 v20 Z" />
+                <ellipse cx="80" cy="86" rx="38" ry="46" />
+              </g>
+              <path id="hb-hair" d="M42 80 q0-50 38-50 t38 50 q-5-25 -12-29 -17 12 -52 6 -10 6 -12 23 Z" />
+            </defs>
+
+            <g transform="translate(8,14)">
+              <use href="#hb-bust" fill="#B57A50" /><use href="#hb-hair" fill="#B57A50" />
+            </g>
+            <g transform="translate(178,14)">
+              <use href="#hb-bust" fill="url(#hb-cheek)" /><use href="#hb-bust" fill="url(#hb-shadow)" />
+              <use href="#hb-hair" fill="#2A1A14" />
+            </g>
+            <g transform="translate(348,14)">
+              <use href="#hb-bust" fill="#D9A62E" stroke="#D9A62E" stroke-width="7" />
+              <use href="#hb-hair" fill="#D9A62E" stroke="#D9A62E" stroke-width="7" />
+              <use href="#hb-bust" fill="url(#hb-cheek)" /><use href="#hb-bust" fill="url(#hb-shadow)" />
+              <use href="#hb-hair" fill="#221310" />
+              <g fill="#120A06">
+                <ellipse cx="62" cy="88" rx="8" ry="5" /><ellipse cx="98" cy="88" rx="8" ry="5" />
+                <path d="M58 118 q22-10 44 0 q-20 10 -44 0 Z" />
+              </g>
+              <g fill="#F5F1E8" opacity="0.75">
+                <circle cx="59" cy="87" r="1.9" /><circle cx="95" cy="87" r="1.9" />
+              </g>
+              <g stroke="#120A06" fill="none" stroke-linecap="round">
+                <path d="M54 73 q12-8 23-3 M106 73 q-12-8 -23-3" stroke-width="4" />
+                <path d="M80 92 v13 q0 6 -7 7" stroke-width="2.6" />
+                <path d="M68 134 q12 7 24 0" stroke-width="2.6" />
+              </g>
+            </g>
+
+            <g font-family="JetBrains Mono, monospace" font-size="8.5" fill="#EDE7E0">
+              <text x="12" y="226" letter-spacing="1.3">1 &#183; FLAT BASE</text>
+              <text x="182" y="226" letter-spacing="1.3">2 &#183; AIRBRUSH</text>
+              <text x="352" y="226" letter-spacing="1.3">3 &#183; LINE + GOLD</text>
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="6.6" fill="#EDE7E0" opacity="0.6">
+              <text x="12" y="240">one enamel, brushed</text>
+              <text x="182" y="240">sprayed, wet-into-wet</text>
+              <text x="352" y="240">lined by hand, last</text>
+            </g>
+            <g stroke="#E01B24" stroke-width="1.2" fill="#E01B24">
+              <path d="M152 118 H168" /><path d="M164 114 L171 118 L164 122 Z" />
+              <path d="M322 118 H338" /><path d="M334 114 L341 118 L334 122 Z" />
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Three passes</b> — the hoarding painter's separation. A flat enamel base laid with a brush; the modelling sprayed over it while workable; then the black lining and the gold edge, always last, always by hand. Flex printing collapsed all three into one file and one machine.
+          <span class="credit">Recreation · drawn in SVG</span></figcaption>
+      </figure>
+
+    </div>
+
+    <p class="note" style="margin-top:2.8rem;max-width:46rem">
+      These are drawn from published descriptions and specifications, not traced from photographs.
+      Party flag constructions in this family are inconsistently reported; the ballot symbol and the
+      black-and-red field are therefore shown as separate objects. Dimensions in the scale diagram
+      are indicative of the documented 30–60 ft range, not measurements of a specific cut-out.
+    </p>
+  </div>
+</section>
+
+<!-- ============================== LINEAGE ============================== -->
+<section class="section" id="lineage">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Lineage</p>
+    <h2 class="section-title" data-reveal>What it borrowed, what it refused</h2>
+    <div class="lineage" data-reveal data-lineage="ambedkarite,swadeshi,panthers,saffron" data-why="The subcontinent's two great anti-caste visual systems, built in parallel and barely on speaking terms: blue, a suit and a book in the west; black, a sun and a cinema screen in the south.|The system this one was built against. Congress read India as one nation dressed in khadi; the Dravidian answer was that the reading itself was a northern import.|Adjacent, not descended: the Dalit Panthers took their name from the Black Panther Party in 1972, and that naming line runs through Ambedkarite politics rather than this one.|The direct antagonist. Hindutva's saffron, its Sanskrit and its lotus have spent a century failing to take Tamil Nadu, and the reason is on this page.">
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SOURCES ============================== -->
+<section class="section" id="sources" style="padding-top:0">
+  <div class="wrap">
+    <hr class="hr" style="margin-bottom:3rem" />
+    <p class="eyebrow" data-reveal>Sources &amp; further reading</p>
+    <ul class="sources" data-reveal>
+      <li>Preminda Jacob, <cite>Celluloid Deities: The Visual Culture of Cinema and Politics in South India</cite> (2009) — the essential account of banner and cut-out painting as an industry, including its collapse.</li>
+      <li>M.S.S. Pandian, <cite>The Image Trap: M.G. Ramachandran in Film and Politics</cite> (1992) — how a screen persona was converted into an electoral machine.</li>
+      <li>M.S.S. Pandian, <cite>Brahmin and Non-Brahmin: Genealogies of the Tamil Political Present</cite> (2007).</li>
+      <li>Sumathi Ramaswamy, <cite>Passions of the Tongue: Language Devotion in Tamil India, 1891–1970</cite> (1997) — on Tamil as a devotional object, which is what makes the script reform startling.</li>
+      <li>Bernard Bate, <cite>Tamil Oratory and the Dravidian Aesthetic: Democratic Practice in South India</cite> (2009) — the platform, the banner and the sentence, treated as one form.</li>
+      <li>Stephen Putnam Hughes, essays on early Tamil cinema exhibition, publicity and audiences — for how the film industry's promotional apparatus was built before politics borrowed it.</li>
+      <li>Government of Tamil Nadu, 1978 — the adoption of reformed Tamil letterforms. Legible in any comparison of Tamil schoolbooks printed either side of that date.</li>
+      <li>Periyar E.V. Ramasamy, <cite>Kudi Arasu</cite> (from 1925) and <cite>Viduthalai</cite> (from 1935) — the movement's own printed record; runs held at the Periyar Library, Chennai and in Tamil digital library collections.</li>
+      <li>Roja Muthiah Research Library, Chennai — film publicity, posters, song books and ephemera; the single best archive for this material.</li>
+    </ul>
+  </div>
+</section>
+
+<div class="filmgrain tx-grain" aria-hidden="true"></div>
+
+<div data-site="foot"></div>
+
+<script src="../../shared/movements.js"></script>
+<script src="../../shared/site.js"></script>
+</body>
+</html>
