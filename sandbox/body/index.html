@@ -2,523 +2,390 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BIOMONITOR 3000 | Amit Goyal</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BODY — Amit & Aparna</title>
+  <meta name="description" content="Our shared health record: lab trends, current focus areas, and the source reports — in Human and Expert modes." />
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#0e0f12" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#f2f4f6" media="(prefers-color-scheme: light)" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23e0452e'/%3E%3Ccircle cx='16' cy='11' r='4.5' fill='%23fff'/%3E%3Cpath d='M8 26c0-5 3.5-8 8-8s8 3 8 8' fill='%23fff'/%3E%3C/svg%3E" />
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        // MONO Base Palette
-                        mono: {
-                            black: '#0D0D0D',
-                            panel: '#1A1A1A',
-                            card: '#141414',
-                            border: '#2A2A2A',
-                            muted: '#888888',
-                            text: '#E5E5E5',
-                            white: '#FAFAFA'
-                        },
-                        // Status Colors (Dynamic)
-                        status: {
-                            good: '#4ADE80',
-                            attention: '#FACC15',
-                            concern: '#FB923C',
-                            critical: '#F87171'
-                        }
-                    },
-                    fontFamily: {
-                        karla: ['Karla', 'sans-serif']
-                    },
-                    animation: {
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'scanline': 'scanline 8s linear infinite',
-                        'glow': 'glow 2s ease-in-out infinite alternate',
-                        'fade-in': 'fadeIn 0.5s ease-out forwards',
-                        'slide-up': 'slideUp 0.4s ease-out forwards'
-                    },
-                    keyframes: {
-                        scanline: {
-                            '0%': { transform: 'translateY(-100%)' },
-                            '100%': { transform: 'translateY(100vh)' }
-                        },
-                        glow: {
-                            '0%': { opacity: '0.5' },
-                            '100%': { opacity: '1' }
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' }
-                        },
-                        slideUp: {
-                            '0%': { opacity: '0', transform: 'translateY(10px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' }
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- Custom Styles -->
-    <link rel="stylesheet" href="styles.css">
+  <script>
+    // Set the theme before first paint, or a light-mode reader gets a dark flash.
+    // app.js reads the same key and takes over from here. Light is the default:
+    // the design language of this app is light-first.
+    (function () {
+      var t = 'auto';
+      try { t = (JSON.parse(localStorage.getItem('body.prefs') || '{}').theme) || 'auto'; } catch (e) { }
+      try { t = new URLSearchParams(location.search).get('theme') || t; } catch (e) { }
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      document.documentElement.dataset.theme = t;
+      document.documentElement.style.colorScheme = t;
+    })();
+  </script>
 </head>
 
-<body class="bg-mono-black text-mono-text font-karla min-h-screen overflow-x-hidden">
+<body>
+  <a class="skip" href="#focus">Skip to what matters now</a>
 
-    <!-- Vue App Mount -->
-    <div id="app">
+  <div id="app" :class="{ 'mode-expert': mode === 'expert' }" :style="patientAccentStyle" v-cloak>
 
-        <!-- Scanline Effect Overlay -->
-        <div class="scanline-overlay"></div>
+    <header class="topbar">
+      <a class="wordmark" href="#">BODY<span class="dot">.</span></a>
 
-        <!-- Main Container -->
-        <div class="max-w-7xl mx-auto px-4 py-6 relative z-10">
+      <nav class="patient-switch" aria-label="Choose person">
+        <button v-for="p in patients" :key="p.id" class="patient-btn"
+          :class="{ active: p.id === patientId }" :aria-pressed="p.id === patientId"
+          @click="switchPatient(p.id)">
+          <img :src="p.avatar" alt="" />
+          <span>{{ p.shortName }}</span>
+        </button>
+      </nav>
 
-            <!-- ═══════════════════════════════════════════════════════════════ -->
-            <!-- HEADER -->
-            <!-- ═══════════════════════════════════════════════════════════════ -->
-            <header class="flex items-center justify-between mb-6 pb-4 border-b border-mono-border">
-                <!-- Logo & Title -->
-                <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 border-2 border-status-attention rounded flex items-center justify-center">
-                        <span class="text-status-attention font-bold text-lg">V</span>
-                    </div>
-                    <div>
-                        <h1 class="text-xl font-bold tracking-wide text-mono-white">BIOMONITOR</h1>
-                        <p class="text-xs text-mono-muted tracking-widest">PERSONAL HEALTH DIAGNOSTIC SYSTEM</p>
-                    </div>
-                </div>
+      <div class="topbar-spacer"></div>
 
-                <!-- Patient Info -->
-                <div class="text-right">
-                    <p class="text-sm font-semibold text-mono-white">{{ patient.name }}</p>
-                    <p class="text-xs text-mono-muted">
-                        <span class="text-status-attention">●</span>
-                        SCAN: {{ patient.lastScan }}
-                    </p>
-                </div>
-            </header>
+      <div class="mode-switch" role="group" aria-label="Detail level">
+        <button :class="{ active: mode === 'human' }" :aria-pressed="mode === 'human'"
+          @click="setMode('human')">Human</button>
+        <button :class="{ active: mode === 'expert' }" :aria-pressed="mode === 'expert'"
+          @click="setMode('expert')">Expert</button>
+      </div>
 
-            <!-- ═══════════════════════════════════════════════════════════════ -->
-            <!-- TAB NAVIGATION -->
-            <!-- ═══════════════════════════════════════════════════════════════ -->
-            <nav class="flex gap-2 mb-6">
-                <button v-for="tab in tabs" :key="tab.id" @click="activeTab = tab.id" :class="[
-            'px-5 py-2 text-sm font-semibold tracking-wider transition-all duration-200 border',
-            activeTab === tab.id 
-              ? 'bg-status-attention text-mono-black border-status-attention' 
-              : 'bg-mono-panel text-mono-muted border-mono-border hover:border-status-attention hover:text-status-attention'
-          ]">
-                    {{ tab.label }}
-                </button>
+      <button class="icon-btn" @click="toggleTheme" :title="'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode'"
+        :aria-label="'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode'">
+        {{ theme === 'dark' ? '☀' : '☾' }}
+      </button>
+    </header>
 
-                <!-- Health Score Badge -->
-                <div class="ml-auto flex items-center gap-3 px-4 py-2 bg-mono-panel border border-mono-border">
-                    <span class="text-xs text-mono-muted tracking-wider">HEALTH SCORE</span>
-                    <span class="text-2xl font-bold" :class="getHealthScoreColor(patient.healthScore)">
-                        {{ patient.healthScore }}
-                    </span>
-                    <span class="text-xs text-mono-muted">/100</span>
-                </div>
-            </nav>
-
-            <!-- ═══════════════════════════════════════════════════════════════ -->
-            <!-- STAT TAB - Main Dashboard -->
-            <!-- ═══════════════════════════════════════════════════════════════ -->
-            <div v-show="activeTab === 'stat'" class="animate-fade-in">
-
-                <!-- 3x3 Grid -->
-                <div class="grid grid-cols-3 gap-4">
-
-                    <!-- ═══════════════════════════════════════════════════════════ -->
-                    <!-- ROW 1 -->
-                    <!-- ═══════════════════════════════════════════════════════════ -->
-
-                    <!-- Cell 1: Body Diagram -->
-                    <div class="panel row-span-2">
-                        <div class="panel-header">
-                            <span class="panel-title">BODY STATUS</span>
-                            <span class="panel-badge">INTERACTIVE</span>
-                        </div>
-                        <div class="panel-content flex items-center justify-center">
-                            <svg viewBox="0 0 200 400" class="w-full max-w-[180px] h-auto body-diagram"
-                                @mouseleave="hoveredRegion = null">
-                                <!-- Body Outline -->
-                                <g class="body-base">
-                                    <!-- Head -->
-                                    <ellipse cx="100" cy="35" rx="28" ry="32" :class="getRegionClass('head')"
-                                        @mouseenter="hoveredRegion = 'head'" @click="selectRegion('head')" />
-
-                                    <!-- Neck -->
-                                    <rect x="88" y="65" width="24" height="20" rx="4" :class="getRegionClass('neck')"
-                                        @mouseenter="hoveredRegion = 'neck'" @click="selectRegion('neck')" />
-
-                                    <!-- Torso -->
-                                    <path
-                                        d="M60 85 Q50 120 55 180 L65 250 Q100 260 135 250 L145 180 Q150 120 140 85 Q120 80 100 78 Q80 80 60 85 Z"
-                                        :class="getRegionClass('chest')" @mouseenter="hoveredRegion = 'chest'"
-                                        @click="selectRegion('chest')" />
-
-                                    <!-- Abdomen Overlay -->
-                                    <ellipse cx="100" cy="200" rx="35" ry="40" :class="getRegionClass('abdomen')"
-                                        @mouseenter="hoveredRegion = 'abdomen'" @click="selectRegion('abdomen')"
-                                        style="opacity: 0.7" />
-
-                                    <!-- Left Arm -->
-                                    <path d="M55 90 Q35 100 25 150 Q20 200 30 240 L45 235 Q50 200 50 150 Q55 110 60 95"
-                                        class="body-limb" />
-
-                                    <!-- Right Arm -->
-                                    <path
-                                        d="M145 90 Q165 100 175 150 Q180 200 170 240 L155 235 Q150 200 150 150 Q145 110 140 95"
-                                        class="body-limb" />
-
-                                    <!-- Left Leg -->
-                                    <path
-                                        d="M70 250 Q65 300 60 350 Q58 380 65 395 L85 395 Q88 380 85 350 Q90 300 95 260"
-                                        class="body-limb" />
-
-                                    <!-- Right Leg -->
-                                    <path
-                                        d="M130 250 Q135 300 140 350 Q142 380 135 395 L115 395 Q112 380 115 350 Q110 300 105 260"
-                                        class="body-limb" />
-                                </g>
-
-                                <!-- Region Labels -->
-                                <g class="region-labels" font-size="8" fill="#888">
-                                    <text x="100" y="35" text-anchor="middle"
-                                        v-if="hoveredRegion === 'head'">HEAD</text>
-                                    <text x="100" y="75" text-anchor="middle"
-                                        v-if="hoveredRegion === 'neck'">THYROID</text>
-                                    <text x="100" y="130" text-anchor="middle"
-                                        v-if="hoveredRegion === 'chest'">CHEST</text>
-                                    <text x="100" y="200" text-anchor="middle"
-                                        v-if="hoveredRegion === 'abdomen'">ABDOMEN</text>
-                                </g>
-                            </svg>
-                        </div>
-
-                        <!-- Region Info Tooltip -->
-                        <div v-if="hoveredRegion" class="mt-2 p-2 bg-mono-black border border-mono-border text-xs">
-                            <p class="font-semibold text-status-attention">{{ getRegionInfo(hoveredRegion).label }}</p>
-                            <p class="text-mono-muted">{{ getRegionInfo(hoveredRegion).summary }}</p>
-                        </div>
-                    </div>
-
-                    <!-- Cell 2: Vital Stats -->
-                    <div class="panel">
-                        <div class="panel-header">
-                            <span class="panel-title">VITAL STATISTICS</span>
-                        </div>
-                        <div class="panel-content space-y-2">
-                            <div v-for="(vital, key) in displayVitals" :key="key" class="stat-row">
-                                <span class="stat-label">{{ vital.label }}</span>
-                                <span class="stat-value" :class="getStatusClass(vital.status)">
-                                    {{ vital.value }}
-                                    <span class="stat-unit">{{ vital.unit }}</span>
-                                </span>
-                                <span class="stat-indicator" :class="getStatusClass(vital.status)">●</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Cell 3: System Status -->
-                    <div class="panel">
-                        <div class="panel-header">
-                            <span class="panel-title">SYSTEM STATUS</span>
-                        </div>
-                        <div class="panel-content space-y-2">
-                            <div v-for="(system, key) in systems" :key="key" class="system-row"
-                                @click="selectedSystem = key">
-                                <span class="system-indicator" :class="getStatusClass(system.status)">{{ system.icon
-                                    }}</span>
-                                <span class="system-label">{{ system.label }}</span>
-                                <span class="system-status" :class="getStatusClass(system.status)">
-                                    {{ getStatusLabel(system.status) }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ═══════════════════════════════════════════════════════════ -->
-                    <!-- ROW 2 -->
-                    <!-- ═══════════════════════════════════════════════════════════ -->
-
-                    <!-- Cell 4: Active Conditions (Body Diagram spans here) -->
-
-                    <!-- Cell 5: Deficiencies -->
-                    <div class="panel">
-                        <div class="panel-header">
-                            <span class="panel-title">DEFICIENCIES</span>
-                            <span class="panel-badge badge-concern">{{ deficiencies.length }} ACTIVE</span>
-                        </div>
-                        <div class="panel-content space-y-3">
-                            <div v-for="def in deficiencies" :key="def.id" class="deficiency-card">
-                                <div class="flex justify-between items-center">
-                                    <span class="font-semibold text-sm">{{ def.label }}</span>
-                                    <span class="stat-indicator" :class="getStatusClass(def.status)">●</span>
-                                </div>
-                                <div class="flex justify-between items-baseline mt-1">
-                                    <span class="text-lg font-bold" :class="getStatusClass(def.status)">
-                                        {{ def.value }} <span class="text-xs text-mono-muted">{{ def.unit }}</span>
-                                    </span>
-                                    <span class="text-xs text-mono-muted">REF: {{ def.refRange }}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Cell 6: Inflammation Markers -->
-                    <div class="panel">
-                        <div class="panel-header">
-                            <span class="panel-title">INFLAMMATION</span>
-                        </div>
-                        <div class="panel-content space-y-2">
-                            <div v-for="marker in inflammation" :key="marker.label" class="stat-row">
-                                <span class="stat-label">{{ marker.label }}</span>
-                                <span class="stat-value" :class="getStatusClass(marker.status)">
-                                    {{ marker.value }}
-                                    <span class="stat-unit">{{ marker.unit }}</span>
-                                </span>
-                                <span class="stat-indicator" :class="getStatusClass(marker.status)">●</span>
-                            </div>
-                            <div
-                                class="mt-3 p-2 bg-mono-black border-l-2 border-status-attention text-xs text-mono-muted">
-                                <p class="font-semibold text-status-attention mb-1">NOTE:</p>
-                                <p>Chronic respiratory inflammation detected. Reduce smoke inhalation to lower markers.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ═══════════════════════════════════════════════════════════ -->
-                    <!-- ROW 3 -->
-                    <!-- ═══════════════════════════════════════════════════════════ -->
-
-                    <!-- Cell 7: Chem Regimen -->
-                    <div class="panel">
-                        <div class="panel-header">
-                            <span class="panel-title">CHEM REGIMEN</span>
-                            <span class="panel-badge">{{ chems.length }} ACTIVE</span>
-                        </div>
-                        <div class="panel-content space-y-2">
-                            <div v-for="chem in chems" :key="chem.id" class="chem-row"
-                                @mouseenter="hoveredChem = chem.id" @mouseleave="hoveredChem = null">
-                                <span class="chem-indicator">◐</span>
-                                <span class="chem-name">{{ chem.name }}</span>
-                                <span class="chem-dose">{{ chem.dose }}</span>
-                            </div>
-                        </div>
-
-                        <!-- Chem Detail Tooltip -->
-                        <div v-if="hoveredChem" class="chem-tooltip">
-                            <p class="font-semibold text-status-attention">{{ getChemInfo(hoveredChem).name }}</p>
-                            <p class="text-mono-muted text-xs mt-1">{{ getChemInfo(hoveredChem).purpose }}</p>
-                            <p class="text-mono-muted text-xs">{{ getChemInfo(hoveredChem).timing }} • {{
-                                getChemInfo(hoveredChem).duration }}</p>
-                        </div>
-                    </div>
-
-                    <!-- Cell 8: Daily Routine -->
-                    <div class="panel">
-                        <div class="panel-header">
-                            <span class="panel-title">DAILY ROUTINE</span>
-                            <span class="panel-badge">PHASE {{ routine.currentPhase }}</span>
-                        </div>
-                        <div class="panel-content">
-                            <div class="space-y-3">
-                                <div v-for="(tasks, period) in currentPhaseTasks" :key="period">
-                                    <p class="text-xs text-mono-muted uppercase tracking-wider mb-1">{{ period }}</p>
-                                    <div class="space-y-1">
-                                        <div v-for="task in tasks" :key="task.task" class="routine-task"
-                                            :class="{'task-high': task.priority === 'high'}">
-                                            <span class="task-icon">{{ task.icon }}</span>
-                                            <span class="task-text">{{ task.task }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Cell 9: Upcoming Tests -->
-                    <div class="panel">
-                        <div class="panel-header">
-                            <span class="panel-title">UPCOMING TESTS</span>
-                        </div>
-                        <div class="panel-content space-y-2">
-                            <div v-for="test in upcomingTests" :key="test.test" class="test-row">
-                                <span class="test-indicator" :class="getTestPriorityClass(test.priority)">
-                                    {{ test.priority === 'high' ? '◉' : '○' }}
-                                </span>
-                                <div class="test-info">
-                                    <span class="test-name">{{ test.test }}</span>
-                                    <span class="test-time">{{ test.timeframe }}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- ═══════════════════════════════════════════════════════════════ -->
-            <!-- CHEM TAB - Detailed Supplements -->
-            <!-- ═══════════════════════════════════════════════════════════════ -->
-            <div v-show="activeTab === 'chem'" class="animate-fade-in">
-                <div class="grid grid-cols-2 gap-4">
-                    <div v-for="chem in chems" :key="chem.id" class="panel chem-detail-card">
-                        <div class="panel-header">
-                            <span class="panel-title">{{ chem.name }}</span>
-                            <span class="panel-badge">{{ chem.status.toUpperCase() }}</span>
-                        </div>
-                        <div class="panel-content">
-                            <div class="grid grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <p class="text-xs text-mono-muted">DOSE</p>
-                                    <p class="text-lg font-bold text-status-attention">{{ chem.dose }}</p>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-mono-muted">FREQUENCY</p>
-                                    <p class="text-lg font-semibold">{{ chem.frequency }}</p>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-mono-muted">TIMING</p>
-                                    <p class="text-sm">{{ chem.timing }}</p>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-mono-muted">FORM</p>
-                                    <p class="text-sm">{{ chem.form }}</p>
-                                </div>
-                            </div>
-                            <div class="border-t border-mono-border pt-3">
-                                <p class="text-xs text-mono-muted mb-1">PURPOSE</p>
-                                <p class="text-sm">{{ chem.purpose }}</p>
-                            </div>
-                            <div class="mt-3">
-                                <p class="text-xs text-mono-muted mb-1">DURATION</p>
-                                <p class="text-sm text-status-attention">{{ chem.duration }}</p>
-                            </div>
-                            <div class="mt-3">
-                                <p class="text-xs text-mono-muted mb-1">BRANDS</p>
-                                <p class="text-xs">{{ chem.brands.join(' • ') }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ═══════════════════════════════════════════════════════════════ -->
-            <!-- ROUTINE TAB - Phase Details -->
-            <!-- ═══════════════════════════════════════════════════════════════ -->
-            <div v-show="activeTab === 'routine'" class="animate-fade-in">
-                <div class="grid grid-cols-3 gap-4">
-                    <div v-for="phase in routine.phases" :key="phase.phase" class="panel"
-                        :class="{'ring-2 ring-status-attention': phase.phase === routine.currentPhase}">
-                        <div class="panel-header">
-                            <span class="panel-title">PHASE {{ phase.phase }}: {{ phase.name }}</span>
-                            <span class="panel-badge"
-                                :class="phase.phase === routine.currentPhase ? 'badge-active' : ''">
-                                {{ phase.duration }}
-                            </span>
-                        </div>
-                        <div class="panel-content space-y-4">
-                            <div>
-                                <p class="text-xs text-status-attention tracking-wider mb-2">☀ MORNING</p>
-                                <div class="space-y-1">
-                                    <div v-for="task in phase.morning" :key="task.task" class="routine-task-detail">
-                                        <span>{{ task.icon }}</span>
-                                        <span>{{ task.task }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <p class="text-xs text-status-attention tracking-wider mb-2">◐ AFTERNOON</p>
-                                <div class="space-y-1">
-                                    <div v-for="task in phase.afternoon" :key="task.task" class="routine-task-detail">
-                                        <span>{{ task.icon }}</span>
-                                        <span>{{ task.task }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <p class="text-xs text-status-attention tracking-wider mb-2">☾ EVENING</p>
-                                <div class="space-y-1">
-                                    <div v-for="task in phase.evening" :key="task.task" class="routine-task-detail">
-                                        <span>{{ task.icon }}</span>
-                                        <span>{{ task.task }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ═══════════════════════════════════════════════════════════════ -->
-            <!-- TESTS TAB - Upcoming & History -->
-            <!-- ═══════════════════════════════════════════════════════════════ -->
-            <div v-show="activeTab === 'tests'" class="animate-fade-in">
-                <div class="grid grid-cols-2 gap-4">
-                    <!-- Upcoming Tests -->
-                    <div class="panel col-span-2">
-                        <div class="panel-header">
-                            <span class="panel-title">UPCOMING DIAGNOSTIC TESTS</span>
-                        </div>
-                        <div class="panel-content">
-                            <div class="grid grid-cols-2 gap-3">
-                                <div v-for="test in upcomingTests" :key="test.test" class="test-card"
-                                    :class="getTestCardClass(test.priority)">
-                                    <div class="flex justify-between items-start mb-2">
-                                        <span class="font-semibold">{{ test.test }}</span>
-                                        <span class="text-xs px-2 py-1 rounded"
-                                            :class="getTestBadgeClass(test.priority)">
-                                            {{ test.priority.toUpperCase() }}
-                                        </span>
-                                    </div>
-                                    <p class="text-xs text-mono-muted mb-2">{{ test.purpose }}</p>
-                                    <div class="flex justify-between items-center">
-                                        <span class="text-xs text-status-attention">{{ test.timeframe }}</span>
-                                        <span class="text-xs text-mono-muted uppercase">{{ test.status }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ═══════════════════════════════════════════════════════════════ -->
-            <!-- FOOTER -->
-            <!-- ═══════════════════════════════════════════════════════════════ -->
-            <footer
-                class="mt-8 pt-4 border-t border-mono-border flex justify-between items-center text-xs text-mono-muted">
-                <p>BIOMONITOR 3000 • ABSURD INDUSTRIES × AMARTHA</p>
-                <p>
-                    <span class="text-status-good">●</span> SYSTEM ONLINE •
-                    LAST UPDATE: {{ patient.lastScan }}
-                </p>
-            </footer>
-
-        </div>
+    <div class="household">
+      <button v-for="p in patients" :key="p.id" class="member"
+        :class="{ current: p.id === patientId }" @click="switchPatient(p.id)"
+        :aria-label="'Switch to ' + p.name">
+        <img :src="p.avatar" alt="" />
+        <strong>{{ p.shortName }}</strong>
+        <span class="score" :style="{ color: scoreColor(p) }">{{ p.healthScore }}</span>
+      </button>
+      <span class="last-tested">Last tested {{ patient.lastTested }} · {{ patient.recordsLabel }}</span>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="data.js"></script>
-    <script src="script.js"></script>
+    <main class="layout">
 
+      <!-- LEFT: score + focus -->
+      <div class="col col-left">
+
+        <section class="card score-card" aria-label="Health score">
+          <svg class="score-ring" width="92" height="92" viewBox="0 0 92 92" role="img"
+            :aria-label="'Health score ' + patient.healthScore + ' out of 100'">
+            <circle cx="46" cy="46" r="40" fill="none" stroke="var(--line)" stroke-width="7" />
+            <circle cx="46" cy="46" r="40" fill="none" :stroke="scoreColor(patient)" stroke-width="7"
+              stroke-linecap="round" :stroke-dasharray="scoreDash" transform="rotate(-90 46 46)" />
+            <text class="num" x="46" y="44" text-anchor="middle" dominant-baseline="middle">{{ patient.healthScore }}</text>
+            <text class="of" x="46" y="62" text-anchor="middle">of 100</text>
+          </svg>
+          <div class="score-meta">
+            <div class="name">{{ patient.name }}</div>
+            <div class="sub">{{ patient.sexLabel }}, {{ patient.age }} · {{ patient.vitalsLabel }}</div>
+            <p class="summary">
+              {{ patient.overallSummary }}
+              <span v-if="patient.scoreDelta" class="score-delta" :class="patient.scoreDelta > 0 ? 'up' : 'down'">
+                {{ patient.scoreDelta > 0 ? '▲' : '▼' }} {{ Math.abs(patient.scoreDelta) }} since last time
+              </span>
+            </p>
+          </div>
+        </section>
+
+        <section id="focus" class="card" aria-label="What matters now">
+          <h2 v-if="mode === 'human'">What matters now</h2>
+          <h2 v-else>Flagged parameters · <span class="count">{{ flagged.length }}</span></h2>
+
+          <!-- HUMAN: issue cards -->
+          <div v-if="mode === 'human'" class="issues">
+            <article v-for="issue in patient.issues" :key="issue.id" class="issue" :class="'severity-' + issue.severity">
+              <div class="head">
+                <span class="title">{{ issue.human.title }}</span>
+                <span class="trend" :class="issue.trend">{{ trendLabel(issue.trend) }}</span>
+              </div>
+              <p class="body">{{ issue.human.body }}</p>
+              <div class="actions">
+                <span v-for="a in issue.human.actions" :key="a" class="chip">{{ a }}</span>
+              </div>
+            </article>
+
+            <article class="issue wins">
+              <div class="head">
+                <span class="title">What's improved</span>
+                <span class="trend improving">since {{ patient.winsSince }}</span>
+              </div>
+              <p class="body">{{ patient.wins }}</p>
+            </article>
+          </div>
+
+          <!-- EXPERT: flagged abnormals table -->
+          <div v-else class="table-wrap">
+            <table class="results">
+              <thead>
+                <tr>
+                  <th>Marker</th><th>Latest · ref</th><th>Δ prev</th><th>Trend</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="row in flagged" :key="row.id" :class="row.status">
+                  <td class="marker-name">
+                    <span class="status-dot" :class="row.status"></span>{{ row.name }}
+                  </td>
+                  <td class="num">
+                    <span class="latest">{{ row.latestDisplay }}</span>
+                    <span class="ref under">{{ row.refLabel }}</span>
+                  </td>
+                  <td>
+                    <span v-if="row.delta !== null" class="delta" :class="[row.deltaDir, { inverted: row.worse === 'low' }]">
+                      {{ row.delta > 0 ? '▲' : '▼' }} {{ row.deltaDisplay }}
+                    </span>
+                    <span v-else class="delta neutral">first</span>
+                  </td>
+                  <td><spark :marker="row" :width="76" :height="26"></spark></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- EXPERT: analysis notes -->
+        <section v-if="mode === 'expert'" class="card" aria-label="Analysis">
+          <h2>Analysis · review with doctor</h2>
+          <div class="issues">
+            <article v-for="issue in patient.issues" :key="issue.id" class="issue" :class="'severity-' + issue.severity">
+              <div class="head">
+                <span class="title">{{ issue.expert.title || issue.human.title }}</span>
+                <span class="trend" :class="issue.trend">{{ trendLabel(issue.trend) }}</span>
+              </div>
+              <div class="expert-block">
+                <p class="pattern">{{ issue.expert.pattern }}</p>
+                <div class="lists">
+                  <div v-if="issue.expert.accountFor && issue.expert.accountFor.length">
+                    <h4>Account for</h4>
+                    <ul><li v-for="x in issue.expert.accountFor" :key="x">{{ x }}</li></ul>
+                  </div>
+                  <div v-if="issue.expert.ruleOut && issue.expert.ruleOut.length">
+                    <h4>Rule out</h4>
+                    <ul><li v-for="x in issue.expert.ruleOut" :key="x">{{ x }}</li></ul>
+                  </div>
+                </div>
+                <div class="actions" style="margin-top:10px">
+                  <span class="chip doctor">to review with doctor</span>
+                  <span v-if="issue.expert.monitor" class="chip">{{ issue.expert.monitor }}</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </div>
+
+      <!-- CENTER: body -->
+      <div class="col col-center">
+        <section class="card body-card" aria-label="Body map">
+          <svg class="body-figure" :viewBox="figure.viewBox" role="group" aria-label="Body map: select a region">
+            <g class="silhouette" v-html="figure.parts"></g>
+            <g v-for="r in visibleRegions" :key="r.id" class="hotspot"
+              :class="[r.worstStatus, { out: r.worstStatus === 'out', selected: activeRegion === r.id }]"
+              :style="{ '--hs-color': statusColor(r.worstStatus) }"
+              role="button" tabindex="0"
+              :aria-label="r.label + ': ' + statusWord(r.worstStatus)"
+              :aria-pressed="activeRegion === r.id"
+              @click="selectRegion(r.id)"
+              @keydown.enter.prevent="selectRegion(r.id)"
+              @keydown.space.prevent="selectRegion(r.id)">
+              <circle class="hit" :cx="pos(r).x" :cy="pos(r).y" r="16" />
+              <circle v-if="activeRegion === r.id" class="select-ring" :cx="pos(r).x" :cy="pos(r).y" r="13" />
+              <circle class="ring" :cx="pos(r).x" :cy="pos(r).y" r="10" />
+              <circle class="dot" :cx="pos(r).x" :cy="pos(r).y" r="6" />
+            </g>
+          </svg>
+
+          <div class="region-chips" role="group" aria-label="Regions">
+            <button v-for="r in visibleRegions" :key="r.id" class="region-chip"
+              :class="{ selected: activeRegion === r.id }" :aria-pressed="activeRegion === r.id"
+              @click="selectRegion(r.id)">
+              <span class="status-dot" :class="r.worstStatus"></span>{{ r.label }}
+            </button>
+          </div>
+
+          <p v-if="!activeRegion" class="body-hint">Select a glowing region — or any chip — to see what's going on there.</p>
+
+          <div v-if="activeRegionData" class="region-panel" aria-live="polite" @keydown.esc="selectRegion(null)">
+            <div class="head">
+              <h3>{{ activeRegionData.label }}</h3>
+              <button class="close" @click="selectRegion(null)">Close ✕</button>
+            </div>
+            <p class="desc">{{ activeRegionData.desc }}</p>
+
+            <!-- human -->
+            <template v-if="mode === 'human'">
+              <p v-for="issue in activeRegionData.issues" :key="issue.id" class="body" style="margin-top:8px">
+                <strong>{{ issue.human.title }}.</strong> {{ issue.human.body }}
+              </p>
+              <p v-if="activeRegionData.okMarkers.length" class="all-clear">
+                {{ activeRegionData.issues.length ? 'Everything else here looks normal' : 'Everything here looks normal' }}
+                ({{ activeRegionData.okMarkers.length }} marker{{ activeRegionData.okMarkers.length === 1 ? '' : 's' }} in range).
+              </p>
+            </template>
+
+            <!-- expert -->
+            <template v-else>
+              <div class="table-wrap">
+                <table class="results">
+                  <thead>
+                    <tr>
+                      <th>Marker</th>
+                      <th v-for="d in patient.draws" :key="d.id">{{ d.label }}</th>
+                      <th>Ref</th><th>Trend</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="row in activeRegionData.markers" :key="row.id" :class="row.status">
+                      <td class="marker-name"><span class="status-dot" :class="row.status"></span>{{ row.name }}</td>
+                      <td v-for="d in patient.draws" :key="d.id" class="num"
+                        :class="{ latest: d.id === patient.latestDrawId && row.values[d.id] != null }">
+                        {{ row.values[d.id] != null ? row.values[d.id] : '—' }}
+                      </td>
+                      <td class="ref">{{ row.refLabel }}<span v-if="row.unit"> {{ row.unit }}</span></td>
+                      <td><spark :marker="row" :width="90" :height="24"></spark></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <article v-for="issue in activeRegionData.issues" :key="issue.id" class="issue" :class="'severity-' + issue.severity">
+                <div class="head"><span class="title">{{ issue.expert.title || issue.human.title }}</span></div>
+                <div class="expert-block">
+                  <p class="pattern">{{ issue.expert.pattern }}</p>
+                  <div class="lists">
+                    <div v-if="issue.expert.accountFor && issue.expert.accountFor.length">
+                      <h4>Account for</h4>
+                      <ul><li v-for="x in issue.expert.accountFor" :key="x">{{ x }}</li></ul>
+                    </div>
+                    <div v-if="issue.expert.ruleOut && issue.expert.ruleOut.length">
+                      <h4>Rule out</h4>
+                      <ul><li v-for="x in issue.expert.ruleOut" :key="x">{{ x }}</li></ul>
+                    </div>
+                  </div>
+                  <div class="actions" style="margin-top:8px"><span class="chip doctor">to review with doctor</span></div>
+                </div>
+              </article>
+            </template>
+          </div>
+        </section>
+      </div>
+
+      <!-- RIGHT: records + schedule + regimen -->
+      <div class="col col-right">
+
+        <section class="card" aria-label="Records">
+          <h2>Records</h2>
+          <div v-for="rec in patient.records" :key="rec.file" class="record">
+            <div class="doc-icon" aria-hidden="true">▤</div>
+            <div class="meta">
+              <div class="title">{{ rec.title }}</div>
+              <div class="sub">{{ rec.lab }} · {{ rec.date }} · {{ rec.pages }} pages</div>
+              <div v-if="mode === 'expert' && rec.covers" class="sub">Covers draws: {{ rec.covers }}</div>
+              <div class="row-actions">
+                <a :href="rec.file" target="_blank" rel="noopener">Open</a>
+                <a :href="rec.file" :download="rec.downloadName">Download</a>
+              </div>
+            </div>
+          </div>
+          <div class="record add-slot">
+            <div class="doc-icon" aria-hidden="true">+</div>
+            <div class="meta">Add a record: drop the PDF into <code>reports/</code> and ask Claude to ingest it (see README).</div>
+          </div>
+        </section>
+
+        <section class="card" aria-label="Next check-ups">
+          <h2>Next check-ups</h2>
+          <div v-for="rt in patient.retests" :key="rt.label" class="retest">
+            <span class="what">{{ rt.label }}</span>
+            <span class="due" :class="{ overdue: rt.overdue }">
+              <template v-if="mode === 'expert'">every {{ rt.every }} · </template>due {{ rt.due }}
+            </span>
+          </div>
+        </section>
+
+        <section class="card" aria-label="Currently taking">
+          <h2>Currently taking</h2>
+          <div class="regimen-chips">
+            <span v-for="rg in patient.regimen" :key="rg.name" class="chip">{{ rg.name }}</span>
+          </div>
+          <div v-if="mode === 'expert'" class="regimen-detail">
+            <div v-for="rg in patient.regimen" :key="rg.name">
+              <strong>{{ rg.name }}</strong> — {{ rg.dose }}<template v-if="rg.note"> · {{ rg.note }}</template>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- FULL RESULTS (expert) / hint (human) -->
+      <section class="card full-results" aria-label="All results">
+        <template v-if="mode === 'expert'">
+          <h2>All results · {{ patient.markerCount }} parameters</h2>
+          <p class="draws-note">Columns are blood draws: {{ patient.drawsNote }}. Flagged rows tinted. Latest value bold.</p>
+          <div v-for="panel in panelTables" :key="panel.id" class="panel-section">
+            <h3>{{ panel.label }}</h3>
+            <div class="table-wrap">
+              <table class="results">
+                <thead>
+                  <tr>
+                    <th class="sticky-col">Marker</th>
+                    <th v-for="d in patient.draws" :key="d.id">{{ d.label }}</th>
+                    <th>Ref</th><th>Δ prev</th><th>Trend</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="row in panel.rows" :key="row.id" :class="row.status">
+                    <td class="marker-name sticky-col"><span class="status-dot" :class="row.status"></span>{{ row.name }}</td>
+                    <td v-for="d in patient.draws" :key="d.id" class="num"
+                      :class="{ latest: d.id === patient.latestDrawId && row.values[d.id] != null }">
+                      {{ row.values[d.id] != null ? row.values[d.id] : '—' }}
+                    </td>
+                    <td class="ref">{{ row.refLabel }}<span v-if="row.unit"> {{ row.unit }}</span></td>
+                    <td>
+                      <span v-if="row.delta !== null" class="delta" :class="[row.deltaDir, { inverted: row.worse === 'low' }]">
+                        {{ row.delta > 0 ? '▲' : '▼' }} {{ row.deltaDisplay }}
+                      </span>
+                      <span v-else class="delta neutral">—</span>
+                    </td>
+                    <td><spark :marker="row" :width="90" :height="24"></spark></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </template>
+        <p v-else class="human-results-hint">
+          {{ inRangeCount }} of {{ patient.markerCount }} markers are in range.
+          <button @click="setMode('expert')">Switch to Expert</button> for the full table.
+        </p>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <span>Personal tracking tool built with our doctor <span class="heart">♥</span></span>
+      <span>Not medical advice — every flag here is a conversation starter, not a conclusion.</span>
+      <span>ABSURD INDUSTRIES × AMARTHA</span>
+    </footer>
+  </div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <script src="data/common.js"></script>
+  <script src="data/amit.js"></script>
+  <script src="data/aparna.js"></script>
+  <script src="app.js"></script>
 </body>
 
 </html>
