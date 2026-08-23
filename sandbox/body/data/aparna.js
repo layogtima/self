@@ -15,10 +15,11 @@ window.BODY.patients.push({
 
   healthScore: 83,
   prevHealthScore: null,
-  vitals: { heightLabel: "5'3\"", weightKg: 70, bmi: 27.01 },
+  vitals: { heightLabel: "5'3\"", heightCm: 160, weightKg: 70, bmi: 27.01 },
 
   summary: 'Mostly steady — the liver panel is the one thing that needs a doctor\'s attention soon.',
   wins: 'Triglycerides normalized (232 → 130), HDL up to 53, thyroid fully normal, HbA1c 4.7, homocysteine normal, all screening markers clear, and the fibrosis score says no lasting liver damage is likely.',
+  winsShort: 'Blood fats normal again, thyroid great, no lasting liver damage likely.',
   winsSince: 'Dec 2025',
 
   draws: [
@@ -151,12 +152,15 @@ window.BODY.patients.push({
   issues: [
     {
       id: 'liver',
+      headline: 'ggtp',
+      tag: 'the liver',
       severity: 'priority',
       trend: 'worsening',
       markers: ['ggtp', 'alt', 'ast', 'alp', 'nafld'],
       regions: ['liver'],
       human: {
         title: 'Liver enzymes need a doctor visit soon',
+        short: 'The liver needs a doctor visit soon. Very fixable.',
         body: 'GGT and ALT have risen clearly since December — this is the one result that shouldn\'t wait for the next routine check. The reassuring part: the fibrosis score says lasting damage is unlikely, bilirubin and liver function are fully normal, and enzyme rises like this are usually reversible once the cause is found.',
         actions: ['Book a liver ultrasound', 'Review meds, supplements & alcohol with doctor', 'Recheck liver panel in 4–6 weeks']
       },
@@ -170,12 +174,15 @@ window.BODY.patients.push({
     },
     {
       id: 'metabolic',
+      headline: 'insulin_f',
+      tag: 'blood sugar balance',
       severity: 'attention',
       trend: 'stable',
       markers: ['insulin_f', 'uric_acid', 'testosterone', 'tg'],
       regions: ['pancreas', 'hormones'],
       human: {
         title: 'Body working hard to keep blood sugar normal',
+        short: 'Blood sugar is fine, but the body works extra hard for it.',
         body: 'Blood sugar itself is excellent (HbA1c 4.7), but fasting insulin is at the very top of its range — the body is compensating. Together with uric acid and a slightly high testosterone, it\'s a pattern worth discussing once, not a crisis. It also ties into the liver picture.',
         actions: ['Discuss insulin resistance with doctor', 'Movement + strength work help this directly']
       },
@@ -189,12 +196,15 @@ window.BODY.patients.push({
     },
     {
       id: 'vitd',
+      headline: 'vitd',
+      tag: 'vitamin D',
       severity: 'attention',
       trend: 'improving',
       markers: ['vitd'],
       regions: ['bones'],
       human: {
         title: 'Vitamin D still low, but climbing',
+        short: 'Vitamin D is low but climbing. Keep at it.',
         body: '13.7 → 19.7 → 23.8 across three years — moving the right way, still short of the sufficient zone (30+). Worth stepping up the dose consistency.',
         actions: ['D3 weekly, consistently', 'Retest in 2 months']
       },
@@ -208,12 +218,15 @@ window.BODY.patients.push({
     },
     {
       id: 'b12',
+      headline: 'b12',
+      tag: 'vitamin B12',
       severity: 'watch',
       trend: 'new',
       markers: ['b12'],
       regions: ['brain', 'blood'],
       human: {
         title: 'B12 sitting right at the line',
+        short: 'B12 is right at the line. An easy fix.',
         body: '218 against a lower limit of 222 — technically low but only just, and homocysteine (the downstream marker) is completely normal, which suggests it isn\'t biting yet. Easy to fix before it becomes a thing.',
         actions: ['Start a B12 supplement', 'Retest next month']
       },
@@ -227,12 +240,15 @@ window.BODY.patients.push({
     },
     {
       id: 'inflammation-lipids',
+      headline: 'hscrp',
+      tag: 'inflammation',
       severity: 'watch',
       trend: 'improving',
       markers: ['hscrp', 'esr', 'ldl', 'tc'],
       regions: ['heart'],
       human: {
         title: 'Mild background inflammation + borderline cholesterol',
+        short: 'A little inflammation — just keep an eye on it.',
         body: 'The inflammation markers are mildly up (and ESR has halved since 2023), and LDL cholesterol sits just above range while everything else in the lipid panel improved. Both are "keep an eye on it" items that may settle as the liver and insulin picture is sorted.',
         actions: ['Recheck with next draw']
       },
@@ -245,6 +261,15 @@ window.BODY.patients.push({
       }
     }
   ],
+
+  routine: [
+    { id: 'mob', day: 'Mon', time: '19:15', label: 'Mobility + yoga', mins: 45 },
+    { id: 'pil', day: 'Wed', time: '19:15', label: 'Core pilates', mins: 45 },
+    { id: 'car', day: 'Fri', time: '18:15', label: 'Cardio', mins: 40 }
+  ],
+
+  /* filled in from Settings › People — never committed, see .gitignore */
+  insurance: {},
 
   regimen: [
     { name: 'Vitamin D3', dose: '60,000 IU weekly', note: 'seeded from report advisory — confirm current use' },

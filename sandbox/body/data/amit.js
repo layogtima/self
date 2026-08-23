@@ -15,10 +15,11 @@ window.BODY.patients.push({
 
   healthScore: 89,
   prevHealthScore: 86,
-  vitals: { heightLabel: "5'11\"", weightKg: 78, bmi: 23.81 },
+  vitals: { heightLabel: "5'11\"", heightCm: 180.3, weightKg: 78, bmi: 23.81 },
 
   summary: 'Trending better overall — one new finding (B12 + homocysteine) is the thing to work on.',
   wins: 'Weight down 5 kg (BMI 23.8), triglycerides normalized (158 → 80), HDL up to 56, pancreatic enzymes back in range, ESR 4 and HbA1c 4.8 — excellent.',
+  winsShort: 'Weight down, blood fats normal again, energy markers great.',
   winsSince: 'Dec 2025',
 
   draws: [
@@ -148,12 +149,15 @@ window.BODY.patients.push({
   issues: [
     {
       id: 'b12-homocysteine',
+      headline: 'b12',
+      tag: 'vitamin B12',
       severity: 'priority',
       trend: 'new',
       markers: ['b12', 'homocysteine'],
       regions: ['brain', 'blood'],
       human: {
         title: 'Vitamin B12 is genuinely low',
+        short: 'B12 vitamin is low. Take it every day — it fixes itself.',
         body: 'B12 is well below range, and a related marker (homocysteine) has climbed because of it. This is the one thing to actively fix — the good news is it responds well to supplements, and everything it affects is reversible at this stage.',
         actions: ['Take B12 daily — consistently', 'Ask about folate', 'Retest in ~2 months']
       },
@@ -167,12 +171,15 @@ window.BODY.patients.push({
     },
     {
       id: 'thyroid',
+      headline: 'tsh',
+      tag: 'the thyroid',
       severity: 'attention',
       trend: 'improving',
       markers: ['tsh', 't3', 't4'],
       regions: ['thyroid'],
       human: {
         title: 'Thyroid still working too hard, but improving',
+        short: 'Thyroid is working extra hard, but it\'s getting better.',
         body: 'TSH is above range at 6.82, but it has come down a long way from 10.12 in December, and the actual thyroid hormones (T3, T4) are solidly normal. Keep an eye on it rather than worry about it.',
         actions: ['Retest monthly for now']
       },
@@ -186,12 +193,15 @@ window.BODY.patients.push({
     },
     {
       id: 'lipids',
+      headline: 'ldl',
+      tag: 'cholesterol',
       severity: 'attention',
       trend: 'stable',
       markers: ['ldl', 'tc', 'apob', 'hscrp'],
       regions: ['heart'],
       human: {
         title: 'Cholesterol: one number up, the rest look great',
+        short: 'One cholesterol number is up. The rest look great.',
         body: 'LDL has drifted up (132), but triglycerides normalized, HDL rose to 56, and the deeper particle test (ApoB) is comfortably normal. The overall heart-risk picture improved even though the headline number didn\'t.',
         actions: ['Diet: fibre up, saturated fat down', 'Recheck with next draw']
       },
@@ -205,12 +215,15 @@ window.BODY.patients.push({
     },
     {
       id: 'vitd',
+      headline: 'vitd',
+      tag: 'vitamin D',
       severity: 'watch',
       trend: 'improving',
       markers: ['vitd'],
       regions: ['bones'],
       human: {
         title: 'Vitamin D nearly there',
+        short: 'Vitamin D is almost at the good zone. Keep going.',
         body: 'From 9 → 18 → 29 across three tests. You\'re one step from the sufficient zone (30+). Whatever you\'re doing, keep doing it.',
         actions: ['Continue D3 weekly', 'Sunlight helps too']
       },
@@ -223,6 +236,15 @@ window.BODY.patients.push({
       }
     }
   ],
+
+  routine: [
+    { id: 'mob', day: 'Mon', time: '19:15', label: 'Mobility + yoga', mins: 45 },
+    { id: 'pil', day: 'Wed', time: '19:15', label: 'Core pilates', mins: 45 },
+    { id: 'car', day: 'Fri', time: '18:15', label: 'Cardio', mins: 40 }
+  ],
+
+  /* filled in from Settings › People — never committed, see .gitignore */
+  insurance: {},
 
   regimen: [
     { name: 'B12 (Methylcobalamin)', dose: '1500 mcg sublingual, daily', note: 'level still low — adherence is the question' },

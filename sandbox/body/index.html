@@ -3,23 +3,21 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BODY — Amit & Aparna</title>
-  <meta name="description" content="Our shared health record: lab trends, current focus areas, and the source reports — in Human and Expert modes." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>body. — Amit &amp; Aparna</title>
+  <meta name="description" content="Our shared health record as a place you stand in: how we're doing, what needs tending, and every report underneath." />
   <meta name="robots" content="noindex" />
-  <meta name="theme-color" content="#0e0f12" media="(prefers-color-scheme: dark)" />
-  <meta name="theme-color" content="#f2f4f6" media="(prefers-color-scheme: light)" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23e0452e'/%3E%3Ccircle cx='16' cy='11' r='4.5' fill='%23fff'/%3E%3Cpath d='M8 26c0-5 3.5-8 8-8s8 3 8 8' fill='%23fff'/%3E%3C/svg%3E" />
+  <meta name="theme-color" content="#0e241e" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#f2e8c8" media="(prefers-color-scheme: light)" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23295c4a'/%3E%3Ccircle cx='16' cy='13' r='6' fill='%23f5d67b'/%3E%3Cpath d='M2 26 L11 18 L18 24 L25 19 L32 25 L32 32 L2 32 Z' fill='%23f2e8c8'/%3E%3C/svg%3E" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Karla:wght@400;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 
   <script>
     // Set the theme before first paint, or a light-mode reader gets a dark flash.
-    // app.js reads the same key and takes over from here. Light is the default:
-    // the design language of this app is light-first.
     (function () {
       var t = 'auto';
       try { t = (JSON.parse(localStorage.getItem('body.prefs') || '{}').theme) || 'auto'; } catch (e) { }
@@ -34,357 +32,359 @@
 </head>
 
 <body>
-  <a class="skip" href="#focus">Skip to what matters now</a>
+  <a class="skip" href="#drawer">Skip to the records and tables</a>
 
-  <div id="app" :class="{ 'mode-expert': mode === 'expert' }" :style="patientAccentStyle" v-cloak>
+  <!-- state classes live on <body>: the mount container's own attributes are
+       never part of the template, so bindings here would silently do nothing -->
+  <div id="app" v-cloak>
 
-    <header class="topbar">
-      <a class="wordmark" href="#">BODY<span class="dot">.</span></a>
+    <!-- ══════════ THE VISTA ══════════ -->
+    <div class="vista" @click.self="dismissLayers">
 
-      <nav class="patient-switch" aria-label="Choose person">
-        <button v-for="p in patients" :key="p.id" class="patient-btn"
-          :class="{ active: p.id === patientId }" :aria-pressed="p.id === patientId"
-          @click="switchPatient(p.id)">
-          <img :src="p.avatar" alt="" />
-          <span>{{ p.shortName }}</span>
-        </button>
-      </nav>
+      <!-- ── the garden ──
+           A karesansui read from the record: raked sand, a stone for every
+           thing that needs tending, moss where things are mending. -->
+      <canvas class="range" ref="range" aria-hidden="true"></canvas>
 
-      <div class="topbar-spacer"></div>
+      <!-- the ground plane: this one is meant to stretch, the way a raked
+           bed foreshortens as it runs away from you -->
+      <svg class="garden" viewBox="0 0 100 60" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="sandFade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="var(--sand-far)" />
+            <stop offset="1" stop-color="var(--sand-near)" />
+          </linearGradient>
+        </defs>
+        <rect x="0" y="0" width="100" height="60" fill="url(#sandFade)" />
 
-      <div class="mode-switch" role="group" aria-label="Detail level">
-        <button :class="{ active: mode === 'human' }" :aria-pressed="mode === 'human'"
-          @click="setMode('human')">Human</button>
-        <button :class="{ active: mode === 'expert' }" :aria-pressed="mode === 'expert'"
-          @click="setMode('expert')">Expert</button>
+        <g class="rake-lines">
+          <path v-for="n in 14" :key="'r' + n"
+            :d="'M -2 ' + (2 + n * 4.2) + ' Q 50 ' + (0.9 + n * 4.2) + ' 102 ' + (2 + n * 4.2)" />
+        </g>
+
+        <g v-for="st in scene.stones" :key="'g' + st.id" class="ripple-set">
+          <ellipse v-for="k in scene.rings" :key="st.id + '-' + k"
+            class="ripple" :class="{ moss: st.moss }"
+            :cx="st.x" :cy="st.y"
+            :rx="(3.2 + k * 3.1) * st.s" :ry="(1.2 + k * 1.15) * st.s"
+            :style="{ animationDelay: (k * 0.5) + 's' }" />
+        </g>
+      </svg>
+
+      <!-- props keep their proportions, so they live outside the stretched svg -->
+      <div class="props" aria-hidden="true">
+        <i v-for="b in scene.stalks" :key="'b' + b.i" class="stalk"
+          :style="{ left: b.x + '%', height: b.h + '%', animationDelay: '-' + b.delay + 's' }">
+          <b></b><b></b><b></b>
+        </i>
+        <i v-for="st in scene.stones" :key="'s' + st.id" class="stone-el"
+          :class="{ moss: st.moss }"
+          :style="{ left: st.x + '%', top: (st.y / 60 * 100) + '%', '--ss': st.s }"></i>
       </div>
 
-      <button class="icon-btn" @click="toggleTheme" :title="'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode'"
-        :aria-label="'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode'">
-        {{ theme === 'dark' ? '☀' : '☾' }}
+      <!-- petals, one pair for each thing on the mend -->
+      <div v-if="mods.landscape" class="petals" aria-hidden="true">
+        <i v-for="p in scene.petals" :key="p.i" class="petal"
+          :style="{ left: p.x + '%', animationDelay: '-' + p.delay + 's',
+                    animationDuration: p.dur + 's', '--drift': p.drift + 'vw' }"></i>
+      </div>
+
+      <button class="score" @click="drawerTo('results')"
+        :aria-label="'Health score ' + patient.healthScore + ' of 100. Open all results.'">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="score-disc" cx="60" cy="60" r="44" />
+          <circle class="arc-track" cx="60" cy="60" r="50" />
+          <circle class="arc" cx="60" cy="60" r="50" :stroke-dasharray="scoreDash"
+            transform="rotate(-90 60 60)" />
+        </svg>
+        <span class="score-num">{{ patient.healthScore }}</span>
+        <span class="score-of">of 100</span>
       </button>
-    </header>
 
-    <div class="household">
-      <button v-for="p in patients" :key="p.id" class="member"
-        :class="{ current: p.id === patientId }" @click="switchPatient(p.id)"
-        :aria-label="'Switch to ' + p.name">
-        <img :src="p.avatar" alt="" />
-        <strong>{{ p.shortName }}</strong>
-        <span class="score" :style="{ color: scoreColor(p) }">{{ p.healthScore }}</span>
-      </button>
-      <span class="last-tested">Last tested {{ patient.lastTested }} · {{ patient.recordsLabel }}</span>
-    </div>
+      <!-- minimal chrome, floating over the scene -->
+      <header class="chrome">
+        <span class="wordmark">body<span class="dot">.</span></span>
 
-    <main class="layout">
+        <nav class="who" aria-label="Choose person">
+          <button v-for="p in patients" :key="p.id" class="who-btn"
+            :class="{ active: p.id === patientId, solo: patients.length === 1 }"
+            :aria-pressed="p.id === patientId"
+            @click="switchPatient(p.id)" :title="p.name">
+            <img v-if="p.avatar" :src="p.avatar" alt="" />
+            <span v-else class="who-mark" aria-hidden="true">◍</span>
+            <span>{{ p.shortName }}</span>
+          </button>
+          <span v-if="!lovesey" class="demo-tag" title="Sample data — real records are private">demo</span>
+        </nav>
 
-      <!-- LEFT: score + focus -->
-      <div class="col col-left">
+        <div class="spacer"></div>
 
-        <section class="card score-card" aria-label="Health score">
-          <svg class="score-ring" width="92" height="92" viewBox="0 0 92 92" role="img"
-            :aria-label="'Health score ' + patient.healthScore + ' out of 100'">
-            <circle cx="46" cy="46" r="40" fill="none" stroke="var(--line)" stroke-width="7" />
-            <circle cx="46" cy="46" r="40" fill="none" :stroke="scoreColor(patient)" stroke-width="7"
-              stroke-linecap="round" :stroke-dasharray="scoreDash" transform="rotate(-90 46 46)" />
-            <text class="num" x="46" y="44" text-anchor="middle" dominant-baseline="middle">{{ patient.healthScore }}</text>
-            <text class="of" x="46" y="62" text-anchor="middle">of 100</text>
-          </svg>
-          <div class="score-meta">
-            <div class="name">{{ patient.name }}</div>
-            <div class="sub">{{ patient.sexLabel }}, {{ patient.age }} · {{ patient.vitalsLabel }}</div>
-            <p class="summary">
-              {{ patient.overallSummary }}
-              <span v-if="patient.scoreDelta" class="score-delta" :class="patient.scoreDelta > 0 ? 'up' : 'down'">
-                {{ patient.scoreDelta > 0 ? '▲' : '▼' }} {{ Math.abs(patient.scoreDelta) }} since last time
-              </span>
-            </p>
+        <p class="clock">
+          <span class="time">{{ clockLabel }}</span>
+          <span class="date">{{ greeting }} · {{ dateLabel }}</span>
+        </p>
+
+        <div class="lens" role="group" aria-label="Detail level">
+          <button :class="{ active: mode === 'human' }" :aria-pressed="mode === 'human'"
+            @click="setMode('human')">Human</button>
+          <button :class="{ active: mode === 'expert' }" :aria-pressed="mode === 'expert'"
+            @click="setMode('expert')">Expert</button>
+        </div>
+
+        <button class="ghost-btn" :class="{ active: editMode }" @click="toggleEdit" :aria-pressed="editMode"
+          title="Edit mode — log measurements, adjust vitals" aria-label="Toggle edit mode">✎</button>
+        <button class="ghost-btn" :class="{ active: settingsOpen }" @click="settingsOpen = !settingsOpen"
+          :aria-pressed="settingsOpen" title="Settings" aria-label="Settings">⚙</button>
+        <button class="ghost-btn" @click="toggleTheme"
+          :title="'Switch to ' + (themeMode === 'dark' ? 'light' : 'dark') + ' mode'" aria-label="Switch theme">
+          {{ themeMode === 'dark' ? '☀' : '☾' }}
+        </button>
+      </header>
+
+      <!-- the answer, in two seconds -->
+      <div class="verdict">
+        <h1>{{ verdict.headline }}</h1>
+        <p>{{ verdict.sub }}</p>
+      </div>
+
+      <!-- the stage: figure + the things standing in the field -->
+      <div class="stage" @click.self="dismissLayers">
+        <svg class="figure" :key="patientId + bodyView" :view-box.camel="figure.viewBox"
+          :style="{ aspectRatio: figureAspect }"
+          role="group" :aria-label="'Body, ' + bodyView + ' view: choose a part'">
+          <defs>
+            <clipPath :id="'bodyclip-' + patientId + bodyView">
+              <path :d="figure.body" />
+            </clipPath>
+          </defs>
+          <path class="silhouette" :d="figure.body" />
+
+          <!-- the anatomy plates, clipped to the body so nothing spills -->
+          <g class="anatomy" :clip-path="'url(#bodyclip-' + patientId + bodyView + ')'">
+            <image v-for="a in anatomyPlates" :key="a.k" :href="a.src"
+              :x="a.x" :y="a.y" :width="a.w" :height="a.h"
+              :class="[a.status, { dimmed: activeRegion && activeRegion !== a.region,
+                                   lit: activeRegion === a.region }]"
+              preserveAspectRatio="none" />
+          </g>
+          <g v-for="r in placedRegions" :key="r.id" class="organ"
+            :class="[r.worstStatus, {
+              out: r.worstStatus === 'out',
+              selected: activeRegion === r.id,
+              dimmed: activeRegion && activeRegion !== r.id
+            }]"
+            :style="{ '--hs-color': statusColor(r.worstStatus) }"
+            :transform="organTransform(r)"
+            role="button" tabindex="0"
+            :aria-label="r.label + ': ' + statusWord(r.worstStatus)"
+            :aria-pressed="activeRegion === r.id"
+            @click="selectRegion(r.id)"
+            @keydown.enter.prevent="selectRegion(r.id)"
+            @keydown.space.prevent="selectRegion(r.id)">
+            <circle class="halo" cx="50" cy="50" r="42" />
+            <g v-if="!plateRegions[r.id]" v-html="glyphFor(r)"></g>
+            <circle class="hit" cx="50" cy="50" r="58" />
+          </g>
+        </svg>
+
+        <!-- issues stand in the landscape: nearer & bigger = more urgent -->
+        <div class="field">
+        <button v-for="c in cairns" :key="c.issue.id" class="cairn"
+          :class="['sev-' + c.issue.severity, { active: openIssueId === c.issue.id }]"
+          :style="c.style"
+          @click="openIssue(c.issue.id)"
+          :aria-label="c.issue.human.title">
+          <img v-if="issueIcon(c.issue)" class="cairn-glyph img" :src="issueIcon(c.issue)" alt="" />
+          <svg v-else class="cairn-glyph" viewBox="0 0 100 100" aria-hidden="true" v-html="issueGlyph(c.issue)"></svg>
+          <span class="cairn-label">
+            <span class="tag">{{ c.issue.tag }}</span>
+            <span class="note">{{ mode === 'expert' ? cairnReadout(c.issue) : trendWord(c.issue.trend) }}</span>
+          </span>
+        </button>
+        </div>
+      </div>
+
+      <div class="ground-line">
+        <div class="view-switch" role="group" aria-label="Body view">
+          <button :class="{ active: bodyView === 'front' }" :aria-pressed="bodyView === 'front'"
+            @click="setView('front')">Front</button>
+          <span aria-hidden="true">·</span>
+          <button :class="{ active: bodyView === 'back' }" :aria-pressed="bodyView === 'back'"
+            @click="setView('back')">Back</button>
+        </div>
+        <button v-if="todaySession" class="today-chip" :class="{ done: todaySession.done }"
+          @click="toggleSession(todaySession.id, todaySession.iso)"
+          :aria-pressed="todaySession.done">
+          <span class="tick">{{ todaySession.done ? '✓' : '○' }}</span>
+          <span>{{ todaySession.label }}</span>
+          <span class="when">{{ todaySession.pretty }}</span>
+        </button>
+        <p class="whisper">{{ patient.shortName }} · tested {{ patient.lastTested }}</p>
+      </div>
+
+      <!-- what you walked up to -->
+      <transition name="pop"><div v-if="openIssue_" class="lookcard" role="dialog" aria-live="polite">
+        <button class="x" @click="openIssue(null)" aria-label="Close">✕</button>
+        <div class="lookcard-head">
+          <img v-if="issueIcon(openIssue_)" class="lookcard-glyph img" :src="issueIcon(openIssue_)" alt="" />
+          <svg v-else class="lookcard-glyph" viewBox="0 0 100 100" aria-hidden="true" v-html="issueGlyph(openIssue_)"></svg>
+          <div>
+            <h2>{{ mode === 'expert' ? (openIssue_.expert.title || openIssue_.human.title) : openIssue_.human.title }}</h2>
+            <span class="trend" :class="openIssue_.trend">{{ trendLabel(openIssue_.trend) }}</span>
           </div>
-        </section>
+        </div>
 
-        <section id="focus" class="card" aria-label="What matters now">
-          <h2 v-if="mode === 'human'">What matters now</h2>
-          <h2 v-else>Flagged parameters · <span class="count">{{ flagged.length }}</span></h2>
-
-          <!-- HUMAN: issue cards -->
-          <div v-if="mode === 'human'" class="issues">
-            <article v-for="issue in patient.issues" :key="issue.id" class="issue" :class="'severity-' + issue.severity">
-              <div class="head">
-                <span class="title">{{ issue.human.title }}</span>
-                <span class="trend" :class="issue.trend">{{ trendLabel(issue.trend) }}</span>
-              </div>
-              <p class="body">{{ issue.human.body }}</p>
-              <div class="actions">
-                <span v-for="a in issue.human.actions" :key="a" class="chip">{{ a }}</span>
-              </div>
-            </article>
-
-            <article class="issue wins">
-              <div class="head">
-                <span class="title">What's improved</span>
-                <span class="trend improving">since {{ patient.winsSince }}</span>
-              </div>
-              <p class="body">{{ patient.wins }}</p>
-            </article>
+        <template v-if="mode === 'human'">
+          <p class="short">{{ openIssue_.human.short }}</p>
+          <details class="more">
+            <summary>Tell me more</summary>
+            <p>{{ openIssue_.human.body }}</p>
+          </details>
+          <div class="actions">
+            <span v-for="a in openIssue_.human.actions" :key="a" class="chip">{{ a }}</span>
           </div>
+        </template>
 
-          <!-- EXPERT: flagged abnormals table -->
-          <div v-else class="table-wrap">
+        <template v-else>
+          <p class="pattern">{{ openIssue_.expert.pattern }}</p>
+          <div class="lists">
+            <div v-if="openIssue_.expert.accountFor && openIssue_.expert.accountFor.length">
+              <h4>Account for</h4>
+              <ul><li v-for="x in openIssue_.expert.accountFor" :key="x">{{ x }}</li></ul>
+            </div>
+            <div v-if="openIssue_.expert.ruleOut && openIssue_.expert.ruleOut.length">
+              <h4>Rule out</h4>
+              <ul><li v-for="x in openIssue_.expert.ruleOut" :key="x">{{ x }}</li></ul>
+            </div>
+          </div>
+          <div class="table-wrap" v-if="issueMarkers(openIssue_).length">
             <table class="results">
               <thead>
                 <tr>
-                  <th>Marker</th><th>Latest · ref</th><th>Δ prev</th><th>Trend</th>
+                  <th>Marker</th>
+                  <th v-for="d in patient.draws" :key="d.id">{{ d.label }}</th>
+                  <th>Ref</th><th>Trend</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="row in flagged" :key="row.id" :class="row.status">
-                  <td class="marker-name">
-                    <span class="status-dot" :class="row.status"></span>{{ row.name }}
+                <tr v-for="row in issueMarkers(openIssue_)" :key="row.id" :class="row.status">
+                  <td class="marker-name"><span class="status-dot" :class="row.status"></span>{{ row.name }}</td>
+                  <td v-for="d in patient.draws" :key="d.id" class="num"
+                    :class="{ latest: d.id === patient.latestDrawId && row.values[d.id] != null }">
+                    <span :class="{ 'manual-val': row.manual[d.id] }">{{ row.values[d.id] != null ? row.values[d.id] : '—' }}</span>
                   </td>
-                  <td class="num">
-                    <span class="latest">{{ row.latestDisplay }}</span>
-                    <span class="ref under">{{ row.refLabel }}</span>
-                  </td>
-                  <td>
-                    <span v-if="row.delta !== null" class="delta" :class="[row.deltaDir, { inverted: row.worse === 'low' }]">
-                      {{ row.delta > 0 ? '▲' : '▼' }} {{ row.deltaDisplay }}
-                    </span>
-                    <span v-else class="delta neutral">first</span>
-                  </td>
-                  <td><spark :marker="row" :width="76" :height="26"></spark></td>
+                  <td class="ref">{{ row.refLabel }}<span v-if="row.unit"> {{ row.unit }}</span></td>
+                  <td><spark :marker="row" :width="86" :height="24"></spark></td>
                 </tr>
               </tbody>
             </table>
           </div>
-        </section>
-
-        <!-- EXPERT: analysis notes -->
-        <section v-if="mode === 'expert'" class="card" aria-label="Analysis">
-          <h2>Analysis · review with doctor</h2>
-          <div class="issues">
-            <article v-for="issue in patient.issues" :key="issue.id" class="issue" :class="'severity-' + issue.severity">
-              <div class="head">
-                <span class="title">{{ issue.expert.title || issue.human.title }}</span>
-                <span class="trend" :class="issue.trend">{{ trendLabel(issue.trend) }}</span>
-              </div>
-              <div class="expert-block">
-                <p class="pattern">{{ issue.expert.pattern }}</p>
-                <div class="lists">
-                  <div v-if="issue.expert.accountFor && issue.expert.accountFor.length">
-                    <h4>Account for</h4>
-                    <ul><li v-for="x in issue.expert.accountFor" :key="x">{{ x }}</li></ul>
-                  </div>
-                  <div v-if="issue.expert.ruleOut && issue.expert.ruleOut.length">
-                    <h4>Rule out</h4>
-                    <ul><li v-for="x in issue.expert.ruleOut" :key="x">{{ x }}</li></ul>
-                  </div>
-                </div>
-                <div class="actions" style="margin-top:10px">
-                  <span class="chip doctor">to review with doctor</span>
-                  <span v-if="issue.expert.monitor" class="chip">{{ issue.expert.monitor }}</span>
-                </div>
-              </div>
-            </article>
-          </div>
-        </section>
-      </div>
-
-      <!-- CENTER: body -->
-      <div class="col col-center">
-        <section class="card body-card" aria-label="Body map">
-          <svg class="body-figure" :viewBox="figure.viewBox" role="group" aria-label="Body map: select a region">
-            <g class="silhouette" v-html="figure.parts"></g>
-            <g v-for="r in visibleRegions" :key="r.id" class="hotspot"
-              :class="[r.worstStatus, { out: r.worstStatus === 'out', selected: activeRegion === r.id }]"
-              :style="{ '--hs-color': statusColor(r.worstStatus) }"
-              role="button" tabindex="0"
-              :aria-label="r.label + ': ' + statusWord(r.worstStatus)"
-              :aria-pressed="activeRegion === r.id"
-              @click="selectRegion(r.id)"
-              @keydown.enter.prevent="selectRegion(r.id)"
-              @keydown.space.prevent="selectRegion(r.id)">
-              <circle class="hit" :cx="pos(r).x" :cy="pos(r).y" r="16" />
-              <circle v-if="activeRegion === r.id" class="select-ring" :cx="pos(r).x" :cy="pos(r).y" r="13" />
-              <circle class="ring" :cx="pos(r).x" :cy="pos(r).y" r="10" />
-              <circle class="dot" :cx="pos(r).x" :cy="pos(r).y" r="6" />
-            </g>
-          </svg>
-
-          <div class="region-chips" role="group" aria-label="Regions">
-            <button v-for="r in visibleRegions" :key="r.id" class="region-chip"
-              :class="{ selected: activeRegion === r.id }" :aria-pressed="activeRegion === r.id"
-              @click="selectRegion(r.id)">
-              <span class="status-dot" :class="r.worstStatus"></span>{{ r.label }}
-            </button>
-          </div>
-
-          <p v-if="!activeRegion" class="body-hint">Select a glowing region — or any chip — to see what's going on there.</p>
-
-          <div v-if="activeRegionData" class="region-panel" aria-live="polite" @keydown.esc="selectRegion(null)">
-            <div class="head">
-              <h3>{{ activeRegionData.label }}</h3>
-              <button class="close" @click="selectRegion(null)">Close ✕</button>
-            </div>
-            <p class="desc">{{ activeRegionData.desc }}</p>
-
-            <!-- human -->
-            <template v-if="mode === 'human'">
-              <p v-for="issue in activeRegionData.issues" :key="issue.id" class="body" style="margin-top:8px">
-                <strong>{{ issue.human.title }}.</strong> {{ issue.human.body }}
-              </p>
-              <p v-if="activeRegionData.okMarkers.length" class="all-clear">
-                {{ activeRegionData.issues.length ? 'Everything else here looks normal' : 'Everything here looks normal' }}
-                ({{ activeRegionData.okMarkers.length }} marker{{ activeRegionData.okMarkers.length === 1 ? '' : 's' }} in range).
-              </p>
-            </template>
-
-            <!-- expert -->
-            <template v-else>
-              <div class="table-wrap">
-                <table class="results">
-                  <thead>
-                    <tr>
-                      <th>Marker</th>
-                      <th v-for="d in patient.draws" :key="d.id">{{ d.label }}</th>
-                      <th>Ref</th><th>Trend</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="row in activeRegionData.markers" :key="row.id" :class="row.status">
-                      <td class="marker-name"><span class="status-dot" :class="row.status"></span>{{ row.name }}</td>
-                      <td v-for="d in patient.draws" :key="d.id" class="num"
-                        :class="{ latest: d.id === patient.latestDrawId && row.values[d.id] != null }">
-                        {{ row.values[d.id] != null ? row.values[d.id] : '—' }}
-                      </td>
-                      <td class="ref">{{ row.refLabel }}<span v-if="row.unit"> {{ row.unit }}</span></td>
-                      <td><spark :marker="row" :width="90" :height="24"></spark></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <article v-for="issue in activeRegionData.issues" :key="issue.id" class="issue" :class="'severity-' + issue.severity">
-                <div class="head"><span class="title">{{ issue.expert.title || issue.human.title }}</span></div>
-                <div class="expert-block">
-                  <p class="pattern">{{ issue.expert.pattern }}</p>
-                  <div class="lists">
-                    <div v-if="issue.expert.accountFor && issue.expert.accountFor.length">
-                      <h4>Account for</h4>
-                      <ul><li v-for="x in issue.expert.accountFor" :key="x">{{ x }}</li></ul>
-                    </div>
-                    <div v-if="issue.expert.ruleOut && issue.expert.ruleOut.length">
-                      <h4>Rule out</h4>
-                      <ul><li v-for="x in issue.expert.ruleOut" :key="x">{{ x }}</li></ul>
-                    </div>
-                  </div>
-                  <div class="actions" style="margin-top:8px"><span class="chip doctor">to review with doctor</span></div>
-                </div>
-              </article>
-            </template>
-          </div>
-        </section>
-      </div>
-
-      <!-- RIGHT: records + schedule + regimen -->
-      <div class="col col-right">
-
-        <section class="card" aria-label="Records">
-          <h2>Records</h2>
-          <div v-for="rec in patient.records" :key="rec.file" class="record">
-            <div class="doc-icon" aria-hidden="true">▤</div>
-            <div class="meta">
-              <div class="title">{{ rec.title }}</div>
-              <div class="sub">{{ rec.lab }} · {{ rec.date }} · {{ rec.pages }} pages</div>
-              <div v-if="mode === 'expert' && rec.covers" class="sub">Covers draws: {{ rec.covers }}</div>
-              <div class="row-actions">
-                <a :href="rec.file" target="_blank" rel="noopener">Open</a>
-                <a :href="rec.file" :download="rec.downloadName">Download</a>
-              </div>
-            </div>
-          </div>
-          <div class="record add-slot">
-            <div class="doc-icon" aria-hidden="true">+</div>
-            <div class="meta">Add a record: drop the PDF into <code>reports/</code> and ask Claude to ingest it (see README).</div>
-          </div>
-        </section>
-
-        <section class="card" aria-label="Next check-ups">
-          <h2>Next check-ups</h2>
-          <div v-for="rt in patient.retests" :key="rt.label" class="retest">
-            <span class="what">{{ rt.label }}</span>
-            <span class="due" :class="{ overdue: rt.overdue }">
-              <template v-if="mode === 'expert'">every {{ rt.every }} · </template>due {{ rt.due }}
-            </span>
-          </div>
-        </section>
-
-        <section class="card" aria-label="Currently taking">
-          <h2>Currently taking</h2>
-          <div class="regimen-chips">
-            <span v-for="rg in patient.regimen" :key="rg.name" class="chip">{{ rg.name }}</span>
-          </div>
-          <div v-if="mode === 'expert'" class="regimen-detail">
-            <div v-for="rg in patient.regimen" :key="rg.name">
-              <strong>{{ rg.name }}</strong> — {{ rg.dose }}<template v-if="rg.note"> · {{ rg.note }}</template>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <!-- FULL RESULTS (expert) / hint (human) -->
-      <section class="card full-results" aria-label="All results">
-        <template v-if="mode === 'expert'">
-          <h2>All results · {{ patient.markerCount }} parameters</h2>
-          <p class="draws-note">Columns are blood draws: {{ patient.drawsNote }}. Flagged rows tinted. Latest value bold.</p>
-          <div v-for="panel in panelTables" :key="panel.id" class="panel-section">
-            <h3>{{ panel.label }}</h3>
-            <div class="table-wrap">
-              <table class="results">
-                <thead>
-                  <tr>
-                    <th class="sticky-col">Marker</th>
-                    <th v-for="d in patient.draws" :key="d.id">{{ d.label }}</th>
-                    <th>Ref</th><th>Δ prev</th><th>Trend</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in panel.rows" :key="row.id" :class="row.status">
-                    <td class="marker-name sticky-col"><span class="status-dot" :class="row.status"></span>{{ row.name }}</td>
-                    <td v-for="d in patient.draws" :key="d.id" class="num"
-                      :class="{ latest: d.id === patient.latestDrawId && row.values[d.id] != null }">
-                      {{ row.values[d.id] != null ? row.values[d.id] : '—' }}
-                    </td>
-                    <td class="ref">{{ row.refLabel }}<span v-if="row.unit"> {{ row.unit }}</span></td>
-                    <td>
-                      <span v-if="row.delta !== null" class="delta" :class="[row.deltaDir, { inverted: row.worse === 'low' }]">
-                        {{ row.delta > 0 ? '▲' : '▼' }} {{ row.deltaDisplay }}
-                      </span>
-                      <span v-else class="delta neutral">—</span>
-                    </td>
-                    <td><spark :marker="row" :width="90" :height="24"></spark></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          <div class="actions">
+            <span class="chip doctor">to review with doctor</span>
+            <span v-if="openIssue_.expert.monitor" class="chip">{{ openIssue_.expert.monitor }}</span>
           </div>
         </template>
-        <p v-else class="human-results-hint">
-          {{ inRangeCount }} of {{ patient.markerCount }} markers are in range.
-          <button @click="setMode('expert')">Switch to Expert</button> for the full table.
-        </p>
-      </section>
-    </main>
+      </div></transition>
+
+      <!-- a body part you touched -->
+      <div v-if="activeRegionData && !openIssue_" class="lookcard region" role="dialog" aria-live="polite">
+        <button class="x" @click="selectRegion(null)" aria-label="Close">✕</button>
+        <div class="lookcard-head">
+          <div>
+            <h2>{{ activeRegionData.label }}</h2>
+            <span class="trend" :class="activeRegionData.worstStatus === 'ok' ? 'improving' : 'new'">
+              {{ statusWord(activeRegionData.worstStatus) }}
+            </span>
+          </div>
+        </div>
+        <p class="short">{{ activeRegionData.desc }}</p>
+
+        <template v-if="mode === 'human'">
+          <p v-for="issue in activeRegionData.issues" :key="issue.id" class="short">
+            <strong>{{ issue.human.title }}.</strong> {{ issue.human.short }}
+          </p>
+          <p v-if="activeRegionData.okMarkers.length" class="all-clear">
+            {{ activeRegionData.issues.length ? 'Everything else here looks normal' : 'Everything here looks normal' }}
+            ({{ activeRegionData.okMarkers.length }} in range).
+          </p>
+        </template>
+
+        <template v-else>
+          <div class="table-wrap">
+            <table class="results">
+              <thead>
+                <tr>
+                  <th>Marker</th>
+                  <th v-for="d in patient.draws" :key="d.id">{{ d.label }}</th>
+                  <th>Ref</th><th>Trend</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="row in activeRegionData.markers" :key="row.id" :class="row.status">
+                  <td class="marker-name"><span class="status-dot" :class="row.status"></span>{{ row.name }}</td>
+                  <td v-for="d in patient.draws" :key="d.id" class="num"
+                    :class="{ latest: d.id === patient.latestDrawId && row.values[d.id] != null }">
+                    <span :class="{ 'manual-val': row.manual[d.id] }">{{ row.values[d.id] != null ? row.values[d.id] : '—' }}</span>
+                  </td>
+                  <td class="ref">{{ row.refLabel }}<span v-if="row.unit"> {{ row.unit }}</span></td>
+                  <td><spark :marker="row" :width="86" :height="24"></spark></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </template>
+      </div>
+    </div>
+
+    <div v-if="tip" class="tip" :style="{ left: tip.x + 'px', top: tip.y + 'px' }" role="status">
+      <div class="t-name">{{ tip.name }}</div>
+      <div class="t-word">{{ tip.word }}<template v-if="tip.value"> · {{ tip.value }}</template></div>
+      <div v-if="tip.human" class="t-human">{{ tip.human }}</div>
+    </div>
+
+    <!-- ══════════ THE PRINTABLE REPORT ══════════ -->
+    <export-doc v-if="exporting"></export-doc>
+
+    <!-- ══════════ SETTINGS ══════════ -->
+    <div v-if="settingsOpen" class="panel-scrim" @click="settingsOpen = false">
+      <settings-panel></settings-panel>
+    </div>
+
+    <!-- ══════════ THE DRAWER ══════════ -->
+    <div class="sheet-scrim" @click="closeSheet" aria-hidden="true"></div>
+
+    <div id="drawer" class="drawer">
+      <div class="drawer-handle" ref="handle">
+        <button class="pull" @click="toggleDrawer" :aria-expanded="drawerOpen">
+          <span class="grip-line" aria-hidden="true"></span>
+          <span class="pull-text">{{ drawerOpen ? 'Close' : 'Records, schedule &amp; all results' }}</span>
+        </button>
+        <nav v-if="drawerOpen" class="drawer-tabs" aria-label="Drawer sections">
+          <button v-for="t in drawerTabs" :key="t.id" :class="{ active: drawerTab === t.id }"
+            :aria-pressed="drawerTab === t.id" @click="drawerTab = t.id">{{ t.label }}</button>
+        </nav>
+      </div>
+
+      <div class="drawer-body" v-show="drawerOpen" ref="sheetBody">
+        <component :is="'panel-' + drawerTab"></component>
+      </div>
+    </div>
 
     <footer class="foot">
-      <span>Personal tracking tool built with our doctor <span class="heart">♥</span></span>
-      <span>Not medical advice — every flag here is a conversation starter, not a conclusion.</span>
-      <span>ABSURD INDUSTRIES × AMARTHA</span>
+      <span>Grown with our doctor ❦</span>
+      <span>Not medical advice — every flag is a conversation starter, not a conclusion.</span>
     </footer>
   </div>
 
   <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
   <script src="data/common.js"></script>
+  <script src="data/figures.js"></script>
   <script src="data/amit.js"></script>
   <script src="data/aparna.js"></script>
+  <script src="data/you.js"></script>
+  <script src="data/manual.js"></script>
+  <script src="landscape.js"></script>
+  <script src="cards.js"></script>
   <script src="app.js"></script>
 </body>
 

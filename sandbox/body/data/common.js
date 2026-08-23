@@ -20,6 +20,7 @@ window.BODY = {
   ],
 
   panels: [
+    { id: 'vitals', label: 'Measured at Home' },
     { id: 'lipids', label: 'Lipid Profile' },
     { id: 'liver', label: 'Liver Function' },
     { id: 'thyroid', label: 'Thyroid Profile' },
@@ -74,6 +75,17 @@ window.BODY = {
     hba1c: { name: 'HbA1c', unit: '%', panel: 'diabetes', regions: ['pancreas'], ref: { all: [4.2, 5.7] }, worse: 'high', human: 'Three-month blood sugar average' },
     glucose_f: { name: 'Glucose, Fasting', unit: 'mg/dl', panel: 'diabetes', regions: ['pancreas'], ref: { all: [70, 100] }, worse: 'high' },
     insulin_f: { name: 'Insulin, Fasting', unit: 'µIU/mL', panel: 'diabetes', regions: ['pancreas'], ref: { all: [1.9, 23] }, worse: 'high', human: 'How hard the pancreas works to keep sugar normal' },
+
+    /* --- measured at home (self: true surfaces these first in the log form) --- */
+    bp_sys: { name: 'Blood pressure (upper)', unit: 'mmHg', panel: 'vitals', regions: ['heart'], ref: { all: [90, 130] }, worse: 'high', self: true, human: 'The push when the heart beats' },
+    bp_dia: { name: 'Blood pressure (lower)', unit: 'mmHg', panel: 'vitals', regions: ['heart'], ref: { all: [60, 85] }, worse: 'high', self: true, human: 'The push between beats' },
+    resting_hr: { name: 'Resting heart rate', unit: 'bpm', panel: 'vitals', regions: ['heart'], ref: { all: [55, 90] }, worse: 'high', self: true, human: 'Beats per minute at rest — lower is usually fitter' },
+    spo2: { name: 'Oxygen (SpO₂)', unit: '%', panel: 'vitals', regions: ['blood'], ref: { all: [95, 100] }, worse: 'low', self: true, human: 'How much oxygen the blood is carrying' },
+    sleep_h: { name: 'Sleep', unit: 'h', panel: 'vitals', regions: ['brain'], ref: { all: [7, 9] }, worse: 'low', self: true, human: 'Hours slept last night' },
+    temp_c: { name: 'Temperature', unit: '°C', panel: 'vitals', regions: [], ref: { all: [36.1, 37.2] }, worse: 'high', self: true },
+    waist_cm: { name: 'Waist', unit: 'cm', panel: 'vitals', regions: [], ref: { m: [null, 94], f: [null, 80] }, refDisplay: 'under 94 cm (m) · 80 cm (f)', worse: 'high', self: true },
+    steps: { name: 'Steps', unit: '/day', panel: 'vitals', regions: [], ref: null, refDisplay: 'aim 7,000+', self: true },
+    mood: { name: 'Energy today', unit: '/5', panel: 'vitals', regions: ['brain'], ref: { all: [3, 5] }, worse: 'low', self: true, human: 'How you actually feel, 1 to 5' },
 
     /* --- vitamins --- */
     vitd: { name: 'Vitamin D (25-OH)', unit: 'ng/ml', panel: 'vitamins', regions: ['bones'], ref: { all: [30, 100] }, worse: 'low', human: 'Bone, mood and immune support' },
