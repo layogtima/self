@@ -131,17 +131,28 @@ because a record you cannot trust your eyes on is not a record. The
 **window** — the generated range behind the garden — does follow the clock,
 shifting from dawn through noon to dusk and night, and it also reads the
 record: the range recedes further and the haze thins as more markers come
-back into range. Atmosphere belongs outside; legibility belongs inside.
+back into range, and the moon shows tonight's true phase. Atmosphere belongs
+outside; legibility belongs inside — which is why every sky is blended
+part-way toward the reading theme before it is drawn. A night sky in daylight
+mode is moonlit pale, never black, because the words in front of it have to
+stay readable.
 
 ## The body is not a pictogram
 
-The silhouette carries real anatomy inside it — proper medical plates, one per
-organ, clipped to the body outline. Two rules keep that from becoming noise:
-the illustrations keep their own colour (status is shown by a glow around
-them, never by repainting an organ a false colour), and an organ only appears
-if it is genuinely the thing being measured. Where we have no honest plate for
-a region, a simple drawn glyph stands in rather than a plausible-looking
-substitute.
+The silhouette carries a real organ stack inside it, taken from its source
+file whole rather than assembled from parts. That distinction turned out to
+matter: picking organs out one at a time and re-placing them by hand produced
+a body of floating, disconnected bands, because the relationships between
+organs — the heart sitting inside the lungs, the liver lying over the gut, the
+rotations several of them are drawn with — carry as much anatomical meaning as
+the organs themselves. Now the whole stack moves as one, and only its position
+in the torso is ours to choose.
+
+Two rules keep it from becoming noise: the illustrations keep their own
+colour, with status shown as a glow around an organ and never by repainting it
+a false one; and an organ only appears if it is genuinely the thing being
+measured. Where there is no honest plate for a region, a simple drawn glyph
+stands in rather than a plausible-looking substitute.
 
 ## The honesty rule
 

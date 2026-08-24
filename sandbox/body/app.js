@@ -202,6 +202,11 @@
         return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()] +
           ' ' + d.getDate() + ' ' + MONTHS[d.getMonth()];
       });
+      const moonLabel = computed(function () {
+        if (!window.BODY_LANDSCAPE) return '';
+        const p = window.BODY_LANDSCAPE.phaseOf(now.value);
+        return window.BODY_LANDSCAPE.phaseName(p) + ' moon';
+      });
       const greeting = computed(function () {
         const p = rawPatient.value;
         return 'Good ' + clock.value.part + (p.id === 'you' ? '' : ', ' + p.shortName);
@@ -510,13 +515,19 @@
         return o ? o[bodyView.value] : null;
       }
       /* the anatomy plates on show, each carrying its region's status */
+      const anatomy = computed(function () {
+        return (BODY_FIGURES.anatomy || {})[rawPatient.value.sex] || { group: '', layers: [] };
+      });
       const anatomyPlates = computed(function () {
-        const plates = (BODY_FIGURES.anatomy || {})[bodyView.value] || [];
         const byRegion = {};
         visibleRegions.value.forEach(function (r) { byRegion[r.id] = r.worstStatus; });
-        return plates.map(function (p) {
-          return Object.assign({}, p, { status: byRegion[p.region] || 'ok' });
-        });
+        // the back view shows only what is genuinely behind you
+        const BACK_ONLY = { kidneys: 1, pelvis: 1, spine: 1, trachea: 1, brain: 1 };
+        return anatomy.value.layers
+          .filter(function (p) { return bodyView.value === 'front' || BACK_ONLY[p.k]; })
+          .map(function (p) {
+            return Object.assign({}, p, { status: byRegion[p.region] || 'ok' });
+          });
       });
 
       /* which regions are already drawn by an anatomy plate on this view */
@@ -988,7 +999,7 @@
 
       /* the generated range: time of day for the light, body state for the
          depth, roughness and haze */
-      watch([hour, function () { return scene.value.share; },
+      watch([hour, theme, function () { return scene.value.share; },
              function () { return rawPatient.value.id; },
              function () { return mods.motion; }], function () {
         if (!window.BODY_LANDSCAPE) return;
@@ -999,6 +1010,8 @@
           hour: hour.value,
           health: scene.value.share,
           seed: seed,
+          theme: theme.value,
+          phase: window.BODY_LANDSCAPE.phaseOf(now.value),
           motion: !!mods.motion && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
         });
       }, { immediate: true });
@@ -1043,7 +1056,7 @@
         rows: rows, flagged: flagged, inRangeCount: inRangeCount,
         visibleRegions: visibleRegions, panelTables: panelTables,
         figure: figure, figureAspect: figureAspect, placedRegions: placedRegions, organTransform: organTransform, glyphFor: glyphFor,
-        iconFor: iconFor, issueIcon: issueIcon, anatomyPlates: anatomyPlates, plateRegions: plateRegions,
+        iconFor: iconFor, issueIcon: issueIcon, anatomy: anatomy, anatomyPlates: anatomyPlates, plateRegions: plateRegions,
         bodyView: bodyView, setView: setView,
         scoreDash: scoreDash, patientAccentStyle: patientAccentStyle,
         switchPatient: switchPatient, setMode: setMode, toggleTheme: toggleTheme, selectRegion: selectRegion,
@@ -1061,7 +1074,7 @@
         sheetState: sheetState, closeSheet: closeSheet, setSheet: setSheet,
         dismissLayers: dismissLayers,
         now: now, themeMode: themeMode, clock: clock, greeting: greeting,
-        hour: hour, simHour: simHour, setSimHour: setSimHour, goLive: goLive,
+        hour: hour, simHour: simHour, setSimHour: setSimHour, goLive: goLive, moonLabel: moonLabel,
         clockLabel: clockLabel, dateLabel: dateLabel,
         scene: scene,
         setThemeMode: setThemeMode,

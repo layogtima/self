@@ -51,7 +51,12 @@ The home screen is a **vista**, not a dashboard (the full rationale is in
   to a canvas, drifting slowly for parallax. Its palette follows the real
   clock (dawn, morning, noon, golden, dusk, night) and its shape follows the
   record: more layers receding and thinner haze as more markers come into
-  range, jaggier and murkier when they don't. Preview any hour in ⚙ → Sky.
+  range, jaggier and murkier when they don't. The **moon is the real moon** —
+  its phase is computed from the synodic month, calibrated on the new moon of
+  12 Aug 2026 17:37 UTC, and named in the corner ("waxing gibbous moon").
+  Accurate to a few hours, not to the minute. Preview any hour in ⚙ → Sky.
+  Whatever the hour, the palette is pulled part-way toward your reading theme,
+  so text on top of it never loses contrast.
 - **two reading lights, chosen not simulated**: Daylight and Lamplight. The
   cards never change with the hour — only the view out the window does.
 
@@ -139,19 +144,37 @@ DESIGN.md       the TEND design language and why it fits preventive health
 
 ## What's inside the body
 
-The silhouette is not empty. Ten **anatomy plates** — real medical
-illustrations lifted whole out of
-`references/Female_shadow_template.svg` (which stores each organ as its own
-layer) — sit inside it: brain, thyroid, lungs, heart, liver, stomach, spleen,
-pancreas, intestines and pelvis on the front; spine, kidneys with bladder,
-and pelvis on the back. They are clipped to the body outline, keep their own
-illustrated colour, and **glow in their region's status colour** when
-something there is out of range. Selecting a region lights that plate and
-dims the rest.
+The silhouette is not empty — it carries a real organ stack, **used exactly as
+the source file draws it**:
 
-Placements live in `BODY_FIGURES.anatomy` in `data/figures.js` as
-`{k, x, y, w, h, region}` against the shared 220×460 box — hand-tuned to the
-traced figures, so adjusting one organ is a four-number edit.
+- men from `references/internal-organs.svg`
+- women from `references/Female_shadow_template.svg`
+
+Each layer keeps its own coordinates, its own transform (several organs are
+drawn rotated) and the original document order, because that order *is* the
+z-order the anatomist intended. The only thing added is one group transform
+per figure that drops the whole stack into the torso, and a clip path so
+nothing spills past the outline. Nothing is re-placed by hand, which is what
+keeps the overlaps — heart inside the lungs, liver over the gut — correct.
+
+Front shows the full stack; the back view shows only what is genuinely behind
+you (spine column, kidneys with ureters, bladder, pelvis). Organs keep their
+illustrated colour and **glow in their region's status colour** when something
+there is out of range; selecting a region lights that layer and dims the rest.
+
+**How the stack is positioned.** Not by eye. The female template contains its
+own body image, so its transform maps that body's *height* onto the figure
+(mapping by width would be wrong — the source figure's arms hang at its sides
+while ours are spread, so its bounding box is much wider than its torso). The
+male torso file has no body image but draws the same organ art, so it is
+fitted to the female by least squares over the organs the two share, then
+composed. Both end up placing organs in the same anatomical positions.
+
+Regenerate after changing a source file:
+```sh
+python3 tools/extract-anatomy.py   # pulls layers + their transforms, writes webp
+python3 tools/fit-anatomy.py       # re-fits the group transforms, updates figures.js
+```
 
 ## The body plates
 

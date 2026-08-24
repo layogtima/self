@@ -91,14 +91,17 @@
 
       <button class="score" @click="drawerTo('results')"
         :aria-label="'Health score ' + patient.healthScore + ' of 100. Open all results.'">
+        <!-- number and caption live in the SVG so they sit true in the disc,
+             rather than being centred as a stacked pair -->
         <svg viewBox="0 0 120 120" aria-hidden="true">
           <circle class="score-disc" cx="60" cy="60" r="44" />
           <circle class="arc-track" cx="60" cy="60" r="50" />
           <circle class="arc" cx="60" cy="60" r="50" :stroke-dasharray="scoreDash"
             transform="rotate(-90 60 60)" />
+          <text class="score-num" x="60" y="58" text-anchor="middle"
+            dominant-baseline="central">{{ patient.healthScore }}</text>
+          <text class="score-of" x="60" y="82" text-anchor="middle">OF 100</text>
         </svg>
-        <span class="score-num">{{ patient.healthScore }}</span>
-        <span class="score-of">of 100</span>
       </button>
 
       <!-- minimal chrome, floating over the scene -->
@@ -122,6 +125,7 @@
         <p class="clock">
           <span class="time">{{ clockLabel }}</span>
           <span class="date">{{ greeting }} · {{ dateLabel }}</span>
+          <span class="moon">{{ moonLabel }}</span>
         </p>
 
         <div class="lens" role="group" aria-label="Detail level">
@@ -134,9 +138,9 @@
         <button class="ghost-btn" :class="{ active: editMode }" @click="toggleEdit" :aria-pressed="editMode"
           title="Edit mode — log measurements, adjust vitals" aria-label="Toggle edit mode">✎</button>
         <button class="ghost-btn" :class="{ active: settingsOpen }" @click="settingsOpen = !settingsOpen"
-          :aria-pressed="settingsOpen" title="Settings" aria-label="Settings">⚙</button>
+          :aria-pressed="settingsOpen" aria-label="Settings">⚙</button>
         <button class="ghost-btn" @click="toggleTheme"
-          :title="'Switch to ' + (themeMode === 'dark' ? 'light' : 'dark') + ' mode'" aria-label="Switch theme">
+          :aria-label="'Switch to ' + (themeMode === 'dark' ? 'light' : 'dark') + ' mode'">
           {{ themeMode === 'dark' ? '☀' : '☾' }}
         </button>
       </header>
@@ -159,14 +163,19 @@
           </defs>
           <path class="silhouette" :d="figure.body" />
 
-          <!-- the anatomy plates, clipped to the body so nothing spills -->
-          <g class="anatomy" :clip-path="'url(#bodyclip-' + patientId + bodyView + ')'">
-            <image v-for="a in anatomyPlates" :key="a.k" :href="a.src"
-              :x="a.x" :y="a.y" :width="a.w" :height="a.h"
-              :class="[a.status, { dimmed: activeRegion && activeRegion !== a.region,
-                                   lit: activeRegion === a.region }]"
-              preserveAspectRatio="none" />
+          <!-- the source file's own organ stack: native coordinates, each
+               layer's own transform, original z-order, one group transform -->
+          <!-- clip and transform must be on separate elements: together, the
+               clip path would be scaled by the transform too -->
+          <g :clip-path="'url(#bodyclip-' + patientId + bodyView + ')'">
+            <g class="anatomy" :transform="anatomy.group">
+              <image v-for="a in anatomyPlates" :key="a.k" :href="a.src"
+                :x="a.x" :y="a.y" :width="a.w" :height="a.h" :transform="a.tf || null"
+                :class="[a.status, { dimmed: activeRegion && activeRegion !== a.region,
+                                     lit: activeRegion === a.region }]" />
+            </g>
           </g>
+
           <g v-for="r in placedRegions" :key="r.id" class="organ"
             :class="[r.worstStatus, {
               out: r.worstStatus === 'out',
