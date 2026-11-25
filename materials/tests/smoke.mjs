@@ -40,8 +40,23 @@ try {
   page.on('pageerror', (e) => consoleErrors.push(String(e)));
   page.on('requestfailed', (r) => consoleErrors.push(`request failed: ${r.url()}`));
 
+  // Nothing may be fetched from a third party: the page must stand up offline.
+  const offsite = [];
+  page.on('request', (r) => {
+    const u = r.url();
+    if (!u.startsWith(BASE.replace(/\/materials\/$/, '')) && !u.startsWith('data:')) offsite.push(u);
+  });
+
   await page.goto(BASE, { waitUntil: 'networkidle0' });
   await page.waitForFunction('window.__mat !== undefined', { timeout: 15000 });
+  check('no third-party requests', offsite.length === 0, offsite.slice(0, 3).join(' '));
+
+  // Regression: an explicit `display` on a panel beats [hidden] and leaves it open forever.
+  const hiddenOnLoad = await page.evaluate(() =>
+    ['settings', 'settings-scrim', 'detail', 'detail-scrim', 'compare']
+      .filter((id) => getComputedStyle(document.getElementById(id)).display !== 'none')
+  );
+  check('every overlay starts hidden', hiddenOnLoad.length === 0, `visible: ${hiddenOnLoad.join(', ')}`);
 
   const info = await page.evaluate(() => ({
     materials: window.__mat.app.materials.length,
@@ -189,7 +204,6 @@ try {
     applied: document.documentElement.dataset.theme,
     state: window.__mat.state.theme,
     osLight: matchMedia('(prefers-color-scheme: light)').matches,
-    label: document.getElementById('theme-toggle').textContent,
   }));
   check(
     'theme follows the OS until asked otherwise',
@@ -204,11 +218,10 @@ try {
     stored: localStorage.getItem('material.prefs'),
     bg: getComputedStyle(document.body).backgroundColor,
     ink: getComputedStyle(document.body).color,
-    label: document.getElementById('theme-toggle').textContent,
   }));
   check(
     'toggling flips the palette and is remembered',
-    flipped.applied !== themeAuto.applied && /"theme":"(light|dark)"/.test(flipped.stored) && flipped.label !== themeAuto.label,
+    flipped.applied !== themeAuto.applied && /"theme":"(light|dark)"/.test(flipped.stored),
     `${themeAuto.applied} -> ${flipped.applied}, bg ${flipped.bg}`
   );
   // No token may be left undefined in either palette, or something renders transparent.
@@ -227,6 +240,272 @@ try {
   check('both palettes define every token', tokens.length === 0, tokens.join(', '));
   await page.keyboard.press('t');
   await sleep(200);
+
+  // Carbon, reserves and recycling: the second half of each material's story.
+  const extras = await page.evaluate(() => {
+    const m = window.__mat.app.materials;
+    const g = window.__mat.app.global;
+    return {
+      carbon: m.filter((x) => x.co2PerKg).length,
+      reserves: m.filter((x) => x.yearsLeft).length,
+      recycled: m.filter((x) => x.recyclingRate).length,
+      producers: m.filter((x) => x.producers).length,
+      total: m.length,
+      globalGt: (g.co2KgS * 31556952) / 1e12,
+      shareOfWorld: g.materialsShare.value,
+    };
+  });
+  check('every material has a carbon figure', extras.carbon === extras.total, `${extras.carbon}/${extras.total}`);
+  check('years-left and recycling cover the metals', extras.reserves >= 30 && extras.recycled >= 60, `${extras.reserves} reserves, ${extras.recycled} recycling`);
+  check('producing countries are recorded', extras.producers >= 80, `${extras.producers} materials`);
+  // The per-material figures are cradle-to-gate and overlap, so the headline must come
+  // from a published global figure rather than a sum of the rows.
+  check(
+    'the carbon headline is a published figure, not a sum of rows',
+    extras.globalGt > 15 && extras.globalGt < 30,
+    `${extras.globalGt.toFixed(1)} Gt/yr = ${extras.shareOfWorld * 100}% of world emissions`
+  );
+  const summed = await page.evaluate(() =>
+    window.__mat.app.materials.reduce((t, m) => t + (m.subsetOf ? 0 : m.co2KgS), 0) * 31556952 / 1e12
+  );
+  check('summing the rows would have overstated it', summed > extras.globalGt, `sum ${summed.toFixed(1)} vs published ${extras.globalGt.toFixed(1)} Gt/yr`);
+
+  const sortTops = {};
+  for (const id of ['carbon', 'emitted', 'years', 'recycled']) {
+    await page.select('#sort', id);
+    await sleep(220);
+    sortTops[id] = await page.evaluate(() => document.querySelector('#grid .card:not(.is-hidden) .card-name')?.textContent);
+  }
+  check('carbon-per-kilo sort puts a precious metal first', /platinum|rhodium|gold/i.test(sortTops.carbon || ''), sortTops.carbon);
+  // Carbon dioxide tops this one because its carbon-per-kilo is trivially 1. Circular, but
+  // true, and the next entries are the bulk materials that actually cause it.
+  check('total-carbon sort is topped by CO2 or a bulk material', /carbon dioxide|meat|cereal|steel|concrete/i.test(sortTops.emitted || ''), sortTops.emitted);
+  check('running-out sort ascends', !!sortTops.years, sortTops.years);
+  check('most-recycled sort descends', !!sortTops.recycled, sortTops.recycled);
+  await page.select('#sort', 'made');
+  await sleep(200);
+
+  // Settings: the slider is a threshold over SECTIONS, ticking a box takes over from it.
+  await page.evaluate(() => {
+    document.activeElement?.blur?.();
+    location.hash = 'm=copper';
+  });
+  await sleep(500);
+  const countSections = () => page.evaluate(() => document.querySelectorAll('#detail h3').length);
+  const atEverything = await countSections();
+  await page.evaluate(() => window.__mat.settings.toggle());
+  await sleep(200);
+  const panelOpen = await page.evaluate(() => !document.getElementById('settings').hidden);
+  check('the settings panel opens', panelOpen);
+  // Regression: it used to open behind an already-open material.
+  const stacking = await page.evaluate(() => {
+    const z = (id) => Number(getComputedStyle(document.getElementById(id)).zIndex);
+    return { settings: z('settings'), detail: z('detail'), gl: z('gl') };
+  });
+  check(
+    'settings sits above the material panel and the canvas',
+    stacking.settings > stacking.detail && stacking.settings > stacking.gl,
+    JSON.stringify(stacking)
+  );
+
+  // The panel is tabbed now, so the detail controls live behind their own tab.
+  const tabs = await page.evaluate(() => [...document.querySelectorAll('[data-tab]')].map((b) => b.dataset.tab));
+  check('the panel is tabbed', tabs.length >= 3 && tabs.includes('detail'), tabs.join(', '));
+  await page.evaluate(() => document.querySelector('[data-tab="detail"]').click());
+  await sleep(250);
+
+  await page.evaluate(() => {
+    const s = document.getElementById('level');
+    s.value = '0';
+    s.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+  await sleep(300);
+  const atBasics = await countSections();
+  check('the slider trims the panel', atBasics < atEverything && atBasics >= 2, `${atEverything} sections -> ${atBasics}`);
+
+  const boxState = await page.evaluate(() => {
+    const box = document.querySelector('[data-section="carbon"]');
+    box.checked = true;
+    box.dispatchEvent(new Event('change', { bubbles: true }));
+    return { custom: Array.isArray(window.__mat.state.sections), hint: document.getElementById('level-hint').textContent };
+  });
+  await sleep(300);
+  const withCarbon = await page.evaluate(() =>
+    [...document.querySelectorAll('#detail h3')].some(
+      (h) => h.textContent.replace(/^[^A-Za-z]+/, '').trim() === 'What it costs the air'
+    )
+  );
+  check('ticking a box overrides the slider', boxState.custom && withCarbon, `hint: ${boxState.hint}`);
+
+  await page.evaluate(() => document.getElementById('settings-reset').click());
+  await sleep(300);
+  const restored = await countSections();
+  check('reset goes back to everything', restored === atEverything, `${restored} of ${atEverything}`);
+  await page.evaluate(() => window.__mat.settings.close());
+  await page.keyboard.press('Escape');
+  await sleep(200);
+
+  // Per-person mode: the world's tonnage becomes one share, everywhere at once.
+  const perPerson = await page.evaluate(async () => {
+    const figure = () => document.querySelector('#grid .card:not(.is-hidden) .card-figure').textContent.replace(/\s+/g, ' ').trim();
+    const world = figure();
+    window.__mat.state.perPerson = true;
+    document.body.classList.add('per-person');
+    const { setPerPerson } = await import('./src/format.js');
+    setPerPerson(window.__mat.app.population.value);
+    window.__mat.grid.render();
+    const mine = figure();
+    setPerPerson(null);
+    window.__mat.state.perPerson = false;
+    window.__mat.grid.render();
+    return { world, mine, back: figure() };
+  });
+  const num = (t) => parseFloat(t);
+  check(
+    'per-person mode divides the figures',
+    perPerson.world !== perPerson.mine && perPerson.back === perPerson.world && num(perPerson.mine) > 0,
+    `${perPerson.world} -> ${perPerson.mine}`
+  );
+
+  // Filtering by producing country, from the producers data.
+  await page.select('#country', 'Chile');
+  await sleep(350);
+  const chile = await page.evaluate(() => ({
+    names: [...document.querySelectorAll('#grid .card:not(.is-hidden)')].map((c) => c.querySelector('.card-name').textContent),
+    hash: location.hash,
+    note: document.querySelector('#grid .card:not(.is-hidden) .card-class')?.textContent || '',
+  }));
+  check('filtering by country works', chile.names.includes('Copper') && chile.names.length < 20, `${chile.names.length}: ${chile.names.slice(0, 4).join(', ')}`);
+  // Silently changing every number on the page is not acceptable: say what is filtered.
+  const banner = await page.evaluate(() => {
+    const a = document.getElementById('active');
+    return { shown: !a.hidden, text: a.textContent, clears: a.querySelectorAll('[data-clear]').length };
+  });
+  check('an active filter is announced with a way out', banner.shown && /Chile/.test(banner.text) && banner.clears >= 1, banner.text.trim());
+  check('the country filter is shareable', chile.hash.includes('from=Chile'), chile.hash);
+  check('cards say the country share', /% from Chile/.test(chile.note), chile.note);
+  await page.select('#country', '');
+  await sleep(250);
+
+  // Per-person mode must announce itself too.
+  const personBanner = await page.evaluate(async () => {
+    window.__mat.state.perPerson = true;
+    window.__mat.grid.render();
+    await new Promise((r) => setTimeout(r, 100));
+    const t = document.getElementById('active').textContent;
+    window.__mat.state.perPerson = false;
+    window.__mat.grid.render();
+    return t;
+  });
+  check('per-person mode says so on the page', /showing\s*my share/i.test(personBanner), personBanner.trim());
+  // The bucket strip must not keep saying billions while the cards say kilograms.
+  const totalsFollow = await page.evaluate(async () => {
+    const label = () => document.querySelector('.totals-label').textContent;
+    const world = label();
+    window.__mat.state.perPerson = true;
+    window.__mat.grid.render();
+    await new Promise((r) => setTimeout(r, 100));
+    const mine = label();
+    window.__mat.state.perPerson = false;
+    window.__mat.grid.render();
+    return { world, mine };
+  });
+  check(
+    'the bucket strip follows per-person mode',
+    /billions/i.test(totalsFollow.world) && /each/i.test(totalsFollow.mine),
+    `${totalsFollow.world} -> ${totalsFollow.mine}`
+  );
+
+  // Icons: sparing now, only on the nine class buckets.
+  const iconUse = await page.evaluate(() => ({
+    cards: [...document.querySelectorAll('#grid .card-class')].filter((e) => /\p{Extended_Pictographic}/u.test(e.textContent)).length,
+    headings: [...document.querySelectorAll('#detail h3')].filter((e) => /\p{Extended_Pictographic}/u.test(e.textContent)).length,
+    totals: [...document.querySelectorAll('#totals button')].filter((e) => /\p{Extended_Pictographic}/u.test(e.textContent)).length,
+  }));
+  check(
+    'icons are used sparingly',
+    iconUse.cards === 0 && iconUse.headings === 0 && iconUse.totals >= 5,
+    `cards ${iconUse.cards}, headings ${iconUse.headings}, buckets ${iconUse.totals}`
+  );
+
+  // The top bar is three icon buttons, and one of them is the theme.
+  const bar = await page.evaluate(() => ({
+    buttons: [...document.querySelectorAll('#nav .icon-btn')].map((b) => b.id),
+    svg: document.querySelectorAll('#nav .icon-btn svg').length,
+    heroSource: !!document.getElementById('counter-source'),
+    provenance: (document.getElementById('provenance')?.textContent || '').length,
+  }));
+  check('the top bar is icon buttons', bar.buttons.length === 3 && bar.svg === 3, bar.buttons.join(', '));
+  check('theme lives outside settings too', bar.buttons.includes('theme-toggle'));
+  check('the long source line is out of the hero', !bar.heroSource && bar.provenance > 100, `about: ${bar.provenance} chars`);
+
+  // Compare tray.
+  const compared = await page.evaluate(async () => {
+    window.__mat.state.compare = ['steel', 'aluminium', 'carbon-fiber'];
+    window.__mat.grid.renderCompare();
+    await new Promise((r) => setTimeout(r, 150));
+    const tray = document.getElementById('compare');
+    return {
+      visible: !tray.hidden,
+      cols: tray.querySelectorAll('thead th').length,
+      rows: tray.querySelectorAll('tbody tr').length,
+      first: tray.querySelector('tbody tr')?.textContent.replace(/\s+/g, ' ').trim(),
+    };
+  });
+  check('the compare tray shows materials side by side', compared.visible && compared.cols === 4 && compared.rows >= 4, `${compared.cols - 1} materials, ${compared.rows} rows`);
+  await page.evaluate(() => {
+    window.__mat.state.compare = [];
+    window.__mat.grid.renderCompare();
+  });
+
+  // Shuffle opens something, anything.
+  const shuffled = await page.evaluate(() => {
+    const seen = new Set();
+    for (let i = 0; i < 12; i++) {
+      window.__mat.grid.shuffle();
+      seen.add(window.__mat.state.detail);
+    }
+    return seen.size;
+  });
+  check('shuffle picks different materials', shuffled > 3, `${shuffled} distinct in 12 tries`);
+  await page.evaluate(() => {
+    window.__mat.detail.close();
+    window.__mat.state.detail = null;
+    location.hash = '';
+  });
+  await sleep(250);
+
+  // Carbon dioxide: the thing we make most of without meaning to.
+  const co2 = await page.evaluate(() => {
+    const m = window.__mat.app.byId.get('carbon-dioxide');
+    return {
+      exists: !!m,
+      kind: m?.quantities.annualProduction.kind,
+      accidental: m?.quantities.annualProduction.value,
+      onPurpose: m?.quantities.deliberate?.value,
+      inTotal: !!m?.excludedFromTotal,
+    };
+  });
+  check('carbon dioxide is a material here', co2.exists && co2.kind === 'byproduct', `kind=${co2.kind}`);
+  const verb = await page.evaluate(async () => {
+    location.hash = 'm=carbon-dioxide';
+    await new Promise((r) => setTimeout(r, 400));
+    return document.querySelector('#detail .counter-label')?.textContent || '';
+  });
+  check('a byproduct is released, not taken or made', /released/.test(verb), verb.trim());
+  // Close it again: an open specimen legitimately draws, and the GPU check below expects
+  // an idle canvas.
+  await page.evaluate(() => {
+    window.__mat.detail.close();
+    window.__mat.state.detail = null;
+    location.hash = '';
+  });
+  await sleep(300);
+  check(
+    'both kinds of it are recorded',
+    co2.accidental > 4e10 && co2.onPurpose > 1e8 && co2.accidental / co2.onPurpose > 100,
+    `${(co2.accidental / 1e9).toFixed(0)} Gt by accident vs ${(co2.onPurpose / 1e6).toFixed(0)} Mt on purpose`
+  );
 
   // Mod: no em dashes anywhere the reader can see.
   const dashes = await page.evaluate(() => {
@@ -282,7 +561,63 @@ try {
     headings: [...document.querySelectorAll('#detail h3')].map((h) => h.textContent),
   }));
   check('detail shows good and bad points', points.good >= 2 && points.bad >= 2, `${points.good} good, ${points.bad} bad`);
+
+  // Rich detail, on every record rather than a lucky few.
+  const rich = await page.evaluate(() => {
+    const thin = window.__mat.app.materials.filter(
+      (m) => !m.usedFor?.length || !m.pros?.length || !m.cons?.length || m.facts.length < 2
+    );
+    return { total: window.__mat.app.materials.length, thin: thin.slice(0, 4).map((m) => m.id), count: thin.length };
+  });
+  check('every material has uses, both sides and 2+ facts', rich.count === 0, `${rich.count} thin of ${rich.total}: ${rich.thin.join(', ')}`);
+
+  const panel = await page.evaluate(() => ({
+    uses: document.querySelectorAll('#detail .uses li').length,
+    glosses: [...document.querySelectorAll('#detail .gloss')].map((g) => g.textContent.trim()),
+  }));
+  check('the panel lists what it is for', panel.uses >= 3, `${panel.uses} uses`);
+
+  // Headings can carry a leading glyph, so compare the words rather than the raw text.
+  const sections = await page.evaluate(() =>
+    [...document.querySelectorAll('#detail h3')].map((h) => h.textContent.replace(/^[^A-Za-z]+/, '').trim())
+  );
+  for (const want of ['That is like', 'How long it lasts', 'Where it comes from', 'What it costs the air']) {
+    check(`the panel has a "${want}" section`, sections.includes(want), sections.join(' / '));
+  }
+  // Regression: the heading rule was written as `.detail h3` against an id="detail" panel,
+  // so every heading in here rendered as an unstyled browser default.
+  const headingStyle = await page.evaluate(() => {
+    const cs = getComputedStyle(document.querySelector('#detail h3'));
+    return { transform: cs.textTransform, tracking: cs.letterSpacing, size: parseFloat(cs.fontSize) };
+  });
+  check(
+    'panel headings are actually styled',
+    headingStyle.transform === 'uppercase' && headingStyle.tracking !== 'normal' && headingStyle.size < 14,
+    JSON.stringify(headingStyle)
+  );
+  check(
+    'heaviness and strength are explained in plain words',
+    panel.glosses.some((g) => /litre carton/.test(g)) && panel.glosses.some((g) => /could hang/.test(g)),
+    panel.glosses.join(' | ').slice(0, 90)
+  );
   check('the panel has em-dash-free headings', !points.headings.join('').includes('\u2014'), points.headings.join(' / '));
+
+  // Icons are decorative and switchable, so the words must survive without them.
+  const noIcons = await page.evaluate(async () => {
+    window.__mat.state.icons = false;
+    window.__mat.detail.rerender();
+    await new Promise((r) => setTimeout(r, 200));
+    const heads = [...document.querySelectorAll('#detail h3')].map((h) => h.textContent.trim());
+    const glyphs = document.querySelectorAll('#detail h3 i').length;
+    window.__mat.state.icons = true;
+    window.__mat.detail.rerender();
+    return { heads, glyphs };
+  });
+  check(
+    'icons can be switched off and the words remain',
+    noIcons.glyphs === 0 && noIcons.heads.includes('Did you know'),
+    `${noIcons.glyphs} glyphs, ${noIcons.heads.length} headings`
+  );
 
   await page.keyboard.press('Escape');
   await sleep(200);
@@ -295,7 +630,7 @@ try {
   // calm mode. Escape restored focus to the search box (correct dialog behaviour),
   // so blur it first — 'c' is a page shortcut, not a shortcut while typing.
   await page.evaluate(() => document.activeElement?.blur?.());
-  await page.keyboard.press('c');
+  await page.keyboard.press('c'); // motion now lives in settings, the shortcut still works
   await sleep(900);
   const calm = await page.evaluate(() => ({
     on: document.body.classList.contains('calm'),
@@ -304,7 +639,7 @@ try {
   }));
   await sleep(900);
   const calmAfter = await page.$eval('#counter-kg', (el) => el.textContent);
-  check('calm mode engages and persists', calm.on && /"calm":true/.test(calm.stored || ''));
+  check('pausing engages and persists', calm.on && /"calm":true/.test(calm.stored || ''));
   check('calm mode freezes the counter', calm.kg === calmAfter, `${calm.kg} → ${calmAfter}`);
 
   // Regression: an in-page anchor must not reset the filters (state hashes contain '=').

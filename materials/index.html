@@ -6,13 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MATERIALS, everything the world is made of</title>
   <meta name="description" content="What the ground is made of, what we have built, and what is being dug up right now. Real numbers, real sources." />
+  <link rel="canonical" href="https://layogtima.com/materials/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="MATERIALS" />
+  <meta property="og:title" content="MATERIALS" />
+  <meta property="og:description" content="Everything the world is made of, biggest first. 179 materials, real numbers, every one sourced." />
+  <meta property="og:url" content="https://layogtima.com/materials/" />
+  <meta property="og:image" content="https://layogtima.com/materials/share.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="MATERIALS: a live count of everything dug up and made on Earth." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MATERIALS" />
+  <meta name="twitter:description" content="Everything the world is made of, biggest first. 179 materials, real numbers, every one sourced." />
+  <meta name="twitter:image" content="https://layogtima.com/materials/share.png" />
+
   <meta name="theme-color" content="#0b0c0e" media="(prefers-color-scheme: dark)" />
   <meta name="theme-color" content="#eeeeec" media="(prefers-color-scheme: light)" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0c0e'/%3E%3Ccircle cx='16' cy='16' r='9' fill='%23f2f2f0'/%3E%3C/svg%3E" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="preload" href="./vendor/fonts/space-mono-400.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="./style.css?v=8" />
 
   <script>
@@ -32,8 +45,8 @@
   <script type="importmap">
     {
       "imports": {
-        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
-        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+        "three": "./vendor/three/three.module.js",
+        "three/addons/": "./vendor/three/addons/"
       }
     }
   </script>
@@ -47,8 +60,12 @@
     <a class="wordmark" href="#" aria-label="MATERIALS, back to top">MATERIALS</a>
     <div class="nav-right">
       <span class="nav-total" id="nav-total" aria-hidden="true"></span>
-      <button id="theme-toggle" type="button" title="Switch between light and dark (t)">LIGHT</button>
-      <button id="calm-toggle" type="button" aria-pressed="false" title="Stop the counter and the motion (c)">PAUSE</button>
+      <button id="shuffle" class="icon-btn" type="button" title="Open a material at random (r)"
+        aria-label="Open a material at random"></button>
+      <button id="theme-toggle" class="icon-btn" type="button" title="Light or dark (t)"
+        aria-label="Switch between light and dark"></button>
+      <button id="settings-toggle" class="icon-btn" type="button" aria-expanded="false"
+        aria-controls="settings" title="Settings (s)" aria-label="Settings"></button>
     </div>
   </nav>
 
@@ -62,6 +79,7 @@
           <div class="counter-label">Dug up since you got here</div>
           <div class="counter-value"><span id="counter-kg">0</span><span class="counter-unit">kg</span></div>
           <div class="counter-rate" id="counter-rate"></div>
+          <div class="counter-carbon" id="counter-carbon"></div>
           <div class="counter-source" id="counter-source"></div>
         </div>
 
@@ -83,11 +101,19 @@
           <span class="sr-only">Sort</span>
           <select id="sort"></select>
         </label>
+        <label class="sort">
+          <span class="sr-only">Made in</span>
+          <select id="country"></select>
+        </label>
         <div class="classes" id="classes" role="group" aria-label="Filter by kind"></div>
       </div>
     </section>
 
+    <div id="active" role="status" hidden></div>
+    <div id="totals" aria-label="Yearly tonnage by kind"></div>
+
     <ol id="grid" tabindex="-1"></ol>
+    <aside id="compare" aria-label="Materials side by side" hidden></aside>
     <p class="grid-note" id="grid-note" hidden></p>
     <p class="empty" id="empty" hidden><span>Nothing found.</span> <button type="button" id="reset">Show all</button></p>
 
@@ -98,6 +124,7 @@
         say how much is still standing, or how much of all rock they are.
       </p>
       <p class="lead">Every number here has a source. Tap a material to see it.</p>
+      <p class="lead" id="provenance"></p>
       <blockquote>We shape our materials, and thereafter our materials shape us.</blockquote>
       <details>
         <summary>Where the numbers come from</summary>
@@ -113,6 +140,9 @@
     <div>Built with <a href="https://mono.layogtima.com/">MONO</a></div>
     <div><span class="copyleft">©</span> Copyleft 2026. <a href="https://github.com/layogtima/self">Share, Adapt, Build</a></div>
   </footer>
+
+  <div id="settings-scrim" hidden></div>
+  <div id="settings" role="dialog" aria-modal="true" aria-labelledby="settings-title" hidden></div>
 
   <div id="detail-scrim" hidden></div>
   <div id="detail" role="dialog" aria-modal="true" aria-labelledby="detail-name" hidden></div>

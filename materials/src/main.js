@@ -1,12 +1,15 @@
-// MATERIALS — wiring only.
+// MATERIALS, wiring only.
 
 import { loadData } from './data.js';
+import { setPerPerson } from './format.js';
+import { ICONS } from './ui/icons.js';
 import { esc } from './format.js';
 import { initState, state, set, subscribe } from './state.js';
 import { mountGrid } from './ui/grid.js';
 import { mountDetail } from './ui/detail.js';
 import { mountHero } from './ui/hero.js';
 import { mountKeys } from './ui/keys.js';
+import { mountSettings } from './ui/settings.js';
 import { setPaused } from './ticker.js';
 
 let app;
@@ -44,6 +47,16 @@ const detail = mountDetail(app, {
 const updateHero = mountHero(app);
 gl?.addHero(app.materials, document.getElementById('hero-specimens'), (id) => set({ detail: id }));
 
+// The two headline figures, explained where there is room to explain them.
+{
+  const { extraction, emissions, materialsShare, trackedShare } = app.global;
+  document.getElementById('provenance').textContent =
+    `The counter runs on ${extraction.value / 1e9} billion tonnes of material a year (UNEP ${extraction.year}); ` +
+    `the ${app.materials.length} below cover ${(trackedShare * 100).toFixed(0)}% of it. The carbon line runs on ` +
+    `${emissions.value / 1e9} billion tonnes of CO2 a year (Global Carbon Project ${emissions.year}), of which about ` +
+    `${Math.round(materialsShare.value * 100)}% comes from getting materials and making things out of them.`;
+}
+
 // sources list in the About section
 document.getElementById('source-list').innerHTML = Object.values(app.sources)
   .sort((a, b) => a.publisher.localeCompare(b.publisher))
@@ -57,7 +70,6 @@ if (app.warnings.length) {
 }
 
 // theme: follow the OS until the reader picks a side, then remember the choice
-const themeBtn = document.getElementById('theme-toggle');
 const prefersLight = window.matchMedia?.('(prefers-color-scheme: light)');
 
 function resolvedTheme() {
@@ -65,43 +77,68 @@ function resolvedTheme() {
   return prefersLight?.matches ? 'light' : 'dark';
 }
 
+const themeBtn = document.getElementById('theme-toggle');
+document.getElementById('shuffle').innerHTML = ICONS.shuffle;
+document.getElementById('settings-toggle').innerHTML = ICONS.settings;
+themeBtn.addEventListener('click', () => set({ theme: resolvedTheme() === 'dark' ? 'light' : 'dark' }));
+
 function applyTheme() {
   const theme = resolvedTheme();
   document.documentElement.dataset.theme = theme;
   // Tells the browser which scrollbars and form controls to draw.
   document.documentElement.style.colorScheme = theme;
-  const next = theme === 'dark' ? 'light' : 'dark';
-  themeBtn.textContent = next.toUpperCase();
-  themeBtn.setAttribute('aria-label', `Switch to ${next} mode`);
+  // Show the thing you would get by pressing it.
+  themeBtn.innerHTML = theme === 'dark' ? ICONS.sun : ICONS.moon;
+  themeBtn.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`);
 }
-themeBtn.addEventListener('click', () => set({ theme: resolvedTheme() === 'dark' ? 'light' : 'dark' }));
 
-// calm mode
-const calmBtn = document.getElementById('calm-toggle');
 function applyCalm() {
   document.body.classList.toggle('calm', state.calm);
-  calmBtn.setAttribute('aria-pressed', String(state.calm));
-  calmBtn.textContent = state.calm ? 'PLAY' : 'PAUSE';
   setPaused(state.calm);
   gl?.setCalm(state.calm);
 }
-calmBtn.addEventListener('click', () => set({ calm: !state.calm }));
+
+function applyIcons() {
+  document.body.classList.toggle('no-icons', !state.icons);
+}
+
+function applyPerPerson() {
+  setPerPerson(state.perPerson ? app.population.value : null);
+  document.body.classList.toggle('per-person', state.perPerson);
+}
+
+const settings = mountSettings(app);
+
+document.getElementById('shuffle').addEventListener('click', () => grid.shuffle());
 
 mountKeys({
   grid,
   detail,
   toggleCalm: () => set({ calm: !state.calm }),
   toggleTheme: () => set({ theme: resolvedTheme() === 'dark' ? 'light' : 'dark' }),
+  toggleSettings: () => settings.toggle(),
+  shuffle: () => grid.shuffle(),
 });
 
 subscribe((_s, changed) => {
-  if (changed.some((c) => ['q', 'sort', 'classes'].includes(c))) grid.render();
+  if (changed.includes('perPerson')) applyPerPerson();
+  if (changed.includes('icons')) applyIcons();
+  if (changed.some((c) => ['q', 'sort', 'classes', 'country', 'perPerson', 'icons'].includes(c))) grid.render();
+  if (changed.includes('compare')) grid.renderCompare();
   if (changed.includes('detail')) detail.sync();
   if (changed.includes('calm')) applyCalm();
   if (changed.includes('theme')) applyTheme();
+  // Section choices change what the open panel should be showing.
+  if (changed.some((c) => ['level', 'sections', 'perPerson', 'scaleObject', 'icons'].includes(c))) {
+    detail.rerender();
+  }
+  settings.render();
 });
 
+applyPerPerson();
+applyIcons();
 grid.render();
+grid.renderCompare();
 detail.sync();
 applyCalm();
 applyTheme();
@@ -117,4 +154,4 @@ tick();
 updateHero();
 
 // exposed for the smoke test
-window.__mat = { app, state, gl, thumbs, grid, detail };
+window.__mat = { app, state, gl, thumbs, grid, detail, settings };

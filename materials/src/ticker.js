@@ -1,4 +1,4 @@
-// The live counter. One monotonic clock, read on demand — no setInterval accumulator.
+// The live counter. One monotonic clock, read on demand, no setInterval accumulator.
 
 let origin = performance.now();
 let frozenAt = null;

@@ -1,5 +1,4 @@
-// Procedural specimens. Every chunk of every material is generated here at load time —
-// no textures are downloaded, no models are fetched.
+// Procedural specimens. Every chunk of every material is generated here at load time. // no textures are downloaded, no models are fetched.
 
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';

@@ -1,8 +1,8 @@
-// Keyboard: / search, j/k navigate, Enter open, Esc close, c pause, t theme.
+// Keyboard: / search, j/k navigate, Enter open, Esc close, c pause, t theme, s settings, r shuffle.
 
 import { state, set } from '../state.js';
 
-export function mountKeys({ grid, detail, toggleCalm, toggleTheme }) {
+export function mountKeys({ grid, detail, toggleCalm, toggleTheme, toggleSettings, shuffle }) {
   const search = document.getElementById('search');
 
   document.addEventListener('keydown', (e) => {
@@ -40,6 +40,12 @@ export function mountKeys({ grid, detail, toggleCalm, toggleTheme }) {
     } else if (e.key === 't') {
       e.preventDefault();
       toggleTheme();
+    } else if (e.key === 's') {
+      e.preventDefault();
+      toggleSettings();
+    } else if (e.key === 'r') {
+      e.preventDefault();
+      shuffle();
     }
   });
 }

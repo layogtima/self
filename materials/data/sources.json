@@ -146,5 +146,41 @@
     "year": 2021,
     "url": "https://www.fao.org/aquastat/",
     "licence": "CC BY-NC-SA 3.0 IGO"
+  },
+  "ice-db": {
+    "title": "Inventory of Carbon and Energy (ICE) v3.0",
+    "publisher": "Circular Ecology",
+    "year": 2019,
+    "url": "https://circularecology.com/embodied-carbon-footprint-database.html",
+    "licence": "Cited with attribution",
+    "caveat": "Cradle-to-gate embodied carbon. Figures vary widely by process and grid, so treat them as the right order of magnitude rather than a precise value."
+  },
+  "iai2023": {
+    "title": "Global aluminium life cycle inventory",
+    "publisher": "International Aluminium Institute",
+    "year": 2023,
+    "url": "https://international-aluminium.org/statistics/",
+    "licence": "Cited with attribution"
+  },
+  "poore2018": {
+    "title": "Reducing food's environmental impacts through producers and consumers",
+    "publisher": "Poore and Nemecek, Science 360",
+    "year": 2018,
+    "url": "https://doi.org/10.1126/science.aaq0216",
+    "licence": "Cited with attribution"
+  },
+  "gcb2024": {
+    "title": "Global Carbon Budget 2024",
+    "publisher": "Global Carbon Project",
+    "year": 2024,
+    "url": "https://doi.org/10.5194/essd-17-965-2025",
+    "licence": "CC BY 4.0"
+  },
+  "unwpp2024": {
+    "title": "World Population Prospects 2024",
+    "publisher": "UN Population Division",
+    "year": 2024,
+    "url": "https://population.un.org/wpp/",
+    "licence": "CC BY 3.0 IGO"
   }
 }

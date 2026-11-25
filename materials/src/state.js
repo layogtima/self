@@ -1,7 +1,21 @@
 // App state, mirrored into the URL hash so every view is linkable, plus a little localStorage.
 
 const KEY = 'material.prefs';
-const DEFAULTS = { q: '', sort: 'made', classes: [], detail: null, calm: false, theme: 'auto' };
+const DEFAULTS = {
+  q: '',
+  sort: 'made',
+  classes: [],
+  country: '',
+  detail: null,
+  compare: [],
+  calm: false,
+  theme: 'auto',
+  level: 4,
+  sections: null,
+  icons: true,
+  perPerson: false,
+  scaleObject: 'auto',
+};
 
 const listeners = new Set();
 export const state = { ...DEFAULTS };
@@ -53,10 +67,12 @@ function parseHash() {
   if (!raw) return out;
   const params = new URLSearchParams(raw);
   if (params.has('q')) out.q = params.get('q');
-  // Array membership, not `in` — `#sort=constructor` would otherwise pass validation.
+  // Array membership, not `in`. `#sort=constructor` would otherwise pass validation.
   if (VALID_SORTS.includes(params.get('sort'))) out.sort = params.get('sort');
   else if (Object.hasOwn(RETIRED_VIEWS, params.get('view') ?? '')) out.sort = RETIRED_VIEWS[params.get('view')];
   if (params.has('class')) out.classes = params.get('class').split(',').filter(Boolean);
+  if (params.has('from')) out.country = params.get('from');
+  if (params.has('vs')) out.compare = params.get('vs').split(',').filter(Boolean).slice(0, 4);
   out.detail = params.get('m') || null;
   return out;
 }
@@ -66,6 +82,8 @@ function writeHash() {
   if (state.q) params.set('q', state.q);
   if (state.sort !== DEFAULTS.sort) params.set('sort', state.sort);
   if (state.classes.length) params.set('class', state.classes.join(','));
+  if (state.country) params.set('from', state.country);
+  if (state.compare.length) params.set('vs', state.compare.join(','));
   if (state.detail) params.set('m', state.detail);
   const hash = params.toString();
   const next = hash ? `#${hash}` : location.pathname + location.search;
@@ -74,9 +92,10 @@ function writeHash() {
 
 function savePrefs() {
   try {
-    localStorage.setItem(KEY, JSON.stringify({ calm: state.calm, sort: state.sort, theme: state.theme }));
+    const { calm, sort, theme, level, sections, icons, perPerson, scaleObject } = state;
+    localStorage.setItem(KEY, JSON.stringify({ calm, sort, theme, level, sections, icons, perPerson, scaleObject }));
   } catch {
-    /* private mode, storage full — preferences just don't persist */
+    /* private mode, storage full, preferences just don't persist */
   }
 }
 
@@ -97,6 +116,12 @@ export function initState() {
     sort: VALID_SORTS.includes(prefs.sort) ? prefs.sort : DEFAULTS.sort,
     // 'auto' means keep following the OS. It only stops on an explicit choice.
     theme: ['light', 'dark'].includes(prefs.theme) ? prefs.theme : 'auto',
+    // `sections` null means "follow the slider"; an array means the reader picked their own.
+    level: Number.isInteger(prefs.level) && prefs.level >= 0 && prefs.level <= 4 ? prefs.level : DEFAULTS.level,
+    sections: Array.isArray(prefs.sections) ? prefs.sections : null,
+    icons: typeof prefs.icons === 'boolean' ? prefs.icons : DEFAULTS.icons,
+    perPerson: typeof prefs.perPerson === 'boolean' ? prefs.perPerson : DEFAULTS.perPerson,
+    scaleObject: typeof prefs.scaleObject === 'string' ? prefs.scaleObject : DEFAULTS.scaleObject,
   }, isStateHash() ? parseHash() : {});
 
   // Keep matching the OS while the reader has not picked a side.
@@ -111,7 +136,9 @@ export function initState() {
     applying = true;
     const from = parseHash();
     const changed = [];
-    for (const [k, v] of Object.entries({ ...DEFAULTS, ...from, calm: state.calm, theme: state.theme })) {
+    const { calm, theme, level, sections, icons, perPerson, scaleObject, compare } = state;
+    const keep = { calm, theme, level, sections, icons, perPerson, scaleObject, compare };
+    for (const [k, v] of Object.entries({ ...DEFAULTS, ...from, ...keep })) {
       if (JSON.stringify(state[k]) === JSON.stringify(v)) continue;
       state[k] = v;
       changed.push(k);

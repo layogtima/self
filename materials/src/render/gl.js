@@ -1,7 +1,6 @@
 // Live 3D, kept deliberately small: the hero cloud and the open detail specimen, nothing
 // else. Both are single objects in a shared scene drawn into a scissor rect over their DOM
-// slot, so they track scrolling exactly. When neither is on screen the loop draws nothing —
-// browsing the grid costs no GPU at all.
+// slot, so they track scrolling exactly. When neither is on screen the loop draws nothing. // browsing the grid costs no GPU at all.
 
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
@@ -81,7 +80,7 @@ export function createRenderer() {
     camera.position.set(0, 0, 14);
     const group = new THREE.Group();
 
-    // Curated for texture and colour variety — a shop window, not a sample of the list.
+    // Curated for texture and colour variety, a shop window, not a sample of the list.
     const WANTED = [
       'gold', 'concrete', 'roundwood', 'copper', 'glass', 'coal', 'iron-ore', 'cotton',
       'steel', 'sulfur', 'brick', 'silicon', 'natural-rubber', 'bauxite', 'fluorspar', 'graphite',

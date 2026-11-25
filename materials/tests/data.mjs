@@ -12,10 +12,10 @@ const scales = read('data/scales.json');
 
 const CLASSES = new Set(['element', 'mineral', 'alloy', 'polymer', 'ceramic', 'composite', 'biomass', 'engineered', 'fossil']);
 const RECIPES = new Set(['metal', 'glass', 'stone', 'ceramic', 'wood', 'paper', 'polymer', 'rubber', 'carbon', 'fibre', 'crystal', 'semiconductor', 'gas', 'liquid']);
-const QUANTITY_UNITS = { crustalAbundance: 'ppm', anthropogenicStock: 't', annualProduction: 't/yr', reserves: 't' };
+const QUANTITY_UNITS = { crustalAbundance: 'ppm', anthropogenicStock: 't', annualProduction: 't/yr', reserves: 't', deliberate: 't/yr' };
 // `withdrawal` is deliberately not `extraction`: it keeps water out of the solids total
 // even in a build that has never heard of it.
-const KINDS = new Set(['extraction', 'manufacture', 'withdrawal']);
+const KINDS = new Set(['extraction', 'manufacture', 'withdrawal', 'byproduct']);
 
 const errors = [];
 const fail = (msg) => errors.push(msg);
@@ -51,8 +51,39 @@ for (const m of materials) {
   if (!q.crustalAbundance && !q.anthropogenicStock && !q.annualProduction) fail(`${at}: has no quantity in any of the three views`);
 
   for (const [key, val] of Object.entries(m.properties || {})) checkQ(`${at}.properties.${key}`, val);
-  if (!Array.isArray(m.facts) || m.facts.length === 0) fail(`${at}: needs at least one fact`);
-  for (const key of ['pros', 'cons']) {
+
+  if (m.co2PerKg) {
+    checkQ(`${at}.co2PerKg`, m.co2PerKg, 'kgCO2e/kg');
+    if (m.co2PerKg.value > 1e5) fail(`${at}.co2PerKg: ${m.co2PerKg.value} kg per kg is implausible`);
+  }
+  if (m.recyclingRate) {
+    checkQ(`${at}.recyclingRate`, m.recyclingRate, 'fraction');
+    if (m.recyclingRate.value > 1) fail(`${at}.recyclingRate: ${m.recyclingRate.value} is over 100%`);
+  }
+  if (m.producers) {
+    if (!sources[m.producers.source_id]) fail(`${at}.producers: unknown source_id`);
+    const total = (m.producers.top || []).reduce((sum, t) => sum + t.share, 0);
+    if (!m.producers.top?.length) fail(`${at}.producers: needs at least one country`);
+    for (const t of m.producers.top || []) {
+      if (!t.country) fail(`${at}.producers: a row has no country`);
+      if (!(t.share > 0 && t.share <= 1)) fail(`${at}.producers: ${t.country} share ${t.share} must be a fraction of 1`);
+    }
+    // Top three cannot exceed the whole world.
+    if (total > 1.001) fail(`${at}.producers: shares add to ${(total * 100).toFixed(0)}%, over 100%`);
+  }
+  // Reserves that run out implausibly fast or slow usually mean a unit slip.
+  const res = m.quantities?.reserves;
+  const prod = m.quantities?.annualProduction;
+  if (res && prod) {
+    const years = res.value / prod.value;
+    if (years < 3) fail(`${at}: reserves last only ${years.toFixed(1)} years, which suggests a unit mismatch`);
+    if (years > 5000) fail(`${at}: reserves last ${Math.round(years)} years, which suggests a unit mismatch`);
+  }
+  // Richness floor: every material earns its detail panel.
+  if (!Array.isArray(m.facts) || m.facts.length < 2) fail(`${at}: needs at least two facts`);
+  if (!m.usedFor?.length) fail(`${at}: needs usedFor, what the material is actually for`);
+  if (!m.pros?.length || !m.cons?.length) fail(`${at}: needs both pros and cons`);
+  for (const key of ['pros', 'cons', 'usedFor']) {
     if (m[key] !== undefined && (!Array.isArray(m[key]) || m[key].some((x) => typeof x !== 'string' || !x))) {
       fail(`${at}.${key}: must be an array of non-empty strings`);
     }
