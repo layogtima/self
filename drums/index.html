@@ -179,6 +179,33 @@
         [data-act="rec"][aria-pressed="true"] { animation: recblink 1s steps(1) infinite; }
         body.beat [data-act="rec"][aria-pressed="true"] { box-shadow: 0 0 0 3px #fff; }
 
+        [data-act="midi"] svg { opacity: .4; transition: opacity .2s; }
+        [data-act="midi"].live svg { opacity: 1; }
+        [data-act="midi"].denied svg { opacity: .15; }
+        [data-act="midi"].blink { background: #fff; color: var(--ink); }
+
+        #wake {
+            position: fixed;
+            z-index: 40;
+            left: 50%;
+            top: 50%;
+            width: 112px;
+            height: 112px;
+            margin: -56px 0 0 -56px;
+            border: 0;
+            background: var(--ink);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            animation: wake 1.1s ease-in-out infinite;
+        }
+
+        #wake svg { width: 48px; height: 48px; }
+
+        @keyframes wake {
+            50% { transform: scale(1.08); box-shadow: 0 0 0 10px #0a0a0a22; }
+        }
+
         @keyframes recblink {
             50% { background: var(--ink); color: #fff; }
         }
@@ -341,8 +368,12 @@
         <button class="mb" data-act="play" aria-label="Play" aria-pressed="false"></button>
         <button class="mb" data-act="rec" aria-label="Record" aria-pressed="false"></button>
         <button class="mb" data-act="sheet" aria-label="Pattern" aria-pressed="false"></button>
+        <button class="mb" data-act="midi" aria-label="MIDI" hidden></button>
         <button class="mb" data-act="fs" aria-label="Fullscreen" hidden></button>
     </div>
+
+    <!-- shown only when MIDI notes arrive but the browser still has audio asleep -->
+    <button id="wake" aria-label="Sound on" hidden></button>
 
     <!-- Sequencer -->
     <section id="sheet" aria-label="Pattern" aria-hidden="true">
@@ -578,6 +609,29 @@
                 openHats.add(h);
                 src.onended = () => openHats.delete(h);
             }
+            if (CYMBALS.has(voice)) {
+                const set = ringing[VOICE_PIECE[voice]];
+                const h = { src, g };
+                set.add(h);
+                src.onended = () => set.delete(h);
+            }
+        }
+
+        // cymbals that are still ringing, so a grab (MIDI aftertouch) can choke them
+        const CYMBALS = new Set(['crashL', 'crashR', 'ride', 'rideBell']);
+        const ringing = { crashL: new Set(), crashR: new Set(), ride: new Set() };
+        function choke(id) {
+            if (!ac) return;
+            const t = ac.currentTime;
+            for (const h of ringing[id]) {
+                h.g.gain.cancelScheduledValues(t);
+                h.g.gain.setTargetAtTime(0, t, 0.03);
+                try { h.src.stop(t + 0.25); } catch (e) {}
+            }
+            ringing[id].clear();
+            const p = P[id];
+            p.amp = 0;
+            dirty = true;
         }
 
         function click(t, accent) {
@@ -1179,31 +1233,118 @@
             dirty = true;
         }
 
-        function strike(p, vel, x, y, bell) {
+        // one path for touch, keys and MIDI: sound, motion, grid flash, recording
+        function hitVoice(voice, vel, x, y) {
             everHit = true;
-            if (p.kind === 'hatpedal') { hatHold(+1); return; }
-            if (p.kind === 'pedal') { p.hit = 1; p = P.kick; x = undefined; y = undefined; }
-            let voice = p.voice;
-            if (p.kind === 'hat') voice = hatHeld > 0 ? 'hatO' : 'hatC';
-            if (p.bell && bell) voice = 'rideBell';
             play(voice, vel);
+            if (voice === 'hatPedal') {
+                P.hatPedal.hit = 1;
+                const h = P.hat; h.hitT = T; h.amp = 0.35;
+                dirty = true;
+                return;
+            }
+            const p = P[VOICE_PIECE[voice]];
+            if (voice === 'kick') P.kickPedal.hit = 1;
+            if (voice === 'hatO' && !hatHeld) p.flashOpen = 1;
             animate(p, vel, x, y);
             flashRow(voice === 'rideBell' ? 'ride' : voice);
             recordHit(voice);
         }
 
+        function strike(p, vel, x, y, bell) {
+            if (p.kind === 'hatpedal') { everHit = true; hatHold(+1); return; }
+            if (p.kind === 'pedal') { hitVoice('kick', vel); return; }
+            let voice = p.voice;
+            if (p.kind === 'hat') voice = hatHeld > 0 ? 'hatO' : 'hatC';
+            if (p.bell && bell) voice = 'rideBell';
+            hitVoice(voice, vel, x, y);
+        }
+
         function hatHold(d) {
             const was = hatHeld > 0;
             hatHeld = Math.max(0, hatHeld + d);
-            const now = hatHeld > 0;
-            if (was && !now) {
-                // foot comes down: chick
-                play('hatPedal', 0.8);
-                P.hatPedal.hit = 1;
-                const h = P.hat; h.hitT = T; h.amp = 0.35;
-            }
+            if (was && hatHeld === 0) hitVoice('hatPedal', 0.8); // foot comes down: chick
             dirty = true;
         }
+
+        // ── MIDI in: GM drum map + Roland/Yamaha e-kit extras ──────────────────
+
+        const GM = {
+            35: 'kick', 36: 'kick',
+            37: 'snare', 38: 'snare', 40: 'snare',             // side stick, head, rim
+            48: 'tom1', 50: 'tom1',                            // head, rim
+            45: 'tom2', 47: 'tom2',
+            43: 'floor', 58: 'floor', 41: 'floor', 39: 'floor', // tom 3 + tom 4 (head, rim)
+            42: 'hatC', 22: 'hatC', 44: 'hatPedal', 46: 'hatO', 26: 'hatO',
+            49: 'crashL', 55: 'crashL', 57: 'crashR', 52: 'crashR',
+            51: 'ride', 59: 'ride', 53: 'rideBell',
+        };
+        // anything else (keyboards, pad grids) folds into one kit per octave
+        const OCTAVE = ['kick', 'hatPedal', 'snare', 'hatC', 'tom1', 'tom2', 'hatO', 'floor', 'ride', 'crashL', 'rideBell', 'crashR'];
+        const noteVoice = n => GM[n] || OCTAVE[n % 12];
+
+        let midi = null, midiOpen = 0, midiBlinkT = 0;
+        const midiBtn = document.querySelector('[data-act="midi"]');
+        const wakeBtn = document.getElementById('wake');
+
+        function onMidi(e) {
+            const [st, d1, d2] = e.data;
+            const type = st & 0xf0;
+            if (type === 0x90 && d2 > 0) {
+                if (!ac || ac.state !== 'running') {
+                    initAudio();
+                    ac.resume().catch(() => {});
+                    // MIDI isn't a user gesture; if the browser keeps audio asleep, ask for one tap
+                    setTimeout(() => { if (ac.state !== 'running') wakeBtn.hidden = false; }, 200);
+                }
+                hitVoice(noteVoice(d1), clamp(d2 / 127, 0.05, 1));
+                midiBtn.classList.add('blink');
+                clearTimeout(midiBlinkT);
+                midiBlinkT = setTimeout(() => midiBtn.classList.remove('blink'), 70);
+            } else if (type === 0xa0 && d2 > 0) {
+                // poly aftertouch = grabbing the cymbal edge
+                const id = VOICE_PIECE[noteVoice(d1)];
+                if (P[id] && P[id].kind === 'cym') choke(id);
+            } else if (type === 0xb0 && d1 === 4) {
+                // hi-hat foot controller: 0 = open, 127 = closed
+                midiOpen = 1 - d2 / 127;
+                dirty = true;
+            }
+        }
+
+        function bindMidi() {
+            let n = 0;
+            for (const input of midi.inputs.values()) {
+                if (input.state === 'disconnected') continue;
+                input.onmidimessage = onMidi;
+                n++;
+            }
+            midiBtn.classList.toggle('live', n > 0);
+        }
+
+        async function connectMidi() {
+            if (midi) return;
+            try {
+                midi = await navigator.requestMIDIAccess();
+                midi.onstatechange = bindMidi;
+                bindMidi();
+            } catch (e) {
+                midiBtn.classList.add('denied');
+            }
+        }
+
+        if (navigator.requestMIDIAccess) {
+            midiBtn.hidden = false;
+            // already allowed once? plug straight in, no prompt
+            if (navigator.permissions) {
+                navigator.permissions.query({ name: 'midi' })
+                    .then(s => { if (s.state === 'granted') connectMidi(); })
+                    .catch(() => {});
+            }
+        }
+
+        wakeBtn.addEventListener('click', () => { unlock(); wakeBtn.hidden = true; });
+        window.addEventListener('pointerdown', () => { if (!wakeBtn.hidden) { unlock(); wakeBtn.hidden = true; } }, true);
 
         const held = new Map();
         canvas.addEventListener('pointerdown', e => {
@@ -1319,7 +1460,7 @@
                 if (T - p.hitT < 2.2 && p.amp > 0) active = true;
                 if (p.kind === 'hat') {
                     if (p.flashOpen > 0.01) p.flashOpen *= Math.exp(-dt * 6); else p.flashOpen = 0;
-                    const want = hatHeld > 0 ? 1 : p.flashOpen > 0.3 ? 1 : 0;
+                    const want = hatHeld > 0 ? 1 : p.flashOpen > 0.3 ? 1 : midiOpen;
                     const d = want - p.open;
                     if (Math.abs(d) > 0.002) { p.open += d * (1 - Math.exp(-dt * 22)); active = true; }
                     else p.open = want;
@@ -1348,10 +1489,15 @@
             metro: svg('<path d="M8.5 3.5h7l4 17h-15z"/><path d="M12 15.5l5-9"/><circle cx="12" cy="15.5" r="1.2" fill="currentColor"/>'),
             fs: svg('<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>'),
             fsx: svg('<path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/>'),
+            // a 5-pin DIN socket
+            midi: svg('<circle cx="12" cy="12" r="9.5"/><path d="M10.5 20.6v-2.4h3v2.4"/><g fill="currentColor" stroke="none"><circle cx="6.6" cy="12" r="1.3"/><circle cx="17.4" cy="12" r="1.3"/><circle cx="8.2" cy="8.2" r="1.3"/><circle cx="15.8" cy="8.2" r="1.3"/><circle cx="12" cy="6.6" r="1.3"/></g>'),
+            sound: svg('<path d="M4 9.5h4l5-4.5v14l-5-4.5H4z"/><path d="M16.5 9a4.5 4.5 0 010 6M19 6.5a8 8 0 010 11"/>'),
         };
 
         const $$ = s => document.querySelectorAll(s);
         document.getElementById('metro').innerHTML = ICON.metro;
+        midiBtn.innerHTML = ICON.midi;
+        wakeBtn.innerHTML = ICON.sound;
         $$('[data-act="slower"]').forEach(b => { b.innerHTML = ICON.minus; });
         $$('[data-act="faster"]').forEach(b => { b.innerHTML = ICON.plus; });
 
@@ -1407,6 +1553,7 @@
             if (act === 'play') setPlaying(!seq.playing);
             else if (act === 'rec') setRec(!seq.rec);
             else if (act === 'sheet') setSheet(!document.body.classList.contains('sheet-open'));
+            else if (act === 'midi') { unlock(); connectMidi(); }
             else if (act === 'fs') {
                 if (document.fullscreenElement) document.exitFullscreen();
                 else document.documentElement.requestFullscreen({ navigationUI: 'hide' }).catch(() => {});
@@ -1660,7 +1807,7 @@
         window.addEventListener('orientationchange', () => setTimeout(layout, 120));
         if (document.fonts) document.fonts.ready.then(() => { dirty = true; });
         requestAnimationFrame(frame);
-        if (/[?&]debug\b/.test(location.search)) window.__drums = { P, seq, get view() { return view; }, get pattern() { return pattern; }, get ac() { return ac; }, buffers, pick };
+        if (/[?&]debug\b/.test(location.search)) window.__drums = { P, seq, get view() { return view; }, get pattern() { return pattern; }, get ac() { return ac; }, buffers, pick, onMidi, get midiOpen() { return midiOpen; } };
     })();
     </script>
 </body>
