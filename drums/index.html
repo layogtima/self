@@ -1,35 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Sound Samples from: https://codepen.io/amdsouza92/pen/xdooWa -->
+<!-- Samples: https://github.com/ArunMichaelDsouza/javascript-30-course (vendored in ./sounds) -->
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
     <title>Drums: Drop a Beat!</title>
     <meta name="title" content="Drums: Drop a Beat!" />
-    <meta name="description" content="Interactive virtual drumset where you can drop a beat!" />
+    <meta name="description" content="A drum kit in the browser, laid out the way you see it from the throne. Multi-touch, a step sequencer, live looping." />
     <meta name="keywords"
         content="drumset, javascript drumset, JS drumset, drums using JS, drums in the browser, drums-set" />
     <meta name="author" content="Amartha and Amit" />
 
-    <!-- Theme Color for browsers -->
-    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://layogtima.com/drums" />
     <meta property="og:title" content="Drums: Drop a Beat!" />
-    <meta property="og:description" content="Interactive virtual drumset where you can drop a beat!" />
-    <meta property="og:image" content="https://layogtima.com/drums/screenshot.png?M24613" />
+    <meta property="og:description" content="A drum kit in the browser, laid out the way you see it from the throne." />
+    <meta property="og:image" content="https://layogtima.com/drums/screenshot.png?M26112" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://layogtima.com/drums" />
     <meta property="twitter:title" content="Drums: Drop a Beat!" />
-    <meta property="twitter:description" content="Interactive virtual drumset where you can drop a beat!" />
-    <meta property="twitter:image" content="https://layogtima.com/drums/screenshot.png?M24613" />
+    <meta property="twitter:description" content="A drum kit in the browser, laid out the way you see it from the throne." />
+    <meta property="twitter:image" content="https://layogtima.com/drums/screenshot.png?M26112" />
 
     <!-- Favicons -->
     <link rel="icon" type="image/png" href="https://layogtima.com/images/favicon/favicon-96x96.png?M24613"
@@ -38,475 +39,1629 @@
     <link rel="shortcut icon" href="https://layogtima.com/images/favicon/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180"
         href="https://layogtima.com/images/favicon/apple-touch-icon.png?M24613" />
-    <meta name="apple-mobile-web-app-title" content="Amit" />
+    <meta name="apple-mobile-web-app-title" content="Drums" />
     <link rel="manifest" href="https://layogtima.com/images/favicon/site.webmanifest" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        mono: ['Space Mono', 'monospace']
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
 
-        * {
-            font-family: 'Space Mono', monospace;
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --ink: #0a0a0a;
+            --paper: #fff;
+            --dim: #f0f0f0;
+            --sal: env(safe-area-inset-left, 0px);
+            --sar: env(safe-area-inset-right, 0px);
+            --sat: env(safe-area-inset-top, 0px);
+            --sab: env(safe-area-inset-bottom, 0px);
+            --btn: 46px;
+        }
+
+        * { box-sizing: border-box; }
+        [hidden] { display: none !important; }
+
+        html, body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden;
+            overscroll-behavior: none;
+            background: var(--paper);
         }
 
         body {
-            margin: 0;
-            overflow: hidden;
+            position: fixed;
+            inset: 0;
+            color: var(--ink);
+            font-family: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        canvas {
+        #kit {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
             display: block;
+            touch-action: none;
         }
 
-        .step-btn {
-            transition: all 0.1s;
+        #safe {
+            position: fixed;
+            inset: 0;
+            visibility: hidden;
+            pointer-events: none;
+            padding: var(--sat) var(--sar) var(--sab) var(--sal);
         }
 
-        .step-btn:hover {
-            transform: scale(1.1);
+        button {
+            font: inherit;
+            color: inherit;
+            margin: 0;
+            cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .step-active {
-            background: #000 !important;
+        button:focus { outline: none; }
+        button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+        svg.i {
+            width: 20px;
+            height: 20px;
+            display: block;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
-        .sequencer-panel {
-            transition: transform 0.3s ease;
+        /* ── Module: the little brain box on the right of the rack ───────────── */
+        #module {
+            position: fixed;
+            z-index: 30;
+            right: calc(10px + var(--sar));
+            bottom: calc(10px + var(--sab));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 6px;
+            background: var(--ink);
+            transition: opacity .2s, transform .25s;
         }
 
-        .sequencer-hidden {
-            transform: translateY(100%);
+        body.portrait #module { flex-direction: row; }
+
+        body.sheet-open #module {
+            opacity: 0;
+            transform: translateY(12px);
+            pointer-events: none;
+        }
+
+        .leds {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3px;
+            width: var(--btn);
+            height: var(--btn);
+            padding: 5px;
+        }
+
+        .leds i {
+            display: block;
+            background: #3a3a3a;
+            border-radius: 1px;
+        }
+
+        .leds i.q { background: #555; }
+        .leds i.on { background: #fff; }
+
+        .mb {
+            width: var(--btn);
+            height: var(--btn);
+            border: 1.5px solid #ffffff38;
+            background: var(--ink);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            padding: 0;
+        }
+
+        .mb:active { background: #2a2a2a; }
+        .mb[aria-pressed="true"] { background: #fff; color: var(--ink); }
+
+        .rec-dot { fill: currentColor; stroke: none; }
+        [data-act="rec"][aria-pressed="true"] { animation: recblink 1s steps(1) infinite; }
+        body.beat [data-act="rec"][aria-pressed="true"] { box-shadow: 0 0 0 3px #fff; }
+
+        @keyframes recblink {
+            50% { background: var(--ink); color: #fff; }
+        }
+
+        /* ── Sequencer sheet ──────────────────────────────────────────────────── */
+        #sheet {
+            position: fixed;
+            z-index: 20;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            max-height: 100%;
+            overflow: hidden;
+            background: var(--paper);
+            border-top: 2px solid var(--ink);
+            padding: 8px calc(10px + var(--sar)) calc(8px + var(--sab)) calc(10px + var(--sal));
+            transform: translateY(105%);
+            transition: transform .28s cubic-bezier(.2, .8, .2, 1);
+        }
+
+        body.sheet-open #sheet { transform: none; }
+
+        .bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px 10px;
+            margin: 0 auto 8px;
+            max-width: 980px;
+        }
+
+        .grp {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .grp.grow { flex: 1 1 auto; }
+        .grp.end { margin-left: auto; }
+
+        .sb {
+            min-width: 40px;
+            height: 40px;
+            padding: 0 8px;
+            border: 1.5px solid var(--ink);
+            background: var(--paper);
+            display: grid;
+            place-items: center;
+        }
+
+        .sb.solid { background: var(--ink); color: #fff; }
+        .sb.solid[aria-pressed="true"] { background: #fff; color: var(--ink); }
+        .sb:active { background: var(--dim); }
+
+        .bpm {
+            min-width: 3.2ch;
+            text-align: center;
+            font-weight: 700;
+            font-size: 15px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .presets { display: flex; gap: 4px; }
+
+        .preset {
+            width: 52px;
+            height: 40px;
+            padding: 4px;
+            border: 1.5px solid var(--ink);
+            background: var(--paper);
+        }
+
+        .preset svg { width: 100%; height: 100%; display: block; }
+        .preset[aria-pressed="true"] { background: var(--ink); color: #fff; }
+
+        .pages { display: none; gap: 4px; }
+        body.paged .pages { display: flex; }
+
+        .page {
+            width: 56px;
+            height: 40px;
+            padding: 0 6px;
+            border: 1.5px solid var(--ink);
+            background: var(--paper);
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .page i {
+            flex: 1;
+            height: 12px;
+            background: #cfcfcf;
+        }
+
+        .page i.q { height: 18px; }
+        .page[aria-pressed="true"] { background: var(--ink); }
+        .page[aria-pressed="true"] i { background: #777; }
+        .page i.now { background: var(--ink) !important; }
+        .page[aria-pressed="true"] i.now { background: #fff !important; }
+
+        #grid {
+            display: grid;
+            gap: 3px;
+            margin: 0 auto;
+            max-width: 980px;
+            touch-action: none;
+            --ch: clamp(20px, 3.7vh, 34px);
+        }
+
+        .lab {
+            height: var(--ch);
+            padding: 0;
+            border: 0;
+            background: none;
+            display: grid;
+            place-items: center;
+        }
+
+        .lab svg { height: 100%; width: auto; max-width: 52px; display: block; }
+        .lab.flash { background: var(--dim); }
+
+        .cell {
+            height: var(--ch);
+            padding: 0;
+            border: 1.5px solid var(--ink);
+            border-radius: 2px;
+            background: var(--paper);
+        }
+
+        .cell.q { background: var(--dim); }
+        .cell.g { margin-left: 4px; }
+        .cell.on { background: var(--ink); }
+        .cell.now { box-shadow: 0 0 0 2px var(--ink); border-color: #fff; }
+        .cell.on.now { background: #555; }
+
+        @media (hover: hover) {
+            .cell:hover { border-width: 2.5px; }
+            .sb:hover, .preset:hover, .page:hover { box-shadow: 2px 2px 0 var(--ink); }
+        }
+
+        /* short landscape phones: squeeze the sheet */
+        @media (max-height: 480px) {
+            #sheet { padding-top: 6px; }
+            .bar { margin-bottom: 5px; }
+            .sb, .preset, .page { height: 34px; }
+            .sb { min-width: 34px; }
+            #grid { --ch: clamp(17px, 5.2vh, 24px); gap: 2px; }
         }
     </style>
 </head>
 
-<body class="bg-white">
-    <canvas id="stage"></canvas>
+<body>
+    <canvas id="kit" aria-label="Drum kit"></canvas>
+    <div id="safe"></div>
 
-    <!-- Top Left Info -->
-    <div class="fixed top-4 left-4 text-xs z-50 pointer-events-none select-none">
-        <div class="bg-black text-white px-3 py-2 mb-2 flex items-center gap-2">
-            <i class="fas fa-drum"></i>
-            MONO<span class="text-[8px] align-super">TONE</span>
-        </div>
-        <div class="bg-white border border-black px-3 py-2 text-[10px] leading-tight">
-            <div class="mb-2 flex items-center gap-2">
-                <i class="fas fa-mouse-pointer"></i>
-                <i class="fas fa-circle text-[6px]"></i>
-            </div>
-            <div class="mb-2 flex items-center gap-2">
-                <i class="fas fa-hand-pointer"></i>
-                <i class="fas fa-water text-[6px]"></i>
-            </div>
-            <div class="flex items-center gap-2">
-                <kbd class="px-1 border border-black text-[8px]">SPC</kbd>
-                <i class="fas fa-volume-xmark text-[8px]"></i>
-            </div>
-        </div>
+    <!-- Module -->
+    <div id="module">
+        <div class="leds" id="leds" aria-hidden="true"></div>
+        <button class="mb" data-act="play" aria-label="Play" aria-pressed="false"></button>
+        <button class="mb" data-act="rec" aria-label="Record" aria-pressed="false"></button>
+        <button class="mb" data-act="sheet" aria-label="Pattern" aria-pressed="false"></button>
+        <button class="mb" data-act="fs" aria-label="Fullscreen" hidden></button>
     </div>
 
-    <!-- Bottom Right Status -->
-    <div class="fixed bottom-4 right-4 text-xs z-50 pointer-events-none select-none">
-        <div class="bg-black text-white px-3 py-2 text-right text-[10px] min-w-[100px]">
-            <div id="currentSound" class="flex items-center justify-end gap-2">
-                <i class="fas fa-circle-notch"></i>
+    <!-- Sequencer -->
+    <section id="sheet" aria-label="Pattern" aria-hidden="true">
+        <div class="bar">
+            <div class="grp">
+                <button class="sb solid" data-act="play" aria-label="Play" aria-pressed="false"></button>
+                <button class="sb solid" data-act="rec" aria-label="Record" aria-pressed="false"></button>
             </div>
-            <div id="velocity" class="mt-1 opacity-60 flex items-center justify-end gap-1">
-                <i class="fas fa-volume-up text-[8px]"></i>
-                <span>0</span>
+            <div class="grp">
+                <span id="metro" aria-hidden="true"></span>
+                <button class="sb" data-act="slower" aria-label="Slower"></button>
+                <span class="bpm" id="bpm">100</span>
+                <button class="sb" data-act="faster" aria-label="Faster"></button>
+            </div>
+            <div class="grp grow">
+                <div class="presets" id="presets"></div>
+            </div>
+            <div class="grp pages" id="pages"></div>
+            <div class="grp end">
+                <button class="sb" data-act="clear" aria-label="Clear"></button>
+                <button class="sb solid" data-act="sheet" aria-label="Close"></button>
             </div>
         </div>
-    </div>
-
-    <!-- Sequencer Panel Toggle -->
-    <button id="seqToggle"
-        class="fixed bottom-4 left-4 z-50 bg-black text-white px-3 py-2 border-2 border-black hover:bg-white hover:text-black transition-colors">
-        <i class="fas fa-bars"></i>
-    </button>
-
-    <!-- Sequencer Panel -->
-    <div id="seqPanel"
-        class="sequencer-panel sequencer-hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-black z-40 p-4">
-        <div class="max-w-6xl mx-auto">
-
-            <!-- Top Controls -->
-            <div class="flex items-center justify-between mb-4">
-                <!-- Transport Controls -->
-                <div class="flex gap-2">
-                    <button id="playBtn" class="bg-black text-white px-4 py-2 hover:bg-gray-800 transition-colors">
-                        <i class="fas fa-play"></i>
-                    </button>
-                    <button id="stopBtn" class="bg-black text-white px-4 py-2 hover:bg-gray-800 transition-colors">
-                        <i class="fas fa-stop"></i>
-                    </button>
-                </div>
-
-                <!-- BPM Control -->
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-clock"></i>
-                    <input id="bpmSlider" type="range" min="60" max="240" value="120" class="w-32">
-                    <span id="bpmDisplay" class="font-bold min-w-[3ch]">120</span>
-                </div>
-
-                <!-- Selected Island -->
-                <div class="flex items-center gap-2">
-                    <span class="text-xs">
-                        <i class="fas fa-hand-pointer"></i>
-                    </span>
-                    <span id="selectedIsland" class="text-xs">---</span>
-                </div>
-            </div>
-
-            <!-- Step Sequencer Grid -->
-            <div id="stepGrid" class="grid gap-2" style="grid-template-columns: auto repeat(16, 1fr);">
-                <!-- Generated dynamically -->
-            </div>
-
-        </div>
-    </div>
+        <div id="grid"></div>
+    </section>
 
     <script>
-        // Canvas Setup
-        const canvas = document.getElementById('stage');
-        const c = canvas.getContext('2d');
-        let w = canvas.width = window.innerWidth;
-        let h = canvas.height = window.innerHeight;
+    (() => {
+        'use strict';
 
-        // Audio samples
-        const samples = {
-            kick: new Audio('https://raw.githubusercontent.com/ArunMichaelDsouza/javascript-30-course/master/src/01-javascript-drum-kit/sounds/kick.wav'),
-            snare: new Audio('https://raw.githubusercontent.com/ArunMichaelDsouza/javascript-30-course/master/src/01-javascript-drum-kit/sounds/snare.wav'),
-            hihatOpen: new Audio('https://raw.githubusercontent.com/ArunMichaelDsouza/javascript-30-course/master/src/01-javascript-drum-kit/sounds/hihat-open.wav'),
-            hihatClose: new Audio('https://raw.githubusercontent.com/ArunMichaelDsouza/javascript-30-course/master/src/01-javascript-drum-kit/sounds/hihat-close.wav'),
-            crash: new Audio('https://raw.githubusercontent.com/ArunMichaelDsouza/javascript-30-course/master/src/01-javascript-drum-kit/sounds/crash.wav'),
-            ride: new Audio('https://raw.githubusercontent.com/ArunMichaelDsouza/javascript-30-course/master/src/01-javascript-drum-kit/sounds/ride.wav'),
-            tomLow: new Audio('https://raw.githubusercontent.com/ArunMichaelDsouza/javascript-30-course/master/src/01-javascript-drum-kit/sounds/tom-low.wav'),
-            tomMid: new Audio('https://raw.githubusercontent.com/ArunMichaelDsouza/javascript-30-course/master/src/01-javascript-drum-kit/sounds/tom-mid.wav'),
-            tomHigh: new Audio('https://raw.githubusercontent.com/ArunMichaelDsouza/javascript-30-course/master/src/01-javascript-drum-kit/sounds/tom-high.wav')
+        // ═════════════════════════════════════════════════════════════════════
+        //  Kit geometry. Two hand-placed layouts in a design space each, both
+        //  following the photo: hats far left, crash over them, snare low-left,
+        //  two rack toms riding the kick, floor tom right, crash + ride high right.
+        // ═════════════════════════════════════════════════════════════════════
+
+        // draw order = back to front; hit-testing walks it in reverse
+        const PIECES = [
+            { id: 'ride',      kind: 'cym',      voice: 'ride',   keys: ['KeyL', 'KeyO'], cap: 'L', shade: 150, bell: true },
+            { id: 'crashR',    kind: 'cym',      voice: 'crashR', keys: ['KeyK', 'KeyI'], cap: 'K', shade: 168 },
+            { id: 'crashL',    kind: 'cym',      voice: 'crashL', keys: ['KeyQ', 'KeyW'], cap: 'Q', shade: 172 },
+            { id: 'kick',      kind: 'kick',     voice: 'kick',   keys: ['Space', 'KeyB', 'KeyV', 'KeyN'], cap: '␣' },
+            { id: 'kickPedal', kind: 'pedal',    voice: 'kick' },
+            { id: 'tom1',      kind: 'drum',     voice: 'tom1',   keys: ['KeyD'], cap: 'D', shell: 30 },
+            { id: 'tom2',      kind: 'drum',     voice: 'tom2',   keys: ['KeyF', 'KeyG'], cap: 'F', shell: 30 },
+            { id: 'hat',       kind: 'hat',      voice: 'hatC',   keys: ['KeyA'], cap: 'A', shade: 178 },
+            { id: 'floor',     kind: 'drum',     voice: 'floor',  keys: ['KeyJ', 'KeyH'], cap: 'J', shell: 22 },
+            { id: 'snare',     kind: 'drum',     voice: 'snare',  keys: ['KeyS'], cap: 'S', shell: 186, metal: true },
+            { id: 'hatPedal',  kind: 'hatpedal', keys: ['KeyZ', 'ShiftLeft'], cap: 'Z' },
+        ];
+        const P = Object.fromEntries(PIECES.map(p => [p.id, p]));
+
+        const LAND = {
+            W: 1000, H: 660,
+            p: {
+                crashL:    { x: 250, y: 95,  rx: 125, tilt: -0.10 },
+                crashR:    { x: 668, y: 92,  rx: 126, tilt: 0.08 },
+                ride:      { x: 884, y: 168, rx: 108, tilt: 0.13 },
+                hat:       { x: 100, y: 258, rx: 96 },
+                tom1:      { x: 395, y: 238, rx: 82, d: 58 },
+                tom2:      { x: 585, y: 238, rx: 82, d: 58 },
+                snare:     { x: 262, y: 382, rx: 102, d: 46 },
+                floor:     { x: 735, y: 385, rx: 110, d: 92 },
+                kick:      { x: 490, y: 450, rx: 140 },
+                kickPedal: { x: 490, y: 618, w: 72, h: 62 },
+                hatPedal:  { x: 100, y: 618, w: 66, h: 62 },
+            }
         };
 
-        Object.values(samples).forEach(audio => {
-            audio.load();
-            audio.volume = 0.8;
-        });
+        const PORT = {
+            W: 600, H: 1000,
+            p: {
+                crashL:    { x: 160, y: 100, rx: 132, tilt: -0.10 },
+                crashR:    { x: 448, y: 82,  rx: 124, tilt: 0.08 },
+                ride:      { x: 508, y: 452, rx: 88,  tilt: 0.13 },
+                hat:       { x: 96,  y: 300, rx: 92 },
+                tom1:      { x: 258, y: 288, rx: 76, d: 54 },
+                tom2:      { x: 418, y: 288, rx: 76, d: 54 },
+                snare:     { x: 168, y: 508, rx: 112, d: 48 },
+                floor:     { x: 440, y: 640, rx: 120, d: 98 },
+                kick:      { x: 258, y: 776, rx: 150 },
+                kickPedal: { x: 258, y: 958, w: 76, h: 62 },
+                hatPedal:  { x: 70,  y: 958, w: 66, h: 62 },
+            }
+        };
 
-        // Islands configuration
-        const islands = [
-            { x: 0.15, y: 0.7, r: 120, color: 20, drum: 'kick', icon: 'fa-drum', name: '🥁' },
-            { x: 0.65, y: 0.55, r: 85, color: 100, drum: 'snare', icon: 'fa-compact-disc', name: '💿' },
-            { x: 0.25, y: 0.25, r: 55, color: 220, drum: 'hihatClose', icon: 'fa-circle', name: '●' },
-            { x: 0.35, y: 0.22, r: 50, color: 200, drum: 'hihatOpen', icon: 'fa-circle-dot', name: '◉' },
-            { x: 0.85, y: 0.15, r: 95, color: 180, drum: 'crash', icon: 'fa-asterisk', name: '✱' },
-            { x: 0.72, y: 0.25, r: 70, color: 160, drum: 'ride', icon: 'fa-certificate', name: '✦' },
-            { x: 0.5, y: 0.6, r: 65, color: 60, drum: 'tomLow', icon: 'fa-circle-notch', name: '◐' },
-            { x: 0.45, y: 0.45, r: 62, color: 80, drum: 'tomMid', icon: 'fa-circle-notch', name: '◑' },
-            { x: 0.55, y: 0.35, r: 58, color: 120, drum: 'tomHigh', icon: 'fa-circle-notch', name: '◒' }
+        const PERSP = 0.42;   // drum heads seen from the throne: squashed circles
+        const CYM = 0.24;     // cymbals: much flatter
+
+        let L = null, baseL = null, curKy = 1;
+        // ky > 1 stretches the gaps (never the drums) to fill tall phones;
+        // the kick and both pedals stay planted on the floor
+        function applyLayout(lay, ky = 1) {
+            baseL = lay;
+            curKy = ky;
+            L = { W: lay.W, H: lay.H * ky, p: lay.p };
+            const drop = (ky - 1) * lay.H;
+            for (const p of PIECES) {
+                const g = lay.p[p.id];
+                Object.assign(p, g);
+                p.y = (p.kind === 'kick' || p.kind === 'pedal' || p.kind === 'hatpedal') ? g.y + drop : g.y * ky;
+                if (p.kind === 'drum') p.ry = p.rx * PERSP;
+                if (p.kind === 'cym' || p.kind === 'hat') p.ry = p.rx * CYM;
+                if (p.kind === 'hat') { p.gapC = p.rx * 0.07; p.gapO = p.rx * 0.27; }
+                if (p.kind === 'kick') p.r = p.rx;
+                p.tilt = p.tilt || 0;
+            }
+        }
+
+        for (const p of PIECES) {
+            Object.assign(p, { hit: 0, hitT: -9, amp: 0, strikes: [], glow: 0, open: 0 });
+        }
+
+        // ═════════════════════════════════════════════════════════════════════
+        //  Audio: Web Audio, decoded buffers, one-shot sources. Low latency,
+        //  unlimited polyphony, hats choke each other like real hats do.
+        // ═════════════════════════════════════════════════════════════════════
+
+        const FILES = {
+            kick: 'kick', snare: 'snare', hatC: 'hihat-close', hatO: 'hihat-open',
+            crash: 'crash', ride: 'ride', tomH: 'tom-high', tomM: 'tom-mid', tomL: 'tom-low'
+        };
+        const REMOTE = 'https://raw.githubusercontent.com/ArunMichaelDsouza/javascript-30-course/master/src/01-javascript-drum-kit/sounds/';
+
+        const VOICES = {
+            kick:     { b: 'kick',  g: 1.0,  pan: 0 },
+            snare:    { b: 'snare', g: 0.9,  pan: -0.15 },
+            hatC:     { b: 'hatC',  g: 0.6,  pan: -0.4 },
+            hatO:     { b: 'hatO',  g: 0.5,  pan: -0.4 },
+            hatPedal: { b: 'hatC',  g: 0.32, pan: -0.4, r: 0.86 },
+            crashL:   { b: 'crash', g: 0.55, pan: -0.3 },
+            crashR:   { b: 'crash', g: 0.5,  pan: 0.2, r: 1.12 },
+            ride:     { b: 'ride',  g: 0.5,  pan: 0.4 },
+            rideBell: { b: 'ride',  g: 0.62, pan: 0.4, r: 1.45 },
+            tom1:     { b: 'tomH',  g: 0.85, pan: -0.08 },
+            tom2:     { b: 'tomM',  g: 0.85, pan: 0.1 },
+            floor:    { b: 'tomL',  g: 0.9,  pan: 0.3 },
+        };
+
+        const AC = window.AudioContext || window.webkitAudioContext;
+        let ac = null, out = null;
+        const buffers = {};
+        const openHats = new Set();
+
+        try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) {}
+
+        function baseURL() {
+            const h = location.href.split(/[?#]/)[0];
+            return /\/$|\.html?$/.test(h) ? h : h + '/';
+        }
+
+        async function fetchBuf(name) {
+            const urls = [new URL('sounds/' + name + '.wav', baseURL()).href, REMOTE + name + '.wav'];
+            for (const u of urls) {
+                try {
+                    const r = await fetch(u);
+                    if (r.ok) return await r.arrayBuffer();
+                } catch (e) {}
+            }
+            throw new Error('no sample: ' + name);
+        }
+
+        function decode(ab) {
+            return new Promise((res, rej) => ac.decodeAudioData(ab, res, rej));
+        }
+
+        function initAudio() {
+            if (ac || !AC) return;
+            ac = new AC({ latencyHint: 'interactive' });
+            const comp = ac.createDynamicsCompressor();
+            comp.threshold.value = -14;
+            comp.knee.value = 10;
+            comp.ratio.value = 4;
+            comp.attack.value = 0.002;
+            comp.release.value = 0.15;
+            out = ac.createGain();
+            out.gain.value = 0.9;
+            out.connect(comp).connect(ac.destination);
+            for (const [k, f] of Object.entries(FILES)) {
+                fetchBuf(f).then(decode).then(b => { buffers[k] = b; }).catch(e => console.warn(e));
+            }
+        }
+
+        let unlocked = false;
+        function unlock() {
+            initAudio();
+            if (!ac) return;
+            if (ac.state !== 'running') ac.resume();
+            if (unlocked) return;
+            unlocked = true;
+            // iOS wants a sound started inside the gesture
+            const s = ac.createBufferSource();
+            s.buffer = ac.createBuffer(1, 1, 22050);
+            s.connect(ac.destination);
+            s.start(0);
+        }
+
+        function play(voice, vel = 0.9, when = 0) {
+            if (!ac) return;
+            const v = VOICES[voice];
+            const buf = v && buffers[v.b];
+            if (!buf) return;
+            const t = Math.max(when, ac.currentTime);
+
+            // closing the hats chokes whatever open hat is still ringing
+            if (voice === 'hatC' || voice === 'hatPedal') {
+                for (const h of openHats) {
+                    if (h.t < t) {
+                        h.g.gain.cancelScheduledValues(t);
+                        h.g.gain.setTargetAtTime(0, t, 0.018);
+                        try { h.src.stop(t + 0.15); } catch (e) {}
+                        openHats.delete(h);
+                    }
+                }
+            }
+
+            const src = ac.createBufferSource();
+            src.buffer = buf;
+            src.playbackRate.value = (v.r || 1) * (1 + (Math.random() - 0.5) * 0.025);
+            const g = ac.createGain();
+            g.gain.value = v.g * (0.16 + 0.84 * vel * vel);
+            let node = src.connect(g);
+            if (ac.createStereoPanner) {
+                const pn = ac.createStereoPanner();
+                pn.pan.value = v.pan;
+                node = node.connect(pn);
+            }
+            node.connect(out);
+            src.start(t);
+
+            if (voice === 'hatO') {
+                const h = { src, g, t };
+                openHats.add(h);
+                src.onended = () => openHats.delete(h);
+            }
+        }
+
+        function click(t, accent) {
+            const o = ac.createOscillator();
+            const g = ac.createGain();
+            o.type = 'square';
+            o.frequency.value = accent ? 1760 : 1180;
+            g.gain.setValueAtTime(0, t);
+            g.gain.linearRampToValueAtTime(accent ? 0.16 : 0.09, t + 0.002);
+            g.gain.exponentialRampToValueAtTime(0.0001, t + 0.04);
+            o.connect(g).connect(out);
+            o.start(t);
+            o.stop(t + 0.05);
+        }
+
+        // ═════════════════════════════════════════════════════════════════════
+        //  Pattern + sequencer (lookahead scheduler on the audio clock)
+        // ═════════════════════════════════════════════════════════════════════
+
+        const ROWS = ['crashL', 'crashR', 'ride', 'hatO', 'hatC', 'tom1', 'tom2', 'floor', 'snare', 'kick'];
+        const VOICE_PIECE = {
+            crashL: 'crashL', crashR: 'crashR', ride: 'ride', rideBell: 'ride', hatO: 'hat', hatC: 'hat',
+            hatPedal: 'hatPedal', tom1: 'tom1', tom2: 'tom2', floor: 'floor', snare: 'snare', kick: 'kick'
+        };
+        const N = 16;
+
+        const PRESETS = [
+            { bpm: 100, p: { hatC: 'x.x.x.x.x.x.x.x.', snare: '....x.......x...', kick: 'x.......x.x.....' } },
+            { bpm: 94,  p: { hatC: 'xxxxxxxxxxxxxx.x', hatO: '..............x.', snare: '....x..x.x..x...', kick: 'x..x...x..x...x.' } },
+            { bpm: 122, p: { crashL: 'x...............', hatC: 'x...x...x...x...', hatO: '..x...x...x...x.', snare: '....x.......x...', kick: 'x...x...x...x...' } },
+            { bpm: 74,  p: { crashR: 'x...............', ride: 'x.x.x.x.x.x.x.x.', snare: '........x.......', kick: 'x..x......x.....' } },
+            { bpm: 108, p: { hatC: 'x.x.x.x.........', snare: '....x...xx......', tom1: '..........xx....', tom2: '............xx..', floor: '..............xx', kick: 'x.......x.......' } },
         ];
 
-        islands.forEach((island, idx) => {
-            island.absX = island.x * w;
-            island.absY = island.y * h;
-            island.pulse = 0;
-            island.steps = new Array(16).fill(false);
-            island.id = idx;
-        });
+        const blank = () => Object.fromEntries(ROWS.map(r => [r, new Array(N).fill(0)]));
+        let pattern = blank();
+        let bpm = 100;
+        let presetIdx = 0;
 
-        // Sequencer state
-        let isPlaying = false;
-        let currentStep = 0;
-        let bpm = 120;
-        let stepInterval = null;
-        let selectedIslandId = null;
+        function loadPreset(i) {
+            const pr = PRESETS[i];
+            pattern = blank();
+            for (const [r, s] of Object.entries(pr.p)) [...s].forEach((c, k) => { pattern[r][k] = c === 'x' ? 1 : 0; });
+            bpm = pr.bpm;
+            presetIdx = i;
+        }
 
-        // Ripples & trail
-        const ripples = [];
-        const oceanTrail = [];
-        const maxTrailPoints = 50;
+        function save() {
+            try {
+                localStorage.setItem('drums.v2', JSON.stringify({ bpm, pattern, presetIdx }));
+            } catch (e) {}
+        }
 
-        // Mouse state
-        let lastPos = null;
-        let isOverOcean = true;
-
-        // Get island at position
-        const getIsland = (x, y) => {
-            for (let island of islands) {
-                const dx = x - island.absX;
-                const dy = y - island.absY;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist <= island.r) {
-                    return { island, dist, centerDist: dist / island.r };
+        (function restore() {
+            try {
+                const s = JSON.parse(localStorage.getItem('drums.v2'));
+                if (s && s.pattern) {
+                    pattern = blank();
+                    for (const r of ROWS) if (Array.isArray(s.pattern[r])) pattern[r] = s.pattern[r].slice(0, N).map(v => v ? 1 : 0);
+                    bpm = Math.min(200, Math.max(50, +s.bpm || 100));
+                    presetIdx = Number.isInteger(s.presetIdx) ? s.presetIdx : -1;
+                    return;
                 }
+            } catch (e) {}
+            loadPreset(0);
+        })();
+
+        const seq = { playing: false, rec: false, step: 0, nextTime: 0, timer: 0, shown: -1 };
+        const suppress = new Set();
+        const queue = [];
+        const stepDur = () => 60 / bpm / 4;
+
+        function scheduler() {
+            const sd = stepDur();
+            if (seq.nextTime < ac.currentTime - 0.05) seq.nextTime = ac.currentTime + 0.03; // came back from background
+            while (seq.nextTime < ac.currentTime + 0.12) {
+                const st = seq.step, t = seq.nextTime;
+                const hits = [];
+                for (const r of ROWS) {
+                    if (!pattern[r][st]) continue;
+                    if (suppress.delete(r + ':' + st)) continue;
+                    const vel = st % 4 === 0 ? 0.95 : st % 2 === 0 ? 0.82 : 0.7;
+                    play(r, vel, t);
+                    hits.push([r, vel]);
+                }
+                if (seq.rec && st % 4 === 0) click(t, st === 0);
+                queue.push({ t, step: st, hits });
+                seq.step = (st + 1) % N;
+                seq.nextTime += sd;
+            }
+        }
+
+        let wakeLock = null;
+        function setPlaying(on) {
+            if (on === seq.playing) return;
+            unlock();
+            if (!ac) return;
+            seq.playing = on;
+            if (on) {
+                seq.step = 0;
+                seq.nextTime = ac.currentTime + 0.06;
+                suppress.clear();
+                scheduler();
+                seq.timer = setInterval(scheduler, 25);
+                if (navigator.wakeLock) navigator.wakeLock.request('screen').then(l => { wakeLock = l; }).catch(() => {});
+            } else {
+                clearInterval(seq.timer);
+                queue.length = 0;
+                seq.rec = false;
+                showStep(-1);
+                if (wakeLock) { wakeLock.release().catch(() => {}); wakeLock = null; }
+            }
+            syncButtons();
+        }
+
+        function setRec(on) {
+            seq.rec = on;
+            if (on && !seq.playing) setPlaying(true);
+            syncButtons();
+        }
+
+        // a live hit while recording lands on the nearest 16th
+        function recordHit(voice) {
+            if (!seq.playing || !seq.rec || !ac) return;
+            const row = voice === 'rideBell' ? 'ride' : voice;
+            if (!pattern[row]) return;
+            const back = Math.max(0, Math.round((seq.nextTime - ac.currentTime) / stepDur()));
+            const idx = ((seq.step - back) % N + N) % N;
+            if (pattern[row][idx]) return;
+            pattern[row][idx] = 1;
+            if (back === 0) suppress.add(row + ':' + idx); // already heard it live this pass
+            presetIdx = -1;
+            paintCell(row, idx);
+            syncPresets();
+            save();
+        }
+
+        // ═════════════════════════════════════════════════════════════════════
+        //  Canvas
+        // ═════════════════════════════════════════════════════════════════════
+
+        const canvas = document.getElementById('kit');
+        const ctx = canvas.getContext('2d');
+        const INK = '#0a0a0a';
+        const TAU = Math.PI * 2;
+        const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+        const lerp = (a, b, t) => a + (b - a) * t;
+        const gray = v => { v = Math.round(clamp(v, 0, 255)); return `rgb(${v},${v},${v})`; };
+
+        let vw = 0, vh = 0, dpr = 1, portrait = false;
+        let view = null, target = null;
+        let dirty = true;
+        let T = performance.now() / 1000;
+        let hover = null;
+        let everHit = false;
+        const fine = matchMedia('(hover: hover) and (pointer: fine)');
+
+        const px = n => n / view.s;
+
+        function readSafe() {
+            const cs = getComputedStyle(document.getElementById('safe'));
+            return { t: parseFloat(cs.paddingTop) || 0, r: parseFloat(cs.paddingRight) || 0, b: parseFloat(cs.paddingBottom) || 0, l: parseFloat(cs.paddingLeft) || 0 };
+        }
+
+        const moduleEl = document.getElementById('module');
+        const sheet = document.getElementById('sheet');
+
+        function layout() {
+            vw = window.innerWidth;
+            vh = window.innerHeight;
+            dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+            canvas.width = Math.round(vw * dpr);
+            canvas.height = Math.round(vh * dpr);
+            portrait = vh > vw * 1.05;
+            document.body.classList.toggle('portrait', portrait);
+            const lay = portrait ? PORT : LAND;
+
+            const sa = readSafe();
+            const m = clamp(Math.min(vw, vh) * 0.025, 6, 18);
+            let x0 = sa.l + m, y0 = sa.t + m, x1 = vw - sa.r - m, y1 = vh - sa.b - m;
+            if (portrait) y1 -= moduleEl.offsetHeight + 4;
+            else x1 -= moduleEl.offsetWidth + 4;
+
+            // stretch is decided on the closed-sheet area so opening the sheet never re-flows the kit
+            let ky = 1;
+            if (portrait) {
+                const s0 = Math.min((x1 - x0) / lay.W, (y1 - y0) / lay.H, 1.9);
+                ky = clamp((y1 - y0) / (lay.H * s0), 1, 1.32);
+            }
+            if (lay !== baseL || Math.abs(ky - curKy) > 0.005) {
+                const first = !baseL;
+                applyLayout(lay, ky);
+                if (first) buildPresets();
+            }
+
+            if (document.body.classList.contains('sheet-open')) {
+                y1 = vh - sa.b - m;
+                x1 = vw - sa.r - m;
+                const sh = sheet.offsetHeight;
+                if (vh - sh >= vh * 0.4) y1 = vh - sh - m;
+            }
+            const s = Math.min((x1 - x0) / L.W, (y1 - y0) / L.H, 1.9);
+            target = { s, ox: x0 + ((x1 - x0) - L.W * s) / 2, oy: y0 + ((y1 - y0) - L.H * s) / 2 };
+            if (!view) view = { ...target };
+            layoutGrid();
+            dirty = true;
+        }
+
+        // ── drawing ────────────────────────────────────────────────────────────
+
+        function stands() {
+            const fy = L.H - 6;
+            ctx.strokeStyle = gray(204);
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.lineWidth = Math.max(px(2), 5);
+
+            const tripod = (x, top, spread) => {
+                const k = top + (fy - top) * 0.82;
+                ctx.moveTo(x, top); ctx.lineTo(x, k);
+                ctx.moveTo(x, k); ctx.lineTo(x - spread, fy);
+                ctx.moveTo(x, k); ctx.lineTo(x + spread, fy);
+                ctx.moveTo(x, k); ctx.lineTo(x + spread * 0.15, fy + 4);
+            };
+
+            ctx.beginPath();
+            for (const id of ['crashL', 'crashR', 'ride']) {
+                const p = P[id];
+                const sx = p.x + (id === 'crashL' ? 26 : id === 'ride' ? -18 : 10);
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(sx, p.y + p.rx * 0.9);
+                tripod(sx, p.y + p.rx * 0.9, 46);
+            }
+            const k = P.kick;
+            for (const id of ['tom1', 'tom2']) {
+                const p = P[id];
+                ctx.moveTo(p.x, p.y + p.d + p.ry * 0.6);
+                ctx.lineTo(k.x, k.y - k.r - 22);
+            }
+            ctx.moveTo(k.x, k.y - k.r - 22); ctx.lineTo(k.x, k.y - k.r + 6);
+            const s = P.snare;
+            tripod(s.x, s.y + s.d + s.ry, 50);
+            const f = P.floor;
+            ctx.moveTo(f.x - f.rx * 0.9, f.y + f.d * 0.4); ctx.lineTo(f.x - f.rx * 1.04, fy);
+            ctx.moveTo(f.x + f.rx * 0.9, f.y + f.d * 0.4); ctx.lineTo(f.x + f.rx * 1.04, fy);
+            ctx.moveTo(f.x + f.rx * 0.25, f.y + f.d + f.ry * 0.9); ctx.lineTo(f.x + f.rx * 0.3, fy + 4);
+            ctx.moveTo(k.x - k.r * 0.78, k.y + k.r * 0.55); ctx.lineTo(k.x - k.r * 1.06, fy);
+            ctx.moveTo(k.x + k.r * 0.78, k.y + k.r * 0.55); ctx.lineTo(k.x + k.r * 1.06, fy);
+            const h = P.hat, hp = P.hatPedal;
+            ctx.moveTo(h.x, h.y); ctx.lineTo(hp.x, hp.y - hp.h * 0.6);
+            ctx.moveTo(hp.x, hp.y - hp.h * 0.6); ctx.lineTo(hp.x - 40, fy);
+            ctx.moveTo(hp.x, hp.y - hp.h * 0.6); ctx.lineTo(hp.x + 40, fy);
+            ctx.stroke();
+
+            // floor line
+            ctx.beginPath();
+            ctx.strokeStyle = gray(232);
+            ctx.lineWidth = px(1);
+            ctx.moveTo(-L.W, fy + 6); ctx.lineTo(L.W * 2, fy + 6);
+            ctx.stroke();
+        }
+
+        function outline(p, w) {
+            ctx.lineWidth = px(w + (hover === p ? 1.2 : 0) + p.glow * 2.5);
+            ctx.strokeStyle = INK;
+            ctx.stroke();
+        }
+
+        function strikes(p, clipFn) {
+            if (!p.strikes.length) return;
+            ctx.save();
+            clipFn();
+            ctx.clip();
+            const dark = p.hit > 0.45;
+            for (let i = p.strikes.length - 1; i >= 0; i--) {
+                const s = p.strikes[i];
+                const a = T - s.t;
+                if (a > 0.5) { p.strikes.splice(i, 1); continue; }
+                const R = (p.r || p.rx) * (0.06 + a * 2.4);
+                const sy = p.kind === 'kick' ? 1 : PERSP;
+                ctx.beginPath();
+                ctx.ellipse(s.x, s.y, R, R * sy, 0, 0, TAU);
+                ctx.strokeStyle = dark ? `rgba(255,255,255,${(1 - a / 0.5) * 0.5 * s.v})` : `rgba(0,0,0,${(1 - a / 0.5) * 0.45 * s.v})`;
+                ctx.lineWidth = px(2);
+                ctx.stroke();
+            }
+            ctx.restore();
+        }
+
+        function ring(p, rx, ry, cx, cy) {
+            const a = T - p.hitT;
+            if (a > 0.38) return;
+            const k = a / 0.38;
+            ctx.beginPath();
+            ctx.ellipse(cx, cy, rx * (1 + k * 0.3), ry * (1 + k * 0.3), 0, 0, TAU);
+            ctx.strokeStyle = `rgba(0,0,0,${(1 - k) * 0.4 * p.amp})`;
+            ctx.lineWidth = px(2.5 * (1 - k) + 0.5);
+            ctx.stroke();
+        }
+
+        function drawDrum(p) {
+            const { x, y, rx, ry, d } = p;
+            const sink = p.hit * ry * 0.06;
+
+            // shell
+            ctx.beginPath();
+            ctx.moveTo(x - rx, y);
+            ctx.lineTo(x - rx, y + d);
+            ctx.ellipse(x, y + d, rx, ry, 0, Math.PI, 0, true);
+            ctx.lineTo(x + rx, y);
+            ctx.closePath();
+            ctx.fillStyle = gray(p.shell);
+            ctx.fill();
+            outline(p, 2);
+
+            // lugs
+            ctx.fillStyle = p.metal ? gray(95) : gray(120);
+            for (const f of [0.17, 0.39, 0.61, 0.83]) {
+                const th = Math.PI * f;
+                const lx = x + rx * Math.cos(th);
+                const off = ry * Math.sin(th);
+                const top = y + off + d * 0.2, h = d * 0.5;
+                const lw = rx * 0.07 * Math.sin(th);
+                ctx.fillRect(lx - lw / 2, top, lw, h);
+            }
+            if (p.metal) {
+                // a chrome seam around the snare
+                ctx.beginPath();
+                ctx.ellipse(x, y + d * 0.55, rx, ry, 0, Math.PI, 0, true);
+                ctx.strokeStyle = 'rgba(0,0,0,.25)';
+                ctx.lineWidth = px(1);
+                ctx.stroke();
+            }
+
+            // head
+            ctx.beginPath();
+            ctx.ellipse(x, y + sink, rx, ry, 0, 0, TAU);
+            ctx.fillStyle = gray(lerp(243, 18, clamp(p.hit, 0, 1) * 0.92));
+            ctx.fill();
+            outline(p, 3.4);
+            ctx.beginPath();
+            ctx.ellipse(x, y + sink, rx * 0.9, ry * 0.86, 0, 0, TAU);
+            ctx.strokeStyle = p.hit > 0.45 ? 'rgba(255,255,255,.25)' : 'rgba(0,0,0,.14)';
+            ctx.lineWidth = px(1);
+            ctx.stroke();
+
+            strikes(p, () => { ctx.beginPath(); ctx.ellipse(x, y + sink, rx * 0.97, ry * 0.95, 0, 0, TAU); });
+            ring(p, rx, ry, x, y);
+        }
+
+        function drawKick(p) {
+            const { x, y, r } = p;
+            const s = 1 + p.hit * 0.022;
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.scale(s, s);
+
+            ctx.beginPath();
+            ctx.arc(0, 0, r, 0, TAU);
+            ctx.fillStyle = INK;
+            ctx.fill();
+            outline(p, 2);
+
+            // tension rods around the hoop
+            ctx.strokeStyle = gray(150);
+            ctx.lineWidth = px(3);
+            ctx.beginPath();
+            for (let i = 0; i < 10; i++) {
+                const a = (i + 0.5) / 10 * TAU;
+                ctx.moveTo(Math.cos(a) * r * 0.9, Math.sin(a) * r * 0.9);
+                ctx.lineTo(Math.cos(a) * r * 0.99, Math.sin(a) * r * 0.99);
+            }
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(0, 0, r * 0.86, 0, TAU);
+            ctx.fillStyle = gray(lerp(238, 22, clamp(p.hit, 0, 1) * 0.9));
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(0, 0, r * 0.78, 0, TAU);
+            ctx.strokeStyle = p.hit > 0.45 ? 'rgba(255,255,255,.2)' : 'rgba(0,0,0,.12)';
+            ctx.lineWidth = px(1);
+            ctx.stroke();
+
+            // port hole
+            ctx.beginPath();
+            ctx.arc(r * 0.4, r * 0.34, r * 0.13, 0, TAU);
+            ctx.fillStyle = INK;
+            ctx.fill();
+            ctx.restore();
+
+            strikes(p, () => { ctx.beginPath(); ctx.arc(x, y, r * 0.86, 0, TAU); });
+            ring(p, r, r, x, y);
+        }
+
+        function board(p, lift, swingHit) {
+            // a footboard in perspective; lift > 0 raises the toe
+            const { x, y, w, h } = p;
+            const top = y - h / 2 - lift * h * 0.22, bot = y + h / 2;
+            ctx.beginPath();
+            ctx.moveTo(x - w * 0.34, top);
+            ctx.lineTo(x + w * 0.34, top);
+            ctx.lineTo(x + w * 0.5, bot);
+            ctx.lineTo(x - w * 0.5, bot);
+            ctx.closePath();
+            ctx.fillStyle = gray(lerp(205, 60, swingHit));
+            ctx.fill();
+            outline(p, 2);
+            ctx.fillStyle = gray(70);
+            ctx.fillRect(x - w * 0.46, bot - h * 0.2, w * 0.92, h * 0.2);
+            return top;
+        }
+
+        function drawKickPedal(p) {
+            const k = P.kick;
+            const press = Math.max(k.hit, p.hit);
+            const top = board(p, -press * 0.9, press);
+            // beater
+            const by = lerp(k.y + k.r * 0.62, k.y + k.r * 0.42, press);
+            const br = k.r * lerp(0.1, 0.082, press);
+            ctx.beginPath();
+            ctx.moveTo(p.x, top);
+            ctx.lineTo(p.x, by);
+            ctx.strokeStyle = INK;
+            ctx.lineWidth = px(3);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.ellipse(p.x, by, br, br * 0.8, 0, 0, TAU);
+            ctx.fillStyle = gray(lerp(225, 70, press));
+            ctx.fill();
+            ctx.lineWidth = px(2);
+            ctx.stroke();
+        }
+
+        function drawHatPedal(p) {
+            board(p, P.hat.open * 1.2 - 0.5, p.hit * 0.6);
+        }
+
+        function cymShape(x, y, rx, ry, tilt, shade, flash, bellDown) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(tilt);
+            ctx.beginPath();
+            ctx.ellipse(0, 0, rx, ry, 0, 0, TAU);
+            ctx.fillStyle = gray(lerp(shade, 236, flash));
+            ctx.fill();
+            ctx.strokeStyle = INK;
+            ctx.stroke();
+            ctx.lineWidth = px(1);
+            ctx.strokeStyle = 'rgba(0,0,0,.14)';
+            for (const k of [0.34, 0.52, 0.7, 0.86]) {
+                ctx.beginPath();
+                ctx.ellipse(0, 0, rx * k, ry * k, 0, 0, TAU);
+                ctx.stroke();
+            }
+            ctx.beginPath();
+            ctx.ellipse(0, (bellDown ? 1 : -1) * ry * 0.14, rx * 0.17, ry * 0.5, 0, 0, TAU);
+            ctx.fillStyle = gray(lerp(shade - 38, 210, flash));
+            ctx.fill();
+            ctx.strokeStyle = INK;
+            ctx.lineWidth = px(1.5);
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        function wobble(p, damp, freq) {
+            const a = T - p.hitT;
+            const env = p.amp * Math.exp(-a * damp);
+            return { env, tilt: env * 0.11 * Math.sin(a * freq), sq: 1 + env * 0.38 * Math.sin(a * freq * 1.3 + 0.8) };
+        }
+
+        function drawCym(p) {
+            const w = wobble(p, 2.6, 15);
+            ctx.lineWidth = px(2 + (hover === p ? 1.2 : 0) + p.glow * 2.5);
+            cymShape(p.x, p.y, p.rx, p.ry * w.sq, p.tilt + w.tilt, p.shade, clamp(p.hit, 0, 1) * 0.8, false);
+            // nut + felt
+            ctx.fillStyle = INK;
+            ctx.fillRect(p.x - p.rx * 0.025, p.y - p.ry * 0.95, p.rx * 0.05, p.ry * 0.6);
+        }
+
+        function drawHat(p) {
+            const gap = lerp(p.gapC, p.gapO, p.open);
+            const w = wobble(p, 5 + (1 - p.open) * 6, 20);
+            // bottom cymbal, bell down
+            ctx.lineWidth = px(2 + p.glow * 2.5);
+            cymShape(p.x, p.y + gap, p.rx * 0.99, p.ry, 0, p.shade - 26, 0, true);
+            // rod + clutch
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y + gap);
+            ctx.lineTo(p.x, p.y - p.ry * 2.3);
+            ctx.strokeStyle = INK;
+            ctx.lineWidth = px(2.5);
+            ctx.stroke();
+            ctx.lineWidth = px(2 + (hover === p ? 1.2 : 0) + p.glow * 2.5);
+            cymShape(p.x, p.y, p.rx, p.ry * w.sq, w.tilt * 0.6, p.shade, clamp(p.hit, 0, 1) * 0.8, false);
+            ctx.fillStyle = INK;
+            ctx.fillRect(p.x - p.rx * 0.07, p.y - p.ry * 1.05, p.rx * 0.14, p.ry * 0.55);
+        }
+
+        function keycap(x, y, label, dark) {
+            const s = px(22);
+            ctx.globalAlpha = 0.75;
+            ctx.fillStyle = dark ? INK : '#fff';
+            ctx.strokeStyle = dark ? '#fff' : INK;
+            ctx.lineWidth = px(1.2);
+            ctx.beginPath();
+            if (ctx.roundRect) ctx.roundRect(x - s / 2, y - s / 2, s, s, px(3));
+            else ctx.rect(x - s / 2, y - s / 2, s, s);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = dark ? '#fff' : INK;
+            ctx.font = `700 ${px(12)}px 'Space Mono', ui-monospace, monospace`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(label, x, y + px(1));
+            ctx.globalAlpha = 1;
+        }
+
+        function caps() {
+            for (const p of PIECES) {
+                if (!p.cap) continue;
+                if (p.kind === 'drum') keycap(p.x, p.y + p.ry + p.d * 0.5, p.cap, false);
+                else if (p.kind === 'kick') keycap(p.x, p.y - p.r * 0.32, p.cap, false);
+                else if (p.kind === 'hatpedal') keycap(p.x, p.y + p.h * 0.02, p.cap, false);
+                else keycap(p.x + p.rx * 0.58, p.y, p.cap, false);
+            }
+        }
+
+        function draw() {
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.setTransform(dpr * view.s, 0, 0, dpr * view.s, dpr * view.ox, dpr * view.oy);
+            stands();
+            for (const p of PIECES) {
+                switch (p.kind) {
+                    case 'drum': drawDrum(p); break;
+                    case 'kick': drawKick(p); break;
+                    case 'cym': drawCym(p); break;
+                    case 'hat': drawHat(p); break;
+                    case 'pedal': drawKickPedal(p); break;
+                    case 'hatpedal': drawHatPedal(p); break;
+                }
+            }
+            if (fine.matches) caps();
+        }
+
+        // ── hit testing (design space) ─────────────────────────────────────────
+
+        function hitTest(p, x, y, pad) {
+            const dx = x - p.x, dy = y - p.y;
+            switch (p.kind) {
+                case 'drum': {
+                    const n = Math.hypot(dx / (p.rx + pad), dy / (p.ry + pad));
+                    if (n <= 1) return { n, vel: 1 - 0.42 * n };
+                    if (Math.abs(dx) <= p.rx + pad && dy >= 0 && dy <= p.d + p.ry + pad) return { n: 1, vel: 0.62 };
+                    return null;
+                }
+                case 'kick': {
+                    const n = Math.hypot(dx, dy) / (p.r + pad);
+                    return n <= 1 ? { n, vel: 1 - 0.3 * n } : null;
+                }
+                case 'cym':
+                case 'hat': {
+                    const hry = Math.max(p.ry * 2.3, p.rx * 0.5);
+                    const cy = p.kind === 'hat' ? dy - p.gapO * 0.4 : dy;
+                    const n = Math.hypot(dx / (p.rx + pad), cy / (hry + pad));
+                    if (n > 1) return null;
+                    return { n, vel: 0.95 - 0.25 * n, bell: Math.abs(dx) < p.rx * 0.2 && Math.abs(cy) < hry * 0.4 };
+                }
+                case 'pedal':
+                case 'hatpedal':
+                    return Math.abs(dx) <= p.w * 0.6 + pad && Math.abs(dy) <= p.h * 0.6 + pad ? { n: 0, vel: 0.95 } : null;
             }
             return null;
-        };
+        }
 
-        // Play drum
-        const playDrum = (island, velocity = 1) => {
-            const audio = samples[island.drum];
-            if (!audio) return;
-
-            const clone = audio.cloneNode();
-            clone.volume = Math.max(0.3, velocity) * 0.8;
-            clone.play().catch(e => console.log('Audio play failed:', e));
-
-            island.pulse = 1;
-            ripples.push({ x: island.absX, y: island.absY, r: 0, life: 1 });
-
-            document.getElementById('currentSound').innerHTML = `<i class="fas ${island.icon}"></i>`;
-            document.getElementById('velocity').innerHTML = `<i class="fas fa-volume-up text-[8px]"></i><span>${Math.round(velocity * 100)}</span>`;
-        };
-
-        // Build sequencer UI
-        const buildSequencerUI = () => {
-            const grid = document.getElementById('stepGrid');
-            grid.innerHTML = '';
-
-            islands.forEach((island, islandIdx) => {
-                // Island label
-                const label = document.createElement('div');
-                label.className = 'flex items-center justify-center text-lg cursor-pointer hover:bg-gray-100 p-2 border border-gray-300';
-                label.textContent = island.name;
-                label.onclick = () => selectIsland(islandIdx);
-                grid.appendChild(label);
-
-                // Steps
-                for (let step = 0; step < 16; step++) {
-                    const btn = document.createElement('button');
-                    btn.className = 'step-btn aspect-square border-2 border-black bg-white hover:bg-gray-200';
-                    btn.dataset.island = islandIdx;
-                    btn.dataset.step = step;
-
-                    if (island.steps[step]) {
-                        btn.classList.add('step-active');
-                    }
-
-                    btn.onclick = () => toggleStep(islandIdx, step);
-                    grid.appendChild(btn);
-                }
-            });
-        };
-
-        // Select island
-        const selectIsland = (id) => {
-            selectedIslandId = id;
-            document.getElementById('selectedIsland').textContent = islands[id].name;
-        };
-
-        // Toggle step
-        const toggleStep = (islandId, step) => {
-            islands[islandId].steps[step] = !islands[islandId].steps[step];
-            buildSequencerUI();
-        };
-
-        // Sequencer tick
-        const tick = () => {
-            islands.forEach(island => {
-                if (island.steps[currentStep]) {
-                    playDrum(island, 0.9);
-                }
-            });
-
-            // Update UI
-            updateStepHighlight();
-
-            currentStep = (currentStep + 1) % 16;
-        };
-
-        // Update step highlight
-        const updateStepHighlight = () => {
-            document.querySelectorAll('.step-btn').forEach(btn => {
-                const step = parseInt(btn.dataset.step);
-                if (step === currentStep) {
-                    btn.style.boxShadow = '0 0 0 3px #000';
-                } else {
-                    btn.style.boxShadow = 'none';
-                }
-            });
-        };
-
-        // Transport controls
-        document.getElementById('playBtn').onclick = () => {
-            if (isPlaying) {
-                clearInterval(stepInterval);
-                isPlaying = false;
-                document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i>';
-            } else {
-                const stepTime = (60 / bpm) * 1000 / 4; // 16th notes
-                stepInterval = setInterval(tick, stepTime);
-                isPlaying = true;
-                document.getElementById('playBtn').innerHTML = '<i class="fas fa-pause"></i>';
+        function pick(cx, cy) {
+            const x = (cx - view.ox) / view.s, y = (cy - view.oy) / view.s;
+            const pad = 6 / view.s;
+            for (let i = PIECES.length - 1; i >= 0; i--) {
+                const r = hitTest(PIECES[i], x, y, pad);
+                if (r) return { p: PIECES[i], x, y, ...r };
             }
-        };
+            return null;
+        }
 
-        document.getElementById('stopBtn').onclick = () => {
-            clearInterval(stepInterval);
-            isPlaying = false;
-            currentStep = 0;
-            updateStepHighlight();
-            document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i>';
-        };
+        // ── playing the kit ─────────────────────────────────────────────────────
 
-        // BPM control
-        document.getElementById('bpmSlider').oninput = (e) => {
-            bpm = parseInt(e.target.value);
-            document.getElementById('bpmDisplay').textContent = bpm;
+        let hatHeld = 0;  // pointers/keys holding the hi-hat pedal up
 
-            if (isPlaying) {
-                clearInterval(stepInterval);
-                const stepTime = (60 / bpm) * 1000 / 4;
-                stepInterval = setInterval(tick, stepTime);
+        function animate(p, vel, x, y) {
+            p.hit = Math.max(p.hit, vel);
+            p.amp = vel;
+            p.hitT = T;
+            if (p.kind === 'drum' || p.kind === 'kick') {
+                p.strikes.push({ x: x ?? p.x, y: y ?? p.y, t: T, v: vel });
+                if (p.strikes.length > 6) p.strikes.shift();
             }
-        };
+            dirty = true;
+        }
 
-        // Sequencer toggle
-        document.getElementById('seqToggle').onclick = () => {
-            const panel = document.getElementById('seqPanel');
-            panel.classList.toggle('sequencer-hidden');
-        };
+        function strike(p, vel, x, y, bell) {
+            everHit = true;
+            if (p.kind === 'hatpedal') { hatHold(+1); return; }
+            if (p.kind === 'pedal') { p.hit = 1; p = P.kick; x = undefined; y = undefined; }
+            let voice = p.voice;
+            if (p.kind === 'hat') voice = hatHeld > 0 ? 'hatO' : 'hatC';
+            if (p.bell && bell) voice = 'rideBell';
+            play(voice, vel);
+            animate(p, vel, x, y);
+            flashRow(voice === 'rideBell' ? 'ride' : voice);
+            recordHit(voice);
+        }
 
-        // Draw loop
-        const draw = () => {
-            c.clearRect(0, 0, w, h);
-
-            // Ocean trail
-            if (oceanTrail.length > 1) {
-                for (let i = 1; i < oceanTrail.length; i++) {
-                    const alpha = i / oceanTrail.length;
-                    c.strokeStyle = `rgba(0, 0, 0, ${alpha * 0.15})`;
-                    c.lineWidth = 2;
-                    c.beginPath();
-                    c.moveTo(oceanTrail[i - 1].x, oceanTrail[i - 1].y);
-                    c.lineTo(oceanTrail[i].x, oceanTrail[i].y);
-                    c.stroke();
-                }
+        function hatHold(d) {
+            const was = hatHeld > 0;
+            hatHeld = Math.max(0, hatHeld + d);
+            const now = hatHeld > 0;
+            if (was && !now) {
+                // foot comes down: chick
+                play('hatPedal', 0.8);
+                P.hatPedal.hit = 1;
+                const h = P.hat; h.hitT = T; h.amp = 0.35;
             }
+            dirty = true;
+        }
 
-            // Islands
-            islands.forEach(island => {
-                const gray = island.color;
-                c.fillStyle = `rgb(${gray}, ${gray}, ${gray})`;
-                c.beginPath();
-                c.arc(island.absX, island.absY, island.r, 0, Math.PI * 2);
-                c.fill();
-
-                if (island.pulse > 0) {
-                    const pulseR = island.r + (island.pulse * 20);
-                    c.strokeStyle = `rgba(0, 0, 0, ${island.pulse * 0.5})`;
-                    c.lineWidth = 3;
-                    c.beginPath();
-                    c.arc(island.absX, island.absY, pulseR, 0, Math.PI * 2);
-                    c.stroke();
-                    island.pulse -= 0.05;
-                    if (island.pulse < 0) island.pulse = 0;
-                }
-
-                c.strokeStyle = '#000';
-                c.lineWidth = selectedIslandId === island.id ? 4 : 2;
-                c.beginPath();
-                c.arc(island.absX, island.absY, island.r, 0, Math.PI * 2);
-                c.stroke();
-
-                if (island.r > 55) {
-                    c.fillStyle = gray > 128 ? '#000' : '#fff';
-                    c.font = `${island.r / 3}px Space Mono`;
-                    c.textAlign = 'center';
-                    c.textBaseline = 'middle';
-                    c.fillText(island.name, island.absX, island.absY);
-                }
-            });
-
-            // Ripples
-            for (let i = ripples.length - 1; i >= 0; i--) {
-                const ripple = ripples[i];
-                ripple.r += 3;
-                ripple.life -= 0.02;
-
-                if (ripple.life <= 0) {
-                    ripples.splice(i, 1);
-                    continue;
-                }
-
-                c.strokeStyle = `rgba(0, 0, 0, ${ripple.life * 0.3})`;
-                c.lineWidth = 2;
-                c.beginPath();
-                c.arc(ripple.x, ripple.y, ripple.r, 0, Math.PI * 2);
-                c.stroke();
-            }
-
-            requestAnimationFrame(draw);
-        };
-
-        // Mouse handlers
-        canvas.addEventListener('mousedown', (e) => {
-            const result = getIsland(e.clientX, e.clientY);
-            if (result) {
-                const velocity = 1 - (result.centerDist * 0.4);
-                playDrum(result.island, velocity);
-                selectIsland(result.island.id);
-            }
-        });
-
-        canvas.addEventListener('mousemove', (e) => {
-            const result = getIsland(e.clientX, e.clientY);
-
-            if (!result) {
-                oceanTrail.push({ x: e.clientX, y: e.clientY });
-                if (oceanTrail.length > maxTrailPoints) oceanTrail.shift();
-                canvas.style.cursor = 'crosshair';
-            } else {
-                oceanTrail.length = 0;
-                canvas.style.cursor = 'pointer';
-            }
-        });
-
-        canvas.addEventListener('mouseleave', () => {
-            oceanTrail.length = 0;
-        });
-
-        // Touch
-        canvas.addEventListener('touchstart', (e) => {
+        const held = new Map();
+        canvas.addEventListener('pointerdown', e => {
+            unlock();
+            const r = pick(e.clientX, e.clientY);
+            if (!r) return;
             e.preventDefault();
-            const touch = e.touches[0];
-            const result = getIsland(touch.clientX, touch.clientY);
-            if (result) {
-                playDrum(result.island, 1 - (result.centerDist * 0.4));
-                selectIsland(result.island.id);
+            held.set(e.pointerId, r.p);
+            strike(r.p, clamp(r.vel, 0.45, 1), r.x, r.y, r.bell);
+        });
+        const lift = e => {
+            const p = held.get(e.pointerId);
+            if (!p) return;
+            held.delete(e.pointerId);
+            if (p.kind === 'hatpedal') hatHold(-1);
+        };
+        canvas.addEventListener('pointerup', lift);
+        canvas.addEventListener('pointercancel', lift);
+        canvas.addEventListener('pointermove', e => {
+            if (e.pointerType !== 'mouse') return;
+            const r = pick(e.clientX, e.clientY);
+            const h = r ? r.p : null;
+            if (h !== hover) { hover = h; dirty = true; }
+            canvas.style.cursor = h ? 'pointer' : 'default';
+        });
+        canvas.addEventListener('pointerleave', () => { if (hover) { hover = null; dirty = true; } });
+        canvas.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('gesturestart', e => e.preventDefault());
+        document.addEventListener('dblclick', e => e.preventDefault(), { passive: false });
+
+        const KEYMAP = {};
+        for (const p of PIECES) for (const k of p.keys || []) KEYMAP[k] = p;
+        const keysDown = new Set();
+
+        window.addEventListener('keydown', e => {
+            if (e.metaKey || e.ctrlKey || e.altKey) return;
+            const p = KEYMAP[e.code];
+            if (!p) {
+                if (e.code === 'Enter') { e.preventDefault(); setPlaying(!seq.playing); }
+                return;
             }
+            e.preventDefault();
+            if (e.repeat || keysDown.has(e.code)) return;
+            keysDown.add(e.code);
+            unlock();
+            strike(p, 0.88);
+        });
+        window.addEventListener('keyup', e => {
+            if (!keysDown.delete(e.code)) return;
+            const p = KEYMAP[e.code];
+            if (p && p.kind === 'hatpedal') hatHold(-1);
+        });
+        window.addEventListener('blur', () => {
+            keysDown.clear();
+            held.clear();
+            if (hatHeld) { hatHeld = 1; hatHold(-1); }
         });
 
-        // Keyboard
-        document.addEventListener('keydown', (e) => {
-            if (e.code === 'Space') {
-                e.preventDefault();
-                oceanTrail.length = 0;
-                ripples.length = 0;
-            }
-        });
+        // ── frame loop ──────────────────────────────────────────────────────────
 
-        // Resize
-        window.addEventListener('resize', () => {
-            w = canvas.width = window.innerWidth;
-            h = canvas.height = window.innerHeight;
-            islands.forEach(island => {
-                island.absX = island.x * w;
-                island.absY = island.y * h;
+        let introAt = 0.35;
+        const INTRO = ['hat', 'crashL', 'snare', 'tom1', 'tom2', 'kick', 'floor', 'crashR', 'ride'];
+
+        function frame(ms) {
+            const now = ms / 1000;
+            const dt = Math.min(0.05, now - T);
+            T = now;
+            let active = false;
+
+            // sequenced hits arrive on the audio clock
+            if (ac) {
+                while (queue.length && queue[0].t <= ac.currentTime) {
+                    const ev = queue.shift();
+                    if (!seq.playing) continue;
+                    showStep(ev.step);
+                    for (const [r, vel] of ev.hits) {
+                        const p = P[VOICE_PIECE[r]];
+                        animate(p, vel);
+                        if (r === 'hatO') p.flashOpen = 1;
+                        if (r === 'kick') P.kickPedal.hit = 1;
+                        flashRow(r);
+                    }
+                    document.body.classList.toggle('beat', seq.rec && ev.step % 4 === 0);
+                }
+            }
+
+            // layout tween
+            if (view && target) {
+                const k = 1 - Math.exp(-dt * 14);
+                for (const key of ['s', 'ox', 'oy']) {
+                    const d = target[key] - view[key];
+                    if (Math.abs(d) > 0.001) { view[key] += d * k; active = true; }
+                    else view[key] = target[key];
+                }
+            }
+
+            // invitation: a soft sweep across the kit until someone plays it
+            if (!everHit && now > introAt) {
+                const a = now - introAt;
+                INTRO.forEach((id, i) => {
+                    const t = a - i * 0.09;
+                    P[id].glow = t > 0 && t < 0.5 ? Math.sin(t / 0.5 * Math.PI) : 0;
+                });
+                if (a > INTRO.length * 0.09 + 0.6) introAt = now + 5;
+                active = true;
+            } else if (everHit) {
+                for (const id of INTRO) if (P[id].glow) { P[id].glow = 0; active = true; }
+            }
+
+            for (const p of PIECES) {
+                if (p.hit > 0.004) { p.hit *= Math.exp(-dt * 9); active = true; } else p.hit = 0;
+                if (p.strikes.length) active = true;
+                if (T - p.hitT < 2.2 && p.amp > 0) active = true;
+                if (p.kind === 'hat') {
+                    if (p.flashOpen > 0.01) p.flashOpen *= Math.exp(-dt * 6); else p.flashOpen = 0;
+                    const want = hatHeld > 0 ? 1 : p.flashOpen > 0.3 ? 1 : 0;
+                    const d = want - p.open;
+                    if (Math.abs(d) > 0.002) { p.open += d * (1 - Math.exp(-dt * 22)); active = true; }
+                    else p.open = want;
+                }
+            }
+
+            if (active || dirty) { draw(); dirty = false; }
+            requestAnimationFrame(frame);
+        }
+
+        // ═════════════════════════════════════════════════════════════════════
+        //  UI: icons, module, sheet, grid
+        // ═════════════════════════════════════════════════════════════════════
+
+        const svg = (body, extra = '') => `<svg class="i" viewBox="0 0 24 24" aria-hidden="true" ${extra}>${body}</svg>`;
+        const ICON = {
+            play: svg('<path d="M7 4.5v15l12-7.5z" fill="currentColor"/>'),
+            stop: svg('<rect x="6" y="6" width="12" height="12" fill="currentColor"/>'),
+            rec: svg('<circle class="rec-dot" cx="12" cy="12" r="6.5"/>'),
+            grid: svg('<rect x="3.5" y="5" width="4" height="4"/><rect x="10" y="5" width="4" height="4" fill="currentColor"/><rect x="16.5" y="5" width="4" height="4"/><rect x="3.5" y="11" width="4" height="4" fill="currentColor"/><rect x="10" y="11" width="4" height="4"/><rect x="16.5" y="11" width="4" height="4" fill="currentColor"/><path d="M3.5 19h17"/>'),
+            down: svg('<path d="M5 9l7 7 7-7"/>'),
+            minus: svg('<path d="M6 12h12"/>'),
+            plus: svg('<path d="M6 12h12M12 6v12"/>'),
+            trash: svg('<path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v5.5M14 11v5.5"/>'),
+            undo: svg('<path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 010 12h-3"/>'),
+            metro: svg('<path d="M8.5 3.5h7l4 17h-15z"/><path d="M12 15.5l5-9"/><circle cx="12" cy="15.5" r="1.2" fill="currentColor"/>'),
+            fs: svg('<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>'),
+            fsx: svg('<path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/>'),
+        };
+
+        const $$ = s => document.querySelectorAll(s);
+        document.getElementById('metro').innerHTML = ICON.metro;
+        $$('[data-act="slower"]').forEach(b => { b.innerHTML = ICON.minus; });
+        $$('[data-act="faster"]').forEach(b => { b.innerHTML = ICON.plus; });
+
+        // LEDs: a 4×4 window onto the bar
+        const leds = document.getElementById('leds');
+        for (let i = 0; i < N; i++) {
+            const d = document.createElement('i');
+            if (i % 4 === 0) d.classList.add('q');
+            leds.appendChild(d);
+        }
+
+        let clearedPattern = null, undoTimer = 0;
+
+        function syncButtons() {
+            $$('[data-act="play"]').forEach(b => {
+                b.innerHTML = seq.playing ? ICON.stop : ICON.play;
+                b.setAttribute('aria-pressed', seq.playing);
             });
+            $$('[data-act="rec"]').forEach(b => {
+                b.innerHTML = ICON.rec;
+                b.setAttribute('aria-pressed', seq.rec);
+            });
+            const open = document.body.classList.contains('sheet-open');
+            $$('[data-act="sheet"]').forEach(b => {
+                b.innerHTML = b.closest('#sheet') ? ICON.down : ICON.grid;
+                b.setAttribute('aria-pressed', open);
+            });
+            $$('[data-act="clear"]').forEach(b => { b.innerHTML = clearedPattern ? ICON.undo : ICON.trash; });
+            const fsb = document.querySelector('[data-act="fs"]');
+            fsb.innerHTML = document.fullscreenElement ? ICON.fsx : ICON.fs;
+            document.getElementById('bpm').textContent = bpm;
+            if (!seq.rec) document.body.classList.remove('beat');
+        }
+
+        function setSheet(open) {
+            document.body.classList.toggle('sheet-open', open);
+            sheet.setAttribute('aria-hidden', !open);
+            syncButtons();
+            layout();
+        }
+
+        let bpmHold = 0;
+        function nudgeBpm(d) {
+            bpm = clamp(bpm + d, 50, 200);
+            document.getElementById('bpm').textContent = bpm;
+            save();
+        }
+
+        document.addEventListener('click', e => {
+            const b = e.target.closest('[data-act]');
+            if (!b) return;
+            const act = b.dataset.act;
+            if (act === 'play') setPlaying(!seq.playing);
+            else if (act === 'rec') setRec(!seq.rec);
+            else if (act === 'sheet') setSheet(!document.body.classList.contains('sheet-open'));
+            else if (act === 'fs') {
+                if (document.fullscreenElement) document.exitFullscreen();
+                else document.documentElement.requestFullscreen({ navigationUI: 'hide' }).catch(() => {});
+            } else if (act === 'clear') {
+                clearTimeout(undoTimer);
+                if (clearedPattern) {
+                    pattern = clearedPattern;
+                    clearedPattern = null;
+                } else {
+                    clearedPattern = pattern;
+                    pattern = blank();
+                    undoTimer = setTimeout(() => { clearedPattern = null; syncButtons(); }, 5000);
+                }
+                presetIdx = -1;
+                buildGrid();
+                syncPresets();
+                syncButtons();
+                save();
+            }
         });
 
-        // Init
-        buildSequencerUI();
-        draw();
+        // hold −/+ to keep going
+        for (const act of ['slower', 'faster']) {
+            const b = document.querySelector(`[data-act="${act}"]`);
+            const d = act === 'slower' ? -1 : 1;
+            b.addEventListener('pointerdown', e => {
+                e.preventDefault();
+                nudgeBpm(d);
+                let n = 0;
+                clearInterval(bpmHold);
+                bpmHold = setTimeout(function rep() {
+                    nudgeBpm(d * (++n > 8 ? 5 : 1));
+                    bpmHold = setTimeout(rep, 90);
+                }, 380);
+            });
+            for (const ev of ['pointerup', 'pointerleave', 'pointercancel']) b.addEventListener(ev, () => clearTimeout(bpmHold));
+        }
+
+        if (document.fullscreenEnabled) document.querySelector('[data-act="fs"]').hidden = false;
+        document.addEventListener('fullscreenchange', () => { syncButtons(); setTimeout(layout, 60); });
+
+        // ── row pictograms: the kit in miniature, one piece inked ──────────────
+
+        function mapSVG(row) {
+            const lay = LAND;
+            const hl = VOICE_PIECE[row];
+            const parts = { on: '', off: '' };
+            for (const p of PIECES) {
+                const g = lay.p[p.id];
+                if (p.kind === 'pedal' || p.kind === 'hatpedal') continue;
+                const on = p.id === hl;
+                let s = '';
+                if (p.kind === 'cym') s = `<ellipse cx="${g.x}" cy="${g.y}" rx="${g.rx}" ry="${g.rx * 0.28}" transform="rotate(${(g.tilt || 0) * 57.3} ${g.x} ${g.y})"/>`;
+                else if (p.kind === 'hat') {
+                    const gap = on && row === 'hatO' ? 70 : 20;
+                    s = `<ellipse cx="${g.x}" cy="${g.y}" rx="${g.rx}" ry="${g.rx * 0.26}"/><ellipse cx="${g.x}" cy="${g.y + gap}" rx="${g.rx}" ry="${g.rx * 0.26}"/>`;
+                } else if (p.kind === 'kick') s = `<circle cx="${g.x}" cy="${g.y}" r="${g.rx}"/>`;
+                else {
+                    const ry = g.rx * PERSP;
+                    s = `<path d="M${g.x - g.rx} ${g.y}v${g.d}a${g.rx} ${ry} 0 0 0 ${g.rx * 2} 0v${-g.d}"/><ellipse cx="${g.x}" cy="${g.y}" rx="${g.rx}" ry="${ry}"/>`;
+                }
+                parts[on ? 'on' : 'off'] += s;
+            }
+            return `<svg viewBox="-30 -30 1060 720" aria-hidden="true">
+                <g fill="none" stroke="#c2c2c2" stroke-width="26">${parts.off}</g>
+                <g fill="currentColor" stroke="currentColor" stroke-width="26">${parts.on}</g></svg>`;
+        }
+
+        // ── presets: tiny scores (top: metal, middle: snare + toms, bottom: kick)
+
+        const presetsEl = document.getElementById('presets');
+        function presetSVG(pr) {
+            const lane = { crashL: 0, crashR: 0, ride: 0, hatO: 0, hatC: 0, tom1: 1, tom2: 1, floor: 1, snare: 1, kick: 2 };
+            let dots = '';
+            for (const [r, s] of Object.entries(pr.p)) {
+                [...s].forEach((c, i) => {
+                    if (c === 'x') dots += `<rect x="${i * 6 + 0.5}" y="${lane[r] * 9 + 1}" width="4" height="6"/>`;
+                });
+            }
+            return `<svg viewBox="0 0 96 27" preserveAspectRatio="none" aria-hidden="true"><g fill="currentColor">${dots}</g></svg>`;
+        }
+        function buildPresets() {
+            presetsEl.innerHTML = '';
+            PRESETS.forEach((pr, i) => {
+                const b = document.createElement('button');
+                b.className = 'preset';
+                b.setAttribute('aria-label', 'Pattern ' + (i + 1));
+                b.innerHTML = presetSVG(pr);
+                b.onclick = () => {
+                    loadPreset(i);
+                    clearedPattern = null;
+                    buildGrid();
+                    syncPresets();
+                    syncButtons();
+                    save();
+                };
+                presetsEl.appendChild(b);
+            });
+            syncPresets();
+        }
+        function syncPresets() {
+            [...presetsEl.children].forEach((b, i) => b.setAttribute('aria-pressed', i === presetIdx));
+        }
+
+        // ── the grid ──────────────────────────────────────────────────────────
+
+        const grid = document.getElementById('grid');
+        const pagesEl = document.getElementById('pages');
+        let cols = 16, page = 0;
+        const cellRef = {};
+        const labRef = {};
+
+        function layoutGrid() {
+            const w = sheet.clientWidth - 24;
+            const want = w < 56 + 16 * 28 ? 8 : 16;
+            if (want !== cols || !grid.childElementCount) {
+                cols = want;
+                page = 0;
+                document.body.classList.toggle('paged', cols === 8);
+                buildPages();
+                buildGrid();
+            }
+        }
+
+        function buildPages() {
+            pagesEl.innerHTML = '';
+            for (let pg = 0; pg < 2; pg++) {
+                const b = document.createElement('button');
+                b.className = 'page';
+                b.setAttribute('aria-label', 'Steps ' + (pg * 8 + 1) + '–' + (pg * 8 + 8));
+                for (let i = 0; i < 8; i++) {
+                    const t = document.createElement('i');
+                    if (i % 4 === 0) t.classList.add('q');
+                    b.appendChild(t);
+                }
+                b.onclick = () => { page = pg; buildGrid(); };
+                pagesEl.appendChild(b);
+            }
+        }
+
+        function buildGrid() {
+            grid.innerHTML = '';
+            grid.style.gridTemplateColumns = `minmax(38px, 52px) repeat(${cols}, minmax(0, 1fr))`;
+            const s0 = cols === 16 ? 0 : page * 8;
+            for (const r of ROWS) {
+                const lab = document.createElement('button');
+                lab.className = 'lab';
+                lab.dataset.row = r;
+                lab.setAttribute('aria-label', r);
+                lab.innerHTML = mapSVG(r);
+                labRef[r] = lab;
+                grid.appendChild(lab);
+                cellRef[r] = {};
+                for (let i = 0; i < cols; i++) {
+                    const st = s0 + i;
+                    const c = document.createElement('button');
+                    c.className = 'cell';
+                    if (st % 4 === 0) c.classList.add('q');
+                    if (st % 4 === 0 && i > 0) c.classList.add('g');
+                    if (pattern[r][st]) c.classList.add('on');
+                    if (st === seq.shown) c.classList.add('now');
+                    c.dataset.row = r;
+                    c.dataset.step = st;
+                    cellRef[r][st] = c;
+                    grid.appendChild(c);
+                }
+            }
+            [...pagesEl.children].forEach((b, i) => b.setAttribute('aria-pressed', i === page));
+        }
+
+        function paintCell(r, st) {
+            const c = cellRef[r] && cellRef[r][st];
+            if (c) c.classList.toggle('on', !!pattern[r][st]);
+        }
+
+        let paint = null;
+        grid.addEventListener('pointerdown', e => {
+            const lab = e.target.closest('.lab');
+            if (lab) {
+                unlock();
+                const r = lab.dataset.row;
+                play(r, 0.85);
+                const p = P[VOICE_PIECE[r]];
+                animate(p, 0.85);
+                if (r === 'hatO') p.flashOpen = 1;
+                flashRow(r);
+                return;
+            }
+            const c = e.target.closest('.cell');
+            if (!c) return;
+            e.preventDefault();
+            unlock();
+            const r = c.dataset.row, st = +c.dataset.step;
+            paint = pattern[r][st] ? 0 : 1;
+            setCell(r, st);
+            if (paint && !seq.playing) play(r, 0.6);
+        });
+        window.addEventListener('pointermove', e => {
+            if (paint === null) return;
+            const el = document.elementFromPoint(e.clientX, e.clientY);
+            const c = el && el.closest && el.closest('.cell');
+            if (c && grid.contains(c)) setCell(c.dataset.row, +c.dataset.step);
+        });
+        const endPaint = () => {
+            if (paint === null) return;
+            paint = null;
+            save();
+        };
+        window.addEventListener('pointerup', endPaint);
+        window.addEventListener('pointercancel', endPaint);
+
+        function setCell(r, st) {
+            if (pattern[r][st] === paint) return;
+            pattern[r][st] = paint;
+            paintCell(r, st);
+            if (presetIdx !== -1) { presetIdx = -1; syncPresets(); }
+            if (clearedPattern) { clearedPattern = null; syncButtons(); }
+        }
+
+        function flashRow(r) {
+            const l = labRef[r];
+            if (!l || !document.body.classList.contains('sheet-open')) return;
+            l.classList.add('flash');
+            clearTimeout(l._t);
+            l._t = setTimeout(() => l.classList.remove('flash'), 110);
+        }
+
+        function showStep(st) {
+            const prev = seq.shown;
+            seq.shown = st;
+            if (prev >= 0) {
+                leds.children[prev].classList.remove('on');
+                for (const r of ROWS) { const c = cellRef[r][prev]; if (c) c.classList.remove('now'); }
+            }
+            if (st >= 0) {
+                leds.children[st].classList.add('on');
+                for (const r of ROWS) { const c = cellRef[r][st]; if (c) c.classList.add('now'); }
+            }
+            [...pagesEl.children].forEach((b, pg) => {
+                [...b.children].forEach((t, i) => t.classList.toggle('now', pg * 8 + i === st));
+            });
+        }
+
+        // ── boot ────────────────────────────────────────────────────────────────
+
+        initAudio();
+        syncButtons();
+        layout();
+        window.addEventListener('resize', layout);
+        if (window.visualViewport) window.visualViewport.addEventListener('resize', layout);
+        window.addEventListener('orientationchange', () => setTimeout(layout, 120));
+        if (document.fonts) document.fonts.ready.then(() => { dirty = true; });
+        requestAnimationFrame(frame);
+        if (/[?&]debug\b/.test(location.search)) window.__drums = { P, seq, get view() { return view; }, get pattern() { return pattern; }, get ac() { return ac; }, buffers, pick };
+    })();
     </script>
 </body>
 
